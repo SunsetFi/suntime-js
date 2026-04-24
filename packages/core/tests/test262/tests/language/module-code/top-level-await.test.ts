@@ -81,7 +81,7 @@ describe("top-level-await", () => {
   });
   it(
     "early-errors-await-not-simple-assignment-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/module-code/top-level-await/early-errors-await-not-simple-assignment-target.js",
     ),
@@ -260,35 +260,35 @@ describe("top-level-await", () => {
     });
     it(
       "early-does-not-propagate-to-fn-declaration-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-declaration-body.js",
       ),
     );
     it(
       "early-does-not-propagate-to-fn-declaration-params.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-declaration-params.js",
       ),
     );
     it(
       "early-does-not-propagate-to-fn-expr-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-expr-body.js",
       ),
     );
     it(
       "early-does-not-propagate-to-fn-expr-params.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-expr-params.js",
       ),
     );
     it(
       "early-no-escaped-await.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/module-code/top-level-await/syntax/early-no-escaped-await.js"),
     );
     it(

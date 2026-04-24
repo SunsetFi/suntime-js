@@ -79,7 +79,7 @@ describe("with", () => {
   );
   it(
     "12.10.1-11gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/12.10.1-11gs.js"),
   );
   it(
@@ -729,37 +729,37 @@ describe("with", () => {
   );
   it(
     "decl-async-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-async-fun.js"),
   );
   it(
     "decl-async-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-async-gen.js"),
   );
   it(
     "decl-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-cls.js"),
   );
   it(
     "decl-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-const.js"),
   );
   it(
     "decl-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-fun.js"),
   );
   it(
     "decl-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-gen.js"),
   );
   it(
     "decl-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/decl-let.js"),
   );
   it(
@@ -803,12 +803,12 @@ describe("with", () => {
   );
   it(
     "labelled-fn-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/labelled-fn-stmt.js"),
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/let-array-with-newline.js"),
   );
   it(
@@ -865,32 +865,32 @@ describe("with", () => {
   );
   it(
     "strict-fn-decl-nested-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/strict-fn-decl-nested-1.js"),
   );
   it(
     "strict-fn-decl-nested-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/strict-fn-decl-nested-2.js"),
   );
   it(
     "strict-fn-decl.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/strict-fn-decl.js"),
   );
   it(
     "strict-fn-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/strict-fn-expr.js"),
   );
   it(
     "strict-fn-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/strict-fn-method.js"),
   );
   it(
     "strict-script.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/with/strict-script.js"),
   );
   it(

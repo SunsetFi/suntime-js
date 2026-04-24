@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "import.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/future-reserved-words/import.js"),
 );

@@ -9,22 +9,22 @@ describe("break", () => {
   );
   it(
     "S12.8_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A1_T1.js"),
   );
   it(
     "S12.8_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A1_T2.js"),
   );
   it(
     "S12.8_A1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A1_T3.js"),
   );
   it(
     "S12.8_A1_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A1_T4.js"),
   );
   it(
@@ -49,22 +49,22 @@ describe("break", () => {
   );
   it(
     "S12.8_A5_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A5_T1.js"),
   );
   it(
     "S12.8_A5_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A5_T2.js"),
   );
   it(
     "S12.8_A5_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A5_T3.js"),
   );
   it(
     "S12.8_A6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A6.js"),
   );
   it(
@@ -74,12 +74,12 @@ describe("break", () => {
   );
   it(
     "S12.8_A8_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A8_T1.js"),
   );
   it(
     "S12.8_A8_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/S12.8_A8_T2.js"),
   );
   it(
@@ -99,7 +99,7 @@ describe("break", () => {
   );
   it(
     "static-init-without-label.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/break/static-init-without-label.js"),
   );
 });

@@ -104,7 +104,7 @@ describe("property-accessors", () => {
   );
   it(
     "non-identifier-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/property-accessors/non-identifier-name.js"),
   );
 });

@@ -69,12 +69,12 @@ describe("reference", () => {
   );
   it(
     "S8.7.2_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/reference/S8.7.2_A1_T1.js"),
   );
   it(
     "S8.7.2_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/reference/S8.7.2_A1_T2.js"),
   );
   it(

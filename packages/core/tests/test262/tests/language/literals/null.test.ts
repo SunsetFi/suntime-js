@@ -14,7 +14,7 @@ describe("null", () => {
   );
   it(
     "null-with-unicode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/null/null-with-unicode.js"),
   );
 });

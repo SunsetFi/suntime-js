@@ -9,84 +9,84 @@ describe("template-literal", () => {
   );
   it(
     "invalid-hexidecimal-character-escape-sequence-truncated-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/template-literal/invalid-hexidecimal-character-escape-sequence-truncated-1.js",
     ),
   );
   it(
     "invalid-hexidecimal-character-escape-sequence-truncated-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/template-literal/invalid-hexidecimal-character-escape-sequence-truncated-2.js",
     ),
   );
   it(
     "invalid-hexidecimal-character-escape-sequence-truncated-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/template-literal/invalid-hexidecimal-character-escape-sequence-truncated-3.js",
     ),
   );
   it(
     "invalid-legacy-octal-escape-sequence-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/template-literal/invalid-legacy-octal-escape-sequence-8.js",
     ),
   );
   it(
     "invalid-legacy-octal-escape-sequence-9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/template-literal/invalid-legacy-octal-escape-sequence-9.js",
     ),
   );
   it(
     "invalid-legacy-octal-escape-sequence.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/template-literal/invalid-legacy-octal-escape-sequence.js",
     ),
   );
   it(
     "invalid-unicode-escape-sequence-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-1.js"),
   );
   it(
     "invalid-unicode-escape-sequence-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-2.js"),
   );
   it(
     "invalid-unicode-escape-sequence-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-3.js"),
   );
   it(
     "invalid-unicode-escape-sequence-4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-4.js"),
   );
   it(
     "invalid-unicode-escape-sequence-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-5.js"),
   );
   it(
     "invalid-unicode-escape-sequence-6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-6.js"),
   );
   it(
     "invalid-unicode-escape-sequence-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-7.js"),
   );
   it(
     "invalid-unicode-escape-sequence-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/invalid-unicode-escape-sequence-8.js"),
   );
   it(
@@ -291,12 +291,12 @@ describe("template-literal", () => {
   );
   it(
     "unicode-escape-nls-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/unicode-escape-nls-err.js"),
   );
   it(
     "unicode-escape-no-hex-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/template-literal/unicode-escape-no-hex-err.js"),
   );
 });

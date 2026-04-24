@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("expression", () => {
   it(
     "S12.4_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/expression/S12.4_A1.js"),
   );
   it(

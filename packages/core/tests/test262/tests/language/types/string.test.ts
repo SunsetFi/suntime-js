@@ -24,32 +24,32 @@ describe("string", () => {
   );
   it(
     "S8.4_A13_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/string/S8.4_A13_T1.js"),
   );
   it(
     "S8.4_A13_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/string/S8.4_A13_T2.js"),
   );
   it(
     "S8.4_A13_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/string/S8.4_A13_T3.js"),
   );
   it(
     "S8.4_A14_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/string/S8.4_A14_T1.js"),
   );
   it(
     "S8.4_A14_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/string/S8.4_A14_T2.js"),
   );
   it(
     "S8.4_A14_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/string/S8.4_A14_T3.js"),
   );
   it(

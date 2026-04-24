@@ -14,7 +14,7 @@ describe("generators", () => {
   );
   it(
     "array-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/array-destructuring-param-strict-body.js"),
   );
   it(
@@ -49,7 +49,7 @@ describe("generators", () => {
   );
   it(
     "dflt-params-duplicates.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/dflt-params-duplicates.js"),
   );
   it(
@@ -69,7 +69,7 @@ describe("generators", () => {
   );
   it(
     "dflt-params-rest.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/dflt-params-rest.js"),
   );
   it(
@@ -352,32 +352,32 @@ describe("generators", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -690,32 +690,32 @@ describe("generators", () => {
     );
     it(
       "dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/dflt-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/dflt-ary-ptrn-rest-init-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/dflt-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/dflt-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/dflt-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/generators/dstr/dflt-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1166,12 +1166,12 @@ describe("generators", () => {
   );
   it(
     "object-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/object-destructuring-param-strict-body.js"),
   );
   it(
     "param-dflt-yield.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/param-dflt-yield.js"),
   );
   it(
@@ -1226,12 +1226,12 @@ describe("generators", () => {
   );
   it(
     "rest-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/rest-param-strict-body.js"),
   );
   it(
     "rest-params-trailing-comma-early-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/rest-params-trailing-comma-early-error.js"),
   );
   it(
@@ -1291,17 +1291,17 @@ describe("generators", () => {
   );
   it(
     "use-strict-with-non-simple-param.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/use-strict-with-non-simple-param.js"),
   );
   it(
     "yield-as-binding-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-binding-identifier-escaped.js"),
   );
   it(
     "yield-as-binding-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-binding-identifier.js"),
   );
   it(
@@ -1325,22 +1325,22 @@ describe("generators", () => {
   );
   it(
     "yield-as-identifier-reference-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-identifier-reference-escaped.js"),
   );
   it(
     "yield-as-identifier-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-identifier-reference.js"),
   );
   it(
     "yield-as-label-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-label-identifier-escaped.js"),
   );
   it(
     "yield-as-label-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-label-identifier.js"),
   );
   it(
@@ -1350,12 +1350,12 @@ describe("generators", () => {
   );
   it(
     "yield-as-logical-or-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-logical-or-expression.js"),
   );
   it(
     "yield-as-parameter.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-as-parameter.js"),
   );
   it(
@@ -1385,12 +1385,12 @@ describe("generators", () => {
   );
   it(
     "yield-identifier-spread-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-identifier-spread-strict.js"),
   );
   it(
     "yield-identifier-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-identifier-strict.js"),
   );
   it(
@@ -1415,7 +1415,7 @@ describe("generators", () => {
   );
   it(
     "yield-star-after-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-star-after-newline.js"),
   );
   it(
@@ -1425,7 +1425,7 @@ describe("generators", () => {
   );
   it(
     "yield-weak-binding.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/generators/yield-weak-binding.js"),
   );
 });

@@ -9,22 +9,22 @@ describe("coalesce", () => {
   );
   it(
     "cannot-chain-head-with-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/coalesce/cannot-chain-head-with-logical-and.js"),
   );
   it(
     "cannot-chain-head-with-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/coalesce/cannot-chain-head-with-logical-or.js"),
   );
   it(
     "cannot-chain-tail-with-logical-and.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/coalesce/cannot-chain-tail-with-logical-and.js"),
   );
   it(
     "cannot-chain-tail-with-logical-or.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/coalesce/cannot-chain-tail-with-logical-or.js"),
   );
   it(

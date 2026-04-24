@@ -124,7 +124,7 @@ describe("call", () => {
   );
   it(
     "S11.2.4_A1.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/call/S11.2.4_A1.3_T1.js"),
   );
   it(

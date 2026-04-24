@@ -164,72 +164,72 @@ describe("try", () => {
   );
   it(
     "S12.14_A16_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T1.js"),
   );
   it(
     "S12.14_A16_T10.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T10.js"),
   );
   it(
     "S12.14_A16_T11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T11.js"),
   );
   it(
     "S12.14_A16_T12.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T12.js"),
   );
   it(
     "S12.14_A16_T13.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T13.js"),
   );
   it(
     "S12.14_A16_T14.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T14.js"),
   );
   it(
     "S12.14_A16_T15.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T15.js"),
   );
   it(
     "S12.14_A16_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T2.js"),
   );
   it(
     "S12.14_A16_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T3.js"),
   );
   it(
     "S12.14_A16_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T5.js"),
   );
   it(
     "S12.14_A16_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T6.js"),
   );
   it(
     "S12.14_A16_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T7.js"),
   );
   it(
     "S12.14_A16_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T8.js"),
   );
   it(
     "S12.14_A16_T9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/S12.14_A16_T9.js"),
   );
   it(
@@ -361,7 +361,7 @@ describe("try", () => {
   );
   it(
     "catch-parameter-boundnames-restriction-arguments-negative-early.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/try/catch-parameter-boundnames-restriction-arguments-negative-early.js",
     ),
@@ -375,7 +375,7 @@ describe("try", () => {
   );
   it(
     "catch-parameter-boundnames-restriction-eval-negative-early.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/try/catch-parameter-boundnames-restriction-eval-negative-early.js",
     ),
@@ -720,32 +720,32 @@ describe("try", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/try/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/try/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/try/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/try/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/try/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/try/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -926,17 +926,17 @@ describe("try", () => {
   });
   it(
     "early-catch-duplicates.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/early-catch-duplicates.js"),
   );
   it(
     "early-catch-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/early-catch-function.js"),
   );
   it(
     "early-catch-lex.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/early-catch-lex.js"),
   );
   it(
@@ -951,7 +951,7 @@ describe("try", () => {
   );
   it(
     "optional-catch-binding-parens.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/optional-catch-binding-parens.js"),
   );
   it(
@@ -996,7 +996,7 @@ describe("try", () => {
   );
   it(
     "static-init-await-binding-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/try/static-init-await-binding-invalid.js"),
   );
   it(

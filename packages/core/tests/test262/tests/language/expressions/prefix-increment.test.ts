@@ -109,7 +109,7 @@ describe("prefix-increment", () => {
   );
   it(
     "arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-increment/arguments.js"),
   );
   it(
@@ -124,7 +124,7 @@ describe("prefix-increment", () => {
   );
   it(
     "eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-increment/eval.js"),
   );
   it(
@@ -148,22 +148,22 @@ describe("prefix-increment", () => {
   );
   it(
     "target-cover-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-increment/target-cover-newtarget.js"),
   );
   it(
     "target-cover-yieldexpr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-increment/target-cover-yieldexpr.js"),
   );
   it(
     "target-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-increment/target-newtarget.js"),
   );
   it(
     "this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-increment/this.js"),
   );
   it(

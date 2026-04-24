@@ -286,12 +286,12 @@ describe("delete", () => {
   );
   it(
     "identifier-strict-recursive.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/delete/identifier-strict-recursive.js"),
   );
   it(
     "identifier-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/delete/identifier-strict.js"),
   );
   it(

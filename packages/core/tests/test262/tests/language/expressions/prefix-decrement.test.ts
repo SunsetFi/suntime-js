@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("prefix-decrement", () => {
   it(
     "11.4.5-2-2gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/11.4.5-2-2gs.js"),
   );
   it(
@@ -114,7 +114,7 @@ describe("prefix-decrement", () => {
   );
   it(
     "arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/arguments.js"),
   );
   it(
@@ -129,7 +129,7 @@ describe("prefix-decrement", () => {
   );
   it(
     "eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/eval.js"),
   );
   it(
@@ -153,22 +153,22 @@ describe("prefix-decrement", () => {
   );
   it(
     "target-cover-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/target-cover-newtarget.js"),
   );
   it(
     "target-cover-yieldexpr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/target-cover-yieldexpr.js"),
   );
   it(
     "target-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/target-newtarget.js"),
   );
   it(
     "this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/prefix-decrement/this.js"),
   );
   it(

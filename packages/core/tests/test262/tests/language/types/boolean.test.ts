@@ -14,12 +14,12 @@ describe("boolean", () => {
   );
   it(
     "S8.3_A2.1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/boolean/S8.3_A2.1.js"),
   );
   it(
     "S8.3_A2.2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/boolean/S8.3_A2.2.js"),
   );
   it(

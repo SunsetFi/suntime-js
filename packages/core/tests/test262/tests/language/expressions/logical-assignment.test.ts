@@ -151,7 +151,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-and-arguments-strict.js"),
   );
   it(
@@ -212,7 +212,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-assignment-operator-non-simple-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-and-assignment-operator-non-simple-lhs.js",
     ),
@@ -259,12 +259,12 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-and-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-and-eval-strict.js"),
   );
   it(
     "lgcl-and-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-and-non-simple.js"),
   );
   it(
@@ -274,7 +274,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-nullish-arguments-strict.js"),
   );
   it(
@@ -335,7 +335,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-assignment-operator-non-simple-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-nullish-assignment-operator-non-simple-lhs.js",
     ),
@@ -384,12 +384,12 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-nullish-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-nullish-eval-strict.js"),
   );
   it(
     "lgcl-nullish-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-nullish-non-simple.js"),
   );
   it(
@@ -399,7 +399,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-or-arguments-strict.js"),
   );
   it(
@@ -460,7 +460,7 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-assignment-operator-non-simple-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/logical-assignment/lgcl-or-assignment-operator-non-simple-lhs.js",
     ),
@@ -507,12 +507,12 @@ describe("logical-assignment", () => {
   );
   it(
     "lgcl-or-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-or-eval-strict.js"),
   );
   it(
     "lgcl-or-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/logical-assignment/lgcl-or-non-simple.js"),
   );
   it(

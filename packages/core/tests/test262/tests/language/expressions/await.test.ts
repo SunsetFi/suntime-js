@@ -19,7 +19,7 @@ describe("await", () => {
   );
   it(
     "await-BindingIdentifier-nested.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/await/await-BindingIdentifier-nested.js"),
   );
   it(
@@ -84,7 +84,7 @@ describe("await", () => {
   );
   it(
     "early-errors-await-not-simple-assignment-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/await/early-errors-await-not-simple-assignment-target.js",
     ),
@@ -96,7 +96,7 @@ describe("await", () => {
   );
   it(
     "no-operand.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/await/no-operand.js"),
   );
   it(

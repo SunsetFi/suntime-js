@@ -24,32 +24,32 @@ describe("switch", () => {
   );
   it(
     "S12.11_A2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A2_T1.js"),
   );
   it(
     "S12.11_A3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A3_T1.js"),
   );
   it(
     "S12.11_A3_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A3_T2.js"),
   );
   it(
     "S12.11_A3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A3_T3.js"),
   );
   it(
     "S12.11_A3_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A3_T4.js"),
   );
   it(
     "S12.11_A3_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/switch/S12.11_A3_T5.js"),
   );
   it(
@@ -226,441 +226,441 @@ describe("switch", () => {
     describe("redeclaration", () => {
       it(
         "async-function-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "async-function-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-function-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "async-generator-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/async-generator-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "class-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/class-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "const-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/const-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "function-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/function-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "generator-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/generator-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-let.js",
         ),
       );
       it(
         "let-name-redeclaration-attempt-with-var.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/let-name-redeclaration-attempt-with-var.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-async-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-async-function.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-async-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-async-generator.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-class.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-class.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-const.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-const.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-function.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-function.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-generator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-generator.js",
         ),
       );
       it(
         "var-name-redeclaration-attempt-with-let.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/switch/syntax/redeclaration/var-name-redeclaration-attempt-with-let.js",
         ),

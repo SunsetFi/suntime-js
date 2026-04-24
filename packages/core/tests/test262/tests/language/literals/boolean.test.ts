@@ -14,12 +14,12 @@ describe("boolean", () => {
   );
   it(
     "false-with-unicode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/boolean/false-with-unicode.js"),
   );
   it(
     "true-with-unicode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/boolean/true-with-unicode.js"),
   );
 });

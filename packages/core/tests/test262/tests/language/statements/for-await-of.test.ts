@@ -81,7 +81,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-decl-dstr-array-elem-init-yield-ident-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-init-yield-ident-invalid.js",
     ),
@@ -102,7 +102,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-decl-dstr-array-elem-nested-array-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-nested-array-invalid.js",
     ),
@@ -137,7 +137,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-decl-dstr-array-elem-nested-array-yield-ident-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-nested-array-yield-ident-invalid.js",
     ),
@@ -158,7 +158,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-decl-dstr-array-elem-nested-obj-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-nested-obj-invalid.js",
     ),
@@ -193,7 +193,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-decl-dstr-array-elem-nested-obj-yield-ident-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-nested-obj-yield-ident-invalid.js",
     ),
@@ -263,14 +263,14 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-decl-dstr-array-elem-target-simple-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-target-simple-strict.js",
     ),
   );
   it(
     "async-func-decl-dstr-array-elem-target-yield-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-decl-dstr-array-elem-target-yield-invalid.js",
     ),
@@ -1238,42 +1238,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-dstr-const-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-func-dstr-const-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-func-dstr-const-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-func-dstr-const-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-func-dstr-const-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-func-dstr-const-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -1553,42 +1553,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-dstr-const-async-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-async-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-func-dstr-const-async-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-async-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-func-dstr-const-async-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-async-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-func-dstr-const-async-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-async-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-func-dstr-const-async-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-async-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-func-dstr-const-async-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-const-async-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -2323,42 +2323,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-dstr-let-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-func-dstr-let-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-func-dstr-let-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-func-dstr-let-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-func-dstr-let-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-func-dstr-let-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -2638,42 +2638,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-dstr-let-async-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-async-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-func-dstr-let-async-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-async-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-func-dstr-let-async-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-async-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-func-dstr-let-async-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-async-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-func-dstr-let-async-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-async-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-func-dstr-let-async-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-let-async-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -3400,42 +3400,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-dstr-var-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-func-dstr-var-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-func-dstr-var-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-func-dstr-var-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-func-dstr-var-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-func-dstr-var-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -3715,42 +3715,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-func-dstr-var-async-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-async-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-func-dstr-var-async-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-async-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-func-dstr-var-async-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-async-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-func-dstr-var-async-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-async-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-func-dstr-var-async-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-async-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-func-dstr-var-async-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-func-dstr-var-async-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -5343,7 +5343,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-const-ary-ptrn-init-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-init-err.js"),
   );
   it(
@@ -5423,42 +5423,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-const-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-gen-dstr-const-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-gen-dstr-const-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-gen-dstr-const-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-gen-dstr-const-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-gen-dstr-const-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -5738,42 +5738,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-const-async-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-async-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-gen-dstr-const-async-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-async-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-gen-dstr-const-async-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-async-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-gen-dstr-const-async-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-async-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-gen-dstr-const-async-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-async-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-gen-dstr-const-async-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-const-async-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -6021,7 +6021,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-const-obj-ptrn-init-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/async-gen-dstr-const-obj-ptrn-init-err.js"),
   );
   it(
@@ -6430,7 +6430,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-let-ary-ptrn-init-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-init-err.js"),
   );
   it(
@@ -6510,42 +6510,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-let-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-gen-dstr-let-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-gen-dstr-let-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-gen-dstr-let-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-gen-dstr-let-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-gen-dstr-let-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -6825,42 +6825,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-let-async-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-async-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-gen-dstr-let-async-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-async-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-gen-dstr-let-async-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-async-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-gen-dstr-let-async-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-async-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-gen-dstr-let-async-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-async-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-gen-dstr-let-async-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-let-async-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -7106,7 +7106,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-let-obj-ptrn-init-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/async-gen-dstr-let-obj-ptrn-init-err.js"),
   );
   it(
@@ -7515,7 +7515,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-var-ary-ptrn-init-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-init-err.js"),
   );
   it(
@@ -7595,42 +7595,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-var-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-gen-dstr-var-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-gen-dstr-var-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-gen-dstr-var-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-gen-dstr-var-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-gen-dstr-var-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -7910,42 +7910,42 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-var-async-ary-ptrn-rest-init-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-async-ary-ptrn-rest-init-ary.js",
     ),
   );
   it(
     "async-gen-dstr-var-async-ary-ptrn-rest-init-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-async-ary-ptrn-rest-init-id.js",
     ),
   );
   it(
     "async-gen-dstr-var-async-ary-ptrn-rest-init-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-async-ary-ptrn-rest-init-obj.js",
     ),
   );
   it(
     "async-gen-dstr-var-async-ary-ptrn-rest-not-final-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-async-ary-ptrn-rest-not-final-ary.js",
     ),
   );
   it(
     "async-gen-dstr-var-async-ary-ptrn-rest-not-final-id.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-async-ary-ptrn-rest-not-final-id.js",
     ),
   );
   it(
     "async-gen-dstr-var-async-ary-ptrn-rest-not-final-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/for-await-of/async-gen-dstr-var-async-ary-ptrn-rest-not-final-obj.js",
     ),
@@ -8191,7 +8191,7 @@ describe("for-await-of", () => {
   );
   it(
     "async-gen-dstr-var-obj-ptrn-init-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/async-gen-dstr-var-obj-ptrn-init-err.js"),
   );
   it(
@@ -8328,7 +8328,7 @@ describe("for-await-of", () => {
   );
   it(
     "escaped-of.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/escaped-of.js"),
   );
   it.skip("head-await-using-init.js", () => {
@@ -8336,12 +8336,12 @@ describe("for-await-of", () => {
   });
   it(
     "head-const-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/head-const-init.js"),
   );
   it(
     "head-let-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/head-let-init.js"),
   );
   it(
@@ -8354,7 +8354,7 @@ describe("for-await-of", () => {
   });
   it(
     "head-var-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/head-var-init.js"),
   );
   it(
@@ -8392,7 +8392,7 @@ describe("for-await-of", () => {
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-await-of/let-array-with-newline.js"),
   );
   it(

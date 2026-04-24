@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "invalid-private-names-call-expression-bad-reference.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/module-code/invalid-private-names-call-expression-bad-reference.js"),
 );

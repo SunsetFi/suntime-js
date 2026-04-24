@@ -46,7 +46,7 @@ describe("yield", () => {
   );
   it(
     "in-iteration-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/yield/in-iteration-stmt.js"),
   );
   it(
@@ -56,7 +56,7 @@ describe("yield", () => {
   );
   it(
     "invalid-left-hand-side.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/yield/invalid-left-hand-side.js"),
   );
   it(
@@ -111,7 +111,7 @@ describe("yield", () => {
   );
   it(
     "star-in-iteration-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/yield/star-in-iteration-stmt.js"),
   );
   it(

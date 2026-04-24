@@ -4,41 +4,41 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("async-function", () => {
   it(
     "array-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/array-destructuring-param-strict-body.js",
     ),
   );
   it(
     "await-as-binding-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/await-as-binding-identifier-escaped.js"),
   );
   it(
     "await-as-binding-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/await-as-binding-identifier.js"),
   );
   it(
     "await-as-identifier-reference-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/await-as-identifier-reference-escaped.js",
     ),
   );
   it(
     "await-as-identifier-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/await-as-identifier-reference.js"),
   );
   it(
     "await-as-label-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/await-as-label-identifier-escaped.js"),
   );
   it(
     "await-as-label-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/await-as-label-identifier.js"),
   );
   it(
@@ -68,7 +68,7 @@ describe("async-function", () => {
   );
   it(
     "dflt-params-duplicates.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/dflt-params-duplicates.js"),
   );
   it(
@@ -88,7 +88,7 @@ describe("async-function", () => {
   );
   it(
     "dflt-params-rest.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/dflt-params-rest.js"),
   );
   it(
@@ -98,98 +98,98 @@ describe("async-function", () => {
   );
   it(
     "early-errors-declaration-NSPL-with-USD.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-NSPL-with-USD.js",
     ),
   );
   it(
     "early-errors-declaration-arguments-in-formal-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-arguments-in-formal-parameters.js",
     ),
   );
   it(
     "early-errors-declaration-await-in-formals-default.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-await-in-formals-default.js",
     ),
   );
   it(
     "early-errors-declaration-await-in-formals.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-await-in-formals.js",
     ),
   );
   it(
     "early-errors-declaration-binding-identifier-arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-binding-identifier-arguments.js",
     ),
   );
   it(
     "early-errors-declaration-binding-identifier-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-binding-identifier-eval.js",
     ),
   );
   it(
     "early-errors-declaration-body-contains-super-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-body-contains-super-call.js",
     ),
   );
   it(
     "early-errors-declaration-body-contains-super-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-body-contains-super-property.js",
     ),
   );
   it(
     "early-errors-declaration-duplicate-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-duplicate-parameters.js",
     ),
   );
   it(
     "early-errors-declaration-eval-in-formal-parameters.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-eval-in-formal-parameters.js",
     ),
   );
   it(
     "early-errors-declaration-formals-body-duplicate.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-formals-body-duplicate.js",
     ),
   );
   it(
     "early-errors-declaration-formals-contains-super-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-formals-contains-super-call.js",
     ),
   );
   it(
     "early-errors-declaration-formals-contains-super-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/early-errors-declaration-formals-contains-super-property.js",
     ),
   );
   it(
     "escaped-async.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/escaped-async.js"),
   );
   it(
@@ -294,12 +294,12 @@ describe("async-function", () => {
   });
   it(
     "let-newline-await-in-async-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/let-newline-await-in-async-function.js"),
   );
   it(
     "object-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/object-destructuring-param-strict-body.js",
     ),
@@ -316,12 +316,12 @@ describe("async-function", () => {
   );
   it(
     "rest-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-function/rest-param-strict-body.js"),
   );
   it(
     "rest-params-trailing-comma-early-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-function/rest-params-trailing-comma-early-error.js",
     ),

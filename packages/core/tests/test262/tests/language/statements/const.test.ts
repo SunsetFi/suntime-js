@@ -291,32 +291,32 @@ describe("const", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -562,14 +562,14 @@ describe("const", () => {
   );
   it(
     "redeclaration-error-from-within-strict-mode-function-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/const/redeclaration-error-from-within-strict-mode-function-const.js",
     ),
   );
   it(
     "static-init-await-binding-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/const/static-init-await-binding-invalid.js"),
   );
   it(
@@ -580,28 +580,28 @@ describe("const", () => {
   describe("syntax", () => {
     it(
       "block-scope-syntax-const-declarations-mixed-with-without-initialiser.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/block-scope-syntax-const-declarations-mixed-with-without-initialiser.js",
       ),
     );
     it(
       "block-scope-syntax-const-declarations-mixed-without-with-initialiser.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/block-scope-syntax-const-declarations-mixed-without-with-initialiser.js",
       ),
     );
     it(
       "block-scope-syntax-const-declarations-without-initialiser.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/block-scope-syntax-const-declarations-without-initialiser.js",
       ),
     );
     it(
       "const-declaring-let-split-across-two-lines.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/const-declaring-let-split-across-two-lines.js",
       ),
@@ -653,90 +653,90 @@ describe("const", () => {
     );
     it(
       "with-initializer-do-statement-while-expression.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/with-initializer-do-statement-while-expression.js",
       ),
     );
     it(
       "with-initializer-for-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/syntax/with-initializer-for-statement.js"),
     );
     it(
       "with-initializer-if-expression-statement-else-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/with-initializer-if-expression-statement-else-statement.js",
       ),
     );
     it(
       "with-initializer-if-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/with-initializer-if-expression-statement.js",
       ),
     );
     it(
       "with-initializer-label-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/syntax/with-initializer-label-statement.js"),
     );
     it(
       "with-initializer-while-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/with-initializer-while-expression-statement.js",
       ),
     );
     it(
       "without-initializer-case-expression-statement-list.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/without-initializer-case-expression-statement-list.js",
       ),
     );
     it(
       "without-initializer-default-statement-list.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/without-initializer-default-statement-list.js",
       ),
     );
     it(
       "without-initializer-do-statement-while-expression.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/without-initializer-do-statement-while-expression.js",
       ),
     );
     it(
       "without-initializer-for-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/syntax/without-initializer-for-statement.js"),
     );
     it(
       "without-initializer-if-expression-statement-else-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/without-initializer-if-expression-statement-else-statement.js",
       ),
     );
     it(
       "without-initializer-if-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/without-initializer-if-expression-statement.js",
       ),
     );
     it(
       "without-initializer-label-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/const/syntax/without-initializer-label-statement.js"),
     );
     it(
       "without-initializer-while-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/const/syntax/without-initializer-while-expression-statement.js",
       ),

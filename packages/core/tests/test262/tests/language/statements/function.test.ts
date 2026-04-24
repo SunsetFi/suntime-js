@@ -49,12 +49,12 @@ describe("function", () => {
   );
   it(
     "13.0_4-5gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/13.0_4-5gs.js"),
   );
   it(
     "13.1-13gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/13.1-13gs.js"),
   );
   it(
@@ -64,7 +64,7 @@ describe("function", () => {
   );
   it(
     "13.1-1gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/13.1-1gs.js"),
   );
   it(
@@ -129,17 +129,17 @@ describe("function", () => {
   );
   it(
     "13.1-4gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/13.1-4gs.js"),
   );
   it(
     "13.1-5gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/13.1-5gs.js"),
   );
   it(
     "13.1-8gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/13.1-8gs.js"),
   );
   it(
@@ -869,7 +869,7 @@ describe("function", () => {
   );
   it(
     "S13_A7_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/S13_A7_T3.js"),
   );
   it(
@@ -919,7 +919,7 @@ describe("function", () => {
   );
   it(
     "array-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/array-destructuring-param-strict-body.js"),
   );
   it(
@@ -944,7 +944,7 @@ describe("function", () => {
   );
   it(
     "dflt-params-duplicates.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/dflt-params-duplicates.js"),
   );
   it(
@@ -964,7 +964,7 @@ describe("function", () => {
   );
   it(
     "dflt-params-rest.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/dflt-params-rest.js"),
   );
   it(
@@ -1239,32 +1239,32 @@ describe("function", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1559,32 +1559,32 @@ describe("function", () => {
     );
     it(
       "dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/dflt-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/dflt-ary-ptrn-rest-init-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/dflt-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/dflt-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/dflt-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/function/dstr/dflt-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1938,39 +1938,39 @@ describe("function", () => {
   });
   it(
     "early-body-super-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/early-body-super-call.js"),
   );
   it(
     "early-body-super-prop.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/early-body-super-prop.js"),
   );
   describe("early-errors", () => {
     it(
       "invalid-names-call-expression-bad-reference.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/function/early-errors/invalid-names-call-expression-bad-reference.js",
       ),
     );
     it(
       "invalid-names-call-expression-this.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/function/early-errors/invalid-names-call-expression-this.js",
       ),
     );
     it(
       "invalid-names-member-expression-bad-reference.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/function/early-errors/invalid-names-member-expression-bad-reference.js",
       ),
     );
     it(
       "invalid-names-member-expression-this.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/function/early-errors/invalid-names-member-expression-this.js",
       ),
@@ -1978,27 +1978,27 @@ describe("function", () => {
   });
   it(
     "early-params-super-call.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/early-params-super-call.js"),
   );
   it(
     "early-params-super-prop.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/early-params-super-prop.js"),
   );
   it(
     "enable-strict-via-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/enable-strict-via-body.js"),
   );
   it(
     "enable-strict-via-outer-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/enable-strict-via-outer-body.js"),
   );
   it(
     "enable-strict-via-outer-script.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/enable-strict-via-outer-script.js"),
   );
   it(
@@ -2049,37 +2049,37 @@ describe("function", () => {
   });
   it(
     "invalid-2-names.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-2-names.js"),
   );
   it(
     "invalid-3-names.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-3-names.js"),
   );
   it(
     "invalid-function-body-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-function-body-1.js"),
   );
   it(
     "invalid-function-body-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-function-body-2.js"),
   );
   it(
     "invalid-function-body-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-function-body-3.js"),
   );
   it(
     "invalid-name-dot.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-name-dot.js"),
   );
   it(
     "invalid-name-two-dots.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/invalid-name-two-dots.js"),
   );
   it(
@@ -2099,12 +2099,12 @@ describe("function", () => {
   );
   it(
     "name-arguments-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/name-arguments-strict-body.js"),
   );
   it(
     "name-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/name-arguments-strict.js"),
   );
   it(
@@ -2114,12 +2114,12 @@ describe("function", () => {
   );
   it(
     "name-eval-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/name-eval-strict-body.js"),
   );
   it(
     "name-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/name-eval-strict.js"),
   );
   it(
@@ -2139,7 +2139,7 @@ describe("function", () => {
   );
   it(
     "object-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/object-destructuring-param-strict-body.js"),
   );
   it(
@@ -2149,12 +2149,12 @@ describe("function", () => {
   );
   it(
     "param-arguments-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-arguments-strict-body.js"),
   );
   it(
     "param-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-arguments-strict.js"),
   );
   it(
@@ -2164,7 +2164,7 @@ describe("function", () => {
   );
   it(
     "param-dflt-yield-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-dflt-yield-strict.js"),
   );
   it(
@@ -2174,32 +2174,32 @@ describe("function", () => {
   );
   it(
     "param-duplicated-strict-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-duplicated-strict-1.js"),
   );
   it(
     "param-duplicated-strict-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-duplicated-strict-2.js"),
   );
   it(
     "param-duplicated-strict-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-duplicated-strict-3.js"),
   );
   it(
     "param-duplicated-strict-body-1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-duplicated-strict-body-1.js"),
   );
   it(
     "param-duplicated-strict-body-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-duplicated-strict-body-2.js"),
   );
   it(
     "param-duplicated-strict-body-3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-duplicated-strict-body-3.js"),
   );
   it(
@@ -2214,12 +2214,12 @@ describe("function", () => {
   );
   it(
     "param-eval-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-eval-strict-body.js"),
   );
   it(
     "param-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/param-eval-strict.js"),
   );
   it(
@@ -2249,12 +2249,12 @@ describe("function", () => {
   );
   it(
     "rest-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/rest-param-strict-body.js"),
   );
   it(
     "rest-params-trailing-comma-early-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/rest-params-trailing-comma-early-error.js"),
   );
   it(
@@ -2294,7 +2294,7 @@ describe("function", () => {
   );
   it(
     "static-init-await-binding-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/static-init-await-binding-invalid.js"),
   );
   it(
@@ -2314,7 +2314,7 @@ describe("function", () => {
   );
   it(
     "use-strict-with-non-simple-param.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/function/use-strict-with-non-simple-param.js"),
   );
 });

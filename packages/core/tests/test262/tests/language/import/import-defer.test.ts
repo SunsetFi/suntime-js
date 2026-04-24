@@ -645,36 +645,36 @@ describe("import-defer", () => {
     );
     it(
       "invalid-default-and-defer-namespace.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/import/import-defer/syntax/invalid-default-and-defer-namespace.js",
       ),
     );
     it(
       "invalid-defer-as-with-no-asterisk.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/import/import-defer/syntax/invalid-defer-as-with-no-asterisk.js"),
     );
     it(
       "invalid-defer-default-and-namespace.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/import/import-defer/syntax/invalid-defer-default-and-namespace.js",
       ),
     );
     it(
       "invalid-defer-default.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/import/import-defer/syntax/invalid-defer-default.js"),
     );
     it(
       "invalid-defer-named.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/import/import-defer/syntax/invalid-defer-named.js"),
     );
     it(
       "invalid-export-defer-namespace.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/import/import-defer/syntax/invalid-export-defer-namespace.js"),
     );
     it(

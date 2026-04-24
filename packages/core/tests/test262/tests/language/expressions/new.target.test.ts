@@ -9,12 +9,12 @@ describe("new.target", () => {
   );
   it(
     "escaped-new.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new.target/escaped-new.js"),
   );
   it(
     "escaped-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new.target/escaped-target.js"),
   );
   it(

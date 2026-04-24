@@ -9,52 +9,52 @@ describe("return", () => {
   );
   it(
     "S12.9_A1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T1.js"),
   );
   it(
     "S12.9_A1_T10.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T10.js"),
   );
   it(
     "S12.9_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T2.js"),
   );
   it(
     "S12.9_A1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T3.js"),
   );
   it(
     "S12.9_A1_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T4.js"),
   );
   it(
     "S12.9_A1_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T5.js"),
   );
   it(
     "S12.9_A1_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T6.js"),
   );
   it(
     "S12.9_A1_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T7.js"),
   );
   it(
     "S12.9_A1_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T8.js"),
   );
   it(
     "S12.9_A1_T9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/return/S12.9_A1_T9.js"),
   );
   it(

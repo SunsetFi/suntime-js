@@ -144,7 +144,7 @@ describe("for", () => {
   );
   it(
     "S12.6.3_A11.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A11.1_T3.js"),
   );
   it(
@@ -159,7 +159,7 @@ describe("for", () => {
   );
   it(
     "S12.6.3_A11_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A11_T3.js"),
   );
   it(
@@ -174,7 +174,7 @@ describe("for", () => {
   );
   it(
     "S12.6.3_A12.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A12.1_T3.js"),
   );
   it(
@@ -189,7 +189,7 @@ describe("for", () => {
   );
   it(
     "S12.6.3_A12_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A12_T3.js"),
   );
   it(
@@ -229,17 +229,17 @@ describe("for", () => {
   );
   it(
     "S12.6.3_A4.1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A4.1.js"),
   );
   it(
     "S12.6.3_A4_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A4_T1.js"),
   );
   it(
     "S12.6.3_A4_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A4_T2.js"),
   );
   it(
@@ -254,52 +254,52 @@ describe("for", () => {
   );
   it(
     "S12.6.3_A7.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A7.1_T1.js"),
   );
   it(
     "S12.6.3_A7.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A7.1_T2.js"),
   );
   it(
     "S12.6.3_A7_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A7_T1.js"),
   );
   it(
     "S12.6.3_A7_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A7_T2.js"),
   );
   it(
     "S12.6.3_A8.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A8.1_T1.js"),
   );
   it(
     "S12.6.3_A8.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A8.1_T2.js"),
   );
   it(
     "S12.6.3_A8.1_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A8.1_T3.js"),
   );
   it(
     "S12.6.3_A8_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A8_T1.js"),
   );
   it(
     "S12.6.3_A8_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A8_T2.js"),
   );
   it(
     "S12.6.3_A8_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/S12.6.3_A8_T3.js"),
   );
   it(
@@ -324,37 +324,37 @@ describe("for", () => {
   );
   it(
     "decl-async-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-async-fun.js"),
   );
   it(
     "decl-async-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-async-gen.js"),
   );
   it(
     "decl-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-cls.js"),
   );
   it(
     "decl-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-const.js"),
   );
   it(
     "decl-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-fun.js"),
   );
   it(
     "decl-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-gen.js"),
   );
   it(
     "decl-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/decl-let.js"),
   );
   describe("dstr", () => {
@@ -640,32 +640,32 @@ describe("for", () => {
     );
     it(
       "const-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/const-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "const-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/const-ary-ptrn-rest-init-id.js"),
     );
     it(
       "const-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/const-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "const-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/const-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "const-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/const-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "const-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/const-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1119,32 +1119,32 @@ describe("for", () => {
     );
     it(
       "let-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/let-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "let-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/let-ary-ptrn-rest-init-id.js"),
     );
     it(
       "let-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/let-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "let-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/let-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "let-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/let-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "let-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/let-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1598,32 +1598,32 @@ describe("for", () => {
     );
     it(
       "var-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/var-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "var-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/var-ary-ptrn-rest-init-id.js"),
     );
     it(
       "var-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/var-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "var-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/var-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "var-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/var-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "var-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for/dstr/var-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1804,7 +1804,7 @@ describe("for", () => {
   });
   it(
     "head-const-bound-names-in-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/head-const-bound-names-in-stmt.js"),
   );
   it(
@@ -1839,7 +1839,7 @@ describe("for", () => {
   );
   it(
     "head-let-bound-names-in-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/head-let-bound-names-in-stmt.js"),
   );
   it(
@@ -1864,27 +1864,27 @@ describe("for", () => {
   );
   it(
     "labelled-fn-stmt-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/labelled-fn-stmt-const.js"),
   );
   it(
     "labelled-fn-stmt-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/labelled-fn-stmt-expr.js"),
   );
   it(
     "labelled-fn-stmt-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/labelled-fn-stmt-let.js"),
   );
   it(
     "labelled-fn-stmt-var.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/labelled-fn-stmt-var.js"),
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for/let-array-with-newline.js"),
   );
   it(

@@ -34,7 +34,7 @@ describe("if", () => {
   );
   it(
     "S12.5_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A11.js"),
   );
   it(
@@ -89,17 +89,17 @@ describe("if", () => {
   );
   it(
     "S12.5_A6_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A6_T1.js"),
   );
   it(
     "S12.5_A6_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A6_T2.js"),
   );
   it(
     "S12.5_A8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/S12.5_A8.js"),
   );
   it(
@@ -149,182 +149,182 @@ describe("if", () => {
   );
   it(
     "if-async-fun-else-async-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-async-fun-else-async-fun.js"),
   );
   it(
     "if-async-fun-else-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-async-fun-else-stmt.js"),
   );
   it(
     "if-async-fun-no-else.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-async-fun-no-else.js"),
   );
   it(
     "if-async-gen-else-async-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-async-gen-else-async-gen.js"),
   );
   it(
     "if-async-gen-else-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-async-gen-else-stmt.js"),
   );
   it(
     "if-async-gen-no-else.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-async-gen-no-else.js"),
   );
   it(
     "if-cls-else-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-cls-else-cls.js"),
   );
   it(
     "if-cls-else-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-cls-else-stmt.js"),
   );
   it(
     "if-cls-no-else.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-cls-no-else.js"),
   );
   it(
     "if-const-else-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-const-else-const.js"),
   );
   it(
     "if-const-else-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-const-else-stmt.js"),
   );
   it(
     "if-const-no-else.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-const-no-else.js"),
   );
   it(
     "if-decl-else-decl-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-decl-else-decl-strict.js"),
   );
   it(
     "if-decl-else-stmt-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-decl-else-stmt-strict.js"),
   );
   it(
     "if-decl-no-else-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-decl-no-else-strict.js"),
   );
   it(
     "if-fun-else-fun-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-fun-else-fun-strict.js"),
   );
   it(
     "if-fun-else-stmt-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-fun-else-stmt-strict.js"),
   );
   it(
     "if-fun-no-else-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-fun-no-else-strict.js"),
   );
   it(
     "if-gen-else-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-gen-else-gen.js"),
   );
   it(
     "if-gen-else-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-gen-else-stmt.js"),
   );
   it(
     "if-gen-no-else.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-gen-no-else.js"),
   );
   it(
     "if-let-else-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-let-else-let.js"),
   );
   it(
     "if-let-else-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-let-else-stmt.js"),
   );
   it(
     "if-let-no-else.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-let-no-else.js"),
   );
   it(
     "if-stmt-else-async-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-async-fun.js"),
   );
   it(
     "if-stmt-else-async-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-async-gen.js"),
   );
   it(
     "if-stmt-else-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-cls.js"),
   );
   it(
     "if-stmt-else-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-const.js"),
   );
   it(
     "if-stmt-else-decl-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-decl-strict.js"),
   );
   it(
     "if-stmt-else-fun-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-fun-strict.js"),
   );
   it(
     "if-stmt-else-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-gen.js"),
   );
   it(
     "if-stmt-else-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/if-stmt-else-let.js"),
   );
   it(
     "labelled-fn-stmt-first.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/labelled-fn-stmt-first.js"),
   );
   it(
     "labelled-fn-stmt-lone.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/labelled-fn-stmt-lone.js"),
   );
   it(
     "labelled-fn-stmt-second.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/labelled-fn-stmt-second.js"),
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/if/let-array-with-newline.js"),
   );
   it(

@@ -25,12 +25,12 @@ describe("import.meta", () => {
   describe("syntax", () => {
     it(
       "escape-sequence-import.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/import.meta/syntax/escape-sequence-import.js"),
     );
     it(
       "escape-sequence-meta.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/import.meta/syntax/escape-sequence-meta.js"),
     );
     it(
@@ -69,68 +69,68 @@ describe("import.meta", () => {
     );
     it(
       "goal-script.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/import.meta/syntax/goal-script.js"),
     );
     it(
       "invalid-assignment-target-array-destructuring-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-array-destructuring-expr.js",
       ),
     );
     it(
       "invalid-assignment-target-array-rest-destructuring-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-array-rest-destructuring-expr.js",
       ),
     );
     it(
       "invalid-assignment-target-assignment-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-assignment-expr.js",
       ),
     );
     it(
       "invalid-assignment-target-for-await-of-loop.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-for-await-of-loop.js",
       ),
     );
     it(
       "invalid-assignment-target-for-in-loop.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-for-in-loop.js",
       ),
     );
     it(
       "invalid-assignment-target-for-of-loop.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-for-of-loop.js",
       ),
     );
     it(
       "invalid-assignment-target-object-destructuring-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-object-destructuring-expr.js",
       ),
     );
     it(
       "invalid-assignment-target-object-rest-destructuring-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-object-rest-destructuring-expr.js",
       ),
     );
     it(
       "invalid-assignment-target-update-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/import.meta/syntax/invalid-assignment-target-update-expr.js",
       ),

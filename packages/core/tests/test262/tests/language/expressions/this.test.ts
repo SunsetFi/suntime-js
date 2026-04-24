@@ -9,7 +9,7 @@ describe("this", () => {
   );
   it(
     "S11.1.1_A1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/this/S11.1.1_A1.js"),
   );
   it(

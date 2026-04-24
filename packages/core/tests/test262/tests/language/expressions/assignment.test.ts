@@ -295,7 +295,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-init-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-elem-init-yield-ident-invalid.js",
       ),
@@ -364,7 +364,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-nested-array-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-elem-nested-array-invalid.js"),
     );
     it(
@@ -402,7 +402,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-nested-array-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-elem-nested-array-yield-ident-invalid.js",
       ),
@@ -421,14 +421,14 @@ describe("assignment", () => {
     );
     it(
       "array-elem-nested-memberexpr-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-elem-nested-memberexpr-optchain-prop-ref-init.js",
       ),
     );
     it(
       "array-elem-nested-obj-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-elem-nested-obj-invalid.js"),
     );
     it(
@@ -462,7 +462,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-nested-obj-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-elem-nested-obj-yield-ident-invalid.js",
       ),
@@ -491,7 +491,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-put-obj-literal-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-elem-put-obj-literal-optchain-prop-ref-init.js",
       ),
@@ -560,7 +560,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-target-simple-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-elem-target-simple-strict.js"),
     );
     it(
@@ -570,7 +570,7 @@ describe("assignment", () => {
     );
     it(
       "array-elem-target-yield-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-elem-target-yield-invalid.js"),
     );
     it(
@@ -880,22 +880,22 @@ describe("assignment", () => {
     );
     it(
       "array-rest-before-element.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-before-element.js"),
     );
     it(
       "array-rest-before-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-before-elision.js"),
     );
     it(
       "array-rest-before-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-before-rest.js"),
     );
     it(
       "array-rest-elision-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-elision-invalid.js"),
     );
     it(
@@ -910,7 +910,7 @@ describe("assignment", () => {
     );
     it(
       "array-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-init.js"),
     );
     it(
@@ -970,7 +970,7 @@ describe("assignment", () => {
     );
     it(
       "array-rest-nested-array-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-nested-array-invalid.js"),
     );
     it(
@@ -1015,7 +1015,7 @@ describe("assignment", () => {
     );
     it(
       "array-rest-nested-array-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-rest-nested-array-yield-ident-invalid.js",
       ),
@@ -1034,7 +1034,7 @@ describe("assignment", () => {
     );
     it(
       "array-rest-nested-obj-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-nested-obj-invalid.js"),
     );
     it(
@@ -1068,7 +1068,7 @@ describe("assignment", () => {
     );
     it(
       "array-rest-nested-obj-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/array-rest-nested-obj-yield-ident-invalid.js",
       ),
@@ -1138,7 +1138,7 @@ describe("assignment", () => {
     );
     it(
       "array-rest-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/array-rest-yield-ident-invalid.js"),
     );
     it(
@@ -1533,12 +1533,12 @@ describe("assignment", () => {
     );
     it(
       "obj-id-identifier-yield-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/obj-id-identifier-yield-expr.js"),
     );
     it(
       "obj-id-identifier-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-id-identifier-yield-ident-invalid.js",
       ),
@@ -1622,7 +1622,7 @@ describe("assignment", () => {
     );
     it(
       "obj-id-init-simple-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/obj-id-init-simple-strict.js"),
     );
     it(
@@ -1632,7 +1632,7 @@ describe("assignment", () => {
     );
     it(
       "obj-id-init-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/obj-id-init-yield-ident-invalid.js"),
     );
     it(
@@ -1669,7 +1669,7 @@ describe("assignment", () => {
     );
     it(
       "obj-id-simple-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/obj-id-simple-strict.js"),
     );
     it(
@@ -1747,7 +1747,7 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-elem-init-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-prop-elem-init-yield-ident-invalid.js",
       ),
@@ -1761,14 +1761,14 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-elem-target-memberexpr-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-prop-elem-target-memberexpr-optchain-prop-ref-init.js",
       ),
     );
     it(
       "obj-prop-elem-target-obj-literal-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-prop-elem-target-obj-literal-optchain-prop-ref-init.js",
       ),
@@ -1801,7 +1801,7 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-elem-target-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-prop-elem-target-yield-ident-invalid.js",
       ),
@@ -1860,7 +1860,7 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-nested-array-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/obj-prop-nested-array-invalid.js"),
     );
     it(
@@ -1887,7 +1887,7 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-nested-array-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-prop-nested-array-yield-ident-invalid.js",
       ),
@@ -1906,7 +1906,7 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-nested-obj-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/obj-prop-nested-obj-invalid.js"),
     );
     it(
@@ -1933,7 +1933,7 @@ describe("assignment", () => {
     );
     it(
       "obj-prop-nested-obj-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-prop-nested-obj-yield-ident-invalid.js",
       ),
@@ -2075,7 +2075,7 @@ describe("assignment", () => {
     );
     it(
       "obj-rest-not-last-element-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/obj-rest-not-last-element-invalid.js",
       ),
@@ -2142,311 +2142,311 @@ describe("assignment", () => {
     );
     it(
       "syntax-error-ident-ref-break-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-break-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-case-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-case-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-catch-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-catch-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-class-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-class-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-const-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-const-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-continue-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-continue-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-debugger-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-debugger-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-default-escaped-ext.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-default-escaped-ext.js",
       ),
     );
     it(
       "syntax-error-ident-ref-default-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-default-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-default.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/syntax-error-ident-ref-default.js"),
     );
     it(
       "syntax-error-ident-ref-delete-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-delete-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-do-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-do-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-else-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-else-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-enum-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-enum-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-export-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-export-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-extends-escaped-ext.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-extends-escaped-ext.js",
       ),
     );
     it(
       "syntax-error-ident-ref-extends-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-extends-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-extends.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/assignment/dstr/syntax-error-ident-ref-extends.js"),
     );
     it(
       "syntax-error-ident-ref-finally-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-finally-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-for-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-for-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-function-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-function-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-if-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-if-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-implements-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-implements-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-import-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-import-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-in-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-in-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-instanceof-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-instanceof-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-interface-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-interface-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-let-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-let-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-new-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-new-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-package-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-package-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-private-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-private-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-protected-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-protected-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-public-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-public-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-return-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-return-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-static-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-static-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-super-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-super-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-switch-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-switch-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-this-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-this-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-throw-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-throw-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-try-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-try-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-typeof-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-typeof-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-var-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-var-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-void-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-void-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-while-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-while-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-with-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/assignment/dstr/syntax-error-ident-ref-with-escaped.js",
       ),
@@ -2489,12 +2489,12 @@ describe("assignment", () => {
   );
   it(
     "id-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/id-arguments-strict.js"),
   );
   it(
     "id-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/id-eval-strict.js"),
   );
   it(
@@ -2741,22 +2741,22 @@ describe("assignment", () => {
   );
   it(
     "non-simple-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/non-simple-target.js"),
   );
   it(
     "target-assignment-inside-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-assignment-inside-function.js"),
   );
   it(
     "target-assignment.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-assignment.js"),
   );
   it(
     "target-boolean.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-boolean.js"),
   );
   it(
@@ -2766,12 +2766,12 @@ describe("assignment", () => {
   );
   it(
     "target-cover-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-cover-newtarget.js"),
   );
   it(
     "target-cover-yieldexpr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-cover-yieldexpr.js"),
   );
   it(
@@ -2805,22 +2805,22 @@ describe("assignment", () => {
   );
   it(
     "target-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-newtarget.js"),
   );
   it(
     "target-null.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-null.js"),
   );
   it(
     "target-number.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-number.js"),
   );
   it(
     "target-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/assignment/target-string.js"),
   );
   it(

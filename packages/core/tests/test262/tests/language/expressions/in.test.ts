@@ -74,37 +74,37 @@ describe("in", () => {
   );
   it(
     "private-field-in-nested.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-in-nested.js"),
   );
   it(
     "private-field-in.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-in.js"),
   );
   it(
     "private-field-invalid-assignment-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-invalid-assignment-reference.js"),
   );
   it(
     "private-field-invalid-assignment-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-invalid-assignment-target.js"),
   );
   it(
     "private-field-invalid-identifier-complex.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-invalid-identifier-complex.js"),
   );
   it(
     "private-field-invalid-identifier-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-invalid-identifier-simple.js"),
   );
   it(
     "private-field-invalid-rhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-invalid-rhs.js"),
   );
   it(
@@ -159,7 +159,7 @@ describe("in", () => {
   );
   it(
     "private-field-rhs-yield-absent.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/private-field-rhs-yield-absent.js"),
   );
   it(
@@ -174,7 +174,7 @@ describe("in", () => {
   );
   it(
     "rhs-yield-absent-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/in/rhs-yield-absent-strict.js"),
   );
   it(

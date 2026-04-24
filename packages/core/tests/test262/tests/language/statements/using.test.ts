@@ -91,7 +91,7 @@ describe("using", () => {
   });
   it(
     "redeclaration-error-from-within-strict-mode-function-using.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/using/redeclaration-error-from-within-strict-mode-function-using.js",
     ),

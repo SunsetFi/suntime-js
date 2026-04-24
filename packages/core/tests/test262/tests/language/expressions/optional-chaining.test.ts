@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("optional-chaining", () => {
   it(
     "call-expression-super-no-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/call-expression-super-no-base.js"),
   );
   it(
@@ -14,56 +14,56 @@ describe("optional-chaining", () => {
   );
   it(
     "early-errors-tail-position-null-op-template-string-esi.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-null-op-template-string-esi.js",
     ),
   );
   it(
     "early-errors-tail-position-null-op-template-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-null-op-template-string.js",
     ),
   );
   it(
     "early-errors-tail-position-null-optchain-template-string-esi.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-null-optchain-template-string-esi.js",
     ),
   );
   it(
     "early-errors-tail-position-null-optchain-template-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-null-optchain-template-string.js",
     ),
   );
   it(
     "early-errors-tail-position-op-template-string-esi.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-op-template-string-esi.js",
     ),
   );
   it(
     "early-errors-tail-position-op-template-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-op-template-string.js",
     ),
   );
   it(
     "early-errors-tail-position-optchain-template-string-esi.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-optchain-template-string-esi.js",
     ),
   );
   it(
     "early-errors-tail-position-optchain-template-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/early-errors-tail-position-optchain-template-string.js",
     ),
@@ -202,7 +202,7 @@ describe("optional-chaining", () => {
   );
   it(
     "static-semantics-simple-assignment.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/static-semantics-simple-assignment.js",
     ),
@@ -214,12 +214,12 @@ describe("optional-chaining", () => {
   );
   it(
     "update-expression-postfix.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/update-expression-postfix.js"),
   );
   it(
     "update-expression-prefix.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/update-expression-prefix.js"),
   );
 });

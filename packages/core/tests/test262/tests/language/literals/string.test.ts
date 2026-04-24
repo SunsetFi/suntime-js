@@ -4,22 +4,22 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("string", () => {
   it(
     "S7.8.4_A1.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A1.1_T1.js"),
   );
   it(
     "S7.8.4_A1.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A1.1_T2.js"),
   );
   it(
     "S7.8.4_A1.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A1.2_T1.js"),
   );
   it(
     "S7.8.4_A1.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A1.2_T2.js"),
   );
   it(
@@ -49,22 +49,22 @@ describe("string", () => {
   );
   it(
     "S7.8.4_A3.1_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A3.1_T1.js"),
   );
   it(
     "S7.8.4_A3.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A3.1_T2.js"),
   );
   it(
     "S7.8.4_A3.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A3.2_T1.js"),
   );
   it(
     "S7.8.4_A3.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A3.2_T2.js"),
   );
   it(
@@ -119,12 +119,12 @@ describe("string", () => {
   );
   it(
     "S7.8.4_A4.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A4.3_T1.js"),
   );
   it(
     "S7.8.4_A4.3_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A4.3_T2.js"),
   );
   it(
@@ -184,37 +184,37 @@ describe("string", () => {
   );
   it(
     "S7.8.4_A7.1_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.1_T4.js"),
   );
   it(
     "S7.8.4_A7.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.2_T1.js"),
   );
   it(
     "S7.8.4_A7.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.2_T2.js"),
   );
   it(
     "S7.8.4_A7.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.2_T3.js"),
   );
   it(
     "S7.8.4_A7.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.2_T4.js"),
   );
   it(
     "S7.8.4_A7.2_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.2_T5.js"),
   );
   it(
     "S7.8.4_A7.2_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/S7.8.4_A7.2_T6.js"),
   );
   it(
@@ -224,49 +224,49 @@ describe("string", () => {
   );
   it(
     "legacy-non-octal-escape-sequence-1-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-1-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-2-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-2-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-3-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-3-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-4-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-4-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-5-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-5-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-6-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-6-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-7-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-7-strict-explicit-pragma.js",
     ),
@@ -278,14 +278,14 @@ describe("string", () => {
   );
   it(
     "legacy-non-octal-escape-sequence-8-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-8-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-8-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/legacy-non-octal-escape-sequence-8-strict.js"),
   );
   it(
@@ -295,29 +295,29 @@ describe("string", () => {
   );
   it(
     "legacy-non-octal-escape-sequence-9-strict-explicit-pragma.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/literals/string/legacy-non-octal-escape-sequence-9-strict-explicit-pragma.js",
     ),
   );
   it(
     "legacy-non-octal-escape-sequence-9-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/legacy-non-octal-escape-sequence-9-strict.js"),
   );
   it(
     "legacy-non-octal-escape-sequence-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/legacy-non-octal-escape-sequence-strict.js"),
   );
   it(
     "legacy-octal-escape-sequence-prologue-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/legacy-octal-escape-sequence-prologue-strict.js"),
   );
   it(
     "legacy-octal-escape-sequence-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/legacy-octal-escape-sequence-strict.js"),
   );
   it(
@@ -367,22 +367,22 @@ describe("string", () => {
   );
   it(
     "unicode-escape-nls-err-double.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/unicode-escape-nls-err-double.js"),
   );
   it(
     "unicode-escape-nls-err-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/unicode-escape-nls-err-single.js"),
   );
   it(
     "unicode-escape-no-hex-err-double.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/unicode-escape-no-hex-err-double.js"),
   );
   it(
     "unicode-escape-no-hex-err-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/string/unicode-escape-no-hex-err-single.js"),
   );
 });

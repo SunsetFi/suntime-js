@@ -178,49 +178,49 @@ describe("exponentiation", () => {
   );
   it(
     "exp-operator-syntax-error-bitnot-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-bitnot-unary-expression-base.js",
     ),
   );
   it(
     "exp-operator-syntax-error-delete-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-delete-unary-expression-base.js",
     ),
   );
   it(
     "exp-operator-syntax-error-logical-not-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-logical-not-unary-expression-base.js",
     ),
   );
   it(
     "exp-operator-syntax-error-negate-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-negate-unary-expression-base.js",
     ),
   );
   it(
     "exp-operator-syntax-error-plus-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-plus-unary-expression-base.js",
     ),
   );
   it(
     "exp-operator-syntax-error-typeof-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-typeof-unary-expression-base.js",
     ),
   );
   it(
     "exp-operator-syntax-error-void-unary-expression-base.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/exponentiation/exp-operator-syntax-error-void-unary-expression-base.js",
     ),

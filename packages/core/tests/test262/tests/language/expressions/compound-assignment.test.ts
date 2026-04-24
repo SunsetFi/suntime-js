@@ -254,7 +254,7 @@ describe("compound-assignment", () => {
   );
   it(
     "11.13.2-6-1gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/11.13.2-6-1gs.js"),
   );
   it(
@@ -1704,17 +1704,17 @@ describe("compound-assignment", () => {
   );
   it(
     "add-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/add-arguments-strict.js"),
   );
   it(
     "add-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/add-eval-strict.js"),
   );
   it(
     "add-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/add-non-simple.js"),
   );
   it(
@@ -1724,12 +1724,12 @@ describe("compound-assignment", () => {
   );
   it(
     "and-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/and-arguments-strict.js"),
   );
   it(
     "and-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/and-eval-strict.js"),
   );
   it(
@@ -1739,17 +1739,17 @@ describe("compound-assignment", () => {
   );
   it(
     "btws-and-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/btws-and-non-simple.js"),
   );
   it(
     "btws-or-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/btws-or-non-simple.js"),
   );
   it(
     "btws-xor-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/btws-xor-non-simple.js"),
   );
   it(
@@ -1908,17 +1908,17 @@ describe("compound-assignment", () => {
   );
   it(
     "div-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/div-arguments-strict.js"),
   );
   it(
     "div-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/div-eval-strict.js"),
   );
   it(
     "div-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/div-non-simple.js"),
   );
   it(
@@ -2264,17 +2264,17 @@ describe("compound-assignment", () => {
   );
   it(
     "left-shift-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/left-shift-non-simple.js"),
   );
   it(
     "lshift-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/lshift-arguments-strict.js"),
   );
   it(
     "lshift-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/lshift-eval-strict.js"),
   );
   it(
@@ -2284,17 +2284,17 @@ describe("compound-assignment", () => {
   );
   it(
     "mod-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/mod-arguments-strict.js"),
   );
   it(
     "mod-div-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/mod-div-non-simple.js"),
   );
   it(
     "mod-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/mod-eval-strict.js"),
   );
   it(
@@ -2304,17 +2304,17 @@ describe("compound-assignment", () => {
   );
   it(
     "mult-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/mult-arguments-strict.js"),
   );
   it(
     "mult-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/mult-eval-strict.js"),
   );
   it(
     "mult-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/mult-non-simple.js"),
   );
   it(
@@ -2324,12 +2324,12 @@ describe("compound-assignment", () => {
   );
   it(
     "or-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/or-arguments-strict.js"),
   );
   it(
     "or-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/or-eval-strict.js"),
   );
   it(
@@ -2339,17 +2339,17 @@ describe("compound-assignment", () => {
   );
   it(
     "right-shift-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/right-shift-non-simple.js"),
   );
   it(
     "srshift-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/srshift-arguments-strict.js"),
   );
   it(
     "srshift-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/srshift-eval-strict.js"),
   );
   it(
@@ -2359,12 +2359,12 @@ describe("compound-assignment", () => {
   );
   it(
     "sub-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/sub-arguments-strict.js"),
   );
   it(
     "sub-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/sub-eval-strict.js"),
   );
   it(
@@ -2374,22 +2374,22 @@ describe("compound-assignment", () => {
   );
   it(
     "subtract-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/subtract-non-simple.js"),
   );
   it(
     "u-right-shift-non-simple.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/u-right-shift-non-simple.js"),
   );
   it(
     "urshift-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/urshift-arguments-strict.js"),
   );
   it(
     "urshift-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/urshift-eval-strict.js"),
   );
   it(
@@ -2399,12 +2399,12 @@ describe("compound-assignment", () => {
   );
   it(
     "xor-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/xor-arguments-strict.js"),
   );
   it(
     "xor-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/compound-assignment/xor-eval-strict.js"),
   );
   it(

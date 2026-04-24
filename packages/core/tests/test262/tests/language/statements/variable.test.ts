@@ -34,7 +34,7 @@ describe("variable", () => {
   );
   it(
     "12.2.1-1gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/12.2.1-1gs.js"),
   );
   it(
@@ -69,7 +69,7 @@ describe("variable", () => {
   );
   it(
     "12.2.1-4gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/12.2.1-4gs.js"),
   );
   it(
@@ -154,42 +154,42 @@ describe("variable", () => {
   );
   it(
     "S12.2_A8_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T1.js"),
   );
   it(
     "S12.2_A8_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T2.js"),
   );
   it(
     "S12.2_A8_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T3.js"),
   );
   it(
     "S12.2_A8_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T4.js"),
   );
   it(
     "S12.2_A8_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T5.js"),
   );
   it(
     "S12.2_A8_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T6.js"),
   );
   it(
     "S12.2_A8_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T7.js"),
   );
   it(
     "S12.2_A8_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/S12.2_A8_T8.js"),
   );
   it(
@@ -209,47 +209,47 @@ describe("variable", () => {
   );
   it(
     "arguments-fn-strict-list-final-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-final-init.js"),
   );
   it(
     "arguments-fn-strict-list-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-final.js"),
   );
   it(
     "arguments-fn-strict-list-first-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-first-init.js"),
   );
   it(
     "arguments-fn-strict-list-first.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-first.js"),
   );
   it(
     "arguments-fn-strict-list-middle-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-middle-init.js"),
   );
   it(
     "arguments-fn-strict-list-middle.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-middle.js"),
   );
   it(
     "arguments-fn-strict-list-repeated.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-list-repeated.js"),
   );
   it(
     "arguments-fn-strict-single-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-single-init.js"),
   );
   it(
     "arguments-fn-strict-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-fn-strict-single.js"),
   );
   it(
@@ -259,47 +259,47 @@ describe("variable", () => {
   );
   it(
     "arguments-strict-list-final-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-final-init.js"),
   );
   it(
     "arguments-strict-list-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-final.js"),
   );
   it(
     "arguments-strict-list-first-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-first-init.js"),
   );
   it(
     "arguments-strict-list-first.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-first.js"),
   );
   it(
     "arguments-strict-list-middle-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-middle-init.js"),
   );
   it(
     "arguments-strict-list-middle.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-middle.js"),
   );
   it(
     "arguments-strict-list-repeated.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-list-repeated.js"),
   );
   it(
     "arguments-strict-single-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-single-init.js"),
   );
   it(
     "arguments-strict-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/arguments-strict-single.js"),
   );
   it(
@@ -474,7 +474,7 @@ describe("variable", () => {
     );
     it(
       "ary-ptrn-elem-id-static-init-await-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/variable/dstr/ary-ptrn-elem-id-static-init-await-invalid.js",
       ),
@@ -593,32 +593,32 @@ describe("variable", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/variable/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/variable/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/variable/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/variable/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/variable/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/variable/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -643,7 +643,7 @@ describe("variable", () => {
     );
     it(
       "obj-ptrn-elem-id-static-init-await-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/variable/dstr/obj-ptrn-elem-id-static-init-await-invalid.js",
       ),
@@ -818,47 +818,47 @@ describe("variable", () => {
   );
   it(
     "eval-strict-list-final-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-final-init.js"),
   );
   it(
     "eval-strict-list-final.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-final.js"),
   );
   it(
     "eval-strict-list-first-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-first-init.js"),
   );
   it(
     "eval-strict-list-first.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-first.js"),
   );
   it(
     "eval-strict-list-middle-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-middle-init.js"),
   );
   it(
     "eval-strict-list-middle.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-middle.js"),
   );
   it(
     "eval-strict-list-repeated.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-list-repeated.js"),
   );
   it(
     "eval-strict-single-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-single-init.js"),
   );
   it(
     "eval-strict-single.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/eval-strict-single.js"),
   );
   it(
@@ -888,17 +888,17 @@ describe("variable", () => {
   );
   it(
     "id-arguments-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/id-arguments-strict.js"),
   );
   it(
     "id-eval-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/id-eval-strict.js"),
   );
   it(
     "static-init-await-binding-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/variable/static-init-await-binding-invalid.js"),
   );
   it(

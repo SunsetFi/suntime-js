@@ -14,7 +14,7 @@ describe("null", () => {
   );
   it(
     "S8.2_A2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/types/null/S8.2_A2.js"),
   );
   it(

@@ -201,11 +201,18 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     expression: string,
     opts?: StaticJsRealmEvaluateSourceOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
-    const node = file(program([expressionStatement(parsed)], [], "script"));
-    const record = StaticJsScriptRecord(node, expression);
-    const evaluator = doEvaluateScript(record, this);
-    return this._enqueueMacrotask(evaluator, "evaluate", opts);
+    try {
+      const parsed = parseExpression(
+        expression,
+        opts?.sourceName ?? this._createInlineSourceName(),
+      );
+      const node = file(program([expressionStatement(parsed)], [], "script"));
+      const record = StaticJsScriptRecord(node, expression);
+      const evaluator = doEvaluateScript(record, this);
+      return this._enqueueMacrotask(evaluator, "evaluate", opts);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   evaluateExpressionSync(
@@ -228,33 +235,37 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     script: string,
     opts?: StaticJsRealmEvaluateScriptOptions,
   ): Promise<StaticJsValue> {
-    const parsed = parseScript(script, opts?.sourceName ?? this._createInlineSourceName(), {
-      topLevelAwait: Boolean(opts?.topLevelAwait),
-      strictMode: Boolean(opts?.strict),
-    });
-    const strict = parsed.program.directives.some(
-      (directive) => directive.value.value === "use strict",
-    );
+    try {
+      const parsed = parseScript(script, opts?.sourceName ?? this._createInlineSourceName(), {
+        topLevelAwait: Boolean(opts?.topLevelAwait),
+        strictMode: Boolean(opts?.strict),
+      });
+      const strict = parsed.program.directives.some(
+        (directive) => directive.value.value === "use strict",
+      );
 
-    const record = StaticJsScriptRecord(parsed, script);
+      const record = StaticJsScriptRecord(parsed, script);
 
-    let evaluator: StaticJsEvaluator<StaticJsValue>;
+      let evaluator: StaticJsEvaluator<StaticJsValue>;
 
-    const topLevelAwait = findTopLevelAwait(parsed);
-    if (topLevelAwait || opts?.topLevelAwait === true) {
-      if (opts?.topLevelAwait === false) {
-        throw new StaticJsSyntaxError(
-          "Top-level await is not allowed in this script.",
-          topLevelAwait?.loc?.start ?? null,
-        );
+      const topLevelAwait = findTopLevelAwait(parsed);
+      if (topLevelAwait || opts?.topLevelAwait === true) {
+        if (opts?.topLevelAwait === false) {
+          throw new StaticJsSyntaxError(
+            "Top-level await is not allowed in this script.",
+            topLevelAwait?.loc?.start ?? null,
+          );
+        }
+
+        evaluator = doEvaluateScriptAsync(record, this, strict);
+      } else {
+        evaluator = doEvaluateScript(record, this, strict);
       }
 
-      evaluator = doEvaluateScriptAsync(record, this, strict);
-    } else {
-      evaluator = doEvaluateScript(record, this, strict);
+      return this._enqueueMacrotask(evaluator, "evaluate", opts);
+    } catch (e) {
+      return Promise.reject(e);
     }
-
-    return this._enqueueMacrotask(evaluator, "evaluate", opts);
   }
 
   evaluateScriptSync(script: string, opts?: StaticJsRealmEvaluateScriptSyncOptions): StaticJsValue {
@@ -280,34 +291,39 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     code: string,
     opts?: StaticJsRealmEvaluateSourceOptions,
   ): Promise<StaticJsModule> {
-    const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
-    const parsed = parseModule(code, sourceName);
-    const module = new StaticJsAstModuleImpl(sourceName, code, parsed.program, this);
-
-    // Bit weird that we link immediately instead of when we are ready to perform the task?
-    await module.linkModules();
-
-    const { promise: moduleEvaluated, resolve } = createDeferred<StaticJsModule>();
-    function* evaluate() {
-      yield* module.moduleDeclarationInstantiationEvaluator();
-      const resolutionPromise = yield* module.moduleEvaluationEvaluator();
-      resolve(
-        resolutionPromise.then(
-          () => module,
-          (err) => {
-            Completion.handleRuntime(err);
-            throw err;
-          },
-        ),
-      );
-    }
-
     try {
-      await this._enqueueMacrotask(evaluate, "evaluate", opts);
-      return moduleEvaluated;
+      const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
+      const parsed = parseModule(code, sourceName);
+      const module = new StaticJsAstModuleImpl(sourceName, code, parsed.program, this);
+
+      // Bit weird that we link immediately instead of when we are ready to perform the task?
+      await module.linkModules();
+
+      const { promise: moduleEvaluated, resolve } = createDeferred<StaticJsModule>();
+      function* evaluate() {
+        yield* module.moduleDeclarationInstantiationEvaluator();
+        const resolutionPromise = yield* module.moduleEvaluationEvaluator();
+        resolve(
+          resolutionPromise.then(
+            () => module,
+            (err) => {
+              Completion.handleRuntime(err);
+              throw err;
+            },
+          ),
+        );
+      }
+
+      try {
+        await this._enqueueMacrotask(evaluate, "evaluate", opts);
+        return moduleEvaluated;
+      } catch (e) {
+        Completion.handleRuntime(e);
+
+        throw e;
+      }
     } catch (e) {
       Completion.handleRuntime(e);
-
       throw e;
     }
   }

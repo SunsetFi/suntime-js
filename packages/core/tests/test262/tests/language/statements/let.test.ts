@@ -296,32 +296,32 @@ describe("let", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -579,14 +579,14 @@ describe("let", () => {
   );
   it(
     "redeclaration-error-from-within-strict-mode-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/let/redeclaration-error-from-within-strict-mode-function.js",
     ),
   );
   it(
     "static-init-await-binding-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/let/static-init-await-binding-invalid.js"),
   );
   it(
@@ -602,14 +602,14 @@ describe("let", () => {
     );
     it(
       "identifier-let-allowed-as-lefthandside-expression-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/identifier-let-allowed-as-lefthandside-expression-strict.js",
       ),
     );
     it(
       "identifier-let-disallowed-as-boundname.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/syntax/identifier-let-disallowed-as-boundname.js"),
     );
     it(
@@ -643,33 +643,33 @@ describe("let", () => {
     );
     it(
       "let-let-declaration-split-across-two-lines.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/let-let-declaration-split-across-two-lines.js",
       ),
     );
     it(
       "let-let-declaration-with-initializer-split-across-two-lines.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/let-let-declaration-with-initializer-split-across-two-lines.js",
       ),
     );
     it(
       "let-newline-await-in-normal-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/syntax/let-newline-await-in-normal-function.js"),
     );
     it(
       "let-newline-yield-in-generator-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/let-newline-yield-in-generator-function.js",
       ),
     );
     it(
       "let-newline-yield-in-normal-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/let/syntax/let-newline-yield-in-normal-function.js"),
     );
     it(
@@ -698,42 +698,42 @@ describe("let", () => {
     );
     it(
       "with-initialisers-in-statement-positions-do-statement-while-expression.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/with-initialisers-in-statement-positions-do-statement-while-expression.js",
       ),
     );
     it(
       "with-initialisers-in-statement-positions-for-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/with-initialisers-in-statement-positions-for-statement.js",
       ),
     );
     it(
       "with-initialisers-in-statement-positions-if-expression-statement-else-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/with-initialisers-in-statement-positions-if-expression-statement-else-statement.js",
       ),
     );
     it(
       "with-initialisers-in-statement-positions-if-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/with-initialisers-in-statement-positions-if-expression-statement.js",
       ),
     );
     it(
       "with-initialisers-in-statement-positions-label-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/with-initialisers-in-statement-positions-label-statement.js",
       ),
     );
     it(
       "with-initialisers-in-statement-positions-while-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/with-initialisers-in-statement-positions-while-expression-statement.js",
       ),
@@ -754,42 +754,42 @@ describe("let", () => {
     );
     it(
       "without-initialisers-in-statement-positions-do-statement-while-expression.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/without-initialisers-in-statement-positions-do-statement-while-expression.js",
       ),
     );
     it(
       "without-initialisers-in-statement-positions-for-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/without-initialisers-in-statement-positions-for-statement.js",
       ),
     );
     it(
       "without-initialisers-in-statement-positions-if-expression-statement-else-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/without-initialisers-in-statement-positions-if-expression-statement-else-statement.js",
       ),
     );
     it(
       "without-initialisers-in-statement-positions-if-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/without-initialisers-in-statement-positions-if-expression-statement.js",
       ),
     );
     it(
       "without-initialisers-in-statement-positions-label-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/without-initialisers-in-statement-positions-label-statement.js",
       ),
     );
     it(
       "without-initialisers-in-statement-positions-while-expression-statement.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/let/syntax/without-initialisers-in-statement-positions-while-expression-statement.js",
       ),

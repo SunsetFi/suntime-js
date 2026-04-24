@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "parse-err-decl-pos-import-object-method.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/module-code/parse-err-decl-pos-import-object-method.js"),
 );

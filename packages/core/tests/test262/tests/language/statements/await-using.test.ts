@@ -145,7 +145,7 @@ describe("await-using", () => {
   });
   it(
     "redeclaration-error-from-within-strict-mode-function-await-using.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/await-using/redeclaration-error-from-within-strict-mode-function-await-using.js",
     ),

@@ -14,7 +14,7 @@ describe("object", () => {
   );
   it(
     "11.1.5-1gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/11.1.5-1gs.js"),
   );
   it(
@@ -119,7 +119,7 @@ describe("object", () => {
   );
   it(
     "__proto__-duplicate.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/__proto__-duplicate.js"),
   );
   it(
@@ -309,7 +309,7 @@ describe("object", () => {
   );
   it(
     "cover-initialized-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/cover-initialized-name.js"),
   );
   it(
@@ -1197,40 +1197,40 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-init-ary.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-init-id.js"),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-init-obj.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-not-final-ary.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-not-final-id.js",
       ),
     );
     it(
       "async-gen-meth-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-ary-ptrn-rest-not-final-obj.js",
       ),
@@ -1607,42 +1607,42 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-init-ary.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-init-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-init-obj.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-not-final-ary.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-not-final-id.js",
       ),
     );
     it(
       "async-gen-meth-dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/async-gen-meth-dflt-ary-ptrn-rest-not-final-obj.js",
       ),
@@ -2403,32 +2403,32 @@ describe("object", () => {
     );
     it(
       "gen-meth-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-init-id.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "gen-meth-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -2787,36 +2787,36 @@ describe("object", () => {
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-init-id.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-not-final-ary.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-not-final-id.js",
       ),
     );
     it(
       "gen-meth-dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/gen-meth-dflt-ary-ptrn-rest-not-final-obj.js",
       ),
@@ -3513,32 +3513,32 @@ describe("object", () => {
     );
     it(
       "meth-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "meth-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-init-id.js"),
     );
     it(
       "meth-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "meth-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "meth-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "meth-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -3869,34 +3869,34 @@ describe("object", () => {
     );
     it(
       "meth-dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-init-id.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-not-final-ary.js",
       ),
     );
     it(
       "meth-dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "meth-dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/dstr/meth-dflt-ary-ptrn-rest-not-final-obj.js",
       ),
@@ -4338,17 +4338,17 @@ describe("object", () => {
   );
   it(
     "getter-body-strict-inside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/getter-body-strict-inside.js"),
   );
   it(
     "getter-body-strict-outside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/getter-body-strict-outside.js"),
   );
   it(
     "getter-param-dflt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/getter-param-dflt.js"),
   );
   it(
@@ -4853,66 +4853,66 @@ describe("object", () => {
   );
   it(
     "identifier-shorthand-implements-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-implements-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-interface-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-interface-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-invalid-computed-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/identifier-shorthand-invalid-computed-name.js"),
   );
   it(
     "identifier-shorthand-invalid-zero.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/identifier-shorthand-invalid-zero.js"),
   );
   it(
     "identifier-shorthand-let-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-let-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-package-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-package-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-private-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-private-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-protected-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-protected-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-public-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-public-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-static-init-await-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-static-init-await-invalid.js",
     ),
@@ -4926,14 +4926,14 @@ describe("object", () => {
   );
   it(
     "identifier-shorthand-static-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-static-invalid-strict-mode.js",
     ),
   );
   it(
     "identifier-shorthand-yield-invalid-strict-mode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/identifier-shorthand-yield-invalid-strict-mode.js",
     ),
@@ -4956,91 +4956,91 @@ describe("object", () => {
   describe("method-definition", () => {
     it(
       "async-await-as-binding-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-await-as-binding-identifier-escaped.js",
       ),
     );
     it(
       "async-await-as-binding-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-await-as-binding-identifier.js",
       ),
     );
     it(
       "async-await-as-identifier-reference-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-await-as-identifier-reference-escaped.js",
       ),
     );
     it(
       "async-await-as-identifier-reference.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-await-as-identifier-reference.js",
       ),
     );
     it(
       "async-await-as-label-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-await-as-label-identifier-escaped.js",
       ),
     );
     it(
       "async-await-as-label-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-await-as-label-identifier.js",
       ),
     );
     it(
       "async-gen-await-as-binding-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-await-as-binding-identifier-escaped.js",
       ),
     );
     it(
       "async-gen-await-as-binding-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-await-as-binding-identifier.js",
       ),
     );
     it(
       "async-gen-await-as-identifier-reference-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-await-as-identifier-reference-escaped.js",
       ),
     );
     it(
       "async-gen-await-as-identifier-reference.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-await-as-identifier-reference.js",
       ),
     );
     it(
       "async-gen-await-as-label-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-await-as-label-identifier-escaped.js",
       ),
     );
     it(
       "async-gen-await-as-label-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-await-as-label-identifier.js",
       ),
     );
     it(
       "async-gen-meth-array-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-array-destructuring-param-strict-body.js",
       ),
@@ -5068,7 +5068,7 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-dflt-params-duplicates.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-dflt-params-duplicates.js",
       ),
@@ -5096,7 +5096,7 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-dflt-params-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-dflt-params-rest.js",
       ),
@@ -5110,7 +5110,7 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-escaped-async.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-escaped-async.js",
       ),
@@ -5124,7 +5124,7 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-object-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-object-destructuring-param-strict-body.js",
       ),
@@ -5145,56 +5145,56 @@ describe("object", () => {
     );
     it(
       "async-gen-meth-rest-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-rest-param-strict-body.js",
       ),
     );
     it(
       "async-gen-meth-rest-params-trailing-comma-early-error.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-meth-rest-params-trailing-comma-early-error.js",
       ),
     );
     it(
       "async-gen-yield-as-binding-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-as-binding-identifier-escaped.js",
       ),
     );
     it(
       "async-gen-yield-as-binding-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-as-binding-identifier.js",
       ),
     );
     it(
       "async-gen-yield-as-identifier-reference-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-as-identifier-reference-escaped.js",
       ),
     );
     it(
       "async-gen-yield-as-identifier-reference.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-as-identifier-reference.js",
       ),
     );
     it(
       "async-gen-yield-as-label-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-as-label-identifier-escaped.js",
       ),
     );
     it(
       "async-gen-yield-as-label-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-as-label-identifier.js",
       ),
@@ -5215,14 +5215,14 @@ describe("object", () => {
     );
     it(
       "async-gen-yield-identifier-spread-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-identifier-spread-strict.js",
       ),
     );
     it(
       "async-gen-yield-identifier-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-identifier-strict.js",
       ),
@@ -5684,7 +5684,7 @@ describe("object", () => {
     );
     it(
       "async-meth-array-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-array-destructuring-param-strict-body.js",
       ),
@@ -5712,7 +5712,7 @@ describe("object", () => {
     );
     it(
       "async-meth-dflt-params-duplicates.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-dflt-params-duplicates.js",
       ),
@@ -5740,7 +5740,7 @@ describe("object", () => {
     );
     it(
       "async-meth-dflt-params-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-dflt-params-rest.js",
       ),
@@ -5754,7 +5754,7 @@ describe("object", () => {
     );
     it(
       "async-meth-escaped-async.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-escaped-async.js",
       ),
@@ -5768,7 +5768,7 @@ describe("object", () => {
     );
     it(
       "async-meth-object-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-object-destructuring-param-strict-body.js",
       ),
@@ -5789,14 +5789,14 @@ describe("object", () => {
     );
     it(
       "async-meth-rest-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-rest-param-strict-body.js",
       ),
     );
     it(
       "async-meth-rest-params-trailing-comma-early-error.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-meth-rest-params-trailing-comma-early-error.js",
       ),
@@ -5862,119 +5862,119 @@ describe("object", () => {
     );
     it(
       "early-errors-object-async-method-duplicate-parameters.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-async-method-duplicate-parameters.js",
       ),
     );
     it(
       "early-errors-object-method-NSPL-with-USD.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-NSPL-with-USD.js",
       ),
     );
     it(
       "early-errors-object-method-arguments-in-formal-parameters.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-arguments-in-formal-parameters.js",
       ),
     );
     it(
       "early-errors-object-method-async-lineterminator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-async-lineterminator.js",
       ),
     );
     it(
       "early-errors-object-method-await-in-formals-default.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-await-in-formals-default.js",
       ),
     );
     it(
       "early-errors-object-method-await-in-formals.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-await-in-formals.js",
       ),
     );
     it(
       "early-errors-object-method-body-contains-super-call.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-body-contains-super-call.js",
       ),
     );
     it(
       "early-errors-object-method-duplicate-parameters.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-duplicate-parameters.js",
       ),
     );
     it(
       "early-errors-object-method-eval-in-formal-parameters.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-eval-in-formal-parameters.js",
       ),
     );
     it(
       "early-errors-object-method-formals-body-duplicate.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-formals-body-duplicate.js",
       ),
     );
     it(
       "early-errors-object-method-formals-contains-super-call.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/early-errors-object-method-formals-contains-super-call.js",
       ),
     );
     it(
       "escaped-get-e.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-get-e.js"),
     );
     it(
       "escaped-get-g.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-get-g.js"),
     );
     it(
       "escaped-get-t.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-get-t.js"),
     );
     it(
       "escaped-get.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-get.js"),
     );
     it(
       "escaped-set-e.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-set-e.js"),
     );
     it(
       "escaped-set-s.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-set-s.js"),
     );
     it(
       "escaped-set-t.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-set-t.js"),
     );
     it(
       "escaped-set.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/escaped-set.js"),
     );
     it(
@@ -6135,7 +6135,7 @@ describe("object", () => {
     });
     it(
       "gen-meth-array-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-meth-array-destructuring-param-strict-body.js",
       ),
@@ -6163,7 +6163,7 @@ describe("object", () => {
     );
     it(
       "gen-meth-dflt-params-duplicates.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-meth-dflt-params-duplicates.js",
       ),
@@ -6191,7 +6191,7 @@ describe("object", () => {
     );
     it(
       "gen-meth-dflt-params-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-meth-dflt-params-rest.js",
       ),
@@ -6212,7 +6212,7 @@ describe("object", () => {
     );
     it(
       "gen-meth-object-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-meth-object-destructuring-param-strict-body.js",
       ),
@@ -6233,56 +6233,56 @@ describe("object", () => {
     );
     it(
       "gen-meth-rest-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-meth-rest-param-strict-body.js",
       ),
     );
     it(
       "gen-meth-rest-params-trailing-comma-early-error.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-meth-rest-params-trailing-comma-early-error.js",
       ),
     );
     it(
       "gen-yield-as-binding-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-as-binding-identifier-escaped.js",
       ),
     );
     it(
       "gen-yield-as-binding-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-as-binding-identifier.js",
       ),
     );
     it(
       "gen-yield-as-identifier-reference-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-as-identifier-reference-escaped.js",
       ),
     );
     it(
       "gen-yield-as-identifier-reference.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-as-identifier-reference.js",
       ),
     );
     it(
       "gen-yield-as-label-identifier-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-as-label-identifier-escaped.js",
       ),
     );
     it(
       "gen-yield-as-label-identifier.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-as-label-identifier.js",
       ),
@@ -6303,14 +6303,14 @@ describe("object", () => {
     );
     it(
       "gen-yield-identifier-spread-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-identifier-spread-strict.js",
       ),
     );
     it(
       "gen-yield-identifier-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/gen-yield-identifier-strict.js",
       ),
@@ -6384,28 +6384,28 @@ describe("object", () => {
     );
     it(
       "generator-param-id-yield.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-param-id-yield.js",
       ),
     );
     it(
       "generator-param-init-yield.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-param-init-yield.js",
       ),
     );
     it(
       "generator-param-redecl-const.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-param-redecl-const.js",
       ),
     );
     it(
       "generator-param-redecl-let.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-param-redecl-let.js",
       ),
@@ -6460,14 +6460,14 @@ describe("object", () => {
     );
     it(
       "generator-super-call-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-super-call-body.js",
       ),
     );
     it(
       "generator-super-call-param.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-super-call-param.js",
       ),
@@ -6488,14 +6488,14 @@ describe("object", () => {
     );
     it(
       "generator-use-strict-with-non-simple-param.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/generator-use-strict-with-non-simple-param.js",
       ),
     );
     it(
       "meth-array-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/meth-array-destructuring-param-strict-body.js",
       ),
@@ -6521,7 +6521,7 @@ describe("object", () => {
     );
     it(
       "meth-dflt-params-duplicates.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/meth-dflt-params-duplicates.js",
       ),
@@ -6549,7 +6549,7 @@ describe("object", () => {
     );
     it(
       "meth-dflt-params-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/meth-dflt-params-rest.js"),
     );
     it(
@@ -6568,7 +6568,7 @@ describe("object", () => {
     );
     it(
       "meth-object-destructuring-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/meth-object-destructuring-param-strict-body.js",
       ),
@@ -6589,14 +6589,14 @@ describe("object", () => {
     );
     it(
       "meth-rest-param-strict-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/meth-rest-param-strict-body.js",
       ),
     );
     it(
       "meth-rest-params-trailing-comma-early-error.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/meth-rest-params-trailing-comma-early-error.js",
       ),
@@ -6650,7 +6650,7 @@ describe("object", () => {
     );
     it(
       "name-param-redecl.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/name-param-redecl.js"),
     );
     it(
@@ -6694,12 +6694,12 @@ describe("object", () => {
     );
     it(
       "name-super-call-body.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/name-super-call-body.js"),
     );
     it(
       "name-super-call-param.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/name-super-call-param.js"),
     );
     it(
@@ -6749,91 +6749,91 @@ describe("object", () => {
     );
     it(
       "private-name-early-error-async-fn-inside-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-async-fn-inside-class.js",
       ),
     );
     it(
       "private-name-early-error-async-fn.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-async-fn.js",
       ),
     );
     it(
       "private-name-early-error-async-gen-inside-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-async-gen-inside-class.js",
       ),
     );
     it(
       "private-name-early-error-async-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-async-gen.js",
       ),
     );
     it(
       "private-name-early-error-gen-inside-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-gen-inside-class.js",
       ),
     );
     it(
       "private-name-early-error-gen.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-gen.js",
       ),
     );
     it(
       "private-name-early-error-get-method-inside-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-get-method-inside-class.js",
       ),
     );
     it(
       "private-name-early-error-get-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-get-method.js",
       ),
     );
     it(
       "private-name-early-error-method-inside-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-method-inside-class.js",
       ),
     );
     it(
       "private-name-early-error-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-method.js",
       ),
     );
     it(
       "private-name-early-error-set-method-inside-class.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-set-method-inside-class.js",
       ),
     );
     it(
       "private-name-early-error-set-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/private-name-early-error-set-method.js",
       ),
     );
     it(
       "setter-use-strict-with-non-simple-param.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/setter-use-strict-with-non-simple-param.js",
       ),
@@ -6882,7 +6882,7 @@ describe("object", () => {
     );
     it(
       "use-strict-with-non-simple-param.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/use-strict-with-non-simple-param.js",
       ),
@@ -6931,14 +6931,14 @@ describe("object", () => {
     );
     it(
       "yield-as-logical-or-expression.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/yield-as-logical-or-expression.js",
       ),
     );
     it(
       "yield-as-parameter.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/yield-as-parameter.js"),
     );
     it(
@@ -6968,7 +6968,7 @@ describe("object", () => {
     );
     it(
       "yield-star-after-newline.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/yield-star-after-newline.js",
       ),
@@ -6982,7 +6982,7 @@ describe("object", () => {
     );
     it(
       "yield-weak-binding.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/object/method-definition/yield-weak-binding.js"),
     );
   });
@@ -7037,12 +7037,12 @@ describe("object", () => {
   );
   it(
     "prop-def-invalid-async-prefix.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/prop-def-invalid-async-prefix.js"),
   );
   it(
     "prop-def-invalid-star-prefix.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/prop-def-invalid-star-prefix.js"),
   );
   it(
@@ -7187,12 +7187,12 @@ describe("object", () => {
   );
   it(
     "setter-body-strict-inside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/setter-body-strict-inside.js"),
   );
   it(
     "setter-body-strict-outside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/setter-body-strict-outside.js"),
   );
   it(
@@ -7202,22 +7202,22 @@ describe("object", () => {
   );
   it(
     "setter-param-arguments-strict-inside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/setter-param-arguments-strict-inside.js"),
   );
   it(
     "setter-param-arguments-strict-outside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/setter-param-arguments-strict-outside.js"),
   );
   it(
     "setter-param-eval-strict-inside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/setter-param-eval-strict-inside.js"),
   );
   it(
     "setter-param-eval-strict-outside.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/object/setter-param-eval-strict-outside.js"),
   );
   it(

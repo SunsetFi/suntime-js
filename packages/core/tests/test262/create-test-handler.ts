@@ -6,6 +6,7 @@ import {
   createTimeBoundTaskRunner,
   StaticJsUnhandledRejectionError,
   StaticJsRuntimeError,
+  StaticJsSyntaxError,
 } from "../../src/index.js";
 import isDebuggerActive from "../env/is-debugger-active.js";
 
@@ -93,11 +94,22 @@ export function createTestHandler(testRelativePath: string) {
       } else {
         handleTestError(evaluateResult.reason, test);
       }
+    } else {
+      if (test.negative) {
+        throw new Error(
+          `Test was expected to fail with a ${test.negative.phase} error of type ${test.negative.type}, but it passed.`,
+        );
+      }
     }
   };
 }
 
 function handleTestError(e: unknown, test: Test262File, additional?: unknown) {
+  if (test.negative?.phase === "parse") {
+    expect(e).toBeInstanceOf(StaticJsSyntaxError);
+    return;
+  }
+
   if (e instanceof StaticJsRuntimeError) {
     // oxlint-disable-next-line no-ex-assign
     e = e.thrown.toNative();

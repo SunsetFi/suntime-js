@@ -89,12 +89,12 @@ describe("conditional", () => {
   );
   it(
     "in-branch-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/conditional/in-branch-2.js"),
   );
   it(
     "in-condition.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/conditional/in-condition.js"),
   );
   it(

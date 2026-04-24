@@ -9,7 +9,7 @@ describe("arrow-function", () => {
   );
   it(
     "array-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/arrow-function/array-destructuring-param-strict-body.js",
     ),
@@ -81,7 +81,7 @@ describe("arrow-function", () => {
   );
   it(
     "dflt-params-duplicates.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/dflt-params-duplicates.js"),
   );
   it(
@@ -101,7 +101,7 @@ describe("arrow-function", () => {
   );
   it(
     "dflt-params-rest.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/dflt-params-rest.js"),
   );
   it(
@@ -410,32 +410,32 @@ describe("arrow-function", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -790,36 +790,36 @@ describe("arrow-function", () => {
     );
     it(
       "dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/dflt-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/dflt-ary-ptrn-rest-init-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/arrow-function/dstr/dflt-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/dflt-ary-ptrn-rest-not-final-ary.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/dflt-ary-ptrn-rest-not-final-id.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/dflt-ary-ptrn-rest-not-final-obj.js",
       ),
@@ -1228,315 +1228,315 @@ describe("arrow-function", () => {
     );
     it(
       "syntax-error-ident-ref-break-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-break-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-case-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-case-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-catch-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-catch-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-class-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-class-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-const-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-const-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-continue-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-continue-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-debugger-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-debugger-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-default-escaped-ext.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-default-escaped-ext.js",
       ),
     );
     it(
       "syntax-error-ident-ref-default-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-default-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-default.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-default.js",
       ),
     );
     it(
       "syntax-error-ident-ref-delete-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-delete-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-do-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-do-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-else-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-else-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-enum-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-enum-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-export-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-export-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-extends-escaped-ext.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-extends-escaped-ext.js",
       ),
     );
     it(
       "syntax-error-ident-ref-extends-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-extends-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-extends.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-extends.js",
       ),
     );
     it(
       "syntax-error-ident-ref-finally-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-finally-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-for-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-for-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-function-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-function-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-if-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-if-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-implements-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-implements-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-import-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-import-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-in-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-in-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-instanceof-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-instanceof-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-interface-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-interface-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-let-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-let-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-new-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-new-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-package-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-package-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-private-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-private-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-protected-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-protected-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-public-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-public-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-return-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-return-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-static-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-static-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-super-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-super-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-switch-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-switch-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-this-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-this-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-throw-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-throw-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-try-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-try-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-typeof-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-typeof-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-var-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-var-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-void-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-void-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-while-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-while-escaped.js",
       ),
     );
     it(
       "syntax-error-ident-ref-with-escaped.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/arrow-function/dstr/syntax-error-ident-ref-with-escaped.js",
       ),
@@ -1682,7 +1682,7 @@ describe("arrow-function", () => {
   );
   it(
     "object-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/arrow-function/object-destructuring-param-strict-body.js",
     ),
@@ -1696,7 +1696,7 @@ describe("arrow-function", () => {
   );
   it(
     "param-dflt-yield-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/param-dflt-yield-expr.js"),
   );
   it(
@@ -1706,12 +1706,12 @@ describe("arrow-function", () => {
   );
   it(
     "param-dflt-yield-id-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/param-dflt-yield-id-strict.js"),
   );
   it(
     "params-duplicate.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/params-duplicate.js"),
   );
   it(
@@ -1731,12 +1731,12 @@ describe("arrow-function", () => {
   );
   it(
     "rest-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/rest-param-strict-body.js"),
   );
   it(
     "rest-params-trailing-comma-early-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/arrow-function/rest-params-trailing-comma-early-error.js",
     ),
@@ -1792,12 +1792,12 @@ describe("arrow-function", () => {
   );
   it(
     "static-init-await-binding.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/static-init-await-binding.js"),
   );
   it(
     "static-init-await-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/arrow-function/static-init-await-reference.js"),
   );
   it(
@@ -1942,175 +1942,175 @@ describe("arrow-function", () => {
     describe("early-errors", () => {
       it(
         "arrowparameters-bindingidentifier-identifier-futurereservedword.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-identifier-futurereservedword.js",
         ),
       );
       it(
         "arrowparameters-bindingidentifier-identifier-strict-futurereservedword.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-identifier-strict-futurereservedword.js",
         ),
       );
       it(
         "arrowparameters-bindingidentifier-identifier.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-identifier.js",
         ),
       );
       it(
         "arrowparameters-bindingidentifier-no-arguments.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-no-arguments.js",
         ),
       );
       it(
         "arrowparameters-bindingidentifier-no-eval.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-no-eval.js",
         ),
       );
       it(
         "arrowparameters-bindingidentifier-no-yield.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-no-yield.js",
         ),
       );
       it(
         "arrowparameters-bindingidentifier-rest.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-bindingidentifier-rest.js",
         ),
       );
       it(
         "arrowparameters-cover-no-arguments.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-arguments.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-array-1.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-array-1.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-array-2.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-array-2.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-array-3.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-array-3.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-object-1.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-object-1.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-object-2.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-object-2.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-object-3.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-object-3.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-object-4.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-object-4.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-object-5.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-object-5.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-binding-object-6.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-binding-object-6.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates-rest.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates-rest.js",
         ),
       );
       it(
         "arrowparameters-cover-no-duplicates.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-duplicates.js",
         ),
       );
       it(
         "arrowparameters-cover-no-eval.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-eval.js",
         ),
       );
       it(
         "arrowparameters-cover-no-yield.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/arrowparameters-cover-no-yield.js",
         ),
       );
       it(
         "asi-restriction-invalid-parenless-parameters-expression-body.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/asi-restriction-invalid-parenless-parameters-expression-body.js",
         ),
       );
       it(
         "asi-restriction-invalid-parenless-parameters.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/asi-restriction-invalid-parenless-parameters.js",
         ),
       );
       it(
         "asi-restriction-invalid.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/asi-restriction-invalid.js",
         ),
       );
       it(
         "use-strict-with-non-simple-param.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/arrow-function/syntax/early-errors/use-strict-with-non-simple-param.js",
         ),

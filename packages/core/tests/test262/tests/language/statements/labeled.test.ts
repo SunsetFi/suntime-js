@@ -9,7 +9,7 @@ describe("labeled", () => {
   );
   it(
     "continue.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/continue.js"),
   );
   it(
@@ -24,42 +24,42 @@ describe("labeled", () => {
   );
   it(
     "decl-async-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-async-function.js"),
   );
   it(
     "decl-async-generator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-async-generator.js"),
   );
   it(
     "decl-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-cls.js"),
   );
   it(
     "decl-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-const.js"),
   );
   it(
     "decl-fun-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-fun-strict.js"),
   );
   it(
     "decl-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-gen.js"),
   );
   it(
     "decl-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/decl-let.js"),
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/let-array-with-newline.js"),
   );
   it(
@@ -74,7 +74,7 @@ describe("labeled", () => {
   );
   it(
     "static-init-invalid-await.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/static-init-invalid-await.js"),
   );
   it.skip("tco.js", () => {
@@ -112,12 +112,12 @@ describe("labeled", () => {
   );
   it(
     "value-yield-strict-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-yield-strict-escaped.js"),
   );
   it(
     "value-yield-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/labeled/value-yield-strict.js"),
   );
 });

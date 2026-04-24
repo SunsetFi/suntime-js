@@ -29,27 +29,27 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A1.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.2_T1.js"),
   );
   it(
     "S7.8.5_A1.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.2_T2.js"),
   );
   it(
     "S7.8.5_A1.2_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.2_T3.js"),
   );
   it(
     "S7.8.5_A1.2_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.2_T4.js"),
   );
   it(
     "S7.8.5_A1.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.3_T1.js"),
   );
   it(
@@ -59,7 +59,7 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A1.3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.3_T3.js"),
   );
   it(
@@ -89,7 +89,7 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A1.5_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.5_T1.js"),
   );
   it(
@@ -99,7 +99,7 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A1.5_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A1.5_T3.js"),
   );
   it(
@@ -129,17 +129,17 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A2.2_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A2.2_T1.js"),
   );
   it(
     "S7.8.5_A2.2_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A2.2_T2.js"),
   );
   it(
     "S7.8.5_A2.3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A2.3_T1.js"),
   );
   it(
@@ -149,7 +149,7 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A2.3_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A2.3_T3.js"),
   );
   it(
@@ -179,7 +179,7 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A2.5_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A2.5_T1.js"),
   );
   it(
@@ -189,7 +189,7 @@ describe("regexp", () => {
   );
   it(
     "S7.8.5_A2.5_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/S7.8.5_A2.5_T3.js"),
   );
   it(
@@ -641,17 +641,17 @@ describe("regexp", () => {
   );
   it(
     "early-err-bad-flag.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/early-err-bad-flag.js"),
   );
   it(
     "early-err-dup-flag.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/early-err-dup-flag.js"),
   );
   it(
     "early-err-flags-unicode-escape.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/early-err-flags-unicode-escape.js"),
   );
   it(
@@ -1217,22 +1217,22 @@ describe("regexp", () => {
   });
   it(
     "regexp-first-char-no-line-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/regexp-first-char-no-line-separator.js"),
   );
   it(
     "regexp-first-char-no-paragraph-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/regexp-first-char-no-paragraph-separator.js"),
   );
   it(
     "regexp-source-char-no-line-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/regexp-source-char-no-line-separator.js"),
   );
   it(
     "regexp-source-char-no-paragraph-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/literals/regexp/regexp-source-char-no-paragraph-separator.js"),
   );
   it(

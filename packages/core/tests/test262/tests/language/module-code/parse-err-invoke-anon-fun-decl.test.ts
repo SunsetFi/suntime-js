@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "parse-err-invoke-anon-fun-decl.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/module-code/parse-err-invoke-anon-fun-decl.js"),
 );

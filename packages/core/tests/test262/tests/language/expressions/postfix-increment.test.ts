@@ -4,7 +4,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("postfix-increment", () => {
   it(
     "11.3.1-2-1gs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/11.3.1-2-1gs.js"),
   );
   it(
@@ -114,7 +114,7 @@ describe("postfix-increment", () => {
   );
   it(
     "arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/arguments.js"),
   );
   it(
@@ -129,27 +129,27 @@ describe("postfix-increment", () => {
   );
   it(
     "eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/eval.js"),
   );
   it(
     "line-terminator-carriage-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/line-terminator-carriage-return.js"),
   );
   it(
     "line-terminator-line-feed.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/line-terminator-line-feed.js"),
   );
   it(
     "line-terminator-line-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/line-terminator-line-separator.js"),
   );
   it(
     "line-terminator-paragraph-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/postfix-increment/line-terminator-paragraph-separator.js",
     ),
@@ -175,22 +175,22 @@ describe("postfix-increment", () => {
   );
   it(
     "target-cover-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/target-cover-newtarget.js"),
   );
   it(
     "target-cover-yieldexpr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/target-cover-yieldexpr.js"),
   );
   it(
     "target-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/target-newtarget.js"),
   );
   it(
     "this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-increment/this.js"),
   );
   it(

@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "privatename-not-valid-earlyerr-module-5.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/module-code/privatename-not-valid-earlyerr-module-5.js"),
 );

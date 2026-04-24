@@ -4,41 +4,41 @@ import { createTestHandler } from "../../../create-test-handler.js";
 describe("async-generator", () => {
   it(
     "array-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-generator/array-destructuring-param-strict-body.js",
     ),
   );
   it(
     "await-as-binding-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/await-as-binding-identifier-escaped.js"),
   );
   it(
     "await-as-binding-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/await-as-binding-identifier.js"),
   );
   it(
     "await-as-identifier-reference-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-generator/await-as-identifier-reference-escaped.js",
     ),
   );
   it(
     "await-as-identifier-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/await-as-identifier-reference.js"),
   );
   it(
     "await-as-label-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/await-as-label-identifier-escaped.js"),
   );
   it(
     "await-as-label-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/await-as-label-identifier.js"),
   );
   it(
@@ -58,7 +58,7 @@ describe("async-generator", () => {
   );
   it(
     "dflt-params-duplicates.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/dflt-params-duplicates.js"),
   );
   it(
@@ -78,7 +78,7 @@ describe("async-generator", () => {
   );
   it(
     "dflt-params-rest.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/dflt-params-rest.js"),
   );
   it(
@@ -387,32 +387,32 @@ describe("async-generator", () => {
     );
     it(
       "ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/ary-ptrn-rest-init-ary.js"),
     );
     it(
       "ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/ary-ptrn-rest-init-id.js"),
     );
     it(
       "ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/ary-ptrn-rest-init-obj.js"),
     );
     it(
       "ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -767,36 +767,36 @@ describe("async-generator", () => {
     );
     it(
       "dflt-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/dflt-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/dflt-ary-ptrn-rest-init-id.js"),
     );
     it(
       "dflt-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/async-generator/dstr/dflt-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/async-generator/dstr/dflt-ary-ptrn-rest-not-final-ary.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/async-generator/dstr/dflt-ary-ptrn-rest-not-final-id.js",
       ),
     );
     it(
       "dflt-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/async-generator/dstr/dflt-ary-ptrn-rest-not-final-obj.js",
       ),
@@ -1206,7 +1206,7 @@ describe("async-generator", () => {
   });
   it(
     "escaped-async.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/escaped-async.js"),
   );
   it(
@@ -1262,7 +1262,7 @@ describe("async-generator", () => {
   );
   it(
     "object-destructuring-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-generator/object-destructuring-param-strict-body.js",
     ),
@@ -1279,12 +1279,12 @@ describe("async-generator", () => {
   );
   it(
     "rest-param-strict-body.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/rest-param-strict-body.js"),
   );
   it(
     "rest-params-trailing-comma-early-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-generator/rest-params-trailing-comma-early-error.js",
     ),
@@ -1308,34 +1308,34 @@ describe("async-generator", () => {
   );
   it(
     "yield-as-binding-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-as-binding-identifier-escaped.js"),
   );
   it(
     "yield-as-binding-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-as-binding-identifier.js"),
   );
   it(
     "yield-as-identifier-reference-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/async-generator/yield-as-identifier-reference-escaped.js",
     ),
   );
   it(
     "yield-as-identifier-reference.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-as-identifier-reference.js"),
   );
   it(
     "yield-as-label-identifier-escaped.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-as-label-identifier-escaped.js"),
   );
   it(
     "yield-as-label-identifier.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-as-label-identifier.js"),
   );
   it(
@@ -1350,12 +1350,12 @@ describe("async-generator", () => {
   );
   it(
     "yield-identifier-spread-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-identifier-spread-strict.js"),
   );
   it(
     "yield-identifier-strict.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/async-generator/yield-identifier-strict.js"),
   );
   it(

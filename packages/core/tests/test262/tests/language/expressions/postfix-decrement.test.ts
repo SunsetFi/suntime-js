@@ -109,7 +109,7 @@ describe("postfix-decrement", () => {
   );
   it(
     "arguments.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/arguments.js"),
   );
   it(
@@ -124,27 +124,27 @@ describe("postfix-decrement", () => {
   );
   it(
     "eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/eval.js"),
   );
   it(
     "line-terminator-carriage-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/line-terminator-carriage-return.js"),
   );
   it(
     "line-terminator-line-feed.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/line-terminator-line-feed.js"),
   );
   it(
     "line-terminator-line-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/line-terminator-line-separator.js"),
   );
   it(
     "line-terminator-paragraph-separator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/postfix-decrement/line-terminator-paragraph-separator.js",
     ),
@@ -170,22 +170,22 @@ describe("postfix-decrement", () => {
   );
   it(
     "target-cover-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/target-cover-newtarget.js"),
   );
   it(
     "target-cover-yieldexpr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/target-cover-yieldexpr.js"),
   );
   it(
     "target-newtarget.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/target-newtarget.js"),
   );
   it(
     "this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/postfix-decrement/this.js"),
   );
   it(

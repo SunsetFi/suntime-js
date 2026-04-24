@@ -29,7 +29,7 @@ describe("while", () => {
   );
   it(
     "S12.6.2_A15.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A15.js"),
   );
   it(
@@ -74,32 +74,32 @@ describe("while", () => {
   );
   it(
     "S12.6.2_A6_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A6_T1.js"),
   );
   it(
     "S12.6.2_A6_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A6_T2.js"),
   );
   it(
     "S12.6.2_A6_T3.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A6_T3.js"),
   );
   it(
     "S12.6.2_A6_T4.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A6_T4.js"),
   );
   it(
     "S12.6.2_A6_T5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A6_T5.js"),
   );
   it(
     "S12.6.2_A6_T6.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/S12.6.2_A6_T6.js"),
   );
   it(
@@ -134,47 +134,47 @@ describe("while", () => {
   );
   it(
     "decl-async-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-async-fun.js"),
   );
   it(
     "decl-async-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-async-gen.js"),
   );
   it(
     "decl-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-cls.js"),
   );
   it(
     "decl-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-const.js"),
   );
   it(
     "decl-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-fun.js"),
   );
   it(
     "decl-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-gen.js"),
   );
   it(
     "decl-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/decl-let.js"),
   );
   it(
     "labelled-fn-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/labelled-fn-stmt.js"),
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/while/let-array-with-newline.js"),
   );
   it(

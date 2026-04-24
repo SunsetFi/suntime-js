@@ -204,37 +204,37 @@ describe("for-of", () => {
   );
   it(
     "decl-async-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-async-fun.js"),
   );
   it(
     "decl-async-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-async-gen.js"),
   );
   it(
     "decl-cls.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-cls.js"),
   );
   it(
     "decl-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-const.js"),
   );
   it(
     "decl-fun.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-fun.js"),
   );
   it(
     "decl-gen.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-gen.js"),
   );
   it(
     "decl-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/decl-let.js"),
   );
   describe("dstr", () => {
@@ -300,7 +300,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-init-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-elem-init-yield-ident-invalid.js"),
     );
     it(
@@ -365,7 +365,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-nested-array-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-elem-nested-array-invalid.js"),
     );
     it(
@@ -397,7 +397,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-nested-array-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/array-elem-nested-array-yield-ident-invalid.js",
       ),
@@ -416,14 +416,14 @@ describe("for-of", () => {
     );
     it(
       "array-elem-nested-memberexpr-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/array-elem-nested-memberexpr-optchain-prop-ref-init.js",
       ),
     );
     it(
       "array-elem-nested-obj-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-elem-nested-obj-invalid.js"),
     );
     it(
@@ -453,7 +453,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-nested-obj-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/array-elem-nested-obj-yield-ident-invalid.js",
       ),
@@ -482,7 +482,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-put-obj-literal-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/array-elem-put-obj-literal-optchain-prop-ref-init.js",
       ),
@@ -543,7 +543,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-target-simple-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-elem-target-simple-strict.js"),
     );
     it(
@@ -553,7 +553,7 @@ describe("for-of", () => {
     );
     it(
       "array-elem-target-yield-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-elem-target-yield-invalid.js"),
     );
     it(
@@ -847,22 +847,22 @@ describe("for-of", () => {
     );
     it(
       "array-rest-before-element.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-before-element.js"),
     );
     it(
       "array-rest-before-elision.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-before-elision.js"),
     );
     it(
       "array-rest-before-rest.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-before-rest.js"),
     );
     it(
       "array-rest-elision-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-elision-invalid.js"),
     );
     it(
@@ -877,7 +877,7 @@ describe("for-of", () => {
     );
     it(
       "array-rest-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-init.js"),
     );
     it(
@@ -937,7 +937,7 @@ describe("for-of", () => {
     );
     it(
       "array-rest-nested-array-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-nested-array-invalid.js"),
     );
     it(
@@ -976,7 +976,7 @@ describe("for-of", () => {
     );
     it(
       "array-rest-nested-array-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/array-rest-nested-array-yield-ident-invalid.js",
       ),
@@ -995,7 +995,7 @@ describe("for-of", () => {
     );
     it(
       "array-rest-nested-obj-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-nested-obj-invalid.js"),
     );
     it(
@@ -1025,7 +1025,7 @@ describe("for-of", () => {
     );
     it(
       "array-rest-nested-obj-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/array-rest-nested-obj-yield-ident-invalid.js",
       ),
@@ -1091,7 +1091,7 @@ describe("for-of", () => {
     );
     it(
       "array-rest-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/array-rest-yield-ident-invalid.js"),
     );
     it(
@@ -1327,7 +1327,7 @@ describe("for-of", () => {
     );
     it(
       "const-ary-ptrn-init-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-init-err.js"),
     );
     it(
@@ -1394,32 +1394,32 @@ describe("for-of", () => {
     );
     it(
       "const-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "const-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-rest-init-id.js"),
     );
     it(
       "const-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "const-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "const-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "const-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -1499,7 +1499,7 @@ describe("for-of", () => {
     );
     it(
       "const-obj-ptrn-init-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/const-obj-ptrn-init-err.js"),
     );
     it(
@@ -1832,7 +1832,7 @@ describe("for-of", () => {
     );
     it(
       "let-ary-ptrn-init-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-init-err.js"),
     );
     it(
@@ -1897,32 +1897,32 @@ describe("for-of", () => {
     );
     it(
       "let-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "let-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-rest-init-id.js"),
     );
     it(
       "let-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "let-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "let-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "let-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -2002,7 +2002,7 @@ describe("for-of", () => {
     );
     it(
       "let-obj-ptrn-init-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/let-obj-ptrn-init-err.js"),
     );
     it(
@@ -2169,12 +2169,12 @@ describe("for-of", () => {
     );
     it(
       "obj-id-identifier-yield-expr.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-id-identifier-yield-expr.js"),
     );
     it(
       "obj-id-identifier-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-id-identifier-yield-ident-invalid.js"),
     );
     it(
@@ -2254,7 +2254,7 @@ describe("for-of", () => {
     );
     it(
       "obj-id-init-simple-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-id-init-simple-strict.js"),
     );
     it(
@@ -2264,7 +2264,7 @@ describe("for-of", () => {
     );
     it(
       "obj-id-init-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-id-init-yield-ident-invalid.js"),
     );
     it(
@@ -2299,7 +2299,7 @@ describe("for-of", () => {
     );
     it(
       "obj-id-simple-strict.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-id-simple-strict.js"),
     );
     it(
@@ -2369,7 +2369,7 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-elem-init-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/obj-prop-elem-init-yield-ident-invalid.js",
       ),
@@ -2381,14 +2381,14 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-elem-target-memberexpr-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/obj-prop-elem-target-memberexpr-optchain-prop-ref-init.js",
       ),
     );
     it(
       "obj-prop-elem-target-obj-literal-optchain-prop-ref-init.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/obj-prop-elem-target-obj-literal-optchain-prop-ref-init.js",
       ),
@@ -2421,7 +2421,7 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-elem-target-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/obj-prop-elem-target-yield-ident-invalid.js",
       ),
@@ -2470,7 +2470,7 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-nested-array-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-prop-nested-array-invalid.js"),
     );
     it(
@@ -2495,7 +2495,7 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-nested-array-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/obj-prop-nested-array-yield-ident-invalid.js",
       ),
@@ -2514,7 +2514,7 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-nested-obj-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-prop-nested-obj-invalid.js"),
     );
     it(
@@ -2539,7 +2539,7 @@ describe("for-of", () => {
     );
     it(
       "obj-prop-nested-obj-yield-ident-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/for-of/dstr/obj-prop-nested-obj-yield-ident-invalid.js",
       ),
@@ -2675,7 +2675,7 @@ describe("for-of", () => {
     );
     it(
       "obj-rest-not-last-element-invalid.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/obj-rest-not-last-element-invalid.js"),
     );
     it(
@@ -2962,7 +2962,7 @@ describe("for-of", () => {
     );
     it(
       "var-ary-ptrn-init-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-init-err.js"),
     );
     it(
@@ -3027,32 +3027,32 @@ describe("for-of", () => {
     );
     it(
       "var-ary-ptrn-rest-init-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-rest-init-ary.js"),
     );
     it(
       "var-ary-ptrn-rest-init-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-rest-init-id.js"),
     );
     it(
       "var-ary-ptrn-rest-init-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-rest-init-obj.js"),
     );
     it(
       "var-ary-ptrn-rest-not-final-ary.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-rest-not-final-ary.js"),
     );
     it(
       "var-ary-ptrn-rest-not-final-id.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-rest-not-final-id.js"),
     );
     it(
       "var-ary-ptrn-rest-not-final-obj.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-ary-ptrn-rest-not-final-obj.js"),
     );
     it(
@@ -3132,7 +3132,7 @@ describe("for-of", () => {
     );
     it(
       "var-obj-ptrn-init-err.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/for-of/dstr/var-obj-ptrn-init-err.js"),
     );
     it(
@@ -3240,7 +3240,7 @@ describe("for-of", () => {
   });
   it(
     "escaped-of.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/escaped-of.js"),
   );
   it.skip("float32array-mutate.js", () => {
@@ -3307,7 +3307,7 @@ describe("for-of", () => {
   });
   it(
     "head-const-bound-names-dup.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-const-bound-names-dup.js"),
   );
   it(
@@ -3317,12 +3317,12 @@ describe("for-of", () => {
   );
   it(
     "head-const-bound-names-in-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-const-bound-names-in-stmt.js"),
   );
   it(
     "head-const-bound-names-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-const-bound-names-let.js"),
   );
   it(
@@ -3332,17 +3332,17 @@ describe("for-of", () => {
   );
   it(
     "head-const-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-const-init.js"),
   );
   it(
     "head-decl-no-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-decl-no-expr.js"),
   );
   it(
     "head-expr-no-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-expr-no-expr.js"),
   );
   it(
@@ -3362,7 +3362,7 @@ describe("for-of", () => {
   );
   it(
     "head-let-bound-names-dup.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-let-bound-names-dup.js"),
   );
   it(
@@ -3372,12 +3372,12 @@ describe("for-of", () => {
   );
   it(
     "head-let-bound-names-in-stmt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-let-bound-names-in-stmt.js"),
   );
   it(
     "head-let-bound-names-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-let-bound-names-let.js"),
   );
   it(
@@ -3392,7 +3392,7 @@ describe("for-of", () => {
   );
   it(
     "head-let-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-let-init.js"),
   );
   it(
@@ -3407,7 +3407,7 @@ describe("for-of", () => {
   );
   it(
     "head-lhs-async-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-lhs-async-invalid.js"),
   );
   it(
@@ -3417,7 +3417,7 @@ describe("for-of", () => {
   );
   it(
     "head-lhs-cover-non-asnmt-trgt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-lhs-cover-non-asnmt-trgt.js"),
   );
   it(
@@ -3427,17 +3427,17 @@ describe("for-of", () => {
   );
   it(
     "head-lhs-invalid-asnmt-ptrn-ary.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-lhs-invalid-asnmt-ptrn-ary.js"),
   );
   it(
     "head-lhs-invalid-asnmt-ptrn-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-lhs-invalid-asnmt-ptrn-obj.js"),
   );
   it(
     "head-lhs-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-lhs-let.js"),
   );
   it(
@@ -3447,7 +3447,7 @@ describe("for-of", () => {
   );
   it(
     "head-lhs-non-asnmt-trgt.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-lhs-non-asnmt-trgt.js"),
   );
   it.skip("head-using-bound-names-fordecl-tdz.js", () => {
@@ -3482,12 +3482,12 @@ describe("for-of", () => {
   );
   it(
     "head-var-init.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-var-init.js"),
   );
   it(
     "head-var-no-expr.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/head-var-no-expr.js"),
   );
   it.skip("int16array-mutate.js", () => {
@@ -3597,27 +3597,27 @@ describe("for-of", () => {
   );
   it(
     "labelled-fn-stmt-const.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/labelled-fn-stmt-const.js"),
   );
   it(
     "labelled-fn-stmt-let.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/labelled-fn-stmt-let.js"),
   );
   it(
     "labelled-fn-stmt-lhs.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/labelled-fn-stmt-lhs.js"),
   );
   it(
     "labelled-fn-stmt-var.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/labelled-fn-stmt-var.js"),
   );
   it(
     "let-array-with-newline.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/for-of/let-array-with-newline.js"),
   );
   it(

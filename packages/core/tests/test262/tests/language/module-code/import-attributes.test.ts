@@ -9,19 +9,19 @@ describe("import-attributes", () => {
   );
   it(
     "early-dup-attribute-key-export.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/module-code/import-attributes/early-dup-attribute-key-export.js"),
   );
   it(
     "early-dup-attribute-key-import-nobinding.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/module-code/import-attributes/early-dup-attribute-key-import-nobinding.js",
     ),
   );
   it(
     "early-dup-attribute-key-import-withbinding.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/module-code/import-attributes/early-dup-attribute-key-import-withbinding.js",
     ),
