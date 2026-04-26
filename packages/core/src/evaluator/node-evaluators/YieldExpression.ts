@@ -27,11 +27,16 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
 
   const value = yield* Q.val(EvaluateNodeCommand(node.argument));
 
+  const generatorKind = yield* getGeneratorKind();
+
   if (!node.delegate) {
-    return yield* Q(YieldCommand(value));
+    let resolved = value;
+    if (generatorKind === "async") {
+      resolved = yield* Q(AwaitCommand(value));
+    }
+    return yield* Q(YieldCommand(resolved));
   }
 
-  const generatorKind = yield* getGeneratorKind();
   const iteratorRecord = yield* getIterator(value, generatorKind);
   const { iterator } = iteratorRecord;
   let received: Completion = realm.types.undefined;
