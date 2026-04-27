@@ -3,6 +3,8 @@ import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implemen
 import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsObject } from "../../StaticJsObject.js";
+import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
+import { StaticJsSymbol } from "../../StaticJsSymbol.js";
 
 import { StaticJsAstFunction, StaticJsAstFunctionNode } from "./StaticJsAstFunction.js";
 
@@ -31,6 +33,8 @@ export class StaticJsMethodFunction extends StaticJsAstFunction {
 
     this._homeObject = homeObject;
   }
+
+  classFieldInitializerName?: string | StaticJsSymbol | StaticJsPrivateName;
 
   get homeObject(): StaticJsObject {
     return this._homeObject;

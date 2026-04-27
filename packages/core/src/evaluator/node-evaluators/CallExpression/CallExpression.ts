@@ -1,8 +1,6 @@
-import { type Node, type CallExpression } from "@babel/types";
+import { type CallExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
-import { parseScript } from "../../../parser/parse-script.js";
 import { construct } from "../../../runtime/algorithms/construct.js";
 import { getNewTarget } from "../../../runtime/algorithms/get-new-target.js";
 import { getSuperConstructor } from "../../../runtime/algorithms/get-super-constructor.js";
@@ -10,9 +8,8 @@ import { getThisEnvironment } from "../../../runtime/algorithms/get-this-environ
 import { getValue } from "../../../runtime/algorithms/get-value.js";
 import { get } from "../../../runtime/algorithms/get.js";
 import { isConstructor } from "../../../runtime/algorithms/is-constructor.js";
+import { performEval } from "../../../runtime/algorithms/perform-eval.js";
 import { sameValue } from "../../../runtime/algorithms/same-value.js";
-import { toString } from "../../../runtime/algorithms/to-string.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsFunctionEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import {
   isStaticJsPropertyReference,
@@ -26,7 +23,6 @@ import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
-import evalDeclarationInstantiation from "../../instantiation/eval-declaration-instantiation.js";
 import { initializeInstanceElements } from "../Classes/evaluation/initialize-instance-elements.js";
 
 import { argumentsListEvaluation } from "./ArgumentsListEvaluation.js";
@@ -69,35 +65,10 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
   return yield* evaluateCall(node, func, ref, node.arguments);
 }
 
-function* callEvalEvaluator(strArg: StaticJsValue | undefined): EvaluationGenerator {
-  const context = EvaluationContext.current;
-  const { lexicalEnv, privateEnv, realm, strict, variableEnv } = context;
+function* callEvalEvaluator(strArg: StaticJsValue): EvaluationGenerator {
+  const { strict } = EvaluationContext.current;
 
-  const str = yield* toString(strArg ?? realm.types.undefined);
-
-  let node: Node;
-  try {
-    node = parseScript(str.value, "eval", { strictMode: context.strict });
-  } catch (e: unknown) {
-    if (e instanceof StaticJsSyntaxError) {
-      throw Completion.Throw("SyntaxError", e.message);
-    }
-
-    throw e;
-  }
-
-  const isStrict =
-    strict || node.program.directives.some((dir) => dir.value.value === "use strict");
-
-  const lexEnv = new StaticJsDeclarativeEnvironmentRecord(lexicalEnv, realm);
-  const varEnv = isStrict ? lexEnv : variableEnv;
-
-  return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
-    yield* evalDeclarationInstantiation(node, varEnv, lexEnv, privateEnv, isStrict);
-
-    const result = yield* Q(EvaluateNodeCommand(node));
-    return result ?? realm.types.undefined;
-  });
+  return yield* performEval(strArg, strict, true);
 }
 
 function* callSuperEvaluator(node: CallExpression): EvaluationGenerator {

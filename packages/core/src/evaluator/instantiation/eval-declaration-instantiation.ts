@@ -27,7 +27,7 @@ export default function* evalDeclarationInstantiation(
   lexEnv: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
   strict: boolean,
-): EvaluationGenerator<void> {
+): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
 
   const varNames = varDeclaredNames(body);
@@ -207,4 +207,6 @@ export default function* evalDeclarationInstantiation(
       }
     }
   }
+
+  return null;
 }

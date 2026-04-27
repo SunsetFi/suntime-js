@@ -3399,7 +3399,7 @@ describe("class", () => {
     );
     it(
       "prototype-property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/definition/prototype-property.js"),
     );
     it(
@@ -3409,7 +3409,7 @@ describe("class", () => {
     );
     it(
       "prototype-wiring.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/definition/prototype-wiring.js"),
     );
     it(
@@ -3439,7 +3439,7 @@ describe("class", () => {
     );
     it(
       "this-access-restriction-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/definition/this-access-restriction-2.js"),
     );
     it(
@@ -17629,14 +17629,14 @@ describe("class", () => {
     );
     it(
       "arrow-body-derived-cls-direct-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/arrow-body-derived-cls-direct-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "arrow-body-derived-cls-direct-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/arrow-body-derived-cls-direct-eval-contains-superproperty-2.js",
       ),
@@ -17706,7 +17706,7 @@ describe("class", () => {
     );
     it(
       "arrow-body-direct-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/arrow-body-direct-eval-err-contains-newtarget.js",
       ),
@@ -17720,14 +17720,14 @@ describe("class", () => {
     );
     it(
       "arrow-body-private-derived-cls-direct-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/arrow-body-private-derived-cls-direct-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "arrow-body-private-derived-cls-direct-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/arrow-body-private-derived-cls-direct-eval-contains-superproperty-2.js",
       ),
@@ -17797,7 +17797,7 @@ describe("class", () => {
     );
     it(
       "arrow-body-private-direct-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/arrow-body-private-direct-eval-err-contains-newtarget.js",
       ),
@@ -19219,12 +19219,12 @@ describe("class", () => {
     );
     it(
       "direct-eval-err-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/elements/direct-eval-err-contains-arguments.js"),
     );
     it(
       "direct-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/elements/direct-eval-err-contains-newtarget.js"),
     );
     it(
@@ -20321,14 +20321,14 @@ describe("class", () => {
     );
     it(
       "nested-direct-eval-err-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/nested-direct-eval-err-contains-arguments.js",
       ),
     );
     it(
       "nested-direct-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/nested-direct-eval-err-contains-newtarget.js",
       ),
@@ -20461,14 +20461,14 @@ describe("class", () => {
     );
     it(
       "nested-private-direct-eval-err-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/nested-private-direct-eval-err-contains-arguments.js",
       ),
     );
     it(
       "nested-private-direct-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/nested-private-direct-eval-err-contains-newtarget.js",
       ),
@@ -21701,14 +21701,14 @@ describe("class", () => {
     );
     it(
       "private-direct-eval-err-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/private-direct-eval-err-contains-arguments.js",
       ),
     );
     it(
       "private-direct-eval-err-contains-newtarget.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/private-direct-eval-err-contains-newtarget.js",
       ),
@@ -27698,7 +27698,7 @@ describe("class", () => {
   describe("subclass", () => {
     it(
       "binding.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/subclass/binding.js"),
     );
     describe("builtin-objects", () => {

@@ -9,7 +9,6 @@ import {
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
-import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { Completion } from "../../../completions/Completion.js";
@@ -50,7 +49,7 @@ function* classFieldDefinitionEvaluation(
 ): EvaluationGenerator<StaticJsClassFieldDefinitionRecord | Completion.Abrupt> {
   let name = yield* Q(classElementNameNodeEvaluator(element));
 
-  let initializer: StaticJsFunction | undefined;
+  let initializer: StaticJsMethodFunction | undefined;
   if (element.value) {
     const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
     if (!privateEnv) {
@@ -73,6 +72,8 @@ function* classFieldDefinitionEvaluation(
       env,
       privateEnv,
     );
+
+    initializer.classFieldInitializerName = name;
   } else {
     initializer = undefined;
   }

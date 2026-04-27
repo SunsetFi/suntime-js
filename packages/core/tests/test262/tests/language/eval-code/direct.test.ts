@@ -1493,7 +1493,7 @@ describe("direct", () => {
   );
   it(
     "new.target-fn.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/eval-code/direct/new.target-fn.js"),
   );
   it(
@@ -1528,7 +1528,7 @@ describe("direct", () => {
   );
   it(
     "non-string-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/eval-code/direct/non-string-object.js"),
   );
   it(
