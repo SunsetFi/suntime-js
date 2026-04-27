@@ -294,7 +294,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
-  *makeConstructor(writablePrototype?: boolean, prototype?: StaticJsObject) {
+  *makeConstructor(writablePrototype: boolean = true, prototype?: StaticJsObject) {
     if (this._constructorKind !== null) {
       throw new StaticJsEngineError("Function is already a constructor");
     }
@@ -305,9 +305,6 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     // Anyway, 10.2.5.1 is done in our construct method.
 
     this._constructorKind = "base";
-    if (!writablePrototype) {
-      writablePrototype = true;
-    }
     if (!prototype) {
       prototype = this.realm.types.object();
       yield* definePropertyOrThrow(prototype, "constructor", {

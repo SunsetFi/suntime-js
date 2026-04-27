@@ -66,12 +66,8 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
   privateMethods: (StaticJsPrivateElementMethod | StaticJsPrivateElementAccessor)[] = [];
   fields: StaticJsClassFieldDefinitionRecord[] = [];
 
-  override *callEvaluator(thisArg: StaticJsValue, args?: StaticJsValue[]) {
-    if (this._nativeFunc) {
-      return yield* this._runNativeFunc(thisArg, undefined, args ?? []);
-    }
-
-    return yield* super.callEvaluator(thisArg, args);
+  override *callEvaluator(): EvaluationGenerator<StaticJsValue> {
+    throw Completion.Throw("TypeError", "Class constructor cannot be invoked without 'new'");
   }
 
   override *constructEvaluator(
