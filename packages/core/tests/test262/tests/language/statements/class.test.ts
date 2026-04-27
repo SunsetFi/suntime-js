@@ -19256,14 +19256,14 @@ describe("class", () => {
       );
       it(
         "computed-name-toprimitive-returns-noncallable.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/evaluation-error/computed-name-toprimitive-returns-noncallable.js",
         ),
       );
       it(
         "computed-name-toprimitive-returns-nonobject.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/evaluation-error/computed-name-toprimitive-returns-nonobject.js",
         ),

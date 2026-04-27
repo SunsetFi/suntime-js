@@ -3,6 +3,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsScalar } from "../types/StaticJsScalar.js";
+import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { call } from "./call.js";
@@ -10,17 +11,17 @@ import { get } from "./get.js";
 import { isCallable } from "./is-callable.js";
 
 export function* toPrimitive(
-  value: StaticJsValue,
+  input: StaticJsValue,
   preferredType: "string" | "number" | "default" | undefined,
 ): EvaluationGenerator<StaticJsScalar> {
   const { realm } = EvaluationContext.current;
 
-  if (!isStaticJsObject(value)) {
-    return value;
+  if (!isStaticJsObject(input)) {
+    return input;
   }
 
-  const exoticToPrim = yield* get(value, realm.types.symbols.toPrimitive);
-  if (isCallable(exoticToPrim)) {
+  const exoticToPrim = yield* get(input, realm.types.symbols.toPrimitive);
+  if (!isStaticJsUndefined(exoticToPrim)) {
     let hint: "string" | "number" | "default";
     if (!preferredType) {
       hint = "default";
@@ -30,7 +31,7 @@ export function* toPrimitive(
       hint = "number";
     }
 
-    const result = yield* call(exoticToPrim, value, [realm.types.string(hint)]);
+    const result = yield* call(exoticToPrim, input, [realm.types.string(hint)]);
     if (!isStaticJsObject(result)) {
       return result;
     }
@@ -38,7 +39,7 @@ export function* toPrimitive(
     throw Completion.Throw("TypeError", `Object[Symbol.toPrimitive] returned an object.`);
   }
 
-  return yield* ordinaryToPrimitive(value, preferredType ?? "number");
+  return yield* ordinaryToPrimitive(input, preferredType ?? "number");
 }
 
 function* ordinaryToPrimitive(
