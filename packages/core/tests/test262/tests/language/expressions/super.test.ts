@@ -276,7 +276,7 @@ describe("super", () => {
   );
   it(
     "prop-dot-cls-val-from-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/super/prop-dot-cls-val-from-eval.js"),
   );
   it(
@@ -311,7 +311,7 @@ describe("super", () => {
   );
   it(
     "prop-dot-obj-val-from-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/super/prop-dot-obj-val-from-eval.js"),
   );
   it(
@@ -361,7 +361,7 @@ describe("super", () => {
   );
   it(
     "prop-expr-cls-val-from-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/super/prop-expr-cls-val-from-eval.js"),
   );
   it(
@@ -439,7 +439,7 @@ describe("super", () => {
   );
   it(
     "prop-expr-obj-val-from-eval.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/super/prop-expr-obj-val-from-eval.js"),
   );
   it(

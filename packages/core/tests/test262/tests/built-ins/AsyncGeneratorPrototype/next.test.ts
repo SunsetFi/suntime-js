@@ -24,24 +24,24 @@ describe("next", () => {
   );
   it(
     "request-queue-await-order.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/request-queue-await-order.js"),
   );
   it(
     "request-queue-order-state-executing.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/next/request-queue-order-state-executing.js",
     ),
   );
   it(
     "request-queue-order.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/AsyncGeneratorPrototype/next/request-queue-order.js"),
   );
   it(
     "request-queue-promise-resolve-order.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/next/request-queue-promise-resolve-order.js",
     ),

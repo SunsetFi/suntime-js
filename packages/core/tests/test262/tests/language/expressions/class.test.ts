@@ -17422,7 +17422,7 @@ describe("class", () => {
     );
     it(
       "arrow-body-direct-eval-err-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-direct-eval-err-contains-arguments.js",
       ),
@@ -17513,7 +17513,7 @@ describe("class", () => {
     );
     it(
       "arrow-body-private-direct-eval-err-contains-arguments.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/arrow-body-private-direct-eval-err-contains-arguments.js",
       ),
@@ -18883,14 +18883,14 @@ describe("class", () => {
     );
     it(
       "derived-cls-direct-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-direct-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "derived-cls-direct-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/derived-cls-direct-eval-contains-superproperty-2.js",
       ),
@@ -19942,14 +19942,14 @@ describe("class", () => {
     );
     it(
       "nested-derived-cls-direct-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-direct-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "nested-derived-cls-direct-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-derived-cls-direct-eval-contains-superproperty-2.js",
       ),
@@ -20082,14 +20082,14 @@ describe("class", () => {
     );
     it(
       "nested-private-derived-cls-direct-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-direct-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "nested-private-derived-cls-direct-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/nested-private-derived-cls-direct-eval-contains-superproperty-2.js",
       ),
@@ -21308,14 +21308,14 @@ describe("class", () => {
     );
     it(
       "private-derived-cls-direct-eval-contains-superproperty-1.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-direct-eval-contains-superproperty-1.js",
       ),
     );
     it(
       "private-derived-cls-direct-eval-contains-superproperty-2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/elements/private-derived-cls-direct-eval-contains-superproperty-2.js",
       ),

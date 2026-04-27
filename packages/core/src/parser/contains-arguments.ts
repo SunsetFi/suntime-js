@@ -11,7 +11,9 @@ export function containsArguments(node: Node): boolean {
       }
     },
     Function(path) {
-      path.skip();
+      if (!path.isArrowFunctionExpression()) {
+        path.skip();
+      }
     },
   });
   return result;

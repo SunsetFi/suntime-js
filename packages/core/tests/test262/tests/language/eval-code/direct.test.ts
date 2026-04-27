@@ -1623,7 +1623,7 @@ describe("direct", () => {
   );
   it(
     "super-prop-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/eval-code/direct/super-prop-method.js"),
   );
   it(

@@ -19,7 +19,7 @@ describe("throw", () => {
   );
   it(
     "request-queue-order-state-executing.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/AsyncGeneratorPrototype/throw/request-queue-order-state-executing.js",
     ),

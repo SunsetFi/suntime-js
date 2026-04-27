@@ -94,7 +94,12 @@ export function* performEval(
     throw Completion.Throw("SyntaxError", "arguments is not allowed in class field initializers");
   }
 
-  let strictEval = strictCaller || EvaluationContext.current.strict;
+  // Very grossness due to our strict tracking not being at all
+  // spec aligned.
+  // In theory we should be able to walk the node tree up
+  // to find this, but we currently can't go to a node's parent from itself.
+  const strict = node.program.directives.some((dir) => dir.value.value === "use strict");
+  let strictEval = strictCaller || strict || EvaluationContext.current.strict;
   const runningContext = EvaluationContext.current;
 
   let lexEnv: StaticJsEnvironmentRecord;

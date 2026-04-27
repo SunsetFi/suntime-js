@@ -64,7 +64,8 @@ function* superMemberExpressionNodeEvaluator(node: MemberExpression): Evaluation
   const { strict } = EvaluationContext.current;
 
   // MakeSuperPropertyReference
-  const baseValue = yield* getSuperBase(env);
+  // const env = yield* getThisEnvironment();
+  const baseValue = yield* env.getSuperBaseEvaluator();
   return staticJsPropertyReferenceRecord(baseValue, propertyKey, strict, actualThis);
 }
 

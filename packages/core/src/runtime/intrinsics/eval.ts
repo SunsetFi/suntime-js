@@ -1,54 +1,21 @@
-import type { File } from "@babel/types";
-
-import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
-import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
-import { Completion } from "../../evaluator/completions/Completion.js";
-import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-import evalDeclarationInstantiation from "../../evaluator/instantiation/eval-declaration-instantiation.js";
-import { parseScript } from "../../parser/parse-script.js";
-import { getValue } from "../algorithms/get-value.js";
-import { toString } from "../algorithms/to-string.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { performEval } from "../algorithms/perform-eval.js";
 
 import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
-  *func(realm, _thisArg, str = realm.types.undefined) {
-    str = yield* toString(str);
+  *func(realm, _thisArg, source = realm.types.undefined) {
+    // FIXME SPEC WEIRDNESS:
+    // The spec say we ONLY call performEval without touching the context.
+    // However, performEval says if direct is false,
+    // "runningContext will be the execution context for the invocation of the eval function"
+    // I have no idea where that execution context is supposed to be set.
+    // Presumably it is captured by the function on function declaration?
+    // Are all our intrinsics supposed to capture and use the global context?
 
-    let node: File;
-    try {
-      node = parseScript(str.value, "eval");
-    } catch (e: unknown) {
-      if (e instanceof StaticJsSyntaxError) {
-        throw Completion.Throw("SyntaxError", e.message);
-      }
-
-      throw e;
-    }
-
-    const strict = node.program.directives.some((dir) => dir.value.value === "use strict");
-
-    // FIXME: Should use the ScriptOrModule of the definer.
-    // This will break stack traces, once we get them.
-    // Normally, we would get this from GetActiveScriptOrModule, but we don't have any global state.
-    let context = EvaluationContext.createRootContext(null, strict, realm, realm.globalEnv);
-
-    const lexEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
-    const varEnv = strict ? lexEnv : context.variableEnv;
-
-    return yield* context.with({ lexicalEnv: lexEnv, variableEnv: varEnv }).run(function* () {
-      yield* evalDeclarationInstantiation(node, varEnv, lexEnv, null, context.strict);
-
-      const result = yield* Q(EvaluateNodeCommand(node));
-      if (!result) {
-        return realm.types.undefined;
-      }
-
-      return yield* getValue(result);
-    });
+    const globalContext = EvaluationContext.createRootContext(null, false, realm);
+    return yield* globalContext.run(() => performEval(source, false, false));
   },
 };
 

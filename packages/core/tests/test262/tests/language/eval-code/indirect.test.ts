@@ -164,7 +164,7 @@ describe("indirect", () => {
   );
   it(
     "non-string-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/eval-code/indirect/non-string-object.js"),
   );
   it(
