@@ -2184,7 +2184,7 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-accessors-computed-property-name-from-await-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-accessors-computed-property-name-from-await-expression.js",
     ),
@@ -2401,7 +2401,7 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-computed-property-name-from-await-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-computed-property-name-from-await-expression.js",
     ),
@@ -2618,7 +2618,7 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-fields-computed-property-name-from-await-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-computed-property-name-from-await-expression.js",
     ),
@@ -2835,7 +2835,7 @@ describe("class", () => {
   );
   it(
     "cpn-class-expr-fields-methods-computed-property-name-from-await-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/class/cpn-class-expr-fields-methods-computed-property-name-from-await-expression.js",
     ),

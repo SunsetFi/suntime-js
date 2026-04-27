@@ -23,9 +23,6 @@ export function* evaluateCall(
   ref: StaticJsValue | StaticJsReferenceRecord,
   callArgs: CallExpression["arguments"],
 ): EvaluationGenerator {
-  const context = EvaluationContext.current;
-  const { realm } = context;
-
   let thisValue: StaticJsValue | null = null;
   if (isStaticJsReferenceRecord(ref)) {
     if (isStaticJsPropertyReference(ref)) {
@@ -39,7 +36,7 @@ export function* evaluateCall(
       thisValue = yield* refEnv.withBaseObjectEvaluator();
     }
   } else {
-    thisValue = realm.types.undefined;
+    thisValue = EvaluationContext.current.realm.types.undefined;
   }
 
   const args = yield* argumentsListEvaluation(callArgs);

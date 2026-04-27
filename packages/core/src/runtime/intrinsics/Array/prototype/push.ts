@@ -25,7 +25,6 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
       yield* set(thisObj, String(index), value, true);
     }
 
-    // Might be relevant that some docs say this should be called after the items are set.
     const newLengthValue = realm.types.number(length + args.length);
     yield* set(thisObj, "length", newLengthValue, true);
 

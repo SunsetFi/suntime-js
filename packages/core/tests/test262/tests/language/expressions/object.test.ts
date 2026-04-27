@@ -692,7 +692,7 @@ describe("object", () => {
   );
   it(
     "cpn-obj-lit-computed-property-name-from-await-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/object/cpn-obj-lit-computed-property-name-from-await-expression.js",
     ),

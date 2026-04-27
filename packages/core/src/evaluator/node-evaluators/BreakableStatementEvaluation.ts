@@ -15,13 +15,12 @@ export default function breakableStatementEvaluation<TNode extends Node>(
   return labeledStatementEvaluation(function* breakableStatementEvaluationWrapper(
     node: TNode,
   ): EvaluationGenerator {
-    const context = EvaluationContext.current;
     let stmtResult = yield* captureThrownCompletion(evaluator(node));
 
     if (Completion.Break.is(stmtResult)) {
       if (stmtResult.target === null) {
         if (stmtResult.value === null) {
-          stmtResult = context.realm.types.undefined;
+          stmtResult = EvaluationContext.current.realm.types.undefined;
         } else {
           stmtResult = stmtResult.value;
         }

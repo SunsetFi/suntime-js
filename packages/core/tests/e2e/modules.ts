@@ -450,43 +450,45 @@ describe("E2E: Modules", () => {
       ).toThrow(StaticJsSyntaxError);
     });
 
-    it("Supports top-level await", async () => {
-      const receiver = vitest.fn();
-      let resolver: (() => void) | undefined = undefined;
-      const realm = StaticJsRealm({
-        global: {
-          value: {
-            setValue: receiver,
-            setResolver: (r: () => void) => {
-              resolver = r;
+    describe("Async evaluation", () => {
+      it("Supports top-level await", async () => {
+        const receiver = vitest.fn();
+        let resolver: (() => void) | undefined = undefined;
+        const realm = StaticJsRealm({
+          global: {
+            value: {
+              setValue: receiver,
+              setResolver: (r: () => void) => {
+                resolver = r;
+              },
             },
           },
-        },
-        modules: {
-          "module-1": `
+          modules: {
+            "module-1": `
             await new Promise((r) => setResolver(r));
             export const value = 42;
           `,
-        },
+          },
+        });
+
+        const code = `import { value } from "module-1"; setValue(value);`;
+
+        let moduleResolved = false;
+        evaluateModule(code, { realm }).then(() => (moduleResolved = true));
+
+        await delay(0);
+
+        expect(moduleResolved).toBe(false);
+        expect(receiver).not.toHaveBeenCalled();
+        expect(resolver).toBeDefined();
+
+        resolver!();
+
+        await delay(0);
+
+        expect(moduleResolved).toBe(true);
+        expect(receiver).toHaveBeenCalledWith(42);
       });
-
-      const code = `import { value } from "module-1"; setValue(value);`;
-
-      let moduleResolved = false;
-      evaluateModule(code, { realm }).then(() => (moduleResolved = true));
-
-      await delay(0);
-
-      expect(moduleResolved).toBe(false);
-      expect(receiver).not.toHaveBeenCalled();
-      expect(resolver).toBeDefined();
-
-      resolver!();
-
-      await delay(0);
-
-      expect(moduleResolved).toBe(true);
-      expect(receiver).toHaveBeenCalledWith(42);
     });
 
     it("Catches errors within the promise", async () => {
