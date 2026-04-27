@@ -39,6 +39,7 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
     closure = new StaticJsClassConstructorFunction(
       realm,
       method,
+      object,
       env,
       privateEnv,
       functionPrototype,

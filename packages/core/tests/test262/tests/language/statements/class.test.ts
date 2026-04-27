@@ -28634,7 +28634,7 @@ describe("class", () => {
     );
     it(
       "in-constructor.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/super/in-constructor.js"),
     );
     it(
@@ -28678,7 +28678,7 @@ describe("class", () => {
     );
     it(
       "class-body-method-definition-super-property.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/syntax/class-body-method-definition-super-property.js",
       ),

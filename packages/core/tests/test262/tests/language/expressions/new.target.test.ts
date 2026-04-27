@@ -64,7 +64,7 @@ describe("new.target", () => {
   );
   it(
     "value-via-super-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/new.target/value-via-super-property.js"),
   );
   it(

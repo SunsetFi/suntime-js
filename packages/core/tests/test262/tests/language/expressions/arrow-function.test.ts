@@ -1641,7 +1641,7 @@ describe("arrow-function", () => {
   );
   it(
     "lexical-super-property-from-within-constructor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/arrow-function/lexical-super-property-from-within-constructor.js",
     ),

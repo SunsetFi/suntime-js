@@ -29,26 +29,24 @@ import {
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 
-import { StaticJsAstFunction } from "./StaticJsAstFunction.js";
+import { StaticJsMethodFunction } from "./StaticJsMethodFunction.js";
 
 export type StaticJsClassConstructorNativeConstruct = (
   thisArg: StaticJsValue | undefined,
   newTarget: StaticJsCallable | undefined,
   args: StaticJsValue[],
 ) => EvaluationGenerator<StaticJsObject>;
-export class StaticJsClassConstructorFunction extends StaticJsAstFunction {
+export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
   private readonly _nativeFunc: StaticJsClassConstructorNativeConstruct | null;
 
   constructor(
     realm: StaticJsRealm,
     node: Function | Expression | StaticJsClassConstructorNativeConstruct,
+    homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
     privateEnv: StaticJsPrivateEnvironmentRecord,
     prototype = realm.types.prototypes.functionProto,
   ) {
-    // Source + node should be the same thing to the spec...
-    const { strict, scriptOrModule } = EvaluationContext.current;
-
     // Hacky, to let us implement default constructors
     let resolvedNode: Function | Expression;
     let resolvedConstruct: StaticJsClassConstructorNativeConstruct | null;
@@ -60,19 +58,7 @@ export class StaticJsClassConstructorFunction extends StaticJsAstFunction {
       resolvedConstruct = null;
     }
 
-    super(realm, resolvedNode, {
-      // Not used if this is a native function
-      // This is a little confusing, as native funcs are
-      // created with CreateBuiltinFunction and are a different code path.
-      // We can swap between the two because this is the only way we currently
-      // can support the class-specific slots.
-      thisMode: "non-lexical-this",
-      env,
-      privateEnv,
-      prototype,
-      scriptOrModule,
-      strict,
-    });
+    super(realm, resolvedNode, homeObject, env, privateEnv, prototype);
 
     this._nativeFunc = resolvedConstruct;
   }

@@ -158,6 +158,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
           yield* Q(initializeInstanceElements(result, F));
           return result;
         },
+        proto,
         // Aren't used for native ctor mode.
         classEnv,
         classPrivateEnvironment,
