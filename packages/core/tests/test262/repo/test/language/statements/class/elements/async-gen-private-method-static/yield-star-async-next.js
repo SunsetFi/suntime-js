@@ -21,7 +21,6 @@ info: |
 
     
 ---*/
-print("Start 2");
 var log = [];
 var obj = {
   get [Symbol.iterator]() {

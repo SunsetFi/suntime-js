@@ -22,7 +22,6 @@ info: |
     
 ---*/
 
-print("start");
 var log = [];
 var obj = {
   get [Symbol.iterator]() {
@@ -174,8 +173,6 @@ assert.sameValue(log.length, 0, "log.length");
 iter
   .next("next-arg-1")
   .then((v) => {
-    print("Hello next");
-    print("First next v " + String(v));
     assert.sameValue(log[0].name, "before yield*");
 
     assert.sameValue(log[1].name, "get [Symbol.asyncIterator]");
