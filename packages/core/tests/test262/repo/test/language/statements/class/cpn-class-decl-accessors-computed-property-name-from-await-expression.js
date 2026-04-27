@@ -34,46 +34,63 @@ info: |
       [ AssignmentExpression ]
 ---*/
 try {
-  class C {
-    get [await 9]() {
-      return 9;
-    }
 
-    set [await 9](v) {
-      return 9;
-    }
 
-    static get [await 9]() {
-      return 9;
-    }
-
-    static set [await 9](v) {
-      return 9;
-    }
+class C {
+  get [await 9]() {
+    return 9;
   }
 
-  print("Create c");
+  set [await 9](v) {
+    return 9;
+  }
 
-  let c = new C();
+  static get [await 9]() {
+    return 9;
+  }
 
-  // print("A " + await 9);
-  print("B " + c[await 9]);
-  print("C " + c[await 9]);
+  static set [await 9](v) {
+    return 9;
+  }
+};
 
-  print("member access", c[await 9]);
-  assert.sameValue(c[await 9], 9);
+let c = new C();
 
-  print("member assignment " + (await 9) + " " + c[await 9]);
-  assert.sameValue((c[await 9] = 9), 9);
+assert.sameValue(
+  c[await 9],
+  9
+);
+assert.sameValue(
+  c[await 9] = 9,
+  9
+);
 
-  print("constructor access");
-  assert.sameValue(C[await 9], 9);
-  assert.sameValue((C[await 9] = 9), 9);
-  assert.sameValue(c[String(await 9)], 9);
-  assert.sameValue((c[String(await 9)] = 9), 9);
+assert.sameValue(
+  C[await 9],
+  9
+);
+assert.sameValue(
+  C[await 9] = 9,
+  9
+);
+assert.sameValue(
+  c[String(await 9)],
+  9
+);
+assert.sameValue(
+  c[String(await 9)] = 9,
+  9
+);
 
-  assert.sameValue(C[String(await 9)], 9);
-  assert.sameValue((C[String(await 9)] = 9), 9);
+assert.sameValue(
+  C[String(await 9)],
+  9
+);
+assert.sameValue(
+  C[String(await 9)] = 9,
+  9
+);
+
 } catch (e) {
   $DONE(e);
 }
