@@ -32,6 +32,4 @@ export interface StaticJsEnvironmentRecord {
   withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
-
-  getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue>;
 }

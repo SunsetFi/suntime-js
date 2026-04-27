@@ -109,10 +109,6 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return false;
   }
 
-  *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
-    throw Completion.Throw("ReferenceError", "Global environment does not have a super base");
-  }
-
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._realm.types.undefined;
   }

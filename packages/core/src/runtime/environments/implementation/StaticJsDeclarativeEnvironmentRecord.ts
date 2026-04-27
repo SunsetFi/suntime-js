@@ -127,10 +127,6 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     return false;
   }
 
-  *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return this._realm.types.undefined;
-  }
-
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._realm.types.undefined;
   }

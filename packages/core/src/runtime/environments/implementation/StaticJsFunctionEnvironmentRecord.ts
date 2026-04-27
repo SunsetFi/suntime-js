@@ -3,7 +3,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import { isStaticJsObject, StaticJsObject } from "../../types/StaticJsObject.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
 import { type StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
@@ -86,24 +86,5 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
     }
 
     return true;
-  }
-
-  override *getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue> {
-    const func = this._functionObject;
-    // HACK HACK HACK: Circular imports??
-    // if (func instanceof StaticJsMethodFunction === false) {
-    //   return this._realm.types.undefined;
-    // }
-    if (!HackFunctionMethodClassNames.has(func.constructor.name)) {
-      return this._realm.types.undefined;
-    }
-
-    const home = (func as any).homeObject;
-    if (!isStaticJsObject(home)) {
-      return this._realm.types.undefined;
-    }
-
-    const proto = yield* home.getPrototypeOfEvaluator();
-    return proto ?? this._realm.types.undefined;
   }
 }

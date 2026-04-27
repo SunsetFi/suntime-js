@@ -49,6 +49,4 @@ export abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironme
   abstract withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   abstract getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
-
-  abstract getSuperBaseEvaluator(): EvaluationGenerator<StaticJsValue>;
 }
