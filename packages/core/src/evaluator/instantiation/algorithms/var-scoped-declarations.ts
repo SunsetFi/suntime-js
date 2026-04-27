@@ -248,6 +248,7 @@ function topLevelVarScopedDeclarations(node: Node): VarScopedDeclNode[] {
     case "FunctionDeclaration":
     case "FunctionExpression":
     case "ClassMethod":
+    case "ClassPrivateMethod":
     case "ObjectMethod":
       // statement list of function
       return statementListTopLevelVarScopedDeclarations(node.body.body);

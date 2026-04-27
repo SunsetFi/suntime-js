@@ -56,8 +56,8 @@ export default class VitestBadgeReporter implements Reporter {
 }
 
 function pickColor(percent: number): string {
-  if (percent >= 90) return "brightgreen";
-  if (percent >= 75) return "green";
+  if (percent >= 99) return "brightgreen";
+  if (percent >= 80) return "green";
   if (percent >= 50) return "yellow";
   if (percent >= 25) return "orange";
   return "red";

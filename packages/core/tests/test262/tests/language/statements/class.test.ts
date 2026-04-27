@@ -17985,7 +17985,7 @@ describe("class", () => {
       );
       it(
         "yield-star-async-next.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method/yield-star-async-next.js",
         ),
@@ -17999,7 +17999,7 @@ describe("class", () => {
       );
       it(
         "yield-star-async-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method/yield-star-async-throw.js",
         ),
@@ -18356,7 +18356,7 @@ describe("class", () => {
       );
       it(
         "yield-star-sync-next.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method/yield-star-sync-next.js",
         ),
@@ -18370,7 +18370,7 @@ describe("class", () => {
       );
       it(
         "yield-star-sync-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method/yield-star-sync-throw.js",
         ),
@@ -18540,7 +18540,7 @@ describe("class", () => {
       );
       it(
         "yield-star-async-next.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method-static/yield-star-async-next.js",
         ),
@@ -18554,7 +18554,7 @@ describe("class", () => {
       );
       it(
         "yield-star-async-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method-static/yield-star-async-throw.js",
         ),
@@ -18911,7 +18911,7 @@ describe("class", () => {
       );
       it(
         "yield-star-sync-next.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method-static/yield-star-sync-next.js",
         ),
@@ -18925,7 +18925,7 @@ describe("class", () => {
       );
       it(
         "yield-star-sync-throw.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/elements/async-gen-private-method-static/yield-star-sync-throw.js",
         ),

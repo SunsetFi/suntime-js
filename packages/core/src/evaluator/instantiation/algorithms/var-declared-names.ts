@@ -144,6 +144,7 @@ function topLevelVarDeclaredNames(node: Node): string[] {
     case "FunctionDeclaration":
     case "FunctionExpression":
     case "ClassMethod":
+    case "ClassPrivateMethod":
     case "ObjectMethod":
       // statement list of function
       return statementListTopLevelVarDeclaredNames(node.body.body);
