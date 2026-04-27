@@ -1,4 +1,5 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -15,7 +16,7 @@ import { isConstructor } from "./is-constructor.js";
 
 export function* newPromiseCapability(
   constructor: StaticJsValue,
-  realm: StaticJsRealm,
+  realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromiseCapabilityRecord> {
   if (!isConstructor(constructor)) {
     throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
@@ -23,6 +24,8 @@ export function* newPromiseCapability(
 
   let resolveFunc: StaticJsCallable | null = null;
   let rejectFunc: StaticJsCallable | null = null;
+
+  realm ??= EvaluationContext.current.realm;
 
   const resolver = new StaticJsNativeFunctionImpl(
     realm,

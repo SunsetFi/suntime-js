@@ -7,5 +7,5 @@ const tsLint = [
 ];
 export default {
   "src/**/*.ts": tsLint,
-  "!(tests/test262/tests/**/*)/**/*.ts": tsLint,
+  "!(tests/test262/tests/**/*)tests/**/*.ts": tsLint,
 };

@@ -1,3 +1,4 @@
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { createDataPropertyOrThrow } from "../algorithms/create-data-property-or-throw.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
@@ -7,8 +8,9 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 export function* createIteratorResultObject(
   value: StaticJsValue,
   done: boolean,
-  realm: StaticJsRealm,
+  realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
+  realm ??= EvaluationContext.current.realm;
   const result = realm.types.object();
   yield* createDataPropertyOrThrow(result, "value", value);
   yield* createDataPropertyOrThrow(result, "done", realm.types.boolean(done));

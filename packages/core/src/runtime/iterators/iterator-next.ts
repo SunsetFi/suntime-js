@@ -8,7 +8,7 @@ import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export function* iteratorNext(
   iteratorRecord: StaticJsIteratorRecord,
-  value: StaticJsValue | null,
+  value: StaticJsValue | null = null,
 ): EvaluationGenerator<StaticJsObject> {
   let result: StaticJsValue;
   try {

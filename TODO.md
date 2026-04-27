@@ -2,6 +2,11 @@
 
 ## Immediate
 
+- [ ] Strip realm argument from
+  - [ ] newPromiseCapability
+  - [ ] asyncFromSyncIteratorContinuation
+  - [ ] createIteratorResultObject
+- Return completions from iteratorNext
 - Figure out why test262 tests are throwing unhandled rejections
   - [ ] language/statements/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js
   - [x] language/module-code/top-level-await/pending-async-dep-from-cycle.js

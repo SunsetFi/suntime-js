@@ -3,6 +3,7 @@ import { StaticJsPlainObjectImpl } from "../types/implementation/objects/StaticJ
 
 import { populateArrayPrototype } from "./Array/index.js";
 import { populateArrayIteratorPrototype } from "./ArrayIterator/index.js";
+import { populateAsyncFromSyncIteratorPrototype } from "./AsyncFromSyncIteratorPrototype/index.js";
 import { populateAsyncFunctionPrototype } from "./AsyncFunction/index.js";
 import { populateAsyncGeneratorPrototype } from "./AsyncGenerator/index.js";
 import { populateAsyncGeneratorFunctionPrototype } from "./AsyncGeneratorFunction/index.js";
@@ -53,6 +54,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const asyncIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
   const setIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
   const mapIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const asyncFromSyncIteratorProto = new StaticJsPlainObjectImpl(realm, asyncIteratorProto);
 
   const asyncFunctionProto = new StaticJsPlainObjectImpl(realm, functionProto);
 
@@ -86,6 +88,7 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
     asyncIteratorProto,
     setIteratorProto,
     mapIteratorProto,
+    asyncFromSyncIteratorProto,
     setProto,
     mapProto,
     asyncFunctionProto,
@@ -121,6 +124,7 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateStringIteratorPrototype(realm, prototypes.stringIteratorProto);
   populateSetIteratorPrototype(realm, prototypes.setIteratorProto);
   populateMapIteratorPrototype(realm, prototypes.mapIteratorProto);
+  populateAsyncFromSyncIteratorPrototype(realm, prototypes.asyncFromSyncIteratorProto);
 
   populateAsyncIteratorPrototype(realm, prototypes.asyncIteratorProto);
 

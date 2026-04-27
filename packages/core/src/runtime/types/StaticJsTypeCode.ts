@@ -18,12 +18,13 @@ enum StaticJsTypeCode {
   Function = IsObjectFlag + IsCallableFlag + 8,
   Promise = IsObjectFlag + 9,
   Iterator = IsObjectFlag + 10,
-  Set = IsObjectFlag + 11,
-  Map = IsObjectFlag + 12,
-  Generator = IsObjectFlag + 13,
-  AsyncGenerator = IsObjectFlag + 14,
-  Proxy = IsObjectFlag + 15,
-  ProxyCallable = IsObjectFlag + IsCallableFlag + 16,
+  AsyncIterator = IsObjectFlag + 11,
+  Set = IsObjectFlag + 12,
+  Map = IsObjectFlag + 13,
+  Generator = IsObjectFlag + 14,
+  AsyncGenerator = IsObjectFlag + 15,
+  Proxy = IsObjectFlag + 16,
+  ProxyCallable = IsObjectFlag + IsCallableFlag + 17,
 }
 
 export { StaticJsTypeCode };

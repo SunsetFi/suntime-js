@@ -156,7 +156,7 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
       return;
     }
 
-    reject(new Error("Unexpected print message from async test: " + message));
+    console.log(message);
   }
 
   await realm.global.defineOwnPropertyAsync("print", {

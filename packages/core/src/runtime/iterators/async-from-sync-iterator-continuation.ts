@@ -1,5 +1,6 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { call } from "../algorithms/call.js";
 import { promiseResolve } from "../algorithms/promise-resolve.js";
@@ -21,8 +22,10 @@ export function* asyncFromSyncIteratorContinuation(
   promiseCapability: StaticJsPromiseCapabilityRecord,
   syncIteratorRecord: StaticJsIteratorRecord,
   closeOnRejection: boolean,
-  realm: StaticJsRealm,
+  realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {
+  realm ??= EvaluationContext.current.realm;
+
   let done: boolean;
   let value: StaticJsValue;
   try {
