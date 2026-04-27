@@ -91,7 +91,7 @@ describe("await", () => {
   );
   it(
     "for-await-of-interleaved.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/await/for-await-of-interleaved.js"),
   );
   it(

@@ -3020,14 +3020,14 @@ describe("async-generator", () => {
   );
   it(
     "named-yield-promise-reject-next-catch.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-generator/named-yield-promise-reject-next-catch.js",
     ),
   );
   it(
     "named-yield-promise-reject-next-for-await-of-async-iterator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-generator/named-yield-promise-reject-next-for-await-of-async-iterator.js",
     ),
@@ -3041,7 +3041,7 @@ describe("async-generator", () => {
   );
   it(
     "named-yield-promise-reject-next-yield-star-async-iterator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-generator/named-yield-promise-reject-next-yield-star-async-iterator.js",
     ),
@@ -3055,7 +3055,7 @@ describe("async-generator", () => {
   );
   it(
     "named-yield-promise-reject-next.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/named-yield-promise-reject-next.js"),
   );
   it(
@@ -3441,12 +3441,12 @@ describe("async-generator", () => {
   );
   it(
     "named-yield-star-sync-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/named-yield-star-sync-return.js"),
   );
   it(
     "named-yield-star-sync-throw.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/named-yield-star-sync-throw.js"),
   );
   it(
@@ -3544,12 +3544,12 @@ describe("async-generator", () => {
   );
   it(
     "yield-promise-reject-next-catch.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/yield-promise-reject-next-catch.js"),
   );
   it(
     "yield-promise-reject-next-for-await-of-async-iterator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-generator/yield-promise-reject-next-for-await-of-async-iterator.js",
     ),
@@ -3563,7 +3563,7 @@ describe("async-generator", () => {
   );
   it(
     "yield-promise-reject-next-yield-star-async-iterator.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/async-generator/yield-promise-reject-next-yield-star-async-iterator.js",
     ),
@@ -3577,7 +3577,7 @@ describe("async-generator", () => {
   );
   it(
     "yield-promise-reject-next.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/yield-promise-reject-next.js"),
   );
   it(
@@ -3973,12 +3973,12 @@ describe("async-generator", () => {
   );
   it(
     "yield-star-sync-return.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/yield-star-sync-return.js"),
   );
   it(
     "yield-star-sync-throw.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/async-generator/yield-star-sync-throw.js"),
   );
   it(

@@ -521,14 +521,14 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-catch.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-promise-reject-next-catch.js",
       ),
     );
     it(
       "yield-promise-reject-next-for-await-of-async-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-promise-reject-next-for-await-of-async-iterator.js",
       ),
@@ -542,7 +542,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-yield-star-async-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method/yield-promise-reject-next-yield-star-async-iterator.js",
       ),
@@ -556,7 +556,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-promise-reject-next.js"),
     );
     it(
@@ -944,12 +944,12 @@ describe("class", () => {
     );
     it(
       "yield-star-sync-return.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-sync-return.js"),
     );
     it(
       "yield-star-sync-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/expressions/class/async-gen-method/yield-star-sync-throw.js"),
     );
   });
@@ -1196,14 +1196,14 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-catch.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-promise-reject-next-catch.js",
       ),
     );
     it(
       "yield-promise-reject-next-for-await-of-async-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-promise-reject-next-for-await-of-async-iterator.js",
       ),
@@ -1217,7 +1217,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next-yield-star-async-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-promise-reject-next-yield-star-async-iterator.js",
       ),
@@ -1231,7 +1231,7 @@ describe("class", () => {
     );
     it(
       "yield-promise-reject-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-promise-reject-next.js",
       ),
@@ -1635,14 +1635,14 @@ describe("class", () => {
     );
     it(
       "yield-star-sync-return.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-sync-return.js",
       ),
     );
     it(
       "yield-star-sync-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/class/async-gen-method-static/yield-star-sync-throw.js",
       ),
@@ -17645,14 +17645,14 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-catch.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-promise-reject-next-catch.js",
         ),
       );
       it(
         "yield-promise-reject-next-for-await-of-async-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-promise-reject-next-for-await-of-async-iterator.js",
         ),
@@ -17666,7 +17666,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-yield-star-async-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-promise-reject-next-yield-star-async-iterator.js",
         ),
@@ -17680,7 +17680,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-promise-reject-next.js",
         ),
@@ -18086,7 +18086,7 @@ describe("class", () => {
       );
       it(
         "yield-star-sync-return.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method/yield-star-sync-return.js",
         ),
@@ -18200,14 +18200,14 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-catch.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-promise-reject-next-catch.js",
         ),
       );
       it(
         "yield-promise-reject-next-for-await-of-async-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-promise-reject-next-for-await-of-async-iterator.js",
         ),
@@ -18221,7 +18221,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next-yield-star-async-iterator.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-promise-reject-next-yield-star-async-iterator.js",
         ),
@@ -18235,7 +18235,7 @@ describe("class", () => {
       );
       it(
         "yield-promise-reject-next.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-promise-reject-next.js",
         ),
@@ -18641,7 +18641,7 @@ describe("class", () => {
       );
       it(
         "yield-star-sync-return.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/expressions/class/elements/async-gen-private-method-static/yield-star-sync-return.js",
         ),

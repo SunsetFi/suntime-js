@@ -5229,14 +5229,14 @@ describe("object", () => {
     );
     it(
       "async-gen-yield-promise-reject-next-catch.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-promise-reject-next-catch.js",
       ),
     );
     it(
       "async-gen-yield-promise-reject-next-for-await-of-async-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-promise-reject-next-for-await-of-async-iterator.js",
       ),
@@ -5250,7 +5250,7 @@ describe("object", () => {
     );
     it(
       "async-gen-yield-promise-reject-next-yield-star-async-iterator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-promise-reject-next-yield-star-async-iterator.js",
       ),
@@ -5264,7 +5264,7 @@ describe("object", () => {
     );
     it(
       "async-gen-yield-promise-reject-next.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-promise-reject-next.js",
       ),
@@ -5670,14 +5670,14 @@ describe("object", () => {
     );
     it(
       "async-gen-yield-star-sync-return.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-star-sync-return.js",
       ),
     );
     it(
       "async-gen-yield-star-sync-throw.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/expressions/object/method-definition/async-gen-yield-star-sync-throw.js",
       ),
