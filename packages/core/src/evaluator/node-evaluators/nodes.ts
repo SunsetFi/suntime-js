@@ -34,7 +34,8 @@ import ifStatementNodeEvaluator from "./IfStatement.js";
 import importDeclarationNodeEvaluator from "./ImportDeclaration.js";
 import labeledStatementNodeEvaluator from "./LabelledStatement.js";
 import logicalExpressionNodeEvaluator from "./LogicalExpression.js";
-import memberExpressionNodeEvaluator from "./MemberExpression.js";
+import memberExpressionNodeEvaluator from "./MemberExpression/MemberExpression.js";
+import optionalMemberExpressionNodeEvaluator from "./MemberExpression/OptionalMemberExpression.js";
 import metaPropertyNodeEvaluator from "./MetaProperty.js";
 import newExpressionNodeEvaluator from "./NewExpression.js";
 import nullLiteralNodeEvaluator from "./NullLiteral.js";
@@ -73,6 +74,8 @@ const nodeEvaluators: NodeEvaluators = {
   BreakStatement: breakStatementNodeEvaluator,
   CallExpression: callExpressionNodeEvaluator,
   OptionalCallExpression: optionalCallExpressionNodeEvaluator,
+  MemberExpression: memberExpressionNodeEvaluator,
+  OptionalMemberExpression: optionalMemberExpressionNodeEvaluator,
   CatchClause: catchClauseNodeEvaluator,
   ClassDeclaration: classDeclarationNodeEvaluator,
   ClassExpression: classExpressionNodeEvaluator,
@@ -95,7 +98,6 @@ const nodeEvaluators: NodeEvaluators = {
   Identifier: identifierNodeEvaluator,
   LabeledStatement: labeledStatementNodeEvaluator,
   LogicalExpression: logicalExpressionNodeEvaluator,
-  MemberExpression: memberExpressionNodeEvaluator,
   MetaProperty: metaPropertyNodeEvaluator,
   NewExpression: newExpressionNodeEvaluator,
   NullLiteral: nullLiteralNodeEvaluator,

@@ -80,29 +80,29 @@ describe("optional-chaining", () => {
   );
   it(
     "iteration-statement-for-await-of.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/iteration-statement-for-await-of.js"),
   );
   it(
     "iteration-statement-for-in.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/iteration-statement-for-in.js"),
   );
   it(
     "iteration-statement-for-of-type-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/iteration-statement-for-of-type-error.js",
     ),
   );
   it(
     "iteration-statement-for.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/iteration-statement-for.js"),
   );
   it(
     "iteration-statement-while.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/iteration-statement-while.js"),
   );
   it(
@@ -114,12 +114,12 @@ describe("optional-chaining", () => {
   );
   it(
     "member-expression-async-literal.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/member-expression-async-literal.js"),
   );
   it(
     "member-expression-async-this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/member-expression-async-this.js"),
   );
   it(
@@ -134,26 +134,26 @@ describe("optional-chaining", () => {
   );
   it(
     "optional-call-preserves-this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/optional-call-preserves-this.js"),
   );
   it(
     "optional-chain-async-optional-chain-square-brackets.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/optional-chain-async-optional-chain-square-brackets.js",
     ),
   );
   it(
     "optional-chain-async-square-brackets.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/optional-chain-async-square-brackets.js",
     ),
   );
   it(
     "optional-chain-expression-optional-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/optional-chain-expression-optional-expression.js",
     ),
@@ -165,24 +165,24 @@ describe("optional-chaining", () => {
   );
   it(
     "optional-chain-prod-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/optional-chain-prod-expression.js"),
   );
   it(
     "optional-chain-prod-identifiername.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/expressions/optional-chaining/optional-chain-prod-identifiername.js",
     ),
   );
   it(
     "optional-chain.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/optional-chain.js"),
   );
   it(
     "optional-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/optional-expression.js"),
   );
   it(
@@ -192,12 +192,12 @@ describe("optional-chaining", () => {
   );
   it(
     "runtime-semantics-evaluation.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/runtime-semantics-evaluation.js"),
   );
   it(
     "short-circuiting.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/optional-chaining/short-circuiting.js"),
   );
   it(
