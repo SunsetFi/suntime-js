@@ -97,27 +97,16 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
     return this.targetFunc.callEvaluator(this._boundThis, [...this._boundArgs, ...args]);
   }
 
-  constructAsync(
-    args: StaticJsValue[],
-    newTarget: StaticJsCallable,
-    opts?: StaticJsRunTaskOptions,
-  ): Promise<StaticJsObject> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args, newTarget), opts);
+  constructAsync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
   }
 
-  constructSync(
-    args: StaticJsValue[],
-    newTarget: StaticJsCallable,
-    opts?: StaticJsRunTaskOptions,
-  ): StaticJsObject {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
+  constructSync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
   }
 
-  constructEvaluator(
-    args: StaticJsValue[],
-    newTarget: StaticJsCallable,
-  ): EvaluationGenerator<StaticJsObject> {
-    return this.targetFunc.constructEvaluator([...this._boundArgs, ...args], newTarget);
+  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObject> {
+    return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
   }
 
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string> {
