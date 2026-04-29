@@ -13,13 +13,15 @@ import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
 import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
-import promiseCtorAllDeclaration from "./all.js";
-import promiseCtorRejectDeclaration from "./reject.js";
-import promiseCtorResolveDeclaration from "./resolve.js";
-import promiseConstructorSymbolSpeciesDeclaration from "./symbol_species.js";
+import { promiseCtorAllDeclaration } from "./all.js";
+import { promiseCtorAnyDeclaration } from "./any.js";
+import { promiseCtorRejectDeclaration } from "./reject.js";
+import { promiseCtorResolveDeclaration } from "./resolve.js";
+import { promiseConstructorSymbolSpeciesDeclaration } from "./symbol_species.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorAllDeclaration,
+  promiseCtorAnyDeclaration,
   promiseCtorRejectDeclaration,
   promiseCtorResolveDeclaration,
   promiseConstructorSymbolSpeciesDeclaration,

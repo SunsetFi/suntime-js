@@ -16,7 +16,13 @@ import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 
-export type ErrorTypeName = "TypeError" | "ReferenceError" | "SyntaxError" | "RangeError" | "Error";
+export type ErrorTypeName =
+  | "TypeError"
+  | "ReferenceError"
+  | "SyntaxError"
+  | "RangeError"
+  | "AggregateError"
+  | "Error";
 
 export function isErrorTypeName(name: string): name is ErrorTypeName {
   return ["TypeError", "ReferenceError", "SyntaxError", "Error"].includes(name);

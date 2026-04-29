@@ -71,22 +71,21 @@ export function createTestHandler(testRelativePath: string) {
 
     evaluatePromise = evaluatePromise.finally(() => perf("Test script evaluated"));
 
+    const [evaluateResult] = await Promise.allSettled([evaluatePromise]);
+    let unhandledRejection: unknown = null;
+    if (evaluateResult.status === "rejected") {
+      if (evaluateResult.reason instanceof StaticJsUnhandledRejectionError) {
+        unhandledRejection = evaluateResult.reason.thrown.toNative();
+      } else {
+        handleTestError(evaluateResult.reason, test);
+      }
+    }
+
     const cleanupPromise = Promise.all(cleanups.map((cleanup) => cleanup())).finally(() => {
       perf("Cleanups completed");
     });
 
-    const [evaluateResult, cleanupResult] = await Promise.allSettled([
-      evaluatePromise,
-      cleanupPromise,
-    ]);
-
-    let unhandledRejection: unknown = null;
-    if (
-      evaluateResult.status === "rejected" &&
-      evaluateResult.reason instanceof StaticJsUnhandledRejectionError
-    ) {
-      unhandledRejection = evaluateResult.reason.thrown.toNative();
-    }
+    const [cleanupResult] = await Promise.allSettled([cleanupPromise]);
 
     if (cleanupResult.status === "rejected") {
       handleTestError(cleanupResult.reason, test, unhandledRejection);

@@ -1,12 +1,12 @@
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { call } from "../../../algorithms/call.js";
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { getPromiseResolve } from "../../../algorithms/get-promise-resolve.js";
 import { invoke } from "../../../algorithms/invoke.js";
-import { isConstructor } from "../../../algorithms/is-constructor.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
@@ -17,16 +17,15 @@ import { StaticJsPromiseCapabilityRecord } from "../../../types/StaticJsPromise.
 import { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {
-  key: "all",
+export const promiseCtorAnyDeclaration: IntrinsicPropertyDeclaration = {
+  key: "any",
   *func(realm, thisArg, iterable = realm.types.undefined) {
-    const c = thisArg;
-    if (!isConstructor(c)) {
-      throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
-    }
+    // Type cast guarded by newPromiseCapability.
+    const constructor = thisArg as StaticJsCallable;
 
-    const promiseCapability = yield* newPromiseCapability(c, realm);
-    const promiseResolve = yield* captureThrownCompletion(getPromiseResolve(c));
+    const promiseCapability = yield* newPromiseCapability(constructor);
+
+    const promiseResolve = yield* captureThrownCompletion(getPromiseResolve(constructor));
     if (Completion.Abrupt.is(promiseResolve)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [
         Completion.value(promiseResolve),
@@ -42,60 +41,79 @@ export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {
       return promiseCapability.promise;
     }
 
-    // TODO: Rest of the owl.
     const result = yield* captureThrownCompletion(
-      performPromiseAll(iteratorRecord, c, promiseCapability, promiseResolve),
+      performPromiseAny(iteratorRecord, constructor, promiseCapability, promiseResolve),
     );
     if (Completion.Abrupt.is(result)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(result)]);
       return promiseCapability.promise;
     }
+
     return result;
   },
 };
 
-function* performPromiseAll(
+function* performPromiseAny(
   iteratorRecord: StaticJsIteratorRecord,
   constructor: StaticJsCallable,
   resultCapability: StaticJsPromiseCapabilityRecord,
   promiseResolve: StaticJsCallable,
 ): EvaluationGenerator<StaticJsValue> {
   const { realm } = EvaluationContext.current;
-  const values: StaticJsValue[] = [];
+
+  const errors: StaticJsValue[] = [];
 
   let remainingElementsCount = 1;
   let index = 0;
 
   while (true) {
-    const next = yield* iteratorStepValue(iteratorRecord);
+    const next = yield* Q(iteratorStepValue(iteratorRecord));
     if (!next) {
       remainingElementsCount--;
       if (remainingElementsCount === 0) {
-        const valuesArray = yield* createArrayFromList(values);
-        yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
+        const aggregateError = realm.types.error("AggregateError", "All promises were rejected");
+        yield* definePropertyOrThrow(aggregateError, "errors", {
+          value: realm.types.array(errors),
+        });
+        yield* call(resultCapability.reject, realm.types.undefined, [aggregateError]);
       }
       return resultCapability.promise;
     }
 
-    values.push(realm.types.undefined);
+    errors.push(realm.types.undefined);
+
     const nextPromise = yield* call(promiseResolve, constructor, [next]);
+
     let alreadyCalled = false;
-    let thisIndex = index;
-    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, value) {
-      if (alreadyCalled) {
+    const thisIndex = index;
+    const onRejected = new StaticJsNativeFunctionImpl(
+      realm,
+      "",
+      function* (_thisArg, error = realm.types.undefined) {
+        if (alreadyCalled) {
+          return realm.types.undefined;
+        }
+
+        alreadyCalled = true;
+
+        errors[thisIndex] = error;
+
+        remainingElementsCount--;
+        if (remainingElementsCount === 0) {
+          const aggregateError = realm.types.error("AggregateError", "All promises were rejected");
+          yield* definePropertyOrThrow(aggregateError, "errors", {
+            value: realm.types.array(errors),
+          });
+          yield* call(resultCapability.reject, realm.types.undefined, [aggregateError]);
+        }
+
         return realm.types.undefined;
-      }
-      alreadyCalled = true;
-      values[thisIndex] = value;
-      remainingElementsCount--;
-      if (remainingElementsCount === 0) {
-        const valuesArray = yield* createArrayFromList(values);
-        return yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
-      }
-      return realm.types.undefined;
-    });
+      },
+    );
+
     index++;
     remainingElementsCount++;
-    yield* invoke(nextPromise, "then", [onFulfilled, resultCapability.reject]);
+
+    yield* invoke(nextPromise, "then", [resultCapability.resolve, onRejected]);
   }
 }
