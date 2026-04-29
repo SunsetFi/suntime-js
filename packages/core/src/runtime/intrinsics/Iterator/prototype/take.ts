@@ -36,7 +36,7 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
       return yield* Q(iteratorClose(iterated, error));
     }
 
-    const integerLimit = yield* toIntegerOrInfinity.js(numLimit, realm);
+    const integerLimit = yield* toIntegerOrInfinity.js(numLimit);
     if (integerLimit < 0) {
       const error = Completion.Throw(
         "RangeError",

@@ -15,8 +15,6 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
   *func(realm, thisArg) {
-    // I'm not too sure on the spec for this...
-
     if (isStaticJsUndefined(thisArg)) {
       return realm.types.string("[object Undefined]");
     }

@@ -3,7 +3,7 @@ import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { createArrayConstructor } from "./Array/index.js";
 import { createAsyncFunctionConstructor } from "./AsyncFunction/index.js";
 import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
-import { createBooleanConstructor } from "./Boolean.js";
+import { createBooleanConstructor } from "./Boolean/index.js";
 import { createErrorConstructor } from "./Error/index.js";
 import { createEvalErrorConstructor } from "./EvalError.js";
 import { addRestrictedFunctionProperties } from "./Function/add-restricted-function-properties.js";

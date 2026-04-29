@@ -8,7 +8,7 @@ import { populateAsyncFunctionPrototype } from "./AsyncFunction/index.js";
 import { populateAsyncGeneratorPrototype } from "./AsyncGenerator/index.js";
 import { populateAsyncGeneratorFunctionPrototype } from "./AsyncGeneratorFunction/index.js";
 import { populateAsyncIteratorPrototype } from "./AsyncIterator/index.js";
-import { populateBooleanPrototype } from "./Boolean.js";
+import { populateBooleanPrototype } from "./Boolean/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
 import { populateEvalErrorPrototype } from "./EvalError.js";
 import { populateFunctionPrototype } from "./Function/index.js";

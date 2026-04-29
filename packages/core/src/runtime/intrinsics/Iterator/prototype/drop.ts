@@ -35,7 +35,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }
 
-    const integerLimit = yield* toIntegerOrInfinity.js(numLimit, realm);
+    const integerLimit = yield* toIntegerOrInfinity.js(numLimit);
     if (integerLimit < 0) {
       const error = Completion.Throw("RangeError", "Count value must be non-negative");
       yield* Q(iteratorClose(iterated, error));

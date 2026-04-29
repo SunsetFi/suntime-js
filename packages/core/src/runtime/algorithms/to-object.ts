@@ -5,7 +5,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
 import { StaticJsNumberBoxed } from "../types/implementation/primitives/StaticJsNumberBoxed.js";
-import { StaticJsStringBoxed } from "../types/implementation/primitives/StaticJsStringBoxed.js";
+import { StaticJsStringExoticObject } from "../types/implementation/primitives/StaticJsStringExoticObject.js";
 import { StaticJsSymbolBoxed } from "../types/implementation/primitives/StaticJsSymbolBoxed.js";
 import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
@@ -34,7 +34,7 @@ export function* toObject(
   }
 
   if (isStaticJsString(value)) {
-    return new StaticJsStringBoxed(realm ?? EvaluationContext.current.realm, value.value);
+    return new StaticJsStringExoticObject(realm ?? EvaluationContext.current.realm, value.value);
   }
 
   if (isStaticJsSymbol(value)) {

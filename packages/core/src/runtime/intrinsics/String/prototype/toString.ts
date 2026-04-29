@@ -1,12 +1,12 @@
 import { toString } from "../../../algorithms/to-string.js";
-import { StaticJsStringBoxed } from "../../../types/implementation/primitives/StaticJsStringBoxed.js";
+import { StaticJsStringExoticObject } from "../../../types/implementation/primitives/StaticJsStringExoticObject.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toString",
   func: function* (realm, thisArg) {
     // Unbox
-    if (thisArg instanceof StaticJsStringBoxed) {
+    if (thisArg instanceof StaticJsStringExoticObject) {
       return realm.types.string(thisArg.value);
     }
 

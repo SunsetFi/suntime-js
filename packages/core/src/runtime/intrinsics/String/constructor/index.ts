@@ -1,7 +1,7 @@
 import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsStringBoxed } from "../../../types/implementation/primitives/StaticJsStringBoxed.js";
+import { StaticJsStringExoticObject } from "../../../types/implementation/primitives/StaticJsStringExoticObject.js";
 import { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
@@ -28,7 +28,9 @@ export default function createStringConstructor(realm: StaticJsRealm, stringProt
     {
       *construct(_thisArg, value) {
         const str = yield* toString.js(value ?? realm.types.string(""));
-        return new StaticJsStringBoxed(realm, str);
+        // FIXME: Need newTarget for this
+        // const proto = yield* getPrototypeFromConstructor()
+        return new StaticJsStringExoticObject(realm, str);
       },
     },
   );

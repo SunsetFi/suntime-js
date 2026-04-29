@@ -1,21 +1,17 @@
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsNumber } from "../types/StaticJsNumber.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { toNumber } from "./to-number.js";
 
-export function* toIntegerOrInfinity(
-  value: StaticJsValue,
-  realm: StaticJsRealm,
-): EvaluationGenerator<StaticJsNumber> {
-  const number = yield* toIntegerOrInfinity.js(value, realm);
-  return realm.types.number(number);
+export function* toIntegerOrInfinity(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
+  const number = yield* toIntegerOrInfinity.js(value);
+  return EvaluationContext.current.realm.types.number(number);
 }
 
 toIntegerOrInfinity.js = function* js(
-  value: StaticJsValue | number,
-  _realm: StaticJsRealm,
+  value: StaticJsValue | number | string,
 ): EvaluationGenerator<number> {
   const number = typeof value === "number" ? value : yield* toNumber.js(value);
   if (Number.isNaN(number) || number === 0) {

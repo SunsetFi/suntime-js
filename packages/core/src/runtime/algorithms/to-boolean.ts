@@ -20,6 +20,8 @@ function* toBooleanJs(value: StaticJsValue): EvaluationGenerator<boolean> {
     return false;
   }
 
+  // Note: Per the spec, we do NOT check boxed booleans, which result in true regardless of their value.
+
   if (isStaticJsNumber(value) && (value.value === 0 || Number.isNaN(value.value))) {
     return false;
   }

@@ -41,7 +41,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   }
 
   *getOwnPropertyEvaluator(
-    name: string,
+    name: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
     const descriptor = this._contents.get(name);
     if (!descriptor) {
