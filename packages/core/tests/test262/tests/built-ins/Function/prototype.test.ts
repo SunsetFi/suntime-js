@@ -228,7 +228,7 @@ describe("prototype", () => {
     );
     it(
       "S15.3.4.3_A5_T3.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/prototype/apply/S15.3.4.3_A5_T3.js"),
     );
     it(
@@ -243,7 +243,7 @@ describe("prototype", () => {
     );
     it(
       "S15.3.4.3_A5_T6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/prototype/apply/S15.3.4.3_A5_T6.js"),
     );
     it(
@@ -1025,7 +1025,7 @@ describe("prototype", () => {
     );
     it(
       "S15.3.4.4_A5_T3.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/prototype/call/S15.3.4.4_A5_T3.js"),
     );
     it(
@@ -1040,7 +1040,7 @@ describe("prototype", () => {
     );
     it(
       "S15.3.4.4_A5_T6.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Function/prototype/call/S15.3.4.4_A5_T6.js"),
     );
     it(

@@ -1,14 +1,20 @@
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
+import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { call } from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
-import { toObject } from "../../../algorithms/to-object.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
+import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
+import { isStaticJsCallable, StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
+import { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { type IntrinsicPropertyDeclaration, applyIntrinsicProperties } from "../../utils.js";
 
 import mapCtorGroupByDeclaration from "./groupBy.js";
@@ -34,21 +40,14 @@ export default function createMapConstructor(realm: StaticJsRealm, mapProto: Sta
           return map;
         }
 
-        const iterator = yield* getIterator(iterable, "sync");
-        while (true) {
-          const next = yield* iteratorStepValue(iterator);
-          if (!next) {
-            break;
-          }
-
-          const asObj = yield* toObject(next);
-          const key = yield* get(asObj, "0");
-          const value = yield* get(asObj, "1");
-
-          yield* map.setValueEvaluator(key, value);
+        // Funnily enough, it actually matters using this instead of our raw addValueEvaluator.
+        // At least, the builtin tests mess with this for checking other things.
+        const adder = yield* get(map, "set");
+        if (!isStaticJsCallable(adder)) {
+          throw Completion.Throw("TypeError", "Map.prototype.set is not callable");
         }
 
-        return map;
+        return yield* addEntriesFromIterable(map, iterable, adder);
       },
     },
   );
@@ -69,4 +68,38 @@ export default function createMapConstructor(realm: StaticJsRealm, mapProto: Sta
   applyIntrinsicProperties(realm, ctor, declarations);
 
   return ctor;
+}
+
+function* addEntriesFromIterable(
+  target: StaticJsObject,
+  iterable: StaticJsValue,
+  adder: StaticJsCallable,
+): EvaluationGenerator<StaticJsObject> {
+  const iteratorRecord = yield* getIterator(iterable, "sync");
+  while (true) {
+    const next = yield* Q(iteratorStepValue(iteratorRecord));
+    if (!next) {
+      return target;
+    }
+
+    if (!isStaticJsObject(next)) {
+      const error = Completion.Throw("TypeError", "Iterator value is not an object");
+      return yield* Q(iteratorClose(iteratorRecord, error));
+    }
+
+    const key = yield* captureThrownCompletion(get(next, "0"));
+    if (Completion.Abrupt.is(key)) {
+      return yield* Q(iteratorClose(iteratorRecord, key));
+    }
+
+    const value = yield* captureThrownCompletion(get(next, "1"));
+    if (Completion.Abrupt.is(value)) {
+      return yield* Q(iteratorClose(iteratorRecord, value));
+    }
+
+    const adderResult = yield* captureThrownCompletion(call(adder, target, [key, value]));
+    if (Completion.Abrupt.is(adderResult)) {
+      return yield* Q(iteratorClose(iteratorRecord, adderResult));
+    }
+  }
 }

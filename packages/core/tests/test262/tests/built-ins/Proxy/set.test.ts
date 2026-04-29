@@ -127,7 +127,7 @@ describe("set", () => {
   );
   it(
     "trap-is-null-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/set/trap-is-null-target-is-proxy.js"),
   );
   it(

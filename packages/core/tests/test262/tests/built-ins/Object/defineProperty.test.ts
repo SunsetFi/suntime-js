@@ -219,7 +219,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-2-41.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-2-41.js"),
   );
   it(
@@ -524,7 +524,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-3-141.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-3-141.js"),
   );
   it(
@@ -714,7 +714,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-3-167.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-3-167.js"),
   );
   it(
@@ -1059,7 +1059,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-3-220.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-3-220.js"),
   );
   it(
@@ -1264,7 +1264,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-3-250.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-3-250.js"),
   );
   it(
@@ -1429,7 +1429,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-3-35.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-3-35.js"),
   );
   it(
@@ -1764,7 +1764,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-3-88.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-3-88.js"),
   );
   it(
@@ -3489,7 +3489,7 @@ describe("defineProperty", () => {
   );
   it(
     "15.2.3.6-4-35.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperty/15.2.3.6-4-35.js"),
   );
   it(

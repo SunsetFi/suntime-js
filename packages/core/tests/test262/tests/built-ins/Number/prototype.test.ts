@@ -558,7 +558,7 @@ describe("prototype", () => {
     );
     it(
       "S15.7.4.2_A4_T01.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Number/prototype/toString/S15.7.4.2_A4_T01.js"),
     );
     it(
@@ -819,7 +819,7 @@ describe("prototype", () => {
     );
     it(
       "S15.7.4.4_A2_T01.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/Number/prototype/valueOf/S15.7.4.4_A2_T01.js"),
     );
     it(

@@ -158,7 +158,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.4_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/charAt/S15.5.4.4_A1_T2.js"),
     );
     it(
@@ -310,7 +310,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.5_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/charCodeAt/S15.5.4.5_A1_T2.js"),
     );
     it(
@@ -526,7 +526,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.6_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/concat/S15.5.4.6_A1_T2.js"),
     );
     it(
@@ -977,7 +977,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.7_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/indexOf/S15.5.4.7_A1_T2.js"),
     );
     it(
@@ -1172,7 +1172,7 @@ describe("prototype", () => {
     );
     it(
       "searchstring-tostring-wrapped-values.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "built-ins/String/prototype/indexOf/searchstring-tostring-wrapped-values.js",
       ),
@@ -1258,7 +1258,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.8_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/lastIndexOf/S15.5.4.8_A1_T2.js"),
     );
     it(
@@ -2180,7 +2180,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.11_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/replace/S15.5.4.11_A1_T2.js"),
     );
     it(
@@ -3608,7 +3608,7 @@ describe("prototype", () => {
     );
     it(
       "instance-is-boolean.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/split/instance-is-boolean.js"),
     );
     it(
@@ -4083,7 +4083,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.15_A3_T11.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/substring/S15.5.4.15_A3_T11.js"),
     );
     it(
@@ -4490,7 +4490,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.16_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/toLowerCase/S15.5.4.16_A1_T2.js"),
     );
     it(
@@ -4664,7 +4664,7 @@ describe("prototype", () => {
     );
     it(
       "S15.5.4.18_A1_T2.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/toUpperCase/S15.5.4.18_A1_T2.js"),
     );
     it(
@@ -4998,7 +4998,7 @@ describe("prototype", () => {
     );
     it(
       "15.5.4.20-2-36.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("built-ins/String/prototype/trim/15.5.4.20-2-36.js"),
     );
     it(

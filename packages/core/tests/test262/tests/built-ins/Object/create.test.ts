@@ -139,7 +139,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-114.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-114.js"),
   );
   it(
@@ -419,7 +419,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-167.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-167.js"),
   );
   it(
@@ -559,7 +559,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-193.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-193.js"),
   );
   it(
@@ -844,7 +844,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-246.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-246.js"),
   );
   it(
@@ -1024,7 +1024,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-281.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-281.js"),
   );
   it(
@@ -1119,7 +1119,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-30.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-30.js"),
   );
   it(
@@ -1374,7 +1374,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-61.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-61.js"),
   );
   it(
@@ -1419,7 +1419,7 @@ describe("create", () => {
   );
   it(
     "15.2.3.5-4-7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/create/15.2.3.5-4-7.js"),
   );
   it(

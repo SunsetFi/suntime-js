@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "set-get-add-method-failure.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Set/set-get-add-method-failure.js"),
 );

@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "iterable-calls-set.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Map/iterable-calls-set.js"),
 );

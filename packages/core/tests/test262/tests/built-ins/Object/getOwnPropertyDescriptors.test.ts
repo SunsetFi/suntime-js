@@ -61,7 +61,7 @@ describe("getOwnPropertyDescriptors", () => {
   );
   it(
     "primitive-strings.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptors/primitive-strings.js"),
   );
   it(
@@ -88,7 +88,7 @@ describe("getOwnPropertyDescriptors", () => {
   );
   it(
     "tamper-with-global-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptors/tamper-with-global-object.js"),
   );
   it(

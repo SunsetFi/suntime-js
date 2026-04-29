@@ -119,7 +119,7 @@ describe("freeze", () => {
   );
   it(
     "15.2.3.9-2-a-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/freeze/15.2.3.9-2-a-8.js"),
   );
   it(

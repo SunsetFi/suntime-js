@@ -74,7 +74,7 @@ describe("isFrozen", () => {
   );
   it(
     "15.2.3.12-2-a-12.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/isFrozen/15.2.3.12-2-a-12.js"),
   );
   it(

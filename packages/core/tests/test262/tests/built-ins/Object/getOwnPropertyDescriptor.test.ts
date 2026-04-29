@@ -814,7 +814,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "15.2.3.3-4-192.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-192.js"),
   );
   it(
@@ -1544,7 +1544,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "primitive-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyDescriptor/primitive-string.js"),
   );
   it(

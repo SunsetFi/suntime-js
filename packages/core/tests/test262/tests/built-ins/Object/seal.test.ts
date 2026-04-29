@@ -207,7 +207,7 @@ describe("seal", () => {
   );
   it(
     "object-seal-p-is-own-property-of-a-string-object-which-implements-its-own-get-own-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Object/seal/object-seal-p-is-own-property-of-a-string-object-which-implements-its-own-get-own-property.js",
     ),

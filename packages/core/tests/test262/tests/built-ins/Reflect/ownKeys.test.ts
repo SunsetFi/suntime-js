@@ -19,7 +19,7 @@ describe("ownKeys", () => {
   );
   it(
     "order-after-define-property.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Reflect/ownKeys/order-after-define-property.js"),
   );
   it(

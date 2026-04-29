@@ -111,7 +111,7 @@ describe("ownKeys", () => {
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/ownKeys/trap-is-missing-target-is-proxy.js"),
   );
   it(

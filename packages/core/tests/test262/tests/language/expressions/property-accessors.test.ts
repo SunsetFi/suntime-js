@@ -19,7 +19,7 @@ describe("property-accessors", () => {
   );
   it(
     "S11.2.1_A3_T1.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/property-accessors/S11.2.1_A3_T1.js"),
   );
   it(

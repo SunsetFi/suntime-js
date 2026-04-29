@@ -109,7 +109,7 @@ describe("defineProperty", () => {
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Proxy/defineProperty/trap-is-missing-target-is-proxy.js"),
   );
   it(

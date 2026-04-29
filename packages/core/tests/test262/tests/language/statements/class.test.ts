@@ -28148,7 +28148,7 @@ describe("class", () => {
       describe("String", () => {
         it(
           "length.js",
-          { tags: ["known-failing"] },
+          { tags: ["known-passing"] },
           createTestHandler("language/statements/class/subclass/builtin-objects/String/length.js"),
         );
         it(
@@ -28438,7 +28438,7 @@ describe("class", () => {
     );
     it(
       "superclass-bound-function.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler("language/statements/class/subclass/superclass-bound-function.js"),
     );
     it(

@@ -99,7 +99,7 @@ describe("getOwnPropertyDescriptor", () => {
   );
   it(
     "trap-is-missing-target-is-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Proxy/getOwnPropertyDescriptor/trap-is-missing-target-is-proxy.js",
     ),

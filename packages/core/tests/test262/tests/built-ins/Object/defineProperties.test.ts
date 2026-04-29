@@ -114,7 +114,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-2-8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-8.js"),
   );
   it(
@@ -244,7 +244,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-5-a-9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-9.js"),
   );
   it(
@@ -399,7 +399,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-5-b-127.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-127.js"),
   );
   it(
@@ -824,7 +824,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-5-b-206.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-206.js"),
   );
   it(
@@ -844,7 +844,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-5-b-21.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-21.js"),
   );
   it(
@@ -1004,7 +1004,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-5-b-241.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-241.js"),
   );
   it(
@@ -1364,7 +1364,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-5-b-74.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-74.js"),
   );
   it(
@@ -1729,7 +1729,7 @@ describe("defineProperties", () => {
   );
   it(
     "15.2.3.7-6-a-14.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-14.js"),
   );
   it(

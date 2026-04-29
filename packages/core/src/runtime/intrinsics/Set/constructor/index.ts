@@ -1,4 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { call } from "../../../algorithms/call.js";
+import { get } from "../../../algorithms/get.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
@@ -29,6 +31,10 @@ export default function createSetConstructor(realm: StaticJsRealm, setProto: Sta
           return set;
         }
 
+        // Funnily enough, it actually matters using this instead of our raw addValueEvaluator.
+        // At least, the builtin tests mess with this for checking other things.
+        const add = yield* get(set, "add");
+
         const iterator = yield* getIterator(iterable, "sync");
         yield* iteratorClose.handle(iterator, function* () {
           while (true) {
@@ -36,7 +42,8 @@ export default function createSetConstructor(realm: StaticJsRealm, setProto: Sta
             if (!next) {
               break;
             }
-            yield* set.addValueEvaluator(next);
+
+            yield* call(add, set, [next]);
           }
         });
 

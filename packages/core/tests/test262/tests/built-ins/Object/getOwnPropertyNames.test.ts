@@ -104,17 +104,17 @@ describe("getOwnPropertyNames", () => {
   );
   it(
     "15.2.3.4-4-42.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyNames/15.2.3.4-4-42.js"),
   );
   it(
     "15.2.3.4-4-43.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyNames/15.2.3.4-4-43.js"),
   );
   it(
     "15.2.3.4-4-44.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyNames/15.2.3.4-4-44.js"),
   );
   it(
@@ -194,7 +194,7 @@ describe("getOwnPropertyNames", () => {
   );
   it(
     "non-object-argument-valid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/getOwnPropertyNames/non-object-argument-valid.js"),
   );
   it(
