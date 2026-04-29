@@ -21,8 +21,6 @@ features: [cross-realm, Reflect]
 ---*/
 
 var other = $262.createRealm().global;
-print("Other is" + other);
-print("Other function is " + other.Function);
 var C = new other.Function();
 C.prototype = null;
 

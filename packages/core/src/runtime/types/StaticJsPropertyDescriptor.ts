@@ -5,17 +5,17 @@ import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsDataPropertyDescriptor {
-  configurable: boolean;
-  enumerable: boolean;
-  writable: boolean;
-  value: StaticJsValue;
+  readonly configurable: boolean;
+  readonly enumerable: boolean;
+  readonly writable: boolean;
+  readonly value: StaticJsValue;
 }
 
 export interface StaticJsAccessorPropertyDescriptor {
-  configurable: boolean;
-  enumerable: boolean;
-  get: StaticJsCallable | undefined;
-  set: StaticJsCallable | undefined;
+  readonly configurable: boolean;
+  readonly enumerable: boolean;
+  readonly get: StaticJsCallable | undefined;
+  readonly set: StaticJsCallable | undefined;
 }
 
 export type StaticJsPropertyDescriptor =

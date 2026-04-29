@@ -82,6 +82,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private readonly _tasks: EvaluationTask[] = [];
   private _currentTask: EvaluationTask | null = null;
+  private _taskQueueDrainScheduled = false;
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
@@ -494,7 +495,29 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._currentTask = null;
 
     // Continue AFTER the current task's promise chain completes.
+    this._tryScheduleDrainTaskQueue();
+  }
+
+  private _tryScheduleDrainTaskQueue() {
+    if (this._taskQueueDrainScheduled) {
+      return;
+    }
+
+    // Absolutely amazing bug:
+    // We use setTimeout because we want our continuation to occur
+    // after all promise resolutions for the original task.
+    // However, vitest runs tests entirely through the async chain, so
+    // these setTimeouts were backing up behind the test runner, and causing realms
+    // to never get GCd.
+    // Don't queue anything if we have no tasks pending.
+    if (!this._tasks.length) {
+      return;
+    }
+
+    this._taskQueueDrainScheduled = true;
+
     setTimeout(() => {
+      this._taskQueueDrainScheduled = false;
       this._tryDrainTaskQueue();
     }, 0);
   }
@@ -502,6 +525,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _tryDrainTaskQueue() {
     if (this._currentTask !== null) {
       // Already running a task.
+      return;
+    }
+
+    if (this._taskQueueDrainScheduled) {
+      // Wait for the schedule
       return;
     }
 
