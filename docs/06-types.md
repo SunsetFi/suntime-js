@@ -336,7 +336,7 @@ Inherits all properties from `StaticJsObject`
   Invokes the function.
   thisArg must be a [StaticJsValue](#staticjsvalue), and args must be a native array of [StaticJsValue](#staticjsvalue) objects.
   The return value will be a [StaticJsValue](#staticjsvalue). If the function had no return value, am instance of [StaticJsUndefined](#undefined) will be returned.
-- `constructAsync(args?, StaticJsRunTaskOptions?)`
+- `constructAsync(args?, newTarget?, StaticJsRunTaskOptions?)`
   Invokes the function as a constructor.
   thisArg must be a [StaticJsValue](#staticjsvalue), and args must be a native array of [StaticJsValue](#staticjsvalue) objects.
   The return value will always be a [StaticJsObject](#object) of the constructed object.

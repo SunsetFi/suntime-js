@@ -7,7 +7,7 @@ import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsic
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
-import { StaticJsCallable } from "../StaticJsCallable.js";
+import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
@@ -290,8 +290,18 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       resolvedTarget = this.object();
     } else if (target === "function") {
       resolvedTarget = this.function("proxyTargetFunction", () => this.undefined);
+    } else if (isStaticJsCallable(target)) {
+      if (target.realm === this._realm) {
+        resolvedTarget = target;
+      } else {
+        resolvedTarget = this._toStaticJsValueFunction(target.toNative() as Function);
+      }
     } else if (isStaticJsObject(target)) {
-      resolvedTarget = target;
+      if (target.realm === this._realm) {
+        resolvedTarget = target;
+      } else {
+        resolvedTarget = this._toStaticJsValueObject(target.toNative() as object);
+      }
     } else if (typeof target === "function") {
       resolvedTarget = this._toStaticJsValueFunction(target);
     } else if (target != null && typeof target === "object") {
@@ -471,6 +481,14 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   private _toStaticJsValueObject(value: object): StaticJsObject {
+    if (isStaticJsObject(value)) {
+      if (value.realm === this._realm) {
+        return value;
+      }
+
+      return this._toStaticJsValueObject(value.toNative() as object);
+    }
+
     if (value instanceof Error && isErrorTypeName(value.name)) {
       return this.error(value.name, value.message);
     }

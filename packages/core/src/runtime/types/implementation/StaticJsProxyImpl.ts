@@ -47,7 +47,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   ) {}
 
   get isConstructor(): boolean {
-    throw new Error("Method not implemented.");
+    return isStaticJsCallable(this._proxyTarget) && this._proxyTarget.isConstructor;
   }
 
   get realm(): StaticJsRealm {
@@ -846,12 +846,20 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     return yield* Q(call(trap, handler, [target, thisArg, argArray]));
   }
 
-  constructAsync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this._realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
+  constructAsync(
+    args?: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsObject> {
+    return this._realm.invokeEvaluatorAsync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  constructSync(args?: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this._realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
+  constructSync(
+    args?: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsObject {
+    return this._realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
   }
 
   *constructEvaluator(
