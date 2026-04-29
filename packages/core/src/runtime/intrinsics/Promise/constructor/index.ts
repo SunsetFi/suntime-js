@@ -14,6 +14,7 @@ import { isStaticJsValue } from "../../../types/StaticJsValue.js";
 import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "../../utils.js";
 
 import { promiseCtorAllDeclaration } from "./all.js";
+import { promiseCtorAllSettledDeclaration } from "./allSettled.js";
 import { promiseCtorAnyDeclaration } from "./any.js";
 import { promiseCtorRejectDeclaration } from "./reject.js";
 import { promiseCtorResolveDeclaration } from "./resolve.js";
@@ -21,6 +22,7 @@ import { promiseConstructorSymbolSpeciesDeclaration } from "./symbol_species.js"
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorAllDeclaration,
+  promiseCtorAllSettledDeclaration,
   promiseCtorAnyDeclaration,
   promiseCtorRejectDeclaration,
   promiseCtorResolveDeclaration,

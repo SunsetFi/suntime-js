@@ -13,6 +13,13 @@
         pnpm test:language tests/test262/tests/language/module-code/top-level-await.test.ts -t "pending-async-dep-from-cycle.js"
 - [x] Really really really stop vitest from dumping out the entire realm to the terminal on errors.
 
+## Built-in tests
+
+- [x] Figure out why Map and Set iterator tests are timing out.
+- [ ] Figure out why Promise.any tests are timing out when any isnt defined.
+      Probably ending up in the UnhandledRejection trap somehow?
+      See built-ins/Promise/any/invoke-resolve-get-once-multiple-calls.js
+
 ## Less imidiate
 
 - [ ] Change StaticJsPropertyKey to use StaticJsString, not native string.
