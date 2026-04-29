@@ -1,5 +1,8 @@
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { construct } from "../../../algorithms/construct.js";
 import { get } from "../../../algorithms/get.js";
+import { sameValue } from "../../../algorithms/same-value.js";
 import { toInteger } from "../../../algorithms/to-integer.js";
 import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
@@ -97,16 +100,40 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
     return this.targetFunc.callEvaluator(this._boundThis, [...this._boundArgs, ...args]);
   }
 
-  constructAsync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
+  constructAsync(
+    args: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsObject> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  constructSync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
+  constructSync(
+    args: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsObject {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObject> {
-    return this.targetFunc.constructEvaluator([...this._boundArgs, ...args]);
+  *constructEvaluator(
+    argumentsList: StaticJsValue[],
+    newTarget: StaticJsCallable = this,
+  ): EvaluationGenerator<StaticJsObject> {
+    const target = this.targetFunc;
+    if (!target.isConstructor) {
+      throw new StaticJsEngineError(
+        "constructEvaluator called on a non-constructor bound function.",
+      );
+    }
+
+    const args = [...this._boundArgs, ...argumentsList];
+
+    if (sameValue(this, newTarget)) {
+      newTarget = target;
+    }
+
+    return yield* construct(target, args, newTarget);
   }
 
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string> {

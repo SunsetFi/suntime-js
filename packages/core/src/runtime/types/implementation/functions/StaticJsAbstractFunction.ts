@@ -6,6 +6,7 @@ import { get } from "../../../algorithms/get.js";
 import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -104,14 +105,25 @@ export abstract class StaticJsAbstractFunction
   }
 
   // TODO: newTarget
-  abstract constructEvaluator(args: StaticJsValue[]): EvaluationGenerator<StaticJsObject>;
+  abstract constructEvaluator(
+    args: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+  ): EvaluationGenerator<StaticJsObject>;
 
-  constructAsync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args), opts);
+  constructAsync(
+    args: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsObject> {
+    return this.realm.invokeEvaluatorAsync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  constructSync(args: StaticJsValue[], opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args), opts);
+  constructSync(
+    args: StaticJsValue[],
+    newTarget?: StaticJsCallable,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsObject {
+    return this.realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
   }
 
   override toNative(): Function {
