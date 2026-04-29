@@ -30,7 +30,8 @@ export function createTestHandler(testRelativePath: string) {
         ? undefined
         : createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
     });
-    createHostApi(realm);
+
+    await createHostApi(realm);
 
     perf("Realm created");
 
