@@ -16,6 +16,8 @@ This project is being ran against the Test262 test suite to ensure spec complian
 
 ![Test262 Builtins Suite](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262-builtins.json)
 
+![Test262 Totals](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FSunsetFi%2Fsuntime-js%2Frefs%2Fheads%2Fmain%2Fpackages%2Fcore%2Fbadges%2Ftest262.json)
+
 ## Packages
 
 ### @suntime-js/core

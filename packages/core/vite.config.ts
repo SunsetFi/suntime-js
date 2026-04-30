@@ -62,6 +62,7 @@ export default defineConfig({
         new VitestBadgeReporter({
           outputFile: "badges/test262-language.json",
           label: "Test262 Language Suite",
+          totalsFile: "badges/test262.json",
         }),
       createBuiltinsBaseline &&
         new JsonReporter({ outputFile: "tests/test-results-builtins-baseline.json" }),
@@ -69,6 +70,7 @@ export default defineConfig({
         new VitestBadgeReporter({
           outputFile: "badges/test262-builtins.json",
           label: "Test262 Built-ins Suite",
+          totalsFile: "badges/test262.json",
         }),
     ].filter(isNotFalse),
   },
