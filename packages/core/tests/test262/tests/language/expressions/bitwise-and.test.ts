@@ -177,6 +177,6 @@ it(
 
 it(
   "order-of-evaluation.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/bitwise-and/order-of-evaluation.js"),
 );

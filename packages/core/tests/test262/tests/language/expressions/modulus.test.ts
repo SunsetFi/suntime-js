@@ -237,6 +237,6 @@ it(
 
 it(
   "order-of-evaluation.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/modulus/order-of-evaluation.js"),
 );

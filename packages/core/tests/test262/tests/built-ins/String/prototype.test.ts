@@ -2093,7 +2093,7 @@ describe("repeat", () => {
   );
   it(
     "return-abrupt-from-count-as-symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/repeat/return-abrupt-from-count-as-symbol.js"),
   );
   it(

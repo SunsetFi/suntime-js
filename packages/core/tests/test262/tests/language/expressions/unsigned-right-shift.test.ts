@@ -267,6 +267,6 @@ it(
 
 it(
   "order-of-evaluation.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/unsigned-right-shift/order-of-evaluation.js"),
 );

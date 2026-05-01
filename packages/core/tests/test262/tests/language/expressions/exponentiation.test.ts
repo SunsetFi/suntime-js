@@ -279,6 +279,6 @@ it(
 
 it(
   "order-of-evaluation.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/exponentiation/order-of-evaluation.js"),
 );

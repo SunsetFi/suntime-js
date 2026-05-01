@@ -129,7 +129,7 @@ describe("toExponential", () => {
   );
   it(
     "return-abrupt-tointeger-fractiondigits-symbol.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Number/prototype/toExponential/return-abrupt-tointeger-fractiondigits-symbol.js",
     ),

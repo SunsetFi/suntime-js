@@ -267,7 +267,7 @@ it(
 
 it(
   "coerce-symbol-to-prim-return-prim.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/addition/coerce-symbol-to-prim-return-prim.js"),
 );
 
@@ -279,7 +279,7 @@ it(
 
 it(
   "order-of-evaluation.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/addition/order-of-evaluation.js"),
 );
 
