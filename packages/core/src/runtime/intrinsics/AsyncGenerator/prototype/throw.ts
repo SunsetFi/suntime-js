@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const asyncGeneratorProtoThrowDeclaration: IntrinsicPropertyDeclaration = {
   key: "throw",
+  length: 1,
   *func(realm, thisArg, value = realm.types.undefined) {
     if (thisArg instanceof StaticJsAsyncGeneratorImpl === false) {
       throw Completion.Throw("TypeError", "Generator throw called on incompatible receiver");

@@ -54,7 +54,7 @@ describe("clear", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/clear/length.js"),
   );
   it(
@@ -174,7 +174,7 @@ describe("entries", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/entries/length.js"),
   );
   it(
@@ -656,7 +656,7 @@ describe("keys", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/keys/length.js"),
   );
   it(
@@ -719,7 +719,7 @@ describe("set", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/set/length.js"),
   );
   it(
@@ -847,7 +847,7 @@ describe("values", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Map/prototype/values/length.js"),
   );
   it(

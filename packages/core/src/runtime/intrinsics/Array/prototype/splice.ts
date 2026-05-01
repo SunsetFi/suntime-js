@@ -10,6 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "splice",
+  length: 2,
   *func(realm, thisArg = realm.types.undefined, startValue, deleteCountValue, ...items) {
     const thisObj = yield* toObject(thisArg);
 

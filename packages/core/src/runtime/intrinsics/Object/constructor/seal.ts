@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorSealDeclaration: IntrinsicPropertyDeclaration = {
   key: "seal",
+  length: 1,
   *func(realm, _thisArg, targetValue) {
     if (!targetValue) {
       targetValue = realm.types.undefined;

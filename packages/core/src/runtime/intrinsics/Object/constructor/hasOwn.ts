@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorHasOwnDeclaration: IntrinsicPropertyDeclaration = {
   key: "hasOwn",
+  length: 2,
   *func(realm, thisArg, objectValue = realm.types.undefined, keyValue) {
     const obj = yield* toObject(objectValue);
 

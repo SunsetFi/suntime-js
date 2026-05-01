@@ -1,7 +1,7 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Object/is/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Object/is/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Object/is/name.js"));
 

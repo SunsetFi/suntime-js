@@ -74,6 +74,44 @@ const MathNumericHookFunctionKeys = [
 
 type MathNumericHook = (this: undefined, realm: StaticJsRealm, ...values: number[]) => number;
 
+const mathFunctionLengths: Record<MathNumericFunctionKeys, number> = {
+  abs: 1,
+  ceil: 1,
+  clz32: 1,
+  f16round: 1,
+  floor: 1,
+  fround: 1,
+  imul: 1,
+  max: 1,
+  min: 1,
+  pow: 1,
+  round: 1,
+  sign: 1,
+  trunc: 1,
+  acos: 1,
+  acosh: 1,
+  asin: 1,
+  asinh: 1,
+  atan: 1,
+  atan2: 1,
+  atanh: 1,
+  cbrt: 1,
+  cos: 1,
+  cosh: 1,
+  exp: 1,
+  expm1: 1,
+  hypot: 1,
+  log: 1,
+  log10: 1,
+  log1p: 1,
+  log2: 1,
+  random: 1,
+  sin: 1,
+  sinh: 1,
+  sqrt: 1,
+  tan: 1,
+  tanh: 1,
+};
 /*
 This is a little bit concerning having computed access to a javascript intrinsic from the runtime,
 but we filter what keys this can be and still fully expect inputs and outputs to be
@@ -90,6 +128,7 @@ function createMathNumericFunctionDeclaration(
 
   return {
     key: key,
+    length: mathFunctionLengths[key],
     *func(realm, _thisObj, ...args) {
       // Building native JS value arrays from sandbox values is a little spicey, but
       // presumably there are no security exploits that can be gained by passing weird numbers to math functions.
@@ -100,7 +139,7 @@ function createMathNumericFunctionDeclaration(
         asNumbers[i] = asNumber.value;
       }
 
-      const computed = func.call(null, ...asNumbers);
+      const computed = func.call(undefined, ...asNumbers);
 
       const asRuntime = realm.types.number(computed);
       return asRuntime;
@@ -137,6 +176,7 @@ function createMathNumericFunctionHookDeclaration(
 
   return {
     key,
+    length: mathFunctionLengths[key],
     *func(realm, _thisObj, ...args) {
       const hook = realm.hooks.math[key] as MathNumericHook;
 

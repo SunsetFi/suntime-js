@@ -6,6 +6,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoStartsWithDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "startsWith",
+  length: 1,
   func: function* (realm, thisArg, value: StaticJsValue = realm.types.undefined) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.false;

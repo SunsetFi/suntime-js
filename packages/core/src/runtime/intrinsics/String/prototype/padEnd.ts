@@ -1,23 +1,18 @@
 import { toNumber } from "../../../algorithms/to-number.js";
 import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoPadEndDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "padEnd",
-  func: function* (
-    realm,
-    thisArg,
-    length: StaticJsValue = realm.types.undefined,
-    value?: StaticJsValue,
-  ) {
+  length: 1,
+  func: function* (realm, thisArg, length = realm.types.undefined, value = realm.types.undefined) {
     const thisStr = yield* toString(thisArg);
 
     length = yield* toNumber(length);
 
     let valueStr = " ";
-    if (value && !isStaticJsUndefined(value)) {
+    if (!isStaticJsUndefined(value)) {
       value = yield* toString(value);
       valueStr = value.value;
     }

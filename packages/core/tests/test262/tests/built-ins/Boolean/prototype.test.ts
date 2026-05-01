@@ -77,7 +77,7 @@ describe("toString", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Boolean/prototype/toString/length.js"),
   );
   it(
@@ -130,7 +130,7 @@ describe("valueOf", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Boolean/prototype/valueOf/length.js"),
   );
   it(

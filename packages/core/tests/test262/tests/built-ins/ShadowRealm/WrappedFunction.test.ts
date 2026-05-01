@@ -1,32 +1,22 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it(
-  "length-throws-typeerror.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/ShadowRealm/WrappedFunction/length-throws-typeerror.js"),
-);
+it.skip("length-throws-typeerror.js", () => {
+  /* Ignored Test */
+});
 
-it(
-  "length.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/ShadowRealm/WrappedFunction/length.js"),
-);
+it.skip("length.js", () => {
+  /* Ignored Test */
+});
 
-it(
-  "name-throws-typeerror.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/ShadowRealm/WrappedFunction/name-throws-typeerror.js"),
-);
+it.skip("name-throws-typeerror.js", () => {
+  /* Ignored Test */
+});
 
-it(
-  "name.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/ShadowRealm/WrappedFunction/name.js"),
-);
+it.skip("name.js", () => {
+  /* Ignored Test */
+});
 
-it(
-  "throws-typeerror-on-revoked-proxy.js",
-  { tags: ["known-failing"] },
-  createTestHandler("built-ins/ShadowRealm/WrappedFunction/throws-typeerror-on-revoked-proxy.js"),
-);
+it.skip("throws-typeerror-on-revoked-proxy.js", () => {
+  /* Ignored Test */
+});

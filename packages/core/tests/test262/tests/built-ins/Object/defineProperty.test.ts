@@ -9,7 +9,7 @@ it(
 
 it(
   "15.2.3.6-0-2.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Object/defineProperty/15.2.3.6-0-2.js"),
 );
 

@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoFillDeclaration: IntrinsicPropertyDeclaration = {
   key: "fill",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, value, startValue, endValue) {
     const thisObj = yield* toObject(thisArg);
 

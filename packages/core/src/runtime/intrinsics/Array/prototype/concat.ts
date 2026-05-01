@@ -11,6 +11,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
   key: "concat",
+  length: 1,
   *func(realm, thisArg, ...items) {
     // Unique among array methods, concat does not cast thisArg to an array.
 

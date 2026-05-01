@@ -7,6 +7,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyDescriptor",
+  length: 2,
   *func(realm, _thisArg, target = realm.types.undefined, propertyKey = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.getOwnPropertyDescriptor called on non-object");

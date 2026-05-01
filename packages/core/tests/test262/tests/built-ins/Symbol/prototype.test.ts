@@ -118,7 +118,7 @@ it(
 describe("toString", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/prototype/toString/length.js"),
   );
   it(
@@ -163,7 +163,7 @@ describe("toString", () => {
 describe("valueOf", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Symbol/prototype/valueOf/length.js"),
   );
   it(

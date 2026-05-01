@@ -19,6 +19,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const promiseCtorAllSettledDeclaration: IntrinsicPropertyDeclaration = {
   key: "allSettled",
+  length: 1,
   *func(realm, thisArg, iterable = realm.types.undefined) {
     // Type guarded by newPromiseCapability
     const constructor = thisArg as StaticJsCallable;

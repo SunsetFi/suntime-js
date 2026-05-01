@@ -5,6 +5,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectIsExtensibleDeclaration: IntrinsicPropertyDeclaration = {
   key: "isExtensible",
+  length: 1,
   *func(realm, _thisArg, target = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.isExtensible called on non-object");

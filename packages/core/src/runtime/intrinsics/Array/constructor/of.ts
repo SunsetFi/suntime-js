@@ -8,6 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",
+  length: 0,
   *func(realm, thisArg, ...items) {
     const len = realm.types.number(items.length);
     let A: StaticJsObject;

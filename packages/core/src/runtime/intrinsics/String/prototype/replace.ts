@@ -4,6 +4,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoReplaceDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "replace",
+  length: 2,
   func: function* (
     realm,
     thisArg,

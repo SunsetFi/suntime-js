@@ -3,6 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoDeleteDeclaration: IntrinsicPropertyDeclaration = {
   key: "delete",
+  length: 1,
   *func(realm, thisArg, value = realm.types.undefined) {
     if (!(thisArg instanceof StaticJsSetImpl)) {
       throw realm.types.error("TypeError", "Not a Set");

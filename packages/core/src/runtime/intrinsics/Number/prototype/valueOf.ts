@@ -4,6 +4,7 @@ import isNumberLike from "../isNumberLike.js";
 
 const numberProtoValueOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "valueOf",
+  length: 0,
   func: function* (realm, thisArg) {
     // Node is really confusing here, it requires thisArg to be a function???
 

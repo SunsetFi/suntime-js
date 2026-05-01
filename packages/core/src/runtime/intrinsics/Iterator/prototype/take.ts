@@ -14,6 +14,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
   key: "take",
+  length: 1,
   *func(realm, thisArg, limit = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

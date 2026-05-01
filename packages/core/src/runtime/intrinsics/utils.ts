@@ -19,6 +19,7 @@ export interface FunctionIntrinsicPropertyDeclaration extends IntrinsicPropertyD
     thisArg: StaticJsValue,
     ...args: (StaticJsValue | undefined)[]
   ) => EvaluationGenerator<StaticJsValue>;
+  length?: number;
 }
 function isFunctionIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
@@ -80,7 +81,9 @@ export function applyIntrinsicProperties(
         prop.func(realm, thisArg, ...args);
 
       obj.defineOwnPropertySync(key, {
-        value: new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func),
+        value: new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func, {
+          length: prop.length ?? prop.func.length - 2,
+        }),
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,

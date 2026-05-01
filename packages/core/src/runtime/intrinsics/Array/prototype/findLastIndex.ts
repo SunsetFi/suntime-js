@@ -10,6 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoFindLastIndexDeclaration: IntrinsicPropertyDeclaration = {
   key: "findLastIndex",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, callback) {
     const thisObj = yield* toObject(thisArg);
 

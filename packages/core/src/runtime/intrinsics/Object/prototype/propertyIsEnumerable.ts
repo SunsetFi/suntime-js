@@ -4,6 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoPropertyIsEnumerableDeclaration: IntrinsicPropertyDeclaration = {
   key: "propertyIsEnumerable",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, key = realm.types.undefined) {
     const P = yield* toPropertyKey(key);
     const O = yield* toObject(thisArg);

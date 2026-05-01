@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
   key: "then",
+  length: 2,
   *func(
     realm,
     thisArg = realm.types.undefined,

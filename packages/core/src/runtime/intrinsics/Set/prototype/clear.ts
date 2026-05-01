@@ -3,6 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoClearDeclaration: IntrinsicPropertyDeclaration = {
   key: "clear",
+  length: 0,
   *func(realm, thisArg) {
     if (!(thisArg instanceof StaticJsSetImpl)) {
       throw realm.types.error("TypeError", "Not a Set");

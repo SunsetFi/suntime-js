@@ -14,6 +14,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   key: "every",
+  length: 1,
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

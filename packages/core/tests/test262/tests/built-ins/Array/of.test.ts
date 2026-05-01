@@ -25,7 +25,7 @@ it(
   createTestHandler("built-ins/Array/of/does-not-use-set-for-indices.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Array/of/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Array/of/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Array/of/name.js"));
 

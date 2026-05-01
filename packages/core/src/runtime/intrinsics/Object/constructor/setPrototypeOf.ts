@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "setPrototypeOf",
+  length: 2,
   *func(realm, _thisArg, targetValue = realm.types.undefined, protoValue) {
     const obj = yield* toObject(targetValue);
 

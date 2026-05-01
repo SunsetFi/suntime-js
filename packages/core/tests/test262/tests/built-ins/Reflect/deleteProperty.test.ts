@@ -21,7 +21,7 @@ it(
 
 it(
   "length.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Reflect/deleteProperty/length.js"),
 );
 

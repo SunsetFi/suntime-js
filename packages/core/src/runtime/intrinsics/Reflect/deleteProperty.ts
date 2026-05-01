@@ -6,6 +6,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectDeletePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "deleteProperty",
+  length: 2,
   *func(realm, _thisArg, target = realm.types.undefined, propertyKey = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.deleteProperty called on non-object");

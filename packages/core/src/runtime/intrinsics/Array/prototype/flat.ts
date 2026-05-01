@@ -12,6 +12,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {
   key: "flat",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, depthValue) {
     const thisObj = yield* toObject(thisArg);
 

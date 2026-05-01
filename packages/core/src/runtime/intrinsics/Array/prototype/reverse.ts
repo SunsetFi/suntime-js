@@ -6,6 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReverseDeclaration: IntrinsicPropertyDeclaration = {
   key: "reverse",
+  length: 0,
   *func(realm, thisArg = realm.types.undefined) {
     const thisObj = yield* toObject(thisArg);
 

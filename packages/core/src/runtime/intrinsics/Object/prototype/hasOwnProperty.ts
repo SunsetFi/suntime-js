@@ -6,6 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoHasOwnPropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "hasOwnProperty",
+  length: 1,
   *func(realm, thisArg, V) {
     // This ordering is important for what exceptions trigger first.
     const P = yield* Q(toPropertyKey(V));

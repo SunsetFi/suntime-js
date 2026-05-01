@@ -4,6 +4,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoConcatDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "concat",
+  length: 1,
   func: function* (realm, thisArg, ...args) {
     const thisArgStr = yield* toString(thisArg);
     const argStrs: StaticJsString[] = [];

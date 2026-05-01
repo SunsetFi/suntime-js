@@ -13,6 +13,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduce",
+  length: 1,
   *func(realm, thisArg, reducer = realm.types.undefined, initialValue) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

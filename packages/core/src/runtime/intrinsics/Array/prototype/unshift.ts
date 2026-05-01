@@ -8,6 +8,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
   key: "unshift",
+  length: 0,
   *func(realm, thisArg = realm.types.undefined, ...args) {
     const thisObj = yield* toObject(thisArg);
 

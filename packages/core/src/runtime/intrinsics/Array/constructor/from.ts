@@ -24,6 +24,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
   key: "from",
+  length: 1,
   *func(
     realm,
     thisArg,

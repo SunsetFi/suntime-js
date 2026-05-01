@@ -19,6 +19,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const promiseCtorAnyDeclaration: IntrinsicPropertyDeclaration = {
   key: "any",
+  length: 1,
   *func(realm, thisArg, iterable = realm.types.undefined) {
     // Type cast guarded by newPromiseCapability.
     const constructor = thisArg as StaticJsCallable;

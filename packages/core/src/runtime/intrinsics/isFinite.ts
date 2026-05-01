@@ -4,6 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectIsFiniteDeclaration: IntrinsicPropertyDeclaration = {
   key: "isFinite",
+  length: 1,
   *func(realm, _thisArg, value = realm.types.undefined) {
     value = yield* toNumber(value);
 

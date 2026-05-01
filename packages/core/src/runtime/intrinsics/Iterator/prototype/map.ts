@@ -15,6 +15,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "map",
+  length: 1,
   *func(realm, thisArg, mapper = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

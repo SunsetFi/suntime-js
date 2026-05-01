@@ -1225,7 +1225,7 @@ describe("toString", () => {
   );
   it(
     "S15.3.4.2_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/S15.3.4.2_A11.js"),
   );
   it(

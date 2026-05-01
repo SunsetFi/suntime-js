@@ -1,12 +1,12 @@
 import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoEndsWithDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "endsWith",
-  func: function* (realm, thisArg, value?: StaticJsValue) {
+  length: 1,
+  func: function* (realm, thisArg, value = realm.types.undefined) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.false;
     }

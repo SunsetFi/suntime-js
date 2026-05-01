@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
+  length: 1,
   *func(realm, _thisArg, source = realm.types.undefined) {
     // FIXME SPEC WEIRDNESS:
     // The spec say we ONLY call performEval without touching the context.

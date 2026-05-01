@@ -197,7 +197,7 @@ describe("clear", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Set/prototype/clear/length.js"),
   );
   it(
@@ -557,7 +557,7 @@ describe("entries", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Set/prototype/entries/length.js"),
   );
   it(
@@ -1846,7 +1846,7 @@ describe("values", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Set/prototype/values/length.js"),
   );
   it(

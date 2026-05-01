@@ -4,6 +4,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoValueOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "valueOf",
+  length: 0,
   func: function* (realm, thisArg) {
     // Unbox.
     if (thisArg instanceof StaticJsStringExoticObject) {

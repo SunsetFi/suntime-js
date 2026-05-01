@@ -132,7 +132,7 @@ describe("toString", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/toString/length.js"),
   );
   it(

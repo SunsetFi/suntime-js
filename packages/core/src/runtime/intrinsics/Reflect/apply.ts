@@ -7,6 +7,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",
+  length: 3,
   *func(
     realm,
     _thisArg,

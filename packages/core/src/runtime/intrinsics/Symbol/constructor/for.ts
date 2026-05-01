@@ -3,6 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const symbolCtorForDeclaration: IntrinsicPropertyDeclaration = {
   key: "for",
+  length: 1,
   *func(realm, _thisArg, keyArg = realm.types.undefined) {
     const keyStringValue = yield* toString(keyArg);
     const key = keyStringValue.value;

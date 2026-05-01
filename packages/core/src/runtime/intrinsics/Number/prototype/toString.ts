@@ -4,7 +4,10 @@ import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toString",
+  length: 1,
   func: function* (realm, thisArg) {
+    // FIXME: Takes an argument.
+
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {

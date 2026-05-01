@@ -31,6 +31,7 @@ const ignoredPaths = [
   ["built-ins", "TypedArray"],
   ["built-ins", "AsyncDisposableStack"],
   ["built-ins", "DisposableStack"],
+  ["built-ins", "ShadowRealm"],
   // Really?  We should implement this.
   ["built-ins", "JSON"],
   // Takes forever and tests 65535 comment variations, none of which will confuse babel.

@@ -49,7 +49,7 @@ it(
   createTestHandler("built-ins/Map/groupBy/iterator-next-throws.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Map/groupBy/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Map/groupBy/length.js"));
 
 it(
   "map-instance.js",

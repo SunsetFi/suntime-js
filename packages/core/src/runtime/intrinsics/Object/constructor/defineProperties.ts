@@ -5,6 +5,7 @@ import objectDefineProperties from "../object-define-properties.js";
 
 const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperties",
+  length: 1,
   *func(realm, _thisArg, O, properties = realm.types.undefined) {
     if (!isStaticJsObject(O)) {
       throw Completion.Throw("TypeError", "Object.defineProperties called on non-object");

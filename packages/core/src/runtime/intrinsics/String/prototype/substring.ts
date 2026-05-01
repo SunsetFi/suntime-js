@@ -1,21 +1,27 @@
 import { toNumber } from "../../../algorithms/to-number.js";
 import { toString } from "../../../algorithms/to-string.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoSubstringDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "substring",
-  func: function* (realm, thisArg, startValue?: StaticJsValue, endValue?: StaticJsValue) {
+  length: 2,
+  func: function* (
+    realm,
+    thisArg,
+    startValue = realm.types.undefined,
+    endValue = realm.types.undefined,
+  ) {
     let start = 0;
-    if (startValue) {
+    if (!isStaticJsUndefined(startValue)) {
       const startNum = yield* toNumber(startValue);
       start = startNum.value;
     }
 
     let end = Infinity;
-    if (endValue) {
-      const lengthNum = yield* toNumber(endValue);
-      end = lengthNum.value;
+    if (!isStaticJsUndefined(endValue)) {
+      const endNum = yield* toNumber(endValue);
+      end = endNum.value;
     }
 
     thisArg = yield* toString(thisArg);

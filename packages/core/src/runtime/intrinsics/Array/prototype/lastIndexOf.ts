@@ -6,6 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoLastIndexOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "lastIndexOf",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, value) {
     const thisObj = yield* toObject(thisArg);
 

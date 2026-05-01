@@ -9,6 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoToArrayDeclaration: IntrinsicPropertyDeclaration = {
   key: "toArray",
+  length: 0,
   *func(_realm, thisArg) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

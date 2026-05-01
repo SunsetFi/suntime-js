@@ -2351,7 +2351,7 @@ describe("replace", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/replace/length.js"),
   );
   it(
@@ -2464,7 +2464,7 @@ describe("replaceAll", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/replaceAll/length.js"),
   );
   it(
@@ -2869,7 +2869,7 @@ describe("slice", () => {
   );
   it(
     "S15.5.4.13_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/slice/S15.5.4.13_A11.js"),
   );
   it(
@@ -2909,7 +2909,7 @@ describe("slice", () => {
   );
   it(
     "S15.5.4.13_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/slice/S15.5.4.13_A1_T2.js"),
   );
   it(
@@ -2929,12 +2929,12 @@ describe("slice", () => {
   );
   it(
     "S15.5.4.13_A1_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/slice/S15.5.4.13_A1_T7.js"),
   );
   it(
     "S15.5.4.13_A1_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/slice/S15.5.4.13_A1_T8.js"),
   );
   it(
@@ -3921,7 +3921,7 @@ describe("substring", () => {
   );
   it(
     "S15.5.4.15_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/substring/S15.5.4.15_A11.js"),
   );
   it(
@@ -3961,7 +3961,7 @@ describe("substring", () => {
   );
   it(
     "S15.5.4.15_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/substring/S15.5.4.15_A1_T2.js"),
   );
   it(
@@ -3981,17 +3981,17 @@ describe("substring", () => {
   );
   it(
     "S15.5.4.15_A1_T7.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/substring/S15.5.4.15_A1_T7.js"),
   );
   it(
     "S15.5.4.15_A1_T8.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/substring/S15.5.4.15_A1_T8.js"),
   );
   it(
     "S15.5.4.15_A1_T9.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/substring/S15.5.4.15_A1_T9.js"),
   );
   it(
@@ -4429,7 +4429,7 @@ describe("toLowerCase", () => {
   );
   it(
     "S15.5.4.16_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/toLowerCase/S15.5.4.16_A11.js"),
   );
   it(
@@ -4562,7 +4562,7 @@ describe("toLowerCase", () => {
 describe("toString", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/toString/length.js"),
   );
   it(
@@ -4605,7 +4605,7 @@ describe("toUpperCase", () => {
   );
   it(
     "S15.5.4.18_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/toUpperCase/S15.5.4.18_A11.js"),
   );
   it(
@@ -4781,7 +4781,7 @@ describe("trim", () => {
   );
   it(
     "15.5.4.20-0-2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/trim/15.5.4.20-0-2.js"),
   );
   it(
@@ -5424,7 +5424,7 @@ describe("trim", () => {
 describe("trimEnd", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/trimEnd/length.js"),
   );
   it(
@@ -5560,7 +5560,7 @@ describe("trimEnd", () => {
 describe("trimStart", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/trimStart/length.js"),
   );
   it(
@@ -5700,7 +5700,7 @@ describe("trimStart", () => {
 describe("valueOf", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/valueOf/length.js"),
   );
   it(

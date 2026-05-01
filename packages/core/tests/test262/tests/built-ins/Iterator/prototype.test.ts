@@ -30,7 +30,7 @@ describe("Symbol.iterator", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/Symbol.iterator/length.js"),
   );
   it(
@@ -1945,7 +1945,7 @@ describe("toArray", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/toArray/length.js"),
   );
   it(

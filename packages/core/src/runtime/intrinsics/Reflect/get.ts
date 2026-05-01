@@ -6,6 +6,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectGetDeclaration: IntrinsicPropertyDeclaration = {
   key: "get",
+  length: 3,
   *func(
     realm,
     _thisArg,

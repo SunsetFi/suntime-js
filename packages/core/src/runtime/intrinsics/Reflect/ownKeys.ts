@@ -9,6 +9,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {
   key: "ownKeys",
+  length: 1,
   *func(realm, _thisArg, target = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.ownKeys called on non-object");

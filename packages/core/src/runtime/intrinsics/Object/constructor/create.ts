@@ -7,6 +7,7 @@ import objectDefineProperties from "../object-define-properties.js";
 
 const objectCtorCreateDeclaration: IntrinsicPropertyDeclaration = {
   key: "create",
+  length: 2,
   *func(realm, _thisArg, protoValue = realm.types.undefined, properties = realm.types.undefined) {
     if (!isStaticJsNull(protoValue) && !isStaticJsObject(protoValue)) {
       throw Completion.Throw("TypeError", "Object prototype may only be an Object or null");

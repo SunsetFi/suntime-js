@@ -4,6 +4,7 @@ import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToLocaleStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toLocaleString",
+  length: 0,
   func: function* (realm, thisArg) {
     if (!isNumberLike(thisArg)) {
       throw Completion.Throw(

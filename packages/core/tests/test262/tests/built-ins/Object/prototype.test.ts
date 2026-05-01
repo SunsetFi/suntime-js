@@ -947,7 +947,7 @@ describe("toLocaleString", () => {
   );
   it(
     "S15.2.4.3_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/toLocaleString/S15.2.4.3_A11.js"),
   );
   it(
@@ -1097,7 +1097,7 @@ describe("toString", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/toString/length.js"),
   );
   it(
@@ -1245,7 +1245,7 @@ describe("valueOf", () => {
   );
   it(
     "S15.2.4.4_A11.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/valueOf/S15.2.4.4_A11.js"),
   );
   it(

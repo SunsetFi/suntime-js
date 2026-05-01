@@ -3,6 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const setProtoIsSubsetOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isSubsetOf",
+  length: 1,
   *func(realm, thisArg, otherSet = realm.types.undefined) {
     if (!(thisArg instanceof StaticJsSetImpl)) {
       throw realm.types.error("TypeError", "Not a Set");

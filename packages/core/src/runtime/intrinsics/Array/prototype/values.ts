@@ -4,6 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoValuesDeclaration: IntrinsicPropertyDeclaration = {
   key: "values",
+  length: 0,
   *func(realm, thisArg) {
     thisArg = yield* toObject(thisArg);
     return yield* createArrayIterator(thisArg, "value", realm);

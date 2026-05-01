@@ -16,6 +16,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
   key: "drop",
+  length: 1,
   *func(realm, thisArg, limit = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

@@ -295,7 +295,7 @@ describe("then", () => {
   );
   it(
     "S25.4.5.3_A1.1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/prototype/then/S25.4.5.3_A1.1_T2.js"),
   );
   it(
@@ -395,7 +395,7 @@ describe("then", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Promise/prototype/then/length.js"),
   );
   it(

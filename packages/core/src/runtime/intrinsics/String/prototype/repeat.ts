@@ -1,11 +1,11 @@
 import { toNumber } from "../../../algorithms/to-number.js";
 import { toString } from "../../../algorithms/to-string.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoRepeatDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "repeat",
-  func: function* (realm, thisArg, value: StaticJsValue = realm.types.undefined) {
+  length: 1,
+  func: function* (realm, thisArg, value = realm.types.undefined) {
     const count = yield* toNumber(value);
 
     const thisStr = yield* toString(thisArg);

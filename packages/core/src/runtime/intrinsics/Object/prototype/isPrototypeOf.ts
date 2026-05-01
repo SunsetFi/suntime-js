@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectProtoIsPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "isPrototypeOf",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, proto) {
     if (!isStaticJsObject(proto)) {
       return realm.types.false;

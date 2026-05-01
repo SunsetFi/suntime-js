@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
+  length: 1,
   *func(realm, thisArg, callback = realm.types.undefined, callbackThisArg = realm.types.undefined) {
     if (!isStaticJsMap(thisArg)) {
       throw Completion.Throw("TypeError", "Map.prototype.forEach called on incompatible receiver");

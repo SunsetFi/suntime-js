@@ -115,7 +115,7 @@ it(
 
 it(
   "length.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/ArrayIteratorPrototype/next/length.js"),
 );
 

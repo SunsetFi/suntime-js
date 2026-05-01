@@ -6,6 +6,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "setPrototypeOf",
+  length: 2,
   *func(realm, _thisArg, target = realm.types.undefined, prototype = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.setPrototypeOf called on non-object");

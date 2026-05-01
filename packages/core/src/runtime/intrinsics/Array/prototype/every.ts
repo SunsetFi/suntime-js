@@ -10,6 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   key: "every",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, callback) {
     const thisObj = yield* toObject(thisArg);
 

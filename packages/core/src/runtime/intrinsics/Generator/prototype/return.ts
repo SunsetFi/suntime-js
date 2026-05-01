@@ -4,6 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const generatorProtoReturnDeclaration: IntrinsicPropertyDeclaration = {
   key: "return",
+  length: 1,
   *func(realm, thisArg, value = realm.types.undefined) {
     const completion = Completion.Return(value);
     return yield* generatorResumeAbrupt(thisArg, completion, null, realm);

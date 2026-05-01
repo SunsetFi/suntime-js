@@ -248,7 +248,7 @@ describe("toFixed", () => {
 describe("toLocaleString", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Number/prototype/toLocaleString/length.js"),
   );
   it(
@@ -861,7 +861,7 @@ describe("valueOf", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Number/prototype/valueOf/length.js"),
   );
   it(

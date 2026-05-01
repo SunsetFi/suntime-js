@@ -13,6 +13,7 @@ import sortIndexedProperties from "../sort-indexed-properties.js";
 
 const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
   key: "sort",
+  length: 0,
   *func(realm, thisArg, comparatorArg) {
     let resolvedComparator: StaticJsCallable | null;
     if (!comparatorArg || isStaticJsUndefined(comparatorArg)) {

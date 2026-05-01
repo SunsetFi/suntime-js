@@ -2,15 +2,15 @@ import { createArrayFromList } from "../../../algorithms/create-array-from-list.
 import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoSplitDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "split",
-  func: function* (realm, thisArg, separator?: StaticJsValue) {
+  length: 1,
+  func: function* (realm, thisArg, separator = realm.types.undefined) {
     thisArg = yield* toString(thisArg);
 
-    if (!separator || isStaticJsUndefined(separator) || isStaticJsNull(separator)) {
+    if (isStaticJsUndefined(separator) || isStaticJsNull(separator)) {
       return yield* createArrayFromList([thisArg]);
     }
 

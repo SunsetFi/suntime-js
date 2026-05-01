@@ -7,6 +7,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperty",
+  length: 3,
   *func(
     realm,
     _thisArg,

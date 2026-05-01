@@ -5,6 +5,7 @@ import { IntrinsicPropertyDeclaration } from "../utils.js";
 
 export const reflectPreventExtensionsDeclaration: IntrinsicPropertyDeclaration = {
   key: "preventExtensions",
+  length: 1,
   *func(realm, _thisArg, target = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
       throw Completion.Throw("TypeError", "Reflect.preventExtensions called on non-object");

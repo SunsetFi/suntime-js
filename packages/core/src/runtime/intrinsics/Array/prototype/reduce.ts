@@ -10,6 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   key: "reduce",
+  length: 2,
   *func(realm, thisArg, callback, initialValue) {
     const o = yield* toObject(thisArg);
 

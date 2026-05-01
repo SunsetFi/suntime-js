@@ -12,6 +12,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",
+  length: 1,
   *func(realm, thisArg, callback = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

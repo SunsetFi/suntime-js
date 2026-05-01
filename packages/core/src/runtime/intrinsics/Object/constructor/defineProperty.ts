@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperty",
+  length: 3,
   *func(
     realm,
     _thisArg,

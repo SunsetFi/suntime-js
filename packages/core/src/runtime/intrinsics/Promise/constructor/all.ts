@@ -19,6 +19,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {
   key: "all",
+  length: 1,
   *func(realm, thisArg, iterable = realm.types.undefined) {
     const c = thisArg;
     if (!isConstructor(c)) {

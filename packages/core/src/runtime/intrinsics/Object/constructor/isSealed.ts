@@ -3,8 +3,8 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const objectCtorIsSealedDeclaration: IntrinsicPropertyDeclaration = {
   key: "isSealed",
+  length: 1,
   *func(realm, _thisArg, objValue = realm.types.undefined) {
-    // TODO: Is not extensible, all properties are nonconfigurable, all data properties are non writable.
     const obj = yield* toObject(objValue);
 
     const extensible = yield* obj.isExtensibleEvaluator();

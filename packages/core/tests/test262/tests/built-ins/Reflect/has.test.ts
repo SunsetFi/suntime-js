@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it("has.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Reflect/has/has.js"));
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Reflect/has/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Reflect/has/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Reflect/has/name.js"));
 

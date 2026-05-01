@@ -5,6 +5,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoCharCodeAtDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "charCodeAt",
+  length: 1,
   func: function* (realm, thisArg, indexValue: StaticJsValue = realm.types.undefined) {
     thisArg = yield* toString(thisArg);
 

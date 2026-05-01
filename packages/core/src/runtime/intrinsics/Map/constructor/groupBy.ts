@@ -11,6 +11,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
   key: "groupBy",
+  length: 2,
   *func(realm, _thisArg, items = realm.types.undefined, callbackFn = realm.types.undefined) {
     const collection = new Map<StaticJsValue, StaticJsValue[]>();
 

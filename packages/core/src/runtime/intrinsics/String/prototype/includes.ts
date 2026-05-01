@@ -6,6 +6,7 @@ import type { FunctionIntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoIncludesDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "includes",
+  length: 1,
   func: function* (realm, thisArg, value: StaticJsValue = realm.types.undefined) {
     if (!value || isStaticJsUndefined(value) || isStaticJsNull(value)) {
       return realm.types.false;

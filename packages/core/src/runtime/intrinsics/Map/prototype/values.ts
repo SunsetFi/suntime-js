@@ -4,6 +4,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const mapProtoValuesDeclaration: IntrinsicPropertyDeclaration = {
   key: "values",
+  length: 0,
   *func(_realm, thisArg) {
     if (!isStaticJsMap(thisArg)) {
       throw Completion.Throw("TypeError", "Map.prototype.values called on incompatible receiver");

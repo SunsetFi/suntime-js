@@ -6,6 +6,7 @@ import isNumberLike from "../isNumberLike.js";
 
 const numberProtoToPrecisionDeclaration: FunctionIntrinsicPropertyDeclaration = {
   key: "toPrecision",
+  length: 1,
   func: function* (realm, thisArg, digits: StaticJsValue = realm.types.undefined) {
     // Node is really confusing here, it requires thisArg to be a function???
 

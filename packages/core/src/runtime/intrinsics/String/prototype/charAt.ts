@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringProtoCharAtDeclaration: IntrinsicPropertyDeclaration = {
   key: "charAt",
+  length: 1,
   func: function* (realm, thisArg, indexValue: StaticJsValue = realm.types.undefined) {
     thisArg = yield* toString(thisArg);
 

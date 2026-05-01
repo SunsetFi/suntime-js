@@ -3,6 +3,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const stringCtorFromCharCodeDeclaration: IntrinsicPropertyDeclaration = {
   key: "fromCharCode",
+  length: 1,
   *func(realm, _thisArg, ...values) {
     const chars: string[] = [];
     for (const value of values) {

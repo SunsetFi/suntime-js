@@ -9,6 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
   key: "finally",
+  length: 1,
   *func(realm, thisArg, onFinally) {
     if (!isStaticJsPromise(thisArg)) {
       throw Completion.Throw("TypeError", "finally called on non-promise");

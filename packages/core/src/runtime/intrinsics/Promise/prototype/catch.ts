@@ -5,6 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {
   key: "catch",
+  length: 1,
   *func(realm, thisArg, onRejected = realm.types.undefined) {
     if (!isStaticJsPromise(thisArg)) {
       throw Completion.Throw("TypeError", "catch called on non-promise");

@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   key: "bind",
+  length: 1,
   *func(realm, self, thisArg, ...args) {
     if (!isCallable(self)) {
       throw Completion.Throw("TypeError", "Bind must be called on a function");

@@ -16,6 +16,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
   key: "filter",
+  length: 1,
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {

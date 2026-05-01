@@ -10,6 +10,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoFindIndexDeclaration: IntrinsicPropertyDeclaration = {
   key: "findIndex",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, callback) {
     const thisObj = yield* toObject(thisArg);
 

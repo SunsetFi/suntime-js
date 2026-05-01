@@ -31,7 +31,7 @@ it(
 
 it(
   "length.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/MapIteratorPrototype/next/length.js"),
 );
 

@@ -6,6 +6,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
+  length: 0,
   *func(realm, thisArg) {
     // I'm not too sure on the spec for this...
     if (!thisArg) {

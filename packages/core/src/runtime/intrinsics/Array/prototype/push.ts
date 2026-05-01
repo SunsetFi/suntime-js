@@ -7,6 +7,7 @@ import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   key: "push",
+  length: 1,
   *func(realm, thisArg = realm.types.undefined, ...args) {
     const thisObj = yield* toObject(thisArg);
 
