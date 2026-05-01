@@ -1,7 +1,10 @@
 import { parse, type ParseResult } from "@babel/parser";
 import { isFunctionDeclaration, type FunctionParameter, type File } from "@babel/types";
 
+import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
+
 import { babelParserOptions } from "./babel-parser-options.js";
+import { handleParseError } from "./parse-error.js";
 
 const ArgumentParseErrorMessage = "Arg string terminates parameters early";
 export function parseParameters(paramStr: string): FunctionParameter[] {
@@ -12,23 +15,24 @@ export function parseParameters(paramStr: string): FunctionParameter[] {
   try {
     paramParsed = parse(`function foo(${paramStr}) {}`, babelParserOptions);
   } catch (e) {
-    if (e instanceof SyntaxError) {
-      // This is the error given by V8 when the parameter string is invalid, so we should match it.
-      const rethrow = new SyntaxError(ArgumentParseErrorMessage);
-      rethrow.cause = e;
-      throw rethrow;
-    }
-
-    throw e;
+    handleParseError(e, ArgumentParseErrorMessage);
   }
 
   if (paramParsed.program.body.length !== 1) {
-    throw new SyntaxError(ArgumentParseErrorMessage);
+    throw new StaticJsSyntaxError(ArgumentParseErrorMessage, {
+      column: -1,
+      line: -1,
+      index: -1,
+    });
   }
 
   const func = paramParsed.program.body[0];
   if (!isFunctionDeclaration(func)) {
-    throw new SyntaxError(ArgumentParseErrorMessage);
+    throw new StaticJsSyntaxError(ArgumentParseErrorMessage, {
+      column: -1,
+      line: -1,
+      index: -1,
+    });
   }
 
   return func.params;

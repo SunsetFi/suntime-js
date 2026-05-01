@@ -51,7 +51,7 @@ it(
 
 it(
   "ctx-ctor.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Promise/allSettled/ctx-ctor.js"),
 );
 

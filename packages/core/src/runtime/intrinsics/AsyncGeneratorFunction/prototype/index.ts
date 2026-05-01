@@ -16,10 +16,10 @@ export default function populateAsyncGeneratorFunctionPrototype(
 ): void {
   applyIntrinsicProperties(realm, asyncGeneratorProto, declarations);
 
-  asyncGeneratorProto.defineOwnPropertySync("constructor", {
-    value: asyncGeneratorProto,
-    writable: false,
-    enumerable: false,
-    configurable: true,
-  });
+  // asyncGeneratorProto.defineOwnPropertySync("constructor", {
+  //   value: asyncGeneratorProto,
+  //   writable: false,
+  //   enumerable: false,
+  //   configurable: true,
+  // });
 }

@@ -27644,7 +27644,7 @@ describe("subclass", () => {
       );
       it(
         "instance-name.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/Function/instance-name.js",
         ),
@@ -27674,7 +27674,7 @@ describe("subclass", () => {
       );
       it(
         "instance-name.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/GeneratorFunction/instance-name.js",
         ),
@@ -27688,14 +27688,14 @@ describe("subclass", () => {
       );
       it(
         "regular-subclassing.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/GeneratorFunction/regular-subclassing.js",
         ),
       );
       it(
         "super-must-be-called.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/GeneratorFunction/super-must-be-called.js",
         ),
@@ -28318,7 +28318,7 @@ describe("subclass-builtins", () => {
   });
   it(
     "subclass-Function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-Function.js"),
   );
   it.skip("subclass-Int16Array.js", () => {
@@ -28347,7 +28347,7 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-Promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-Promise.js"),
   );
   it(

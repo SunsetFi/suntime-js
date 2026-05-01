@@ -26781,7 +26781,7 @@ describe("subclass-builtins", () => {
   });
   it(
     "subclass-Function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-Function.js"),
   );
   it.skip("subclass-Int16Array.js", () => {
@@ -26810,7 +26810,7 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-Promise.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-Promise.js"),
   );
   it(

@@ -6,10 +6,12 @@ import { handleParseError } from "./parse-error.js";
 
 export interface ParseFunctionBodyOptions {
   async?: boolean;
+  generator?: boolean;
+  module?: boolean;
 }
 export function parseFunctionBody(
   script: string,
-  { async }: ParseFunctionBodyOptions = {},
+  { async, generator, module }: ParseFunctionBodyOptions = {},
 ): Program {
   try {
     const parsed = parseAst(script, {
@@ -17,6 +19,8 @@ export function parseFunctionBody(
       ...babelParserOptions,
       allowReturnOutsideFunction: true,
       ...(async ? { allowAwaitOutsideFunction: true } : {}),
+      ...(generator ? { allowYieldOutsideFunction: true } : {}),
+      ...(module ? { sourceType: "module" } : {}),
     });
 
     return parsed.program;

@@ -71,7 +71,7 @@ it(
 
 it(
   "function-constructor.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/comments/hashbang/function-constructor.js"),
 );
 

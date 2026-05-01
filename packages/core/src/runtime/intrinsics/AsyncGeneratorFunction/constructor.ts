@@ -1,82 +1,43 @@
-import { blockStatement, functionDeclaration, type Program } from "@babel/types";
-
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { parseFunctionBody } from "../../../parser/parse-function-body.js";
-import { parseParameters } from "../../../parser/parse-parameters.js";
-import { definePropertyOrThrow } from "../../algorithms/define-property-or-throw.js";
-import { setFunctionName } from "../../algorithms/set-function-name.js";
-import { toString } from "../../algorithms/to-string.js";
+import { createDynamicFunction } from "../../algorithms/create-dynamic-function.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import {
-  StaticJsAstFunction,
-  StaticJsAstFunctionArgument,
-} from "../../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsCallable } from "../../types/StaticJsCallable.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
 export default function createAsyncGeneratorFunctionConstructor(
   realm: StaticJsRealm,
   asyncGeneratorFunctionProto: StaticJsObject,
+  functionConstructor: StaticJsCallable,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "AsyncGeneratorFunction",
     function* (_thisArg, ...args) {
-      const paramValues = args.length > 1 ? args.slice(0, -1) : [];
-      const bodyStrValue = args.length > 0 ? args[args.length - 1] : realm.types.string("");
-
-      const parameters: StaticJsAstFunctionArgument[] = [];
-      for (const paramValue of paramValues) {
-        try {
-          const paramStr = yield* toString.js(paramValue);
-          const parseParams = parseParameters(paramStr);
-          parameters.push(...parseParams);
-        } catch (e) {
-          if (e instanceof SyntaxError) {
-            throw Completion.Throw("SyntaxError", "Arg string terminates parameters early");
-          }
-
-          throw e;
-        }
-      }
-
-      const bodyStr = yield* toString(bodyStrValue);
-
-      // We don't really have a proper Node type to represent a function body...
-      let body: Program;
-      try {
-        body = parseFunctionBody(bodyStr.value);
-      } catch {
-        throw Completion.Throw("SyntaxError", "Failed to parse function body");
-      }
-
-      const fnBody = blockStatement(body.body, body.directives);
-      const fn = functionDeclaration(null, parameters, fnBody, false, true);
-
-      const func = new StaticJsAstFunction(realm, fn, {
-        thisMode: "non-lexical-this",
-        strict: false,
-        env: realm.globalEnv,
-        scriptOrModule: null,
-        construct: false,
-      });
-
-      yield* setFunctionName(func, "");
-
-      const prototype = realm.types.object(undefined, realm.types.prototypes.asyncGeneratorProto);
-      yield* definePropertyOrThrow(func, "prototype", {
-        value: prototype,
-        writable: true,
-        enumerable: false,
-        configurable: false,
-      });
-
-      return func;
+      const parameterArgs = args.length > 1 ? args.slice(0, -1) : [];
+      const bodyArg = args.length > 0 ? args[args.length - 1] : realm.types.string("");
+      return yield* createDynamicFunction(
+        realm.types.constructors.AsyncGeneratorFunction,
+        undefined,
+        "async-generator",
+        parameterArgs,
+        bodyArg,
+      );
     },
     {
       // What should this be???
-      construct: true,
+      *construct(newTarget, ...args) {
+        const parameterArgs = args.length > 1 ? args.slice(0, -1) : [];
+        const bodyArg = args.length > 0 ? args[args.length - 1] : realm.types.string("");
+        return yield* createDynamicFunction(
+          realm.types.constructors.AsyncGeneratorFunction,
+          newTarget,
+          "async-generator",
+          parameterArgs,
+          bodyArg,
+        );
+      },
       length: 1,
+      prototype: functionConstructor,
     },
   );
 
@@ -86,9 +47,10 @@ export default function createAsyncGeneratorFunctionConstructor(
     enumerable: false,
     configurable: false,
   });
+
   asyncGeneratorFunctionProto.defineOwnPropertySync("constructor", {
     value: ctor,
-    writable: true,
+    writable: false,
     enumerable: false,
     configurable: true,
   });

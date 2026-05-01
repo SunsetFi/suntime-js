@@ -63,6 +63,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
   const AsyncGeneratorFunction = createAsyncGeneratorFunctionConstructor(
     realm,
     realm.types.prototypes.asyncGeneratorFunctionProto,
+    Function,
   );
 
   addRestrictedFunctionProperties(realm.types.prototypes.functionProto, realm);

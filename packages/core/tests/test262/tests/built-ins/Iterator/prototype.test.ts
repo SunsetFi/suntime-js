@@ -161,7 +161,7 @@ describe("drop", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/drop/next-method-returns-non-object.js"),
   );
   it(
@@ -326,7 +326,7 @@ describe("every", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/every/next-method-returns-non-object.js"),
   );
   it(
@@ -500,7 +500,7 @@ describe("filter", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/filter/next-method-returns-non-object.js"),
   );
   it(
@@ -702,7 +702,7 @@ describe("find", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/find/next-method-returns-non-object.js"),
   );
   it(
@@ -930,7 +930,7 @@ describe("flatMap", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/flatMap/next-method-returns-non-object.js"),
   );
   it(
@@ -1126,7 +1126,7 @@ describe("forEach", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/forEach/next-method-returns-non-object.js"),
   );
   it(
@@ -1286,7 +1286,7 @@ describe("map", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/map/next-method-returns-non-object.js"),
   );
   it(
@@ -1469,7 +1469,7 @@ describe("reduce", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/reduce/next-method-returns-non-object.js"),
   );
   it(
@@ -1628,7 +1628,7 @@ describe("some", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/some/next-method-returns-non-object.js"),
   );
   it(
@@ -1817,7 +1817,7 @@ describe("take", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/take/next-method-returns-non-object.js"),
   );
   it(
@@ -1955,7 +1955,7 @@ describe("toArray", () => {
   );
   it(
     "next-method-returns-non-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/toArray/next-method-returns-non-object.js"),
   );
   it(

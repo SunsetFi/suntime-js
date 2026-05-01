@@ -9,7 +9,7 @@ it(
 
 it(
   "constructor.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorFunction/prototype/constructor.js"),
 );
 
@@ -33,6 +33,6 @@ it(
 
 it(
   "prototype.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorFunction/prototype/prototype.js"),
 );

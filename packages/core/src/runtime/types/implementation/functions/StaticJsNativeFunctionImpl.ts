@@ -3,6 +3,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { setFunctionName } from "../../../algorithms/set-function-name.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { type StaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
@@ -16,7 +17,10 @@ export interface StaticJsNativeFunctionOptions {
   prototype?: StaticJsObject | StaticJsNull | null;
   construct?:
     | boolean
-    | ((thisArg: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator<StaticJsObject>);
+    | ((
+        newTarget: StaticJsCallable,
+        ...args: StaticJsValue[]
+      ) => EvaluationGenerator<StaticJsObject>);
 }
 
 export class StaticJsNativeFunctionImpl
@@ -24,7 +28,10 @@ export class StaticJsNativeFunctionImpl
   implements StaticJsFunction
 {
   private _construct:
-    | ((thisObj: StaticJsObject, ...args: StaticJsValue[]) => EvaluationGenerator<StaticJsValue>)
+    | ((
+        newTarget: StaticJsCallable,
+        ...args: StaticJsValue[]
+      ) => EvaluationGenerator<StaticJsValue>)
     | null;
 
   constructor(
@@ -63,12 +70,15 @@ export class StaticJsNativeFunctionImpl
     return yield* this._call(thisArg, ...args);
   }
 
-  *constructEvaluator(args: StaticJsValue[] = []): EvaluationGenerator<StaticJsObject> {
+  *constructEvaluator(
+    args: StaticJsValue[] = [],
+    newTarget: StaticJsCallable = this,
+  ): EvaluationGenerator<StaticJsObject> {
     if (!this._construct) {
       throw Completion.Throw("TypeError", "This function is not a constructor.");
     }
 
-    const result = yield* this._construct(this as unknown as StaticJsObject, ...args);
+    const result = yield* this._construct(newTarget, ...args);
     if (!isStaticJsObject(result)) {
       throw new StaticJsEngineError(
         `Native function ${this._name ?? "<anonymous>"} construct did not return an object-like.`,

@@ -3,6 +3,6 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "invoked-as-function-multiple-arguments.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/GeneratorFunction/invoked-as-function-multiple-arguments.js"),
 );
