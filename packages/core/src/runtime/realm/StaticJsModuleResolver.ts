@@ -5,8 +5,8 @@ import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImpl
  * A factory function to resolve an imported ECMAScript Module.
  */
 export type StaticJsModuleResolver = (
-  referencingModule: StaticJsModule,
   specifier: string,
+  referencingModule: StaticJsModule,
 ) => Promise<StaticJsModuleResolution>;
 
 /**

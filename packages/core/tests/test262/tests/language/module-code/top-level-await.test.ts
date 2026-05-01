@@ -1,1574 +1,1576 @@
 import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("top-level-await", () => {
+it(
+  "async-module-does-not-block-sibling-modules.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "language/module-code/top-level-await/async-module-does-not-block-sibling-modules.js",
+  ),
+);
+
+it(
+  "await-awaits-thenable-not-callable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-awaits-thenable-not-callable.js"),
+);
+
+it(
+  "await-awaits-thenables-that-throw.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-awaits-thenables-that-throw.js"),
+);
+
+it(
+  "await-awaits-thenables.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-awaits-thenables.js"),
+);
+
+it.skip("await-dynamic-import-rejection.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-dynamic-import-resolution.js", () => {
+  /* Ignored Test */
+});
+
+it(
+  "await-expr-func-expression.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-expr-func-expression.js"),
+);
+
+it(
+  "await-expr-new-expr-reject.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-expr-new-expr-reject.js"),
+);
+
+it(
+  "await-expr-new-expr.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-expr-new-expr.js"),
+);
+
+it(
+  "await-expr-regexp.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/await-expr-regexp.js"),
+);
+
+it(
+  "await-expr-reject-throws.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-expr-reject-throws.js"),
+);
+
+it(
+  "await-expr-resolution.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-expr-resolution.js"),
+);
+
+it(
+  "await-void-expr.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/await-void-expr.js"),
+);
+
+it(
+  "dfs-invariant.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/dfs-invariant.js"),
+);
+
+it.skip("dynamic-import-of-waiting-module.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("dynamic-import-rejection.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("dynamic-import-resolution.js", () => {
+  /* Ignored Test */
+});
+
+it(
+  "early-errors-await-not-simple-assignment-target.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "language/module-code/top-level-await/early-errors-await-not-simple-assignment-target.js",
+  ),
+);
+
+it(
+  "fulfillment-order.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/fulfillment-order.js"),
+);
+
+it(
+  "if-await-expr.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/if-await-expr.js"),
+);
+
+it(
+  "module-async-import-async-resolution-ticks.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "language/module-code/top-level-await/module-async-import-async-resolution-ticks.js",
+  ),
+);
+
+it(
+  "module-graphs-does-not-hang.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/module-graphs-does-not-hang.js"),
+);
+
+it(
+  "module-import-rejection-body.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/module-import-rejection-body.js"),
+);
+
+it(
+  "module-import-rejection-tick.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/module-import-rejection-tick.js"),
+);
+
+it(
+  "module-import-rejection.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/module-import-rejection.js"),
+);
+
+it(
+  "module-import-resolution.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/module-import-resolution.js"),
+);
+
+it(
+  "module-import-unwrapped.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/module-import-unwrapped.js"),
+);
+
+it(
+  "module-self-import-async-resolution-ticks.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "language/module-code/top-level-await/module-self-import-async-resolution-ticks.js",
+  ),
+);
+
+it(
+  "module-sync-import-async-resolution-ticks.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "language/module-code/top-level-await/module-sync-import-async-resolution-ticks.js",
+  ),
+);
+
+it(
+  "new-await-parens.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/new-await-parens.js"),
+);
+
+it(
+  "new-await-script-code.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/new-await-script-code.js"),
+);
+
+it(
+  "new-await.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/new-await.js"),
+);
+
+it(
+  "no-operand.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/no-operand.js"),
+);
+
+it(
+  "pending-async-dep-from-cycle.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/pending-async-dep-from-cycle.js"),
+);
+
+it(
+  "rejection-order.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/module-code/top-level-await/rejection-order.js"),
+);
+
+describe("syntax", () => {
+  it.skip("await-expr-dyn-import.js", () => {
+    /* Ignored Test */
+  });
   it(
-    "async-module-does-not-block-sibling-modules.js",
-    { tags: ["known-failing"] },
+    "block-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
     createTestHandler(
-      "language/module-code/top-level-await/async-module-does-not-block-sibling-modules.js",
+      "language/module-code/top-level-await/syntax/block-await-expr-array-literal.js",
     ),
   );
   it(
-    "await-awaits-thenable-not-callable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-awaits-thenable-not-callable.js"),
-  );
-  it(
-    "await-awaits-thenables-that-throw.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-awaits-thenables-that-throw.js"),
-  );
-  it(
-    "await-awaits-thenables.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-awaits-thenables.js"),
-  );
-  it.skip("await-dynamic-import-rejection.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("await-dynamic-import-resolution.js", () => {
-    /* Ignored Test */
-  });
-  it(
-    "await-expr-func-expression.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-expr-func-expression.js"),
-  );
-  it(
-    "await-expr-new-expr-reject.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-expr-new-expr-reject.js"),
-  );
-  it(
-    "await-expr-new-expr.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-expr-new-expr.js"),
-  );
-  it(
-    "await-expr-regexp.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/await-expr-regexp.js"),
-  );
-  it(
-    "await-expr-reject-throws.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-expr-reject-throws.js"),
-  );
-  it(
-    "await-expr-resolution.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-expr-resolution.js"),
-  );
-  it(
-    "await-void-expr.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/await-void-expr.js"),
-  );
-  it(
-    "dfs-invariant.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/dfs-invariant.js"),
-  );
-  it.skip("dynamic-import-of-waiting-module.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("dynamic-import-rejection.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("dynamic-import-resolution.js", () => {
-    /* Ignored Test */
-  });
-  it(
-    "early-errors-await-not-simple-assignment-target.js",
+    "block-await-expr-func-expression.js",
     { tags: ["known-passing"] },
     createTestHandler(
-      "language/module-code/top-level-await/early-errors-await-not-simple-assignment-target.js",
+      "language/module-code/top-level-await/syntax/block-await-expr-func-expression.js",
     ),
   );
   it(
-    "fulfillment-order.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/fulfillment-order.js"),
-  );
-  it(
-    "if-await-expr.js",
+    "block-await-expr-identifier.js",
     { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/if-await-expr.js"),
+    createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-identifier.js"),
   );
   it(
-    "module-async-import-async-resolution-ticks.js",
-    { tags: ["known-failing"] },
+    "block-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
     createTestHandler(
-      "language/module-code/top-level-await/module-async-import-async-resolution-ticks.js",
+      "language/module-code/top-level-await/syntax/block-await-expr-literal-number.js",
     ),
   );
   it(
-    "module-graphs-does-not-hang.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/module-graphs-does-not-hang.js"),
-  );
-  it(
-    "module-import-rejection-body.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/module-import-rejection-body.js"),
-  );
-  it(
-    "module-import-rejection-tick.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/module-import-rejection-tick.js"),
-  );
-  it(
-    "module-import-rejection.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/module-import-rejection.js"),
-  );
-  it(
-    "module-import-resolution.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/module-import-resolution.js"),
-  );
-  it(
-    "module-import-unwrapped.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/module-import-unwrapped.js"),
-  );
-  it(
-    "module-self-import-async-resolution-ticks.js",
-    { tags: ["known-failing"] },
+    "block-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
     createTestHandler(
-      "language/module-code/top-level-await/module-self-import-async-resolution-ticks.js",
+      "language/module-code/top-level-await/syntax/block-await-expr-literal-string.js",
     ),
   );
   it(
-    "module-sync-import-async-resolution-ticks.js",
-    { tags: ["known-failing"] },
+    "block-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-nested.js"),
+  );
+  it(
+    "block-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-new-expr.js"),
+  );
+  it(
+    "block-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-null.js"),
+  );
+  it(
+    "block-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
     createTestHandler(
-      "language/module-code/top-level-await/module-sync-import-async-resolution-ticks.js",
+      "language/module-code/top-level-await/syntax/block-await-expr-obj-literal.js",
     ),
   );
   it(
-    "new-await-parens.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/new-await-parens.js"),
-  );
-  it(
-    "new-await-script-code.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/new-await-script-code.js"),
-  );
-  it(
-    "new-await.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/new-await.js"),
-  );
-  it(
-    "no-operand.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/no-operand.js"),
-  );
-  it(
-    "pending-async-dep-from-cycle.js",
+    "block-await-expr-regexp.js",
     { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/pending-async-dep-from-cycle.js"),
+    createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-regexp.js"),
   );
   it(
-    "rejection-order.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/module-code/top-level-await/rejection-order.js"),
-  );
-  describe("syntax", () => {
-    it.skip("await-expr-dyn-import.js", () => {
-      /* Ignored Test */
-    });
-    it(
-      "block-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "block-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "block-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "block-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "block-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "block-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-nested.js"),
-    );
-    it(
-      "block-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-new-expr.js"),
-    );
-    it(
-      "block-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-null.js"),
-    );
-    it(
-      "block-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "block-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-regexp.js"),
-    );
-    it(
-      "block-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/block-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "block-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-this.js"),
-    );
-    it.skip("catch-parameter.js", () => {
-      /* Ignored Test */
-    });
-    it(
-      "early-does-not-propagate-to-fn-declaration-body.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-declaration-body.js",
-      ),
-    );
-    it(
-      "early-does-not-propagate-to-fn-declaration-params.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-declaration-params.js",
-      ),
-    );
-    it(
-      "early-does-not-propagate-to-fn-expr-body.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-expr-body.js",
-      ),
-    );
-    it(
-      "early-does-not-propagate-to-fn-expr-params.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-expr-params.js",
-      ),
-    );
-    it(
-      "early-no-escaped-await.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/early-no-escaped-await.js"),
-    );
-    it(
-      "export-class-decl-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-nested.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-null.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "export-class-decl-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-class-decl-await-expr-this.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-nested.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-null.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-regexp.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "export-dflt-assign-expr-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-this.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-nested.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-null.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-regexp.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "export-dft-class-decl-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-this.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-nested.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-null.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "export-lex-decl-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-this.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-nested.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-null.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "export-var-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/export-var-await-expr-this.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-nested.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-await-expr-null.js"),
-    );
-    it(
-      "for-await-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "for-await-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-await-expr-this.js"),
-    );
-    it(
-      "for-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "for-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "for-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-identifier.js"),
-    );
-    it(
-      "for-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "for-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "for-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-nested.js"),
-    );
-    it(
-      "for-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-new-expr.js"),
-    );
-    it(
-      "for-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-null.js"),
-    );
-    it(
-      "for-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "for-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-regexp.js"),
-    );
-    it(
-      "for-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "for-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-this.js"),
-    );
-    it(
-      "for-in-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-nested.js"),
-    );
-    it(
-      "for-in-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-null.js"),
-    );
-    it(
-      "for-in-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-regexp.js"),
-    );
-    it(
-      "for-in-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-in-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "for-in-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-this.js"),
-    );
-    it(
-      "for-of-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-nested.js"),
-    );
-    it(
-      "for-of-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-null.js"),
-    );
-    it(
-      "for-of-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-regexp.js"),
-    );
-    it(
-      "for-of-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/for-of-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "for-of-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-this.js"),
-    );
-    it(
-      "if-block-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-nested.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/if-block-await-expr-null.js"),
-    );
-    it(
-      "if-block-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-block-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "if-block-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/if-block-await-expr-this.js"),
-    );
-    it(
-      "if-expr-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-nested.js"),
-    );
-    it(
-      "if-expr-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-null.js"),
-    );
-    it(
-      "if-expr-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-regexp.js"),
-    );
-    it(
-      "if-expr-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/if-expr-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "if-expr-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-this.js"),
-    );
-    it(
-      "top-level-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-nested.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/top-level-await-expr-null.js"),
-    );
-    it(
-      "top-level-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-regexp.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/top-level-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "top-level-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/top-level-await-expr-this.js"),
-    );
-    it(
-      "try-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/try-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "try-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/try-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "try-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-identifier.js"),
-    );
-    it(
-      "try-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/try-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "try-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/try-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "try-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-nested.js"),
-    );
-    it(
-      "try-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-new-expr.js"),
-    );
-    it(
-      "try-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-null.js"),
-    );
-    it(
-      "try-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/try-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "try-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-regexp.js"),
-    );
-    it(
-      "try-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/try-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "try-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-this.js"),
-    );
-    it(
-      "typeof-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-nested.js"),
-    );
-    it(
-      "typeof-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-new-expr.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-null.js"),
-    );
-    it(
-      "typeof-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-regexp.js"),
-    );
-    it(
-      "typeof-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/typeof-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "typeof-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-this.js"),
-    );
-    it(
-      "void-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "void-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "void-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "void-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "void-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "void-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-nested.js"),
-    );
-    it(
-      "void-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-new-expr.js"),
-    );
-    it(
-      "void-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-null.js"),
-    );
-    it(
-      "void-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "void-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-regexp.js"),
-    );
-    it(
-      "void-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/void-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "void-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-this.js"),
-    );
-    it(
-      "while-await-expr-array-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-array-literal.js",
-      ),
-    );
-    it(
-      "while-await-expr-func-expression.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-func-expression.js",
-      ),
-    );
-    it(
-      "while-await-expr-identifier.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-identifier.js",
-      ),
-    );
-    it(
-      "while-await-expr-literal-number.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-literal-number.js",
-      ),
-    );
-    it(
-      "while-await-expr-literal-string.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-literal-string.js",
-      ),
-    );
-    it(
-      "while-await-expr-nested.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-nested.js"),
-    );
-    it(
-      "while-await-expr-new-expr.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-new-expr.js"),
-    );
-    it(
-      "while-await-expr-null.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-null.js"),
-    );
-    it(
-      "while-await-expr-obj-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-obj-literal.js",
-      ),
-    );
-    it(
-      "while-await-expr-regexp.js",
-      { tags: ["known-failing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-regexp.js"),
-    );
-    it(
-      "while-await-expr-template-literal.js",
-      { tags: ["known-passing"] },
-      createTestHandler(
-        "language/module-code/top-level-await/syntax/while-await-expr-template-literal.js",
-      ),
-    );
-    it(
-      "while-await-expr-this.js",
-      { tags: ["known-passing"] },
-      createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-this.js"),
-    );
-  });
-  it(
-    "top-level-ticks-2.js",
+    "block-await-expr-template-literal.js",
     { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/top-level-ticks-2.js"),
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/block-await-expr-template-literal.js",
+    ),
   );
   it(
-    "top-level-ticks.js",
+    "block-await-expr-this.js",
     { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/top-level-ticks.js"),
+    createTestHandler("language/module-code/top-level-await/syntax/block-await-expr-this.js"),
   );
-  it.skip("unobservable-global-async-evaluation-count-reset.js", () => {
+  it.skip("catch-parameter.js", () => {
     /* Ignored Test */
   });
   it(
-    "void-await-expr.js",
+    "early-does-not-propagate-to-fn-declaration-body.js",
     { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/void-await-expr.js"),
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-declaration-body.js",
+    ),
   );
   it(
-    "while-dynamic-evaluation.js",
+    "early-does-not-propagate-to-fn-declaration-params.js",
     { tags: ["known-passing"] },
-    createTestHandler("language/module-code/top-level-await/while-dynamic-evaluation.js"),
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-declaration-params.js",
+    ),
+  );
+  it(
+    "early-does-not-propagate-to-fn-expr-body.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-expr-body.js",
+    ),
+  );
+  it(
+    "early-does-not-propagate-to-fn-expr-params.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/early-does-not-propagate-to-fn-expr-params.js",
+    ),
+  );
+  it(
+    "early-no-escaped-await.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/early-no-escaped-await.js"),
+  );
+  it(
+    "export-class-decl-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-nested.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-null.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-regexp.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "export-class-decl-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-class-decl-await-expr-this.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-nested.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-null.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-regexp.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-regexp.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "export-dflt-assign-expr-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-this.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-nested.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-null.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-regexp.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-regexp.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "export-dft-class-decl-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-dft-class-decl-await-expr-this.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-nested.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-null.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-regexp.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "export-lex-decl-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-lex-decl-await-expr-this.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-nested.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/export-var-await-expr-null.js"),
+  );
+  it(
+    "export-var-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-regexp.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/export-var-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "export-var-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/export-var-await-expr-this.js"),
+  );
+  it(
+    "for-await-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-await-expr-nested.js"),
+  );
+  it(
+    "for-await-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-await-expr-null.js"),
+  );
+  it(
+    "for-await-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-await-expr-regexp.js"),
+  );
+  it(
+    "for-await-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "for-await-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-await-expr-this.js"),
+  );
+  it(
+    "for-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "for-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "for-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-identifier.js"),
+  );
+  it(
+    "for-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "for-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "for-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-nested.js"),
+  );
+  it(
+    "for-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-new-expr.js"),
+  );
+  it(
+    "for-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-null.js"),
+  );
+  it(
+    "for-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-obj-literal.js"),
+  );
+  it(
+    "for-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-regexp.js"),
+  );
+  it(
+    "for-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "for-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-await-expr-this.js"),
+  );
+  it(
+    "for-in-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-nested.js"),
+  );
+  it(
+    "for-in-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-new-expr.js"),
+  );
+  it(
+    "for-in-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-null.js"),
+  );
+  it(
+    "for-in-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-regexp.js"),
+  );
+  it(
+    "for-in-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-in-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "for-in-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-in-await-expr-this.js"),
+  );
+  it(
+    "for-of-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-nested.js"),
+  );
+  it(
+    "for-of-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-new-expr.js"),
+  );
+  it(
+    "for-of-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-null.js"),
+  );
+  it(
+    "for-of-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-regexp.js"),
+  );
+  it(
+    "for-of-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/for-of-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "for-of-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/for-of-await-expr-this.js"),
+  );
+  it(
+    "if-block-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-block-await-expr-nested.js"),
+  );
+  it(
+    "if-block-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-block-await-expr-null.js"),
+  );
+  it(
+    "if-block-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-block-await-expr-regexp.js"),
+  );
+  it(
+    "if-block-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-block-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "if-block-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-block-await-expr-this.js"),
+  );
+  it(
+    "if-expr-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-nested.js"),
+  );
+  it(
+    "if-expr-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-new-expr.js"),
+  );
+  it(
+    "if-expr-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-null.js"),
+  );
+  it(
+    "if-expr-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-regexp.js"),
+  );
+  it(
+    "if-expr-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/if-expr-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "if-expr-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/if-expr-await-expr-this.js"),
+  );
+  it(
+    "top-level-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/top-level-await-expr-nested.js"),
+  );
+  it(
+    "top-level-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-new-expr.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/top-level-await-expr-null.js"),
+  );
+  it(
+    "top-level-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/top-level-await-expr-regexp.js"),
+  );
+  it(
+    "top-level-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/top-level-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "top-level-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/top-level-await-expr-this.js"),
+  );
+  it(
+    "try-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/try-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "try-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/try-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "try-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-identifier.js"),
+  );
+  it(
+    "try-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/try-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "try-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/try-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "try-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-nested.js"),
+  );
+  it(
+    "try-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-new-expr.js"),
+  );
+  it(
+    "try-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-null.js"),
+  );
+  it(
+    "try-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-obj-literal.js"),
+  );
+  it(
+    "try-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-regexp.js"),
+  );
+  it(
+    "try-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/try-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "try-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/try-await-expr-this.js"),
+  );
+  it(
+    "typeof-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-identifier.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-nested.js"),
+  );
+  it(
+    "typeof-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-new-expr.js"),
+  );
+  it(
+    "typeof-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-null.js"),
+  );
+  it(
+    "typeof-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-regexp.js"),
+  );
+  it(
+    "typeof-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/typeof-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "typeof-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/typeof-await-expr-this.js"),
+  );
+  it(
+    "void-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/void-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "void-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/void-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "void-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-identifier.js"),
+  );
+  it(
+    "void-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/void-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "void-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/void-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "void-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-nested.js"),
+  );
+  it(
+    "void-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-new-expr.js"),
+  );
+  it(
+    "void-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-null.js"),
+  );
+  it(
+    "void-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-obj-literal.js"),
+  );
+  it(
+    "void-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-regexp.js"),
+  );
+  it(
+    "void-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/void-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "void-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/void-await-expr-this.js"),
+  );
+  it(
+    "while-await-expr-array-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/while-await-expr-array-literal.js",
+    ),
+  );
+  it(
+    "while-await-expr-func-expression.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/while-await-expr-func-expression.js",
+    ),
+  );
+  it(
+    "while-await-expr-identifier.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-identifier.js"),
+  );
+  it(
+    "while-await-expr-literal-number.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/while-await-expr-literal-number.js",
+    ),
+  );
+  it(
+    "while-await-expr-literal-string.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/while-await-expr-literal-string.js",
+    ),
+  );
+  it(
+    "while-await-expr-nested.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-nested.js"),
+  );
+  it(
+    "while-await-expr-new-expr.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-new-expr.js"),
+  );
+  it(
+    "while-await-expr-null.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-null.js"),
+  );
+  it(
+    "while-await-expr-obj-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/while-await-expr-obj-literal.js",
+    ),
+  );
+  it(
+    "while-await-expr-regexp.js",
+    { tags: ["known-failing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-regexp.js"),
+  );
+  it(
+    "while-await-expr-template-literal.js",
+    { tags: ["known-passing"] },
+    createTestHandler(
+      "language/module-code/top-level-await/syntax/while-await-expr-template-literal.js",
+    ),
+  );
+  it(
+    "while-await-expr-this.js",
+    { tags: ["known-passing"] },
+    createTestHandler("language/module-code/top-level-await/syntax/while-await-expr-this.js"),
   );
 });
+
+it(
+  "top-level-ticks-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/top-level-ticks-2.js"),
+);
+
+it(
+  "top-level-ticks.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/top-level-ticks.js"),
+);
+
+it.skip("unobservable-global-async-evaluation-count-reset.js", () => {
+  /* Ignored Test */
+});
+
+it(
+  "void-await-expr.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/void-await-expr.js"),
+);
+
+it(
+  "while-dynamic-evaluation.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/module-code/top-level-await/while-dynamic-evaluation.js"),
+);

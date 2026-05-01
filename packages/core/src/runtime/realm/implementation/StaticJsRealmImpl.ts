@@ -365,13 +365,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async resolveImportedModule(
-    referencingModule: StaticJsModule,
     specifier: string,
+    referencingModule: StaticJsModule,
   ): Promise<StaticJsModuleImplementation | null> {
     let module = this._staticModules.get(specifier);
 
     if (!module && this._externalResolveModule) {
-      const resolved = await this._externalResolveModule(referencingModule, specifier);
+      const resolved = await this._externalResolveModule(specifier, referencingModule);
       module = realmModuleToModule(this, specifier, resolved);
     }
 

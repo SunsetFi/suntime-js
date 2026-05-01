@@ -1,2586 +1,2671 @@
 import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("prototype", () => {
+it(
+  "S15.9.5_A01_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A01_T1.js"),
+);
+
+it(
+  "S15.9.5_A02_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A02_T1.js"),
+);
+
+it(
+  "S15.9.5_A03_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A03_T1.js"),
+);
+
+it(
+  "S15.9.5_A04_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A04_T1.js"),
+);
+
+it(
+  "S15.9.5_A05_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A05_T1.js"),
+);
+
+it(
+  "S15.9.5_A06_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A06_T1.js"),
+);
+
+it(
+  "S15.9.5_A07_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A07_T1.js"),
+);
+
+it(
+  "S15.9.5_A08_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A08_T1.js"),
+);
+
+it(
+  "S15.9.5_A09_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A09_T1.js"),
+);
+
+it(
+  "S15.9.5_A10_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A10_T1.js"),
+);
+
+it(
+  "S15.9.5_A11_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A11_T1.js"),
+);
+
+it(
+  "S15.9.5_A12_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A12_T1.js"),
+);
+
+it(
+  "S15.9.5_A13_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A13_T1.js"),
+);
+
+it(
+  "S15.9.5_A14_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A14_T1.js"),
+);
+
+it(
+  "S15.9.5_A15_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A15_T1.js"),
+);
+
+it(
+  "S15.9.5_A16_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A16_T1.js"),
+);
+
+it(
+  "S15.9.5_A17_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A17_T1.js"),
+);
+
+it(
+  "S15.9.5_A18_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A18_T1.js"),
+);
+
+it(
+  "S15.9.5_A19_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A19_T1.js"),
+);
+
+it(
+  "S15.9.5_A20_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A20_T1.js"),
+);
+
+it(
+  "S15.9.5_A21_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A21_T1.js"),
+);
+
+it(
+  "S15.9.5_A22_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A22_T1.js"),
+);
+
+it(
+  "S15.9.5_A23_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A23_T1.js"),
+);
+
+it(
+  "S15.9.5_A24_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A24_T1.js"),
+);
+
+it(
+  "S15.9.5_A25_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A25_T1.js"),
+);
+
+it(
+  "S15.9.5_A26_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A26_T1.js"),
+);
+
+it(
+  "S15.9.5_A27_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A27_T1.js"),
+);
+
+it(
+  "S15.9.5_A28_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A28_T1.js"),
+);
+
+it(
+  "S15.9.5_A29_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A29_T1.js"),
+);
+
+it(
+  "S15.9.5_A30_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A30_T1.js"),
+);
+
+it(
+  "S15.9.5_A31_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A31_T1.js"),
+);
+
+it(
+  "S15.9.5_A32_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A32_T1.js"),
+);
+
+it(
+  "S15.9.5_A33_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A33_T1.js"),
+);
+
+it(
+  "S15.9.5_A34_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A34_T1.js"),
+);
+
+it(
+  "S15.9.5_A35_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A35_T1.js"),
+);
+
+it(
+  "S15.9.5_A36_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A36_T1.js"),
+);
+
+it(
+  "S15.9.5_A37_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A37_T1.js"),
+);
+
+it(
+  "S15.9.5_A38_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A38_T1.js"),
+);
+
+it(
+  "S15.9.5_A39_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A39_T1.js"),
+);
+
+it(
+  "S15.9.5_A40_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A40_T1.js"),
+);
+
+it(
+  "S15.9.5_A41_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A41_T1.js"),
+);
+
+it(
+  "S15.9.5_A42_T1.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/S15.9.5_A42_T1.js"),
+);
+
+describe("Symbol.toPrimitive", () => {
   it(
-    "S15.9.5_A01_T1.js",
+    "called-as-function.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A01_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/called-as-function.js"),
   );
   it(
-    "S15.9.5_A02_T1.js",
+    "hint-default-first-invalid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A02_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-default-first-invalid.js"),
   );
   it(
-    "S15.9.5_A03_T1.js",
+    "hint-default-first-non-callable.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A03_T1.js"),
+    createTestHandler(
+      "built-ins/Date/prototype/Symbol.toPrimitive/hint-default-first-non-callable.js",
+    ),
   );
   it(
-    "S15.9.5_A04_T1.js",
+    "hint-default-first-valid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A04_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-default-first-valid.js"),
   );
   it(
-    "S15.9.5_A05_T1.js",
+    "hint-default-no-callables.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A05_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-default-no-callables.js"),
   );
   it(
-    "S15.9.5_A06_T1.js",
+    "hint-invalid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A06_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-invalid.js"),
   );
   it(
-    "S15.9.5_A07_T1.js",
+    "hint-number-first-invalid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A07_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-number-first-invalid.js"),
   );
   it(
-    "S15.9.5_A08_T1.js",
+    "hint-number-first-non-callable.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A08_T1.js"),
+    createTestHandler(
+      "built-ins/Date/prototype/Symbol.toPrimitive/hint-number-first-non-callable.js",
+    ),
   );
   it(
-    "S15.9.5_A09_T1.js",
+    "hint-number-first-valid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A09_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-number-first-valid.js"),
   );
   it(
-    "S15.9.5_A10_T1.js",
+    "hint-number-no-callables.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A10_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-number-no-callables.js"),
   );
   it(
-    "S15.9.5_A11_T1.js",
+    "hint-string-first-invalid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A11_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-string-first-invalid.js"),
   );
   it(
-    "S15.9.5_A12_T1.js",
+    "hint-string-first-non-callable.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A12_T1.js"),
+    createTestHandler(
+      "built-ins/Date/prototype/Symbol.toPrimitive/hint-string-first-non-callable.js",
+    ),
   );
   it(
-    "S15.9.5_A13_T1.js",
+    "hint-string-first-valid.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A13_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-string-first-valid.js"),
   );
   it(
-    "S15.9.5_A14_T1.js",
+    "hint-string-no-callables.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A14_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-string-no-callables.js"),
   );
   it(
-    "S15.9.5_A15_T1.js",
+    "length.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A15_T1.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/length.js"),
   );
   it(
-    "S15.9.5_A16_T1.js",
+    "name.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A16_T1.js"),
-  );
-  it(
-    "S15.9.5_A17_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A17_T1.js"),
-  );
-  it(
-    "S15.9.5_A18_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A18_T1.js"),
-  );
-  it(
-    "S15.9.5_A19_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A19_T1.js"),
-  );
-  it(
-    "S15.9.5_A20_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A20_T1.js"),
-  );
-  it(
-    "S15.9.5_A21_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A21_T1.js"),
-  );
-  it(
-    "S15.9.5_A22_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A22_T1.js"),
-  );
-  it(
-    "S15.9.5_A23_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A23_T1.js"),
-  );
-  it(
-    "S15.9.5_A24_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A24_T1.js"),
-  );
-  it(
-    "S15.9.5_A25_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A25_T1.js"),
-  );
-  it(
-    "S15.9.5_A26_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A26_T1.js"),
-  );
-  it(
-    "S15.9.5_A27_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A27_T1.js"),
-  );
-  it(
-    "S15.9.5_A28_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A28_T1.js"),
-  );
-  it(
-    "S15.9.5_A29_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A29_T1.js"),
-  );
-  it(
-    "S15.9.5_A30_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A30_T1.js"),
-  );
-  it(
-    "S15.9.5_A31_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A31_T1.js"),
-  );
-  it(
-    "S15.9.5_A32_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A32_T1.js"),
-  );
-  it(
-    "S15.9.5_A33_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A33_T1.js"),
-  );
-  it(
-    "S15.9.5_A34_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A34_T1.js"),
-  );
-  it(
-    "S15.9.5_A35_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A35_T1.js"),
-  );
-  it(
-    "S15.9.5_A36_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A36_T1.js"),
-  );
-  it(
-    "S15.9.5_A37_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A37_T1.js"),
-  );
-  it(
-    "S15.9.5_A38_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A38_T1.js"),
-  );
-  it(
-    "S15.9.5_A39_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A39_T1.js"),
-  );
-  it(
-    "S15.9.5_A40_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A40_T1.js"),
-  );
-  it(
-    "S15.9.5_A41_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A41_T1.js"),
-  );
-  it(
-    "S15.9.5_A42_T1.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/S15.9.5_A42_T1.js"),
-  );
-  describe("Symbol.toPrimitive", () => {
-    it(
-      "called-as-function.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/called-as-function.js"),
-    );
-    it(
-      "hint-default-first-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/Symbol.toPrimitive/hint-default-first-invalid.js",
-      ),
-    );
-    it(
-      "hint-default-first-non-callable.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/Symbol.toPrimitive/hint-default-first-non-callable.js",
-      ),
-    );
-    it(
-      "hint-default-first-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-default-first-valid.js"),
-    );
-    it(
-      "hint-default-no-callables.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-default-no-callables.js"),
-    );
-    it(
-      "hint-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-invalid.js"),
-    );
-    it(
-      "hint-number-first-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-number-first-invalid.js"),
-    );
-    it(
-      "hint-number-first-non-callable.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/Symbol.toPrimitive/hint-number-first-non-callable.js",
-      ),
-    );
-    it(
-      "hint-number-first-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-number-first-valid.js"),
-    );
-    it(
-      "hint-number-no-callables.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-number-no-callables.js"),
-    );
-    it(
-      "hint-string-first-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-string-first-invalid.js"),
-    );
-    it(
-      "hint-string-first-non-callable.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/Symbol.toPrimitive/hint-string-first-non-callable.js",
-      ),
-    );
-    it(
-      "hint-string-first-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-string-first-valid.js"),
-    );
-    it(
-      "hint-string-no-callables.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/hint-string-no-callables.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/name.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/prop-desc.js"),
-    );
-    it(
-      "this-val-non-obj.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/this-val-non-obj.js"),
-    );
-  });
-  describe("constructor", () => {
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/constructor/prop-desc.js"),
-    );
-  });
-  describe("getDate", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDate/this-value-valid-date.js"),
-    );
-  });
-  describe("getDay", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getDay/this-value-valid-date.js"),
-    );
-  });
-  describe("getFullYear", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getFullYear/this-value-valid-date.js"),
-    );
-  });
-  describe("getHours", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getHours/this-value-valid-date.js"),
-    );
-  });
-  describe("getMilliseconds", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-valid-date.js"),
-    );
-  });
-  describe("getMinutes", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMinutes/this-value-valid-date.js"),
-    );
-  });
-  describe("getMonth", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getMonth/this-value-valid-date.js"),
-    );
-  });
-  describe("getSeconds", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getSeconds/this-value-valid-date.js"),
-    );
-  });
-  describe("getTime", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTime/this-value-valid-date.js"),
-    );
-  });
-  describe("getTimezoneOffset", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCDate", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCDay", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCFullYear", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCHours", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCMilliseconds", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCMinutes", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCMonth", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-valid-date.js"),
-    );
-  });
-  describe("getUTCSeconds", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-valid-date.js"),
-    );
-  });
-  it(
-    "no-date-value.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/no-date-value.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/name.js"),
   );
   it(
     "prop-desc.js",
     { tags: ["known-failing"] },
-    createTestHandler("built-ins/Date/prototype/prop-desc.js"),
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/prop-desc.js"),
   );
-  describe("setDate", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/arg-coercion-order.js"),
-    );
-    it(
-      "arg-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/arg-to-number-err.js"),
-    );
-    it(
-      "arg-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/arg-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setDate/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setDate/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setDate/this-value-valid-date.js"),
-    );
-  });
-  describe("setFullYear", () => {
-    it(
-      "15.9.5.40_1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/15.9.5.40_1.js"),
-    );
-    it(
-      "arg-date-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/arg-date-to-number-err.js"),
-    );
-    it(
-      "arg-date-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/arg-date-to-number.js"),
-    );
-    it(
-      "arg-month-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/arg-month-to-number-err.js"),
-    );
-    it(
-      "arg-month-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/arg-month-to-number.js"),
-    );
-    it(
-      "arg-year-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/arg-year-to-number-err.js"),
-    );
-    it(
-      "arg-year-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/arg-year-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setFullYear/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setFullYear/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/this-value-valid-date-date.js"),
-    );
-    it(
-      "this-value-valid-date-month.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/this-value-valid-date-month.js"),
-    );
-    it(
-      "this-value-valid-date-year.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setFullYear/this-value-valid-date-year.js"),
-    );
-  });
-  describe("setHours", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-coercion-order.js"),
-    );
-    it(
-      "arg-hour-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-hour-to-number-err.js"),
-    );
-    it(
-      "arg-hour-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-hour-to-number.js"),
-    );
-    it(
-      "arg-min-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-min-to-number-err.js"),
-    );
-    it(
-      "arg-min-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-min-to-number.js"),
-    );
-    it(
-      "arg-ms-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-ms-to-number-err.js"),
-    );
-    it(
-      "arg-ms-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-ms-to-number.js"),
-    );
-    it(
-      "arg-sec-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-sec-to-number-err.js"),
-    );
-    it(
-      "arg-sec-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/arg-sec-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setHours/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setHours/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date-hour.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-hour.js"),
-    );
-    it(
-      "this-value-valid-date-min.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-min.js"),
-    );
-    it(
-      "this-value-valid-date-ms.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-ms.js"),
-    );
-    it(
-      "this-value-valid-date-sec.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-sec.js"),
-    );
-  });
-  describe("setMilliseconds", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/arg-coercion-order.js"),
-    );
-    it(
-      "arg-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/arg-to-number-err.js"),
-    );
-    it(
-      "arg-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/arg-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setMilliseconds/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setMilliseconds/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-valid-date.js"),
-    );
-  });
-  describe("setMinutes", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-coercion-order.js"),
-    );
-    it(
-      "arg-min-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-min-to-number-err.js"),
-    );
-    it(
-      "arg-min-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-min-to-number.js"),
-    );
-    it(
-      "arg-ms-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-ms-to-number-err.js"),
-    );
-    it(
-      "arg-ms-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-ms-to-number.js"),
-    );
-    it(
-      "arg-sec-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-sec-to-number-err.js"),
-    );
-    it(
-      "arg-sec-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/arg-sec-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setMinutes/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setMinutes/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMinutes/this-value-valid-date.js"),
-    );
-  });
-  describe("setMonth", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/arg-coercion-order.js"),
-    );
-    it(
-      "arg-date-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/arg-date-to-number-err.js"),
-    );
-    it(
-      "arg-date-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/arg-date-to-number.js"),
-    );
-    it(
-      "arg-month-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/arg-month-to-number-err.js"),
-    );
-    it(
-      "arg-month-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/arg-month-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setMonth/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setMonth/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/this-value-valid-date-date.js"),
-    );
-    it(
-      "this-value-valid-date-month.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setMonth/this-value-valid-date-month.js"),
-    );
-  });
-  describe("setSeconds", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/arg-coercion-order.js"),
-    );
-    it(
-      "arg-ms-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/arg-ms-to-number-err.js"),
-    );
-    it(
-      "arg-ms-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/arg-ms-to-number.js"),
-    );
-    it(
-      "arg-sec-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/arg-sec-to-number-err.js"),
-    );
-    it(
-      "arg-sec-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/arg-sec-to-number.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setSeconds/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setSeconds/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date-ms.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/this-value-valid-date-ms.js"),
-    );
-    it(
-      "this-value-valid-date-sec.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setSeconds/this-value-valid-date-sec.js"),
-    );
-  });
-  describe("setTime", () => {
-    it(
-      "arg-to-number-err.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/arg-to-number-err.js"),
-    );
-    it(
-      "arg-to-number.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/arg-to-number.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/name.js"),
-    );
-    it(
-      "new-value-time-clip.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/new-value-time-clip.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setTime/this-value-valid-date.js"),
-    );
-  });
-  describe("setUTCDate", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCDate/arg-coercion-order.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCDate/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCDate/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCDate/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCDate/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCDate/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCDate/prop-desc.js"),
-    );
-  });
-  describe("setUTCFullYear", () => {
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCFullYear/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCFullYear/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCFullYear/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCFullYear/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCFullYear/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCFullYear/prop-desc.js"),
-    );
-  });
-  describe("setUTCHours", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/arg-coercion-order.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCHours/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCHours/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/prop-desc.js"),
-    );
-    it(
-      "this-value-valid-date-hour.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-hour.js"),
-    );
-    it(
-      "this-value-valid-date-min.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-min.js"),
-    );
-    it(
-      "this-value-valid-date-ms.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-ms.js"),
-    );
-    it(
-      "this-value-valid-date-sec.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-sec.js"),
-    );
-  });
-  describe("setUTCMilliseconds", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/arg-coercion-order.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCMilliseconds/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCMilliseconds/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/prop-desc.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/this-value-valid-date.js"),
-    );
-  });
-  describe("setUTCMinutes", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMinutes/arg-coercion-order.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCMinutes/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCMinutes/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMinutes/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMinutes/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMinutes/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMinutes/prop-desc.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMinutes/this-value-valid-date.js"),
-    );
-  });
-  describe("setUTCMonth", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/arg-coercion-order.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCMonth/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCMonth/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/prop-desc.js"),
-    );
-    it(
-      "this-value-valid-date-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/this-value-valid-date-date.js"),
-    );
-    it(
-      "this-value-valid-date-month.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCMonth/this-value-valid-date-month.js"),
-    );
-  });
-  describe("setUTCSeconds", () => {
-    it(
-      "arg-coercion-order.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/arg-coercion-order.js"),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-invalid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCSeconds/date-value-read-before-tonumber-when-date-is-invalid.js",
-      ),
-    );
-    it(
-      "date-value-read-before-tonumber-when-date-is-valid.js",
-      { tags: ["known-failing"] },
-      createTestHandler(
-        "built-ins/Date/prototype/setUTCSeconds/date-value-read-before-tonumber-when-date-is-valid.js",
-      ),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/prop-desc.js"),
-    );
-    it(
-      "this-value-valid-date-ms.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/this-value-valid-date-ms.js"),
-    );
-    it(
-      "this-value-valid-date-sec.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/setUTCSeconds/this-value-valid-date-sec.js"),
-    );
-  });
-  describe("toDateString", () => {
-    it(
-      "format.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/format.js"),
-    );
-    it(
-      "invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/invalid-date.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/name.js"),
-    );
-    it(
-      "negative-year.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/negative-year.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toDateString/prop-desc.js"),
-    );
-  });
-  describe("toISOString", () => {
-    it(
-      "15.9.5.43-0-10.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-10.js"),
-    );
-    it(
-      "15.9.5.43-0-11.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-11.js"),
-    );
-    it(
-      "15.9.5.43-0-12.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-12.js"),
-    );
-    it(
-      "15.9.5.43-0-13.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-13.js"),
-    );
-    it(
-      "15.9.5.43-0-14.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-14.js"),
-    );
-    it(
-      "15.9.5.43-0-15.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-15.js"),
-    );
-    it(
-      "15.9.5.43-0-16.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-16.js"),
-    );
-    it(
-      "15.9.5.43-0-2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-2.js"),
-    );
-    it(
-      "15.9.5.43-0-3.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-3.js"),
-    );
-    it(
-      "15.9.5.43-0-4.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-4.js"),
-    );
-    it(
-      "15.9.5.43-0-5.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-5.js"),
-    );
-    it(
-      "15.9.5.43-0-6.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-6.js"),
-    );
-    it(
-      "15.9.5.43-0-7.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-7.js"),
-    );
-    it(
-      "15.9.5.43-0-8.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-8.js"),
-    );
-    it(
-      "15.9.5.43-0-9.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-9.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toISOString/not-a-constructor.js"),
-    );
-  });
-  describe("toJSON", () => {
-    it(
-      "builtin.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/builtin.js"),
-    );
-    it(
-      "called-as-function.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/called-as-function.js"),
-    );
-    it(
-      "invoke-abrupt.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/invoke-abrupt.js"),
-    );
-    it(
-      "invoke-arguments.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/invoke-arguments.js"),
-    );
-    it(
-      "invoke-result.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/invoke-result.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/name.js"),
-    );
-    it(
-      "non-finite.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/non-finite.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/not-a-constructor.js"),
-    );
-    it(
-      "to-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/to-object.js"),
-    );
-    it(
-      "to-primitive-abrupt.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/to-primitive-abrupt.js"),
-    );
-    it(
-      "to-primitive-symbol.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/to-primitive-symbol.js"),
-    );
-    it(
-      "to-primitive-value-of.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toJSON/to-primitive-value-of.js"),
-    );
-  });
-  describe("toLocaleDateString", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleDateString/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleDateString/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleDateString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleDateString/prop-desc.js"),
-    );
-  });
-  describe("toLocaleString", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleString/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleString/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleString/prop-desc.js"),
-    );
-  });
-  describe("toLocaleTimeString", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleTimeString/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleTimeString/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleTimeString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toLocaleTimeString/prop-desc.js"),
-    );
-  });
-  describe("toString", () => {
-    it(
-      "format.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/format.js"),
-    );
-    it(
-      "invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/invalid-date.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/name.js"),
-    );
-    it(
-      "negative-year.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/negative-year.js"),
-    );
-    it(
-      "non-date-receiver.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/non-date-receiver.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toString/prop-desc.js"),
-    );
-  });
-  describe("toTemporalInstant", () => {
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/prop-desc.js"),
-    );
-    it(
-      "this-value-invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-invalid-date.js"),
-    );
-    it(
-      "this-value-non-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-non-date.js"),
-    );
-    it(
-      "this-value-non-object.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-non-object.js"),
-    );
-    it(
-      "this-value-valid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-valid-date.js"),
-    );
-  });
-  describe("toTimeString", () => {
-    it(
-      "format.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTimeString/format.js"),
-    );
-    it(
-      "invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTimeString/invalid-date.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTimeString/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTimeString/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTimeString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toTimeString/prop-desc.js"),
-    );
-  });
-  describe("toUTCString", () => {
-    it(
-      "day-names.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/day-names.js"),
-    );
-    it(
-      "format.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/format.js"),
-    );
-    it(
-      "invalid-date.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/invalid-date.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/length.js"),
-    );
-    it(
-      "month-names.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/month-names.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/name.js"),
-    );
-    it(
-      "negative-year.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/negative-year.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/toUTCString/prop-desc.js"),
-    );
-  });
-  describe("valueOf", () => {
-    it(
-      "S9.4_A3_T1.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/valueOf/S9.4_A3_T1.js"),
-    );
-    it(
-      "S9.4_A3_T2.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/valueOf/S9.4_A3_T2.js"),
-    );
-    it(
-      "length.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/valueOf/length.js"),
-    );
-    it(
-      "name.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/valueOf/name.js"),
-    );
-    it(
-      "not-a-constructor.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/valueOf/not-a-constructor.js"),
-    );
-    it(
-      "prop-desc.js",
-      { tags: ["known-failing"] },
-      createTestHandler("built-ins/Date/prototype/valueOf/prop-desc.js"),
-    );
-  });
+  it(
+    "this-val-non-obj.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/Symbol.toPrimitive/this-val-non-obj.js"),
+  );
+});
+
+describe("constructor", () => {
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/constructor/prop-desc.js"),
+  );
+});
+
+describe("getDate", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDate/this-value-valid-date.js"),
+  );
+});
+
+describe("getDay", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getDay/this-value-valid-date.js"),
+  );
+});
+
+describe("getFullYear", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getFullYear/this-value-valid-date.js"),
+  );
+});
+
+describe("getHours", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getHours/this-value-valid-date.js"),
+  );
+});
+
+describe("getMilliseconds", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMilliseconds/this-value-valid-date.js"),
+  );
+});
+
+describe("getMinutes", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMinutes/this-value-valid-date.js"),
+  );
+});
+
+describe("getMonth", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getMonth/this-value-valid-date.js"),
+  );
+});
+
+describe("getSeconds", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getSeconds/this-value-valid-date.js"),
+  );
+});
+
+describe("getTime", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTime/this-value-valid-date.js"),
+  );
+});
+
+describe("getTimezoneOffset", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getTimezoneOffset/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCDate", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDate/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCDay", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCDay/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCFullYear", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCFullYear/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCHours", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCHours/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCMilliseconds", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMilliseconds/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCMinutes", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMinutes/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCMonth", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCMonth/this-value-valid-date.js"),
+  );
+});
+
+describe("getUTCSeconds", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/getUTCSeconds/this-value-valid-date.js"),
+  );
+});
+
+it(
+  "no-date-value.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/no-date-value.js"),
+);
+
+it(
+  "prop-desc.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Date/prototype/prop-desc.js"),
+);
+
+describe("setDate", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/arg-coercion-order.js"),
+  );
+  it(
+    "arg-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/arg-to-number-err.js"),
+  );
+  it(
+    "arg-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/arg-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setDate/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setDate/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setDate/this-value-valid-date.js"),
+  );
+});
+
+describe("setFullYear", () => {
+  it(
+    "15.9.5.40_1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/15.9.5.40_1.js"),
+  );
+  it(
+    "arg-date-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/arg-date-to-number-err.js"),
+  );
+  it(
+    "arg-date-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/arg-date-to-number.js"),
+  );
+  it(
+    "arg-month-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/arg-month-to-number-err.js"),
+  );
+  it(
+    "arg-month-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/arg-month-to-number.js"),
+  );
+  it(
+    "arg-year-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/arg-year-to-number-err.js"),
+  );
+  it(
+    "arg-year-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/arg-year-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setFullYear/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setFullYear/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/this-value-valid-date-date.js"),
+  );
+  it(
+    "this-value-valid-date-month.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/this-value-valid-date-month.js"),
+  );
+  it(
+    "this-value-valid-date-year.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setFullYear/this-value-valid-date-year.js"),
+  );
+});
+
+describe("setHours", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-coercion-order.js"),
+  );
+  it(
+    "arg-hour-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-hour-to-number-err.js"),
+  );
+  it(
+    "arg-hour-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-hour-to-number.js"),
+  );
+  it(
+    "arg-min-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-min-to-number-err.js"),
+  );
+  it(
+    "arg-min-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-min-to-number.js"),
+  );
+  it(
+    "arg-ms-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-ms-to-number-err.js"),
+  );
+  it(
+    "arg-ms-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-ms-to-number.js"),
+  );
+  it(
+    "arg-sec-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-sec-to-number-err.js"),
+  );
+  it(
+    "arg-sec-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/arg-sec-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setHours/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setHours/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date-hour.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-hour.js"),
+  );
+  it(
+    "this-value-valid-date-min.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-min.js"),
+  );
+  it(
+    "this-value-valid-date-ms.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-ms.js"),
+  );
+  it(
+    "this-value-valid-date-sec.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setHours/this-value-valid-date-sec.js"),
+  );
+});
+
+describe("setMilliseconds", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/arg-coercion-order.js"),
+  );
+  it(
+    "arg-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/arg-to-number-err.js"),
+  );
+  it(
+    "arg-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/arg-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setMilliseconds/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setMilliseconds/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMilliseconds/this-value-valid-date.js"),
+  );
+});
+
+describe("setMinutes", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-coercion-order.js"),
+  );
+  it(
+    "arg-min-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-min-to-number-err.js"),
+  );
+  it(
+    "arg-min-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-min-to-number.js"),
+  );
+  it(
+    "arg-ms-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-ms-to-number-err.js"),
+  );
+  it(
+    "arg-ms-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-ms-to-number.js"),
+  );
+  it(
+    "arg-sec-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-sec-to-number-err.js"),
+  );
+  it(
+    "arg-sec-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/arg-sec-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setMinutes/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setMinutes/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMinutes/this-value-valid-date.js"),
+  );
+});
+
+describe("setMonth", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/arg-coercion-order.js"),
+  );
+  it(
+    "arg-date-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/arg-date-to-number-err.js"),
+  );
+  it(
+    "arg-date-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/arg-date-to-number.js"),
+  );
+  it(
+    "arg-month-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/arg-month-to-number-err.js"),
+  );
+  it(
+    "arg-month-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/arg-month-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setMonth/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setMonth/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/this-value-valid-date-date.js"),
+  );
+  it(
+    "this-value-valid-date-month.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setMonth/this-value-valid-date-month.js"),
+  );
+});
+
+describe("setSeconds", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/arg-coercion-order.js"),
+  );
+  it(
+    "arg-ms-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/arg-ms-to-number-err.js"),
+  );
+  it(
+    "arg-ms-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/arg-ms-to-number.js"),
+  );
+  it(
+    "arg-sec-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/arg-sec-to-number-err.js"),
+  );
+  it(
+    "arg-sec-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/arg-sec-to-number.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setSeconds/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setSeconds/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date-ms.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/this-value-valid-date-ms.js"),
+  );
+  it(
+    "this-value-valid-date-sec.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setSeconds/this-value-valid-date-sec.js"),
+  );
+});
+
+describe("setTime", () => {
+  it(
+    "arg-to-number-err.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/arg-to-number-err.js"),
+  );
+  it(
+    "arg-to-number.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/arg-to-number.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/name.js"),
+  );
+  it(
+    "new-value-time-clip.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/new-value-time-clip.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setTime/this-value-valid-date.js"),
+  );
+});
+
+describe("setUTCDate", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCDate/arg-coercion-order.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCDate/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCDate/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCDate/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCDate/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCDate/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCDate/prop-desc.js"),
+  );
+});
+
+describe("setUTCFullYear", () => {
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCFullYear/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCFullYear/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCFullYear/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCFullYear/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCFullYear/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCFullYear/prop-desc.js"),
+  );
+});
+
+describe("setUTCHours", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/arg-coercion-order.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCHours/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCHours/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/prop-desc.js"),
+  );
+  it(
+    "this-value-valid-date-hour.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-hour.js"),
+  );
+  it(
+    "this-value-valid-date-min.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-min.js"),
+  );
+  it(
+    "this-value-valid-date-ms.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-ms.js"),
+  );
+  it(
+    "this-value-valid-date-sec.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCHours/this-value-valid-date-sec.js"),
+  );
+});
+
+describe("setUTCMilliseconds", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/arg-coercion-order.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCMilliseconds/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCMilliseconds/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/prop-desc.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMilliseconds/this-value-valid-date.js"),
+  );
+});
+
+describe("setUTCMinutes", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMinutes/arg-coercion-order.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCMinutes/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCMinutes/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMinutes/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMinutes/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMinutes/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMinutes/prop-desc.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMinutes/this-value-valid-date.js"),
+  );
+});
+
+describe("setUTCMonth", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/arg-coercion-order.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCMonth/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCMonth/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/prop-desc.js"),
+  );
+  it(
+    "this-value-valid-date-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/this-value-valid-date-date.js"),
+  );
+  it(
+    "this-value-valid-date-month.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCMonth/this-value-valid-date-month.js"),
+  );
+});
+
+describe("setUTCSeconds", () => {
+  it(
+    "arg-coercion-order.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/arg-coercion-order.js"),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-invalid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCSeconds/date-value-read-before-tonumber-when-date-is-invalid.js",
+    ),
+  );
+  it(
+    "date-value-read-before-tonumber-when-date-is-valid.js",
+    { tags: ["known-failing"] },
+    createTestHandler(
+      "built-ins/Date/prototype/setUTCSeconds/date-value-read-before-tonumber-when-date-is-valid.js",
+    ),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/prop-desc.js"),
+  );
+  it(
+    "this-value-valid-date-ms.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/this-value-valid-date-ms.js"),
+  );
+  it(
+    "this-value-valid-date-sec.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/setUTCSeconds/this-value-valid-date-sec.js"),
+  );
+});
+
+describe("toDateString", () => {
+  it(
+    "format.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/format.js"),
+  );
+  it(
+    "invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/invalid-date.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/name.js"),
+  );
+  it(
+    "negative-year.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/negative-year.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toDateString/prop-desc.js"),
+  );
+});
+
+describe("toISOString", () => {
+  it(
+    "15.9.5.43-0-10.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-10.js"),
+  );
+  it(
+    "15.9.5.43-0-11.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-11.js"),
+  );
+  it(
+    "15.9.5.43-0-12.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-12.js"),
+  );
+  it(
+    "15.9.5.43-0-13.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-13.js"),
+  );
+  it(
+    "15.9.5.43-0-14.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-14.js"),
+  );
+  it(
+    "15.9.5.43-0-15.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-15.js"),
+  );
+  it(
+    "15.9.5.43-0-16.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-16.js"),
+  );
+  it(
+    "15.9.5.43-0-2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-2.js"),
+  );
+  it(
+    "15.9.5.43-0-3.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-3.js"),
+  );
+  it(
+    "15.9.5.43-0-4.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-4.js"),
+  );
+  it(
+    "15.9.5.43-0-5.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-5.js"),
+  );
+  it(
+    "15.9.5.43-0-6.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-6.js"),
+  );
+  it(
+    "15.9.5.43-0-7.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-7.js"),
+  );
+  it(
+    "15.9.5.43-0-8.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-8.js"),
+  );
+  it(
+    "15.9.5.43-0-9.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/15.9.5.43-0-9.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toISOString/not-a-constructor.js"),
+  );
+});
+
+describe("toJSON", () => {
+  it(
+    "builtin.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/builtin.js"),
+  );
+  it(
+    "called-as-function.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/called-as-function.js"),
+  );
+  it(
+    "invoke-abrupt.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/invoke-abrupt.js"),
+  );
+  it(
+    "invoke-arguments.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/invoke-arguments.js"),
+  );
+  it(
+    "invoke-result.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/invoke-result.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/name.js"),
+  );
+  it(
+    "non-finite.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/non-finite.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/not-a-constructor.js"),
+  );
+  it(
+    "to-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/to-object.js"),
+  );
+  it(
+    "to-primitive-abrupt.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/to-primitive-abrupt.js"),
+  );
+  it(
+    "to-primitive-symbol.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/to-primitive-symbol.js"),
+  );
+  it(
+    "to-primitive-value-of.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toJSON/to-primitive-value-of.js"),
+  );
+});
+
+describe("toLocaleDateString", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleDateString/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleDateString/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleDateString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleDateString/prop-desc.js"),
+  );
+});
+
+describe("toLocaleString", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleString/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleString/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleString/prop-desc.js"),
+  );
+});
+
+describe("toLocaleTimeString", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleTimeString/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleTimeString/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleTimeString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toLocaleTimeString/prop-desc.js"),
+  );
+});
+
+describe("toString", () => {
+  it(
+    "format.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/format.js"),
+  );
+  it(
+    "invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/invalid-date.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/name.js"),
+  );
+  it(
+    "negative-year.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/negative-year.js"),
+  );
+  it(
+    "non-date-receiver.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/non-date-receiver.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toString/prop-desc.js"),
+  );
+});
+
+describe("toTemporalInstant", () => {
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/prop-desc.js"),
+  );
+  it(
+    "this-value-invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-invalid-date.js"),
+  );
+  it(
+    "this-value-non-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-non-date.js"),
+  );
+  it(
+    "this-value-non-object.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-non-object.js"),
+  );
+  it(
+    "this-value-valid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTemporalInstant/this-value-valid-date.js"),
+  );
+});
+
+describe("toTimeString", () => {
+  it(
+    "format.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTimeString/format.js"),
+  );
+  it(
+    "invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTimeString/invalid-date.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTimeString/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTimeString/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTimeString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toTimeString/prop-desc.js"),
+  );
+});
+
+describe("toUTCString", () => {
+  it(
+    "day-names.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/day-names.js"),
+  );
+  it(
+    "format.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/format.js"),
+  );
+  it(
+    "invalid-date.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/invalid-date.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/length.js"),
+  );
+  it(
+    "month-names.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/month-names.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/name.js"),
+  );
+  it(
+    "negative-year.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/negative-year.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/toUTCString/prop-desc.js"),
+  );
+});
+
+describe("valueOf", () => {
+  it(
+    "S9.4_A3_T1.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/valueOf/S9.4_A3_T1.js"),
+  );
+  it(
+    "S9.4_A3_T2.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/valueOf/S9.4_A3_T2.js"),
+  );
+  it(
+    "length.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/valueOf/length.js"),
+  );
+  it(
+    "name.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/valueOf/name.js"),
+  );
+  it(
+    "not-a-constructor.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/valueOf/not-a-constructor.js"),
+  );
+  it(
+    "prop-desc.js",
+    { tags: ["known-failing"] },
+    createTestHandler("built-ins/Date/prototype/valueOf/prop-desc.js"),
+  );
 });

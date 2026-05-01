@@ -38,7 +38,9 @@ export async function createTestFile(outDir: string, path: string, tests: string
 function createTestFileContents(prefix: string, tests: string[], depth: number) {
   const relativeImportPath = "../".repeat(depth + 1);
 
-  const tree = fileTree(tests);
+  const rawTree = fileTree(tests);
+  // The root folder in the tree matches the file name — unwrap to avoid redundant describe()
+  const tree = rawTree.length === 1 && isFileTreeFolder(rawTree[0]) ? rawTree[0].children : rawTree;
   const content = tree.map((item) => writeTreeItem(item, prefix)).join("\n\n");
 
   const hasDescribe = tree.some(isFileTreeFolder);

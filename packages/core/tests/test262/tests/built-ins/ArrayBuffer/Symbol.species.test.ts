@@ -1,25 +1,26 @@
-import { it, describe } from "vitest";
+import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("Symbol.species", () => {
-  it(
-    "length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/ArrayBuffer/Symbol.species/length.js"),
-  );
-  it(
-    "return-value.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/ArrayBuffer/Symbol.species/return-value.js"),
-  );
-  it(
-    "symbol-species-name.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/ArrayBuffer/Symbol.species/symbol-species-name.js"),
-  );
-  it(
-    "symbol-species.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/ArrayBuffer/Symbol.species/symbol-species.js"),
-  );
-});
+it(
+  "length.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/ArrayBuffer/Symbol.species/length.js"),
+);
+
+it(
+  "return-value.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/ArrayBuffer/Symbol.species/return-value.js"),
+);
+
+it(
+  "symbol-species-name.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/ArrayBuffer/Symbol.species/symbol-species-name.js"),
+);
+
+it(
+  "symbol-species.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/ArrayBuffer/Symbol.species/symbol-species.js"),
+);

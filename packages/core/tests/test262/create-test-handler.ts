@@ -1,4 +1,5 @@
-import { join } from "node:path";
+import { readFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { expect } from "vitest";
 
 import {
@@ -23,12 +24,28 @@ export function createTestHandler(testRelativePath: string) {
   return async () => {
     const perf = getPerf();
 
-    const test = Test262File.fromFile(getTest262Path(join("test", testRelativePath)));
+    const testPath = getTest262Path(join("test", testRelativePath));
+    const testDir = dirname(testPath);
+    const test = Test262File.fromFile(testPath);
+
+    async function resolveImportedModule(specifier: string): Promise<string> {
+      if (!test.flags.module) {
+        throw new Error("Module resolution is only supported for module tests");
+      }
+
+      try {
+        const contents = await readFile(join(testDir, specifier), "utf-8");
+        return contents;
+      } catch (e) {
+        throw new Error(`Failed to resolve module ${specifier}: ${e}`);
+      }
+    }
 
     const realm = StaticJsRealm({
       runTask: isDebuggerActive
         ? undefined
         : createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
+      resolveImportedModule,
     });
 
     await createHostApi(realm);

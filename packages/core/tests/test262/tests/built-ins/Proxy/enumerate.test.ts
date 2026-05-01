@@ -1,10 +1,8 @@
-import { it, describe } from "vitest";
+import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("enumerate", () => {
-  it(
-    "removed-does-not-trigger.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Proxy/enumerate/removed-does-not-trigger.js"),
-  );
-});
+it(
+  "removed-does-not-trigger.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Proxy/enumerate/removed-does-not-trigger.js"),
+);

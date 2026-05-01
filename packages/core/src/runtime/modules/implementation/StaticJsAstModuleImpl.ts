@@ -101,7 +101,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     const moduleSpecifiers = Array.from(new Set([...importNames, ...indirectExportNames]));
     const modules = await Promise.all(
       moduleSpecifiers.map((moduleSpecifier) =>
-        this._realm.resolveImportedModule(this, moduleSpecifier),
+        this._realm.resolveImportedModule(moduleSpecifier, this),
       ),
     );
 

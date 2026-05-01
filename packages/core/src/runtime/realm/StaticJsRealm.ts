@@ -145,8 +145,8 @@ export interface StaticJsRealm {
    * @param specifier
    */
   resolveImportedModule(
-    referencingModule: StaticJsModule,
     specifier: string,
+    referencingModule: StaticJsModule,
   ): Promise<StaticJsModuleImplementation | null>;
 
   /**

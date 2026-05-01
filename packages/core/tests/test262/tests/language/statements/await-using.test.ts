@@ -1,293 +1,349 @@
 import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("await-using", () => {
-  it.skip("Symbol.asyncDispose-getter.js", () => {
+it.skip("Symbol.asyncDispose-getter.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("Symbol.asyncDispose-method-called-with-correct-this.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("Symbol.asyncDispose-method-not-async.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("Symbol.dispose-getter.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("Symbol.dispose-method-called-with-correct-this.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-using-Symbol.asyncDispose-allows-non-promise-return-value.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-using-Symbol.asyncDispose-allows-promiselike-return-value.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-using-allows-null-initializer.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-using-allows-undefined-initializer.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-using-does-not-imply-await-if-not-evaluated.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("await-using-implies-await-if-evaluated.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("block-local-closure-get-before-initialization.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("block-local-use-before-initialization-in-declaration-statement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("block-local-use-before-initialization-in-prior-statement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("fn-name-arrow.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("fn-name-class.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("fn-name-cover.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("fn-name-fn.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("fn-name-gen.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("function-local-closure-get-before-initialization.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("function-local-use-before-initialization-in-declaration-statement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("function-local-use-before-initialization-in-prior-statement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("gets-initializer-Symbol.asyncDispose-property-once.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-null.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-undefined.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("gets-initializer-Symbol.dispose-property-once.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("gets-initializer-does-not-read-Symbol.dispose-if-Symbol.asyncDispose-exists.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("global-closure-get-before-initialization.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("global-use-before-initialization-in-declaration-statement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("global-use-before-initialization-in-prior-statement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-at-end-of-asyncfunctionbody.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-at-end-of-asyncgeneratorbody.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-at-end-of-block.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-at-end-of-each-iteration-of-forofstatement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-at-end-of-forstatement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-if-subsequent-initializer-throws-in-forstatement-head.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.asyncDispose-called-if-subsequent-initializer-throws.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-at-end-of-asyncfunctionbody.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-at-end-of-asyncgeneratorbody.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-at-end-of-block.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-at-end-of-each-iteration-of-forofstatement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-at-end-of-forstatement.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-if-subsequent-initializer-throws-in-forstatement-head.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("initializer-Symbol.dispose-called-if-subsequent-initializer-throws.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("multiple-resources-disposed-in-reverse-order.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("puts-initializer-on-top-of-disposableresourcestack-multiple-bindings.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("puts-initializer-on-top-of-disposableresourcestack-subsequent-usings.js", () => {
+  /* Ignored Test */
+});
+
+it(
+  "redeclaration-error-from-within-strict-mode-function-await-using.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "language/statements/await-using/redeclaration-error-from-within-strict-mode-function-await-using.js",
+  ),
+);
+
+describe("syntax", () => {
+  it.skip("await-using-allowed-at-top-level-of-module.js", () => {
     /* Ignored Test */
   });
-  it.skip("Symbol.asyncDispose-method-called-with-correct-this.js", () => {
+  it.skip("await-using-allows-bindingidentifier.js", () => {
     /* Ignored Test */
   });
-  it.skip("Symbol.asyncDispose-method-not-async.js", () => {
+  it.skip("await-using-allows-multiple-bindings.js", () => {
     /* Ignored Test */
   });
-  it.skip("Symbol.dispose-getter.js", () => {
+  it.skip("await-using-declaring-let-split-across-two-lines.js", () => {
     /* Ignored Test */
   });
-  it.skip("Symbol.dispose-method-called-with-correct-this.js", () => {
+  it.skip("await-using-invalid-arraybindingpattern-after-bindingidentifier.js", () => {
     /* Ignored Test */
   });
-  it.skip("await-using-Symbol.asyncDispose-allows-non-promise-return-value.js", () => {
+  it.skip("await-using-invalid-arraybindingpattern-does-not-break-element-access.js", () => {
     /* Ignored Test */
   });
-  it.skip("await-using-Symbol.asyncDispose-allows-promiselike-return-value.js", () => {
+  it.skip("await-using-invalid-arraybindingpattern.js", () => {
     /* Ignored Test */
   });
-  it.skip("await-using-allows-null-initializer.js", () => {
+  it.skip("await-using-invalid-assignment-next-expression-for.js", () => {
     /* Ignored Test */
   });
-  it.skip("await-using-allows-undefined-initializer.js", () => {
+  it.skip("await-using-invalid-assignment-statement-body-for-of.js", () => {
     /* Ignored Test */
   });
-  it.skip("await-using-does-not-imply-await-if-not-evaluated.js", () => {
+  it.skip("await-using-invalid-for-in.js", () => {
     /* Ignored Test */
   });
-  it.skip("await-using-implies-await-if-evaluated.js", () => {
+  it.skip("await-using-invalid-objectbindingpattern-after-bindingidentifier.js", () => {
     /* Ignored Test */
   });
-  it.skip("block-local-closure-get-before-initialization.js", () => {
+  it.skip("await-using-invalid-objectbindingpattern.js", () => {
     /* Ignored Test */
   });
-  it.skip("block-local-use-before-initialization-in-declaration-statement.js", () => {
+  it.skip("await-using-invalid-switchstatement-caseclause.js", () => {
     /* Ignored Test */
   });
-  it.skip("block-local-use-before-initialization-in-prior-statement.js", () => {
+  it.skip("await-using-invalid-switchstatement-defaultclause.js", () => {
     /* Ignored Test */
   });
-  it.skip("fn-name-arrow.js", () => {
+  it.skip("await-using-not-allowed-at-top-level-of-eval.js", () => {
     /* Ignored Test */
   });
-  it.skip("fn-name-class.js", () => {
+  it.skip("await-using-not-allowed-at-top-level-of-script.js", () => {
     /* Ignored Test */
   });
-  it.skip("fn-name-cover.js", () => {
+  it.skip("await-using-outer-inner-using-bindings.js", () => {
     /* Ignored Test */
   });
-  it.skip("fn-name-fn.js", () => {
+  it.skip("await-using-valid-for-await-using-of-of.js", () => {
     /* Ignored Test */
   });
-  it.skip("fn-name-gen.js", () => {
+  it.skip("await-using.js", () => {
     /* Ignored Test */
   });
-  it.skip("function-local-closure-get-before-initialization.js", () => {
+  it.skip("block-scope-syntax-await-using-declarations-mixed-with-without-initializer.js", () => {
     /* Ignored Test */
   });
-  it.skip("function-local-use-before-initialization-in-declaration-statement.js", () => {
+  it.skip("block-scope-syntax-await-using-declarations-mixed-without-with-initializer.js", () => {
     /* Ignored Test */
   });
-  it.skip("function-local-use-before-initialization-in-prior-statement.js", () => {
+  it.skip("block-scope-syntax-await-using-declarations-without-initializer.js", () => {
     /* Ignored Test */
   });
-  it.skip("gets-initializer-Symbol.asyncDispose-property-once.js", () => {
+  it.skip("with-initializer-case-expression-statement-list.js", () => {
     /* Ignored Test */
   });
-  it.skip("gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-null.js", () => {
+  it.skip("with-initializer-default-statement-list.js", () => {
     /* Ignored Test */
   });
-  it.skip("gets-initializer-Symbol.dispose-after-Symbol.asyncDispose-is-undefined.js", () => {
+  it.skip("with-initializer-do-statement-while-expression.js", () => {
     /* Ignored Test */
   });
-  it.skip("gets-initializer-Symbol.dispose-property-once.js", () => {
+  it.skip("with-initializer-for-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("gets-initializer-does-not-read-Symbol.dispose-if-Symbol.asyncDispose-exists.js", () => {
+  it.skip("with-initializer-if-expression-statement-else-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("global-closure-get-before-initialization.js", () => {
+  it.skip("with-initializer-if-expression-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("global-use-before-initialization-in-declaration-statement.js", () => {
+  it.skip("with-initializer-label-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("global-use-before-initialization-in-prior-statement.js", () => {
+  it.skip("with-initializer-while-expression-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-at-end-of-asyncfunctionbody.js", () => {
+  it.skip("without-initializer-do-statement-while-expression.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-at-end-of-asyncgeneratorbody.js", () => {
+  it.skip("without-initializer-for-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-at-end-of-block.js", () => {
+  it.skip("without-initializer-if-expression-statement-else-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-at-end-of-each-iteration-of-forofstatement.js", () => {
+  it.skip("without-initializer-if-expression-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-at-end-of-forstatement.js", () => {
+  it.skip("without-initializer-label-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-if-subsequent-initializer-throws-in-forstatement-head.js", () => {
+  it.skip("without-initializer-while-expression-statement.js", () => {
     /* Ignored Test */
   });
-  it.skip("initializer-Symbol.asyncDispose-called-if-subsequent-initializer-throws.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-at-end-of-asyncfunctionbody.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-at-end-of-asyncgeneratorbody.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-at-end-of-block.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-at-end-of-each-iteration-of-forofstatement.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-at-end-of-forstatement.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-if-subsequent-initializer-throws-in-forstatement-head.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("initializer-Symbol.dispose-called-if-subsequent-initializer-throws.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("multiple-resources-disposed-in-reverse-order.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("puts-initializer-on-top-of-disposableresourcestack-multiple-bindings.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("puts-initializer-on-top-of-disposableresourcestack-subsequent-usings.js", () => {
-    /* Ignored Test */
-  });
-  it(
-    "redeclaration-error-from-within-strict-mode-function-await-using.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "language/statements/await-using/redeclaration-error-from-within-strict-mode-function-await-using.js",
-    ),
-  );
-  describe("syntax", () => {
-    it.skip("await-using-allowed-at-top-level-of-module.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-allows-bindingidentifier.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-allows-multiple-bindings.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-declaring-let-split-across-two-lines.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-arraybindingpattern-after-bindingidentifier.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-arraybindingpattern-does-not-break-element-access.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-arraybindingpattern.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-assignment-next-expression-for.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-assignment-statement-body-for-of.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-for-in.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-objectbindingpattern-after-bindingidentifier.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-objectbindingpattern.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-switchstatement-caseclause.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-invalid-switchstatement-defaultclause.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-not-allowed-at-top-level-of-eval.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-not-allowed-at-top-level-of-script.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-outer-inner-using-bindings.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using-valid-for-await-using-of-of.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("await-using.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("block-scope-syntax-await-using-declarations-mixed-with-without-initializer.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("block-scope-syntax-await-using-declarations-mixed-without-with-initializer.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("block-scope-syntax-await-using-declarations-without-initializer.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-case-expression-statement-list.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-default-statement-list.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-do-statement-while-expression.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-for-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-if-expression-statement-else-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-if-expression-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-label-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("with-initializer-while-expression-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("without-initializer-do-statement-while-expression.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("without-initializer-for-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("without-initializer-if-expression-statement-else-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("without-initializer-if-expression-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("without-initializer-label-statement.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("without-initializer-while-expression-statement.js", () => {
-      /* Ignored Test */
-    });
-  });
-  it.skip("throws-error-as-is-if-only-one-error-during-disposal.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-Symbol.asyncDispose-property-is-null.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-Symbol.asyncDispose-property-is-undefined.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-Symbol.asyncDispose-property-not-callable.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-Symbol.dispose-property-is-null.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-Symbol.dispose-property-is-undefined.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-Symbol.dispose-property-not-callable.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-missing-both-Symbol.asyncDispose-and-Symbol.dispose.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-if-initializer-not-object.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("throws-suppressederror-if-multiple-errors-during-disposal.js", () => {
-    /* Ignored Test */
-  });
+});
+
+it.skip("throws-error-as-is-if-only-one-error-during-disposal.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-Symbol.asyncDispose-property-is-null.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-Symbol.asyncDispose-property-is-undefined.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-Symbol.asyncDispose-property-not-callable.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-Symbol.dispose-property-is-null.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-Symbol.dispose-property-is-undefined.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-Symbol.dispose-property-not-callable.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-missing-both-Symbol.asyncDispose-and-Symbol.dispose.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-if-initializer-not-object.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("throws-suppressederror-if-multiple-errors-during-disposal.js", () => {
+  /* Ignored Test */
 });

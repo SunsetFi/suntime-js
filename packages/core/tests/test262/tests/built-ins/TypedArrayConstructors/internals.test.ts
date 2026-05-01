@@ -1,94 +1,8 @@
 import { it, describe } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("internals", () => {
-  describe("DefineOwnProperty", () => {
-    describe("BigInt", () => {
-      it.skip("desc-value-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-throws-realm.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-greater-than-last-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-lower-than-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-minus-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-integer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-accessor-desc-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-accessor-desc.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-desc-configurable.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-desc-not-configurable-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-desc-not-enumerable-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-desc-not-enumerable.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-desc-not-writable-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex-desc-not-writable.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-numericindex.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("non-extensible-new-key.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("non-extensible-redefine-key.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("set-value.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("this-is-not-extensible.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("tonumber-value-detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-    });
-    it.skip("conversion-operation-consistent-nan.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("conversion-operation.js", () => {
-      /* Ignored Test */
-    });
+describe("DefineOwnProperty", () => {
+  describe("BigInt", () => {
     it.skip("desc-value-throws.js", () => {
       /* Ignored Test */
     });
@@ -168,66 +82,94 @@ describe("internals", () => {
       /* Ignored Test */
     });
   });
-  describe("Delete", () => {
-    describe("BigInt", () => {
-      it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-realm.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value-ab-non-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value-ab-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value-sab-non-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value-sab-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("infinity-detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index-non-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-minus-zero-non-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-minus-zero-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index-get-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index-non-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-out-of-bounds-non-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-out-of-bounds-strict.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-    });
+  it.skip("conversion-operation-consistent-nan.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("conversion-operation.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("desc-value-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-throws-realm.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-greater-than-last-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-lower-than-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-minus-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-integer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-accessor-desc-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-accessor-desc.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-desc-configurable.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-desc-not-configurable-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-desc-not-enumerable-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-desc-not-enumerable.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-desc-not-writable-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex-desc-not-writable.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-numericindex.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-extensible-new-key.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("non-extensible-redefine-key.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("set-value.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("this-is-not-extensible.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("tonumber-value-detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+});
+
+describe("Delete", () => {
+  describe("BigInt", () => {
     it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
       /* Ignored Test */
     });
@@ -261,9 +203,6 @@ describe("internals", () => {
     it.skip("key-is-not-canonical-index-strict.js", () => {
       /* Ignored Test */
     });
-    it.skip("key-is-not-integer.js", () => {
-      /* Ignored Test */
-    });
     it.skip("key-is-not-minus-zero-non-strict.js", () => {
       /* Ignored Test */
     });
@@ -289,51 +228,70 @@ describe("internals", () => {
       /* Ignored Test */
     });
   });
-  describe("Get", () => {
-    describe("BigInt", () => {
-      it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-realm.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value-sab.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("infinity-detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-integer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-minus-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index-get-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-out-of-bounds.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-    });
+  it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-realm.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value-ab-non-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value-ab-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value-sab-non-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value-sab-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("infinity-detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index-non-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-integer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-minus-zero-non-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-minus-zero-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index-get-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index-non-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds-non-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds-strict.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+});
+
+describe("Get", () => {
+  describe("BigInt", () => {
     it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
       /* Ignored Test */
     });
@@ -377,45 +335,52 @@ describe("internals", () => {
       /* Ignored Test */
     });
   });
-  describe("GetOwnProperty", () => {
-    describe("BigInt", () => {
-      it.skip("detached-buffer-key-is-not-number.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-realm.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("enumerate-detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("index-prop-desc.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-minus-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-integer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-out-of-bounds.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-    });
+  it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-realm.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value-sab.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("infinity-detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-integer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-minus-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index-get-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+});
+
+describe("GetOwnProperty", () => {
+  describe("BigInt", () => {
     it.skip("detached-buffer-key-is-not-number.js", () => {
       /* Ignored Test */
     });
@@ -453,54 +418,46 @@ describe("internals", () => {
       /* Ignored Test */
     });
   });
-  describe("HasProperty", () => {
-    describe("BigInt", () => {
-      it.skip("abrupt-from-ordinary-has-parent-hasproperty.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-not-number.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-realm.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("infinity-with-detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("inherited-property.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-greater-than-last-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-lower-than-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-minus-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-integer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-    });
+  it.skip("detached-buffer-key-is-not-number.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-realm.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("enumerate-detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("index-prop-desc.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-minus-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-integer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+});
+
+describe("HasProperty", () => {
+  describe("BigInt", () => {
     it.skip("abrupt-from-ordinary-has-parent-hasproperty.js", () => {
       /* Ignored Test */
     });
@@ -546,38 +503,66 @@ describe("internals", () => {
     it.skip("key-is-symbol.js", () => {
       /* Ignored Test */
     });
-    it.skip("resizable-array-buffer-auto.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("resizable-array-buffer-fixed.js", () => {
-      /* Ignored Test */
-    });
   });
-  describe("OwnPropertyKeys", () => {
-    describe("BigInt", () => {
-      it.skip("integer-indexes-and-string-and-symbol-keys-.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("integer-indexes-and-string-keys.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("integer-indexes.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("not-enumerable-keys.js", () => {
-        /* Ignored Test */
-      });
-    });
+  it.skip("abrupt-from-ordinary-has-parent-hasproperty.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-not-number.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-realm.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("infinity-with-detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("inherited-property.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-greater-than-last-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-lower-than-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-minus-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-integer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("resizable-array-buffer-auto.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("resizable-array-buffer-fixed.js", () => {
+    /* Ignored Test */
+  });
+});
+
+describe("OwnPropertyKeys", () => {
+  describe("BigInt", () => {
     it.skip("integer-indexes-and-string-and-symbol-keys-.js", () => {
       /* Ignored Test */
     });
     it.skip("integer-indexes-and-string-keys.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("integer-indexes-resizable-array-buffer-auto.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("integer-indexes-resizable-array-buffer-fixed.js", () => {
       /* Ignored Test */
     });
     it.skip("integer-indexes.js", () => {
@@ -587,97 +572,35 @@ describe("internals", () => {
       /* Ignored Test */
     });
   });
-  describe("Set", () => {
-    describe("BigInt", () => {
-      it.skip("bigint-tobigint64.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("bigint-tobiguint64.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("boolean-tobigint.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer-realm.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("indexed-value.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-canonical-invalid-index-prototype-chain-set.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-canonical-invalid-index-reflect-set.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-minus-zero.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-canonical-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-integer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index-set-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-not-numeric-index.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-out-of-bounds.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-symbol.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-valid-index-prototype-chain-set.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("key-is-valid-index-reflect-set.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("null-tobigint.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("number-tobigint.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("string-nan-tobigint.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("string-tobigint.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("symbol-tobigint.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("tonumber-value-detached-buffer.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("tonumber-value-throws.js", () => {
-        /* Ignored Test */
-      });
-      it.skip("undefined-tobigint.js", () => {
-        /* Ignored Test */
-      });
-    });
-    it.skip("bigint-tonumber.js", () => {
+  it.skip("integer-indexes-and-string-and-symbol-keys-.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("integer-indexes-and-string-keys.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("integer-indexes-resizable-array-buffer-auto.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("integer-indexes-resizable-array-buffer-fixed.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("integer-indexes.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("not-enumerable-keys.js", () => {
+    /* Ignored Test */
+  });
+});
+
+describe("Set", () => {
+  describe("BigInt", () => {
+    it.skip("bigint-tobigint64.js", () => {
       /* Ignored Test */
     });
-    it.skip("conversion-operation-consistent-nan.js", () => {
+    it.skip("bigint-tobiguint64.js", () => {
       /* Ignored Test */
     });
-    it.skip("conversion-operation.js", () => {
+    it.skip("boolean-tobigint.js", () => {
       /* Ignored Test */
     });
     it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
@@ -701,9 +624,6 @@ describe("internals", () => {
     it.skip("key-is-canonical-invalid-index-reflect-set.js", () => {
       /* Ignored Test */
     });
-    it.skip("key-is-in-bounds-receiver-is-not-typed-array.js", () => {
-      /* Ignored Test */
-    });
     it.skip("key-is-minus-zero.js", () => {
       /* Ignored Test */
     });
@@ -719,15 +639,6 @@ describe("internals", () => {
     it.skip("key-is-not-numeric-index.js", () => {
       /* Ignored Test */
     });
-    it.skip("key-is-out-of-bounds-receiver-is-not-object.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("key-is-out-of-bounds-receiver-is-not-typed-array.js", () => {
-      /* Ignored Test */
-    });
-    it.skip("key-is-out-of-bounds-receiver-is-proto.js", () => {
-      /* Ignored Test */
-    });
     it.skip("key-is-out-of-bounds.js", () => {
       /* Ignored Test */
     });
@@ -740,7 +651,19 @@ describe("internals", () => {
     it.skip("key-is-valid-index-reflect-set.js", () => {
       /* Ignored Test */
     });
-    it.skip("resized-out-of-bounds-to-in-bounds-index.js", () => {
+    it.skip("null-tobigint.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("number-tobigint.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("string-nan-tobigint.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("string-tobigint.js", () => {
+      /* Ignored Test */
+    });
+    it.skip("symbol-tobigint.js", () => {
       /* Ignored Test */
     });
     it.skip("tonumber-value-detached-buffer.js", () => {
@@ -749,5 +672,86 @@ describe("internals", () => {
     it.skip("tonumber-value-throws.js", () => {
       /* Ignored Test */
     });
+    it.skip("undefined-tobigint.js", () => {
+      /* Ignored Test */
+    });
+  });
+  it.skip("bigint-tonumber.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("conversion-operation-consistent-nan.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("conversion-operation.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer-realm.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("indexed-value.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-canonical-invalid-index-prototype-chain-set.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-canonical-invalid-index-reflect-set.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-in-bounds-receiver-is-not-typed-array.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-minus-zero.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-canonical-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-integer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index-set-throws.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-not-numeric-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds-receiver-is-not-object.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds-receiver-is-not-typed-array.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds-receiver-is-proto.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-out-of-bounds.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-symbol.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-valid-index-prototype-chain-set.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("key-is-valid-index-reflect-set.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("resized-out-of-bounds-to-in-bounds-index.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("tonumber-value-detached-buffer.js", () => {
+    /* Ignored Test */
+  });
+  it.skip("tonumber-value-throws.js", () => {
+    /* Ignored Test */
   });
 });

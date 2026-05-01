@@ -1,453 +1,542 @@
-import { it, describe } from "vitest";
+import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("call", () => {
-  it(
-    "11.2.3-3_1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_1.js"),
-  );
-  it(
-    "11.2.3-3_2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_2.js"),
-  );
-  it(
-    "11.2.3-3_3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_3.js"),
-  );
-  it(
-    "11.2.3-3_4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_4.js"),
-  );
-  it(
-    "11.2.3-3_5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_5.js"),
-  );
-  it(
-    "11.2.3-3_6.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_6.js"),
-  );
-  it(
-    "11.2.3-3_7.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_7.js"),
-  );
-  it(
-    "11.2.3-3_8.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/11.2.3-3_8.js"),
-  );
-  it(
-    "S11.2.3_A1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A1.js"),
-  );
-  it(
-    "S11.2.3_A2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A2.js"),
-  );
-  it(
-    "S11.2.3_A3_T1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A3_T1.js"),
-  );
-  it(
-    "S11.2.3_A3_T2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A3_T2.js"),
-  );
-  it(
-    "S11.2.3_A3_T3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A3_T3.js"),
-  );
-  it(
-    "S11.2.3_A3_T4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A3_T4.js"),
-  );
-  it(
-    "S11.2.3_A3_T5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A3_T5.js"),
-  );
-  it(
-    "S11.2.3_A4_T1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A4_T1.js"),
-  );
-  it(
-    "S11.2.3_A4_T2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A4_T2.js"),
-  );
-  it(
-    "S11.2.3_A4_T3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A4_T3.js"),
-  );
-  it(
-    "S11.2.3_A4_T4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A4_T4.js"),
-  );
-  it(
-    "S11.2.3_A4_T5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.3_A4_T5.js"),
-  );
-  it(
-    "S11.2.4_A1.1_T1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.1_T1.js"),
-  );
-  it(
-    "S11.2.4_A1.1_T2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.1_T2.js"),
-  );
-  it(
-    "S11.2.4_A1.2_T1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.2_T1.js"),
-  );
-  it(
-    "S11.2.4_A1.2_T2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.2_T2.js"),
-  );
-  it(
-    "S11.2.4_A1.3_T1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.3_T1.js"),
-  );
-  it(
-    "S11.2.4_A1.4_T1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.4_T1.js"),
-  );
-  it(
-    "S11.2.4_A1.4_T2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.4_T2.js"),
-  );
-  it(
-    "S11.2.4_A1.4_T3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.4_T3.js"),
-  );
-  it(
-    "S11.2.4_A1.4_T4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/S11.2.4_A1.4_T4.js"),
-  );
-  it(
-    "eval-err-args.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-err-args.js"),
-  );
-  it(
-    "eval-first-arg.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-first-arg.js"),
-  );
-  it(
-    "eval-no-args.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-no-args.js"),
-  );
-  it(
-    "eval-realm-indirect.js",
-    { tags: ["known-failing"] },
-    createTestHandler("language/expressions/call/eval-realm-indirect.js"),
-  );
-  it(
-    "eval-spread-empty-leading.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-spread-empty-leading.js"),
-  );
-  it(
-    "eval-spread-empty-trailing.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-spread-empty-trailing.js"),
-  );
-  it(
-    "eval-spread-empty.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-spread-empty.js"),
-  );
-  it(
-    "eval-spread.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-spread.js"),
-  );
-  it(
-    "eval-strictness-inherit-non-strict.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-strictness-inherit-non-strict.js"),
-  );
-  it(
-    "eval-strictness-inherit-strict.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/eval-strictness-inherit-strict.js"),
-  );
-  it(
-    "scope-lex-close.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/scope-lex-close.js"),
-  );
-  it(
-    "scope-lex-open.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/scope-lex-open.js"),
-  );
-  it(
-    "scope-var-close.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/scope-var-close.js"),
-  );
-  it(
-    "scope-var-open.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/scope-var-open.js"),
-  );
-  it(
-    "spread-err-mult-err-expr-throws.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-expr-throws.js"),
-  );
-  it(
-    "spread-err-mult-err-iter-get-value.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-iter-get-value.js"),
-  );
-  it(
-    "spread-err-mult-err-itr-get-call.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-itr-get-call.js"),
-  );
-  it(
-    "spread-err-mult-err-itr-get-get.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-itr-get-get.js"),
-  );
-  it(
-    "spread-err-mult-err-itr-step.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-itr-step.js"),
-  );
-  it(
-    "spread-err-mult-err-itr-value.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-itr-value.js"),
-  );
-  it(
-    "spread-err-mult-err-obj-unresolvable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-obj-unresolvable.js"),
-  );
-  it(
-    "spread-err-mult-err-unresolvable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-mult-err-unresolvable.js"),
-  );
-  it(
-    "spread-err-sngl-err-expr-throws.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-expr-throws.js"),
-  );
-  it(
-    "spread-err-sngl-err-itr-get-call.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-itr-get-call.js"),
-  );
-  it(
-    "spread-err-sngl-err-itr-get-get.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-itr-get-get.js"),
-  );
-  it(
-    "spread-err-sngl-err-itr-get-value.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-itr-get-value.js"),
-  );
-  it(
-    "spread-err-sngl-err-itr-step.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-itr-step.js"),
-  );
-  it(
-    "spread-err-sngl-err-itr-value.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-itr-value.js"),
-  );
-  it(
-    "spread-err-sngl-err-obj-unresolvable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-obj-unresolvable.js"),
-  );
-  it(
-    "spread-err-sngl-err-unresolvable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-err-sngl-err-unresolvable.js"),
-  );
-  it(
-    "spread-mult-empty.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-empty.js"),
-  );
-  it(
-    "spread-mult-expr.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-expr.js"),
-  );
-  it(
-    "spread-mult-iter.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-iter.js"),
-  );
-  it(
-    "spread-mult-literal.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-literal.js"),
-  );
-  it(
-    "spread-mult-obj-ident.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-obj-ident.js"),
-  );
-  it(
-    "spread-mult-obj-null.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-obj-null.js"),
-  );
-  it(
-    "spread-mult-obj-undefined.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-mult-obj-undefined.js"),
-  );
-  it(
-    "spread-obj-getter-descriptor.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-getter-descriptor.js"),
-  );
-  it(
-    "spread-obj-getter-init.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-getter-init.js"),
-  );
-  it(
-    "spread-obj-manipulate-outter-obj-in-getter.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-manipulate-outter-obj-in-getter.js"),
-  );
-  it(
-    "spread-obj-mult-spread-getter.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-mult-spread-getter.js"),
-  );
-  it(
-    "spread-obj-mult-spread.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-mult-spread.js"),
-  );
-  it(
-    "spread-obj-null.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-null.js"),
-  );
-  it(
-    "spread-obj-override-immutable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-override-immutable.js"),
-  );
-  it(
-    "spread-obj-overrides-prev-properties.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-overrides-prev-properties.js"),
-  );
-  it(
-    "spread-obj-skip-non-enumerable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-skip-non-enumerable.js"),
-  );
-  it(
-    "spread-obj-spread-order.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-spread-order.js"),
-  );
-  it(
-    "spread-obj-symbol-property.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-symbol-property.js"),
-  );
-  it(
-    "spread-obj-undefined.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-undefined.js"),
-  );
-  it(
-    "spread-obj-with-overrides.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-obj-with-overrides.js"),
-  );
-  it(
-    "spread-sngl-empty.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-sngl-empty.js"),
-  );
-  it(
-    "spread-sngl-expr.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-sngl-expr.js"),
-  );
-  it(
-    "spread-sngl-iter.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-sngl-iter.js"),
-  );
-  it(
-    "spread-sngl-literal.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-sngl-literal.js"),
-  );
-  it(
-    "spread-sngl-obj-ident.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/spread-sngl-obj-ident.js"),
-  );
-  it.skip("tco-call-args.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("tco-member-args.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("tco-non-eval-function-dynamic.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("tco-non-eval-function.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("tco-non-eval-global.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("tco-non-eval-with.js", () => {
-    /* Ignored Test */
-  });
-  it(
-    "trailing-comma.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/trailing-comma.js"),
-  );
-  it(
-    "with-base-obj.js",
-    { tags: ["known-passing"] },
-    createTestHandler("language/expressions/call/with-base-obj.js"),
-  );
+it(
+  "11.2.3-3_1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_1.js"),
+);
+
+it(
+  "11.2.3-3_2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_2.js"),
+);
+
+it(
+  "11.2.3-3_3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_3.js"),
+);
+
+it(
+  "11.2.3-3_4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_4.js"),
+);
+
+it(
+  "11.2.3-3_5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_5.js"),
+);
+
+it(
+  "11.2.3-3_6.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_6.js"),
+);
+
+it(
+  "11.2.3-3_7.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_7.js"),
+);
+
+it(
+  "11.2.3-3_8.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/11.2.3-3_8.js"),
+);
+
+it(
+  "S11.2.3_A1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A1.js"),
+);
+
+it(
+  "S11.2.3_A2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A2.js"),
+);
+
+it(
+  "S11.2.3_A3_T1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A3_T1.js"),
+);
+
+it(
+  "S11.2.3_A3_T2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A3_T2.js"),
+);
+
+it(
+  "S11.2.3_A3_T3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A3_T3.js"),
+);
+
+it(
+  "S11.2.3_A3_T4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A3_T4.js"),
+);
+
+it(
+  "S11.2.3_A3_T5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A3_T5.js"),
+);
+
+it(
+  "S11.2.3_A4_T1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A4_T1.js"),
+);
+
+it(
+  "S11.2.3_A4_T2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A4_T2.js"),
+);
+
+it(
+  "S11.2.3_A4_T3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A4_T3.js"),
+);
+
+it(
+  "S11.2.3_A4_T4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A4_T4.js"),
+);
+
+it(
+  "S11.2.3_A4_T5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.3_A4_T5.js"),
+);
+
+it(
+  "S11.2.4_A1.1_T1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.1_T1.js"),
+);
+
+it(
+  "S11.2.4_A1.1_T2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.1_T2.js"),
+);
+
+it(
+  "S11.2.4_A1.2_T1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.2_T1.js"),
+);
+
+it(
+  "S11.2.4_A1.2_T2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.2_T2.js"),
+);
+
+it(
+  "S11.2.4_A1.3_T1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.3_T1.js"),
+);
+
+it(
+  "S11.2.4_A1.4_T1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.4_T1.js"),
+);
+
+it(
+  "S11.2.4_A1.4_T2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.4_T2.js"),
+);
+
+it(
+  "S11.2.4_A1.4_T3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.4_T3.js"),
+);
+
+it(
+  "S11.2.4_A1.4_T4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/S11.2.4_A1.4_T4.js"),
+);
+
+it(
+  "eval-err-args.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-err-args.js"),
+);
+
+it(
+  "eval-first-arg.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-first-arg.js"),
+);
+
+it(
+  "eval-no-args.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-no-args.js"),
+);
+
+it(
+  "eval-realm-indirect.js",
+  { tags: ["known-failing"] },
+  createTestHandler("language/expressions/call/eval-realm-indirect.js"),
+);
+
+it(
+  "eval-spread-empty-leading.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-spread-empty-leading.js"),
+);
+
+it(
+  "eval-spread-empty-trailing.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-spread-empty-trailing.js"),
+);
+
+it(
+  "eval-spread-empty.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-spread-empty.js"),
+);
+
+it(
+  "eval-spread.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-spread.js"),
+);
+
+it(
+  "eval-strictness-inherit-non-strict.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-strictness-inherit-non-strict.js"),
+);
+
+it(
+  "eval-strictness-inherit-strict.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/eval-strictness-inherit-strict.js"),
+);
+
+it(
+  "scope-lex-close.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/scope-lex-close.js"),
+);
+
+it(
+  "scope-lex-open.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/scope-lex-open.js"),
+);
+
+it(
+  "scope-var-close.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/scope-var-close.js"),
+);
+
+it(
+  "scope-var-open.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/scope-var-open.js"),
+);
+
+it(
+  "spread-err-mult-err-expr-throws.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-expr-throws.js"),
+);
+
+it(
+  "spread-err-mult-err-iter-get-value.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-iter-get-value.js"),
+);
+
+it(
+  "spread-err-mult-err-itr-get-call.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-itr-get-call.js"),
+);
+
+it(
+  "spread-err-mult-err-itr-get-get.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-itr-get-get.js"),
+);
+
+it(
+  "spread-err-mult-err-itr-step.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-itr-step.js"),
+);
+
+it(
+  "spread-err-mult-err-itr-value.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-itr-value.js"),
+);
+
+it(
+  "spread-err-mult-err-obj-unresolvable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-obj-unresolvable.js"),
+);
+
+it(
+  "spread-err-mult-err-unresolvable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-mult-err-unresolvable.js"),
+);
+
+it(
+  "spread-err-sngl-err-expr-throws.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-expr-throws.js"),
+);
+
+it(
+  "spread-err-sngl-err-itr-get-call.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-itr-get-call.js"),
+);
+
+it(
+  "spread-err-sngl-err-itr-get-get.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-itr-get-get.js"),
+);
+
+it(
+  "spread-err-sngl-err-itr-get-value.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-itr-get-value.js"),
+);
+
+it(
+  "spread-err-sngl-err-itr-step.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-itr-step.js"),
+);
+
+it(
+  "spread-err-sngl-err-itr-value.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-itr-value.js"),
+);
+
+it(
+  "spread-err-sngl-err-obj-unresolvable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-obj-unresolvable.js"),
+);
+
+it(
+  "spread-err-sngl-err-unresolvable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-err-sngl-err-unresolvable.js"),
+);
+
+it(
+  "spread-mult-empty.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-empty.js"),
+);
+
+it(
+  "spread-mult-expr.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-expr.js"),
+);
+
+it(
+  "spread-mult-iter.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-iter.js"),
+);
+
+it(
+  "spread-mult-literal.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-literal.js"),
+);
+
+it(
+  "spread-mult-obj-ident.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-obj-ident.js"),
+);
+
+it(
+  "spread-mult-obj-null.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-obj-null.js"),
+);
+
+it(
+  "spread-mult-obj-undefined.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-mult-obj-undefined.js"),
+);
+
+it(
+  "spread-obj-getter-descriptor.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-getter-descriptor.js"),
+);
+
+it(
+  "spread-obj-getter-init.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-getter-init.js"),
+);
+
+it(
+  "spread-obj-manipulate-outter-obj-in-getter.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-manipulate-outter-obj-in-getter.js"),
+);
+
+it(
+  "spread-obj-mult-spread-getter.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-mult-spread-getter.js"),
+);
+
+it(
+  "spread-obj-mult-spread.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-mult-spread.js"),
+);
+
+it(
+  "spread-obj-null.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-null.js"),
+);
+
+it(
+  "spread-obj-override-immutable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-override-immutable.js"),
+);
+
+it(
+  "spread-obj-overrides-prev-properties.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-overrides-prev-properties.js"),
+);
+
+it(
+  "spread-obj-skip-non-enumerable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-skip-non-enumerable.js"),
+);
+
+it(
+  "spread-obj-spread-order.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-spread-order.js"),
+);
+
+it(
+  "spread-obj-symbol-property.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-symbol-property.js"),
+);
+
+it(
+  "spread-obj-undefined.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-undefined.js"),
+);
+
+it(
+  "spread-obj-with-overrides.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-obj-with-overrides.js"),
+);
+
+it(
+  "spread-sngl-empty.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-sngl-empty.js"),
+);
+
+it(
+  "spread-sngl-expr.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-sngl-expr.js"),
+);
+
+it(
+  "spread-sngl-iter.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-sngl-iter.js"),
+);
+
+it(
+  "spread-sngl-literal.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-sngl-literal.js"),
+);
+
+it(
+  "spread-sngl-obj-ident.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/spread-sngl-obj-ident.js"),
+);
+
+it.skip("tco-call-args.js", () => {
+  /* Ignored Test */
 });
+
+it.skip("tco-member-args.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("tco-non-eval-function-dynamic.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("tco-non-eval-function.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("tco-non-eval-global.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("tco-non-eval-with.js", () => {
+  /* Ignored Test */
+});
+
+it(
+  "trailing-comma.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/trailing-comma.js"),
+);
+
+it(
+  "with-base-obj.js",
+  { tags: ["known-passing"] },
+  createTestHandler("language/expressions/call/with-base-obj.js"),
+);

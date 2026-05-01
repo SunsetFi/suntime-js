@@ -61,9 +61,7 @@ export function isTestBaseline(test: Test262File): boolean {
     ? testPathParts.join("/").replace(/\.js$/, ".test.ts")
     : testPathParts.slice(0, FLATTEN_DEPTH).join("/") + ".test.ts";
 
-  const fullName = isShort
-    ? testPathParts.at(-1)!
-    : testPathParts.slice(FLATTEN_DEPTH - 1).join(" ");
+  const fullName = isShort ? testPathParts.at(-1)! : testPathParts.slice(FLATTEN_DEPTH).join(" ");
 
   return getIndex(category).get(`${fileSuffix}|${fullName}`) === true;
 }

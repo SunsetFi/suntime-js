@@ -1,3179 +1,3808 @@
-import { it, describe } from "vitest";
+import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("defineProperties", () => {
-  it(
-    "15.2.3.7-0-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-0-1.js"),
-  );
-  it(
-    "15.2.3.7-0-2.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-0-2.js"),
-  );
-  it(
-    "15.2.3.7-1-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-1.js"),
-  );
-  it(
-    "15.2.3.7-1-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-2.js"),
-  );
-  it(
-    "15.2.3.7-1-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-3.js"),
-  );
-  it(
-    "15.2.3.7-1-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-4.js"),
-  );
-  it(
-    "15.2.3.7-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1.js"),
-  );
-  it(
-    "15.2.3.7-2-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-1.js"),
-  );
-  it(
-    "15.2.3.7-2-10.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-10.js"),
-  );
-  it(
-    "15.2.3.7-2-11.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-11.js"),
-  );
-  it(
-    "15.2.3.7-2-12.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-12.js"),
-  );
-  it(
-    "15.2.3.7-2-13.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-13.js"),
-  );
-  it(
-    "15.2.3.7-2-14.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-14.js"),
-  );
-  it(
-    "15.2.3.7-2-15.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-15.js"),
-  );
-  it(
-    "15.2.3.7-2-16.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-16.js"),
-  );
-  it(
-    "15.2.3.7-2-18.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-18.js"),
-  );
-  it(
-    "15.2.3.7-2-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-2.js"),
-  );
-  it(
-    "15.2.3.7-2-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-3.js"),
-  );
-  it(
-    "15.2.3.7-2-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-4.js"),
-  );
-  it(
-    "15.2.3.7-2-5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-5.js"),
-  );
-  it(
-    "15.2.3.7-2-6.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-6.js"),
-  );
-  it(
-    "15.2.3.7-2-7.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-7.js"),
-  );
-  it(
-    "15.2.3.7-2-8.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-8.js"),
-  );
-  it(
-    "15.2.3.7-2-9.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-9.js"),
-  );
-  it(
-    "15.2.3.7-3-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-1.js"),
-  );
-  it(
-    "15.2.3.7-3-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-2.js"),
-  );
-  it(
-    "15.2.3.7-3-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-3.js"),
-  );
-  it(
-    "15.2.3.7-3-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-4.js"),
-  );
-  it(
-    "15.2.3.7-3-5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-5.js"),
-  );
-  it(
-    "15.2.3.7-3-6.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-6.js"),
-  );
-  it(
-    "15.2.3.7-3-7.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-7.js"),
-  );
-  it(
-    "15.2.3.7-3-8.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-8.js"),
-  );
-  it(
-    "15.2.3.7-5-a-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-1.js"),
-  );
-  it(
-    "15.2.3.7-5-a-10.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-10.js"),
-  );
-  it(
-    "15.2.3.7-5-a-11.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-11.js"),
-  );
-  it(
-    "15.2.3.7-5-a-12.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-12.js"),
-  );
-  it(
-    "15.2.3.7-5-a-13.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-13.js"),
-  );
-  it(
-    "15.2.3.7-5-a-14.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-14.js"),
-  );
-  it(
-    "15.2.3.7-5-a-15.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-15.js"),
-  );
-  it(
-    "15.2.3.7-5-a-16.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-16.js"),
-  );
-  it(
-    "15.2.3.7-5-a-17.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-17.js"),
-  );
-  it(
-    "15.2.3.7-5-a-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-2.js"),
-  );
-  it(
-    "15.2.3.7-5-a-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-3.js"),
-  );
-  it(
-    "15.2.3.7-5-a-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-4.js"),
-  );
-  it(
-    "15.2.3.7-5-a-5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-5.js"),
-  );
-  it(
-    "15.2.3.7-5-a-6.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-6.js"),
-  );
-  it(
-    "15.2.3.7-5-a-7.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-7.js"),
-  );
-  it(
-    "15.2.3.7-5-a-8.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-8.js"),
-  );
-  it(
-    "15.2.3.7-5-a-9.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-9.js"),
-  );
-  it(
-    "15.2.3.7-5-b-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-1.js"),
-  );
-  it(
-    "15.2.3.7-5-b-10.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-10.js"),
-  );
-  it(
-    "15.2.3.7-5-b-100.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-100.js"),
-  );
-  it(
-    "15.2.3.7-5-b-101.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-101.js"),
-  );
-  it(
-    "15.2.3.7-5-b-102.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-102.js"),
-  );
-  it(
-    "15.2.3.7-5-b-103.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-103.js"),
-  );
-  it(
-    "15.2.3.7-5-b-104.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-104.js"),
-  );
-  it(
-    "15.2.3.7-5-b-105.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-105.js"),
-  );
-  it(
-    "15.2.3.7-5-b-106.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-106.js"),
-  );
-  it(
-    "15.2.3.7-5-b-107.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-107.js"),
-  );
-  it(
-    "15.2.3.7-5-b-109.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-109.js"),
-  );
-  it(
-    "15.2.3.7-5-b-11.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-11.js"),
-  );
-  it(
-    "15.2.3.7-5-b-110.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-110.js"),
-  );
-  it(
-    "15.2.3.7-5-b-111.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-111.js"),
-  );
-  it(
-    "15.2.3.7-5-b-112.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-112.js"),
-  );
-  it(
-    "15.2.3.7-5-b-113.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-113.js"),
-  );
-  it(
-    "15.2.3.7-5-b-114.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-114.js"),
-  );
-  it(
-    "15.2.3.7-5-b-115.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-115.js"),
-  );
-  it(
-    "15.2.3.7-5-b-116.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-116.js"),
-  );
-  it(
-    "15.2.3.7-5-b-117.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-117.js"),
-  );
-  it(
-    "15.2.3.7-5-b-118.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-118.js"),
-  );
-  it(
-    "15.2.3.7-5-b-119.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-119.js"),
-  );
-  it(
-    "15.2.3.7-5-b-12.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-12.js"),
-  );
-  it(
-    "15.2.3.7-5-b-120.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-120.js"),
-  );
-  it(
-    "15.2.3.7-5-b-121.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-121.js"),
-  );
-  it(
-    "15.2.3.7-5-b-122.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-122.js"),
-  );
-  it(
-    "15.2.3.7-5-b-123.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-123.js"),
-  );
-  it(
-    "15.2.3.7-5-b-124.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-124.js"),
-  );
-  it(
-    "15.2.3.7-5-b-125.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-125.js"),
-  );
-  it(
-    "15.2.3.7-5-b-126.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-126.js"),
-  );
-  it(
-    "15.2.3.7-5-b-127.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-127.js"),
-  );
-  it(
-    "15.2.3.7-5-b-128.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-128.js"),
-  );
-  it(
-    "15.2.3.7-5-b-129.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-129.js"),
-  );
-  it(
-    "15.2.3.7-5-b-13.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-13.js"),
-  );
-  it(
-    "15.2.3.7-5-b-130.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-130.js"),
-  );
-  it(
-    "15.2.3.7-5-b-131.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-131.js"),
-  );
-  it(
-    "15.2.3.7-5-b-132.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-132.js"),
-  );
-  it(
-    "15.2.3.7-5-b-133.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-133.js"),
-  );
-  it(
-    "15.2.3.7-5-b-134.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-134.js"),
-  );
-  it(
-    "15.2.3.7-5-b-135.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-135.js"),
-  );
-  it(
-    "15.2.3.7-5-b-137.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-137.js"),
-  );
-  it(
-    "15.2.3.7-5-b-138.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-138.js"),
-  );
-  it(
-    "15.2.3.7-5-b-139.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-139.js"),
-  );
-  it(
-    "15.2.3.7-5-b-14.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-14.js"),
-  );
-  it(
-    "15.2.3.7-5-b-140.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-140.js"),
-  );
-  it(
-    "15.2.3.7-5-b-141.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-141.js"),
-  );
-  it(
-    "15.2.3.7-5-b-142.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-142.js"),
-  );
-  it(
-    "15.2.3.7-5-b-143.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-143.js"),
-  );
-  it(
-    "15.2.3.7-5-b-144.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-144.js"),
-  );
-  it(
-    "15.2.3.7-5-b-145.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-145.js"),
-  );
-  it(
-    "15.2.3.7-5-b-146.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-146.js"),
-  );
-  it(
-    "15.2.3.7-5-b-147.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-147.js"),
-  );
-  it(
-    "15.2.3.7-5-b-148.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-148.js"),
-  );
-  it(
-    "15.2.3.7-5-b-149.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-149.js"),
-  );
-  it(
-    "15.2.3.7-5-b-15.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-15.js"),
-  );
-  it(
-    "15.2.3.7-5-b-150.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-150.js"),
-  );
-  it(
-    "15.2.3.7-5-b-151.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-151.js"),
-  );
-  it(
-    "15.2.3.7-5-b-152.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-152.js"),
-  );
-  it(
-    "15.2.3.7-5-b-153.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-153.js"),
-  );
-  it(
-    "15.2.3.7-5-b-154.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-154.js"),
-  );
-  it(
-    "15.2.3.7-5-b-155.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-155.js"),
-  );
-  it(
-    "15.2.3.7-5-b-156.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-156.js"),
-  );
-  it(
-    "15.2.3.7-5-b-157.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-157.js"),
-  );
-  it(
-    "15.2.3.7-5-b-158.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-158.js"),
-  );
-  it(
-    "15.2.3.7-5-b-159.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-159.js"),
-  );
-  it(
-    "15.2.3.7-5-b-16.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-16.js"),
-  );
-  it(
-    "15.2.3.7-5-b-160.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-160.js"),
-  );
-  it(
-    "15.2.3.7-5-b-161.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-161.js"),
-  );
-  it(
-    "15.2.3.7-5-b-163.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-163.js"),
-  );
-  it(
-    "15.2.3.7-5-b-164.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-164.js"),
-  );
-  it(
-    "15.2.3.7-5-b-165.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-165.js"),
-  );
-  it(
-    "15.2.3.7-5-b-166.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-166.js"),
-  );
-  it(
-    "15.2.3.7-5-b-167.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-167.js"),
-  );
-  it(
-    "15.2.3.7-5-b-168.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-168.js"),
-  );
-  it(
-    "15.2.3.7-5-b-169.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-169.js"),
-  );
-  it(
-    "15.2.3.7-5-b-17.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-17.js"),
-  );
-  it(
-    "15.2.3.7-5-b-170.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-170.js"),
-  );
-  it(
-    "15.2.3.7-5-b-171.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-171.js"),
-  );
-  it(
-    "15.2.3.7-5-b-172.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-172.js"),
-  );
-  it(
-    "15.2.3.7-5-b-173.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-173.js"),
-  );
-  it(
-    "15.2.3.7-5-b-174.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-174.js"),
-  );
-  it(
-    "15.2.3.7-5-b-175.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-175.js"),
-  );
-  it(
-    "15.2.3.7-5-b-176.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-176.js"),
-  );
-  it(
-    "15.2.3.7-5-b-177.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-177.js"),
-  );
-  it(
-    "15.2.3.7-5-b-178.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-178.js"),
-  );
-  it(
-    "15.2.3.7-5-b-179.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-179.js"),
-  );
-  it(
-    "15.2.3.7-5-b-18.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-18.js"),
-  );
-  it(
-    "15.2.3.7-5-b-180.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-180.js"),
-  );
-  it(
-    "15.2.3.7-5-b-181.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-181.js"),
-  );
-  it(
-    "15.2.3.7-5-b-182.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-182.js"),
-  );
-  it(
-    "15.2.3.7-5-b-183.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-183.js"),
-  );
-  it(
-    "15.2.3.7-5-b-184.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-184.js"),
-  );
-  it(
-    "15.2.3.7-5-b-185.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-185.js"),
-  );
-  it(
-    "15.2.3.7-5-b-186.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-186.js"),
-  );
-  it(
-    "15.2.3.7-5-b-188.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-188.js"),
-  );
-  it(
-    "15.2.3.7-5-b-189.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-189.js"),
-  );
-  it(
-    "15.2.3.7-5-b-19.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-19.js"),
-  );
-  it(
-    "15.2.3.7-5-b-190.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-190.js"),
-  );
-  it(
-    "15.2.3.7-5-b-191.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-191.js"),
-  );
-  it(
-    "15.2.3.7-5-b-192.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-192.js"),
-  );
-  it(
-    "15.2.3.7-5-b-193.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-193.js"),
-  );
-  it(
-    "15.2.3.7-5-b-194.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-194.js"),
-  );
-  it(
-    "15.2.3.7-5-b-195.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-195.js"),
-  );
-  it(
-    "15.2.3.7-5-b-196.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-196.js"),
-  );
-  it(
-    "15.2.3.7-5-b-197.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-197.js"),
-  );
-  it(
-    "15.2.3.7-5-b-198.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-198.js"),
-  );
-  it(
-    "15.2.3.7-5-b-199.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-199.js"),
-  );
-  it(
-    "15.2.3.7-5-b-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-2.js"),
-  );
-  it(
-    "15.2.3.7-5-b-20.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-20.js"),
-  );
-  it(
-    "15.2.3.7-5-b-200.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-200.js"),
-  );
-  it(
-    "15.2.3.7-5-b-201.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-201.js"),
-  );
-  it(
-    "15.2.3.7-5-b-202.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-202.js"),
-  );
-  it(
-    "15.2.3.7-5-b-203.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-203.js"),
-  );
-  it(
-    "15.2.3.7-5-b-204.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-204.js"),
-  );
-  it(
-    "15.2.3.7-5-b-205.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-205.js"),
-  );
-  it(
-    "15.2.3.7-5-b-206.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-206.js"),
-  );
-  it(
-    "15.2.3.7-5-b-207.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-207.js"),
-  );
-  it(
-    "15.2.3.7-5-b-208.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-208.js"),
-  );
-  it(
-    "15.2.3.7-5-b-209.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-209.js"),
-  );
-  it(
-    "15.2.3.7-5-b-21.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-21.js"),
-  );
-  it(
-    "15.2.3.7-5-b-210.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-210.js"),
-  );
-  it(
-    "15.2.3.7-5-b-211.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-211.js"),
-  );
-  it(
-    "15.2.3.7-5-b-212.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-212.js"),
-  );
-  it(
-    "15.2.3.7-5-b-213.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-213.js"),
-  );
-  it(
-    "15.2.3.7-5-b-214.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-214.js"),
-  );
-  it(
-    "15.2.3.7-5-b-216.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-216.js"),
-  );
-  it(
-    "15.2.3.7-5-b-217.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-217.js"),
-  );
-  it(
-    "15.2.3.7-5-b-218.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-218.js"),
-  );
-  it(
-    "15.2.3.7-5-b-219.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-219.js"),
-  );
-  it(
-    "15.2.3.7-5-b-22.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-22.js"),
-  );
-  it(
-    "15.2.3.7-5-b-220.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-220.js"),
-  );
-  it(
-    "15.2.3.7-5-b-221.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-221.js"),
-  );
-  it(
-    "15.2.3.7-5-b-222.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-222.js"),
-  );
-  it(
-    "15.2.3.7-5-b-223.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-223.js"),
-  );
-  it(
-    "15.2.3.7-5-b-226.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-226.js"),
-  );
-  it(
-    "15.2.3.7-5-b-227.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-227.js"),
-  );
-  it(
-    "15.2.3.7-5-b-228.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-228.js"),
-  );
-  it(
-    "15.2.3.7-5-b-229.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-229.js"),
-  );
-  it(
-    "15.2.3.7-5-b-23.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-23.js"),
-  );
-  it(
-    "15.2.3.7-5-b-230.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-230.js"),
-  );
-  it(
-    "15.2.3.7-5-b-231.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-231.js"),
-  );
-  it(
-    "15.2.3.7-5-b-232.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-232.js"),
-  );
-  it(
-    "15.2.3.7-5-b-233.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-233.js"),
-  );
-  it(
-    "15.2.3.7-5-b-234.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-234.js"),
-  );
-  it(
-    "15.2.3.7-5-b-235.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-235.js"),
-  );
-  it(
-    "15.2.3.7-5-b-236.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-236.js"),
-  );
-  it(
-    "15.2.3.7-5-b-237.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-237.js"),
-  );
-  it(
-    "15.2.3.7-5-b-238.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-238.js"),
-  );
-  it(
-    "15.2.3.7-5-b-239.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-239.js"),
-  );
-  it(
-    "15.2.3.7-5-b-24.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-24.js"),
-  );
-  it(
-    "15.2.3.7-5-b-240.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-240.js"),
-  );
-  it(
-    "15.2.3.7-5-b-241.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-241.js"),
-  );
-  it(
-    "15.2.3.7-5-b-242.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-242.js"),
-  );
-  it(
-    "15.2.3.7-5-b-243.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-243.js"),
-  );
-  it(
-    "15.2.3.7-5-b-244.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-244.js"),
-  );
-  it(
-    "15.2.3.7-5-b-245.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-245.js"),
-  );
-  it(
-    "15.2.3.7-5-b-246.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-246.js"),
-  );
-  it(
-    "15.2.3.7-5-b-247.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-247.js"),
-  );
-  it(
-    "15.2.3.7-5-b-248.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-248.js"),
-  );
-  it(
-    "15.2.3.7-5-b-249.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-249.js"),
-  );
-  it(
-    "15.2.3.7-5-b-25.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-25.js"),
-  );
-  it(
-    "15.2.3.7-5-b-252.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-252.js"),
-  );
-  it(
-    "15.2.3.7-5-b-253.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-253.js"),
-  );
-  it(
-    "15.2.3.7-5-b-254.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-254.js"),
-  );
-  it(
-    "15.2.3.7-5-b-255.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-255.js"),
-  );
-  it(
-    "15.2.3.7-5-b-256.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-256.js"),
-  );
-  it(
-    "15.2.3.7-5-b-257.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-257.js"),
-  );
-  it(
-    "15.2.3.7-5-b-258.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-258.js"),
-  );
-  it(
-    "15.2.3.7-5-b-26.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-26.js"),
-  );
-  it(
-    "15.2.3.7-5-b-261.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-261.js"),
-  );
-  it(
-    "15.2.3.7-5-b-262.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-262.js"),
-  );
-  it(
-    "15.2.3.7-5-b-263.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-263.js"),
-  );
-  it(
-    "15.2.3.7-5-b-264.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-264.js"),
-  );
-  it(
-    "15.2.3.7-5-b-27.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-27.js"),
-  );
-  it(
-    "15.2.3.7-5-b-28.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-28.js"),
-  );
-  it(
-    "15.2.3.7-5-b-29.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-29.js"),
-  );
-  it(
-    "15.2.3.7-5-b-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-3.js"),
-  );
-  it(
-    "15.2.3.7-5-b-31.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-31.js"),
-  );
-  it(
-    "15.2.3.7-5-b-32.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-32.js"),
-  );
-  it(
-    "15.2.3.7-5-b-33.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-33.js"),
-  );
-  it(
-    "15.2.3.7-5-b-34.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-34.js"),
-  );
-  it(
-    "15.2.3.7-5-b-35.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-35.js"),
-  );
-  it(
-    "15.2.3.7-5-b-36.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-36.js"),
-  );
-  it(
-    "15.2.3.7-5-b-37.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-37.js"),
-  );
-  it(
-    "15.2.3.7-5-b-38.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-38.js"),
-  );
-  it(
-    "15.2.3.7-5-b-39.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-39.js"),
-  );
-  it(
-    "15.2.3.7-5-b-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-4.js"),
-  );
-  it(
-    "15.2.3.7-5-b-40.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-40.js"),
-  );
-  it(
-    "15.2.3.7-5-b-41.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-41.js"),
-  );
-  it(
-    "15.2.3.7-5-b-42.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-42.js"),
-  );
-  it(
-    "15.2.3.7-5-b-43.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-43.js"),
-  );
-  it(
-    "15.2.3.7-5-b-44.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-44.js"),
-  );
-  it(
-    "15.2.3.7-5-b-45.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-45.js"),
-  );
-  it(
-    "15.2.3.7-5-b-46.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-46.js"),
-  );
-  it(
-    "15.2.3.7-5-b-47.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-47.js"),
-  );
-  it(
-    "15.2.3.7-5-b-48.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-48.js"),
-  );
-  it(
-    "15.2.3.7-5-b-49.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-49.js"),
-  );
-  it(
-    "15.2.3.7-5-b-5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-5.js"),
-  );
-  it(
-    "15.2.3.7-5-b-50.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-50.js"),
-  );
-  it(
-    "15.2.3.7-5-b-51.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-51.js"),
-  );
-  it(
-    "15.2.3.7-5-b-52.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-52.js"),
-  );
-  it(
-    "15.2.3.7-5-b-53.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-53.js"),
-  );
-  it(
-    "15.2.3.7-5-b-54.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-54.js"),
-  );
-  it(
-    "15.2.3.7-5-b-56.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-56.js"),
-  );
-  it(
-    "15.2.3.7-5-b-57.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-57.js"),
-  );
-  it(
-    "15.2.3.7-5-b-58.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-58.js"),
-  );
-  it(
-    "15.2.3.7-5-b-59.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-59.js"),
-  );
-  it(
-    "15.2.3.7-5-b-6.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-6.js"),
-  );
-  it(
-    "15.2.3.7-5-b-60.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-60.js"),
-  );
-  it(
-    "15.2.3.7-5-b-61.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-61.js"),
-  );
-  it(
-    "15.2.3.7-5-b-62.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-62.js"),
-  );
-  it(
-    "15.2.3.7-5-b-63.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-63.js"),
-  );
-  it(
-    "15.2.3.7-5-b-64.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-64.js"),
-  );
-  it(
-    "15.2.3.7-5-b-65.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-65.js"),
-  );
-  it(
-    "15.2.3.7-5-b-66.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-66.js"),
-  );
-  it(
-    "15.2.3.7-5-b-67.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-67.js"),
-  );
-  it(
-    "15.2.3.7-5-b-68.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-68.js"),
-  );
-  it(
-    "15.2.3.7-5-b-69.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-69.js"),
-  );
-  it(
-    "15.2.3.7-5-b-7.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-7.js"),
-  );
-  it(
-    "15.2.3.7-5-b-70.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-70.js"),
-  );
-  it(
-    "15.2.3.7-5-b-71.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-71.js"),
-  );
-  it(
-    "15.2.3.7-5-b-72.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-72.js"),
-  );
-  it(
-    "15.2.3.7-5-b-73.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-73.js"),
-  );
-  it(
-    "15.2.3.7-5-b-74.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-74.js"),
-  );
-  it(
-    "15.2.3.7-5-b-75.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-75.js"),
-  );
-  it(
-    "15.2.3.7-5-b-76.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-76.js"),
-  );
-  it(
-    "15.2.3.7-5-b-77.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-77.js"),
-  );
-  it(
-    "15.2.3.7-5-b-78.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-78.js"),
-  );
-  it(
-    "15.2.3.7-5-b-79.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-79.js"),
-  );
-  it(
-    "15.2.3.7-5-b-8.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-8.js"),
-  );
-  it(
-    "15.2.3.7-5-b-80.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-80.js"),
-  );
-  it(
-    "15.2.3.7-5-b-81.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-81.js"),
-  );
-  it(
-    "15.2.3.7-5-b-82.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-82.js"),
-  );
-  it(
-    "15.2.3.7-5-b-84.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-84.js"),
-  );
-  it(
-    "15.2.3.7-5-b-85.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-85.js"),
-  );
-  it(
-    "15.2.3.7-5-b-86.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-86.js"),
-  );
-  it(
-    "15.2.3.7-5-b-87.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-87.js"),
-  );
-  it(
-    "15.2.3.7-5-b-88.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-88.js"),
-  );
-  it(
-    "15.2.3.7-5-b-89.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-89.js"),
-  );
-  it(
-    "15.2.3.7-5-b-9.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-9.js"),
-  );
-  it(
-    "15.2.3.7-5-b-90.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-90.js"),
-  );
-  it(
-    "15.2.3.7-5-b-91.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-91.js"),
-  );
-  it(
-    "15.2.3.7-5-b-92.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-92.js"),
-  );
-  it(
-    "15.2.3.7-5-b-93.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-93.js"),
-  );
-  it(
-    "15.2.3.7-5-b-94.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-94.js"),
-  );
-  it(
-    "15.2.3.7-5-b-95.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-95.js"),
-  );
-  it(
-    "15.2.3.7-5-b-96.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-96.js"),
-  );
-  it(
-    "15.2.3.7-5-b-97.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-97.js"),
-  );
-  it(
-    "15.2.3.7-5-b-98.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-98.js"),
-  );
-  it(
-    "15.2.3.7-5-b-99.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-99.js"),
-  );
-  it(
-    "15.2.3.7-6-a-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-1.js"),
-  );
-  it(
-    "15.2.3.7-6-a-10.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-10.js"),
-  );
-  it(
-    "15.2.3.7-6-a-100.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-100.js"),
-  );
-  it(
-    "15.2.3.7-6-a-101.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-101.js"),
-  );
-  it(
-    "15.2.3.7-6-a-102.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-102.js"),
-  );
-  it(
-    "15.2.3.7-6-a-103.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-103.js"),
-  );
-  it(
-    "15.2.3.7-6-a-104.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-104.js"),
-  );
-  it(
-    "15.2.3.7-6-a-105.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-105.js"),
-  );
-  it(
-    "15.2.3.7-6-a-106.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-106.js"),
-  );
-  it(
-    "15.2.3.7-6-a-107.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-107.js"),
-  );
-  it(
-    "15.2.3.7-6-a-108.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-108.js"),
-  );
-  it(
-    "15.2.3.7-6-a-109.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-109.js"),
-  );
-  it(
-    "15.2.3.7-6-a-11.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-11.js"),
-  );
-  it(
-    "15.2.3.7-6-a-110.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-110.js"),
-  );
-  it(
-    "15.2.3.7-6-a-111.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-111.js"),
-  );
-  it(
-    "15.2.3.7-6-a-112.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-112.js"),
-  );
-  it(
-    "15.2.3.7-6-a-113.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-113.js"),
-  );
-  it(
-    "15.2.3.7-6-a-114-b.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-114-b.js"),
-  );
-  it(
-    "15.2.3.7-6-a-114.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-114.js"),
-  );
-  it(
-    "15.2.3.7-6-a-115.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-115.js"),
-  );
-  it(
-    "15.2.3.7-6-a-116.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-116.js"),
-  );
-  it(
-    "15.2.3.7-6-a-117.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-117.js"),
-  );
-  it(
-    "15.2.3.7-6-a-118.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-118.js"),
-  );
-  it(
-    "15.2.3.7-6-a-119.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-119.js"),
-  );
-  it(
-    "15.2.3.7-6-a-12.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-12.js"),
-  );
-  it(
-    "15.2.3.7-6-a-120.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-120.js"),
-  );
-  it(
-    "15.2.3.7-6-a-121.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-121.js"),
-  );
-  it(
-    "15.2.3.7-6-a-122.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-122.js"),
-  );
-  it(
-    "15.2.3.7-6-a-123.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-123.js"),
-  );
-  it(
-    "15.2.3.7-6-a-124.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-124.js"),
-  );
-  it(
-    "15.2.3.7-6-a-125.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-125.js"),
-  );
-  it(
-    "15.2.3.7-6-a-126.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-126.js"),
-  );
-  it(
-    "15.2.3.7-6-a-127.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-127.js"),
-  );
-  it(
-    "15.2.3.7-6-a-128.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-128.js"),
-  );
-  it(
-    "15.2.3.7-6-a-129.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-129.js"),
-  );
-  it(
-    "15.2.3.7-6-a-13.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-13.js"),
-  );
-  it(
-    "15.2.3.7-6-a-130.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-130.js"),
-  );
-  it(
-    "15.2.3.7-6-a-131.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-131.js"),
-  );
-  it(
-    "15.2.3.7-6-a-132.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-132.js"),
-  );
-  it(
-    "15.2.3.7-6-a-133.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-133.js"),
-  );
-  it(
-    "15.2.3.7-6-a-134.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-134.js"),
-  );
-  it(
-    "15.2.3.7-6-a-135.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-135.js"),
-  );
-  it(
-    "15.2.3.7-6-a-136.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-136.js"),
-  );
-  it(
-    "15.2.3.7-6-a-137.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-137.js"),
-  );
-  it(
-    "15.2.3.7-6-a-138.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-138.js"),
-  );
-  it(
-    "15.2.3.7-6-a-139.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-139.js"),
-  );
-  it(
-    "15.2.3.7-6-a-14.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-14.js"),
-  );
-  it(
-    "15.2.3.7-6-a-140.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-140.js"),
-  );
-  it(
-    "15.2.3.7-6-a-141.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-141.js"),
-  );
-  it(
-    "15.2.3.7-6-a-142.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-142.js"),
-  );
-  it(
-    "15.2.3.7-6-a-143.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-143.js"),
-  );
-  it(
-    "15.2.3.7-6-a-144.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-144.js"),
-  );
-  it(
-    "15.2.3.7-6-a-145.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-145.js"),
-  );
-  it(
-    "15.2.3.7-6-a-146.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-146.js"),
-  );
-  it(
-    "15.2.3.7-6-a-147.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-147.js"),
-  );
-  it(
-    "15.2.3.7-6-a-148.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-148.js"),
-  );
-  it(
-    "15.2.3.7-6-a-149.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-149.js"),
-  );
-  it(
-    "15.2.3.7-6-a-15.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-15.js"),
-  );
-  it(
-    "15.2.3.7-6-a-150.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-150.js"),
-  );
-  it(
-    "15.2.3.7-6-a-151.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-151.js"),
-  );
-  it(
-    "15.2.3.7-6-a-152.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-152.js"),
-  );
-  it(
-    "15.2.3.7-6-a-153.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-153.js"),
-  );
-  it(
-    "15.2.3.7-6-a-155.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-155.js"),
-  );
-  it(
-    "15.2.3.7-6-a-156.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-156.js"),
-  );
-  it(
-    "15.2.3.7-6-a-157.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-157.js"),
-  );
-  it(
-    "15.2.3.7-6-a-158.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-158.js"),
-  );
-  it(
-    "15.2.3.7-6-a-159.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-159.js"),
-  );
-  it(
-    "15.2.3.7-6-a-16.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-16.js"),
-  );
-  it(
-    "15.2.3.7-6-a-160.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-160.js"),
-  );
-  it(
-    "15.2.3.7-6-a-161.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-161.js"),
-  );
-  it(
-    "15.2.3.7-6-a-162.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-162.js"),
-  );
-  it(
-    "15.2.3.7-6-a-163.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-163.js"),
-  );
-  it(
-    "15.2.3.7-6-a-164.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-164.js"),
-  );
-  it(
-    "15.2.3.7-6-a-165.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-165.js"),
-  );
-  it(
-    "15.2.3.7-6-a-166.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-166.js"),
-  );
-  it(
-    "15.2.3.7-6-a-167.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-167.js"),
-  );
-  it(
-    "15.2.3.7-6-a-168.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-168.js"),
-  );
-  it(
-    "15.2.3.7-6-a-169.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-169.js"),
-  );
-  it(
-    "15.2.3.7-6-a-17.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-17.js"),
-  );
-  it(
-    "15.2.3.7-6-a-170.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-170.js"),
-  );
-  it(
-    "15.2.3.7-6-a-171.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-171.js"),
-  );
-  it(
-    "15.2.3.7-6-a-172.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-172.js"),
-  );
-  it(
-    "15.2.3.7-6-a-173.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-173.js"),
-  );
-  it(
-    "15.2.3.7-6-a-174.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-174.js"),
-  );
-  it(
-    "15.2.3.7-6-a-175.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-175.js"),
-  );
-  it(
-    "15.2.3.7-6-a-176.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-176.js"),
-  );
-  it(
-    "15.2.3.7-6-a-177.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-177.js"),
-  );
-  it(
-    "15.2.3.7-6-a-178.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-178.js"),
-  );
-  it(
-    "15.2.3.7-6-a-179.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-179.js"),
-  );
-  it(
-    "15.2.3.7-6-a-18.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-18.js"),
-  );
-  it(
-    "15.2.3.7-6-a-180.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-180.js"),
-  );
-  it(
-    "15.2.3.7-6-a-181.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-181.js"),
-  );
-  it(
-    "15.2.3.7-6-a-182.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-182.js"),
-  );
-  it(
-    "15.2.3.7-6-a-183.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-183.js"),
-  );
-  it(
-    "15.2.3.7-6-a-184.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-184.js"),
-  );
-  it(
-    "15.2.3.7-6-a-185.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-185.js"),
-  );
-  it(
-    "15.2.3.7-6-a-186.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-186.js"),
-  );
-  it(
-    "15.2.3.7-6-a-187.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-187.js"),
-  );
-  it(
-    "15.2.3.7-6-a-188.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-188.js"),
-  );
-  it(
-    "15.2.3.7-6-a-189.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-189.js"),
-  );
-  it(
-    "15.2.3.7-6-a-19.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-19.js"),
-  );
-  it(
-    "15.2.3.7-6-a-190.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-190.js"),
-  );
-  it(
-    "15.2.3.7-6-a-191.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-191.js"),
-  );
-  it(
-    "15.2.3.7-6-a-192.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-192.js"),
-  );
-  it(
-    "15.2.3.7-6-a-193.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-193.js"),
-  );
-  it(
-    "15.2.3.7-6-a-194.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-194.js"),
-  );
-  it(
-    "15.2.3.7-6-a-195.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-195.js"),
-  );
-  it(
-    "15.2.3.7-6-a-196.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-196.js"),
-  );
-  it(
-    "15.2.3.7-6-a-197.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-197.js"),
-  );
-  it(
-    "15.2.3.7-6-a-198.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-198.js"),
-  );
-  it(
-    "15.2.3.7-6-a-199.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-199.js"),
-  );
-  it(
-    "15.2.3.7-6-a-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-2.js"),
-  );
-  it(
-    "15.2.3.7-6-a-20.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-20.js"),
-  );
-  it(
-    "15.2.3.7-6-a-200.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-200.js"),
-  );
-  it(
-    "15.2.3.7-6-a-201.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-201.js"),
-  );
-  it(
-    "15.2.3.7-6-a-202.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-202.js"),
-  );
-  it(
-    "15.2.3.7-6-a-203.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-203.js"),
-  );
-  it(
-    "15.2.3.7-6-a-204.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-204.js"),
-  );
-  it(
-    "15.2.3.7-6-a-205.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-205.js"),
-  );
-  it(
-    "15.2.3.7-6-a-206.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-206.js"),
-  );
-  it(
-    "15.2.3.7-6-a-207.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-207.js"),
-  );
-  it(
-    "15.2.3.7-6-a-208.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-208.js"),
-  );
-  it(
-    "15.2.3.7-6-a-209.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-209.js"),
-  );
-  it(
-    "15.2.3.7-6-a-21.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-21.js"),
-  );
-  it(
-    "15.2.3.7-6-a-210.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-210.js"),
-  );
-  it(
-    "15.2.3.7-6-a-211.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-211.js"),
-  );
-  it(
-    "15.2.3.7-6-a-212.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-212.js"),
-  );
-  it(
-    "15.2.3.7-6-a-213.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-213.js"),
-  );
-  it(
-    "15.2.3.7-6-a-214.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-214.js"),
-  );
-  it(
-    "15.2.3.7-6-a-215.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-215.js"),
-  );
-  it(
-    "15.2.3.7-6-a-216.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-216.js"),
-  );
-  it(
-    "15.2.3.7-6-a-217.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-217.js"),
-  );
-  it(
-    "15.2.3.7-6-a-218.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-218.js"),
-  );
-  it(
-    "15.2.3.7-6-a-219.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-219.js"),
-  );
-  it(
-    "15.2.3.7-6-a-22.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-22.js"),
-  );
-  it(
-    "15.2.3.7-6-a-220.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-220.js"),
-  );
-  it(
-    "15.2.3.7-6-a-221.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-221.js"),
-  );
-  it(
-    "15.2.3.7-6-a-222.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-222.js"),
-  );
-  it(
-    "15.2.3.7-6-a-223.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-223.js"),
-  );
-  it(
-    "15.2.3.7-6-a-224.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-224.js"),
-  );
-  it(
-    "15.2.3.7-6-a-225.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-225.js"),
-  );
-  it(
-    "15.2.3.7-6-a-226.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-226.js"),
-  );
-  it(
-    "15.2.3.7-6-a-227.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-227.js"),
-  );
-  it(
-    "15.2.3.7-6-a-228.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-228.js"),
-  );
-  it(
-    "15.2.3.7-6-a-229.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-229.js"),
-  );
-  it(
-    "15.2.3.7-6-a-230.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-230.js"),
-  );
-  it(
-    "15.2.3.7-6-a-231.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-231.js"),
-  );
-  it(
-    "15.2.3.7-6-a-232.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-232.js"),
-  );
-  it(
-    "15.2.3.7-6-a-233.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-233.js"),
-  );
-  it(
-    "15.2.3.7-6-a-234.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-234.js"),
-  );
-  it(
-    "15.2.3.7-6-a-235.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-235.js"),
-  );
-  it(
-    "15.2.3.7-6-a-236.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-236.js"),
-  );
-  it(
-    "15.2.3.7-6-a-237.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-237.js"),
-  );
-  it(
-    "15.2.3.7-6-a-238.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-238.js"),
-  );
-  it(
-    "15.2.3.7-6-a-239.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-239.js"),
-  );
-  it(
-    "15.2.3.7-6-a-24.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-24.js"),
-  );
-  it(
-    "15.2.3.7-6-a-240.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-240.js"),
-  );
-  it(
-    "15.2.3.7-6-a-241.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-241.js"),
-  );
-  it(
-    "15.2.3.7-6-a-242.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-242.js"),
-  );
-  it(
-    "15.2.3.7-6-a-243.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-243.js"),
-  );
-  it(
-    "15.2.3.7-6-a-244.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-244.js"),
-  );
-  it(
-    "15.2.3.7-6-a-245.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-245.js"),
-  );
-  it(
-    "15.2.3.7-6-a-246.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-246.js"),
-  );
-  it(
-    "15.2.3.7-6-a-247.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-247.js"),
-  );
-  it(
-    "15.2.3.7-6-a-248.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-248.js"),
-  );
-  it(
-    "15.2.3.7-6-a-249.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-249.js"),
-  );
-  it(
-    "15.2.3.7-6-a-25.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-25.js"),
-  );
-  it(
-    "15.2.3.7-6-a-250.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-250.js"),
-  );
-  it(
-    "15.2.3.7-6-a-251.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-251.js"),
-  );
-  it(
-    "15.2.3.7-6-a-252.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-252.js"),
-  );
-  it(
-    "15.2.3.7-6-a-253.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-253.js"),
-  );
-  it(
-    "15.2.3.7-6-a-254.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-254.js"),
-  );
-  it(
-    "15.2.3.7-6-a-255.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-255.js"),
-  );
-  it(
-    "15.2.3.7-6-a-256.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-256.js"),
-  );
-  it(
-    "15.2.3.7-6-a-257.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-257.js"),
-  );
-  it(
-    "15.2.3.7-6-a-258.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-258.js"),
-  );
-  it(
-    "15.2.3.7-6-a-259.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-259.js"),
-  );
-  it(
-    "15.2.3.7-6-a-26.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-26.js"),
-  );
-  it(
-    "15.2.3.7-6-a-260.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-260.js"),
-  );
-  it(
-    "15.2.3.7-6-a-261.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-261.js"),
-  );
-  it(
-    "15.2.3.7-6-a-262.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-262.js"),
-  );
-  it(
-    "15.2.3.7-6-a-263.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-263.js"),
-  );
-  it(
-    "15.2.3.7-6-a-264.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-264.js"),
-  );
-  it(
-    "15.2.3.7-6-a-265.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-265.js"),
-  );
-  it(
-    "15.2.3.7-6-a-266.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-266.js"),
-  );
-  it(
-    "15.2.3.7-6-a-267.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-267.js"),
-  );
-  it(
-    "15.2.3.7-6-a-268.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-268.js"),
-  );
-  it(
-    "15.2.3.7-6-a-269.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-269.js"),
-  );
-  it(
-    "15.2.3.7-6-a-27.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-27.js"),
-  );
-  it(
-    "15.2.3.7-6-a-270.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-270.js"),
-  );
-  it(
-    "15.2.3.7-6-a-271.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-271.js"),
-  );
-  it(
-    "15.2.3.7-6-a-272.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-272.js"),
-  );
-  it(
-    "15.2.3.7-6-a-273.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-273.js"),
-  );
-  it(
-    "15.2.3.7-6-a-274.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-274.js"),
-  );
-  it(
-    "15.2.3.7-6-a-275.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-275.js"),
-  );
-  it(
-    "15.2.3.7-6-a-276.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-276.js"),
-  );
-  it(
-    "15.2.3.7-6-a-277.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-277.js"),
-  );
-  it(
-    "15.2.3.7-6-a-278.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-278.js"),
-  );
-  it(
-    "15.2.3.7-6-a-279.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-279.js"),
-  );
-  it(
-    "15.2.3.7-6-a-28.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-28.js"),
-  );
-  it(
-    "15.2.3.7-6-a-280.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-280.js"),
-  );
-  it(
-    "15.2.3.7-6-a-281.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-281.js"),
-  );
-  it(
-    "15.2.3.7-6-a-282.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-282.js"),
-  );
-  it(
-    "15.2.3.7-6-a-283.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-283.js"),
-  );
-  it(
-    "15.2.3.7-6-a-284.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-284.js"),
-  );
-  it(
-    "15.2.3.7-6-a-285.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-285.js"),
-  );
-  it(
-    "15.2.3.7-6-a-286.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-286.js"),
-  );
-  it(
-    "15.2.3.7-6-a-287.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-287.js"),
-  );
-  it(
-    "15.2.3.7-6-a-288.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-288.js"),
-  );
-  it(
-    "15.2.3.7-6-a-289.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-289.js"),
-  );
-  it(
-    "15.2.3.7-6-a-29.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-29.js"),
-  );
-  it(
-    "15.2.3.7-6-a-290.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-290.js"),
-  );
-  it(
-    "15.2.3.7-6-a-291.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-291.js"),
-  );
-  it(
-    "15.2.3.7-6-a-292.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-292.js"),
-  );
-  it(
-    "15.2.3.7-6-a-293.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-293.js"),
-  );
-  it(
-    "15.2.3.7-6-a-294.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-294.js"),
-  );
-  it(
-    "15.2.3.7-6-a-295.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-295.js"),
-  );
-  it(
-    "15.2.3.7-6-a-296.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-296.js"),
-  );
-  it(
-    "15.2.3.7-6-a-297.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-297.js"),
-  );
-  it(
-    "15.2.3.7-6-a-298.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-298.js"),
-  );
-  it(
-    "15.2.3.7-6-a-299.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-299.js"),
-  );
-  it(
-    "15.2.3.7-6-a-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-3.js"),
-  );
-  it(
-    "15.2.3.7-6-a-30.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-30.js"),
-  );
-  it(
-    "15.2.3.7-6-a-300.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-300.js"),
-  );
-  it(
-    "15.2.3.7-6-a-301.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-301.js"),
-  );
-  it(
-    "15.2.3.7-6-a-302.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-302.js"),
-  );
-  it(
-    "15.2.3.7-6-a-303.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-303.js"),
-  );
-  it(
-    "15.2.3.7-6-a-304.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-304.js"),
-  );
-  it(
-    "15.2.3.7-6-a-305.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-305.js"),
-  );
-  it(
-    "15.2.3.7-6-a-306.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-306.js"),
-  );
-  it(
-    "15.2.3.7-6-a-307.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-307.js"),
-  );
-  it(
-    "15.2.3.7-6-a-308.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-308.js"),
-  );
-  it(
-    "15.2.3.7-6-a-309.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-309.js"),
-  );
-  it(
-    "15.2.3.7-6-a-31.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-31.js"),
-  );
-  it(
-    "15.2.3.7-6-a-310.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-310.js"),
-  );
-  it(
-    "15.2.3.7-6-a-311.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-311.js"),
-  );
-  it(
-    "15.2.3.7-6-a-312.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-312.js"),
-  );
-  it(
-    "15.2.3.7-6-a-313.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-313.js"),
-  );
-  it(
-    "15.2.3.7-6-a-314.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-314.js"),
-  );
-  it(
-    "15.2.3.7-6-a-32.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-32.js"),
-  );
-  it(
-    "15.2.3.7-6-a-33.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-33.js"),
-  );
-  it(
-    "15.2.3.7-6-a-34.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-34.js"),
-  );
-  it(
-    "15.2.3.7-6-a-35.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-35.js"),
-  );
-  it(
-    "15.2.3.7-6-a-36.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-36.js"),
-  );
-  it(
-    "15.2.3.7-6-a-37.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-37.js"),
-  );
-  it(
-    "15.2.3.7-6-a-38-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-38-1.js"),
-  );
-  it(
-    "15.2.3.7-6-a-38.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-38.js"),
-  );
-  it(
-    "15.2.3.7-6-a-39.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-39.js"),
-  );
-  it(
-    "15.2.3.7-6-a-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-4.js"),
-  );
-  it(
-    "15.2.3.7-6-a-40.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-40.js"),
-  );
-  it(
-    "15.2.3.7-6-a-41.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-41.js"),
-  );
-  it(
-    "15.2.3.7-6-a-42.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-42.js"),
-  );
-  it(
-    "15.2.3.7-6-a-43.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-43.js"),
-  );
-  it(
-    "15.2.3.7-6-a-44.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-44.js"),
-  );
-  it(
-    "15.2.3.7-6-a-45.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-45.js"),
-  );
-  it(
-    "15.2.3.7-6-a-46.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-46.js"),
-  );
-  it(
-    "15.2.3.7-6-a-47.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-47.js"),
-  );
-  it(
-    "15.2.3.7-6-a-48.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-48.js"),
-  );
-  it(
-    "15.2.3.7-6-a-49.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-49.js"),
-  );
-  it(
-    "15.2.3.7-6-a-5.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-5.js"),
-  );
-  it(
-    "15.2.3.7-6-a-50.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-50.js"),
-  );
-  it(
-    "15.2.3.7-6-a-51.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-51.js"),
-  );
-  it(
-    "15.2.3.7-6-a-52.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-52.js"),
-  );
-  it(
-    "15.2.3.7-6-a-53.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-53.js"),
-  );
-  it(
-    "15.2.3.7-6-a-54.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-54.js"),
-  );
-  it(
-    "15.2.3.7-6-a-55.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-55.js"),
-  );
-  it(
-    "15.2.3.7-6-a-56.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-56.js"),
-  );
-  it(
-    "15.2.3.7-6-a-57.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-57.js"),
-  );
-  it(
-    "15.2.3.7-6-a-58.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-58.js"),
-  );
-  it(
-    "15.2.3.7-6-a-59.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-59.js"),
-  );
-  it(
-    "15.2.3.7-6-a-6.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-6.js"),
-  );
-  it(
-    "15.2.3.7-6-a-60.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-60.js"),
-  );
-  it(
-    "15.2.3.7-6-a-61.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-61.js"),
-  );
-  it(
-    "15.2.3.7-6-a-62.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-62.js"),
-  );
-  it(
-    "15.2.3.7-6-a-63.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-63.js"),
-  );
-  it(
-    "15.2.3.7-6-a-64.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-64.js"),
-  );
-  it(
-    "15.2.3.7-6-a-65.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-65.js"),
-  );
-  it(
-    "15.2.3.7-6-a-66-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-66-1.js"),
-  );
-  it(
-    "15.2.3.7-6-a-66.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-66.js"),
-  );
-  it(
-    "15.2.3.7-6-a-67.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-67.js"),
-  );
-  it(
-    "15.2.3.7-6-a-68.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-68.js"),
-  );
-  it(
-    "15.2.3.7-6-a-69.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-69.js"),
-  );
-  it(
-    "15.2.3.7-6-a-7.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-7.js"),
-  );
-  it(
-    "15.2.3.7-6-a-70.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-70.js"),
-  );
-  it(
-    "15.2.3.7-6-a-71.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-71.js"),
-  );
-  it(
-    "15.2.3.7-6-a-72.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-72.js"),
-  );
-  it(
-    "15.2.3.7-6-a-73.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-73.js"),
-  );
-  it(
-    "15.2.3.7-6-a-74.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-74.js"),
-  );
-  it(
-    "15.2.3.7-6-a-75.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-75.js"),
-  );
-  it(
-    "15.2.3.7-6-a-76.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-76.js"),
-  );
-  it(
-    "15.2.3.7-6-a-77.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-77.js"),
-  );
-  it(
-    "15.2.3.7-6-a-78.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-78.js"),
-  );
-  it(
-    "15.2.3.7-6-a-79.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-79.js"),
-  );
-  it(
-    "15.2.3.7-6-a-8.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-8.js"),
-  );
-  it(
-    "15.2.3.7-6-a-80.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-80.js"),
-  );
-  it(
-    "15.2.3.7-6-a-81.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-81.js"),
-  );
-  it(
-    "15.2.3.7-6-a-82.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-82.js"),
-  );
-  it(
-    "15.2.3.7-6-a-83.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-83.js"),
-  );
-  it(
-    "15.2.3.7-6-a-84-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-84-1.js"),
-  );
-  it(
-    "15.2.3.7-6-a-84.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-84.js"),
-  );
-  it(
-    "15.2.3.7-6-a-85.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-85.js"),
-  );
-  it(
-    "15.2.3.7-6-a-86-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-86-1.js"),
-  );
-  it(
-    "15.2.3.7-6-a-86.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-86.js"),
-  );
-  it(
-    "15.2.3.7-6-a-87.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-87.js"),
-  );
-  it(
-    "15.2.3.7-6-a-88.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-88.js"),
-  );
-  it(
-    "15.2.3.7-6-a-89.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-89.js"),
-  );
-  it(
-    "15.2.3.7-6-a-9.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-9.js"),
-  );
-  it(
-    "15.2.3.7-6-a-90.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-90.js"),
-  );
-  it(
-    "15.2.3.7-6-a-91.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-91.js"),
-  );
-  it(
-    "15.2.3.7-6-a-92.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-92.js"),
-  );
-  it(
-    "15.2.3.7-6-a-93-1.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-1.js"),
-  );
-  it(
-    "15.2.3.7-6-a-93-2.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-2.js"),
-  );
-  it(
-    "15.2.3.7-6-a-93-3.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-3.js"),
-  );
-  it(
-    "15.2.3.7-6-a-93-4.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-4.js"),
-  );
-  it(
-    "15.2.3.7-6-a-93.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93.js"),
-  );
-  it(
-    "15.2.3.7-6-a-94.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-94.js"),
-  );
-  it(
-    "15.2.3.7-6-a-95.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-95.js"),
-  );
-  it(
-    "15.2.3.7-6-a-96.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-96.js"),
-  );
-  it(
-    "15.2.3.7-6-a-97.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-97.js"),
-  );
-  it(
-    "15.2.3.7-6-a-98.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-98.js"),
-  );
-  it(
-    "15.2.3.7-6-a-99.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-99.js"),
-  );
-  it(
-    "name.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/name.js"),
-  );
-  it(
-    "not-a-constructor.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/not-a-constructor.js"),
-  );
-  it(
-    "property-description-must-be-an-object-not-bigint.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-bigint.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-false.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-false.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-null.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-null.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-number.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-number.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-string.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-string.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-symbol.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-symbol.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-true.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-true.js",
-    ),
-  );
-  it(
-    "property-description-must-be-an-object-not-undefined.js",
-    { tags: ["known-passing"] },
-    createTestHandler(
-      "built-ins/Object/defineProperties/property-description-must-be-an-object-not-undefined.js",
-    ),
-  );
-  it(
-    "proxy-no-ownkeys-returned-keys-order.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Object/defineProperties/proxy-no-ownkeys-returned-keys-order.js"),
-  );
-  it.skip("typedarray-backed-by-resizable-buffer.js", () => {
-    /* Ignored Test */
-  });
+it(
+  "15.2.3.7-0-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-0-1.js"),
+);
+
+it(
+  "15.2.3.7-0-2.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-0-2.js"),
+);
+
+it(
+  "15.2.3.7-1-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-1.js"),
+);
+
+it(
+  "15.2.3.7-1-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-2.js"),
+);
+
+it(
+  "15.2.3.7-1-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-3.js"),
+);
+
+it(
+  "15.2.3.7-1-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1-4.js"),
+);
+
+it(
+  "15.2.3.7-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-1.js"),
+);
+
+it(
+  "15.2.3.7-2-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-1.js"),
+);
+
+it(
+  "15.2.3.7-2-10.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-10.js"),
+);
+
+it(
+  "15.2.3.7-2-11.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-11.js"),
+);
+
+it(
+  "15.2.3.7-2-12.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-12.js"),
+);
+
+it(
+  "15.2.3.7-2-13.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-13.js"),
+);
+
+it(
+  "15.2.3.7-2-14.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-14.js"),
+);
+
+it(
+  "15.2.3.7-2-15.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-15.js"),
+);
+
+it(
+  "15.2.3.7-2-16.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-16.js"),
+);
+
+it(
+  "15.2.3.7-2-18.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-18.js"),
+);
+
+it(
+  "15.2.3.7-2-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-2.js"),
+);
+
+it(
+  "15.2.3.7-2-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-3.js"),
+);
+
+it(
+  "15.2.3.7-2-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-4.js"),
+);
+
+it(
+  "15.2.3.7-2-5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-5.js"),
+);
+
+it(
+  "15.2.3.7-2-6.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-6.js"),
+);
+
+it(
+  "15.2.3.7-2-7.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-7.js"),
+);
+
+it(
+  "15.2.3.7-2-8.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-8.js"),
+);
+
+it(
+  "15.2.3.7-2-9.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-2-9.js"),
+);
+
+it(
+  "15.2.3.7-3-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-1.js"),
+);
+
+it(
+  "15.2.3.7-3-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-2.js"),
+);
+
+it(
+  "15.2.3.7-3-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-3.js"),
+);
+
+it(
+  "15.2.3.7-3-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-4.js"),
+);
+
+it(
+  "15.2.3.7-3-5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-5.js"),
+);
+
+it(
+  "15.2.3.7-3-6.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-6.js"),
+);
+
+it(
+  "15.2.3.7-3-7.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-7.js"),
+);
+
+it(
+  "15.2.3.7-3-8.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-3-8.js"),
+);
+
+it(
+  "15.2.3.7-5-a-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-1.js"),
+);
+
+it(
+  "15.2.3.7-5-a-10.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-10.js"),
+);
+
+it(
+  "15.2.3.7-5-a-11.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-11.js"),
+);
+
+it(
+  "15.2.3.7-5-a-12.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-12.js"),
+);
+
+it(
+  "15.2.3.7-5-a-13.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-13.js"),
+);
+
+it(
+  "15.2.3.7-5-a-14.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-14.js"),
+);
+
+it(
+  "15.2.3.7-5-a-15.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-15.js"),
+);
+
+it(
+  "15.2.3.7-5-a-16.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-16.js"),
+);
+
+it(
+  "15.2.3.7-5-a-17.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-17.js"),
+);
+
+it(
+  "15.2.3.7-5-a-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-2.js"),
+);
+
+it(
+  "15.2.3.7-5-a-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-3.js"),
+);
+
+it(
+  "15.2.3.7-5-a-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-4.js"),
+);
+
+it(
+  "15.2.3.7-5-a-5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-5.js"),
+);
+
+it(
+  "15.2.3.7-5-a-6.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-6.js"),
+);
+
+it(
+  "15.2.3.7-5-a-7.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-7.js"),
+);
+
+it(
+  "15.2.3.7-5-a-8.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-8.js"),
+);
+
+it(
+  "15.2.3.7-5-a-9.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-a-9.js"),
+);
+
+it(
+  "15.2.3.7-5-b-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-1.js"),
+);
+
+it(
+  "15.2.3.7-5-b-10.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-10.js"),
+);
+
+it(
+  "15.2.3.7-5-b-100.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-100.js"),
+);
+
+it(
+  "15.2.3.7-5-b-101.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-101.js"),
+);
+
+it(
+  "15.2.3.7-5-b-102.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-102.js"),
+);
+
+it(
+  "15.2.3.7-5-b-103.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-103.js"),
+);
+
+it(
+  "15.2.3.7-5-b-104.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-104.js"),
+);
+
+it(
+  "15.2.3.7-5-b-105.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-105.js"),
+);
+
+it(
+  "15.2.3.7-5-b-106.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-106.js"),
+);
+
+it(
+  "15.2.3.7-5-b-107.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-107.js"),
+);
+
+it(
+  "15.2.3.7-5-b-109.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-109.js"),
+);
+
+it(
+  "15.2.3.7-5-b-11.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-11.js"),
+);
+
+it(
+  "15.2.3.7-5-b-110.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-110.js"),
+);
+
+it(
+  "15.2.3.7-5-b-111.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-111.js"),
+);
+
+it(
+  "15.2.3.7-5-b-112.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-112.js"),
+);
+
+it(
+  "15.2.3.7-5-b-113.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-113.js"),
+);
+
+it(
+  "15.2.3.7-5-b-114.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-114.js"),
+);
+
+it(
+  "15.2.3.7-5-b-115.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-115.js"),
+);
+
+it(
+  "15.2.3.7-5-b-116.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-116.js"),
+);
+
+it(
+  "15.2.3.7-5-b-117.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-117.js"),
+);
+
+it(
+  "15.2.3.7-5-b-118.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-118.js"),
+);
+
+it(
+  "15.2.3.7-5-b-119.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-119.js"),
+);
+
+it(
+  "15.2.3.7-5-b-12.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-12.js"),
+);
+
+it(
+  "15.2.3.7-5-b-120.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-120.js"),
+);
+
+it(
+  "15.2.3.7-5-b-121.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-121.js"),
+);
+
+it(
+  "15.2.3.7-5-b-122.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-122.js"),
+);
+
+it(
+  "15.2.3.7-5-b-123.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-123.js"),
+);
+
+it(
+  "15.2.3.7-5-b-124.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-124.js"),
+);
+
+it(
+  "15.2.3.7-5-b-125.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-125.js"),
+);
+
+it(
+  "15.2.3.7-5-b-126.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-126.js"),
+);
+
+it(
+  "15.2.3.7-5-b-127.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-127.js"),
+);
+
+it(
+  "15.2.3.7-5-b-128.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-128.js"),
+);
+
+it(
+  "15.2.3.7-5-b-129.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-129.js"),
+);
+
+it(
+  "15.2.3.7-5-b-13.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-13.js"),
+);
+
+it(
+  "15.2.3.7-5-b-130.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-130.js"),
+);
+
+it(
+  "15.2.3.7-5-b-131.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-131.js"),
+);
+
+it(
+  "15.2.3.7-5-b-132.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-132.js"),
+);
+
+it(
+  "15.2.3.7-5-b-133.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-133.js"),
+);
+
+it(
+  "15.2.3.7-5-b-134.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-134.js"),
+);
+
+it(
+  "15.2.3.7-5-b-135.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-135.js"),
+);
+
+it(
+  "15.2.3.7-5-b-137.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-137.js"),
+);
+
+it(
+  "15.2.3.7-5-b-138.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-138.js"),
+);
+
+it(
+  "15.2.3.7-5-b-139.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-139.js"),
+);
+
+it(
+  "15.2.3.7-5-b-14.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-14.js"),
+);
+
+it(
+  "15.2.3.7-5-b-140.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-140.js"),
+);
+
+it(
+  "15.2.3.7-5-b-141.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-141.js"),
+);
+
+it(
+  "15.2.3.7-5-b-142.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-142.js"),
+);
+
+it(
+  "15.2.3.7-5-b-143.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-143.js"),
+);
+
+it(
+  "15.2.3.7-5-b-144.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-144.js"),
+);
+
+it(
+  "15.2.3.7-5-b-145.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-145.js"),
+);
+
+it(
+  "15.2.3.7-5-b-146.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-146.js"),
+);
+
+it(
+  "15.2.3.7-5-b-147.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-147.js"),
+);
+
+it(
+  "15.2.3.7-5-b-148.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-148.js"),
+);
+
+it(
+  "15.2.3.7-5-b-149.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-149.js"),
+);
+
+it(
+  "15.2.3.7-5-b-15.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-15.js"),
+);
+
+it(
+  "15.2.3.7-5-b-150.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-150.js"),
+);
+
+it(
+  "15.2.3.7-5-b-151.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-151.js"),
+);
+
+it(
+  "15.2.3.7-5-b-152.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-152.js"),
+);
+
+it(
+  "15.2.3.7-5-b-153.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-153.js"),
+);
+
+it(
+  "15.2.3.7-5-b-154.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-154.js"),
+);
+
+it(
+  "15.2.3.7-5-b-155.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-155.js"),
+);
+
+it(
+  "15.2.3.7-5-b-156.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-156.js"),
+);
+
+it(
+  "15.2.3.7-5-b-157.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-157.js"),
+);
+
+it(
+  "15.2.3.7-5-b-158.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-158.js"),
+);
+
+it(
+  "15.2.3.7-5-b-159.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-159.js"),
+);
+
+it(
+  "15.2.3.7-5-b-16.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-16.js"),
+);
+
+it(
+  "15.2.3.7-5-b-160.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-160.js"),
+);
+
+it(
+  "15.2.3.7-5-b-161.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-161.js"),
+);
+
+it(
+  "15.2.3.7-5-b-163.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-163.js"),
+);
+
+it(
+  "15.2.3.7-5-b-164.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-164.js"),
+);
+
+it(
+  "15.2.3.7-5-b-165.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-165.js"),
+);
+
+it(
+  "15.2.3.7-5-b-166.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-166.js"),
+);
+
+it(
+  "15.2.3.7-5-b-167.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-167.js"),
+);
+
+it(
+  "15.2.3.7-5-b-168.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-168.js"),
+);
+
+it(
+  "15.2.3.7-5-b-169.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-169.js"),
+);
+
+it(
+  "15.2.3.7-5-b-17.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-17.js"),
+);
+
+it(
+  "15.2.3.7-5-b-170.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-170.js"),
+);
+
+it(
+  "15.2.3.7-5-b-171.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-171.js"),
+);
+
+it(
+  "15.2.3.7-5-b-172.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-172.js"),
+);
+
+it(
+  "15.2.3.7-5-b-173.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-173.js"),
+);
+
+it(
+  "15.2.3.7-5-b-174.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-174.js"),
+);
+
+it(
+  "15.2.3.7-5-b-175.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-175.js"),
+);
+
+it(
+  "15.2.3.7-5-b-176.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-176.js"),
+);
+
+it(
+  "15.2.3.7-5-b-177.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-177.js"),
+);
+
+it(
+  "15.2.3.7-5-b-178.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-178.js"),
+);
+
+it(
+  "15.2.3.7-5-b-179.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-179.js"),
+);
+
+it(
+  "15.2.3.7-5-b-18.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-18.js"),
+);
+
+it(
+  "15.2.3.7-5-b-180.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-180.js"),
+);
+
+it(
+  "15.2.3.7-5-b-181.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-181.js"),
+);
+
+it(
+  "15.2.3.7-5-b-182.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-182.js"),
+);
+
+it(
+  "15.2.3.7-5-b-183.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-183.js"),
+);
+
+it(
+  "15.2.3.7-5-b-184.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-184.js"),
+);
+
+it(
+  "15.2.3.7-5-b-185.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-185.js"),
+);
+
+it(
+  "15.2.3.7-5-b-186.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-186.js"),
+);
+
+it(
+  "15.2.3.7-5-b-188.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-188.js"),
+);
+
+it(
+  "15.2.3.7-5-b-189.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-189.js"),
+);
+
+it(
+  "15.2.3.7-5-b-19.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-19.js"),
+);
+
+it(
+  "15.2.3.7-5-b-190.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-190.js"),
+);
+
+it(
+  "15.2.3.7-5-b-191.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-191.js"),
+);
+
+it(
+  "15.2.3.7-5-b-192.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-192.js"),
+);
+
+it(
+  "15.2.3.7-5-b-193.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-193.js"),
+);
+
+it(
+  "15.2.3.7-5-b-194.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-194.js"),
+);
+
+it(
+  "15.2.3.7-5-b-195.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-195.js"),
+);
+
+it(
+  "15.2.3.7-5-b-196.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-196.js"),
+);
+
+it(
+  "15.2.3.7-5-b-197.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-197.js"),
+);
+
+it(
+  "15.2.3.7-5-b-198.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-198.js"),
+);
+
+it(
+  "15.2.3.7-5-b-199.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-199.js"),
+);
+
+it(
+  "15.2.3.7-5-b-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-2.js"),
+);
+
+it(
+  "15.2.3.7-5-b-20.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-20.js"),
+);
+
+it(
+  "15.2.3.7-5-b-200.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-200.js"),
+);
+
+it(
+  "15.2.3.7-5-b-201.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-201.js"),
+);
+
+it(
+  "15.2.3.7-5-b-202.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-202.js"),
+);
+
+it(
+  "15.2.3.7-5-b-203.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-203.js"),
+);
+
+it(
+  "15.2.3.7-5-b-204.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-204.js"),
+);
+
+it(
+  "15.2.3.7-5-b-205.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-205.js"),
+);
+
+it(
+  "15.2.3.7-5-b-206.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-206.js"),
+);
+
+it(
+  "15.2.3.7-5-b-207.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-207.js"),
+);
+
+it(
+  "15.2.3.7-5-b-208.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-208.js"),
+);
+
+it(
+  "15.2.3.7-5-b-209.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-209.js"),
+);
+
+it(
+  "15.2.3.7-5-b-21.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-21.js"),
+);
+
+it(
+  "15.2.3.7-5-b-210.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-210.js"),
+);
+
+it(
+  "15.2.3.7-5-b-211.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-211.js"),
+);
+
+it(
+  "15.2.3.7-5-b-212.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-212.js"),
+);
+
+it(
+  "15.2.3.7-5-b-213.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-213.js"),
+);
+
+it(
+  "15.2.3.7-5-b-214.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-214.js"),
+);
+
+it(
+  "15.2.3.7-5-b-216.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-216.js"),
+);
+
+it(
+  "15.2.3.7-5-b-217.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-217.js"),
+);
+
+it(
+  "15.2.3.7-5-b-218.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-218.js"),
+);
+
+it(
+  "15.2.3.7-5-b-219.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-219.js"),
+);
+
+it(
+  "15.2.3.7-5-b-22.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-22.js"),
+);
+
+it(
+  "15.2.3.7-5-b-220.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-220.js"),
+);
+
+it(
+  "15.2.3.7-5-b-221.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-221.js"),
+);
+
+it(
+  "15.2.3.7-5-b-222.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-222.js"),
+);
+
+it(
+  "15.2.3.7-5-b-223.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-223.js"),
+);
+
+it(
+  "15.2.3.7-5-b-226.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-226.js"),
+);
+
+it(
+  "15.2.3.7-5-b-227.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-227.js"),
+);
+
+it(
+  "15.2.3.7-5-b-228.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-228.js"),
+);
+
+it(
+  "15.2.3.7-5-b-229.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-229.js"),
+);
+
+it(
+  "15.2.3.7-5-b-23.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-23.js"),
+);
+
+it(
+  "15.2.3.7-5-b-230.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-230.js"),
+);
+
+it(
+  "15.2.3.7-5-b-231.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-231.js"),
+);
+
+it(
+  "15.2.3.7-5-b-232.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-232.js"),
+);
+
+it(
+  "15.2.3.7-5-b-233.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-233.js"),
+);
+
+it(
+  "15.2.3.7-5-b-234.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-234.js"),
+);
+
+it(
+  "15.2.3.7-5-b-235.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-235.js"),
+);
+
+it(
+  "15.2.3.7-5-b-236.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-236.js"),
+);
+
+it(
+  "15.2.3.7-5-b-237.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-237.js"),
+);
+
+it(
+  "15.2.3.7-5-b-238.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-238.js"),
+);
+
+it(
+  "15.2.3.7-5-b-239.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-239.js"),
+);
+
+it(
+  "15.2.3.7-5-b-24.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-24.js"),
+);
+
+it(
+  "15.2.3.7-5-b-240.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-240.js"),
+);
+
+it(
+  "15.2.3.7-5-b-241.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-241.js"),
+);
+
+it(
+  "15.2.3.7-5-b-242.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-242.js"),
+);
+
+it(
+  "15.2.3.7-5-b-243.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-243.js"),
+);
+
+it(
+  "15.2.3.7-5-b-244.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-244.js"),
+);
+
+it(
+  "15.2.3.7-5-b-245.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-245.js"),
+);
+
+it(
+  "15.2.3.7-5-b-246.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-246.js"),
+);
+
+it(
+  "15.2.3.7-5-b-247.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-247.js"),
+);
+
+it(
+  "15.2.3.7-5-b-248.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-248.js"),
+);
+
+it(
+  "15.2.3.7-5-b-249.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-249.js"),
+);
+
+it(
+  "15.2.3.7-5-b-25.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-25.js"),
+);
+
+it(
+  "15.2.3.7-5-b-252.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-252.js"),
+);
+
+it(
+  "15.2.3.7-5-b-253.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-253.js"),
+);
+
+it(
+  "15.2.3.7-5-b-254.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-254.js"),
+);
+
+it(
+  "15.2.3.7-5-b-255.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-255.js"),
+);
+
+it(
+  "15.2.3.7-5-b-256.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-256.js"),
+);
+
+it(
+  "15.2.3.7-5-b-257.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-257.js"),
+);
+
+it(
+  "15.2.3.7-5-b-258.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-258.js"),
+);
+
+it(
+  "15.2.3.7-5-b-26.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-26.js"),
+);
+
+it(
+  "15.2.3.7-5-b-261.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-261.js"),
+);
+
+it(
+  "15.2.3.7-5-b-262.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-262.js"),
+);
+
+it(
+  "15.2.3.7-5-b-263.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-263.js"),
+);
+
+it(
+  "15.2.3.7-5-b-264.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-264.js"),
+);
+
+it(
+  "15.2.3.7-5-b-27.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-27.js"),
+);
+
+it(
+  "15.2.3.7-5-b-28.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-28.js"),
+);
+
+it(
+  "15.2.3.7-5-b-29.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-29.js"),
+);
+
+it(
+  "15.2.3.7-5-b-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-3.js"),
+);
+
+it(
+  "15.2.3.7-5-b-31.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-31.js"),
+);
+
+it(
+  "15.2.3.7-5-b-32.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-32.js"),
+);
+
+it(
+  "15.2.3.7-5-b-33.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-33.js"),
+);
+
+it(
+  "15.2.3.7-5-b-34.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-34.js"),
+);
+
+it(
+  "15.2.3.7-5-b-35.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-35.js"),
+);
+
+it(
+  "15.2.3.7-5-b-36.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-36.js"),
+);
+
+it(
+  "15.2.3.7-5-b-37.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-37.js"),
+);
+
+it(
+  "15.2.3.7-5-b-38.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-38.js"),
+);
+
+it(
+  "15.2.3.7-5-b-39.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-39.js"),
+);
+
+it(
+  "15.2.3.7-5-b-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-4.js"),
+);
+
+it(
+  "15.2.3.7-5-b-40.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-40.js"),
+);
+
+it(
+  "15.2.3.7-5-b-41.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-41.js"),
+);
+
+it(
+  "15.2.3.7-5-b-42.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-42.js"),
+);
+
+it(
+  "15.2.3.7-5-b-43.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-43.js"),
+);
+
+it(
+  "15.2.3.7-5-b-44.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-44.js"),
+);
+
+it(
+  "15.2.3.7-5-b-45.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-45.js"),
+);
+
+it(
+  "15.2.3.7-5-b-46.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-46.js"),
+);
+
+it(
+  "15.2.3.7-5-b-47.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-47.js"),
+);
+
+it(
+  "15.2.3.7-5-b-48.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-48.js"),
+);
+
+it(
+  "15.2.3.7-5-b-49.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-49.js"),
+);
+
+it(
+  "15.2.3.7-5-b-5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-5.js"),
+);
+
+it(
+  "15.2.3.7-5-b-50.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-50.js"),
+);
+
+it(
+  "15.2.3.7-5-b-51.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-51.js"),
+);
+
+it(
+  "15.2.3.7-5-b-52.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-52.js"),
+);
+
+it(
+  "15.2.3.7-5-b-53.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-53.js"),
+);
+
+it(
+  "15.2.3.7-5-b-54.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-54.js"),
+);
+
+it(
+  "15.2.3.7-5-b-56.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-56.js"),
+);
+
+it(
+  "15.2.3.7-5-b-57.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-57.js"),
+);
+
+it(
+  "15.2.3.7-5-b-58.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-58.js"),
+);
+
+it(
+  "15.2.3.7-5-b-59.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-59.js"),
+);
+
+it(
+  "15.2.3.7-5-b-6.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-6.js"),
+);
+
+it(
+  "15.2.3.7-5-b-60.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-60.js"),
+);
+
+it(
+  "15.2.3.7-5-b-61.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-61.js"),
+);
+
+it(
+  "15.2.3.7-5-b-62.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-62.js"),
+);
+
+it(
+  "15.2.3.7-5-b-63.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-63.js"),
+);
+
+it(
+  "15.2.3.7-5-b-64.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-64.js"),
+);
+
+it(
+  "15.2.3.7-5-b-65.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-65.js"),
+);
+
+it(
+  "15.2.3.7-5-b-66.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-66.js"),
+);
+
+it(
+  "15.2.3.7-5-b-67.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-67.js"),
+);
+
+it(
+  "15.2.3.7-5-b-68.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-68.js"),
+);
+
+it(
+  "15.2.3.7-5-b-69.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-69.js"),
+);
+
+it(
+  "15.2.3.7-5-b-7.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-7.js"),
+);
+
+it(
+  "15.2.3.7-5-b-70.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-70.js"),
+);
+
+it(
+  "15.2.3.7-5-b-71.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-71.js"),
+);
+
+it(
+  "15.2.3.7-5-b-72.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-72.js"),
+);
+
+it(
+  "15.2.3.7-5-b-73.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-73.js"),
+);
+
+it(
+  "15.2.3.7-5-b-74.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-74.js"),
+);
+
+it(
+  "15.2.3.7-5-b-75.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-75.js"),
+);
+
+it(
+  "15.2.3.7-5-b-76.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-76.js"),
+);
+
+it(
+  "15.2.3.7-5-b-77.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-77.js"),
+);
+
+it(
+  "15.2.3.7-5-b-78.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-78.js"),
+);
+
+it(
+  "15.2.3.7-5-b-79.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-79.js"),
+);
+
+it(
+  "15.2.3.7-5-b-8.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-8.js"),
+);
+
+it(
+  "15.2.3.7-5-b-80.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-80.js"),
+);
+
+it(
+  "15.2.3.7-5-b-81.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-81.js"),
+);
+
+it(
+  "15.2.3.7-5-b-82.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-82.js"),
+);
+
+it(
+  "15.2.3.7-5-b-84.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-84.js"),
+);
+
+it(
+  "15.2.3.7-5-b-85.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-85.js"),
+);
+
+it(
+  "15.2.3.7-5-b-86.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-86.js"),
+);
+
+it(
+  "15.2.3.7-5-b-87.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-87.js"),
+);
+
+it(
+  "15.2.3.7-5-b-88.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-88.js"),
+);
+
+it(
+  "15.2.3.7-5-b-89.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-89.js"),
+);
+
+it(
+  "15.2.3.7-5-b-9.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-9.js"),
+);
+
+it(
+  "15.2.3.7-5-b-90.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-90.js"),
+);
+
+it(
+  "15.2.3.7-5-b-91.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-91.js"),
+);
+
+it(
+  "15.2.3.7-5-b-92.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-92.js"),
+);
+
+it(
+  "15.2.3.7-5-b-93.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-93.js"),
+);
+
+it(
+  "15.2.3.7-5-b-94.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-94.js"),
+);
+
+it(
+  "15.2.3.7-5-b-95.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-95.js"),
+);
+
+it(
+  "15.2.3.7-5-b-96.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-96.js"),
+);
+
+it(
+  "15.2.3.7-5-b-97.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-97.js"),
+);
+
+it(
+  "15.2.3.7-5-b-98.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-98.js"),
+);
+
+it(
+  "15.2.3.7-5-b-99.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-5-b-99.js"),
+);
+
+it(
+  "15.2.3.7-6-a-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-1.js"),
+);
+
+it(
+  "15.2.3.7-6-a-10.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-10.js"),
+);
+
+it(
+  "15.2.3.7-6-a-100.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-100.js"),
+);
+
+it(
+  "15.2.3.7-6-a-101.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-101.js"),
+);
+
+it(
+  "15.2.3.7-6-a-102.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-102.js"),
+);
+
+it(
+  "15.2.3.7-6-a-103.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-103.js"),
+);
+
+it(
+  "15.2.3.7-6-a-104.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-104.js"),
+);
+
+it(
+  "15.2.3.7-6-a-105.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-105.js"),
+);
+
+it(
+  "15.2.3.7-6-a-106.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-106.js"),
+);
+
+it(
+  "15.2.3.7-6-a-107.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-107.js"),
+);
+
+it(
+  "15.2.3.7-6-a-108.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-108.js"),
+);
+
+it(
+  "15.2.3.7-6-a-109.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-109.js"),
+);
+
+it(
+  "15.2.3.7-6-a-11.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-11.js"),
+);
+
+it(
+  "15.2.3.7-6-a-110.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-110.js"),
+);
+
+it(
+  "15.2.3.7-6-a-111.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-111.js"),
+);
+
+it(
+  "15.2.3.7-6-a-112.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-112.js"),
+);
+
+it(
+  "15.2.3.7-6-a-113.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-113.js"),
+);
+
+it(
+  "15.2.3.7-6-a-114-b.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-114-b.js"),
+);
+
+it(
+  "15.2.3.7-6-a-114.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-114.js"),
+);
+
+it(
+  "15.2.3.7-6-a-115.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-115.js"),
+);
+
+it(
+  "15.2.3.7-6-a-116.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-116.js"),
+);
+
+it(
+  "15.2.3.7-6-a-117.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-117.js"),
+);
+
+it(
+  "15.2.3.7-6-a-118.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-118.js"),
+);
+
+it(
+  "15.2.3.7-6-a-119.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-119.js"),
+);
+
+it(
+  "15.2.3.7-6-a-12.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-12.js"),
+);
+
+it(
+  "15.2.3.7-6-a-120.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-120.js"),
+);
+
+it(
+  "15.2.3.7-6-a-121.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-121.js"),
+);
+
+it(
+  "15.2.3.7-6-a-122.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-122.js"),
+);
+
+it(
+  "15.2.3.7-6-a-123.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-123.js"),
+);
+
+it(
+  "15.2.3.7-6-a-124.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-124.js"),
+);
+
+it(
+  "15.2.3.7-6-a-125.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-125.js"),
+);
+
+it(
+  "15.2.3.7-6-a-126.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-126.js"),
+);
+
+it(
+  "15.2.3.7-6-a-127.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-127.js"),
+);
+
+it(
+  "15.2.3.7-6-a-128.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-128.js"),
+);
+
+it(
+  "15.2.3.7-6-a-129.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-129.js"),
+);
+
+it(
+  "15.2.3.7-6-a-13.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-13.js"),
+);
+
+it(
+  "15.2.3.7-6-a-130.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-130.js"),
+);
+
+it(
+  "15.2.3.7-6-a-131.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-131.js"),
+);
+
+it(
+  "15.2.3.7-6-a-132.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-132.js"),
+);
+
+it(
+  "15.2.3.7-6-a-133.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-133.js"),
+);
+
+it(
+  "15.2.3.7-6-a-134.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-134.js"),
+);
+
+it(
+  "15.2.3.7-6-a-135.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-135.js"),
+);
+
+it(
+  "15.2.3.7-6-a-136.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-136.js"),
+);
+
+it(
+  "15.2.3.7-6-a-137.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-137.js"),
+);
+
+it(
+  "15.2.3.7-6-a-138.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-138.js"),
+);
+
+it(
+  "15.2.3.7-6-a-139.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-139.js"),
+);
+
+it(
+  "15.2.3.7-6-a-14.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-14.js"),
+);
+
+it(
+  "15.2.3.7-6-a-140.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-140.js"),
+);
+
+it(
+  "15.2.3.7-6-a-141.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-141.js"),
+);
+
+it(
+  "15.2.3.7-6-a-142.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-142.js"),
+);
+
+it(
+  "15.2.3.7-6-a-143.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-143.js"),
+);
+
+it(
+  "15.2.3.7-6-a-144.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-144.js"),
+);
+
+it(
+  "15.2.3.7-6-a-145.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-145.js"),
+);
+
+it(
+  "15.2.3.7-6-a-146.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-146.js"),
+);
+
+it(
+  "15.2.3.7-6-a-147.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-147.js"),
+);
+
+it(
+  "15.2.3.7-6-a-148.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-148.js"),
+);
+
+it(
+  "15.2.3.7-6-a-149.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-149.js"),
+);
+
+it(
+  "15.2.3.7-6-a-15.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-15.js"),
+);
+
+it(
+  "15.2.3.7-6-a-150.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-150.js"),
+);
+
+it(
+  "15.2.3.7-6-a-151.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-151.js"),
+);
+
+it(
+  "15.2.3.7-6-a-152.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-152.js"),
+);
+
+it(
+  "15.2.3.7-6-a-153.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-153.js"),
+);
+
+it(
+  "15.2.3.7-6-a-155.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-155.js"),
+);
+
+it(
+  "15.2.3.7-6-a-156.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-156.js"),
+);
+
+it(
+  "15.2.3.7-6-a-157.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-157.js"),
+);
+
+it(
+  "15.2.3.7-6-a-158.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-158.js"),
+);
+
+it(
+  "15.2.3.7-6-a-159.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-159.js"),
+);
+
+it(
+  "15.2.3.7-6-a-16.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-16.js"),
+);
+
+it(
+  "15.2.3.7-6-a-160.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-160.js"),
+);
+
+it(
+  "15.2.3.7-6-a-161.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-161.js"),
+);
+
+it(
+  "15.2.3.7-6-a-162.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-162.js"),
+);
+
+it(
+  "15.2.3.7-6-a-163.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-163.js"),
+);
+
+it(
+  "15.2.3.7-6-a-164.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-164.js"),
+);
+
+it(
+  "15.2.3.7-6-a-165.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-165.js"),
+);
+
+it(
+  "15.2.3.7-6-a-166.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-166.js"),
+);
+
+it(
+  "15.2.3.7-6-a-167.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-167.js"),
+);
+
+it(
+  "15.2.3.7-6-a-168.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-168.js"),
+);
+
+it(
+  "15.2.3.7-6-a-169.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-169.js"),
+);
+
+it(
+  "15.2.3.7-6-a-17.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-17.js"),
+);
+
+it(
+  "15.2.3.7-6-a-170.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-170.js"),
+);
+
+it(
+  "15.2.3.7-6-a-171.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-171.js"),
+);
+
+it(
+  "15.2.3.7-6-a-172.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-172.js"),
+);
+
+it(
+  "15.2.3.7-6-a-173.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-173.js"),
+);
+
+it(
+  "15.2.3.7-6-a-174.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-174.js"),
+);
+
+it(
+  "15.2.3.7-6-a-175.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-175.js"),
+);
+
+it(
+  "15.2.3.7-6-a-176.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-176.js"),
+);
+
+it(
+  "15.2.3.7-6-a-177.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-177.js"),
+);
+
+it(
+  "15.2.3.7-6-a-178.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-178.js"),
+);
+
+it(
+  "15.2.3.7-6-a-179.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-179.js"),
+);
+
+it(
+  "15.2.3.7-6-a-18.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-18.js"),
+);
+
+it(
+  "15.2.3.7-6-a-180.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-180.js"),
+);
+
+it(
+  "15.2.3.7-6-a-181.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-181.js"),
+);
+
+it(
+  "15.2.3.7-6-a-182.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-182.js"),
+);
+
+it(
+  "15.2.3.7-6-a-183.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-183.js"),
+);
+
+it(
+  "15.2.3.7-6-a-184.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-184.js"),
+);
+
+it(
+  "15.2.3.7-6-a-185.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-185.js"),
+);
+
+it(
+  "15.2.3.7-6-a-186.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-186.js"),
+);
+
+it(
+  "15.2.3.7-6-a-187.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-187.js"),
+);
+
+it(
+  "15.2.3.7-6-a-188.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-188.js"),
+);
+
+it(
+  "15.2.3.7-6-a-189.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-189.js"),
+);
+
+it(
+  "15.2.3.7-6-a-19.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-19.js"),
+);
+
+it(
+  "15.2.3.7-6-a-190.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-190.js"),
+);
+
+it(
+  "15.2.3.7-6-a-191.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-191.js"),
+);
+
+it(
+  "15.2.3.7-6-a-192.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-192.js"),
+);
+
+it(
+  "15.2.3.7-6-a-193.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-193.js"),
+);
+
+it(
+  "15.2.3.7-6-a-194.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-194.js"),
+);
+
+it(
+  "15.2.3.7-6-a-195.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-195.js"),
+);
+
+it(
+  "15.2.3.7-6-a-196.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-196.js"),
+);
+
+it(
+  "15.2.3.7-6-a-197.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-197.js"),
+);
+
+it(
+  "15.2.3.7-6-a-198.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-198.js"),
+);
+
+it(
+  "15.2.3.7-6-a-199.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-199.js"),
+);
+
+it(
+  "15.2.3.7-6-a-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-2.js"),
+);
+
+it(
+  "15.2.3.7-6-a-20.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-20.js"),
+);
+
+it(
+  "15.2.3.7-6-a-200.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-200.js"),
+);
+
+it(
+  "15.2.3.7-6-a-201.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-201.js"),
+);
+
+it(
+  "15.2.3.7-6-a-202.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-202.js"),
+);
+
+it(
+  "15.2.3.7-6-a-203.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-203.js"),
+);
+
+it(
+  "15.2.3.7-6-a-204.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-204.js"),
+);
+
+it(
+  "15.2.3.7-6-a-205.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-205.js"),
+);
+
+it(
+  "15.2.3.7-6-a-206.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-206.js"),
+);
+
+it(
+  "15.2.3.7-6-a-207.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-207.js"),
+);
+
+it(
+  "15.2.3.7-6-a-208.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-208.js"),
+);
+
+it(
+  "15.2.3.7-6-a-209.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-209.js"),
+);
+
+it(
+  "15.2.3.7-6-a-21.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-21.js"),
+);
+
+it(
+  "15.2.3.7-6-a-210.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-210.js"),
+);
+
+it(
+  "15.2.3.7-6-a-211.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-211.js"),
+);
+
+it(
+  "15.2.3.7-6-a-212.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-212.js"),
+);
+
+it(
+  "15.2.3.7-6-a-213.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-213.js"),
+);
+
+it(
+  "15.2.3.7-6-a-214.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-214.js"),
+);
+
+it(
+  "15.2.3.7-6-a-215.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-215.js"),
+);
+
+it(
+  "15.2.3.7-6-a-216.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-216.js"),
+);
+
+it(
+  "15.2.3.7-6-a-217.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-217.js"),
+);
+
+it(
+  "15.2.3.7-6-a-218.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-218.js"),
+);
+
+it(
+  "15.2.3.7-6-a-219.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-219.js"),
+);
+
+it(
+  "15.2.3.7-6-a-22.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-22.js"),
+);
+
+it(
+  "15.2.3.7-6-a-220.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-220.js"),
+);
+
+it(
+  "15.2.3.7-6-a-221.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-221.js"),
+);
+
+it(
+  "15.2.3.7-6-a-222.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-222.js"),
+);
+
+it(
+  "15.2.3.7-6-a-223.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-223.js"),
+);
+
+it(
+  "15.2.3.7-6-a-224.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-224.js"),
+);
+
+it(
+  "15.2.3.7-6-a-225.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-225.js"),
+);
+
+it(
+  "15.2.3.7-6-a-226.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-226.js"),
+);
+
+it(
+  "15.2.3.7-6-a-227.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-227.js"),
+);
+
+it(
+  "15.2.3.7-6-a-228.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-228.js"),
+);
+
+it(
+  "15.2.3.7-6-a-229.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-229.js"),
+);
+
+it(
+  "15.2.3.7-6-a-230.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-230.js"),
+);
+
+it(
+  "15.2.3.7-6-a-231.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-231.js"),
+);
+
+it(
+  "15.2.3.7-6-a-232.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-232.js"),
+);
+
+it(
+  "15.2.3.7-6-a-233.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-233.js"),
+);
+
+it(
+  "15.2.3.7-6-a-234.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-234.js"),
+);
+
+it(
+  "15.2.3.7-6-a-235.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-235.js"),
+);
+
+it(
+  "15.2.3.7-6-a-236.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-236.js"),
+);
+
+it(
+  "15.2.3.7-6-a-237.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-237.js"),
+);
+
+it(
+  "15.2.3.7-6-a-238.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-238.js"),
+);
+
+it(
+  "15.2.3.7-6-a-239.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-239.js"),
+);
+
+it(
+  "15.2.3.7-6-a-24.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-24.js"),
+);
+
+it(
+  "15.2.3.7-6-a-240.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-240.js"),
+);
+
+it(
+  "15.2.3.7-6-a-241.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-241.js"),
+);
+
+it(
+  "15.2.3.7-6-a-242.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-242.js"),
+);
+
+it(
+  "15.2.3.7-6-a-243.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-243.js"),
+);
+
+it(
+  "15.2.3.7-6-a-244.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-244.js"),
+);
+
+it(
+  "15.2.3.7-6-a-245.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-245.js"),
+);
+
+it(
+  "15.2.3.7-6-a-246.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-246.js"),
+);
+
+it(
+  "15.2.3.7-6-a-247.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-247.js"),
+);
+
+it(
+  "15.2.3.7-6-a-248.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-248.js"),
+);
+
+it(
+  "15.2.3.7-6-a-249.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-249.js"),
+);
+
+it(
+  "15.2.3.7-6-a-25.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-25.js"),
+);
+
+it(
+  "15.2.3.7-6-a-250.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-250.js"),
+);
+
+it(
+  "15.2.3.7-6-a-251.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-251.js"),
+);
+
+it(
+  "15.2.3.7-6-a-252.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-252.js"),
+);
+
+it(
+  "15.2.3.7-6-a-253.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-253.js"),
+);
+
+it(
+  "15.2.3.7-6-a-254.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-254.js"),
+);
+
+it(
+  "15.2.3.7-6-a-255.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-255.js"),
+);
+
+it(
+  "15.2.3.7-6-a-256.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-256.js"),
+);
+
+it(
+  "15.2.3.7-6-a-257.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-257.js"),
+);
+
+it(
+  "15.2.3.7-6-a-258.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-258.js"),
+);
+
+it(
+  "15.2.3.7-6-a-259.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-259.js"),
+);
+
+it(
+  "15.2.3.7-6-a-26.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-26.js"),
+);
+
+it(
+  "15.2.3.7-6-a-260.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-260.js"),
+);
+
+it(
+  "15.2.3.7-6-a-261.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-261.js"),
+);
+
+it(
+  "15.2.3.7-6-a-262.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-262.js"),
+);
+
+it(
+  "15.2.3.7-6-a-263.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-263.js"),
+);
+
+it(
+  "15.2.3.7-6-a-264.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-264.js"),
+);
+
+it(
+  "15.2.3.7-6-a-265.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-265.js"),
+);
+
+it(
+  "15.2.3.7-6-a-266.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-266.js"),
+);
+
+it(
+  "15.2.3.7-6-a-267.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-267.js"),
+);
+
+it(
+  "15.2.3.7-6-a-268.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-268.js"),
+);
+
+it(
+  "15.2.3.7-6-a-269.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-269.js"),
+);
+
+it(
+  "15.2.3.7-6-a-27.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-27.js"),
+);
+
+it(
+  "15.2.3.7-6-a-270.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-270.js"),
+);
+
+it(
+  "15.2.3.7-6-a-271.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-271.js"),
+);
+
+it(
+  "15.2.3.7-6-a-272.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-272.js"),
+);
+
+it(
+  "15.2.3.7-6-a-273.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-273.js"),
+);
+
+it(
+  "15.2.3.7-6-a-274.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-274.js"),
+);
+
+it(
+  "15.2.3.7-6-a-275.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-275.js"),
+);
+
+it(
+  "15.2.3.7-6-a-276.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-276.js"),
+);
+
+it(
+  "15.2.3.7-6-a-277.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-277.js"),
+);
+
+it(
+  "15.2.3.7-6-a-278.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-278.js"),
+);
+
+it(
+  "15.2.3.7-6-a-279.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-279.js"),
+);
+
+it(
+  "15.2.3.7-6-a-28.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-28.js"),
+);
+
+it(
+  "15.2.3.7-6-a-280.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-280.js"),
+);
+
+it(
+  "15.2.3.7-6-a-281.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-281.js"),
+);
+
+it(
+  "15.2.3.7-6-a-282.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-282.js"),
+);
+
+it(
+  "15.2.3.7-6-a-283.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-283.js"),
+);
+
+it(
+  "15.2.3.7-6-a-284.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-284.js"),
+);
+
+it(
+  "15.2.3.7-6-a-285.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-285.js"),
+);
+
+it(
+  "15.2.3.7-6-a-286.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-286.js"),
+);
+
+it(
+  "15.2.3.7-6-a-287.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-287.js"),
+);
+
+it(
+  "15.2.3.7-6-a-288.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-288.js"),
+);
+
+it(
+  "15.2.3.7-6-a-289.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-289.js"),
+);
+
+it(
+  "15.2.3.7-6-a-29.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-29.js"),
+);
+
+it(
+  "15.2.3.7-6-a-290.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-290.js"),
+);
+
+it(
+  "15.2.3.7-6-a-291.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-291.js"),
+);
+
+it(
+  "15.2.3.7-6-a-292.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-292.js"),
+);
+
+it(
+  "15.2.3.7-6-a-293.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-293.js"),
+);
+
+it(
+  "15.2.3.7-6-a-294.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-294.js"),
+);
+
+it(
+  "15.2.3.7-6-a-295.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-295.js"),
+);
+
+it(
+  "15.2.3.7-6-a-296.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-296.js"),
+);
+
+it(
+  "15.2.3.7-6-a-297.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-297.js"),
+);
+
+it(
+  "15.2.3.7-6-a-298.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-298.js"),
+);
+
+it(
+  "15.2.3.7-6-a-299.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-299.js"),
+);
+
+it(
+  "15.2.3.7-6-a-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-3.js"),
+);
+
+it(
+  "15.2.3.7-6-a-30.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-30.js"),
+);
+
+it(
+  "15.2.3.7-6-a-300.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-300.js"),
+);
+
+it(
+  "15.2.3.7-6-a-301.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-301.js"),
+);
+
+it(
+  "15.2.3.7-6-a-302.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-302.js"),
+);
+
+it(
+  "15.2.3.7-6-a-303.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-303.js"),
+);
+
+it(
+  "15.2.3.7-6-a-304.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-304.js"),
+);
+
+it(
+  "15.2.3.7-6-a-305.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-305.js"),
+);
+
+it(
+  "15.2.3.7-6-a-306.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-306.js"),
+);
+
+it(
+  "15.2.3.7-6-a-307.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-307.js"),
+);
+
+it(
+  "15.2.3.7-6-a-308.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-308.js"),
+);
+
+it(
+  "15.2.3.7-6-a-309.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-309.js"),
+);
+
+it(
+  "15.2.3.7-6-a-31.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-31.js"),
+);
+
+it(
+  "15.2.3.7-6-a-310.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-310.js"),
+);
+
+it(
+  "15.2.3.7-6-a-311.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-311.js"),
+);
+
+it(
+  "15.2.3.7-6-a-312.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-312.js"),
+);
+
+it(
+  "15.2.3.7-6-a-313.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-313.js"),
+);
+
+it(
+  "15.2.3.7-6-a-314.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-314.js"),
+);
+
+it(
+  "15.2.3.7-6-a-32.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-32.js"),
+);
+
+it(
+  "15.2.3.7-6-a-33.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-33.js"),
+);
+
+it(
+  "15.2.3.7-6-a-34.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-34.js"),
+);
+
+it(
+  "15.2.3.7-6-a-35.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-35.js"),
+);
+
+it(
+  "15.2.3.7-6-a-36.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-36.js"),
+);
+
+it(
+  "15.2.3.7-6-a-37.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-37.js"),
+);
+
+it(
+  "15.2.3.7-6-a-38-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-38-1.js"),
+);
+
+it(
+  "15.2.3.7-6-a-38.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-38.js"),
+);
+
+it(
+  "15.2.3.7-6-a-39.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-39.js"),
+);
+
+it(
+  "15.2.3.7-6-a-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-4.js"),
+);
+
+it(
+  "15.2.3.7-6-a-40.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-40.js"),
+);
+
+it(
+  "15.2.3.7-6-a-41.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-41.js"),
+);
+
+it(
+  "15.2.3.7-6-a-42.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-42.js"),
+);
+
+it(
+  "15.2.3.7-6-a-43.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-43.js"),
+);
+
+it(
+  "15.2.3.7-6-a-44.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-44.js"),
+);
+
+it(
+  "15.2.3.7-6-a-45.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-45.js"),
+);
+
+it(
+  "15.2.3.7-6-a-46.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-46.js"),
+);
+
+it(
+  "15.2.3.7-6-a-47.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-47.js"),
+);
+
+it(
+  "15.2.3.7-6-a-48.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-48.js"),
+);
+
+it(
+  "15.2.3.7-6-a-49.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-49.js"),
+);
+
+it(
+  "15.2.3.7-6-a-5.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-5.js"),
+);
+
+it(
+  "15.2.3.7-6-a-50.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-50.js"),
+);
+
+it(
+  "15.2.3.7-6-a-51.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-51.js"),
+);
+
+it(
+  "15.2.3.7-6-a-52.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-52.js"),
+);
+
+it(
+  "15.2.3.7-6-a-53.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-53.js"),
+);
+
+it(
+  "15.2.3.7-6-a-54.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-54.js"),
+);
+
+it(
+  "15.2.3.7-6-a-55.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-55.js"),
+);
+
+it(
+  "15.2.3.7-6-a-56.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-56.js"),
+);
+
+it(
+  "15.2.3.7-6-a-57.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-57.js"),
+);
+
+it(
+  "15.2.3.7-6-a-58.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-58.js"),
+);
+
+it(
+  "15.2.3.7-6-a-59.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-59.js"),
+);
+
+it(
+  "15.2.3.7-6-a-6.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-6.js"),
+);
+
+it(
+  "15.2.3.7-6-a-60.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-60.js"),
+);
+
+it(
+  "15.2.3.7-6-a-61.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-61.js"),
+);
+
+it(
+  "15.2.3.7-6-a-62.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-62.js"),
+);
+
+it(
+  "15.2.3.7-6-a-63.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-63.js"),
+);
+
+it(
+  "15.2.3.7-6-a-64.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-64.js"),
+);
+
+it(
+  "15.2.3.7-6-a-65.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-65.js"),
+);
+
+it(
+  "15.2.3.7-6-a-66-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-66-1.js"),
+);
+
+it(
+  "15.2.3.7-6-a-66.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-66.js"),
+);
+
+it(
+  "15.2.3.7-6-a-67.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-67.js"),
+);
+
+it(
+  "15.2.3.7-6-a-68.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-68.js"),
+);
+
+it(
+  "15.2.3.7-6-a-69.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-69.js"),
+);
+
+it(
+  "15.2.3.7-6-a-7.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-7.js"),
+);
+
+it(
+  "15.2.3.7-6-a-70.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-70.js"),
+);
+
+it(
+  "15.2.3.7-6-a-71.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-71.js"),
+);
+
+it(
+  "15.2.3.7-6-a-72.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-72.js"),
+);
+
+it(
+  "15.2.3.7-6-a-73.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-73.js"),
+);
+
+it(
+  "15.2.3.7-6-a-74.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-74.js"),
+);
+
+it(
+  "15.2.3.7-6-a-75.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-75.js"),
+);
+
+it(
+  "15.2.3.7-6-a-76.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-76.js"),
+);
+
+it(
+  "15.2.3.7-6-a-77.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-77.js"),
+);
+
+it(
+  "15.2.3.7-6-a-78.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-78.js"),
+);
+
+it(
+  "15.2.3.7-6-a-79.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-79.js"),
+);
+
+it(
+  "15.2.3.7-6-a-8.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-8.js"),
+);
+
+it(
+  "15.2.3.7-6-a-80.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-80.js"),
+);
+
+it(
+  "15.2.3.7-6-a-81.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-81.js"),
+);
+
+it(
+  "15.2.3.7-6-a-82.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-82.js"),
+);
+
+it(
+  "15.2.3.7-6-a-83.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-83.js"),
+);
+
+it(
+  "15.2.3.7-6-a-84-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-84-1.js"),
+);
+
+it(
+  "15.2.3.7-6-a-84.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-84.js"),
+);
+
+it(
+  "15.2.3.7-6-a-85.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-85.js"),
+);
+
+it(
+  "15.2.3.7-6-a-86-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-86-1.js"),
+);
+
+it(
+  "15.2.3.7-6-a-86.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-86.js"),
+);
+
+it(
+  "15.2.3.7-6-a-87.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-87.js"),
+);
+
+it(
+  "15.2.3.7-6-a-88.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-88.js"),
+);
+
+it(
+  "15.2.3.7-6-a-89.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-89.js"),
+);
+
+it(
+  "15.2.3.7-6-a-9.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-9.js"),
+);
+
+it(
+  "15.2.3.7-6-a-90.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-90.js"),
+);
+
+it(
+  "15.2.3.7-6-a-91.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-91.js"),
+);
+
+it(
+  "15.2.3.7-6-a-92.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-92.js"),
+);
+
+it(
+  "15.2.3.7-6-a-93-1.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-1.js"),
+);
+
+it(
+  "15.2.3.7-6-a-93-2.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-2.js"),
+);
+
+it(
+  "15.2.3.7-6-a-93-3.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-3.js"),
+);
+
+it(
+  "15.2.3.7-6-a-93-4.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93-4.js"),
+);
+
+it(
+  "15.2.3.7-6-a-93.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-93.js"),
+);
+
+it(
+  "15.2.3.7-6-a-94.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-94.js"),
+);
+
+it(
+  "15.2.3.7-6-a-95.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-95.js"),
+);
+
+it(
+  "15.2.3.7-6-a-96.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-96.js"),
+);
+
+it(
+  "15.2.3.7-6-a-97.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-97.js"),
+);
+
+it(
+  "15.2.3.7-6-a-98.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-98.js"),
+);
+
+it(
+  "15.2.3.7-6-a-99.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/15.2.3.7-6-a-99.js"),
+);
+
+it(
+  "name.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/name.js"),
+);
+
+it(
+  "not-a-constructor.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/not-a-constructor.js"),
+);
+
+it(
+  "property-description-must-be-an-object-not-bigint.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-bigint.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-false.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-false.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-null.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-null.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-number.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-number.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-string.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-string.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-symbol.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-symbol.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-true.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-true.js",
+  ),
+);
+
+it(
+  "property-description-must-be-an-object-not-undefined.js",
+  { tags: ["known-passing"] },
+  createTestHandler(
+    "built-ins/Object/defineProperties/property-description-must-be-an-object-not-undefined.js",
+  ),
+);
+
+it(
+  "proxy-no-ownkeys-returned-keys-order.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Object/defineProperties/proxy-no-ownkeys-returned-keys-order.js"),
+);
+
+it.skip("typedarray-backed-by-resizable-buffer.js", () => {
+  /* Ignored Test */
 });

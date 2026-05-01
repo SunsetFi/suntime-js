@@ -1,35 +1,42 @@
-import { it, describe } from "vitest";
+import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("rawJSON", () => {
-  it.skip("basic.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("bigint-raw-json-can-be-stringified.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("builtin.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("illegal-empty-and-start-end-chars.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("invalid-JSON-text.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("length.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("name.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("not-a-constructor.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("prop-desc.js", () => {
-    /* Ignored Test */
-  });
-  it.skip("returns-expected-object.js", () => {
-    /* Ignored Test */
-  });
+it.skip("basic.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("bigint-raw-json-can-be-stringified.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("builtin.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("illegal-empty-and-start-end-chars.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("invalid-JSON-text.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("length.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("name.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("not-a-constructor.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("prop-desc.js", () => {
+  /* Ignored Test */
+});
+
+it.skip("returns-expected-object.js", () => {
+  /* Ignored Test */
 });

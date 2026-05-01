@@ -1,199 +1,226 @@
-import { it, describe } from "vitest";
+import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-describe("zip", () => {
-  it(
-    "basic-longest.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/basic-longest.js"),
-  );
-  it(
-    "basic-shortest.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/basic-shortest.js"),
-  );
-  it(
-    "basic-strict.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/basic-strict.js"),
-  );
-  it(
-    "is-function.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/is-function.js"),
-  );
-  it(
-    "iterables-containing-string-objects.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/iterables-containing-string-objects.js"),
-  );
-  it(
-    "iterables-iteration-after-reading-options.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/iterables-iteration-after-reading-options.js"),
-  );
-  it(
-    "iterables-iteration-get-iterator-flattenable-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterables-iteration-get-iterator-flattenable-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterables-iteration-iterator-step-value-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterables-iteration-iterator-step-value-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterables-iteration.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/iterables-iteration.js"),
-  );
-  it(
-    "iterables-primitive.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/iterables-primitive.js"),
-  );
-  it(
-    "iterator-non-iterable.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Iterator/zip/iterator-non-iterable.js"),
-  );
-  it(
-    "iterator-zip-iteration-iterator-close-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-iterator-close-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration-iterator-step-value-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-iterator-step-value-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration-longest-iterator-close-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-longest-iterator-close-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration-shortest-iterator-close-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-shortest-iterator-close-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration-strict-iterator-close-i-is-not-zero-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-strict-iterator-close-i-is-not-zero-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration-strict-iterator-close-i-is-zero-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-strict-iterator-close-i-is-zero-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration-strict-iterator-step-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/iterator-zip-iteration-strict-iterator-step-abrupt-completion.js",
-    ),
-  );
-  it(
-    "iterator-zip-iteration.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/iterator-zip-iteration.js"),
-  );
-  it(
-    "length.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/length.js"),
-  );
-  it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/zip/name.js"));
-  it(
-    "non-constructible.js",
-    { tags: ["known-passing"] },
-    createTestHandler("built-ins/Iterator/zip/non-constructible.js"),
-  );
-  it(
-    "options-mode.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/options-mode.js"),
-  );
-  it(
-    "options-padding.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/options-padding.js"),
-  );
-  it(
-    "options.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/options.js"),
-  );
-  it(
-    "padding-iteration-get-iterator-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/padding-iteration-get-iterator-abrupt-completion.js"),
-  );
-  it(
-    "padding-iteration-iterator-close-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/padding-iteration-iterator-close-abrupt-completion.js",
-    ),
-  );
-  it(
-    "padding-iteration-iterator-step-value-abrupt-completion.js",
-    { tags: ["known-failing"] },
-    createTestHandler(
-      "built-ins/Iterator/zip/padding-iteration-iterator-step-value-abrupt-completion.js",
-    ),
-  );
-  it(
-    "padding-iteration.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/padding-iteration.js"),
-  );
-  it(
-    "prop-desc.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/prop-desc.js"),
-  );
-  it("proto.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/zip/proto.js"));
-  it(
-    "result-is-iterator.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/result-is-iterator.js"),
-  );
-  it(
-    "suspended-start-iterator-close-calls-next.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/suspended-start-iterator-close-calls-next.js"),
-  );
-  it(
-    "suspended-start-iterator-close-calls-return.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/suspended-start-iterator-close-calls-return.js"),
-  );
-  it(
-    "suspended-yield-iterator-close-calls-next.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/suspended-yield-iterator-close-calls-next.js"),
-  );
-  it(
-    "suspended-yield-iterator-close-calls-return.js",
-    { tags: ["known-failing"] },
-    createTestHandler("built-ins/Iterator/zip/suspended-yield-iterator-close-calls-return.js"),
-  );
-});
+it(
+  "basic-longest.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/basic-longest.js"),
+);
+
+it(
+  "basic-shortest.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/basic-shortest.js"),
+);
+
+it(
+  "basic-strict.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/basic-strict.js"),
+);
+
+it(
+  "is-function.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/is-function.js"),
+);
+
+it(
+  "iterables-containing-string-objects.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/iterables-containing-string-objects.js"),
+);
+
+it(
+  "iterables-iteration-after-reading-options.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/iterables-iteration-after-reading-options.js"),
+);
+
+it(
+  "iterables-iteration-get-iterator-flattenable-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterables-iteration-get-iterator-flattenable-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterables-iteration-iterator-step-value-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterables-iteration-iterator-step-value-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterables-iteration.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/iterables-iteration.js"),
+);
+
+it(
+  "iterables-primitive.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/iterables-primitive.js"),
+);
+
+it(
+  "iterator-non-iterable.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Iterator/zip/iterator-non-iterable.js"),
+);
+
+it(
+  "iterator-zip-iteration-iterator-close-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-iterator-close-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration-iterator-step-value-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-iterator-step-value-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration-longest-iterator-close-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-longest-iterator-close-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration-shortest-iterator-close-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-shortest-iterator-close-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration-strict-iterator-close-i-is-not-zero-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-strict-iterator-close-i-is-not-zero-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration-strict-iterator-close-i-is-zero-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-strict-iterator-close-i-is-zero-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration-strict-iterator-step-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/iterator-zip-iteration-strict-iterator-step-abrupt-completion.js",
+  ),
+);
+
+it(
+  "iterator-zip-iteration.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/iterator-zip-iteration.js"),
+);
+
+it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/zip/length.js"));
+
+it("name.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/zip/name.js"));
+
+it(
+  "non-constructible.js",
+  { tags: ["known-passing"] },
+  createTestHandler("built-ins/Iterator/zip/non-constructible.js"),
+);
+
+it(
+  "options-mode.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/options-mode.js"),
+);
+
+it(
+  "options-padding.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/options-padding.js"),
+);
+
+it(
+  "options.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/options.js"),
+);
+
+it(
+  "padding-iteration-get-iterator-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/padding-iteration-get-iterator-abrupt-completion.js"),
+);
+
+it(
+  "padding-iteration-iterator-close-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/padding-iteration-iterator-close-abrupt-completion.js"),
+);
+
+it(
+  "padding-iteration-iterator-step-value-abrupt-completion.js",
+  { tags: ["known-failing"] },
+  createTestHandler(
+    "built-ins/Iterator/zip/padding-iteration-iterator-step-value-abrupt-completion.js",
+  ),
+);
+
+it(
+  "padding-iteration.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/padding-iteration.js"),
+);
+
+it(
+  "prop-desc.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/prop-desc.js"),
+);
+
+it("proto.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Iterator/zip/proto.js"));
+
+it(
+  "result-is-iterator.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/result-is-iterator.js"),
+);
+
+it(
+  "suspended-start-iterator-close-calls-next.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/suspended-start-iterator-close-calls-next.js"),
+);
+
+it(
+  "suspended-start-iterator-close-calls-return.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/suspended-start-iterator-close-calls-return.js"),
+);
+
+it(
+  "suspended-yield-iterator-close-calls-next.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/suspended-yield-iterator-close-calls-next.js"),
+);
+
+it(
+  "suspended-yield-iterator-close-calls-return.js",
+  { tags: ["known-failing"] },
+  createTestHandler("built-ins/Iterator/zip/suspended-yield-iterator-close-calls-return.js"),
+);
