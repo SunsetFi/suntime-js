@@ -1386,7 +1386,7 @@ it(
 
 it(
   "yield-return-then-getter-ticks.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/statements/async-generator/yield-return-then-getter-ticks.js"),
 );
 

@@ -61,12 +61,12 @@ it(
 
 it(
   "this-val-not-async-generator.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/next/this-val-not-async-generator.js"),
 );
 
 it(
   "this-val-not-object.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/next/this-val-not-object.js"),
 );

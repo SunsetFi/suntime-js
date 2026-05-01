@@ -27,7 +27,7 @@ it(
 
 it(
   "request-queue-order-state-executing.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/AsyncGeneratorPrototype/return/request-queue-order-state-executing.js",
   ),
@@ -75,7 +75,7 @@ it(
 
 it(
   "return-suspendedYield-broken-promise-try-catch.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/AsyncGeneratorPrototype/return/return-suspendedYield-broken-promise-try-catch.js",
   ),
@@ -83,7 +83,7 @@ it(
 
 it(
   "return-suspendedYield-promise.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/return/return-suspendedYield-promise.js"),
 );
 
@@ -119,12 +119,12 @@ it(
 
 it(
   "this-val-not-async-generator.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/return/this-val-not-async-generator.js"),
 );
 
 it(
   "this-val-not-object.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/return/this-val-not-object.js"),
 );

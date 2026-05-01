@@ -35,13 +35,13 @@ it(
 
 it(
   "this-val-not-async-generator.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/throw/this-val-not-async-generator.js"),
 );
 
 it(
   "this-val-not-object.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncGeneratorPrototype/throw/this-val-not-object.js"),
 );
 

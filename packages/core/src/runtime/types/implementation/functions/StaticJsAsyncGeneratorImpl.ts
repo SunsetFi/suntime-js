@@ -1,6 +1,7 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { AwaitCommand } from "../../../../evaluator/commands/AwaitCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
+import { ReturnCompletion } from "../../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { X } from "../../../../evaluator/completions/X.js";
@@ -146,7 +147,7 @@ export class StaticJsAsyncGeneratorImpl
     if (state === "suspended-start" || state === "completed") {
       this._state = "draining-queue";
       yield* this._asyncGeneratorAwaitReturn();
-    } else {
+    } else if (state === "suspended-yield") {
       yield* this._asyncGeneratorResume(completion);
     }
 
@@ -195,7 +196,7 @@ export class StaticJsAsyncGeneratorImpl
     if (Completion.Throw.is(awaited)) {
       return yield* Q(awaited);
     }
-    throw Completion.Throw(Completion.value(awaited));
+    throw Completion.Return(Completion.value(awaited));
   }
 
   private *_asyncGeneratorResume(completion: Completion) {
@@ -203,6 +204,15 @@ export class StaticJsAsyncGeneratorImpl
       throw new StaticJsEngineError(
         "Async generator can only be resumed if it is in suspended-start or suspended-yield state.",
       );
+    }
+
+    // Hack: We are far from what the spec wants.
+    // The spec wants AsyncGeneratorYield to suspend itself, and do a this._asyncGeneratorUnwrapReturn when resuming.
+    // We can't do that since we are both the async driver and awaiter, so we have nothing that can await / suspend us.
+    // Instead, do it all by hand.
+    if (Completion.Return.is(completion)) {
+      yield* this._asyncGeneratorResumeForReturn(completion);
+      return;
     }
 
     this._state = "executing";
@@ -220,6 +230,58 @@ export class StaticJsAsyncGeneratorImpl
     } else {
       yield* resume();
     }
+  }
+
+  private *_asyncGeneratorResumeForReturn(completion: ReturnCompletion) {
+    // This is a hacky mess of Await(value) fuzed with AsyncGeneratorUnwrapYieldResumption.
+    // This is here because we have no higher level awaiter that can suspend our own
+    // async generator functions.
+    // This is a fusion of AsyncGeneratorYield's resumption plus asyncGeneratorResume, which resumes it.
+
+    const driver = this._driver;
+    const realm = this.realm;
+    const unsuspendContext = () => {
+      const context = this._pausedContext;
+      if (!context) {
+        throw new StaticJsEngineError(
+          "Expected paused context to be set when unsuspending async generator for return.",
+        );
+      }
+      this._pausedContext = null;
+      return context;
+    };
+
+    const promise = yield* captureThrownCompletion(
+      promiseResolve(
+        this.realm.types.constructors.Promise,
+        Completion.value(completion),
+        this.realm,
+      ),
+    );
+    if (Completion.Abrupt.is(promise)) {
+      const context = unsuspendContext();
+      yield* context.run(function* () {
+        yield* driver.continue(promise);
+      });
+      return;
+    }
+
+    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, v) {
+      const context = unsuspendContext();
+      return yield* context.run(function* () {
+        yield* driver.continue(Completion.Return(v));
+        return realm.types.undefined;
+      });
+    });
+    const onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, e) {
+      const context = unsuspendContext();
+      return yield* context.run(function* () {
+        yield* driver.continue(Completion.Throw(e));
+        return realm.types.undefined;
+      });
+    });
+
+    yield* promise.thenEvaluator(onFulfilled, onRejected);
   }
 
   private *_asyncGeneratorAwaitReturn(): EvaluationGenerator<void> {
