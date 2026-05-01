@@ -23,9 +23,9 @@ describe("E2E: Async arrow functions", () => {
       const realm = StaticJsRealm();
       const AsyncFunction = await realm.evaluateExpression("(async function() {}).constructor");
       const code = `
-      const test = async () => {}
-      test.constructor;
-    `;
+        const test = async () => {}
+        test.constructor;
+      `;
       const result = await realm.evaluateScript(code);
       expect(result).toBe(AsyncFunction);
     });
@@ -37,9 +37,9 @@ describe("E2E: Async arrow functions", () => {
       )) as StaticJsObject;
       const AsyncFunctionPrototype = await AsyncFunction.getAsync("prototype");
       const code = `
-      const test = async () => {}
-      Object.getPrototypeOf(test);
-    `;
+        const test = async () => {}
+        Object.getPrototypeOf(test);
+      `;
       const result = await realm.evaluateScript(code);
       expect(result).toBe(AsyncFunctionPrototype);
     });
@@ -48,9 +48,9 @@ describe("E2E: Async arrow functions", () => {
       const realm = StaticJsRealm();
       const result = await realm.evaluateScript(
         `
-        const a = async () => 42;
-        a();
-      `,
+          const a = async () => 42;
+          a();
+        `,
       );
 
       expect(isStaticJsPromise(result)).toBe(true);
@@ -60,9 +60,9 @@ describe("E2E: Async arrow functions", () => {
       const realm = StaticJsRealm();
       const result = await realm.evaluateScript(
         `
-        const a = async () => await 42;
-        a();
-      `,
+          const a = async () => await 42;
+          a();
+        `,
       );
 
       expect(isStaticJsPromise(result)).toBe(true);
