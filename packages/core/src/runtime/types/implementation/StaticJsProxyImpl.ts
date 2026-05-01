@@ -47,7 +47,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   ) {}
 
   get isConstructor(): boolean {
-    throw new Error("Method not implemented.");
+    return isStaticJsCallable(this._proxyTarget) && this._proxyTarget.isConstructor;
   }
 
   get realm(): StaticJsRealm {

@@ -12,11 +12,13 @@ import {
   StaticJsAstFunctionArgument,
 } from "../../../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { StaticJsObject } from "../../../types/StaticJsObject.js";
 
 export function createAsyncFunctionConstructor(
   realm: StaticJsRealm,
   asyncFunctionProto: StaticJsObject,
+  functionConstructor: StaticJsCallable,
 ) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
@@ -45,7 +47,7 @@ export function createAsyncFunctionConstructor(
       // We don't really have a proper Node type to represent a function body...
       let body: Program;
       try {
-        body = parseFunctionBody(bodyStr.value);
+        body = parseFunctionBody(bodyStr.value, { async: true });
       } catch {
         throw Completion.Throw("SyntaxError", "Failed to parse function body");
       }
@@ -67,11 +69,9 @@ export function createAsyncFunctionConstructor(
 
       yield* setFunctionName(func, "");
 
-      yield* func.makeConstructor();
-
       return func;
     },
-    { prototype: asyncFunctionProto, construct: true },
+    { prototype: functionConstructor, construct: true },
   );
 
   ctor.defineOwnPropertySync("prototype", {
@@ -80,6 +80,7 @@ export function createAsyncFunctionConstructor(
     enumerable: false,
     configurable: false,
   });
+
   asyncFunctionProto.defineOwnPropertySync("constructor", {
     value: ctor,
     writable: true,

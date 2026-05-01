@@ -26,6 +26,30 @@ const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectUndefinedDeclaration,
 ];
 
+// Not all constructors are globals
+const globalConstructors = [
+  "String",
+  "Number",
+  "Boolean",
+  "Object",
+  "Symbol",
+  "Array",
+  "Iterator",
+  "Promise",
+  "Proxy",
+  "Set",
+  "Map",
+  "Error",
+  "TypeError",
+  "ReferenceError",
+  "SyntaxError",
+  "RangeError",
+  "EvalError",
+  "URIError",
+  "Function",
+  "GeneratorFunction",
+  "AsyncGeneratorFunction",
+] as const;
 export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObject) {
   applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
 
@@ -45,7 +69,8 @@ export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObjec
     configurable: true,
   });
 
-  for (const [key, value] of Object.entries(realm.types.constructors)) {
+  for (const key of globalConstructors) {
+    const value = realm.types.constructors[key];
     globalObject.defineOwnPropertySync(key, {
       value,
       writable: true,

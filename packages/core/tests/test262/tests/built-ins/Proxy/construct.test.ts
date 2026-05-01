@@ -9,7 +9,7 @@ it(
 
 it(
   "call-parameters-new-target.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/call-parameters-new-target.js"),
 );
 
@@ -135,19 +135,19 @@ it(
 
 it(
   "trap-is-null-target-is-proxy.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/trap-is-null-target-is-proxy.js"),
 );
 
 it(
   "trap-is-null.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/trap-is-null.js"),
 );
 
 it(
   "trap-is-undefined-no-property.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/trap-is-undefined-no-property.js"),
 );
 
@@ -167,12 +167,12 @@ it(
 
 it(
   "trap-is-undefined-target-is-proxy.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/trap-is-undefined-target-is-proxy.js"),
 );
 
 it(
   "trap-is-undefined.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/trap-is-undefined.js"),
 );

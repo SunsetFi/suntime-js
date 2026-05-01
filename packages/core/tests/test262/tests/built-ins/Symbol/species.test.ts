@@ -11,7 +11,7 @@ it(
 
 it(
   "cross-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Symbol/species/cross-realm.js"),
 );
 

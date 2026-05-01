@@ -54,6 +54,7 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
   const AsyncFunction = createAsyncFunctionConstructor(
     realm,
     realm.types.prototypes.asyncFunctionProto,
+    Function,
   );
   const GeneratorFunction = createGeneratorFunctionConstructor(
     realm,
