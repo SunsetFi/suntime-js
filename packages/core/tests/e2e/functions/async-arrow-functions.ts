@@ -21,7 +21,7 @@ describe("E2E: Async arrow functions", () => {
 
     it("Have the async function constructor", async () => {
       const realm = StaticJsRealm();
-      const AsyncFunction = await realm.global.getAsync("AsyncFunction");
+      const AsyncFunction = await realm.evaluateExpression("(async function() {}).constructor");
       const code = `
       const test = async () => {}
       test.constructor;
@@ -32,7 +32,9 @@ describe("E2E: Async arrow functions", () => {
 
     it("Have the async function prototype", async () => {
       const realm = StaticJsRealm();
-      const AsyncFunction = (await realm.global.getAsync("AsyncFunction")) as StaticJsObject;
+      const AsyncFunction = (await realm.evaluateExpression(
+        "(async function() {}).constructor",
+      )) as StaticJsObject;
       const AsyncFunctionPrototype = await AsyncFunction.getAsync("prototype");
       const code = `
       const test = async () => {}

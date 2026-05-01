@@ -32,6 +32,10 @@
 - [ ] Task improvements
   - [x] Property on a task indicating if its sync or async.
   - [ ] Merge microtasks into same iterator?
+- [ ] Rewrite async generators. Make AsyncDriver not care about yields at all, so we can use
+      Await() inside generator implementation functions.
+  - [ ] Remake await and yied as SuspendCommand. Spec seems to not care what type and just calls functions that suspend and resume.
+        No need to make the implementations be defined at the handler level.
 
 ### Long term spec compliance reworks
 

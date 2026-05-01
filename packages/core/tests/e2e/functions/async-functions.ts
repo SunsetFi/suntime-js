@@ -13,7 +13,9 @@ describe("E2E: Async functions", () => {
 
     it("Provides an async function prototype", async () => {
       const realm = new StaticJsRealm();
-      const AsyncFunction = (await realm.global.getAsync("AsyncFunction")) as StaticJsObject;
+      const AsyncFunction = (await realm.evaluateExpression(
+        "(async function() {}).constructor",
+      )) as StaticJsObject;
       const AsyncFunctionPrototype = await AsyncFunction.getAsync("prototype");
       expect(AsyncFunctionPrototype).toBeDefined();
     });
@@ -22,7 +24,9 @@ describe("E2E: Async functions", () => {
   describe("Functions", () => {
     it("Have the async function constructor", async () => {
       const realm = new StaticJsRealm();
-      const AsyncFunction = await realm.global.getAsync("AsyncFunction");
+      const AsyncFunction = (await realm.evaluateExpression(
+        "(async function() {}).constructor",
+      )) as StaticJsObject;
       const code = `
       async function test() {}
       test.constructor;
@@ -33,7 +37,9 @@ describe("E2E: Async functions", () => {
 
     it("Have the async function prototype", async () => {
       const realm = new StaticJsRealm();
-      const AsyncFunction = (await realm.global.getAsync("AsyncFunction")) as StaticJsObject;
+      const AsyncFunction = (await realm.evaluateExpression(
+        "(async function() {}).constructor",
+      )) as StaticJsObject;
       const AsyncFunctionPrototype = await AsyncFunction.getAsync("prototype");
       const code = `
       async function test() {}
