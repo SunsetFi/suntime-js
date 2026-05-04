@@ -4,6 +4,7 @@ import { Prototypes } from "../intrinsics/intrinsics.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
 
+import { getFunctionRealm } from "./get-function-realm.js";
 import { get } from "./get.js";
 
 export function* getPrototypeFromConstructor(
@@ -12,7 +13,8 @@ export function* getPrototypeFromConstructor(
 ): EvaluationGenerator<StaticJsObject> {
   const proto = yield* Q(get(constructor, "prototype"));
   if (!isStaticJsObject(proto)) {
-    return constructor.realm.types.prototypes[intrinsicDefaultProto];
+    const realm = yield* getFunctionRealm(constructor);
+    return realm.types.prototypes[intrinsicDefaultProto];
   }
   return proto;
 }

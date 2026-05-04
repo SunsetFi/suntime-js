@@ -53,7 +53,7 @@ it(
 
 it(
   "null-handler.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/ownKeys/null-handler.js"),
 );
 

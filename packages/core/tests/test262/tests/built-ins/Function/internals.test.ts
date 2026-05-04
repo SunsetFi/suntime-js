@@ -22,7 +22,7 @@ describe("Construct", () => {
   );
   it(
     "base-ctor-revoked-proxy.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/internals/Construct/base-ctor-revoked-proxy.js"),
   );
   it(

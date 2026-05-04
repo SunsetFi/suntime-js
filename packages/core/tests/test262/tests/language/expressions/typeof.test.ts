@@ -63,7 +63,7 @@ it(
 
 it(
   "proxy.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/typeof/proxy.js"),
 );
 

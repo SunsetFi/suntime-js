@@ -22,6 +22,7 @@
 
 ## Less imidiate
 
+- [ ] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
 - [ ] Change StaticJsPropertyKey to use StaticJsString, not native string.
       This is causing bad squirly code all over the place.
 - [ ] Change getPrototype / setPrototype to use StaticJsNull instead of engine null.

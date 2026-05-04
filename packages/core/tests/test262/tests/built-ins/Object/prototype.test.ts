@@ -1142,7 +1142,7 @@ describe("toString", () => {
   );
   it(
     "proxy-revoked.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Object/prototype/toString/proxy-revoked.js"),
   );
   it(

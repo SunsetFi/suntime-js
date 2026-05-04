@@ -105,7 +105,7 @@ it(
 
 it(
   "non-ctor-err-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/new/non-ctor-err-realm.js"),
 );
 

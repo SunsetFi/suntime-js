@@ -40,14 +40,26 @@ import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 export class StaticJsProxyImpl implements StaticJsProxy {
   private _cachedJsObject: unknown | null = null;
 
+  private _handler: StaticJsObject | null;
+  private _proxyTarget: StaticJsObject | null;
+  private _callable: boolean | "constructor";
+
   constructor(
-    private readonly _proxyTarget: StaticJsObject,
-    private _handler: StaticJsObject,
+    proxyTarget: StaticJsObject,
+    handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
-  ) {}
+  ) {
+    this._proxyTarget = proxyTarget;
+    this._handler = handler;
+    this._callable = isStaticJsCallable(proxyTarget)
+      ? proxyTarget.isConstructor
+        ? "constructor"
+        : true
+      : false;
+  }
 
   get isConstructor(): boolean {
-    return isStaticJsCallable(this._proxyTarget) && this._proxyTarget.isConstructor;
+    return this._callable === "constructor";
   }
 
   get realm(): StaticJsRealm {
@@ -59,13 +71,15 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   get typeOf() {
-    return "object" as const;
+    return this._callable ? "function" : "object";
   }
 
   get runtimeTypeCode(): StaticJsTypeCode {
-    return isStaticJsCallable(this._proxyTarget)
-      ? StaticJsTypeCode.ProxyCallable
-      : StaticJsTypeCode.Proxy;
+    return this._callable ? StaticJsTypeCode.ProxyCallable : StaticJsTypeCode.Proxy;
+  }
+  get proxyTarget(): StaticJsObject {
+    this.validateNonRevokedProxy();
+    return this._proxyTarget!;
   }
 
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null> {
@@ -77,9 +91,9 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
-    yield* this._validateNonRevokedProxy();
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    this.validateNonRevokedProxy();
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "getPrototypeOf"));
     if (!trap) {
@@ -122,10 +136,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *setPrototypeOfEvaluator(prototype: StaticJsObject | null): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "setPrototypeOf"));
     if (!trap) {
@@ -164,10 +178,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *isExtensibleEvaluator(opts?: StaticJsRunTaskOptions): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "isExtensible"));
     if (!trap) {
@@ -196,10 +210,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *preventExtensionsEvaluator(): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "preventExtensions"));
     if (!trap) {
@@ -229,10 +243,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "ownKeys"));
     if (!trap) {
@@ -352,10 +366,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *hasOwnPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "has"));
     if (!trap) {
@@ -438,10 +452,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   *getOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "getOwnPropertyDescriptor"));
     if (!trap) {
@@ -552,10 +566,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     key: StaticJsPropertyKey,
     desc: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "defineProperty"));
     if (!trap) {
@@ -652,10 +666,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     key: StaticJsPropertyKey,
     receiver: StaticJsValue,
   ): EvaluationGenerator<StaticJsValue> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "get"));
     if (!trap) {
@@ -710,10 +724,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     value: StaticJsValue,
     receiver: StaticJsValue,
   ): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "set"));
     if (!trap) {
@@ -768,10 +782,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "deleteProperty"));
     if (!trap) {
@@ -832,10 +846,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     thisArg: StaticJsValue,
     args?: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
-    const handler = this._handler;
+    const target = this._proxyTarget!;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "apply"));
     if (!trap) {
@@ -867,15 +881,15 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     // FIXME: What is the default newTarget here.  The target or the proxy?
     newTarget: StaticJsCallable = this,
   ): EvaluationGenerator<StaticJsObject> {
-    yield* this._validateNonRevokedProxy();
+    this.validateNonRevokedProxy();
 
-    const target = this._proxyTarget;
+    const target = this._proxyTarget!;
     // FIXME: We are supposed to just not implement [[Construct]] in this case.
     if (!isStaticJsCallable(target) || !target.isConstructor) {
       throw Completion.Throw("TypeError", "Proxy target is not a constructor");
     }
 
-    const handler = this._handler;
+    const handler = this._handler!;
 
     const trap = yield* Q(getMethod(handler, "construct"));
     if (!trap) {
@@ -914,7 +928,16 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     return this.realm.invokeEvaluatorSync(toString(this), opts).value;
   }
 
-  private *_validateNonRevokedProxy(): EvaluationGenerator<void> {}
+  revoke(): void {
+    this._handler = null;
+    this._proxyTarget = null;
+  }
+
+  validateNonRevokedProxy(): void {
+    if (this._handler === null || this._proxyTarget === null) {
+      throw Completion.Throw("TypeError", "Cannot perform operation on a revoked proxy");
+    }
+  }
 }
 
 // Our prototype system uses engine null but staticjs values.

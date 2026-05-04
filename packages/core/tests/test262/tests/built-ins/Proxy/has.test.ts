@@ -29,13 +29,13 @@ it(
 
 it(
   "null-handler-using-with.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/has/null-handler-using-with.js"),
 );
 
 it(
   "null-handler.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/has/null-handler.js"),
 );
 

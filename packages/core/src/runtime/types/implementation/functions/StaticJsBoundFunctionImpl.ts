@@ -77,6 +77,10 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
     return false;
   }
 
+  get boundTargetFunction(): StaticJsCallable {
+    return this.targetFunc;
+  }
+
   callAsync(
     thisArg: StaticJsValue,
     args?: StaticJsValue[],

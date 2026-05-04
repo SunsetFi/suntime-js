@@ -1,4 +1,5 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { createDataPropertyOrThrow } from "../../../algorithms/create-data-property-or-throw.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsProxyImpl } from "../../../types/implementation/StaticJsProxyImpl.js";
@@ -32,6 +33,37 @@ export default function createProxyConstructor(realm: StaticJsRealm) {
       },
     },
   );
+
+  ctor.defineOwnPropertySync("revocable", {
+    value: new StaticJsNativeFunctionImpl(
+      realm,
+      "revocable",
+      function* (_thisArg, target, handler) {
+        if (!isStaticJsObject(target)) {
+          throw Completion.Throw("TypeError", "Proxy target is not an object");
+        }
+
+        if (!isStaticJsObject(handler)) {
+          throw Completion.Throw("TypeError", "Proxy handler is not an object");
+        }
+
+        const proxy = new StaticJsProxyImpl(target, handler, realm);
+
+        const revoker = new StaticJsNativeFunctionImpl(realm, "revoker", function* () {
+          proxy.revoke();
+          return realm.types.undefined;
+        });
+
+        const result = realm.types.object();
+        yield* createDataPropertyOrThrow(result, "proxy", proxy);
+        yield* createDataPropertyOrThrow(result, "revoke", revoker);
+        return result;
+      },
+    ),
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
 
   applyIntrinsicProperties(realm, ctor, declarations);
 
