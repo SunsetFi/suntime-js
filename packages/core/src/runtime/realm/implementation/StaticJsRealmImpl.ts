@@ -435,7 +435,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     evaluator: StaticJsEvaluator<TReturn>,
     { runTask = this._defaultRunTask }: StaticJsRunTaskOptions = {},
   ): Promise<TReturn> {
-    const macrotask = this._createMacrotask(evaluator, "host", true, runTask);
+    // oxlint-disable-next-line typescript/no-this-alias
+    const realm = this;
+    function* evaluate() {
+      const context = EvaluationContext.createRootContext(null, false, realm);
+      return yield* context.run(() => invokeEvaluator(evaluator));
+    }
+
+    const macrotask = this._createMacrotask(evaluate, "host", true, runTask);
     this._registerTask(macrotask);
 
     try {
