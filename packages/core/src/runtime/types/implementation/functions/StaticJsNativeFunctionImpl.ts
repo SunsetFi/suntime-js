@@ -1,5 +1,6 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { setFunctionName } from "../../../algorithms/set-function-name.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
@@ -67,7 +68,20 @@ export class StaticJsNativeFunctionImpl
     thisArg: StaticJsValue,
     args: StaticJsValue[] = [],
   ): EvaluationGenerator<StaticJsValue> {
-    return yield* this._call(thisArg, ...args);
+    const { realm, scriptOrModule } = EvaluationContext.current;
+    const context = EvaluationContext.createFunctionInvocationContext(
+      this,
+      scriptOrModule,
+      realm,
+      realm.globalEnv,
+      null,
+    );
+    EvaluationContext.push(context);
+    try {
+      return yield* this._call(thisArg, ...args);
+    } finally {
+      EvaluationContext.pop();
+    }
   }
 
   *constructEvaluator(
@@ -78,7 +92,23 @@ export class StaticJsNativeFunctionImpl
       throw Completion.Throw("TypeError", "This function is not a constructor.");
     }
 
-    const result = yield* this._construct(newTarget, ...args);
+    const { realm, scriptOrModule } = EvaluationContext.current;
+    const context = EvaluationContext.createFunctionInvocationContext(
+      this,
+      scriptOrModule,
+      realm,
+      realm.globalEnv,
+      null,
+    );
+    EvaluationContext.push(context);
+
+    let result: StaticJsValue;
+    try {
+      result = yield* this._construct(newTarget, ...args);
+    } finally {
+      EvaluationContext.pop();
+    }
+
     if (!isStaticJsObject(result)) {
       throw new StaticJsEngineError(
         `Native function ${this._name ?? "<anonymous>"} construct did not return an object-like.`,

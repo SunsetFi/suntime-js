@@ -1509,7 +1509,7 @@ it(
 
 it(
   "15.2.3.5-4-40.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Object/create/15.2.3.5-4-40.js"),
 );
 

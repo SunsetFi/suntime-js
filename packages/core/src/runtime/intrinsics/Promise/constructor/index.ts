@@ -4,6 +4,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { call } from "../../../algorithms/call.js";
 import { get } from "../../../algorithms/get.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
+import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
@@ -40,8 +41,8 @@ export default function createPromiseConstructor(
       throw Completion.Throw("TypeError", "Promise constructor cannot be called as a function");
     },
     {
-      *construct(thisArg, func) {
-        if (!isStaticJsObject(thisArg)) {
+      *construct(newTarget, func) {
+        if (!isStaticJsObject(newTarget)) {
           throw Completion.Throw("TypeError", "Promise constructor called on a non-object");
         }
 
@@ -49,14 +50,11 @@ export default function createPromiseConstructor(
           throw Completion.Throw("TypeError", "Promise resolver is not a function.");
         }
 
-        // Our implementation requires us to take over the object instance,
-        // but still obey the prototype in case someone subclasses us.
-        let proto = yield* get(thisArg, "prototype");
-        if (!isStaticJsObject(proto)) {
-          proto = realm.types.prototypes.promiseProto;
-        }
-
-        const promise = new StaticJsPromiseImpl(realm, proto);
+        const promise = yield* ordinaryCreateFromConstructor(
+          newTarget,
+          "promiseProto",
+          StaticJsPromiseImpl,
+        );
 
         const { resolve, reject } = createResolvingFunctions(promise, realm);
 

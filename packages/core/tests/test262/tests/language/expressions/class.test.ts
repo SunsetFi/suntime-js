@@ -26765,12 +26765,12 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-Error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-Error.js"),
   );
   it(
     "subclass-EvalError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-EvalError.js"),
   );
   it.skip("subclass-Float32Array.js", () => {
@@ -26815,12 +26815,12 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-RangeError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-RangeError.js"),
   );
   it(
     "subclass-ReferenceError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-ReferenceError.js"),
   );
   it(
@@ -26845,17 +26845,17 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-SyntaxError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-SyntaxError.js"),
   );
   it(
     "subclass-TypeError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-TypeError.js"),
   );
   it(
     "subclass-URIError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/expressions/class/subclass-builtins/subclass-URIError.js"),
   );
   it.skip("subclass-Uint16Array.js", () => {

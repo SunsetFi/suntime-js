@@ -52,7 +52,7 @@ it(
 describe("constructor", () => {
   it(
     "S15.11.4.1_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/constructor/S15.11.4.1_A1_T2.js"),
   );
   it(
@@ -65,7 +65,7 @@ describe("constructor", () => {
 describe("message", () => {
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/message/prop-desc.js"),
   );
 });
@@ -73,7 +73,7 @@ describe("message", () => {
 describe("name", () => {
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/name/prop-desc.js"),
   );
 });
@@ -122,12 +122,12 @@ describe("toString", () => {
   );
   it(
     "called-as-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/toString/called-as-function.js"),
   );
   it(
     "invalid-receiver.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/toString/invalid-receiver.js"),
   );
   it(
@@ -152,7 +152,7 @@ describe("toString", () => {
   );
   it(
     "undefined-props.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Error/prototype/toString/undefined-props.js"),
   );
 });

@@ -5,25 +5,20 @@ import { createAsyncFunctionConstructor } from "./AsyncFunction/index.js";
 import { createAsyncGeneratorFunctionConstructor } from "./AsyncGeneratorFunction/index.js";
 import { createBooleanConstructor } from "./Boolean/index.js";
 import { createErrorConstructor } from "./Error/index.js";
-import { createEvalErrorConstructor } from "./EvalError.js";
 import { addRestrictedFunctionProperties } from "./Function/add-restricted-function-properties.js";
 import { createFunctionConstructor } from "./Function/index.js";
 import { createGeneratorFunctionConstructor } from "./GeneratorFunction/index.js";
 import type { Constructors } from "./intrinsics.js";
 import { createIteratorConstructor } from "./Iterator/index.js";
 import { createMapConstructor } from "./Map/index.js";
+import { createNativeErrorConstructor } from "./NativeError/index.js";
 import { createNumberConstructor } from "./Number/index.js";
 import { createObjectConstructor } from "./Object/index.js";
 import { createPromiseConstructor } from "./Promise/index.js";
 import { createProxyConstructor } from "./Proxy/index.js";
-import { createRangeErrorConstructor } from "./RangeError.js";
-import { createReferenceErrorConstructor } from "./ReferenceError.js";
 import { createSetConstructor } from "./Set/index.js";
 import { createStringConstructor } from "./String/index.js";
 import { createSymbolConstructor } from "./Symbol/index.js";
-import { createSyntaxErrorConstructor } from "./SyntaxError.js";
-import { createTypeErrorConstructor } from "./TypeError.js";
-import { createURIErrorConstructor } from "./URIError.js";
 
 export function createConstructors(realm: StaticJsRealm): Constructors {
   const String = createStringConstructor(realm, realm.types.prototypes.stringProto);
@@ -38,17 +33,6 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
   const Set = createSetConstructor(realm, realm.types.prototypes.setProto);
   const Map = createMapConstructor(realm, realm.types.prototypes.mapProto);
   const Proxy = createProxyConstructor(realm);
-
-  const Error = createErrorConstructor(realm, realm.types.prototypes.errorProto);
-  const TypeError = createTypeErrorConstructor(realm, realm.types.prototypes.typeErrorProto);
-  const ReferenceError = createReferenceErrorConstructor(
-    realm,
-    realm.types.prototypes.referenceErrorProto,
-  );
-  const SyntaxError = createSyntaxErrorConstructor(realm, realm.types.prototypes.syntaxErrorProto);
-  const RangeError = createRangeErrorConstructor(realm, realm.types.prototypes.rangeErrorProto);
-  const EvalError = createEvalErrorConstructor(realm, realm.types.prototypes.evalErrorProto);
-  const URIError = createURIErrorConstructor(realm, realm.types.prototypes.uriErrorProto);
 
   const Function = createFunctionConstructor(realm, realm.types.prototypes.functionProto);
   const AsyncFunction = createAsyncFunctionConstructor(
@@ -65,6 +49,19 @@ export function createConstructors(realm: StaticJsRealm): Constructors {
     realm.types.prototypes.asyncGeneratorFunctionProto,
     Function,
   );
+
+  const Error = createErrorConstructor(realm, realm.types.prototypes.errorProto);
+
+  const EvalError = createNativeErrorConstructor(realm, "EvalError", "evalErrorProto");
+  const RangeError = createNativeErrorConstructor(realm, "RangeError", "rangeErrorProto");
+  const ReferenceError = createNativeErrorConstructor(
+    realm,
+    "ReferenceError",
+    "referenceErrorProto",
+  );
+  const SyntaxError = createNativeErrorConstructor(realm, "SyntaxError", "syntaxErrorProto");
+  const TypeError = createNativeErrorConstructor(realm, "TypeError", "typeErrorProto");
+  const URIError = createNativeErrorConstructor(realm, "URIError", "uriErrorProto");
 
   addRestrictedFunctionProperties(realm.types.prototypes.functionProto, realm);
 

@@ -27614,7 +27614,7 @@ describe("subclass", () => {
     describe("Error", () => {
       it(
         "message-property-assignment.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/Error/message-property-assignment.js",
         ),
@@ -27720,7 +27720,7 @@ describe("subclass", () => {
     describe("NativeError", () => {
       it(
         "EvalError-message.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/NativeError/EvalError-message.js",
         ),
@@ -27741,7 +27741,7 @@ describe("subclass", () => {
       );
       it(
         "RangeError-message.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/NativeError/RangeError-message.js",
         ),
@@ -27762,7 +27762,7 @@ describe("subclass", () => {
       );
       it(
         "ReferenceError-message.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/NativeError/ReferenceError-message.js",
         ),
@@ -27783,7 +27783,7 @@ describe("subclass", () => {
       );
       it(
         "SyntaxError-message.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/NativeError/SyntaxError-message.js",
         ),
@@ -27804,7 +27804,7 @@ describe("subclass", () => {
       );
       it(
         "TypeError-message.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/NativeError/TypeError-message.js",
         ),
@@ -27825,7 +27825,7 @@ describe("subclass", () => {
       );
       it(
         "URIError-message.js",
-        { tags: ["known-failing"] },
+        { tags: ["known-passing"] },
         createTestHandler(
           "language/statements/class/subclass/builtin-objects/NativeError/URIError-message.js",
         ),
@@ -28302,12 +28302,12 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-Error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-Error.js"),
   );
   it(
     "subclass-EvalError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-EvalError.js"),
   );
   it.skip("subclass-Float32Array.js", () => {
@@ -28352,12 +28352,12 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-RangeError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-RangeError.js"),
   );
   it(
     "subclass-ReferenceError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-ReferenceError.js"),
   );
   it(
@@ -28382,17 +28382,17 @@ describe("subclass-builtins", () => {
   );
   it(
     "subclass-SyntaxError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-SyntaxError.js"),
   );
   it(
     "subclass-TypeError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-TypeError.js"),
   );
   it(
     "subclass-URIError.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/subclass-builtins/subclass-URIError.js"),
   );
   it.skip("subclass-Uint16Array.js", () => {

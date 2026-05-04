@@ -1033,7 +1033,7 @@ describe("toString", () => {
   );
   it(
     "Object.prototype.toString.call-error.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Object/prototype/toString/Object.prototype.toString.call-error.js",
     ),

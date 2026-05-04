@@ -9,6 +9,7 @@ import { StaticJsStringExoticObject } from "../../../types/implementation/primit
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsBoolean } from "../../../types/StaticJsBoolean.js";
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { isStaticJsError } from "../../../types/StaticJsError.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
@@ -37,8 +38,10 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
     } else if (isStaticJsCallable(O)) {
       // Defined as object having [[Call]]
       builtinTag = "Function";
+    } else if (isStaticJsError(O)) {
+      // Defined as object having [[ErrorData]]
+      builtinTag = "Error";
     }
-    // TODO: Error
     // HACK: Boolean.prototype is supposed to be a 'false' value while still being an object.
     // This means when Object.prototype.toString gets called from a Boolean.prototype, we should
     // detect it as a boolean.

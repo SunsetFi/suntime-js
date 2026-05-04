@@ -3,6 +3,7 @@ import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import typedKeys from "../../../utils/typed-keys.js";
 import { WeakValueMap } from "../../../utils/WeakValueMap.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
+import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
 import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
@@ -35,6 +36,7 @@ import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.j
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
+import { StaticJsErrorImpl } from "./objects/StaticJsErrorImpl.js";
 import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
 import { StaticJsPlainObjectImpl } from "./objects/StaticJsPlainObjectImpl.js";
 import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";
@@ -256,23 +258,13 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         break;
     }
 
-    const error = this.object(
-      {
-        name: {
-          enumerable: false,
-          writable: true,
-          configurable: true,
-          value: this.string(name),
-        },
-        message: {
-          enumerable: false,
-          writable: true,
-          configurable: true,
-          value: this.string(message),
-        },
-      },
-      proto,
+    const error = new StaticJsErrorImpl(this._realm, proto);
+
+    // Safe: Invokes defineOwnProperty on our error object, which cannot be sandboxed code.
+    this._realm.invokeEvaluatorSync(
+      createNonEnumerableDataPropertyOrThrow(error, "message", this.string(message!)),
     );
+
     return error;
   }
 

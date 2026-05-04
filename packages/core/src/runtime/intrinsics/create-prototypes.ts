@@ -10,7 +10,6 @@ import { populateAsyncGeneratorFunctionPrototype } from "./AsyncGeneratorFunctio
 import { populateAsyncIteratorPrototype } from "./AsyncIterator/index.js";
 import { populateBooleanPrototype } from "./Boolean/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
-import { populateEvalErrorPrototype } from "./EvalError.js";
 import { populateFunctionPrototype } from "./Function/index.js";
 import { populateGeneratorPrototype } from "./Generator/index.js";
 import { populateGeneratorFunctionPrototype } from "./GeneratorFunction/index.js";
@@ -19,19 +18,15 @@ import { populateIteratorPrototype } from "./Iterator/index.js";
 import { populateIteratorHelperPrototype } from "./IteratorHelper/index.js";
 import { populateMapPrototype } from "./Map/index.js";
 import { populateMapIteratorPrototype } from "./MapIterator/index.js";
+import { populateNativeErrorPrototype } from "./NativeError/index.js";
 import { populateNumberPrototype } from "./Number/index.js";
 import { populateObjectPrototype } from "./Object/index.js";
 import { populatePromisePrototype } from "./Promise/index.js";
-import { populateRangeErrorPrototype } from "./RangeError.js";
-import { populateReferenceErrorPrototype } from "./ReferenceError.js";
 import { populateSetPrototype } from "./Set/index.js";
 import { populateSetIteratorPrototype } from "./SetIterator/index.js";
 import { populateStringPrototype } from "./String/index.js";
 import { populateStringIteratorPrototype } from "./StringIterator/index.js";
 import { populateSymbolPrototype } from "./Symbol/index.js";
-import { populateSyntaxErrorPrototype } from "./SyntaxError.js";
-import { populateTypeErrorPrototype } from "./TypeError.js";
-import { populateURIErrorPrototype } from "./URIError.js";
 
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const objectProto = new StaticJsPlainObjectImpl(realm, null);
@@ -65,11 +60,12 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const asyncGeneratorFunctionProto = new StaticJsPlainObjectImpl(realm, functionProto);
 
   const errorProto = new StaticJsPlainObjectImpl(realm, objectProto);
-  const typeErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+
+  const evalErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const rangeErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
   const referenceErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
   const syntaxErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
-  const rangeErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
-  const evalErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
+  const typeErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
   const uriErrorProto = new StaticJsPlainObjectImpl(realm, errorProto);
 
   return {
@@ -142,10 +138,11 @@ export function instantiatePrototypes(realm: StaticJsRealm) {
   populateMapPrototype(realm, prototypes.mapProto);
 
   populateErrorPrototype(realm, prototypes.errorProto);
-  populateTypeErrorPrototype(realm, prototypes.typeErrorProto);
-  populateReferenceErrorPrototype(realm, prototypes.referenceErrorProto);
-  populateSyntaxErrorPrototype(realm, prototypes.syntaxErrorProto);
-  populateRangeErrorPrototype(realm, prototypes.rangeErrorProto);
-  populateEvalErrorPrototype(realm, prototypes.evalErrorProto);
-  populateURIErrorPrototype(realm, prototypes.uriErrorProto);
+
+  populateNativeErrorPrototype(realm, "EvalError", prototypes.evalErrorProto);
+  populateNativeErrorPrototype(realm, "RangeError", prototypes.rangeErrorProto);
+  populateNativeErrorPrototype(realm, "ReferenceError", prototypes.referenceErrorProto);
+  populateNativeErrorPrototype(realm, "SyntaxError", prototypes.syntaxErrorProto);
+  populateNativeErrorPrototype(realm, "TypeError", prototypes.typeErrorProto);
+  populateNativeErrorPrototype(realm, "URIError", prototypes.uriErrorProto);
 }

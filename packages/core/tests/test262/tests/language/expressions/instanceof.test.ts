@@ -81,7 +81,7 @@ it(
 
 it(
   "S11.8.6_A5_T2.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/instanceof/S11.8.6_A5_T2.js"),
 );
 
