@@ -1021,7 +1021,7 @@ describe("toString", () => {
   );
   it(
     "Object.prototype.toString.call-boolean.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Object/prototype/toString/Object.prototype.toString.call-boolean.js",
     ),
@@ -1052,7 +1052,7 @@ describe("toString", () => {
   );
   it(
     "Object.prototype.toString.call-number.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Object/prototype/toString/Object.prototype.toString.call-number.js",
     ),
@@ -1073,7 +1073,7 @@ describe("toString", () => {
   );
   it(
     "Object.prototype.toString.call-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Object/prototype/toString/Object.prototype.toString.call-string.js",
     ),

@@ -9,7 +9,7 @@ it(
 
 it(
   "name.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/AsyncIteratorPrototype/Symbol.asyncIterator/name.js"),
 );
 

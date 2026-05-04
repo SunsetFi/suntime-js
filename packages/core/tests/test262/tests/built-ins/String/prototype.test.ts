@@ -51,7 +51,7 @@ describe("Symbol.iterator", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/Symbol.iterator/name.js"),
   );
   it(
@@ -633,7 +633,7 @@ describe("constructor", () => {
   );
   it(
     "S15.5.4.1_A1_T2.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/constructor/S15.5.4.1_A1_T2.js"),
   );
 });

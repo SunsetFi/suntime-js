@@ -3,6 +3,9 @@ import { X } from "../../../../evaluator/completions/X.js";
 import { get } from "../../../algorithms/get.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
+import { StaticJsBooleanBoxed } from "../../../types/implementation/primitives/StaticJsBooleanBoxed.js";
+import { StaticJsNumberBoxed } from "../../../types/implementation/primitives/StaticJsNumberBoxed.js";
+import { StaticJsStringExoticObject } from "../../../types/implementation/primitives/StaticJsStringExoticObject.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
 import { isStaticJsBoolean } from "../../../types/StaticJsBoolean.js";
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
@@ -36,11 +39,19 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       builtinTag = "Function";
     }
     // TODO: Error
-    else if (isStaticJsBoolean(O)) {
+    // HACK: Boolean.prototype is supposed to be a 'false' value while still being an object.
+    // This means when Object.prototype.toString gets called from a Boolean.prototype, we should
+    // detect it as a boolean.
+    else if (thisArg === realm.types.prototypes.booleanProto) {
       builtinTag = "Boolean";
-    } else if (isStaticJsNumber(O)) {
+    } else if (isStaticJsBoolean(O) || O instanceof StaticJsBooleanBoxed) {
+      // Spec defines as having [[BooleanData]]
+      builtinTag = "Boolean";
+    } else if (isStaticJsNumber(O) || O instanceof StaticJsNumberBoxed) {
+      // Spec defines as having [[NumberData]]
       builtinTag = "Number";
-    } else if (isStaticJsString(O)) {
+    } else if (isStaticJsString(O) || O instanceof StaticJsStringExoticObject) {
+      // Spec defines as having [[StringData]]
       builtinTag = "String";
     }
     // TODO: Date

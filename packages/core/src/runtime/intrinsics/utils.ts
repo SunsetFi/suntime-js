@@ -74,7 +74,9 @@ export function applyIntrinsicProperties(
       if (typeof key === "string") {
         name = key;
       } else if (isStaticJsSymbol(key)) {
-        name = `Symbol(${key.description})`;
+        // Just guessing based on the builtin tests
+        // This seems to be what AsyncIteratorPrototype[Symbol.asyncIterator] expects.
+        name = `[${key.description}]`;
       }
 
       const func = (thisArg: StaticJsValue, ...args: (StaticJsValue | undefined)[]) =>

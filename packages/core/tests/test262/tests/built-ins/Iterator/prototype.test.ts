@@ -35,7 +35,7 @@ describe("Symbol.iterator", () => {
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Iterator/prototype/Symbol.iterator/name.js"),
   );
   it(
