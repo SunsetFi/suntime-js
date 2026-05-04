@@ -7,13 +7,22 @@ import { babelParserOptions } from "./babel-parser-options.js";
 import { handleParseError } from "./parse-error.js";
 
 const ArgumentParseErrorMessage = "Arg string terminates parameters early";
-export function parseParameters(paramStr: string): FunctionParameter[] {
+export interface ParseParametersOptions {
+  strict?: boolean;
+}
+export function parseParameters(
+  paramStr: string,
+  { strict = false }: ParseParametersOptions = {},
+): FunctionParameter[] {
   // Using a parser this way is risky as it opens us up to some sort of injection.
   // I think the checks below should be sufficient, but... this is gross...
 
   let paramParsed: ParseResult<File>;
   try {
-    paramParsed = parse(`function foo(${paramStr}) {}`, babelParserOptions);
+    paramParsed = parse(`function foo(${paramStr}) {}`, {
+      ...babelParserOptions,
+      strictMode: strict,
+    });
   } catch (e) {
     handleParseError(e, ArgumentParseErrorMessage);
   }

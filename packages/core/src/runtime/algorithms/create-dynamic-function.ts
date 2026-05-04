@@ -69,16 +69,9 @@ export function* createDynamicFunction(
 
   const bodyParseString = `\n${bodyString}\n`;
 
-  let parameters: FunctionParameter[];
-  try {
-    parameters = parseParameters(parameterString);
-  } catch (e) {
-    if (e instanceof StaticJsSyntaxError) {
-      throw Completion.Throw("SyntaxError", e.message);
-    }
-
-    throw e;
-  }
+  // Weird speccy stuff:
+  // Spec says params come first, but test262 says params need to be validated based on the body strictness.
+  // Maybe this is because the spec tests syntax errors after parsing.
 
   let body: Program;
   try {
@@ -87,6 +80,19 @@ export function* createDynamicFunction(
       generator,
       module: scriptOrModule?.type === "module",
     });
+  } catch (e) {
+    if (e instanceof StaticJsSyntaxError) {
+      throw Completion.Throw("SyntaxError", e.message);
+    }
+
+    throw e;
+  }
+
+  const localStrict = body.directives.some((d) => d.value.value === "use strict");
+
+  let parameters: FunctionParameter[];
+  try {
+    parameters = parseParameters(parameterString, { strict: localStrict });
   } catch (e) {
     if (e instanceof StaticJsSyntaxError) {
       throw Completion.Throw("SyntaxError", e.message);
