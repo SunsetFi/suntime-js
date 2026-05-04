@@ -5,7 +5,7 @@ import { IntrinsicPropertyDeclaration } from "../../utils.js";
 export const errorCtorIsErrorDeclaration: IntrinsicPropertyDeclaration = {
   key: "isError",
   length: 1,
-  *func(realm, _thisFunc, arg) {
+  *func(realm, _thisArg, arg) {
     if (!isStaticJsObject(arg)) {
       return realm.types.false;
     }

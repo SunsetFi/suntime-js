@@ -2,6 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
+import { StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
@@ -19,7 +20,7 @@ export interface FunctionIntrinsicPropertyDeclaration extends IntrinsicPropertyD
     thisArg: StaticJsValue,
     ...args: (StaticJsValue | undefined)[]
   ) => EvaluationGenerator<StaticJsValue>;
-  length?: number;
+  length?: number | ((realm: StaticJsRealm) => StaticJsPropertyDescriptorRecord);
 }
 function isFunctionIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
@@ -82,10 +83,35 @@ export function applyIntrinsicProperties(
       const func = (thisArg: StaticJsValue, ...args: (StaticJsValue | undefined)[]) =>
         prop.func(realm, thisArg, ...args);
 
+      const nativeFunc = new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func);
+      let lengthDecl: StaticJsPropertyDescriptorRecord;
+      if (prop.length == null) {
+        lengthDecl = {
+          // In practice, this is useless as recently we are using arg defaults for undefined.
+          // We should instead set length manually.
+          // TODO: We could flip this, consume prop.func.length, and stub in non-specified with undefined.
+          value: realm.types.number(prop.func.length - 2),
+          writable: false,
+          enumerable: false,
+          configurable: true,
+        };
+      } else if (typeof prop.length === "number") {
+        lengthDecl = {
+          value: realm.types.number(prop.length),
+          writable: false,
+          enumerable: false,
+          configurable: true,
+        };
+      } else if (typeof prop.length === "function") {
+        lengthDecl = prop.length(realm);
+      } else {
+        throw new Error("Invalid length declaration for intrinsic function property");
+      }
+
+      nativeFunc.defineOwnPropertySync("length", lengthDecl);
+
       obj.defineOwnPropertySync(key, {
-        value: new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func, {
-          length: prop.length ?? prop.func.length - 2,
-        }),
+        value: nativeFunc,
         enumerable: prop.enumerable ?? false,
         configurable: prop.configurable ?? true,
         writable: prop.writable ?? true,
