@@ -26,7 +26,7 @@ export default function* createUnmappedArgumentsObject(
     yield* createDataPropertyOrThrow(obj, String(index), val);
   }
 
-  const arrayValues = yield* get(realm.types.prototypes.arrayProto, "values");
+  const arrayValues = yield* get(realm.intrinsics["Array.prototype"], "values");
 
   yield* definePropertyOrThrow(obj, realm.types.symbols.iterator, {
     value: arrayValues,

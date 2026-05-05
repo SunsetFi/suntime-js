@@ -75,7 +75,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
     const generator = yield* createIteratorFromClosure(
       closure(),
       "Iterator Helper",
-      realm.types.prototypes.iteratorHelperProto,
+      realm.intrinsics["IteratorHelperPrototype"],
       realm,
     );
 

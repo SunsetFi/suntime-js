@@ -27,8 +27,8 @@ export function instantiateArrowFunctionExpression(
     privateEnv,
     construct: false,
     prototype: node.async
-      ? realm.types.prototypes.asyncFunctionProto
-      : realm.types.prototypes.functionProto,
+      ? realm.intrinsics["AsyncFunction.prototype"]
+      : realm.intrinsics["Function.prototype"],
   });
 
   // TODO Generator!

@@ -56,7 +56,6 @@ export default defineConfig({
           },
     reporters: [
       "default",
-      "html",
       createBaseline &&
         new JsonReporter({ outputFile: "tests/test-results-language-baseline.json" }),
       createBaseline &&

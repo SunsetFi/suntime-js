@@ -31,17 +31,17 @@ export function* createDynamicFunction(
   let async = false;
   let generator = false;
   if (kind === "normal") {
-    fallbackProto = "functionProto";
+    fallbackProto = "Function.prototype";
   } else if (kind === "generator") {
     generator = true;
-    fallbackProto = "generatorFunctionProto";
+    fallbackProto = "GeneratorFunction.prototype";
   } else if (kind === "async") {
     async = true;
-    fallbackProto = "asyncFunctionProto";
+    fallbackProto = "AsyncFunction.prototype";
   } else {
     async = true;
     generator = true;
-    fallbackProto = "asyncGeneratorFunctionProto";
+    fallbackProto = "AsyncGeneratorFunction.prototype";
   }
 
   let argCount = parameterArgs.length;
@@ -121,7 +121,7 @@ export function* createDynamicFunction(
   if (kind === "generator") {
     const prototype = currentRealm.types.object(
       undefined,
-      currentRealm.types.prototypes.generatorProto,
+      currentRealm.intrinsics["GeneratorPrototype"],
     );
     yield* definePropertyOrThrow(func, "prototype", {
       value: prototype,
@@ -132,7 +132,7 @@ export function* createDynamicFunction(
   } else if (kind === "async-generator") {
     const prototype = currentRealm.types.object(
       undefined,
-      currentRealm.types.prototypes.asyncGeneratorProto,
+      currentRealm.intrinsics["AsyncGeneratorPrototype"],
     );
     yield* definePropertyOrThrow(func, "prototype", {
       value: prototype,

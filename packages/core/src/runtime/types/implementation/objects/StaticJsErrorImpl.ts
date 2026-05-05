@@ -6,7 +6,10 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsErrorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsError {
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject = realm.types.prototypes.errorProto) {
+  constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObject = realm.intrinsics["Error.prototype"],
+  ) {
     super(realm, prototype);
   }
 

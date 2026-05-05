@@ -24,7 +24,7 @@ export abstract class StaticJsAbstractFunction
     length: number,
     prototype: StaticJsObject | StaticJsNull | null,
   ) {
-    super(realm, prototype ?? realm.types.prototypes.functionProto);
+    super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
 
     this.defineOwnPropertySync("length", {
       value: realm.types.number(length),

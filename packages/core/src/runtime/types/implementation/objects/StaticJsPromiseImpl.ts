@@ -33,7 +33,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
   private _clearUncaughtError: (() => void) | null = null;
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
-    super(realm, prototype ?? realm.types.prototypes.promiseProto);
+    super(realm, prototype ?? realm.intrinsics["Promise.prototype"]);
   }
 
   get runtimeTypeOf() {

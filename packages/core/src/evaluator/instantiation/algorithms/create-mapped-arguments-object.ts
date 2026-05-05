@@ -61,7 +61,7 @@ export default function* createMappedArgumentsObject(
     }
   }
 
-  const arrayValuesProto = yield* get(realm.types.prototypes.arrayProto, "values");
+  const arrayValuesProto = yield* get(realm.intrinsics["Array.prototype"], "values");
 
   yield* definePropertyOrThrow(obj, realm.types.symbols.iterator, {
     value: arrayValuesProto,

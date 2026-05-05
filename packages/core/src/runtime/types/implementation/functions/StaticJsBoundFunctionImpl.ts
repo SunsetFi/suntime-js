@@ -22,7 +22,7 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
     private readonly _boundArgs: StaticJsValue[],
     prototype?: StaticJsObject | StaticJsNull | null,
   ) {
-    super(realm, prototype ?? realm.types.prototypes.functionProto);
+    super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
   }
 
   override get typeOf(): "function" {

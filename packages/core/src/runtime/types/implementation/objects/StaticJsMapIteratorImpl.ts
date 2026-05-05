@@ -13,7 +13,7 @@ export class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
     private readonly _kind: "key" | "value" | "key+value",
     realm: StaticJsRealm,
   ) {
-    super(realm, realm.types.prototypes.mapIteratorProto);
+    super(realm, realm.intrinsics["MapIteratorPrototype"]);
   }
 
   *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {

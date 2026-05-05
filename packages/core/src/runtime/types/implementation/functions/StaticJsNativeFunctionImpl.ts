@@ -45,7 +45,7 @@ export class StaticJsNativeFunctionImpl
     { construct, length, prototype }: StaticJsNativeFunctionOptions = {},
   ) {
     const resolvedLength = length ?? _call.length;
-    super(realm, resolvedLength, prototype ?? realm.types.prototypes.functionProto);
+    super(realm, resolvedLength, prototype ?? realm.intrinsics["Function.prototype"]);
 
     // FIXME: Shim for old code.  Remove.
     if (_name) {

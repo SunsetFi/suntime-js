@@ -208,14 +208,14 @@ function* methodDefinitionGeneratorEvaluation(
     object,
     env,
     privateEnv,
-    realm.types.prototypes.generatorFunctionProto,
+    realm.intrinsics["GeneratorFunction.prototype"],
   );
 
   // MakeMethod - implicit in StaticJsMethodFunction
 
   yield* setFunctionName(closure, propKey);
 
-  const prototype = realm.types.object(undefined, realm.types.prototypes.generatorProto);
+  const prototype = realm.types.object(undefined, realm.intrinsics["GeneratorPrototype"]);
   yield* definePropertyOrThrow(closure, "prototype", {
     value: prototype,
     writable: true,
@@ -240,14 +240,14 @@ function* asyncGeneratorMethodDefinitionEvaluation(
     object,
     env,
     privateEnv,
-    realm.types.prototypes.asyncGeneratorFunctionProto,
+    realm.intrinsics["AsyncGeneratorFunction.prototype"],
   );
 
   // MakeMethod - implicit in StaticJsMethodFunction
 
   yield* setFunctionName(closure, propKey);
 
-  const prototype = realm.types.object(undefined, realm.types.prototypes.asyncGeneratorProto);
+  const prototype = realm.types.object(undefined, realm.intrinsics["AsyncGeneratorPrototype"]);
   yield* definePropertyOrThrow(closure, "prototype", {
     value: prototype,
     writable: true,
@@ -272,7 +272,7 @@ function* asyncMethodDefinitionEvaluation(
     object,
     env,
     privateEnv,
-    realm.types.prototypes.asyncFunctionProto,
+    realm.intrinsics["AsyncFunction.prototype"],
   );
 
   // MakeMethod - implicit in StaticJsMethodFunction

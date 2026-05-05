@@ -21,7 +21,7 @@ import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements StaticJsArray {
-  constructor(realm: StaticJsRealm, length = 0, prototype = realm.types.prototypes.arrayProto) {
+  constructor(realm: StaticJsRealm, length = 0, prototype = realm.intrinsics["Array.prototype"]) {
     super(realm, prototype);
     realm.invokeEvaluatorSync(
       // Needs to explicitly be OrdinaryDefineOwnProperty, not our own

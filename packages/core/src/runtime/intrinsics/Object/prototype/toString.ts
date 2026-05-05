@@ -45,7 +45,7 @@ const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
     // HACK: Boolean.prototype is supposed to be a 'false' value while still being an object.
     // This means when Object.prototype.toString gets called from a Boolean.prototype, we should
     // detect it as a boolean.
-    else if (thisArg === realm.types.prototypes.booleanProto) {
+    else if (thisArg === realm.intrinsics["Boolean.prototype"]) {
       builtinTag = "Boolean";
     } else if (isStaticJsBoolean(O) || O instanceof StaticJsBooleanBoxed) {
       // Spec defines as having [[BooleanData]]

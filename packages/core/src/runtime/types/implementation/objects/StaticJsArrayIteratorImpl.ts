@@ -16,7 +16,7 @@ export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
     private readonly _arrayLikeIterationKind: "key" | "value" | "key+value",
     realm: StaticJsRealm,
   ) {
-    super(realm, realm.types.prototypes.arrayIteratorProto);
+    super(realm, realm.intrinsics["ArrayIteratorPrototype"]);
   }
 
   *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {

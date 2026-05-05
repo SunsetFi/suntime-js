@@ -18,7 +18,7 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {
-    super(realm, realm.types.prototypes.mapProto);
+    super(realm, realm.intrinsics["Map.prototype"]);
   }
 
   get runtimeTypeOf(): "map" {

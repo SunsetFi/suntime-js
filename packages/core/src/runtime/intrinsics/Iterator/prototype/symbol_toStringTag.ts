@@ -13,7 +13,7 @@ const iteratorProtoSymbolToStringTagDeclaration: IntrinsicPropertyDeclaration = 
     yield* Q(
       setterThatIgnoresPrototypeProperties(
         thisArg,
-        realm.types.prototypes.iteratorProto,
+        realm.intrinsics["Iterator.prototype"],
         realm.types.symbols.toStringTag,
         value,
       ),

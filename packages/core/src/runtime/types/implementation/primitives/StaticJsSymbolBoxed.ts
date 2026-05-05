@@ -7,7 +7,7 @@ export class StaticJsSymbolBoxed extends StaticJsPlainObjectImpl {
     realm: StaticJsRealm,
     private readonly _value: StaticJsSymbol,
   ) {
-    super(realm, realm.types.prototypes.symbolProto);
+    super(realm, realm.intrinsics["Symbol.prototype"]);
   }
 
   get value() {

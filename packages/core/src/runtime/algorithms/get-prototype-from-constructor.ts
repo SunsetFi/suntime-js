@@ -14,7 +14,7 @@ export function* getPrototypeFromConstructor(
   const proto = yield* Q(get(constructor, "prototype"));
   if (!isStaticJsObject(proto)) {
     const realm = yield* getFunctionRealm(constructor);
-    return realm.types.prototypes[intrinsicDefaultProto];
+    return realm.intrinsics[intrinsicDefaultProto];
   }
   return proto;
 }

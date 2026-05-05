@@ -26,7 +26,7 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
   const propKey = yield* Q(classElementNameNodeEvaluator(method));
   const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
   if (!functionPrototype) {
-    functionPrototype = realm.types.prototypes.functionProto;
+    functionPrototype = realm.intrinsics["Function.prototype"];
   }
 
   let closure: StaticJsFunction;

@@ -12,7 +12,7 @@ export abstract class StaticJsIteratorImpl
 {
   constructor(
     realm: StaticJsRealm,
-    prototype: StaticJsObject = realm.types.prototypes.iteratorProto,
+    prototype: StaticJsObject = realm.intrinsics["Iterator.prototype"],
   ) {
     super(realm, prototype);
   }

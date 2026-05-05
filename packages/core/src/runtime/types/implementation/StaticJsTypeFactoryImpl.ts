@@ -4,7 +4,7 @@ import typedKeys from "../../../utils/typed-keys.js";
 import { WeakValueMap } from "../../../utils/WeakValueMap.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
-import type { IntrinsicSymbols, Prototypes } from "../../intrinsics/intrinsics.js";
+import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
@@ -48,7 +48,6 @@ import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
 import { StaticJsProxyImpl } from "./StaticJsProxyImpl.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
-  private readonly _prototypes: Prototypes;
   private readonly _symbols: IntrinsicSymbols;
 
   // The registry for our local Symbol.for()
@@ -85,99 +84,6 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     this._undefined = new StaticJsUndefinedImpl(_realm);
 
     const intrinsics = _realm.intrinsics;
-
-    this._prototypes = Object.freeze({
-      get stringProto() {
-        return intrinsics["String.prototype"];
-      },
-      get numberProto() {
-        return intrinsics["Number.prototype"];
-      },
-      get booleanProto() {
-        return intrinsics["Boolean.prototype"];
-      },
-      get objectProto() {
-        return intrinsics["Object.prototype"];
-      },
-      get arrayProto() {
-        return intrinsics["Array.prototype"];
-      },
-      get functionProto() {
-        return intrinsics["Function.prototype"];
-      },
-      get symbolProto() {
-        return intrinsics["Symbol.prototype"];
-      },
-      get promiseProto() {
-        return intrinsics["Promise.prototype"];
-      },
-      get setProto() {
-        return intrinsics["Set.prototype"];
-      },
-      get mapProto() {
-        return intrinsics["Map.prototype"];
-      },
-      get iteratorProto() {
-        return intrinsics["Iterator.prototype"];
-      },
-      get iteratorHelperProto() {
-        return intrinsics["IteratorHelperPrototype"];
-      },
-      get arrayIteratorProto() {
-        return intrinsics["ArrayIteratorPrototype"];
-      },
-      get stringIteratorProto() {
-        return intrinsics["StringIteratorPrototype"];
-      },
-      get asyncIteratorProto() {
-        return intrinsics["AsyncIteratorPrototype"];
-      },
-      get setIteratorProto() {
-        return intrinsics["SetIteratorPrototype"];
-      },
-      get mapIteratorProto() {
-        return intrinsics["MapIteratorPrototype"];
-      },
-      get asyncFromSyncIteratorProto() {
-        return intrinsics["AsyncFromSyncIteratorPrototype"];
-      },
-      get asyncFunctionProto() {
-        return intrinsics["AsyncFunction.prototype"];
-      },
-      get generatorProto() {
-        return intrinsics["GeneratorPrototype"];
-      },
-      get generatorFunctionProto() {
-        return intrinsics["GeneratorFunction.prototype"];
-      },
-      get asyncGeneratorProto() {
-        return intrinsics["AsyncGeneratorPrototype"];
-      },
-      get asyncGeneratorFunctionProto() {
-        return intrinsics["AsyncGeneratorFunction.prototype"];
-      },
-      get errorProto() {
-        return intrinsics["Error.prototype"];
-      },
-      get typeErrorProto() {
-        return intrinsics["TypeError.prototype"];
-      },
-      get referenceErrorProto() {
-        return intrinsics["ReferenceError.prototype"];
-      },
-      get syntaxErrorProto() {
-        return intrinsics["SyntaxError.prototype"];
-      },
-      get rangeErrorProto() {
-        return intrinsics["RangeError.prototype"];
-      },
-      get evalErrorProto() {
-        return intrinsics["EvalError.prototype"];
-      },
-      get uriErrorProto() {
-        return intrinsics["URIError.prototype"];
-      },
-    } satisfies Prototypes);
 
     this._symbols = Object.freeze({
       get asyncDispose() {
@@ -231,10 +137,6 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     } satisfies IntrinsicSymbols);
   }
 
-  get prototypes(): Prototypes {
-    return this._prototypes;
-  }
-
   get symbols(): IntrinsicSymbols {
     return this._symbols;
   }
@@ -278,7 +180,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     prototype?: StaticJsObject | StaticJsNull | null,
   ): StaticJsPlainObject {
     if (prototype === undefined) {
-      prototype = this._prototypes.objectProto;
+      prototype = this._realm.intrinsics["Object.prototype"];
     }
     const obj = new StaticJsPlainObjectImpl(
       this._realm,
@@ -342,7 +244,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       {
         construct: opts.isConstructor ?? false,
         length: opts.length ?? func.length,
-        prototype: opts.prototype ?? this._prototypes.functionProto,
+        prototype: opts.prototype ?? this._realm.intrinsics["Function.prototype"],
       },
     );
   }
@@ -361,22 +263,22 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     switch (name) {
       case "Error":
       default:
-        proto = this._prototypes.errorProto;
+        proto = this._realm.intrinsics["Error.prototype"];
         break;
       case "TypeError":
-        proto = this._prototypes.typeErrorProto;
+        proto = this._realm.intrinsics["TypeError.prototype"];
         break;
       case "ReferenceError":
-        proto = this._prototypes.referenceErrorProto;
+        proto = this._realm.intrinsics["ReferenceError.prototype"];
         break;
       case "SyntaxError":
-        proto = this._prototypes.syntaxErrorProto;
+        proto = this._realm.intrinsics["SyntaxError.prototype"];
         break;
       case "RangeError":
-        proto = this._prototypes.rangeErrorProto;
+        proto = this._realm.intrinsics["RangeError.prototype"];
         break;
       case "EvalError":
-        proto = this._prototypes.evalErrorProto;
+        proto = this._realm.intrinsics["EvalError.prototype"];
         break;
     }
 

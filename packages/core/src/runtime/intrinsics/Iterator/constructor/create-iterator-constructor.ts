@@ -20,7 +20,7 @@ export function* createIteratorConstructor(realm: StaticJsRealm, iteratorProto: 
           throw Completion.Throw("TypeError", "Iterator constructor requires a subclass");
         }
 
-        return realm.types.object({}, realm.types.prototypes.iteratorProto);
+        return realm.types.object({}, realm.intrinsics["Iterator.prototype"]);
       },
     },
   );

@@ -34,7 +34,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     private readonly _obj: object,
     private readonly _opts: StaticJsExternalObjectOpts = {},
   ) {
-    super(realm, _opts.prototype ?? realm.types.prototypes.objectProto);
+    super(realm, _opts.prototype ?? realm.intrinsics["Object.prototype"]);
   }
 
   get runtimeTypeOf() {

@@ -25,7 +25,7 @@ export function* populateAsyncGeneratorPrototype(
   yield* applyIntrinsicProperties(realm, asyncGeneratorProto, declarations);
 
   yield* asyncGeneratorProto.defineOwnPropertyEvaluator("constructor", {
-    value: realm.types.prototypes.asyncGeneratorFunctionProto,
+    value: realm.intrinsics["AsyncGeneratorFunction.prototype"],
     writable: false,
     enumerable: false,
     configurable: true,

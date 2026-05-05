@@ -22,7 +22,7 @@ export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
     realm: StaticJsRealm,
     private readonly _syncIteratorRecord: StaticJsIteratorRecord,
   ) {
-    super(realm, realm.types.prototypes.asyncFromSyncIteratorProto);
+    super(realm, realm.intrinsics["AsyncFromSyncIteratorPrototype"]);
   }
 
   get runtimeTypeOf() {

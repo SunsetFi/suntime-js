@@ -105,7 +105,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     super(
       realm,
       getArgumentsLength(params),
-      prototype !== undefined ? prototype : realm.types.prototypes.functionProto,
+      prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"],
     );
 
     this._argumentDeclarations = params;
@@ -236,7 +236,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     let thisArg: StaticJsObject | undefined;
     if (kind === "base") {
-      thisArg = yield* ordinaryCreateFromConstructor(newTarget, "objectProto");
+      thisArg = yield* ordinaryCreateFromConstructor(newTarget, "Object.prototype");
     }
 
     const calleeContext = yield* this._prepareForOrdinaryCall(newTarget);
@@ -435,7 +435,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       throw Completion.Return(realm.types.undefined);
     }
 
-    const proto = yield* getPrototypeFromConstructor(this, "asyncGeneratorProto");
+    const proto = yield* getPrototypeFromConstructor(this, "AsyncGeneratorPrototype");
     const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm, proto);
 
     return Completion.Return(generator);
@@ -452,7 +452,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     const evaluator = Q(EvaluateNodeCommand(node.body));
 
-    const proto = yield* getPrototypeFromConstructor(this, "generatorProto");
+    const proto = yield* getPrototypeFromConstructor(this, "GeneratorPrototype");
     const generator = new StaticJsGeneratorImpl(evaluator, null, realm, proto);
 
     return Completion.Return(generator);

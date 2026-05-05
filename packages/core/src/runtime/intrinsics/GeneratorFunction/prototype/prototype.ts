@@ -2,7 +2,7 @@ import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-propert
 
 const generatorProtoPrototypeDeclaration: IntrinsicPropertyDeclaration = {
   key: "prototype",
-  value: (realm) => realm.types.prototypes.generatorProto,
+  value: (realm) => realm.intrinsics["GeneratorPrototype"],
 };
 
 export default generatorProtoPrototypeDeclaration;

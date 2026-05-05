@@ -24,7 +24,7 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     descriptionOrSymbol: string | symbol | undefined,
     prototype?: StaticJsObject | undefined,
   ) {
-    super(realm, prototype ?? realm.types.prototypes.symbolProto);
+    super(realm, prototype ?? realm.intrinsics["Symbol.prototype"]);
     if (typeof descriptionOrSymbol === "string") {
       this._description = descriptionOrSymbol;
       this._nativeSymbol = Symbol(descriptionOrSymbol);

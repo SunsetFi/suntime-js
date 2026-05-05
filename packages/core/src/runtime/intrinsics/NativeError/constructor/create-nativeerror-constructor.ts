@@ -24,7 +24,7 @@ export function* createNativeErrorConstructor(
   name: string,
   protoKey: keyof Prototypes,
 ) {
-  const proto = realm.types.prototypes[protoKey];
+  const proto = realm.intrinsics[protoKey];
   function* constructError(
     newTarget: StaticJsCallable | null,
     message: StaticJsValue,

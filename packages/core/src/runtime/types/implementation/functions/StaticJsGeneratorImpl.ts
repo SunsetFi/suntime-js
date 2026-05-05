@@ -25,7 +25,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     realm: StaticJsRealm,
     prototype?: StaticJsObject,
   ) {
-    super(realm, prototype ?? realm.types.prototypes.generatorProto);
+    super(realm, prototype ?? realm.intrinsics["GeneratorPrototype"]);
     this._pausedContext = EvaluationContext.current;
   }
 

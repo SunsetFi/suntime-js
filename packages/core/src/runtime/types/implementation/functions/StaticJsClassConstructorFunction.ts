@@ -45,7 +45,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
     homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
     privateEnv: StaticJsPrivateEnvironmentRecord,
-    prototype = realm.types.prototypes.functionProto,
+    prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
   ) {
     // Hacky, to let us implement default constructors
     let resolvedNode: Function | Expression;
@@ -86,7 +86,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
 
     let thisArg: StaticJsObject | undefined;
     if (kind === "base") {
-      thisArg = yield* ordinaryCreateFromConstructor(newTarget, "objectProto");
+      thisArg = yield* ordinaryCreateFromConstructor(newTarget, "Object.prototype");
     }
 
     const calleeContext = yield* this._prepareForOrdinaryCall(newTarget);

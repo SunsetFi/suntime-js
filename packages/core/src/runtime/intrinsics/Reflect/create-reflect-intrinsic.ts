@@ -38,7 +38,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createReflectIntrinsic(realm: StaticJsRealm): EvaluationGenerator<StaticJsObject> {
-  const Reflect = new StaticJsPlainObjectImpl(realm, realm.types.prototypes.objectProto);
+  const Reflect = new StaticJsPlainObjectImpl(realm, realm.intrinsics["Object.prototype"]);
 
   yield* applyIntrinsicProperties(realm, Reflect, declarations);
 

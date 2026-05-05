@@ -52,7 +52,7 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
 
         const promise = yield* ordinaryCreateFromConstructor(
           newTarget,
-          "promiseProto",
+          "Promise.prototype",
           StaticJsPromiseImpl,
         );
 

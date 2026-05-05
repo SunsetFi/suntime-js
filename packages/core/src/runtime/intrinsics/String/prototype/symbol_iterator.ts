@@ -41,7 +41,7 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
     return yield* createIteratorFromClosure(
       stringIterationGenerator(),
       "%StringIteratorPrototype%",
-      realm.types.prototypes.stringIteratorProto,
+      realm.intrinsics["StringIteratorPrototype"],
       realm,
     );
   },

@@ -30,7 +30,11 @@ export function* createErrorConstructor(realm: StaticJsRealm, errorProto: Static
       newTarget = EvaluationContext.current.function!;
     }
 
-    const obj = yield* ordinaryCreateFromConstructor(newTarget, "errorProto", StaticJsErrorImpl);
+    const obj = yield* ordinaryCreateFromConstructor(
+      newTarget,
+      "Error.prototype",
+      StaticJsErrorImpl,
+    );
     if (!isStaticJsUndefined(message)) {
       const msg = yield* toString(message);
       yield* createNonEnumerableDataPropertyOrThrow(obj, "message", msg);

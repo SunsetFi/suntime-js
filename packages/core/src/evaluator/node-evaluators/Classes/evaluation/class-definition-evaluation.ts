@@ -76,8 +76,8 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
   let protoParent: StaticJsObject | StaticJsNull;
   let constructorParent: StaticJsObject;
   if (!node.superClass) {
-    protoParent = realm.types.prototypes.objectProto;
-    constructorParent = realm.types.prototypes.functionProto;
+    protoParent = realm.intrinsics["Object.prototype"];
+    constructorParent = realm.intrinsics["Function.prototype"];
   } else {
     context.lexicalEnv = classEnv;
     const superclassRef = yield* EvaluateNodeCommand(node.superClass);
@@ -85,7 +85,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     const superclass = yield* Q.val(superclassRef);
     if (isStaticJsNull(superclass)) {
       protoParent = realm.types.null;
-      constructorParent = realm.types.prototypes.functionProto;
+      constructorParent = realm.intrinsics["Function.prototype"];
     } else if (!isConstructor(superclass)) {
       throw Completion.Throw("TypeError", "Superclass must be null or a constructor");
     } else {
@@ -153,7 +153,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
             // The spec says newTarget is an object like, but we always set it to a callable,
             // and the spec says OrdinaryCreateFromConstructor must receive a function???
             // Reflect.construct gates it to be a function constructor, so...
-            result = yield* Q(ordinaryCreateFromConstructor(newTarget, "objectProto"));
+            result = yield* Q(ordinaryCreateFromConstructor(newTarget, "Object.prototype"));
           }
           yield* Q(initializeInstanceElements(result, F));
           return result;

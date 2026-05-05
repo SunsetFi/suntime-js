@@ -63,7 +63,7 @@ function instantiateGeneratorFunctionObject(
     env,
     privateEnv,
     construct: false,
-    prototype: realm.types.prototypes.generatorFunctionProto,
+    prototype: realm.intrinsics["GeneratorFunction.prototype"],
   });
 
   switch (node.type) {
@@ -73,7 +73,7 @@ function instantiateGeneratorFunctionObject(
   }
 
   func.defineOwnPropertySync("prototype", {
-    value: realm.types.object({}, realm.types.prototypes.generatorProto),
+    value: realm.types.object({}, realm.intrinsics["GeneratorPrototype"]),
     writable: true,
     enumerable: false,
     configurable: false,
@@ -94,7 +94,7 @@ function instantiateAsyncGeneratorFunctionObject(
     env,
     privateEnv,
     construct: false,
-    prototype: realm.types.prototypes.asyncGeneratorFunctionProto,
+    prototype: realm.intrinsics["AsyncGeneratorFunction.prototype"],
   });
 
   switch (node.type) {
@@ -104,7 +104,7 @@ function instantiateAsyncGeneratorFunctionObject(
   }
 
   func.defineOwnPropertySync("prototype", {
-    value: realm.types.object({}, realm.types.prototypes.asyncGeneratorProto),
+    value: realm.types.object({}, realm.intrinsics["AsyncGeneratorPrototype"]),
     writable: true,
     enumerable: false,
     configurable: false,
@@ -126,7 +126,7 @@ function instantiateAsyncFunctionObject(
     env,
     privateEnv,
     construct: false,
-    prototype: realm.types.prototypes.asyncFunctionProto,
+    prototype: realm.intrinsics["AsyncFunction.prototype"],
   });
 
   switch (node.type) {

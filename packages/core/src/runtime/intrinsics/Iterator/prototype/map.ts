@@ -71,7 +71,7 @@ const iteratorProtoMapDeclaration: IntrinsicPropertyDeclaration = {
       createIteratorFromClosure(
         closure(),
         "Iterator Helper",
-        realm.types.prototypes.iteratorHelperProto,
+        realm.intrinsics["IteratorHelperPrototype"],
         realm,
       ),
     );

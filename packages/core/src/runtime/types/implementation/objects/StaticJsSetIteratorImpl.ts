@@ -13,7 +13,7 @@ export class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
     private readonly _kind: "key" | "key+value",
     realm: StaticJsRealm,
   ) {
-    super(realm, realm.types.prototypes.setIteratorProto);
+    super(realm, realm.intrinsics["SetIteratorPrototype"]);
   }
 
   *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {

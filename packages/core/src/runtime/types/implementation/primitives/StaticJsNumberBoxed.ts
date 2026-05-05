@@ -6,7 +6,7 @@ export class StaticJsNumberBoxed extends StaticJsPlainObjectImpl {
     realm: StaticJsRealm,
     private readonly _value: number,
   ) {
-    super(realm, realm.types.prototypes.numberProto);
+    super(realm, realm.intrinsics["Number.prototype"]);
   }
 
   get value() {

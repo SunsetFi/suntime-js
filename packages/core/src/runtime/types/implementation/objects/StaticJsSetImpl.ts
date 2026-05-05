@@ -26,7 +26,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   private _backingStore = new Set<unknown>();
 
   constructor(realm: StaticJsRealm) {
-    super(realm, realm.types.prototypes.setProto);
+    super(realm, realm.intrinsics["Set.prototype"]);
   }
 
   get runtimeTypeOf(): "set" {

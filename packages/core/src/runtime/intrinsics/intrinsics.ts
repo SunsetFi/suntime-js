@@ -3,71 +3,6 @@ import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 
-// Hack: We really don't fit the createInstrinics spec at all...
-// These need to be separate as we drop them into realm.types so that the rest of the creation process can reference them correctly.
-export interface Prototypes {
-  stringProto: StaticJsObject;
-  numberProto: StaticJsObject;
-  booleanProto: StaticJsObject;
-  objectProto: StaticJsObject;
-  arrayProto: StaticJsObject;
-  functionProto: StaticJsObject;
-  symbolProto: StaticJsObject;
-  promiseProto: StaticJsObject;
-  setProto: StaticJsObject;
-  mapProto: StaticJsObject;
-
-  iteratorProto: StaticJsObject;
-  iteratorHelperProto: StaticJsObject;
-  arrayIteratorProto: StaticJsObject;
-  stringIteratorProto: StaticJsObject;
-  asyncIteratorProto: StaticJsObject;
-  setIteratorProto: StaticJsObject;
-  mapIteratorProto: StaticJsObject;
-  asyncFromSyncIteratorProto: StaticJsObject;
-
-  asyncFunctionProto: StaticJsObject;
-
-  generatorProto: StaticJsObject;
-  generatorFunctionProto: StaticJsObject;
-
-  asyncGeneratorProto: StaticJsObject;
-  asyncGeneratorFunctionProto: StaticJsObject;
-
-  errorProto: StaticJsObject;
-  typeErrorProto: StaticJsObject;
-  referenceErrorProto: StaticJsObject;
-  syntaxErrorProto: StaticJsObject;
-  rangeErrorProto: StaticJsObject;
-  evalErrorProto: StaticJsObject;
-  uriErrorProto: StaticJsObject;
-}
-
-export interface Constructors {
-  String: StaticJsFunction;
-  Number: StaticJsFunction;
-  Boolean: StaticJsFunction;
-  Object: StaticJsFunction;
-  Symbol: StaticJsFunction;
-  Array: StaticJsFunction;
-  Iterator: StaticJsFunction;
-  Promise: StaticJsFunction;
-  Proxy: StaticJsFunction;
-  Set: StaticJsFunction;
-  Map: StaticJsFunction;
-  Error: StaticJsFunction;
-  TypeError: StaticJsFunction;
-  ReferenceError: StaticJsFunction;
-  SyntaxError: StaticJsFunction;
-  RangeError: StaticJsFunction;
-  EvalError: StaticJsFunction;
-  URIError: StaticJsFunction;
-  Function: StaticJsFunction;
-  AsyncFunction: StaticJsFunction;
-  GeneratorFunction: StaticJsFunction;
-  AsyncGeneratorFunction: StaticJsFunction;
-}
-
 export interface IntrinsicSymbols {
   asyncDispose: StaticJsSymbol;
   asyncIterator: StaticJsSymbol;
@@ -85,15 +20,6 @@ export interface IntrinsicSymbols {
   toPrimitive: StaticJsSymbol;
   toStringTag: StaticJsSymbol;
   unscopables: StaticJsSymbol;
-}
-
-export interface NativeErrors {
-  EvalError: StaticJsFunction;
-  RangeError: StaticJsFunction;
-  ReferenceError: StaticJsFunction;
-  SyntaxError: StaticJsFunction;
-  TypeError: StaticJsFunction;
-  URIError: StaticJsFunction;
 }
 
 export interface IntrinsicsRecord {
@@ -275,5 +201,44 @@ export interface IntrinsicsRecord {
 
   // WrapForValidIteratorPrototype
 }
+
+export type NativeErrors = Pick<
+  Intrinsics,
+  "EvalError" | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError" | "URIError"
+>;
+
+export type Prototypes = Pick<
+  Intrinsics,
+  | "Array.prototype"
+  | "ArrayIteratorPrototype"
+  | "AsyncFromSyncIteratorPrototype"
+  | "AsyncFunction.prototype"
+  | "AsyncGeneratorFunction.prototype"
+  | "AsyncGeneratorPrototype"
+  | "AsyncIteratorPrototype"
+  | "Boolean.prototype"
+  | "Error.prototype"
+  | "EvalError.prototype"
+  | "ForInIteratorPrototype"
+  | "Function.prototype"
+  | "GeneratorFunction.prototype"
+  | "GeneratorPrototype"
+  | "Iterator.prototype"
+  | "IteratorHelperPrototype"
+  | "Map.prototype"
+  | "Number.prototype"
+  | "Object.prototype"
+  | "Promise.prototype"
+  | "RangeError.prototype"
+  | "ReferenceError.prototype"
+  | "Set.prototype"
+  | "SetIteratorPrototype"
+  | "String.prototype"
+  | "StringIteratorPrototype"
+  | "Symbol.prototype"
+  | "SyntaxError.prototype"
+  | "TypeError.prototype"
+  | "URIError.prototype"
+>;
 
 export type Intrinsics = Readonly<IntrinsicsRecord>;

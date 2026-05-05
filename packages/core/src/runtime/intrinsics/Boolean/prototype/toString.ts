@@ -7,7 +7,7 @@ export const booleanProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
   *func(realm, thisArg) {
     // Hack: "Booleean.prototype is itself a Boolean object with value false"
-    if (thisArg === realm.types.prototypes.booleanProto) {
+    if (thisArg === realm.intrinsics["Boolean.prototype"]) {
       return realm.types.string("false");
     }
 

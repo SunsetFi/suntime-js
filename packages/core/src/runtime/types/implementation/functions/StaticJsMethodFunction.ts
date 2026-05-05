@@ -17,7 +17,7 @@ export class StaticJsMethodFunction extends StaticJsAstFunction {
     homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
     privateEnv: StaticJsPrivateEnvironmentRecord | null,
-    prototype: StaticJsObject = realm.types.prototypes.functionProto,
+    prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
   ) {
     const { strict, scriptOrModule } = EvaluationContext.current;
 

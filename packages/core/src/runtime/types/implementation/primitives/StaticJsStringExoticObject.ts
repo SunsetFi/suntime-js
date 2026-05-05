@@ -19,7 +19,7 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
   constructor(
     realm: StaticJsRealm,
     private readonly _value: string,
-    prototype: StaticJsObject = realm.types.prototypes.stringProto,
+    prototype: StaticJsObject = realm.intrinsics["String.prototype"],
   ) {
     super(realm, prototype);
 
