@@ -4,7 +4,7 @@ import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
+export const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
   key: "call",
   length: 1,
   *func(realm, thisFunc, thisArg = realm.types.undefined, ...args) {
@@ -22,5 +22,3 @@ const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
     return result;
   },
 };
-
-export default functionProtoCallDeclaration;

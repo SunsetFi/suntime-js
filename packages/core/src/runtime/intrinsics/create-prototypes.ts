@@ -11,6 +11,7 @@ import { populateAsyncIteratorPrototype } from "./AsyncIterator/index.js";
 import { populateBooleanPrototype } from "./Boolean/index.js";
 import { populateErrorPrototype } from "./Error/index.js";
 import { populateFunctionPrototype } from "./Function/index.js";
+import { StaticJsFunctionPrototypeImpl } from "./Function/prototype/StaticJsFunctionPrototypeImpl.js";
 import { populateGeneratorPrototype } from "./Generator/index.js";
 import { populateGeneratorFunctionPrototype } from "./GeneratorFunction/index.js";
 import type { Prototypes } from "./intrinsics.js";
@@ -31,7 +32,6 @@ import { populateSymbolPrototype } from "./Symbol/index.js";
 export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const objectProto = new StaticJsPlainObjectImpl(realm, null);
   const symbolProto = new StaticJsPlainObjectImpl(realm, objectProto);
-  const functionProto = new StaticJsPlainObjectImpl(realm, objectProto);
 
   const stringProto = new StaticJsPlainObjectImpl(realm, objectProto);
   const numberProto = new StaticJsPlainObjectImpl(realm, objectProto);
@@ -50,6 +50,10 @@ export function createPrototypes(realm: StaticJsRealm): Prototypes {
   const setIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
   const mapIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
   const asyncFromSyncIteratorProto = new StaticJsPlainObjectImpl(realm, asyncIteratorProto);
+
+  // Function protos are themselves functions
+  // However, the spec doesnt say what it does or what it's name is.
+  const functionProto = new StaticJsFunctionPrototypeImpl(realm, objectProto);
 
   const asyncFunctionProto = new StaticJsPlainObjectImpl(realm, functionProto);
 

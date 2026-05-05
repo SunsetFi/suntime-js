@@ -5,7 +5,7 @@ import { StaticJsBoundFunction } from "../../../types/implementation/functions/S
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
+export const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   key: "bind",
   length: 1,
   *func(realm, self, thisArg, ...args) {
@@ -24,5 +24,3 @@ const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
     return yield* StaticJsBoundFunction.create(realm, self, thisArg, cleanedArgs);
   },
 };
-
-export default functionProtoBindDeclaration;

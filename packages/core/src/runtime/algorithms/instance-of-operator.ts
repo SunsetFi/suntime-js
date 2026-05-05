@@ -1,36 +1,34 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { call } from "./call.js";
-import { get } from "./get.js";
+import { getMethod } from "./get-method.js";
 import { isCallable } from "./is-callable.js";
 import { ordinaryHasInstance } from "./ordinary-has-instance.js";
 import { toBoolean } from "./to-boolean.js";
 
 export function* instanceOfOperator(
-  V: StaticJsValue,
+  value: StaticJsValue,
   target: StaticJsValue,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<boolean> {
+  const { realm } = EvaluationContext.current;
+
   if (!isStaticJsObject(target)) {
     throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not an object");
   }
 
-  const instOfHandler = yield* get(target, realm.types.symbols.hasInstance);
-  if (isCallable(instOfHandler)) {
-    const result = yield* call(instOfHandler, target, [V]);
+  const instOfHandler = yield* getMethod(target, realm.types.symbols.hasInstance);
+  if (instOfHandler) {
+    const result = yield* call(instOfHandler, target, [value]);
     return yield* toBoolean.js(result);
-  } else if (!isStaticJsUndefined(instOfHandler)) {
-    throw Completion.Throw("TypeError", "Symbol.hasInstance is not a function");
   }
 
   if (!isCallable(target)) {
     throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not callable");
   }
 
-  return yield* ordinaryHasInstance(target, V, realm);
+  return yield* ordinaryHasInstance(target, value);
 }

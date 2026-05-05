@@ -1,53 +1,49 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
+import { Q } from "../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsBoundFunction } from "../types/StaticJsFunction.js";
-import { isStaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { call } from "./call.js";
 import { get } from "./get.js";
 import { instanceOfOperator } from "./instance-of-operator.js";
 import { isCallable } from "./is-callable.js";
-import { toBoolean } from "./to-boolean.js";
+import { sameValue } from "./same-value.js";
 
 export function* ordinaryHasInstance(
-  C: StaticJsValue,
-  O: StaticJsValue,
-  realm: StaticJsRealm,
+  constructor: StaticJsValue,
+  instance: StaticJsValue,
 ): EvaluationGenerator<boolean> {
-  if (!isCallable(C)) {
+  if (!isCallable(constructor)) {
     return false;
   }
 
-  if (isStaticJsBoundFunction(C)) {
-    const BC = C.boundTargetFunction;
-    return yield* instanceOfOperator(O, BC, realm);
+  if (isStaticJsBoundFunction(constructor)) {
+    const boundConstructor = constructor.boundTargetFunction;
+    return yield* instanceOfOperator(instance, boundConstructor);
   }
 
-  const hasInstanceFunc = yield* get(C, realm.types.symbols.hasInstance);
-  if (isCallable(hasInstanceFunc)) {
-    const result = yield* call(hasInstanceFunc, C, [O]);
-    return yield* toBoolean.js(result);
-  }
-
-  if (!isStaticJsObject(O)) {
+  if (!isStaticJsObject(instance)) {
     return false;
   }
 
-  const P = yield* get(C, "prototype");
-  if (!isStaticJsObject(P)) {
+  const proto = yield* get(constructor, "prototype");
+  if (!isStaticJsObject(proto)) {
     throw Completion.Throw("TypeError", "Function has non-object prototype");
   }
 
-  let current = yield* O.getPrototypeOfEvaluator();
-
-  while (current !== null) {
-    if (current === P) {
+  // Weird typing issue.
+  // The type guard above isn't working.
+  let curInstance: StaticJsObject = instance;
+  while (true) {
+    const nextInstance = yield* Q(curInstance.getPrototypeOfEvaluator());
+    if (nextInstance == null) {
+      return false;
+    }
+    if (sameValue(proto, nextInstance)) {
       return true;
     }
-    current = yield* current.getPrototypeOfEvaluator();
-  }
 
-  return false;
+    curInstance = nextInstance;
+  }
 }

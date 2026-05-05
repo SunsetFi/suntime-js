@@ -7,7 +7,7 @@ import { toObject } from "../../../algorithms/to-object.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
-const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
+export const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",
   length: 1,
   *func(realm, thisFunc, thisArg = realm.types.undefined, argsArray) {
@@ -29,5 +29,3 @@ const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
     return result;
   },
 };
-
-export default functionProtoApplyDeclaration;

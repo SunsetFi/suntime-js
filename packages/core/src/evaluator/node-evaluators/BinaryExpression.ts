@@ -179,7 +179,7 @@ function* instanceOfExpression(node: BinaryExpression) {
   const left = yield* Q.val(EvaluateNodeCommand(node.left));
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
-  const result = yield* instanceOfOperator(left, right, realm);
+  const result = yield* instanceOfOperator(left, right);
 
   return realm.types.boolean(result);
 }
