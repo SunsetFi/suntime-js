@@ -28,4 +28,4 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Run E2E Tests
-        run: pnpm run --filter @suntime-js/core test
+        run: pnpm run --filter @suntime-js/core test:e2e

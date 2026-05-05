@@ -31,7 +31,7 @@
     "check:lib": "tsgo -p tsconfig.lib.json --noEmit",
     "check:tests": "tsgo -p tsconfig.tests.json --noEmit",
     "gen:tests": "tsx ./tests/test262/generator/gen.ts",
-    "test": "vitest run --project=e2e",
+    "test": "vitest run --project=Test262:Language --project=Test262:Built-ins --tags-filter known-passing",
     "test:spec": "vitest run --project=spec",
     "test:e2e": "vitest run --project=e2e",
     "test:language": "vitest run --project=Test262:Language",
