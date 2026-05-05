@@ -42,7 +42,7 @@ export function* asyncFromSyncIteratorContinuation(
 
   let valueWrapper: StaticJsPromise;
   try {
-    valueWrapper = yield* promiseResolve(realm.types.constructors.Promise, value, realm);
+    valueWrapper = yield* promiseResolve(realm.intrinsics.Promise, value, realm);
   } catch (e) {
     if (Completion.Throw.is(e)) {
       let completion = e;

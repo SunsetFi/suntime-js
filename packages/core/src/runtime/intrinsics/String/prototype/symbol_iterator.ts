@@ -8,7 +8,7 @@ import { createIteratorFromClosure } from "../../../iterators/create-iterator-fr
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.iterator,

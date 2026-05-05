@@ -6,7 +6,7 @@ import { toInteger } from "../../../algorithms/to-integer.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { setArray } from "../../../utils/set-array.js";
 import { toArray } from "../../../utils/to-array.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "splice",

@@ -3,7 +3,7 @@ import { Q } from "../../../evaluator/completions/Q.js";
 import { toPropertyDescriptor } from "../../algorithms/to-property-descriptor.js";
 import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
-import { IntrinsicPropertyDeclaration } from "../utils.js";
+import { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 export const reflectDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperty",

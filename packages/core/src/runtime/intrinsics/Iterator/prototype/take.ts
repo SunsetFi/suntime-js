@@ -10,7 +10,7 @@ import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
   key: "take",

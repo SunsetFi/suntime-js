@@ -2,7 +2,7 @@ import { Q } from "../../evaluator/completions/Q.js";
 import { toInt32 } from "../algorithms/to-int-32.js";
 import { toString } from "../algorithms/to-string.js";
 
-import type { IntrinsicPropertyDeclaration } from "./utils.js";
+import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
 
 const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
   key: "parseInt",

@@ -1,4 +1,4 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const promiseConstructorSymbolSpeciesDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.species,

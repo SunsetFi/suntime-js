@@ -6,7 +6,7 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsArray, MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "flatMap",

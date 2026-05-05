@@ -2,7 +2,7 @@ import { get } from "../../../algorithms/get.js";
 import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { toInteger } from "../../../algorithms/to-integer.js";
 import { toObject } from "../../../algorithms/to-object.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoAtDeclaration: IntrinsicPropertyDeclaration = {
   key: "at",

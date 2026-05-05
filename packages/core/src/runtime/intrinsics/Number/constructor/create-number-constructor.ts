@@ -1,0 +1,82 @@
+import { toNumeric } from "../../../algorithms/to-numeric.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsNumberBoxed } from "../../../types/implementation/primitives/StaticJsNumberBoxed.js";
+import { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "../../apply-intrinsic-properties.js";
+
+import numberCtorEpsilonDeclaration from "./EPSILON.js";
+import numberCtorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
+import numberCtorMaxValueDeclaration from "./MAX_VALUE.js";
+import numberCtorMinSafeIntegerDeclaration from "./MIN_SAFE_INTEGER.js";
+import numberCtorMinValueDeclaration from "./MIN_VALUE.js";
+import numberCtorNanDeclaration from "./NaN.js";
+import numberCtorNegativeInfinityDeclaration from "./NEGATIVE_INFINITY.js";
+import numberCtorPositiveInfinityDeclaration from "./POSITIVE_INFINITY.js";
+
+const declarations: IntrinsicPropertyDeclaration[] = [
+  numberCtorEpsilonDeclaration,
+  numberCtorMaxSafeIntegerDeclaration,
+  numberCtorMaxValueDeclaration,
+  numberCtorMinSafeIntegerDeclaration,
+  numberCtorMinValueDeclaration,
+  numberCtorNanDeclaration,
+  numberCtorNegativeInfinityDeclaration,
+  numberCtorPositiveInfinityDeclaration,
+];
+
+export function* createNumberConstructor(realm: StaticJsRealm, numberProto: StaticJsObject) {
+  // FIXME: This is the casting function, but if it's invoked with 'new', we should
+  // return the boxed version.
+  const ctor = new StaticJsNativeFunctionImpl(
+    realm,
+    "Number",
+    function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
+      let n: number;
+      if (value) {
+        const prim = yield* toNumeric(value, realm);
+        // BigInt stuff goes here
+        n = prim.value;
+      } else {
+        n = 0;
+      }
+
+      return realm.types.number(n);
+    },
+    {
+      *construct(_thisArg, value) {
+        let n: number;
+        if (value) {
+          const prim = yield* toNumeric(value, realm);
+          // BigInt stuff goes here
+          n = prim.value;
+        } else {
+          n = 0;
+        }
+
+        return new StaticJsNumberBoxed(realm, n);
+      },
+    },
+  );
+
+  yield* ctor.defineOwnPropertyEvaluator("prototype", {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: numberProto,
+  });
+  yield* numberProto.defineOwnPropertyEvaluator("constructor", {
+    value: ctor,
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
+  yield* applyIntrinsicProperties(realm, ctor, declarations);
+
+  return ctor;
+}

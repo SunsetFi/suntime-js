@@ -3,7 +3,7 @@ import { Q } from "../../../evaluator/completions/Q.js";
 import { call } from "../../algorithms/call.js";
 import { createListFromArrayLike } from "../../algorithms/create-list-from-array-like.js";
 import { isCallable } from "../../algorithms/is-callable.js";
-import { IntrinsicPropertyDeclaration } from "../utils.js";
+import { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 export const reflectApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",

@@ -1,5 +1,5 @@
 import { StaticJsSetImpl } from "../../../types/implementation/objects/StaticJsSetImpl.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const setProtoHasDeclaration: IntrinsicPropertyDeclaration = {
   key: "has",

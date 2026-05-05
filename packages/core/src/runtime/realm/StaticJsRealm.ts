@@ -1,6 +1,7 @@
 import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
 import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import type { RealmHooks } from "../hooks/index.js";
+import { Intrinsics } from "../intrinsics/intrinsics.js";
 import type { StaticJsModule } from "../modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
@@ -33,6 +34,11 @@ export interface StaticJsRealm {
    * The type factory for the realm.
    */
   readonly types: StaticJsTypeFactory;
+
+  /**
+   * The intrinsics of the realm.
+   */
+  readonly intrinsics: Intrinsics;
 
   /**
    * The global-scope global object of the realm.

@@ -1,6 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { StaticJsAsyncFromSyncIterator } from "../../../types/implementation/objects/StaticJsAsyncFromSyncIterator.js";
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const asyncFromSyncIteratorProtoThrowDeclaration: IntrinsicPropertyDeclaration = {
   key: "throw",

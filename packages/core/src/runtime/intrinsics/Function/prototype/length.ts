@@ -1,4 +1,4 @@
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoLengthDeclaration: IntrinsicPropertyDeclaration = {
   key: "length",

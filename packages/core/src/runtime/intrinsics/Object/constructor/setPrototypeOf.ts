@@ -3,7 +3,7 @@ import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "setPrototypeOf",

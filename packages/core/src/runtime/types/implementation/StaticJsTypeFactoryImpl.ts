@@ -4,7 +4,7 @@ import typedKeys from "../../../utils/typed-keys.js";
 import { WeakValueMap } from "../../../utils/WeakValueMap.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
-import type { IntrinsicSymbols, Constructors, Prototypes } from "../../intrinsics/intrinsics.js";
+import type { IntrinsicSymbols, Prototypes } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
@@ -50,7 +50,6 @@ import { StaticJsProxyImpl } from "./StaticJsProxyImpl.js";
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _prototypes: Prototypes;
   private readonly _symbols: IntrinsicSymbols;
-  private _constructors: Constructors | undefined;
 
   // The registry for our local Symbol.for()
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
@@ -74,11 +73,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _null: StaticJsNull;
   private readonly _undefined: StaticJsUndefined;
 
-  constructor(
-    private readonly _realm: StaticJsRealm,
-    prototypes: Prototypes,
-    symbols: IntrinsicSymbols,
-  ) {
+  constructor(private readonly _realm: StaticJsRealm) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
     this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
@@ -89,28 +84,155 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     this._null = new StaticJsNullImpl(_realm);
     this._undefined = new StaticJsUndefinedImpl(_realm);
 
-    this._prototypes = { ...prototypes };
-    Object.freeze(this._prototypes);
+    const intrinsics = _realm.intrinsics;
 
-    this._symbols = { ...symbols };
-    Object.freeze(this._symbols);
-  }
+    this._prototypes = Object.freeze({
+      get stringProto() {
+        return intrinsics["String.prototype"];
+      },
+      get numberProto() {
+        return intrinsics["Number.prototype"];
+      },
+      get booleanProto() {
+        return intrinsics["Boolean.prototype"];
+      },
+      get objectProto() {
+        return intrinsics["Object.prototype"];
+      },
+      get arrayProto() {
+        return intrinsics["Array.prototype"];
+      },
+      get functionProto() {
+        return intrinsics["Function.prototype"];
+      },
+      get symbolProto() {
+        return intrinsics["Symbol.prototype"];
+      },
+      get promiseProto() {
+        return intrinsics["Promise.prototype"];
+      },
+      get setProto() {
+        return intrinsics["Set.prototype"];
+      },
+      get mapProto() {
+        return intrinsics["Map.prototype"];
+      },
+      get iteratorProto() {
+        return intrinsics["Iterator.prototype"];
+      },
+      get iteratorHelperProto() {
+        return intrinsics["IteratorHelperPrototype"];
+      },
+      get arrayIteratorProto() {
+        return intrinsics["ArrayIteratorPrototype"];
+      },
+      get stringIteratorProto() {
+        return intrinsics["StringIteratorPrototype"];
+      },
+      get asyncIteratorProto() {
+        return intrinsics["AsyncIteratorPrototype"];
+      },
+      get setIteratorProto() {
+        return intrinsics["SetIteratorPrototype"];
+      },
+      get mapIteratorProto() {
+        return intrinsics["MapIteratorPrototype"];
+      },
+      get asyncFromSyncIteratorProto() {
+        return intrinsics["AsyncFromSyncIteratorPrototype"];
+      },
+      get asyncFunctionProto() {
+        return intrinsics["AsyncFunction.prototype"];
+      },
+      get generatorProto() {
+        return intrinsics["GeneratorPrototype"];
+      },
+      get generatorFunctionProto() {
+        return intrinsics["GeneratorFunction.prototype"];
+      },
+      get asyncGeneratorProto() {
+        return intrinsics["AsyncGeneratorPrototype"];
+      },
+      get asyncGeneratorFunctionProto() {
+        return intrinsics["AsyncGeneratorFunction.prototype"];
+      },
+      get errorProto() {
+        return intrinsics["Error.prototype"];
+      },
+      get typeErrorProto() {
+        return intrinsics["TypeError.prototype"];
+      },
+      get referenceErrorProto() {
+        return intrinsics["ReferenceError.prototype"];
+      },
+      get syntaxErrorProto() {
+        return intrinsics["SyntaxError.prototype"];
+      },
+      get rangeErrorProto() {
+        return intrinsics["RangeError.prototype"];
+      },
+      get evalErrorProto() {
+        return intrinsics["EvalError.prototype"];
+      },
+      get uriErrorProto() {
+        return intrinsics["URIError.prototype"];
+      },
+    } satisfies Prototypes);
 
-  _initializeConstructors(constructors: Constructors) {
-    this._constructors = { ...constructors };
-    Object.freeze(this._constructors);
+    this._symbols = Object.freeze({
+      get asyncDispose() {
+        return intrinsics["Symbol.asyncDispose"];
+      },
+      get asyncIterator() {
+        return intrinsics["Symbol.asyncIterator"];
+      },
+      get dispose() {
+        return intrinsics["Symbol.dispose"];
+      },
+      get hasInstance() {
+        return intrinsics["Symbol.hasInstance"];
+      },
+      get isConcatSpreadable() {
+        return intrinsics["Symbol.isConcatSpreadable"];
+      },
+      get iterator() {
+        return intrinsics["Symbol.iterator"];
+      },
+      get match() {
+        return intrinsics["Symbol.match"];
+      },
+      get matchAll() {
+        return intrinsics["Symbol.matchAll"];
+      },
+      // get observable() {
+      //   return _intrinsics["Symbol.observable"];
+      // },
+      get replace() {
+        return intrinsics["Symbol.replace"];
+      },
+      get search() {
+        return intrinsics["Symbol.search"];
+      },
+      get species() {
+        return intrinsics["Symbol.species"];
+      },
+      get split() {
+        return intrinsics["Symbol.split"];
+      },
+      get toPrimitive() {
+        return intrinsics["Symbol.toPrimitive"];
+      },
+      get toStringTag() {
+        return intrinsics["Symbol.toStringTag"];
+      },
+      get unscopables() {
+        return intrinsics["Symbol.unscopables"];
+      },
+    } satisfies IntrinsicSymbols);
   }
 
   get prototypes(): Prototypes {
     return this._prototypes;
-  }
-
-  get constructors(): Constructors {
-    if (!this._constructors) {
-      throw new Error("Constructors have not yet been initialized");
-    }
-
-    return this._constructors;
   }
 
   get symbols(): IntrinsicSymbols {
@@ -423,8 +545,8 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         return this._symbols.match;
       case Symbol.matchAll:
         return this._symbols.matchAll;
-      case Symbol.observable:
-        return this._symbols.observable;
+      // case Symbol.observable:
+      // return this._symbols.observable;
       case Symbol.replace:
         return this._symbols.replace;
       case Symbol.search:

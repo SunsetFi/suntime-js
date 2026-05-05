@@ -10,7 +10,7 @@ export function* promiseReject(
   value: StaticJsValue,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {
-  const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);
+  const capability = yield* newPromiseCapability(realm.intrinsics.Promise, realm);
   yield* call(capability.reject, realm.types.undefined, [value ?? realm.types.undefined]);
   return capability.promise;
 }

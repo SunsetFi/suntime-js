@@ -2,7 +2,7 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { StaticJsMapIteratorImpl } from "../../../types/implementation/objects/StaticJsMapIteratorImpl.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const mapIteratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   key: "next",

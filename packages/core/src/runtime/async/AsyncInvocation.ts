@@ -86,9 +86,6 @@ export class AsyncInvocation {
       return;
     }
 
-    this._capability = yield* newPromiseCapability(
-      this._realm.types.constructors.Promise,
-      this._realm,
-    );
+    this._capability = yield* newPromiseCapability(this._realm.intrinsics.Promise, this._realm);
   }
 }

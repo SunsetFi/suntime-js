@@ -12,7 +12,7 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import { iteratorStep } from "../../../iterators/iterator-step.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
   key: "drop",

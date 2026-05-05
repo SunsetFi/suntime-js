@@ -1,9 +1,7 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
-const asyncGeneratorProtoPrototypeDeclaration: IntrinsicPropertyDeclaration = {
+export const asyncGeneratorFunctionProtoPrototypeDeclaration: IntrinsicPropertyDeclaration = {
   key: "prototype",
   value: (realm) => realm.types.prototypes.asyncGeneratorProto,
   configurable: true,
 };
-
-export default asyncGeneratorProtoPrototypeDeclaration;

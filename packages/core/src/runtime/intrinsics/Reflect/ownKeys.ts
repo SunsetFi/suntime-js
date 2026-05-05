@@ -5,7 +5,7 @@ import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { StaticJsString } from "../../types/StaticJsString.js";
 import { StaticJsSymbol } from "../../types/StaticJsSymbol.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
-import { IntrinsicPropertyDeclaration } from "../utils.js";
+import { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {
   key: "ownKeys",

@@ -97,7 +97,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
   ): EvaluationGenerator<StaticJsPromise | void> {
     let capability: StaticJsPromiseCapabilityRecord | null = null;
     if (resultCapability === undefined || resultCapability === true) {
-      const c = yield* speciesConstructor(this, this.realm.types.constructors.Promise, this.realm);
+      const c = yield* speciesConstructor(this, this.realm.intrinsics.Promise, this.realm);
       capability = yield* newPromiseCapability(c, this.realm);
     } else if (resultCapability !== false) {
       capability = resultCapability;

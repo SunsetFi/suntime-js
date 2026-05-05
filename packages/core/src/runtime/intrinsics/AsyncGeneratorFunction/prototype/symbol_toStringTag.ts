@@ -1,11 +1,10 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
-const asyncGeneratorFunctionProtoSymbolToStringTagDeclaration: IntrinsicPropertyDeclaration = {
-  key: (realm) => realm.types.symbols.toStringTag,
-  value: (realm) => realm.types.string("AsyncGeneratorFunction"),
-  writable: false,
-  enumerable: false,
-  configurable: true,
-};
-
-export default asyncGeneratorFunctionProtoSymbolToStringTagDeclaration;
+export const asyncGeneratorFunctionProtoSymbolToStringTagDeclaration: IntrinsicPropertyDeclaration =
+  {
+    key: (realm) => realm.types.symbols.toStringTag,
+    value: (realm) => realm.types.string("AsyncGeneratorFunction"),
+    writable: false,
+    enumerable: false,
+    configurable: true,
+  };

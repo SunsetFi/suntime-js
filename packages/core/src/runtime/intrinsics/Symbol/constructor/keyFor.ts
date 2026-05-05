@@ -1,5 +1,5 @@
 import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const symbolCtorKeyForDeclaration: IntrinsicPropertyDeclaration = {
   key: "keyFor",

@@ -1,5 +1,5 @@
 import { toUint16 } from "../../../algorithms/to-uint-16.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const stringCtorFromCharCodeDeclaration: IntrinsicPropertyDeclaration = {
   key: "fromCharCode",

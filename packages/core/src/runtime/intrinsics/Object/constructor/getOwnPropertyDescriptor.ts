@@ -4,7 +4,7 @@ import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { fromPropertyDescriptor } from "../../../utils/fromPropertyDescriptor.js";
 import { toPropertyKey } from "../../../utils/to-property-key.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyDescriptor",

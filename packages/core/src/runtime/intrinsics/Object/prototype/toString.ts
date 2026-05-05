@@ -14,7 +14,7 @@ import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",

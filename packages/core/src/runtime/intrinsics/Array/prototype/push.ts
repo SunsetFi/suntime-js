@@ -3,7 +3,7 @@ import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
   key: "push",

@@ -1,7 +1,7 @@
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsSymbol } from "../../../types/StaticJsSymbol.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorGetOwnPropertySymbolsDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertySymbols",

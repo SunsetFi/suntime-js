@@ -1,5 +1,5 @@
 import { MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { Constructors, Prototypes, IntrinsicSymbols } from "../intrinsics/intrinsics.js";
+import type { Prototypes, IntrinsicSymbols } from "../intrinsics/intrinsics.js";
 
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
@@ -38,7 +38,6 @@ export interface StaticJsFunctionTypeCreationOptions {
 
 export interface StaticJsTypeFactory {
   readonly prototypes: Prototypes;
-  readonly constructors: Constructors;
   readonly symbols: IntrinsicSymbols;
   readonly symbolRegistry: Map<string, StaticJsSymbol>;
 

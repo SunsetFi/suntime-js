@@ -1,5 +1,5 @@
 import { isStaticJsMap } from "../../../types/StaticJsMap.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const mapProtoSizeDeclaration: IntrinsicPropertyDeclaration = {
   key: "size",

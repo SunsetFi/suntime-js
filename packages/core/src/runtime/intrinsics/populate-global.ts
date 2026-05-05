@@ -1,18 +1,21 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 
+import {
+  applyIntrinsicProperties,
+  type IntrinsicPropertyDeclaration,
+} from "./apply-intrinsic-properties.js";
 import globalObjectEvalDeclaration from "./eval.js";
 import globalObjectGlobalThisDeclaration from "./globalThis.js";
 import globalObjectInfinityDeclaration from "./Infinity.js";
 import globalObjectIsFiniteDeclaration from "./isFinite.js";
 import globalObjectIsNaNDeclaration from "./isNaN.js";
-import { createMathIntrinsic } from "./Math/index.js";
+import { createMathIntrinsic } from "./Math.js";
 import globalObjectNaNDeclaration from "./NaN.js";
 import globalObjectParseFloatDeclaration from "./parseFloat.js";
 import globalObjectParseIntDeclaration from "./parseInt.js";
-import { createReflectIntrinsic } from "./Reflect/index.js";
+import { createReflectIntrinsic } from "./Reflect/create-reflect-intrinsic.js";
 import globalObjectUndefinedDeclaration from "./undefined.js";
-import { applyIntrinsicProperties, type IntrinsicPropertyDeclaration } from "./utils.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectEvalDeclaration,
@@ -50,19 +53,19 @@ const globalConstructors = [
   "GeneratorFunction",
   "AsyncGeneratorFunction",
 ] as const;
-export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObject) {
-  applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
+export function* populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObject) {
+  yield* applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
 
-  const Math = createMathIntrinsic(realm);
-  globalObject.defineOwnPropertySync("Math", {
+  const Math = yield* createMathIntrinsic(realm);
+  yield* globalObject.defineOwnPropertyEvaluator("Math", {
     value: Math,
     writable: true,
     enumerable: false,
     configurable: true,
   });
 
-  const Reflect = createReflectIntrinsic(realm);
-  globalObject.defineOwnPropertySync("Reflect", {
+  const Reflect = yield* createReflectIntrinsic(realm);
+  yield* globalObject.defineOwnPropertyEvaluator("Reflect", {
     value: Reflect,
     writable: true,
     enumerable: false,
@@ -70,8 +73,8 @@ export function populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObjec
   });
 
   for (const key of globalConstructors) {
-    const value = realm.types.constructors[key];
-    globalObject.defineOwnPropertySync(key, {
+    const value = realm.intrinsics[key];
+    yield* globalObject.defineOwnPropertyEvaluator(key, {
       value,
       writable: true,
       enumerable: false,

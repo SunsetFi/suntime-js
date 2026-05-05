@@ -4,6 +4,7 @@ import { JsonReporter } from "vitest/node";
 import createBaseline from "./tests/env/create-baseline.js";
 import createBuiltinsBaseline from "./tests/env/create-builtins-baseline.js";
 import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
+import { ScriptTimeout } from "./tests/test262/timeouts.js";
 
 const test262Tags: TestTagDefinition[] = [
   { name: "known-passing", description: "Tests that are known to pass." },
@@ -32,7 +33,7 @@ export default defineConfig({
           name: "Test262:Language",
           include: ["./tests/test262/tests/language/**/*.ts"],
           isolate: false,
-          testTimeout: 60_000,
+          testTimeout: ScriptTimeout,
           tags: test262Tags,
         },
       },
@@ -41,7 +42,7 @@ export default defineConfig({
           name: "Test262:Built-ins",
           include: ["./tests/test262/tests/built-ins/**/*.ts"],
           isolate: false,
-          testTimeout: 60_000,
+          testTimeout: ScriptTimeout,
           tags: test262Tags,
         },
       },

@@ -4,7 +4,7 @@ import { construct } from "../../../algorithms/construct.js";
 import { isConstructor } from "../../../algorithms/is-constructor.js";
 import { set } from "../../../algorithms/set.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "of",

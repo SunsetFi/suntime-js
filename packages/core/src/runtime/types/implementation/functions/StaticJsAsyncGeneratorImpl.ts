@@ -80,7 +80,7 @@ export class StaticJsAsyncGeneratorImpl
     value: StaticJsValue = this.realm.types.undefined,
   ): EvaluationGenerator<StaticJsPromise> {
     const promiseCapability = yield* newPromiseCapability(
-      this.realm.types.constructors.Promise,
+      this.realm.intrinsics.Promise,
       this.realm,
     );
 
@@ -108,7 +108,7 @@ export class StaticJsAsyncGeneratorImpl
 
   *throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsPromise> {
     const promiseCapability = yield* newPromiseCapability(
-      this.realm.types.constructors.Promise,
+      this.realm.intrinsics.Promise,
       this.realm,
     );
 
@@ -136,7 +136,7 @@ export class StaticJsAsyncGeneratorImpl
     value: StaticJsValue = this.realm.types.undefined,
   ): EvaluationGenerator<StaticJsPromise> {
     const promiseCapability = yield* newPromiseCapability(
-      this.realm.types.constructors.Promise,
+      this.realm.intrinsics.Promise,
       this.realm,
     );
 
@@ -252,11 +252,7 @@ export class StaticJsAsyncGeneratorImpl
     };
 
     const promise = yield* captureThrownCompletion(
-      promiseResolve(
-        this.realm.types.constructors.Promise,
-        Completion.value(completion),
-        this.realm,
-      ),
+      promiseResolve(this.realm.intrinsics.Promise, Completion.value(completion), this.realm),
     );
     if (Completion.Abrupt.is(promise)) {
       const context = unsuspendContext();
@@ -305,11 +301,7 @@ export class StaticJsAsyncGeneratorImpl
     }
 
     const promiseCompletion = yield* captureThrownCompletion(
-      promiseResolve(
-        this.realm.types.constructors.Promise,
-        Completion.value(completion),
-        this.realm,
-      ),
+      promiseResolve(this.realm.intrinsics.Promise, Completion.value(completion), this.realm),
     );
     if (Completion.Abrupt.is(promiseCompletion)) {
       yield* this._asyncGeneratorCompleteStep(promiseCompletion, true);

@@ -7,7 +7,7 @@ import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { toString } from "../../../algorithms/to-string.js";
 import { isStaticJsArray } from "../../../types/StaticJsArray.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
   key: "map",

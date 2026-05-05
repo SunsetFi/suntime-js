@@ -393,7 +393,7 @@ describe("apply", () => {
 describe("arguments", () => {
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/arguments/prop-desc.js"),
   );
 });
@@ -1158,7 +1158,7 @@ describe("call", () => {
 describe("caller", () => {
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/caller/prop-desc.js"),
   );
 });

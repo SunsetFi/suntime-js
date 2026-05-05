@@ -1,6 +1,6 @@
 import { createArrayIterator } from "../../../algorithms/create-array-iterator.js";
 import { toObject } from "../../../algorithms/to-object.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoEntriesDeclaration: IntrinsicPropertyDeclaration = {
   key: "entries",

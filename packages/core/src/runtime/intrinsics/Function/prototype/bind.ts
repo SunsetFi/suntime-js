@@ -14,7 +14,7 @@ import { StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
 import { StaticJsValue } from "../../../types/StaticJsValue.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   key: "bind",

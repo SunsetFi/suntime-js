@@ -1,4 +1,4 @@
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const promiseProtoSymbolToStringTagDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.toStringTag,

@@ -2,7 +2,7 @@ import { Q } from "../../../../evaluator/completions/Q.js";
 import { hasOwnProperty } from "../../../algorithms/has-own-property.js";
 import { toObject } from "../../../algorithms/to-object.js";
 import { toPropertyKey } from "../../../utils/to-property-key.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectProtoHasOwnPropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "hasOwnProperty",

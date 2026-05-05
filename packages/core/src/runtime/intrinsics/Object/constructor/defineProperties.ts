@@ -1,6 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 import objectDefineProperties from "../object-define-properties.js";
 
 const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {

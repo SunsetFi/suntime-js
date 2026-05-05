@@ -32,7 +32,7 @@ export function* arraySpeciesCreate(
   let c = yield* get(originalArray, "constructor");
   if (isConstructor(c)) {
     if (c.realm !== realm) {
-      if (sameValue(c, c.realm.types.constructors.Array)) {
+      if (sameValue(c, c.realm.intrinsics.Array)) {
         c = realm.types.undefined;
       }
     }

@@ -34,7 +34,7 @@ export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
   }
 
   *nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsPromise> {
-    const promiseCapability = yield* newPromiseCapability(this.realm.types.constructors.Promise);
+    const promiseCapability = yield* newPromiseCapability(this.realm.intrinsics.Promise);
     const syncIteratorRecord = this._syncIteratorRecord;
 
     let result: Completion;
@@ -58,7 +58,7 @@ export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
   }
 
   *returnEvaluator(value?: StaticJsValue) {
-    const promiseCapability = yield* newPromiseCapability(this.realm.types.constructors.Promise);
+    const promiseCapability = yield* newPromiseCapability(this.realm.intrinsics.Promise);
     const syncIteratorRecord = this._syncIteratorRecord;
     const syncIterator = syncIteratorRecord.iterator;
 
@@ -109,7 +109,7 @@ export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
   }
 
   *throwEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsPromise> {
-    const promiseCapability = yield* newPromiseCapability(this.realm.types.constructors.Promise);
+    const promiseCapability = yield* newPromiseCapability(this.realm.intrinsics.Promise);
     const syncIteratorRecord = this._syncIteratorRecord;
     const syncIterator = syncIteratorRecord.iterator;
 

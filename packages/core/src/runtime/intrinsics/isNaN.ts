@@ -1,6 +1,6 @@
 import { toNumber } from "../algorithms/to-number.js";
 
-import type { IntrinsicPropertyDeclaration } from "./utils.js";
+import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
 
 const globalObjectIsNaNDeclaration: IntrinsicPropertyDeclaration = {
   key: "isNaN",

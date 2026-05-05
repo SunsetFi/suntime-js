@@ -27,9 +27,8 @@ import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/impleme
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import type { RealmHooks } from "../../hooks/hooks.js";
-import { createConstructors } from "../../intrinsics/create-constructors.js";
-import { createPrototypes, instantiatePrototypes } from "../../intrinsics/create-prototypes.js";
-import { createIntrinsicSymbols } from "../../intrinsics/create-symbols.js";
+import { populateIntrinsics } from "../../intrinsics/create-intrinsics.js";
+import { Intrinsics, IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
 import { populateGlobal } from "../../intrinsics/populate-global.js";
 import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "../../modules/implementation/StaticJsExternalModuleImpl.js";
@@ -70,6 +69,7 @@ import { StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSour
 import { EvaluationTask } from "./EvaluationTask.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
+  private readonly _intrinsics: Intrinsics;
   private readonly _global: StaticJsPlainObject;
   private readonly _globalThis: StaticJsValue;
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
@@ -115,26 +115,16 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       runTaskSync: this._defaultRunTaskSync,
     });
 
-    // Note: We could check to see if globalObject has factories or prototypes and use them
-    // instead of these.
-    const prototypes = createPrototypes(this);
-    const symbols = createIntrinsicSymbols(this, prototypes);
+    const intrinsics: IntrinsicsRecord = {} as IntrinsicsRecord;
+    this._intrinsics = intrinsics;
 
-    // Populate the type factory so it can be referenced by the prototype and constructor intantiation.
-    const typeFactory = new StaticJsTypeFactoryImpl(this, prototypes, symbols);
-
+    const typeFactory = new StaticJsTypeFactoryImpl(this);
     // Set the type factory now, so the rest of the type instantiation can use it.
     // This is a little bit fiddly, but much of our systems rely on having a reference to the type factory
     // through us, so it needs to be available early.
     this._typeFactory = typeFactory;
 
-    // Populate the prototypes first.
-    instantiatePrototypes(this);
-
-    // Now populate the intrinsics, which may reference the prototypes.
-    const constructors = createConstructors(this);
-    // Update the type factory with the constructors.
-    typeFactory._initializeConstructors(constructors);
+    bootstrapTaskRunner(populateIntrinsics(this, intrinsics));
 
     const globalObjectResolved = resolveGlobalObject(this, globalObject);
     const globalThisResolved = resolveGlobalThis(this, globalObjectResolved, globalThisOpt);
@@ -152,7 +142,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       this,
     );
 
-    populateGlobal(this, this._global);
+    bootstrapTaskRunner(populateGlobal(this, this._global));
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
       const module = realmModuleToModule(this, name, moduleDef);
@@ -168,6 +158,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get config() {
     return this._config;
+  }
+
+  get intrinsics() {
+    return this._intrinsics;
   }
 
   get global() {
@@ -902,8 +896,11 @@ function* doEvaluateScriptAsync(
   });
 }
 
-function bootstrapTaskRunner(task: StaticJsTaskIterator) {
-  while (!task.done) {
-    task.next();
+function bootstrapTaskRunner(task: Iterator<unknown>) {
+  while (true) {
+    const { done } = task.next();
+    if (done) {
+      break;
+    }
   }
 }

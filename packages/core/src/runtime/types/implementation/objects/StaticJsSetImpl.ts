@@ -296,11 +296,11 @@ function* setCreate(
   // According to MDN, Set[@@species] is never used.
   // const result = yield* speciesConstructor(
   //   from,
-  //   realm.types.constructors.Set,
+  //   realm.intrinsics.Set,
   //   realm
   // );
 
-  const result = yield* realm.types.constructors.Set.constructEvaluator();
+  const result = yield* realm.intrinsics.Set.constructEvaluator();
 
   if (!isStaticJsObject(result)) {
     throw new StaticJsRuntimeError(realm.types.error("TypeError", "Failed to create Set"));

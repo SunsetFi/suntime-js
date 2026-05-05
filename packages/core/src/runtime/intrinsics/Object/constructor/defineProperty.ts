@@ -3,7 +3,7 @@ import { definePropertyOrThrow } from "../../../algorithms/define-property-or-th
 import { toPropertyDescriptor } from "../../../algorithms/to-property-descriptor.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import { toPropertyKey } from "../../../utils/to-property-key.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
   key: "defineProperty",

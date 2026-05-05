@@ -1,7 +1,7 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { performEval } from "../algorithms/perform-eval.js";
 
-import type { IntrinsicPropertyDeclaration } from "./utils.js";
+import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
 
 const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",

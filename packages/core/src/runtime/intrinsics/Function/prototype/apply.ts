@@ -4,7 +4,7 @@ import { createListFromArrayLike } from "../../../algorithms/create-list-from-ar
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",

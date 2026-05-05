@@ -2,7 +2,7 @@ import { toObject } from "../../../algorithms/to-object.js";
 import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../../types/StaticJsPropertyKey.js";
 import { fromPropertyDescriptor } from "../../../utils/fromPropertyDescriptor.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclaration = {
   key: "getOwnPropertyDescriptors",

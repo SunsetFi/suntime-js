@@ -127,9 +127,7 @@ export class AsyncDriver {
     this._state = "suspended";
 
     const asyncContext = EvaluationContext.current;
-    const promise = yield* Q(
-      promiseResolve(this._realm.types.constructors.Promise, value, this._realm),
-    );
+    const promise = yield* Q(promiseResolve(this._realm.intrinsics.Promise, value, this._realm));
 
     const realm = this._realm;
     const resolve = this._resolve.bind(this);

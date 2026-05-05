@@ -15,7 +15,7 @@ import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functi
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { StaticJsPromiseCapabilityRecord } from "../../../types/StaticJsPromise.js";
 import { StaticJsValue } from "../../../types/StaticJsValue.js";
-import { IntrinsicPropertyDeclaration } from "../../utils.js";
+import { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {
   key: "all",

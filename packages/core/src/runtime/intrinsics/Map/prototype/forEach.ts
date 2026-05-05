@@ -1,7 +1,7 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { isStaticJsMap } from "../../../types/StaticJsMap.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const mapProtoForEachDeclaration: IntrinsicPropertyDeclaration = {
   key: "forEach",

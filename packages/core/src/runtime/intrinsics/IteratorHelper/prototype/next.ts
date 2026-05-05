@@ -1,5 +1,5 @@
 import { generatorResume } from "../../../algorithms/generator-resume.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const iteratorHelperProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   key: "next",

@@ -5,7 +5,7 @@ import { newPromiseCapability } from "../../../algorithms/new-promise-capability
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
-import type { IntrinsicPropertyDeclaration } from "../../utils.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
   key: "finally",
@@ -24,7 +24,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
     if (isCallable(onFinally)) {
       thenFinally = new StaticJsNativeFunctionImpl(realm, "<thenFinally>", function* (value) {
         const result = yield* call(onFinally, realm.types.undefined);
-        const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);
+        const capability = yield* newPromiseCapability(realm.intrinsics.Promise, realm);
         yield* call(capability.resolve, realm.types.undefined, [result]);
         const p = capability.promise;
         const returnValue = new StaticJsNativeFunctionImpl(realm, "<returnValue>", function* () {
@@ -34,7 +34,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
       });
       catchFinally = new StaticJsNativeFunctionImpl(realm, "<catchFinally>", function* (reason) {
         const result = yield* call(onFinally, realm.types.undefined);
-        const capability = yield* newPromiseCapability(realm.types.constructors.Promise, realm);
+        const capability = yield* newPromiseCapability(realm.intrinsics.Promise, realm);
         yield* call(capability.resolve, realm.types.undefined, [result]);
         const p = capability.promise;
         const thrower = new StaticJsNativeFunctionImpl(realm, "<thrower>", function* () {
