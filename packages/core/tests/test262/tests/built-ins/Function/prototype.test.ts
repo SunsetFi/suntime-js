@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "S15.3.3.1_A1.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Function/prototype/S15.3.3.1_A1.js"),
 );
 
@@ -27,25 +27,25 @@ it(
 
 it(
   "S15.3.4_A1.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Function/prototype/S15.3.4_A1.js"),
 );
 
 it(
   "S15.3.4_A2_T1.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Function/prototype/S15.3.4_A2_T1.js"),
 );
 
 it(
   "S15.3.4_A2_T2.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Function/prototype/S15.3.4_A2_T2.js"),
 );
 
 it(
   "S15.3.4_A2_T3.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Function/prototype/S15.3.4_A2_T3.js"),
 );
 
@@ -88,32 +88,32 @@ it(
 describe("Symbol.hasInstance", () => {
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/length.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/prop-desc.js"),
   );
   it(
     "this-val-bound-target.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/this-val-bound-target.js"),
   );
   it(
     "this-val-not-callable.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/this-val-not-callable.js"),
   );
   it(
     "this-val-poisoned-prototype.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/Symbol.hasInstance/this-val-poisoned-prototype.js",
     ),
@@ -127,24 +127,24 @@ describe("Symbol.hasInstance", () => {
   );
   it(
     "value-get-prototype-of-err.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/Symbol.hasInstance/value-get-prototype-of-err.js",
     ),
   );
   it(
     "value-negative.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/value-negative.js"),
   );
   it(
     "value-non-obj.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/value-non-obj.js"),
   );
   it(
     "value-positive.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/Symbol.hasInstance/value-positive.js"),
   );
 });
@@ -347,7 +347,7 @@ describe("apply", () => {
   );
   it(
     "argarray-not-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/apply/argarray-not-object.js"),
   );
   it(
@@ -362,7 +362,7 @@ describe("apply", () => {
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/apply/length.js"),
   );
   it(
@@ -842,7 +842,7 @@ describe("bind", () => {
   );
   it(
     "instance-length-default-value.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/bind/instance-length-default-value.js"),
   );
   it(
@@ -862,7 +862,7 @@ describe("bind", () => {
   );
   it(
     "instance-length-tointeger.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/bind/instance-length-tointeger.js"),
   );
   it(
@@ -877,7 +877,7 @@ describe("bind", () => {
   );
   it(
     "instance-name-non-string.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/bind/instance-name-non-string.js"),
   );
   it(

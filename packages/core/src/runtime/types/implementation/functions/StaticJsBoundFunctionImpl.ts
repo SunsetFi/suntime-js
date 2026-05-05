@@ -3,53 +3,24 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import { construct } from "../../../algorithms/construct.js";
 import { get } from "../../../algorithms/get.js";
 import { sameValue } from "../../../algorithms/same-value.js";
-import { toInteger } from "../../../algorithms/to-integer.js";
 import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
+import { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import { isStaticJsString } from "../../StaticJsString.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {
-  static *create(
-    realm: StaticJsRealm,
-    targetFunc: StaticJsCallable,
-    thisArg: StaticJsValue,
-    boundArgs: StaticJsValue[],
-  ): EvaluationGenerator<StaticJsBoundFunction> {
-    const instance = new StaticJsBoundFunction(realm, targetFunc, thisArg, boundArgs);
-
-    const boundLength = yield* get(targetFunc, "length");
-    const length = yield* toInteger(boundLength);
-    yield* instance.defineOwnPropertyEvaluator("length", {
-      value: realm.types.number(Math.max(0, length.value - boundArgs.length)),
-      writable: false,
-      enumerable: false,
-      configurable: true,
-    });
-
-    const name = yield* get(targetFunc, "name");
-    yield* instance.defineOwnPropertyEvaluator("name", {
-      value: realm.types.string(isStaticJsString(name) ? `bound ${name.value}` : "bound"),
-      writable: false,
-      enumerable: false,
-      configurable: true,
-    });
-
-    return instance;
-  }
-
-  private constructor(
+  constructor(
     realm: StaticJsRealm,
     public readonly targetFunc: StaticJsCallable,
     private readonly _boundThis: StaticJsValue,
     private readonly _boundArgs: StaticJsValue[],
-    prototype?: StaticJsObject,
+    prototype?: StaticJsObject | StaticJsNull | null,
   ) {
     super(realm, prototype ?? realm.types.prototypes.functionProto);
   }

@@ -213,25 +213,25 @@ it(
 
 it(
   "primitive-prototype-with-primitive.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/instanceof/primitive-prototype-with-primitive.js"),
 );
 
 it(
   "prototype-getter-with-object-throws.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/instanceof/prototype-getter-with-object-throws.js"),
 );
 
 it(
   "prototype-getter-with-object.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/instanceof/prototype-getter-with-object.js"),
 );
 
 it(
   "prototype-getter-with-primitive.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/instanceof/prototype-getter-with-primitive.js"),
 );
 

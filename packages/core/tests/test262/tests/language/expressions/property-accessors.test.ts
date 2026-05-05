@@ -63,7 +63,7 @@ it(
 
 it(
   "S11.2.1_A4_T3.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/property-accessors/S11.2.1_A4_T3.js"),
 );
 

@@ -18,6 +18,7 @@ export interface FunctionIntrinsicPropertyDeclaration extends IntrinsicPropertyD
   func: (
     realm: StaticJsRealm,
     thisArg: StaticJsValue,
+    // FIXME: Remove undefined possibility and fill in undefines with sandbox undefined based on length
     ...args: (StaticJsValue | undefined)[]
   ) => EvaluationGenerator<StaticJsValue>;
   length?: number | ((realm: StaticJsRealm) => StaticJsPropertyDescriptorRecord);

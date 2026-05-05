@@ -9,6 +9,7 @@ export function addRestrictedFunctionProperties(
   realm: StaticJsRealm,
 ) {
   // Should be an intrinsic, %ThrowTypeError%
+  // Currently have a failing test for this, probably because its a different instance than other places it should be being used.
   const thrower = new StaticJsNativeFunctionImpl(realm, null, function* () {
     throw Completion.Throw("TypeError", "Restricted function property cannot be accessed");
   });

@@ -1,31 +1,27 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { call } from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
-import { toObject } from "../../../algorithms/to-object.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { createListFromArrayLike } from "../../../algorithms/create-list-from-array-like.js";
+import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../utils.js";
 
 export const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   key: "apply",
-  length: 1,
-  *func(realm, thisFunc, thisArg = realm.types.undefined, argsArray) {
-    if (!isCallable(thisFunc)) {
-      throw Completion.Throw("TypeError", "Function.prototype.call called on a non-function.");
+  length: 2,
+  *func(realm, func, thisArg = realm.types.undefined, argArray = realm.types.undefined) {
+    if (!isStaticJsCallable(func)) {
+      throw Completion.Throw(
+        "TypeError",
+        "Function.prototype.apply called on incompatible receiver",
+      );
     }
 
-    const args: StaticJsValue[] = [];
-    if (argsArray) {
-      const argsArrayObj = yield* toObject(argsArray);
-      const length = yield* lengthOfArrayLike(argsArrayObj);
-      for (let i = 0; i < length; i++) {
-        const element = yield* get(argsArrayObj, String(i));
-        args.push(element);
-      }
+    if (isStaticJsNull(argArray) || isStaticJsUndefined(argArray)) {
+      return yield* call(func, thisArg);
     }
 
-    const result = yield* call(thisFunc, thisArg, args);
-    return result;
+    const argList = yield* createListFromArrayLike(argArray);
+    return yield* call(func, thisArg, argList);
   },
 };

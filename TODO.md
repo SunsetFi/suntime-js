@@ -22,11 +22,12 @@
 
 ## Less imidiate
 
-- [ ] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
-- [ ] Change StaticJsPropertyKey to use StaticJsString, not native string.
-      This is causing bad squirly code all over the place.
+- [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
+- [ ] Clean up StaticJsPropertyKey string / StaticJsString
+      Lots of squirly code because of this
+      Make either work with get() and flatten it there?
 - [ ] Change getPrototype / setPrototype to use StaticJsNull instead of engine null.
-- [ ] StaticJsFunction.toString
+- [ ] StaticJsFunction.toString revealing source
 - [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
       This should be happening automatically due to the .then function, but isn't
@@ -55,6 +56,7 @@
 - [ ] Expose node data in task iterator
 - [ ] Use node data to break on loop condition and update nodes
 - [ ] Fix DAP / monaco-vscode not knowing line numbers of non-top functions in the call stack.
+- [ ] Stack traces! It should be easy, just do them!
 
 ### Completion Refactor
 
@@ -75,7 +77,7 @@
 ## General
 
 - [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
-  - [ ] Add builtins tests (Currently only testing language folder)
+  - [x] Add builtins tests (Currently only testing language folder)
   - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
 - [-] toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
   - Test against engine-native iterators
