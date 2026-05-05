@@ -33,6 +33,7 @@
     "gen:tests": "tsx ./tests/test262/generator/gen.ts",
     "test": "vitest run --project=e2e",
     "test:spec": "vitest run --project=spec",
+    "test:e2e": "vitest run --project=e2e",
     "test:language": "vitest run --project=Test262:Language",
     "test:language:baseline": "pnpm test:language --tags-filter known-passing",
     "test:language:create-baseline": "VITEST_CREATE_BASELINE=1 pnpm test:language --update || pnpm gen:tests",

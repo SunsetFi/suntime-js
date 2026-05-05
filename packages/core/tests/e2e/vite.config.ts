@@ -5,6 +5,6 @@ export default defineProject({
     name: "e2e",
     setupFiles: ["../setup.ts"],
     include: ["./**/*.ts"],
-    exclude: ["./**/utils/*.ts"],
+    exclude: ["./**/utils/*.ts", "vite.config.ts"],
   },
 });
