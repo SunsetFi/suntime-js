@@ -2,7 +2,7 @@ import { parse as parseAst } from "@babel/parser";
 import { type Program } from "@babel/types";
 
 import { babelParserOptions } from "./babel-parser-options.js";
-import { handleParseError } from "./parse-error.js";
+import { handleParseError } from "./handle-parse-error.js";
 
 export interface ParseFunctionBodyOptions {
   async?: boolean;

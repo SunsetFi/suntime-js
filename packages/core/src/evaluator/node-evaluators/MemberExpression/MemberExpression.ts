@@ -34,7 +34,7 @@ export default function* memberExpressionNodeEvaluator(
         "Assertion failure: PrivateName found in context that lacks a privateEnv",
       );
     }
-    const privateName = privateEnv.resolvePrivateIdentifier(propertyNode.id.name);
+    const privateName = privateEnv.resolvePrivateIdentifier("#" + propertyNode.id.name);
     return staticJsPropertyReferenceRecord(target, privateName, true);
   }
 

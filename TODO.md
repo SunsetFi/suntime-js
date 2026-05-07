@@ -2,6 +2,10 @@
 
 ## Immediate
 
+- [ ] MethodDefinitionEvaluation / defineMethod for classes currently doesn't pick the right prototypes for async and gen functions.
+  - [ ] Should defineMethod for class be shared with ObjectExpression?
+  - [ ] ObjectExpression has its own copy of methodDefinitionEvaluation...
+- [ ] Remove length ctor arg from StaticJsAbstractFunction
 - [ ] Strip realm argument from
   - [ ] newPromiseCapability
   - [ ] asyncFromSyncIteratorContinuation
@@ -38,6 +42,7 @@
       Await() inside generator implementation functions.
   - [ ] Remake await and yied as SuspendCommand. Spec seems to not care what type and just calls functions that suspend and resume.
         No need to make the implementations be defined at the handler level.
+- [ ] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
 
 ### Long term spec compliance reworks
 

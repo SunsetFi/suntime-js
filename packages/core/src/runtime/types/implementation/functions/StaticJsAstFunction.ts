@@ -104,7 +104,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     super(
       realm,
-      getArgumentsLength(params),
+      null,
       prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"],
     );
 
@@ -601,16 +601,4 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     );
     return env;
   }
-}
-
-function getArgumentsLength(args: StaticJsAstFunctionArgument[]): number {
-  let length = 0;
-  for (const arg of args) {
-    if (arg.type === "RestElement" || arg.type === "AssignmentPattern") {
-      break;
-    }
-    length++;
-  }
-
-  return length;
 }

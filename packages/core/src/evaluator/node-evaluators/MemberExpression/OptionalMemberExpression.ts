@@ -1,5 +1,6 @@
-import { OptionalMemberExpression } from "@babel/types";
+import { OptionalMemberExpression, PrivateName } from "@babel/types";
 
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { staticJsPropertyReferenceRecord } from "../../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
 import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
@@ -23,16 +24,17 @@ export default function* optionalMemberExpressionNodeEvaluator(
 
   // test262 says this is a thing but babel parser hasn't caught up yet.
   let propertyKey: string | StaticJsPrivateName | StaticJsValue;
-  // if (propertyNode.type === "PrivateName") {
-  //   const { privateEnv } = EvaluationContext.current;
-  //   if (!privateEnv) {
-  //     throw new StaticJsEngineError(
-  //       "Assertion failure: PrivateName found in context that lacks a privateEnv",
-  //     );
-  //   }
-  //   const privateName = privateEnv.resolvePrivateIdentifier(propertyNode.id.name);
-  //   return staticJsPropertyReferenceRecord(target, privateName, true);
-  // }
+  if ((propertyNode.type as any) === "PrivateName") {
+    const propertyPrivateName = propertyNode as any as PrivateName;
+    const { privateEnv } = EvaluationContext.current;
+    if (!privateEnv) {
+      throw new StaticJsEngineError(
+        "Assertion failure: PrivateName found in context that lacks a privateEnv",
+      );
+    }
+    const privateName = privateEnv.resolvePrivateIdentifier("#" + propertyPrivateName.id.name);
+    return staticJsPropertyReferenceRecord(target, privateName, true);
+  }
 
   if (!node.computed && propertyNode.type === "Identifier") {
     propertyKey = propertyNode.name;

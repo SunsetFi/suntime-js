@@ -182,7 +182,7 @@ export default function* evalDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = instantiateFunctionObject(f, lexEnv, privateEnv);
+    const fo = yield* instantiateFunctionObject(f, lexEnv, privateEnv);
     if (varEnv instanceof StaticJsGlobalEnvironmentRecord) {
       yield* createGlobalFunctionBinding(fn, fo, true, varEnv);
     } else {

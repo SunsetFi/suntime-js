@@ -44,7 +44,8 @@ export function* classElementNameNodeEvaluator(
         );
       }
       const names = privateEnvRec.names;
-      const match = names.find((x) => x.description === key.id.name);
+      let target = "#" + key.id.name;
+      const match = names.find((x) => x.description === target);
       if (!match) {
         throw new StaticJsEngineError(
           `Assertion failure: PrivateName ${key.id.name} not found in private environment record when evaluating class element name`,

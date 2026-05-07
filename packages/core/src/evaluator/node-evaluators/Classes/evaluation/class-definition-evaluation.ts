@@ -7,6 +7,7 @@ import { construct } from "../../../../runtime/algorithms/construct.js";
 import { get } from "../../../../runtime/algorithms/get.js";
 import { isConstructor } from "../../../../runtime/algorithms/is-constructor.js";
 import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
+import { setFunctionLength } from "../../../../runtime/algorithms/set-function-length.js";
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
@@ -165,7 +166,10 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
         constructorParent,
       );
 
+      // CreateBuiltinFunction
+      yield* setFunctionLength(F, 0);
       yield* setFunctionName(F, className);
+      // End CreateBuiltinFunction
     } else {
       const constructorInfo = yield* Q(defineMethod(constructor, proto, constructorParent));
 

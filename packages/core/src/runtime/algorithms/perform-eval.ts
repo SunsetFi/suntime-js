@@ -66,7 +66,10 @@ export function* performEval(
 
   let node: Node;
   try {
-    node = parseScript(source.value, "eval", { strictMode: strictCaller, permissive: true });
+    node = parseScript(source.value, "eval", {
+      strictMode: strictCaller,
+      evalMode: direct ? "direct" : "indirect",
+    });
   } catch (e: unknown) {
     if (e instanceof StaticJsSyntaxError) {
       throw Completion.Throw("SyntaxError", e.message);

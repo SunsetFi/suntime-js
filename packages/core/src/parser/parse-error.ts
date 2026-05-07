@@ -1,45 +1,16 @@
-import type { ParseError } from "@babel/parser";
+import { ParseError } from "@babel/parser";
+import { Node } from "@babel/types";
 
-import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
-
-export function handleParseError(e: unknown, contextMessage = "Failed to parse"): never {
-  if (!isParseError(e)) {
-    throw e;
-  }
-
-  let message = contextMessage;
-  if (e && typeof e === "object" && "message" in e && typeof e.message === "string") {
-    message += `: ${e.message}`;
-  }
-
-  const loc = hasLocation(e) ? e.loc : null;
-  throw new StaticJsSyntaxError(message, loc);
-}
-
-function isParseError(e: unknown): e is ParseError {
-  const asParseError = e as ParseError;
-  return (
-    e !== null &&
-    typeof e === "object" &&
-    "code" in e &&
-    typeof asParseError.code === "string" &&
-    "reasonCode" in e &&
-    typeof asParseError.reasonCode === "string"
-  );
-}
-
-function hasLocation(
-  e: ParseError,
-): e is ParseError & { loc: { line: number; column: number; index: number } } {
-  return (
-    "loc" in e &&
-    e.loc !== null &&
-    typeof e.loc === "object" &&
-    "line" in e.loc &&
-    typeof e.loc.line === "number" &&
-    "column" in e.loc &&
-    typeof e.loc.column === "number" &&
-    "index" in e.loc &&
-    typeof e.loc.index === "number"
-  );
+export function parseError(message: string, node: Node): ParseError {
+  const err = new SyntaxError(message) as ParseError;
+  err.code = "BABEL_PARSER_SYNTAX_ERROR";
+  err.details = {};
+  err.loc = {
+    line: node.loc?.start.line ?? 0,
+    column: node.loc?.start.column ?? 0,
+    index: node.start ?? 0,
+  };
+  err.pos = node.start ?? 0;
+  err.reasonCode = "EarlyError";
+  return err;
 }

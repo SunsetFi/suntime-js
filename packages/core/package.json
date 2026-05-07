@@ -46,8 +46,8 @@
     "lint": "oxlint"
   },
   "dependencies": {
-    "@babel/parser": "catalog:",
-    "@babel/traverse": "catalog:",
+    "@babel/parser": "^7.29.3",
+    "@babel/traverse": "^7.29.0",
     "type-fest": "^4.37.0"
   },
   "devDependencies": {

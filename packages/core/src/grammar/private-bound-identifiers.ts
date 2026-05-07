@@ -9,9 +9,9 @@ function privateBoundIdentifiersOfNode(node: Node): string[] {
     case "ClassBody":
       return node.body.flatMap(privateBoundIdentifiersOfNode);
     case "ClassPrivateProperty":
-      return node.key.type === "PrivateName" ? [node.key.id.name] : [];
+      return node.key.type === "PrivateName" ? ["#" + node.key.id.name] : [];
     case "ClassPrivateMethod":
-      return node.key.type === "PrivateName" ? [node.key.id.name] : [];
+      return node.key.type === "PrivateName" ? ["#" + node.key.id.name] : [];
   }
   return [];
 }

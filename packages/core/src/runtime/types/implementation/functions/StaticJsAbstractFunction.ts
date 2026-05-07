@@ -21,17 +21,19 @@ export abstract class StaticJsAbstractFunction
 {
   constructor(
     realm: StaticJsRealm,
-    length: number,
+    length: number | null,
     prototype: StaticJsObject | StaticJsNull | null,
   ) {
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
 
-    this.defineOwnPropertySync("length", {
-      value: realm.types.number(length),
-      writable: false,
-      enumerable: false,
-      configurable: true,
-    });
+    if (length != null) {
+      this.defineOwnPropertySync("length", {
+        value: realm.types.number(length),
+        writable: false,
+        enumerable: false,
+        configurable: true,
+      });
+    }
   }
 
   override get typeOf() {

@@ -1,109 +1,121 @@
 import { Function } from "@babel/types";
 
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { verifyNoTsParameterProperties } from "../../grammar/verify-no-ts-parameter-properties.js";
 import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
-import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsFunction } from "../types/StaticJsFunction.js";
 
+import { ordinaryFunctionCreate } from "./ordinary-function-create.js";
 import { setFunctionName } from "./set-function-name.js";
 
-export function instantiateFunctionObject(
+export function* instantiateFunctionObject(
   node: Function,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
-) {
+): EvaluationGenerator<StaticJsFunction> {
   if (node.async) {
     if (node.generator) {
-      return instantiateAsyncGeneratorFunctionObject(node, env, privateEnv);
+      return yield* instantiateAsyncGeneratorFunctionObject(node, env, privateEnv);
     }
 
-    return instantiateAsyncFunctionObject(node, env, privateEnv);
+    return yield* instantiateAsyncFunctionObject(node, env, privateEnv);
   } else if (node.generator) {
-    return instantiateGeneratorFunctionObject(node, env, privateEnv);
+    return yield* instantiateGeneratorFunctionObject(node, env, privateEnv);
   }
 
-  return instantiateOrdinaryFunctionObject(node, env, privateEnv);
+  return yield* instantiateOrdinaryFunctionObject(node, env, privateEnv);
 }
 
-function instantiateOrdinaryFunctionObject(
+function* instantiateOrdinaryFunctionObject(
   node: Function,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
-): StaticJsFunction {
-  const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, node, {
-    thisMode: "non-lexical-this",
-    strict,
-    scriptOrModule,
+): EvaluationGenerator<StaticJsFunction> {
+  const { realm } = EvaluationContext.current;
+
+  verifyNoTsParameterProperties(node.params);
+
+  const func = yield* ordinaryFunctionCreate(
+    realm.intrinsics["Function.prototype"],
+    node.params,
+    node,
+    "non-lexical-this",
     env,
     privateEnv,
-    construct: true,
-  });
+  );
 
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+      yield* setFunctionName(func, node.id?.name ?? "default");
   }
+
+  yield* func.makeConstructor();
 
   return func;
 }
 
-function instantiateGeneratorFunctionObject(
+function* instantiateGeneratorFunctionObject(
   node: Function,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
-): StaticJsFunction {
-  const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, node, {
-    thisMode: "non-lexical-this",
-    strict,
-    scriptOrModule,
+): EvaluationGenerator<StaticJsFunction> {
+  const { realm } = EvaluationContext.current;
+
+  verifyNoTsParameterProperties(node.params);
+
+  const func = yield* ordinaryFunctionCreate(
+    realm.intrinsics["GeneratorFunction.prototype"],
+    node.params,
+    node,
+    "non-lexical-this",
     env,
     privateEnv,
-    construct: false,
-    prototype: realm.intrinsics["GeneratorFunction.prototype"],
-  });
+  );
 
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+      yield* setFunctionName(func, node.id?.name ?? "default");
   }
 
-  func.defineOwnPropertySync("prototype", {
+  yield* func.defineOwnPropertyEvaluator("prototype", {
     value: realm.types.object({}, realm.intrinsics["GeneratorPrototype"]),
     writable: true,
     enumerable: false,
     configurable: false,
   });
+
   return func;
 }
 
-function instantiateAsyncGeneratorFunctionObject(
+function* instantiateAsyncGeneratorFunctionObject(
   node: Function,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
-): StaticJsFunction {
-  const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, node, {
-    thisMode: "non-lexical-this",
-    strict,
-    scriptOrModule,
+): EvaluationGenerator<StaticJsFunction> {
+  const { realm } = EvaluationContext.current;
+
+  verifyNoTsParameterProperties(node.params);
+
+  const func = yield* ordinaryFunctionCreate(
+    realm.intrinsics["AsyncGeneratorFunction.prototype"],
+    node.params,
+    node,
+    "non-lexical-this",
     env,
     privateEnv,
-    construct: false,
-    prototype: realm.intrinsics["AsyncGeneratorFunction.prototype"],
-  });
+  );
 
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+      yield* setFunctionName(func, node.id?.name ?? "default");
   }
 
-  func.defineOwnPropertySync("prototype", {
+  yield* func.defineOwnPropertyEvaluator("prototype", {
     value: realm.types.object({}, realm.intrinsics["AsyncGeneratorPrototype"]),
     writable: true,
     enumerable: false,
@@ -113,27 +125,28 @@ function instantiateAsyncGeneratorFunctionObject(
   return func;
 }
 
-function instantiateAsyncFunctionObject(
+function* instantiateAsyncFunctionObject(
   node: Function,
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
-): StaticJsFunction {
-  const { realm, strict, scriptOrModule } = EvaluationContext.current;
-  const func = new StaticJsAstFunction(realm, node, {
-    thisMode: "non-lexical-this",
-    strict,
-    scriptOrModule,
+): EvaluationGenerator<StaticJsFunction> {
+  const { realm } = EvaluationContext.current;
+
+  verifyNoTsParameterProperties(node.params);
+
+  const func = yield* ordinaryFunctionCreate(
+    realm.intrinsics["AsyncFunction.prototype"],
+    node.params,
+    node,
+    "non-lexical-this",
     env,
     privateEnv,
-    construct: false,
-    prototype: realm.intrinsics["AsyncFunction.prototype"],
-  });
+  );
 
   switch (node.type) {
     case "FunctionDeclaration":
     case "FunctionExpression":
-      // TODO: Generator
-      realm.invokeEvaluatorSync(setFunctionName(func, node.id?.name ?? "default"));
+      yield* setFunctionName(func, node.id?.name ?? "default");
   }
 
   return func;

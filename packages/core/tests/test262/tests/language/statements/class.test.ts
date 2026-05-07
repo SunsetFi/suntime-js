@@ -19400,14 +19400,14 @@ describe("elements", () => {
   );
   it(
     "get-access-of-missing-shadowed-private-getter.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/get-access-of-missing-shadowed-private-getter.js",
     ),
   );
   it(
     "grammar-private-field-optional-chaining.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/grammar-private-field-optional-chaining.js",
     ),
@@ -21379,17 +21379,17 @@ describe("elements", () => {
   );
   it(
     "private-async-generator-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-async-generator-method-name.js"),
   );
   it(
     "private-async-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-async-method-name.js"),
   );
   it(
     "private-class-field-on-nonextensible-objects.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-class-field-on-nonextensible-objects.js",
     ),
@@ -21494,7 +21494,7 @@ describe("elements", () => {
   );
   it(
     "private-field-after-optional-chain.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-field-after-optional-chain.js"),
   );
   it(
@@ -21559,7 +21559,7 @@ describe("elements", () => {
   );
   it(
     "private-generator-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-generator-method-name.js"),
   );
   it(
@@ -21614,28 +21614,28 @@ describe("elements", () => {
   );
   it(
     "private-getter-shadowed-by-field-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-getter-shadowed-by-field-on-nested-class.js",
     ),
   );
   it(
     "private-getter-shadowed-by-getter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-getter-shadowed-by-getter-on-nested-class.js",
     ),
   );
   it(
     "private-getter-shadowed-by-method-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-getter-shadowed-by-method-on-nested-class.js",
     ),
   );
   it(
     "private-getter-shadowed-by-setter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-getter-shadowed-by-setter-on-nested-class.js",
     ),
@@ -21801,28 +21801,28 @@ describe("elements", () => {
   );
   it(
     "private-method-shadowed-by-field-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-method-shadowed-by-field-on-nested-class.js",
     ),
   );
   it(
     "private-method-shadowed-by-getter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-method-shadowed-by-getter-on-nested-class.js",
     ),
   );
   it(
     "private-method-shadowed-by-setter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-method-shadowed-by-setter-on-nested-class.js",
     ),
   );
   it(
     "private-method-shadowed-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-method-shadowed-on-nested-class.js",
     ),
@@ -21844,21 +21844,21 @@ describe("elements", () => {
   describe("private-methods", () => {
     it(
       "prod-private-async-generator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/private-methods/prod-private-async-generator.js",
       ),
     );
     it(
       "prod-private-async-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/private-methods/prod-private-async-method.js",
       ),
     );
     it(
       "prod-private-generator.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/private-methods/prod-private-generator.js",
       ),
@@ -21872,7 +21872,7 @@ describe("elements", () => {
     );
     it(
       "prod-private-method.js",
-      { tags: ["known-failing"] },
+      { tags: ["known-passing"] },
       createTestHandler(
         "language/statements/class/elements/private-methods/prod-private-method.js",
       ),
@@ -21930,28 +21930,28 @@ describe("elements", () => {
   );
   it(
     "private-setter-shadowed-by-field-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-setter-shadowed-by-field-on-nested-class.js",
     ),
   );
   it(
     "private-setter-shadowed-by-getter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-setter-shadowed-by-getter-on-nested-class.js",
     ),
   );
   it(
     "private-setter-shadowed-by-method-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-setter-shadowed-by-method-on-nested-class.js",
     ),
   );
   it(
     "private-setter-shadowed-by-setter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-setter-shadowed-by-setter-on-nested-class.js",
     ),
@@ -21972,40 +21972,40 @@ describe("elements", () => {
   );
   it(
     "private-static-async-generator-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-async-generator-method-name.js",
     ),
   );
   it(
     "private-static-async-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-static-async-method-name.js"),
   );
   it(
     "private-static-field-shadowed-by-field-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-field-shadowed-by-field-on-nested-class.js",
     ),
   );
   it(
     "private-static-field-shadowed-by-getter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-field-shadowed-by-getter-on-nested-class.js",
     ),
   );
   it(
     "private-static-field-shadowed-by-method-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-field-shadowed-by-method-on-nested-class.js",
     ),
   );
   it(
     "private-static-field-shadowed-by-setter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-field-shadowed-by-setter-on-nested-class.js",
     ),
@@ -22026,7 +22026,7 @@ describe("elements", () => {
   );
   it(
     "private-static-generator-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-static-generator-method-name.js"),
   );
   it(
@@ -22050,7 +22050,7 @@ describe("elements", () => {
   );
   it(
     "private-static-method-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/private-static-method-name.js"),
   );
   it(
@@ -22060,28 +22060,28 @@ describe("elements", () => {
   );
   it(
     "private-static-method-shadowed-by-field-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-method-shadowed-by-field-on-nested-class.js",
     ),
   );
   it(
     "private-static-method-shadowed-by-getter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-method-shadowed-by-getter-on-nested-class.js",
     ),
   );
   it(
     "private-static-method-shadowed-by-method-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-method-shadowed-by-method-on-nested-class.js",
     ),
   );
   it(
     "private-static-method-shadowed-by-setter-on-nested-class.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/private-static-method-shadowed-by-setter-on-nested-class.js",
     ),
@@ -22149,7 +22149,7 @@ describe("elements", () => {
   );
   it(
     "privatefieldadd-typeerror.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/privatefieldadd-typeerror.js"),
   );
   it(
@@ -22204,7 +22204,7 @@ describe("elements", () => {
   );
   it(
     "privatefieldget-typeerror-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/privatefieldget-typeerror-5.js"),
   );
   it(
@@ -22259,7 +22259,7 @@ describe("elements", () => {
   );
   it(
     "privatefieldset-typeerror-5.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("language/statements/class/elements/privatefieldset-typeerror-5.js"),
   );
   it(
@@ -23821,7 +23821,7 @@ describe("elements", () => {
   );
   it(
     "set-access-of-missing-shadowed-private-setter.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/set-access-of-missing-shadowed-private-setter.js",
     ),
@@ -23833,7 +23833,7 @@ describe("elements", () => {
   );
   it(
     "set-access-of-shadowed-private-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/elements/set-access-of-shadowed-private-method.js",
     ),
@@ -28216,7 +28216,7 @@ describe("subclass", () => {
   );
   it(
     "private-class-field-on-nonextensible-return-override.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "language/statements/class/subclass/private-class-field-on-nonextensible-return-override.js",
     ),

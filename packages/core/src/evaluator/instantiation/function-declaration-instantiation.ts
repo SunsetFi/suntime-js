@@ -209,7 +209,11 @@ export default function* functionDeclarationInstantiation(
 
   for (const f of functionsToInitialize) {
     const fn = boundNames.soleElementOf(f);
-    const fo = instantiateFunctionObject(f, calleeContext.lexicalEnv, calleeContext.privateEnv);
+    const fo = yield* instantiateFunctionObject(
+      f,
+      calleeContext.lexicalEnv,
+      calleeContext.privateEnv,
+    );
     yield* varEnv.setMutableBindingEvaluator(fn, fo, false);
   }
 }

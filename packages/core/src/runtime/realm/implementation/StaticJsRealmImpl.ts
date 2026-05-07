@@ -54,6 +54,7 @@ import {
 } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { drainIterator } from "../../utils/drain-iterator.js";
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
 import { StaticJsConfig } from "../StaticJsConfig.js";
@@ -124,7 +125,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // through us, so it needs to be available early.
     this._typeFactory = typeFactory;
 
-    bootstrapTaskRunner(populateIntrinsics(this, intrinsics));
+    drainIterator(populateIntrinsics(this, intrinsics));
 
     const globalObjectResolved = resolveGlobalObject(this, globalObject);
     const globalThisResolved = resolveGlobalThis(this, globalObjectResolved, globalThisOpt);
@@ -142,7 +143,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       this,
     );
 
-    bootstrapTaskRunner(populateGlobal(this, this._global));
+    drainIterator(populateGlobal(this, this._global));
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
       const module = realmModuleToModule(this, name, moduleDef);
@@ -401,7 +402,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRunTaskOptions & { calleeType?: StaticJsTaskCalleeType } = {},
   ): TReturn {
     if (this._boostrapping) {
-      return this._invokeEvaluatorSyncNow(evaluator, "macrotask", "host", bootstrapTaskRunner);
+      return this._invokeEvaluatorSyncNow(evaluator, "macrotask", "host", drainIterator);
     } else if (this._currentTask && this._currentTask.entered) {
       return this._invokeEvaluatorSyncNow(evaluator, "macrotask", calleeType, runTask);
     }
@@ -732,12 +733,14 @@ function resolveGlobalObject(realm: StaticJsRealm, globalObject?: StaticJsRealmO
     // We used to have a special global that passively adds the objects.  Reconsider doing that again.
     globalObjectResolved = realm.types.object(undefined, staticJsValue);
   } else if (globalObject && "properties" in globalObject) {
-    globalObjectResolved = realm.types.object();
-    for (const [name, descriptor] of Object.entries(globalObject.properties)) {
-      const descr = globalDeclToDescriptor(realm, descriptor);
-
-      globalObjectResolved.defineOwnPropertySync(name, descr);
-    }
+    globalObjectResolved = realm.types.object(
+      Object.fromEntries(
+        Object.entries(globalObject.properties).map(([name, descriptor]) => {
+          const descr = globalDeclToDescriptor(realm, descriptor);
+          return [name, descr];
+        }),
+      ),
+    );
   } else {
     throw new Error("Invalid globalObject");
   }
@@ -894,13 +897,4 @@ function* doEvaluateScriptAsync(
       throw e;
     }
   });
-}
-
-function bootstrapTaskRunner(task: Iterator<unknown>) {
-  while (true) {
-    const { done } = task.next();
-    if (done) {
-      break;
-    }
-  }
 }

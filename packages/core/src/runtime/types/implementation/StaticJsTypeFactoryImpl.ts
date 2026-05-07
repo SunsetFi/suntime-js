@@ -185,15 +185,8 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     const obj = new StaticJsPlainObjectImpl(
       this._realm,
       isStaticJsNull(prototype) ? null : prototype,
+      properties,
     );
-
-    if (properties) {
-      const iterator =
-        properties instanceof Map ? properties.entries() : Object.entries(properties);
-      for (const [key, value] of iterator) {
-        obj.defineOwnPropertySync(key, value);
-      }
-    }
 
     return obj;
   }

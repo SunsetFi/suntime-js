@@ -104,7 +104,8 @@ function* callSuperEvaluator(node: CallExpression): EvaluationGenerator {
       "Super call function environment record's function object is not a class constructor",
     );
   }
-  yield* initializeInstanceElements(result, F);
+
+  yield* Q(initializeInstanceElements(result, F));
 
   return result;
 }

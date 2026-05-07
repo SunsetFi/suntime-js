@@ -1,5 +1,5 @@
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsPrivateName } from "../../types/StaticJsPrivateName.js";
+import { staticJsPrivateName, StaticJsPrivateName } from "../../types/StaticJsPrivateName.js";
 
 export class StaticJsPrivateEnvironmentRecord {
   private readonly _names: StaticJsPrivateName[] = [];
@@ -10,14 +10,11 @@ export class StaticJsPrivateEnvironmentRecord {
   }
 
   hasPrivateName(description: string): boolean {
-    return (
-      this._names.some((name) => name.description === description) ||
-      this._outerPrivateEnv?.hasPrivateName(description) === true
-    );
+    return this._names.some((name) => name.description === description);
   }
 
   addPrivateName(description: string): StaticJsPrivateName {
-    const privateName = { type: "private-name" as const, description };
+    const privateName = staticJsPrivateName(description);
     this._names.push(privateName);
     return privateName;
   }

@@ -7,12 +7,12 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { parseFunctionBody } from "../../parser/parse-function-body.js";
 import { parseParameters } from "../../parser/parse-parameters.js";
 import { Prototypes } from "../intrinsics/intrinsics.js";
-import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 import { getPrototypeFromConstructor } from "./get-prototype-from-constructor.js";
+import { ordinaryFunctionCreate } from "./ordinary-function-create.js";
 import { setFunctionName } from "./set-function-name.js";
 import { toString } from "./to-string.js";
 
@@ -107,14 +107,14 @@ export function* createDynamicFunction(
   const proto = yield* getPrototypeFromConstructor(newTarget, fallbackProto);
   const env = currentRealm.globalEnv;
   const privateEnv = null;
-  const func = new StaticJsAstFunction(currentRealm, fn, {
-    thisMode: "non-lexical-this",
+  const func = yield* ordinaryFunctionCreate(
+    proto,
+    parameters,
+    fn,
+    "non-lexical-this",
     env,
     privateEnv,
-    strict: false,
-    scriptOrModule,
-    prototype: proto,
-  });
+  );
 
   yield* setFunctionName(func, "anonymous");
 

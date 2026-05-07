@@ -56,6 +56,8 @@ export default function boundNames(node: Node | Node[]): string[] {
     case "ClassDeclaration":
       return node.id ? [node.id.name] : ["*default*"];
 
+    // FIXME: This is broken-ish.  These are being used as top-level entrypoints here, as bindings IN x,
+    // while above, FunctionDeclaration is being used as a child, as bindings IN parent of x.
     case "FunctionExpression":
     case "ArrowFunctionExpression": {
       const names: string[] = [];

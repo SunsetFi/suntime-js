@@ -4,7 +4,7 @@ import { isFunctionDeclaration, type FunctionParameter, type File } from "@babel
 import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
 
 import { babelParserOptions } from "./babel-parser-options.js";
-import { handleParseError } from "./parse-error.js";
+import { handleParseError } from "./handle-parse-error.js";
 
 const ArgumentParseErrorMessage = "Arg string terminates parameters early";
 export interface ParseParametersOptions {

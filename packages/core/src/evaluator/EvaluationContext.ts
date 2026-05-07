@@ -52,105 +52,178 @@ const EvaluationContextPropertyDefs: Record<
 };
 
 /**
- * ECMAScript equivalent to ExecutionContext.
- * Note: Code evaluation state is implicit to the generators being used,
- * which are a consumer of this rather than contained within it.
+ * More or less a hack, so we can get a resolvable realm when running non-invocation actions.
+ * Equivalent to {@link EvaluationContext}, but the latter is used instead of the former for
+ * most types.
+ *
+ * This is only used for {@link EvaluationContext.current}
  */
-export class EvaluationContext implements Required<EvaluationContextAutoDefProperties> {
-  static _currentStackProvider: EvaluationContextStackProvider | null = null;
+export interface EvaluationContext extends Required<EvaluationContextAutoDefProperties> {
+  readonly realm: StaticJsRealm;
 
-  static withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
+  parameter<T = unknown>(name: string, converter?: (value: unknown) => T): T | null;
+  requireParameter<T = unknown>(name: string, converter?: (value: unknown) => T): T;
+  run<T>(callback: (context: EvaluationContext) => EvaluationGenerator<T>): EvaluationGenerator<T>;
+
+  create(properties?: EvaluationContextOptions): EvaluationContext;
+}
+
+/**
+ * More or less a hack, so we can get a resolvable realm when running non-invocation actions.
+ */
+class RealmOnlyEvaluationContext implements EvaluationContext {
+  constructor(readonly realm: StaticJsRealm) {}
+  readonly strict = false;
+
+  get lexicalEnv() {
+    return this.realm.globalEnv;
+  }
+
+  get variableEnv() {
+    return this.realm.globalEnv;
+  }
+
+  readonly privateEnv = null;
+
+  readonly labelSet = [];
+
+  readonly evaluationParameters = Object.freeze({});
+
+  readonly function = null;
+
+  readonly scriptOrModule = null;
+
+  parameter<T = unknown>(): T | null {
+    throw new StaticJsEngineError(
+      "Cannot get evaluation parameter from realm-only evaluation context.",
+    );
+  }
+
+  requireParameter<T = unknown>(): T {
+    throw new StaticJsEngineError(
+      "Cannot get evaluation parameter from realm-only evaluation context.",
+    );
+  }
+
+  *run<T>(): EvaluationGenerator<T> {
+    throw new StaticJsEngineError("Cannot use run() on a realm-only evaluation context.");
+  }
+
+  create(): EvaluationContext {
+    throw new StaticJsEngineError(
+      "Cannot create new evaluation context from a realm-only evaluation context.",
+    );
+  }
+}
+
+let _currentStackProvider: EvaluationContextStackProvider | null = null;
+let _realmProvider: RealmOnlyEvaluationContext | null = null;
+export const EvaluationContext = {
+  withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
     // Note: We need to support re-entrancy here, particularly for test262, which can bootstrap
     // a new realm while in the process of evaluating code in an existing realm.  See $262.createRealm
-    const previousStackProvider = this._currentStackProvider;
-    this._currentStackProvider = provider;
+    const previousStackProvider = _currentStackProvider;
+    _currentStackProvider = provider;
     try {
       return callback();
     } finally {
-      this._currentStackProvider = previousStackProvider;
+      _currentStackProvider = previousStackProvider;
     }
-  }
+  },
 
-  static get hasStackProvider() {
-    return !!this._currentStackProvider;
-  }
+  get hasStackProvider() {
+    return !!_currentStackProvider;
+  },
 
-  static get hasExecutionContext() {
-    return this.hasStackProvider && !!this._currentStackProvider!.getCurrentContext();
-  }
+  get hasExecutionContext() {
+    return this.hasStackProvider && !!_currentStackProvider!.getCurrentContext();
+  },
 
-  static get stackProvider(): EvaluationContextStackProvider {
-    if (!this._currentStackProvider) {
+  get stackProvider(): EvaluationContextStackProvider {
+    if (!_currentStackProvider) {
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
     }
 
-    return this._currentStackProvider;
-  }
+    return _currentStackProvider;
+  },
 
-  static get current(): EvaluationContext {
-    if (!this._currentStackProvider) {
+  get current(): EvaluationContext {
+    if (_currentStackProvider) {
+      const context = _currentStackProvider.getCurrentContext() ?? _realmProvider;
+      if (!context) {
+        throw new StaticJsEngineError("No evaluation context found on the stack.");
+      }
+      return context;
+    }
+
+    if (_realmProvider) {
+      return _realmProvider;
+    }
+
+    throw new StaticJsEngineError("No evaluation context stack provider is set.");
+  },
+
+  get stack(): readonly EvaluationContext[] {
+    if (!_currentStackProvider) {
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
     }
 
-    const context = this._currentStackProvider.getCurrentContext();
-    if (!context) {
-      throw new StaticJsEngineError("No evaluation context found on the stack.");
-    }
+    return _currentStackProvider.getContextStack();
+  },
 
-    return context;
-  }
-
-  static get stack(): readonly EvaluationContext[] {
-    if (!this._currentStackProvider) {
-      throw new StaticJsEngineError("No evaluation context stack provider is set.");
-    }
-
-    return this._currentStackProvider.getContextStack();
-  }
-
-  static get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
-    if (!this._currentStackProvider) {
+  get scriptOrModule(): StaticJsScriptOrModuleRecord | null {
+    if (!_currentStackProvider) {
       return null;
     }
 
-    const context = this._currentStackProvider.getCurrentContext();
+    const context = _currentStackProvider.getCurrentContext();
     if (!context) {
       return null;
     }
 
     return context.scriptOrModule;
-  }
+  },
 
-  static push(context: EvaluationContext): void {
+  push(context: EvaluationContext): void {
     this.stackProvider.pushContext(context);
-  }
+  },
 
-  static pop() {
+  pop() {
     this.stackProvider.popContext();
-  }
+  },
 
-  static createRootContext(
+  withRealm<T = unknown>(realm: StaticJsRealm, callback: () => T): T {
+    const realmContext = new RealmOnlyEvaluationContext(realm);
+    _realmProvider = realmContext;
+    try {
+      return callback();
+    } finally {
+      _realmProvider = null;
+    }
+  },
+
+  createRootContext(
     scriptOrModule: StaticJsScriptOrModuleRecord | null,
     strict: boolean,
     realm: StaticJsRealm,
     env: StaticJsEnvironmentRecord = realm.globalEnv,
   ): EvaluationContext {
-    return new EvaluationContext(realm, null, {
+    return new EvaluationContextImpl(realm, null, {
       scriptOrModule,
       strict,
       lexicalEnv: env,
       variableEnv: env,
     });
-  }
+  },
 
-  static createFunctionInvocationContext(
+  createFunctionInvocationContext(
     func: StaticJsFunction,
     scriptOrModule: StaticJsScriptOrModuleRecord | null,
     realm: StaticJsRealm,
     env: StaticJsEnvironmentRecord,
     privateEnv?: StaticJsPrivateEnvironmentRecord | null | undefined,
   ): EvaluationContext {
-    return new EvaluationContext(
+    return new EvaluationContextImpl(
       realm,
       null,
       dropUndefined({
@@ -162,12 +235,9 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
         privateEnv: privateEnv,
       }),
     );
-  }
+  },
 
-  static *external<T>(
-    generator: EvaluationGenerator<T>,
-    realm: StaticJsRealm,
-  ): EvaluationGenerator<T> {
+  *external<T>(generator: EvaluationGenerator<T>, realm: StaticJsRealm): EvaluationGenerator<T> {
     if (this.hasExecutionContext) {
       return yield* generator;
     }
@@ -176,8 +246,15 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
     return yield* root.run(function* () {
       return yield* generator;
     });
-  }
+  },
+};
 
+/**
+ * ECMAScript equivalent to ExecutionContext.
+ * Note: Code evaluation state is implicit to the generators being used,
+ * which are a consumer of this rather than contained within it.
+ */
+class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperties> {
   private readonly _realm: StaticJsRealm;
   private readonly _parent: EvaluationContext | null;
   private readonly _properties: EvaluationContextAutoDefProperties;
@@ -199,7 +276,7 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
       }
 
       Object.defineProperty(this, prop, {
-        get(this: EvaluationContext) {
+        get(this: EvaluationContextImpl) {
           if (prop in this._properties) {
             return this._properties[prop];
           }
@@ -228,10 +305,6 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
 
   get realm() {
     return this._realm;
-  }
-
-  get parent() {
-    return this._parent;
   }
 
   scriptOrModule!: StaticJsScriptOrModuleRecord;
@@ -269,14 +342,6 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
     return converter(value);
   }
 
-  create(): EvaluationContext {
-    return new EvaluationContext(this._realm, this, {});
-  }
-
-  with(properties: Partial<EvaluationContextOptions> = {}): EvaluationContext {
-    return new EvaluationContext(this._realm, this, properties);
-  }
-
   *run<T>(
     callback: (context: EvaluationContext) => EvaluationGenerator<T>,
   ): EvaluationGenerator<T> {
@@ -299,5 +364,9 @@ export class EvaluationContext implements Required<EvaluationContextAutoDefPrope
       // }
       EvaluationContext.pop();
     }
+  }
+
+  create(properties: EvaluationContextOptions = {}): EvaluationContext {
+    return new EvaluationContextImpl(this._realm, this, properties);
   }
 }

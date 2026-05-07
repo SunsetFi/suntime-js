@@ -69,13 +69,13 @@ export type StaticJsResolvedReference<
 > = T & { referencedName: string };
 
 export function staticJsResolvedReferenceRecord(
-  referenceName: string,
+  referencedName: string,
   base: StaticJsEnvironmentRecord | StaticJsValue,
   strict: boolean,
   thisValue: StaticJsValue | null = null,
 ): StaticJsResolvedReference {
   return {
-    referencedName: referenceName,
+    referencedName,
     base,
     strict,
     thisValue,

@@ -1,7 +1,7 @@
 import { parseExpression as parseAst } from "@babel/parser";
 
 import { babelParserOptions } from "./babel-parser-options.js";
-import { handleParseError } from "./parse-error.js";
+import { handleParseError } from "./handle-parse-error.js";
 
 export function parseExpression(script: string, sourceName: string) {
   try {

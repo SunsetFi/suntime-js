@@ -26,7 +26,6 @@ class NonExtensibleBase {
   }
 }
 
-
 // extend superclass with private instance data field
 class ClassWithPrivateField extends NonExtensibleBase {
   #val;
@@ -49,7 +48,6 @@ assert.throws(TypeError, function () {
   new ClassWithPrivateField(true);
 });
 
-
 // extend superclass with private instance method
 class ClassWithPrivateMethod extends NonExtensibleBase {
   constructor(seal) {
@@ -58,7 +56,7 @@ class ClassWithPrivateMethod extends NonExtensibleBase {
   // private methods are on the instance, so will fail
   #privateMethod() {
     return 42;
-  };
+  }
   // public methods are on the prototype, so are ok.
   publicMethod() {
     return this.#privateMethod();
@@ -74,7 +72,6 @@ assert.throws(TypeError, function () {
   new ClassWithPrivateMethod(true);
 });
 
-
 // extend superclass with private instance accessor
 class ClassWithPrivateAccessor extends NonExtensibleBase {
   constructor(seal) {
@@ -83,7 +80,7 @@ class ClassWithPrivateAccessor extends NonExtensibleBase {
   // private accessors are on the instance, so will fail
   get #privateAccessor() {
     return 42;
-  };
+  }
   // public accessors are on the prototype, so are ok.
   get publicAccessor() {
     return this.#privateAccessor;
@@ -99,7 +96,6 @@ assert.throws(TypeError, function () {
   new ClassWithPrivateAccessor(true);
 });
 
-
 // base class private instance data field
 class TestNonExtensibleData {
   #g = (Object.preventExtensions(this), "Test262");
@@ -112,6 +108,7 @@ assert.throws(TypeError, function () {
 // base class with private static data field
 assert.throws(TypeError, function () {
   class TestNonExtensibleStaticData {
-    static #g = (Object.preventExtensions(TestNonExtensibleStaticData), "Test262");
+    static #g =
+      (Object.preventExtensions(TestNonExtensibleStaticData), "Test262");
   }
 });
