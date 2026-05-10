@@ -10,16 +10,18 @@ function getPackages() {
   return packages;
 }
 
-export function lintStagedWorkspaceCommand(packageName, command) {
+export function lintStagedWorkspaceRunner(packageName) {
   const packages = getPackages();
   const packageInfo = packages.find((pkg) => pkg.name === packageName);
   if (!packageInfo) {
     throw new Error(`Package ${packageName} not found`);
   }
 
-  return (paths) => {
-    return `pnpm run --filter ${packageName} ${command} ${paths
-      .map((path) => relative(packageInfo.path, path))
-      .join(" ")}`;
+  return (command) => {
+    return (paths) => {
+      return `pnpm run --filter ${packageName} ${command} ${paths
+        .map((path) => relative(packageInfo.path, path))
+        .join(" ")}`;
+    };
   };
 }
