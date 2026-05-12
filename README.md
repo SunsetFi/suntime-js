@@ -2,7 +2,7 @@
 
 (static-js was taken (So was js-engine))
 
-A (work in progress) JavaScript interpreter built on the TC39 ECMAScript standard, implementing asyncronous / non-blocking execution, sandboxing, modern language features, and full debugging support.
+A (work in progress) JavaScript interpreter built on the TC39 ECMAScript standard, implementing asyncronous / non-blocking execution, sandboxing, modern language features, and debugging support.
 
 A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval).
 
