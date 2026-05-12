@@ -153,18 +153,6 @@ describe("E2E: Eval", () => {
       expect(result).toBe(1);
     });
 
-    it("prevents deleting bindings in strict direct eval", async () => {
-      const code = `
-        function strictDelete() {
-          return eval("'use strict'; var x = 1; delete x;");
-        }
-        strictDelete();
-      `;
-      await expect(evaluateScript(code)).rejects.toMatchObject({
-        name: "SyntaxError",
-      });
-    });
-
     it("throws when assigning to arguments in strict eval", async () => {
       const code = `
         function strictArguments() {

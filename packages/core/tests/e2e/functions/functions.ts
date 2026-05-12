@@ -744,7 +744,7 @@ if (f2() !== "function") {
           }
           a();
         `;
-        expect(() => evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
+        await expect(() => evaluateScript(code)).rejects.toHaveProperty("name", "TypeError");
       });
 
       it("Arguments object is iterable", async () => {
