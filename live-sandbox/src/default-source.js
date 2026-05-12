@@ -37,13 +37,16 @@ function* getPrimes(limit) {
 }
 
 function st(x) {
-  switch (x) {
+  const test = Number(String(x).at(-1));
+  switch (test) {
     case 1:
       return x + "st";
     case 2:
       return x + "nd";
-    default:
+    case 3:
       return x + "rd";
+    default:
+      return x + "th";
   }
 }
 
