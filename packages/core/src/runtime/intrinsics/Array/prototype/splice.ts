@@ -22,6 +22,8 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     let actualStart: number;
     if (relativeStart === Number.NEGATIVE_INFINITY) {
       actualStart = 0;
+    } else if (relativeStart < 0) {
+      actualStart = Math.max(len + relativeStart, 0);
     } else {
       actualStart = Math.min(relativeStart, len);
     }
