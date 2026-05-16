@@ -1,7 +1,7 @@
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
+import { drainIterator } from "../../../../utils/drain-iterator.js";
 import { validateAndApplyPropertyDescriptor } from "../../../algorithms/validate-and-apply-property-descriptor.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { drainIterator } from "../../../utils/drain-iterator.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsPropertyDescriptorRecord } from "../../StaticJsPropertyDescriptor.js";

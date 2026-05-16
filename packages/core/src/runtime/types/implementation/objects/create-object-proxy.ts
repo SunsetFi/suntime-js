@@ -1,7 +1,7 @@
-import { properrtyDescriptortoNative } from "../../../utils/property-descriptor-to-js.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
+  propertyDescriptortoNative,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
@@ -50,7 +50,7 @@ export function createStaticJsObjectProxy(
       return existingDef;
     }
 
-    const jsDescriptor = properrtyDescriptortoNative(descriptor, obj.realm);
+    const jsDescriptor = propertyDescriptortoNative(descriptor, obj.realm);
 
     Object.defineProperty(target, propertyName, jsDescriptor);
 

@@ -31,7 +31,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* lengthOfArrayLike(thisObj);
 
-    const A = yield* arraySpeciesCreate(thisObj, length, realm);
+    const A = yield* arraySpeciesCreate(thisObj, length);
     for (let i = 0; i < length; i++) {
       const property = String(i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);

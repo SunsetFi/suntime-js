@@ -1,8 +1,8 @@
 import { toObject } from "../../../algorithms/to-object.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+import { propertyDescriptorToStaticJsObject } from "../../../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { fromPropertyDescriptor } from "../../../utils/fromPropertyDescriptor.js";
 import { toPropertyKey } from "../../../utils/to-property-key.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
@@ -28,7 +28,7 @@ const objectCtorGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclaratio
       return realm.types.undefined;
     }
 
-    return yield* fromPropertyDescriptor(descriptor, realm);
+    return yield* propertyDescriptorToStaticJsObject(descriptor, realm);
   },
 };
 

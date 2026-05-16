@@ -16,7 +16,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
     // Unique among array methods, concat does not cast thisArg to an array.
 
     const O = yield* toObject(thisArg);
-    const A = yield* arraySpeciesCreate(O, 0, realm);
+    const A = yield* arraySpeciesCreate(O, 0);
 
     let n = 0;
 
@@ -43,7 +43,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
         continue;
       }
 
-      const spreadable = yield* isConcatSpreadable(E, realm);
+      const spreadable = yield* isConcatSpreadable(E);
       if (spreadable) {
         const objE = E as StaticJsObject;
         const len = yield* lengthOfArrayLike(objE);

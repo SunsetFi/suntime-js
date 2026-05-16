@@ -1,17 +1,23 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsArray } from "../types/StaticJsArray.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsProxy } from "../types/StaticJsProxy.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-export function* isArray(
-  value: StaticJsValue,
-  _realm: StaticJsRealm,
-): EvaluationGenerator<boolean> {
+export function* isArray(value: StaticJsValue): EvaluationGenerator<boolean> {
+  if (!isStaticJsObject(value)) {
+    return false;
+  }
+
   if (isStaticJsArray(value)) {
     return true;
   }
 
-  // TODO: Check proxy target.
+  if (isStaticJsProxy(value)) {
+    value.validateNonRevokedProxy();
+    const proxyTarget = value.proxyTarget;
+    return yield* isArray(proxyTarget);
+  }
 
   return false;
 }

@@ -17,7 +17,6 @@ import { toPropertyDescriptor } from "../../algorithms/to-property-descriptor.js
 import { toString } from "../../algorithms/to-string.js";
 import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import { fromPropertyDescriptor } from "../../utils/fromPropertyDescriptor.js";
 import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../StaticJsObject.js";
@@ -25,6 +24,7 @@ import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
+  propertyDescriptorToStaticJsObject,
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
@@ -576,7 +576,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       return yield* Q(target.defineOwnPropertyEvaluator(key, desc));
     }
 
-    const descObj = yield* Q(fromPropertyDescriptor(desc, this._realm));
+    const descObj = yield* Q(propertyDescriptorToStaticJsObject(desc, this._realm));
     const booleanTrapResult = yield* toBoolean.js(
       yield* Q(
         call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm), descObj]),

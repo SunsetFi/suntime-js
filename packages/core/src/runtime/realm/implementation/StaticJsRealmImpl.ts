@@ -19,6 +19,7 @@ import { parseExpression } from "../../../parser/parse-expression.js";
 import { parseModule } from "../../../parser/parse-module.js";
 import { parseScript } from "../../../parser/parse-script.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
+import { drainIterator } from "../../../utils/drain-iterator.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
 import { symbolInspect } from "../../../utils/symbol-inspect.js";
 import { getValue } from "../../algorithms/get-value.js";
@@ -54,7 +55,6 @@ import {
 } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import { drainIterator } from "../../utils/drain-iterator.js";
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
 import { StaticJsConfig } from "../StaticJsConfig.js";

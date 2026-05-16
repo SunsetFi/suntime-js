@@ -49,7 +49,7 @@ const arrayProtoSliceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     const sliceLength = end - start;
-    const A = yield* arraySpeciesCreate(thisObj, sliceLength, realm);
+    const A = yield* arraySpeciesCreate(thisObj, sliceLength);
     for (let i = 0; i < sliceLength; i++) {
       const property = String(start + i);
       const hasProperty = yield* thisObj.hasPropertyEvaluator(property);

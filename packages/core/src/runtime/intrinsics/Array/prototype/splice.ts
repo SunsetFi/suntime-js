@@ -1,63 +1,110 @@
-import { isNotUndefined } from "../../../../utils/is-not-undefined.js";
-import { arrayCreate } from "../../../algorithms/array-create.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 import { arraySpeciesCreate } from "../../../algorithms/array-species-create.js";
+import { createDataPropertyOrThrow } from "../../../algorithms/create-data-property-or-throw.js";
+import { deletePropertyOrThrow } from "../../../algorithms/delete-property-or-throw.js";
+import { get } from "../../../algorithms/get.js";
+import { hasProperty } from "../../../algorithms/has-property.js";
 import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
-import { toInteger } from "../../../algorithms/to-integer.js";
+import { set } from "../../../algorithms/set.js";
+import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
 import { toObject } from "../../../algorithms/to-object.js";
-import { setArray } from "../../../utils/set-array.js";
-import { toArray } from "../../../utils/to-array.js";
+import { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
   key: "splice",
   length: 2,
-  *func(realm, thisArg = realm.types.undefined, startValue, deleteCountValue, ...items) {
-    const thisObj = yield* toObject(thisArg);
-
-    const length = yield* lengthOfArrayLike(thisObj);
-
-    if (!startValue) {
-      return yield* arrayCreate(0);
+  *func(realm, thisArg = realm.types.undefined, start, deleteCount, ...items) {
+    const obj = yield* Q(toObject(thisArg));
+    const len = yield* Q(lengthOfArrayLike(obj));
+    const relativeStart = yield* Q(toIntegerOrInfinity.js(start ?? realm.types.undefined));
+    let actualStart: number;
+    if (relativeStart === Number.NEGATIVE_INFINITY) {
+      actualStart = 0;
+    } else {
+      actualStart = Math.min(relativeStart, len);
     }
 
-    let start = 0;
-    if (startValue) {
-      startValue = yield* toInteger(startValue);
-      start = startValue.value;
+    const itemCount = items.length;
+
+    let actualDeleteCount: number;
+    if (start === undefined) {
+      actualDeleteCount = 0;
+    } else if (deleteCount === undefined) {
+      actualDeleteCount = len - actualStart;
+    } else {
+      const dc = yield* Q(toIntegerOrInfinity.js(deleteCount));
+      actualDeleteCount = Math.min(Math.max(dc, 0), len - actualStart);
     }
 
-    if (start < 0) {
-      start += length;
+    if (len + itemCount - actualDeleteCount > 2 ** 53 - 1) {
+      throw Completion.Throw(
+        "TypeError",
+        "The number of elements in the array after the splice operation exceeds the maximum allowed length.",
+      );
     }
 
-    start = Math.max(0, start);
-    start = Math.min(length, start);
+    const deletedArray = yield* arraySpeciesCreate(obj, actualDeleteCount);
 
-    let deleteCount = length;
-    if (deleteCountValue) {
-      deleteCountValue = yield* toInteger(deleteCountValue);
-      deleteCount = deleteCountValue.value;
+    let k = 0;
+
+    while (k < actualDeleteCount) {
+      const from = String(actualStart + k);
+      if (yield* hasProperty(obj, from)) {
+        const fromValue = yield* Q(get(obj, from));
+        yield* Q(createDataPropertyOrThrow(deletedArray, String(k), fromValue));
+      }
+      k++;
     }
 
-    if (deleteCount < 0) {
-      deleteCount = 0;
+    yield* set(deletedArray, "length", realm.types.number(actualDeleteCount), true);
+
+    if (itemCount < actualDeleteCount) {
+      k = actualStart;
+      while (k < len - actualDeleteCount) {
+        const from = String(k + actualDeleteCount);
+        const to = String(k + itemCount);
+        if (yield* hasProperty(obj, from)) {
+          const fromValue = yield* Q(get(obj, from));
+          yield* Q(set(obj, to, fromValue, true));
+        } else {
+          yield* deletePropertyOrThrow(obj, to);
+        }
+        k++;
+      }
+
+      k = len;
+      while (k > len - actualDeleteCount + itemCount) {
+        yield* deletePropertyOrThrow(obj, String(k - 1));
+        k--;
+      }
+    } else if (itemCount > actualDeleteCount) {
+      k = len - actualDeleteCount;
+      while (k > actualStart) {
+        const from = String(k + actualDeleteCount - 1);
+        const to = String(k + itemCount - 1);
+        if (yield* hasProperty(obj, from)) {
+          const fromValue = yield* Q(get(obj, from));
+          yield* Q(set(obj, to, fromValue, true));
+        } else {
+          yield* deletePropertyOrThrow(obj, to);
+        }
+        k--;
+      }
     }
 
-    deleteCount = Math.min(length - start, deleteCount);
+    k = actualStart;
+    for (const item of items) {
+      // StaticJsUndefined is only in the typings because we
+      // are playing it safe for functions invoked with too few args.
+      yield* Q(set(obj, String(k), item as StaticJsValue, true));
+      k++;
+    }
 
-    // Splice is quite complicated, so just hand it off to native.
-    // Note: We might want to do this manually eventually, as this might have weird compatibility issues
-    // around when getters and setters are invoked.
-    // FIXME: Use algo https://tc39.es/ecma262/multipage/indexed-collections.html#sec-array.prototype.splice
-    const oldItems = yield* toArray(thisObj);
-    const result = oldItems.splice(start, deleteCount, ...items.filter(isNotUndefined));
+    yield* Q(set(obj, "length", realm.types.number(len - actualDeleteCount + itemCount), true));
 
-    yield* setArray(realm, thisObj, oldItems);
-
-    const resultItems = yield* arraySpeciesCreate(thisObj, oldItems.length, realm);
-    yield* setArray(realm, resultItems, result);
-
-    return resultItems;
+    return deletedArray;
   },
 };
 

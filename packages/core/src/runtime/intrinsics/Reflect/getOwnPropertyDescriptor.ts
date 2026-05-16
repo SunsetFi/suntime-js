@@ -1,7 +1,7 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { isStaticJsObject } from "../../types/StaticJsObject.js";
-import { fromPropertyDescriptor } from "../../utils/fromPropertyDescriptor.js";
+import { propertyDescriptorToStaticJsObject } from "../../types/StaticJsPropertyDescriptor.js";
 import { toPropertyKey } from "../../utils/to-property-key.js";
 import { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
@@ -16,6 +16,6 @@ export const reflectGetOwnPropertyDescriptorDeclaration: IntrinsicPropertyDeclar
     const key = yield* toPropertyKey(propertyKey);
 
     const descr = yield* Q(target.getOwnPropertyEvaluator(key));
-    return yield* fromPropertyDescriptor(descr, realm);
+    return yield* propertyDescriptorToStaticJsObject(descr, realm);
   },
 };

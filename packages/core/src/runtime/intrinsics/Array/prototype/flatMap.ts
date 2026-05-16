@@ -24,7 +24,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
 
     const length = yield* lengthOfArrayLike(thisObj);
 
-    const A = yield* arraySpeciesCreate(thisObj, 0, realm);
+    const A = yield* arraySpeciesCreate(thisObj, 0);
     let n = 0;
 
     for (let i = 0; i < length; i++) {

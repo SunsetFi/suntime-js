@@ -1,7 +1,7 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
@@ -17,9 +17,8 @@ import { sameValue } from "./same-value.js";
 export function* arraySpeciesCreate(
   originalArray: StaticJsValue,
   length: number,
-  realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
-  const originalIsArray = yield* isArray(originalArray, realm);
+  const originalIsArray = yield* isArray(originalArray);
   if (!originalIsArray) {
     return yield* arrayCreate(length);
   }
@@ -29,19 +28,22 @@ export function* arraySpeciesCreate(
     throw new StaticJsEngineError("originalArray returned isArray true but is not an object");
   }
 
+  const thisRealm = EvaluationContext.current.realm;
+
   let c = yield* get(originalArray, "constructor");
   if (isConstructor(c)) {
-    if (c.realm !== realm) {
-      if (sameValue(c, c.realm.intrinsics.Array)) {
-        c = realm.types.undefined;
+    const constructorRealm = c.realm;
+    if (constructorRealm !== thisRealm) {
+      if (sameValue(c, constructorRealm.intrinsics.Array)) {
+        c = thisRealm.types.undefined;
       }
     }
   }
 
   if (isStaticJsObject(c)) {
-    c = yield* get(c, realm.types.symbols.species);
+    c = yield* get(c, thisRealm.types.symbols.species);
     if (isStaticJsNull(c)) {
-      c = realm.types.undefined;
+      c = thisRealm.types.undefined;
     }
   }
 
@@ -53,5 +55,5 @@ export function* arraySpeciesCreate(
     throw Completion.Throw("TypeError", "Array constructor is not a constructor");
   }
 
-  return yield* construct(c, [realm.types.number(length)]);
+  return yield* construct(c, [thisRealm.types.number(length)]);
 }

@@ -7,7 +7,8 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
-import type { StaticJsValue } from "./StaticJsValue.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
+import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export type StaticJsProxyTarget =
   | StaticJsObject
@@ -81,4 +82,16 @@ export const StaticJsProxyHandlerKeys = [
 
 export interface StaticJsProxy extends StaticJsObject, StaticJsCallable {
   readonly runtimeTypeOf: "proxy";
+
+  get proxyTarget(): StaticJsObject;
+
+  validateNonRevokedProxy(): void;
+}
+
+export function isStaticJsProxy(value: unknown): value is StaticJsProxy {
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+
+  return value.runtimeTypeCode === StaticJsTypeCode.Proxy;
 }

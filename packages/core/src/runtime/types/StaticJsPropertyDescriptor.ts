@@ -1,6 +1,11 @@
+import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { dropUndefined } from "../../utils/drop-undefined.js";
 import { hasOwnProperty } from "../../utils/has-own-property.js";
+import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsCallable, type StaticJsCallable } from "./StaticJsCallable.js";
+import { StaticJsPlainObject } from "./StaticJsPlainObject.js";
+import { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
@@ -114,4 +119,121 @@ export function isStaticJsAccessorPropertyDescriptor(value: unknown): boolean {
   }
 
   return hasOwnProperty(value, "get") || hasOwnProperty(value, "set");
+}
+
+type StaticJsPropertyDescriptorKeys =
+  | keyof StaticJsDataPropertyDescriptor
+  | keyof StaticJsAccessorPropertyDescriptor;
+
+export function propertyDescriptorToStaticJsObject(
+  descriptor: StaticJsPropertyDescriptorRecord,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsPlainObject>;
+export function propertyDescriptorToStaticJsObject(
+  descriptor: StaticJsPropertyDescriptorRecord | undefined,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsPlainObject | StaticJsUndefined>;
+export function* propertyDescriptorToStaticJsObject(
+  descriptor: StaticJsPropertyDescriptorRecord | undefined,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsPlainObject | StaticJsUndefined> {
+  if (descriptor === undefined) {
+    return realm.types.undefined;
+  }
+
+  const properties: Partial<Record<StaticJsPropertyDescriptorKeys, StaticJsPropertyDescriptor>> =
+    {};
+
+  if (descriptor.enumerable !== undefined) {
+    properties["enumerable"] = {
+      enumerable: true,
+      writable: true,
+      configurable: true,
+      value: realm.types.boolean(descriptor.enumerable ?? false),
+    };
+  }
+
+  if (descriptor.configurable !== undefined) {
+    properties["configurable"] = {
+      enumerable: true,
+      writable: true,
+      configurable: true,
+      value: realm.types.boolean(descriptor.configurable ?? false),
+    };
+  }
+
+  if (descriptor.get !== undefined) {
+    properties["get"] = {
+      enumerable: true,
+      writable: true,
+      configurable: true,
+      value: descriptor.get,
+    };
+  }
+  if (descriptor.set !== undefined) {
+    properties["set"] = {
+      enumerable: true,
+      writable: true,
+      configurable: true,
+      value: descriptor.set,
+    };
+  }
+
+  if (descriptor.value !== undefined) {
+    properties["value"] = {
+      enumerable: true,
+      writable: true,
+      configurable: true,
+      value: descriptor.value,
+    };
+  }
+  if (descriptor.writable !== undefined) {
+    properties["writable"] = {
+      enumerable: true,
+      writable: true,
+      configurable: true,
+      value: realm.types.boolean(descriptor.writable ?? false),
+    };
+  }
+
+  return realm.types.object(properties);
+}
+
+export function propertyDescriptortoNative(
+  descriptor: StaticJsPropertyDescriptor,
+  realm: StaticJsRealm,
+): PropertyDescriptor {
+  const objDescriptor: PropertyDescriptor = dropUndefined({
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+  });
+
+  if (isStaticJsAccessorPropertyDescriptor(descriptor)) {
+    const { get, set } = descriptor;
+    if (get) {
+      objDescriptor.get = function () {
+        const thisArg = realm.types.toStaticJsValue(this);
+        const result = get.callSync(thisArg);
+        return result.toNative();
+      };
+    }
+    if (set) {
+      objDescriptor.set = function (value: unknown) {
+        const thisArg = realm.types.toStaticJsValue(this);
+        const staticJsValue = realm.types.toStaticJsValue(value);
+        set.callSync(thisArg, [staticJsValue]);
+      };
+    }
+  } else if (isStaticJsDataPropertyDescriptor(descriptor)) {
+    const { writable, value } = descriptor;
+    if (writable !== undefined) {
+      objDescriptor.writable = writable;
+    }
+
+    if (value !== undefined) {
+      objDescriptor.value = value.toNative();
+    }
+  }
+
+  return objDescriptor;
 }
