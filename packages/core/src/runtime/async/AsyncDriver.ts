@@ -6,6 +6,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { performPromiseThen } from "../algorithms/perform-promise-then.js";
 import { promiseResolve } from "../algorithms/promise-resolve.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -153,7 +154,7 @@ export class AsyncDriver {
       },
     );
 
-    yield* promise.thenEvaluator(onFulfilled, onRejected, false);
+    yield* performPromiseThen(promise, onFulfilled, onRejected);
   }
 
   private *_resolve(value: StaticJsValue): EvaluationGenerator<void> {

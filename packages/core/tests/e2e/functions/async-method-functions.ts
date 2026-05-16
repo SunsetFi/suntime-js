@@ -111,8 +111,6 @@ function staticJsPromiseToPromise(
   realm: StaticJsRealm,
 ): Promise<unknown> {
   return new Promise((resolve, reject) => {
-    // FIXME: It would be nice to do it this way, but we currently don't support
-    // enqueuing microtasks outside of a realm.
     realm.invokeEvaluatorSync(
       promise.thenEvaluator(
         realm.types.toStaticJsValue(resolve),

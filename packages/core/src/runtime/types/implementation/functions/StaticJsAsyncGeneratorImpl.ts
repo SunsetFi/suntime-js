@@ -10,6 +10,7 @@ import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/Static
 import { Await } from "../../../algorithms/await.js";
 import { call } from "../../../algorithms/call.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
+import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
 import { promiseResolve } from "../../../algorithms/promise-resolve.js";
 import { AsyncDriver } from "../../../async/AsyncDriver.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
@@ -284,7 +285,7 @@ export class StaticJsAsyncGeneratorImpl
       });
     });
 
-    yield* promise.thenEvaluator(onFulfilled, onRejected);
+    yield* performPromiseThen(promise, onFulfilled, onRejected);
   }
 
   private *_asyncGeneratorAwaitReturn(): EvaluationGenerator<void> {
@@ -354,7 +355,7 @@ export class StaticJsAsyncGeneratorImpl
       },
     );
 
-    yield* promise.thenEvaluator(onFulfilled, onRejected);
+    yield* performPromiseThen(promise, onFulfilled, onRejected);
   }
 
   private *_asyncGeneratorCompleteStep(completion: Completion, done: boolean) {
