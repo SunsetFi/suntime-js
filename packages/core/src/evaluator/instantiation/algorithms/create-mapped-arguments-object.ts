@@ -25,7 +25,7 @@ export default function* createMappedArgumentsObject(
   const map = realm.types.object();
   const obj = new StaticJsArgumentsExoticObject(map, realm);
 
-  const parameterNames = boundNames(formals);
+  const parameterNames = boundNames.ofParameters(formals);
   const numberOfParameters = parameterNames.length;
 
   for (let index = 0; index < len; index++) {

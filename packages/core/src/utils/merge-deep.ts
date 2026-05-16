@@ -1,5 +1,8 @@
 export function mergeDeep<A, B>(target: A, ...sources: B[]): A & B {
-  if (!sources.length) return target as A & B;
+  if (!sources.length) {
+    return target as A & B;
+  }
+
   const source = sources.shift()!;
 
   if (isObject(target) && isObject(source)) {

@@ -180,6 +180,19 @@ export function checkEarlyErrors(
     }
   }
 
+  function checkFunction(func: Function) {
+    for (const name of boundNames(func)) {
+      checkIdentifier(name, func, "Function name");
+    }
+
+    // I'm not sure if boundNames is supposed to return this...
+    if (func.type === "FunctionExpression" && func.id) {
+      checkIdentifier(func.id.name, func, "Function name");
+    }
+
+    checkFunctionParams(func);
+  }
+
   const visitScope: VisitNodeObject<{}, Scope> = {
     enter({ node }) {
       enterScope(node);
@@ -201,12 +214,7 @@ export function checkEarlyErrors(
 
         // HACK: boundNames returns the children of a function expression, not the name of the expression, so we have to special case it
         // FIX THIS
-        if (node.type === "FunctionExpression" && node.id) {
-          checkIdentifier(node.id.name, node, "Function name");
-        } else if (node.type === "FunctionDeclaration" && node.id) {
-          checkIdentifier(node.id.name, node, "Function name");
-        }
-        checkFunctionParams(node);
+        checkFunction(node);
       },
       exit() {
         exitScope();

@@ -2,35 +2,15 @@
 
 ## Immediate
 
-- [ ] MethodDefinitionEvaluation / defineMethod for classes currently doesn't pick the right prototypes for async and gen functions.
-  - [ ] Should defineMethod for class be shared with ObjectExpression?
-  - [ ] ObjectExpression has its own copy of methodDefinitionEvaluation...
-- [ ] Remove length ctor arg from StaticJsAbstractFunction
 - [ ] Strip realm argument from
   - [ ] newPromiseCapability
   - [ ] asyncFromSyncIteratorContinuation
   - [ ] createIteratorResultObject
 - Return completions from iteratorNext
-- Figure out why test262 tests are throwing unhandled rejections
-  - [ ] language/statements/class/elements/wrapped-in-sc-rs-static-async-generator-method-privatename-identifier.js
-  - [x] language/module-code/top-level-await/pending-async-dep-from-cycle.js
-        pnpm test:language tests/test262/tests/language/module-code/top-level-await.test.ts -t "pending-async-dep-from-cycle.js"
-- [x] Really really really stop vitest from dumping out the entire realm to the terminal on errors.
-
-## Built-in tests
-
-- [x] Figure out why Map and Set iterator tests are timing out.
-- [ ] Figure out why Promise.any tests are timing out when any isnt defined.
-      Probably ending up in the UnhandledRejection trap somehow?
-      See built-ins/Promise/any/invoke-resolve-get-once-multiple-calls.js
 
 ## Less imidiate
 
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
-- [ ] Clean up StaticJsPropertyKey string / StaticJsString
-      Lots of squirly code because of this
-      Make either work with get() and flatten it there?
-- [ ] Change getPrototype / setPrototype to use StaticJsNull instead of engine null.
 - [ ] StaticJsFunction.toString revealing source
 - [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
@@ -40,9 +20,9 @@
   - [ ] Merge microtasks into same iterator?
 - [ ] Rewrite async generators. Make AsyncDriver not care about yields at all, so we can use
       Await() inside generator implementation functions.
-  - [ ] Remake await and yied as SuspendCommand. Spec seems to not care what type and just calls functions that suspend and resume.
+  - [ ] Remake await and yield as SuspendCommand. Spec seems to not care what type and just calls functions that suspend and resume.
         No need to make the implementations be defined at the handler level.
-- [ ] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
+- [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
 
 ### Long term spec compliance reworks
 

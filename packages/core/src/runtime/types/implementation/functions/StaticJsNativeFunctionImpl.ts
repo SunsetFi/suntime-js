@@ -2,6 +2,7 @@ import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { setFunctionLength } from "../../../algorithms/set-function-length.js";
 import { setFunctionName } from "../../../algorithms/set-function-name.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
@@ -44,13 +45,15 @@ export class StaticJsNativeFunctionImpl
     ) => EvaluationGenerator<StaticJsValue>,
     { construct, length, prototype }: StaticJsNativeFunctionOptions = {},
   ) {
-    const resolvedLength = length ?? _call.length;
-    super(realm, resolvedLength, prototype ?? realm.intrinsics["Function.prototype"]);
+    super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
 
-    // FIXME: Shim for old code.  Remove.
+    const resolvedLength = length ?? _call.length;
+    realm.invokeEvaluatorSync(setFunctionLength(this, resolvedLength));
+
     if (_name) {
       realm.invokeEvaluatorSync(setFunctionName(this, _name));
     }
+
     if (typeof construct === "boolean") {
       this._construct = construct ? this._call : null;
     } else if (typeof construct === "function") {

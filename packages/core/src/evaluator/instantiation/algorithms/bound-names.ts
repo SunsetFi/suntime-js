@@ -1,4 +1,4 @@
-import type { Node } from "@babel/types";
+import { type FunctionParameter, type Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 
@@ -56,17 +56,6 @@ export default function boundNames(node: Node | Node[]): string[] {
     case "ClassDeclaration":
       return node.id ? [node.id.name] : ["*default*"];
 
-    // FIXME: This is broken-ish.  These are being used as top-level entrypoints here, as bindings IN x,
-    // while above, FunctionDeclaration is being used as a child, as bindings IN parent of x.
-    case "FunctionExpression":
-    case "ArrowFunctionExpression": {
-      const names: string[] = [];
-      for (const param of node.params) {
-        names.push(...boundNames(param));
-      }
-      return names;
-    }
-
     case "ImportDeclaration": {
       const names: string[] = [];
       for (const specifier of node.specifiers) {
@@ -108,6 +97,16 @@ export default function boundNames(node: Node | Node[]): string[] {
 
   return [];
 }
+
+boundNames.ofParameters = function boundNamesOfParameters(
+  parameters: FunctionParameter[],
+): string[] {
+  const names: string[] = [];
+  for (const param of parameters) {
+    names.push(...boundNames(param));
+  }
+  return names;
+};
 
 boundNames.soleElementOf = function (node: Node): string {
   const names = boundNames(node);

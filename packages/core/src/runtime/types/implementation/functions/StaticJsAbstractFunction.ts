@@ -19,21 +19,8 @@ export abstract class StaticJsAbstractFunction
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsFunction
 {
-  constructor(
-    realm: StaticJsRealm,
-    length: number | null,
-    prototype: StaticJsObject | StaticJsNull | null,
-  ) {
+  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
-
-    if (length != null) {
-      this.defineOwnPropertySync("length", {
-        value: realm.types.number(length),
-        writable: false,
-        enumerable: false,
-        configurable: true,
-      });
-    }
   }
 
   override get typeOf() {

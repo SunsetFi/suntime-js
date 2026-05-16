@@ -102,11 +102,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const params = isFunction(_node) ? _node.params : [];
     validateStaticJsAstFunctionParams(params);
 
-    super(
-      realm,
-      null,
-      prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"],
-    );
+    super(realm, prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"]);
 
     this._argumentDeclarations = params;
 

@@ -34,7 +34,7 @@ export default function* functionDeclarationInstantiation(
   const strict = func.strict;
   const formals = func.formalParameters;
 
-  const parameterNames = formals.flatMap(boundNames);
+  const parameterNames = boundNames.ofParameters(formals);
   const hasDuplicates = parameterNames.length !== new Set(parameterNames).size;
 
   // TODO: arguments object
