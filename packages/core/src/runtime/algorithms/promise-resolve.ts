@@ -1,3 +1,4 @@
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsObject } from "../types/StaticJsObject.js";
@@ -11,13 +12,17 @@ import { newPromiseCapability } from "./new-promise-capability.js";
 export function* promiseResolve(
   constructor: StaticJsObject,
   value: StaticJsValue,
-  realm: StaticJsRealm,
+  realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {
   if (isStaticJsPromise(value)) {
     const constructor = yield* get(value, "constructor");
     if (constructor === constructor) {
       return value;
     }
+  }
+
+  if (!realm) {
+    realm = EvaluationContext.current.realm;
   }
 
   const capability = yield* newPromiseCapability(constructor, realm);

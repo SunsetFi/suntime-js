@@ -26,13 +26,14 @@ import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import { asyncBlockStart } from "../../../algorithms/async-block-start.js";
+import { call } from "../../../algorithms/call.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { getPrototypeFromConstructor } from "../../../algorithms/get-prototype-from-constructor.js";
 import { getValue } from "../../../algorithms/get-value.js";
+import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
-import { promiseReject } from "../../../algorithms/promise-reject.js";
 import { toObject } from "../../../algorithms/to-object.js";
-import { AsyncInvocation } from "../../../async/AsyncInvocation.js";
 import { StaticJsFunctionEnvironmentRecord } from "../../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
@@ -386,35 +387,16 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
     const { realm } = this;
 
-    // FIXME: By spec, we should create one promise capability,
-    // and use it for this failure AND root eval.
-    // Async functions capture errors thrown by their argument initializations
-    try {
-      yield* functionDeclarationInstantiation(this, args);
-    } catch (e) {
-      if (Completion.Throw.is(e)) {
-        const reject = yield* promiseReject(e.value, realm);
-        return Completion.Return(reject);
-      }
+    const promiseCapability = yield* newPromiseCapability(realm.intrinsics.Promise);
 
-      throw e;
+    const completion = yield* captureThrownCompletion(functionDeclarationInstantiation(this, args));
+    if (Completion.Abrupt.is(completion)) {
+      yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(completion)]);
     }
 
-    function* evaluator(): EvaluationGenerator<void> {
-      const result = yield* Q(EvaluateNodeCommand(node.body));
-      if (result !== null) {
-        const value = yield* Q(getValue(result));
-        throw Completion.Return(value);
-      }
+    yield* asyncBlockStart(promiseCapability, node.body);
 
-      throw Completion.Return(realm.types.undefined);
-    }
-
-    const invocation = new AsyncInvocation(evaluator, realm);
-
-    yield* invocation.start();
-
-    return Completion.Return(invocation.promise);
+    return Completion.Return(promiseCapability.promise);
   }
 
   private *_evaluateAsyncGeneratorBody(
@@ -498,36 +480,23 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {
     const { realm } = this;
 
-    // FIXME: By spec, we should create one promise capability,
-    // and use it for this failure AND root eval.
-    try {
-      yield* functionDeclarationInstantiation(this, args);
-    } catch (e) {
-      if (Completion.Throw.is(e)) {
-        const reject = yield* promiseReject(e.value, realm);
-        return Completion.Return(reject);
-      }
+    const promiseCapability = yield* newPromiseCapability(realm.intrinsics.Promise);
 
-      throw e;
+    const completion = yield* captureThrownCompletion(functionDeclarationInstantiation(this, args));
+    if (Completion.Abrupt.is(completion)) {
+      yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(completion)]);
     }
-
     const expression = node.type === "ArrowFunctionExpression" ? node.body : node;
-
-    function* evaluator(): EvaluationGenerator<void> {
-      const result = yield* Q(EvaluateNodeCommand(expression));
-      if (result !== null) {
-        const value = yield* Q(getValue(result));
-        throw Completion.Return(value);
-      }
-
-      throw Completion.Return(realm.types.undefined);
+    // This is expected to be the ExpressionBody AST type, but babel doesn't have that.
+    // Shamefully wrap it in a closure to get the expected behavior
+    function* closure() {
+      const value = yield* Q.val(EvaluateNodeCommand(expression));
+      return Completion.Return(value);
     }
 
-    const invocation = new AsyncInvocation(evaluator, realm);
+    yield* asyncBlockStart(promiseCapability, closure());
 
-    yield* invocation.start();
-
-    return Completion.Return(invocation.promise);
+    return Completion.Return(promiseCapability.promise);
   }
 
   private *_evaluateClassStaticBlockBody(

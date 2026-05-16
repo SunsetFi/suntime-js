@@ -36,7 +36,8 @@ function await(promise) {
 function SuspendCommand(context) {
   return { type: "suspend", context };
 }
-SuspendContext.createContext = function() {
+
+SuspendCommand.createContext = function() {
   return { generator: null };
 }
 
@@ -60,7 +61,7 @@ SuspendCommand.handleSuspend = function*(generator: EvaluationGenerator) {
       return null;
     }
 
-    yield* value;
+    yield value;
   }
 }
 ```

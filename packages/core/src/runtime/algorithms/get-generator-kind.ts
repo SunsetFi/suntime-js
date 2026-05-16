@@ -9,5 +9,9 @@ export function* getGeneratorKind() {
     return "sync";
   }
 
-  return isFunction(func.ecmaScriptCode) && func.ecmaScriptCode.async ? "async" : "sync";
+  return isFunction(func.ecmaScriptCode) &&
+    func.ecmaScriptCode.generator &&
+    func.ecmaScriptCode.async
+    ? "async"
+    : "sync";
 }
