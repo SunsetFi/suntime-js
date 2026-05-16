@@ -42,7 +42,7 @@ export const Await = Q.makeReceiver(function* Await(
     return realm.types.undefined;
   });
 
-  yield* Q(promise.thenEvaluator(onFulfilled, onRejected));
+  yield* Q(promise.thenEvaluator(onFulfilled, onRejected, false));
 
   const completion = yield* SuspendCommand(suspendContext);
   if (completion == null || (!isStaticJsValue(completion) && !Completion.Throw.is(completion))) {
