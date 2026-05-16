@@ -6,7 +6,64 @@
   - [ ] newPromiseCapability
   - [ ] asyncFromSyncIteratorContinuation
   - [ ] createIteratorResultObject
-- Return completions from iteratorNext
+- Return completions from iteratorNext\
+
+### Refactor Await / Yield / Suspend
+
+Spec wants suspending to be based on execution contexts. Doesn't differentiate between await and yield suspending, just "Suspend the current context".
+When suspending, the spec often sets up callbacks for [ResumeSuspendedContext](https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-runsuspendedcontext):
+
+- [Await](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#await)
+- [Yield / Resume](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-generatorresume)
+
+Currently, the design requires a listener in the generator chain to handle these specifically, which complicates and disjoints the logic; one spec function has to be split
+across the suspend and the resume side.
+
+Replace this with a single Suspend command that takes a function which will be invoked with the resumer generator:
+
+```ts
+function await(promise) {
+  const resumeContext = SuspendCommand.createContext();
+  const promiseResolve = function*() {
+    yield* SuspendCommand.resume(resumeContext);
+  }
+
+  yield* promiseThen(promise, promiseResolve);
+
+  yield* SuspendCommand(resumeContext);
+}
+
+function SuspendCommand(context) {
+  return { type: "suspend", context };
+}
+SuspendContext.createContext = function() {
+  return { generator: null };
+}
+
+SuspendCommand.resume = function(context) {
+  if (context.generator === null) {
+    throw;
+  }
+
+  return yield* SuspendCommand.handleSuspend(context.generator);
+}
+
+SuspendCommand.handleSuspend = function*(generator: EvaluationGenerator) {
+  while(true) {
+    const { value, done } = generator.next();
+    if (done) {
+      return value;
+    }
+
+    if (value.type === "suspend") {
+      value.context.generator = generator;
+      return null;
+    }
+
+    yield* value;
+  }
+}
+```
 
 ## Less imidiate
 
