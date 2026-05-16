@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { canonicalNumericStringIndex } from "../../../algorithms/canonical-numeric-string-index.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { isCompatiblePropertyDescriptor } from "../../../algorithms/is-compatible-property-descriptor.js";
 import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
@@ -141,18 +142,4 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
       configurable: false,
     };
   }
-}
-
-function* canonicalNumericStringIndex(argument: string): EvaluationGenerator<number | undefined> {
-  if (argument === "-0") {
-    return -0;
-  }
-
-  const n = Number(argument);
-  const str = String(n);
-  if (str === argument) {
-    return n;
-  }
-
-  return undefined;
 }

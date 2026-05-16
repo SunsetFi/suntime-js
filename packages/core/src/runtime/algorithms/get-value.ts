@@ -8,11 +8,11 @@ import { isUnresolvableReference } from "../references/is-unresolvable-reference
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import { toPropertyKey } from "../utils/to-property-key.js";
 
 import { getThisValue } from "./get-this-value.js";
 import { privateGet } from "./private-get.js";
 import { toObject } from "./to-object.js";
+import { toPropertyKey } from "./to-property-key.js";
 
 export function* getValue(
   v: StaticJsReferenceRecord | StaticJsValue,
@@ -28,7 +28,6 @@ export function* getValue(
   if (isPropertyReference(v)) {
     const baseObj = yield* toObject(v.base);
 
-    // TODO: Private references
     if (isPrivateReference(v)) {
       return yield* Q(privateGet(baseObj, v.referencedName));
     }

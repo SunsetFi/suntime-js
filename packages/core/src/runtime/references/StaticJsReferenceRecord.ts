@@ -28,9 +28,23 @@ export interface StaticJsPopulatedReferenceRecord {
   base: StaticJsEnvironmentRecord | StaticJsValue;
 }
 
-export interface StaticJsPropertyReferenceRecord extends StaticJsPopulatedReferenceRecord {
+export interface StaticJsPrivatePropertyPopulatedReferenceRecord {
+  referencedName: StaticJsPrivateName;
+  strict: boolean;
+  thisValue: StaticJsValue | null;
   base: StaticJsValue;
 }
+
+export interface StaticJsNonPrivatePropertyReferenceRecord {
+  referencedName: string | StaticJsValue;
+  strict: boolean;
+  thisValue: StaticJsValue | null;
+  base: StaticJsValue;
+}
+
+export type StaticJsPropertyReferenceRecord =
+  | StaticJsPrivatePropertyPopulatedReferenceRecord
+  | StaticJsNonPrivatePropertyReferenceRecord;
 
 export function staticJsPropertyReferenceRecord(
   base: StaticJsValue,
@@ -43,7 +57,7 @@ export function staticJsPropertyReferenceRecord(
     referencedName,
     strict,
     thisValue,
-  };
+  } as StaticJsPropertyReferenceRecord;
 }
 
 export function isStaticJsPropertyReference(

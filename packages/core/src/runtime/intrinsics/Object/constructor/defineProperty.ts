@@ -1,8 +1,8 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { toPropertyDescriptor } from "../../../algorithms/to-property-descriptor.js";
+import { toPropertyKey } from "../../../algorithms/to-property-key.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import { toPropertyKey } from "../../../utils/to-property-key.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {

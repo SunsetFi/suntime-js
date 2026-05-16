@@ -46,7 +46,7 @@ export default function* memberExpressionNodeEvaluator(
     propertyKey = yield* Q.val(EvaluateNodeCommand(propertyNode));
   }
 
-  return staticJsPropertyReferenceRecord(target, propertyKey, strict, target);
+  return staticJsPropertyReferenceRecord(target, propertyKey, strict, null);
 }
 
 function* superMemberExpressionNodeEvaluator(node: MemberExpression): EvaluationGenerator {

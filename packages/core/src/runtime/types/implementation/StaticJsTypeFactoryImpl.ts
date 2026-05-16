@@ -16,7 +16,7 @@ import type { StaticJsNumber } from "../StaticJsNumber.js";
 import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPlainObject } from "../StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "../StaticJsPropertyDescriptor.js";
-import { toStaticJsPropertyKey, type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
+import { staticJsValueToPropertyKey, type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import {
   StaticJsProxy,
   StaticJsProxyHandlerKeys,
@@ -512,10 +512,10 @@ const convertIdentity = (x: StaticJsValue) => x;
 const proxyHandlerConverters: Partial<
   Record<keyof StaticJsProxyHandlers, ((value: StaticJsValue) => unknown)[]>
 > = {
-  getOwnPropertyDescriptor: [convertIdentity, toStaticJsPropertyKey],
-  defineProperty: [convertIdentity, toStaticJsPropertyKey, convertIdentity],
-  has: [convertIdentity, toStaticJsPropertyKey],
-  get: [convertIdentity, toStaticJsPropertyKey, convertIdentity],
-  set: [convertIdentity, toStaticJsPropertyKey, convertIdentity, convertIdentity],
-  deleteProperty: [convertIdentity, toStaticJsPropertyKey],
+  getOwnPropertyDescriptor: [convertIdentity, staticJsValueToPropertyKey],
+  defineProperty: [convertIdentity, staticJsValueToPropertyKey, convertIdentity],
+  has: [convertIdentity, staticJsValueToPropertyKey],
+  get: [convertIdentity, staticJsValueToPropertyKey, convertIdentity],
+  set: [convertIdentity, staticJsValueToPropertyKey, convertIdentity, convertIdentity],
+  deleteProperty: [convertIdentity, staticJsValueToPropertyKey],
 };

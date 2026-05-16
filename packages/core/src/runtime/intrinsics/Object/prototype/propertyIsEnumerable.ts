@@ -1,5 +1,5 @@
 import { toObject } from "../../../algorithms/to-object.js";
-import { toPropertyKey } from "../../../utils/to-property-key.js";
+import { toPropertyKey } from "../../../algorithms/to-property-key.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectProtoPropertyIsEnumerableDeclaration: IntrinsicPropertyDeclaration = {

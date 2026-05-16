@@ -8,9 +8,9 @@ import {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { toPropertyKey } from "../../../runtime/algorithms/to-property-key.js";
 import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
 import { StaticJsPropertyKey } from "../../../runtime/types/StaticJsPropertyKey.js";
-import { toPropertyKey } from "../../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

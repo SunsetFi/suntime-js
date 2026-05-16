@@ -9,12 +9,12 @@ import { isUnresolvableReference } from "../references/is-unresolvable-reference
 import type { StaticJsReferenceRecord } from "../references/StaticJsReferenceRecord.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
-import { toPropertyKey } from "../utils/to-property-key.js";
 
 import { getThisValue } from "./get-this-value.js";
 import { privateSet } from "./private-set.js";
 import { set } from "./set.js";
 import { toObject } from "./to-object.js";
+import { toPropertyKey } from "./to-property-key.js";
 
 export function* putValue(
   v: StaticJsReferenceRecord | StaticJsValue,

@@ -14,6 +14,7 @@ import { copyDataProperties } from "../../runtime/algorithms/copy-data-propertie
 import { get } from "../../runtime/algorithms/get.js";
 import { putValue } from "../../runtime/algorithms/put-value.js";
 import { toObject } from "../../runtime/algorithms/to-object.js";
+import { toPropertyKey } from "../../runtime/algorithms/to-property-key.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
@@ -21,7 +22,6 @@ import getIdentifierReference from "../../runtime/references/get-identifier-refe
 import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import { toPropertyKey } from "../../runtime/utils/to-property-key.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
