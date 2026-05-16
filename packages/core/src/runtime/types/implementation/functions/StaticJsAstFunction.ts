@@ -392,10 +392,9 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const completion = yield* captureThrownCompletion(functionDeclarationInstantiation(this, args));
     if (Completion.Abrupt.is(completion)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(completion)]);
+    } else {
+      yield* asyncBlockStart(promiseCapability, node.body);
     }
-
-    yield* asyncBlockStart(promiseCapability, node.body);
-
     return Completion.Return(promiseCapability.promise);
   }
 
@@ -485,16 +484,17 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const completion = yield* captureThrownCompletion(functionDeclarationInstantiation(this, args));
     if (Completion.Abrupt.is(completion)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(completion)]);
-    }
-    const expression = node.type === "ArrowFunctionExpression" ? node.body : node;
-    // This is expected to be the ExpressionBody AST type, but babel doesn't have that.
-    // Shamefully wrap it in a closure to get the expected behavior
-    function* closure() {
-      const value = yield* Q.val(EvaluateNodeCommand(expression));
-      return Completion.Return(value);
-    }
+    } else {
+      const expression = node.type === "ArrowFunctionExpression" ? node.body : node;
+      // This is expected to be the ExpressionBody AST type, but babel doesn't have that.
+      // Shamefully wrap it in a closure to get the expected behavior
+      function* closure() {
+        const value = yield* Q.val(EvaluateNodeCommand(expression));
+        return Completion.Return(value);
+      }
 
-    yield* asyncBlockStart(promiseCapability, closure());
+      yield* asyncBlockStart(promiseCapability, closure());
+    }
 
     return Completion.Return(promiseCapability.promise);
   }

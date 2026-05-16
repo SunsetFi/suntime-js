@@ -1,16 +1,33 @@
+import { isFunction } from "@babel/types";
+
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
 import { SuspendCommand } from "../../evaluator/commands/SuspendCommand.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "../types/StaticJsValue.js";
 
 import { promiseResolve } from "./promise-resolve.js";
 
 export const Await = Q.makeReceiver(function* Await(
   value: StaticJsValue,
-): EvaluationGenerator<Completion> {
+): EvaluationGenerator<StaticJsValue | Completion.Throw> {
+  // FIXME: TEMP HACK: Starting to introduce SuspendCommand
+  const currentFunc = EvaluationContext.current.function;
+  if (
+    !currentFunc ||
+    currentFunc instanceof StaticJsAstFunction === false ||
+    !isFunction(currentFunc.ecmaScriptCode) ||
+    !currentFunc.ecmaScriptCode.async ||
+    currentFunc.ecmaScriptCode.generator
+  ) {
+    return yield* Q(AwaitCommand(value));
+  }
+
   const { realm } = EvaluationContext.current;
 
   const suspendContext = SuspendCommand.createContext();
@@ -28,5 +45,11 @@ export const Await = Q.makeReceiver(function* Await(
   yield* Q(promise.thenEvaluator(onFulfilled, onRejected));
 
   const completion = yield* SuspendCommand(suspendContext);
+  if (completion == null || (!isStaticJsValue(completion) && !Completion.Throw.is(completion))) {
+    throw new StaticJsEngineError(
+      "Expected a StaticJsValue or a ThrowCompletion from await suspend.",
+    );
+  }
+
   return completion;
 });

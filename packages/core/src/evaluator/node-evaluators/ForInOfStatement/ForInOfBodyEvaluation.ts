@@ -7,6 +7,7 @@ import type {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { Await } from "../../../runtime/algorithms/await.js";
 import { call } from "../../../runtime/algorithms/call.js";
 import { loopContinues } from "../../../runtime/algorithms/loop-continues.js";
 import { putValue } from "../../../runtime/algorithms/put-value.js";
@@ -26,7 +27,6 @@ import { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
-import { AwaitCommand } from "../../commands/AwaitCommand.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../../completions/capture-thrown-completion.js";
 import { Completion } from "../../completions/Completion.js";
@@ -63,7 +63,7 @@ export const forInOfBodyEvaluation = Q.makeReceiver(function* forInOfBodyEvaluat
     let nextResult = yield* Q(call(iteratorRecord.nextMethod, iteratorRecord.iterator));
 
     if (iteratorKind === "async") {
-      nextResult = yield* AwaitCommand(nextResult);
+      nextResult = yield* Q(Await(nextResult));
     }
 
     if (!isStaticJsObject(nextResult)) {

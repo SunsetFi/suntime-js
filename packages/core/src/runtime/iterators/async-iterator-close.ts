@@ -1,7 +1,7 @@
-import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
 import { ThrowCompletion } from "../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { Await } from "../algorithms/await.js";
 import { call } from "../algorithms/call.js";
 import { getMethod } from "../algorithms/get-method.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
@@ -21,7 +21,7 @@ export function* asyncIteratorClose<T extends Completion>(
     }
 
     innerResult = yield* call(innerResult, iterator, []);
-    innerResult = yield* AwaitCommand(innerResult);
+    innerResult = yield* Await(innerResult);
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
       innerResult = e;

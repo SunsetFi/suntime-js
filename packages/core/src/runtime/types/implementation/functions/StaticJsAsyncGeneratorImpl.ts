@@ -1,5 +1,4 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { AwaitCommand } from "../../../../evaluator/commands/AwaitCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
@@ -8,6 +7,7 @@ import { X } from "../../../../evaluator/completions/X.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../../evaluator/StaticJsEvaluator.js";
+import { Await } from "../../../algorithms/await.js";
 import { call } from "../../../algorithms/call.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { promiseResolve } from "../../../algorithms/promise-resolve.js";
@@ -192,11 +192,18 @@ export class StaticJsAsyncGeneratorImpl
       return yield* Q(resumptionValue);
     }
 
-    const awaited = yield* AwaitCommand(Completion.value(resumptionValue));
+    const awaited = yield* Q(Await(Completion.value(resumptionValue)));
     if (Completion.Throw.is(awaited)) {
       return yield* Q(awaited);
     }
-    throw Completion.Return(Completion.value(awaited));
+
+    const value = Completion.value(awaited);
+    if (!value) {
+      throw new StaticJsEngineError(
+        "Expected a value from awaiting a return completion resumption value in async generator yield resumption.",
+      );
+    }
+    throw Completion.Return(value);
   }
 
   private *_asyncGeneratorResume(completion: Completion) {
