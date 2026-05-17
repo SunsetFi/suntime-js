@@ -1,6 +1,7 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
-import type { StaticJsTypeCode } from "./StaticJsTypeCode.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
+import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPrimitive {
   readonly realm: StaticJsRealm;
@@ -11,4 +12,21 @@ export interface StaticJsPrimitive {
 
   toNative(): unknown;
   toStringSync(): string;
+}
+
+const primitives = new Set<StaticJsTypeCode>([
+  StaticJsTypeCode.String,
+  StaticJsTypeCode.Number,
+  StaticJsTypeCode.Boolean,
+  StaticJsTypeCode.Null,
+  StaticJsTypeCode.Undefined,
+  StaticJsTypeCode.Symbol,
+]);
+
+export function isStaticJsPrimitive(value: unknown): value is StaticJsPrimitive {
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+
+  return primitives.has(value.runtimeTypeCode);
 }

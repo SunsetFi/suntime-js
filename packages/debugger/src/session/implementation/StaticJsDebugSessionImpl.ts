@@ -7,6 +7,7 @@ import {
   StaticJsTaskIterator,
   StaticJsTaskRunner,
   StaticJsTaskIteratorStackFrame,
+  isStaticJsPrimitive,
 } from "@suntime-js/core";
 
 import createDeferred, { Deferred } from "../../utils/create-deferred.js";
@@ -207,13 +208,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       return [];
     }
 
-    return task.stack.map((frame, index) => ({
-      id: `${this.id}:${index}`,
-      functionName: frame.functionName ?? null,
-      sourceName: frame.sourceLocation?.sourceName ?? this._options.launch.sourceName ?? "unknown",
-      line: frame.sourceLocation?.line ?? 0,
-      column: frame.sourceLocation?.column ?? 0,
-    }));
+    return task.stack.map((frame) => this._taskFrameToDebugFrame(frame));
   }
 
   waitForStop(): Promise<StaticJsDebugStopEvent> {
@@ -646,5 +641,48 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
     this._state = state;
     this._events.didChange({ sessionId: this.id, state });
+  }
+
+  private _taskFrameToDebugFrame(frame: StaticJsTaskIteratorStackFrame): StaticJsDebugFrame {
+    let functionName: string | null = null;
+
+    const func = frame.function;
+    if (func) {
+      try {
+        const funcNameVal = func.getSync("name", { runTask: debugTaskIterator });
+        if (isStaticJsPrimitive(funcNameVal)) {
+          functionName = String(funcNameVal.toNative());
+        } else {
+          functionName = "<Non-primitive function name>";
+        }
+      } catch {
+        functionName = "<Error determining function name>";
+      }
+    }
+
+    return {
+      id: `${this.id}:${frame.depth}`,
+      functionName,
+      sourceName: frame.sourceLocation?.sourceName ?? this._options.launch.sourceName ?? "unknown",
+      line: frame.sourceLocation?.line ?? 0,
+      column: frame.sourceLocation?.column ?? 0,
+    };
+  }
+}
+
+const DebugTaskIteratorOpts = 5000;
+function debugTaskIterator(task: StaticJsTaskIterator) {
+  let ops = DebugTaskIteratorOpts;
+  while (true) {
+    const { done } = task.next();
+    if (done) {
+      break;
+    }
+
+    // Yield to the event loop every DebugTaskIteratorOpts iterations to allow for pause/terminate requests to be processed.
+    // This is a bit of a band-aid until we have proper pausing support in the core task runner.
+    if (--ops <= 0) {
+      task.throw(new StaticJsTaskAbortedError("Unable to determine function name."));
+    }
   }
 }
