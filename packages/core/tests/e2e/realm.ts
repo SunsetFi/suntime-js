@@ -500,7 +500,9 @@ describe("E2E: Realm", () => {
         });
 
         await realm.evaluateModule("export const result = 2 + 2;");
-        expect(runTask).toHaveBeenCalledTimes(1);
+
+        // Note: Used to be 1, but now we use asyncBlockStart which ticks a promise resolution.
+        expect(runTask).toHaveBeenCalledTimes(2);
       });
 
       it("Accepts a custom runTask", async () => {
@@ -516,7 +518,9 @@ describe("E2E: Realm", () => {
         });
 
         await realm.evaluateModule("export const result = 2 + 2;", { runTask });
-        expect(runTask).toHaveBeenCalledTimes(1);
+
+        // Note: Used to be 1, but now we use asyncBlockStart which ticks a promise resolution.
+        expect(runTask).toHaveBeenCalledTimes(2);
       });
 
       it("Uses the evaluate callee type", async () => {
@@ -532,7 +536,10 @@ describe("E2E: Realm", () => {
         });
 
         await realm.evaluateModule("export const result = 2 + 2;");
-        expect(runTask).toHaveBeenCalledTimes(1);
+
+        // Note: Used to be 1, but now we use asyncBlockStart which ticks a promise resolution.
+        expect(runTask).toHaveBeenCalledTimes(2);
+
         expect(calleeType).toBe("evaluate");
       });
 
@@ -549,7 +556,9 @@ describe("E2E: Realm", () => {
         });
 
         await realm.evaluateModule("export const result = 2 + 2;", { runTask });
-        expect(runTask).toHaveBeenCalledTimes(1);
+
+        // Note: Used to be 1, but now we use asyncBlockStart which ticks a promise resolution.
+        expect(runTask).toHaveBeenCalledTimes(2);
         expect(async).toBe(true);
       });
     });

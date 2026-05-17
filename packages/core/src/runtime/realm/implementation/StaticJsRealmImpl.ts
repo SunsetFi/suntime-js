@@ -22,8 +22,9 @@ import { createDeferred } from "../../../utils/create-deferred.js";
 import { drainIterator } from "../../../utils/drain-iterator.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
 import { symbolInspect } from "../../../utils/symbol-inspect.js";
+import { asyncBlockStart } from "../../algorithms/async-block-start.js";
 import { getValue } from "../../algorithms/get-value.js";
-import { AsyncInvocation } from "../../async/AsyncInvocation.js";
+import { newPromiseCapability } from "../../algorithms/new-promise-capability.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
@@ -873,24 +874,26 @@ function* doEvaluateScriptAsync(
   const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
   return yield* context.run(function* () {
     try {
-      yield* globalDeclarationInstantiation(
-        scriptRecord.ecmaScriptCode,
-        realm.globalEnv as StaticJsGlobalEnvironmentRecord,
-      );
-      function* evaluator() {
+      const promiseCapability = yield* newPromiseCapability(realm.intrinsics.Promise);
+
+      function* evaluator(): EvaluationGenerator<Completion> {
+        yield* globalDeclarationInstantiation(
+          scriptRecord.ecmaScriptCode,
+          realm.globalEnv as StaticJsGlobalEnvironmentRecord,
+        );
+
         const result = yield* Q(EvaluateNodeCommand(scriptRecord.ecmaScriptCode));
         if (result) {
           const value = yield* getValue(result);
-          throw Completion.Return(value);
+          return Completion.Return(value);
         }
-        throw Completion.Return(realm.types.undefined);
-      }
-      const invocation = new AsyncInvocation(evaluator, realm);
 
-      // Note that invocation.start() performs its own sandbox error handling, so nothing
-      // beyond here should throw abnormal completions.
-      yield* invocation.start();
-      return invocation.promise;
+        return Completion.Return(realm.types.undefined);
+      }
+
+      yield* asyncBlockStart(promiseCapability, evaluator(), context);
+
+      return promiseCapability.promise;
     } catch (e) {
       Completion.handleRuntime(e);
 

@@ -12,11 +12,14 @@ import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algori
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
+import { asyncBlockStart } from "../../algorithms/async-block-start.js";
 import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
-import { AsyncInvocation } from "../../async/AsyncInvocation.js";
+import { newPromiseCapability } from "../../algorithms/new-promise-capability.js";
+import { performPromiseThen } from "../../algorithms/perform-promise-then.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type {
   StaticJsModuleStatus,
@@ -252,32 +255,43 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
     const { _ecmaScriptCode, _realm, _context } = this;
 
-    const onComplete = () => {
+    const onModuleComplete = () => {
       this._status = "evaluated";
+      resolve();
     };
 
-    function* evaluateAsyncBody() {
+    const onModuleReject = (error: StaticJsValue) => {
+      this._status = "evaluated";
+      reject(new StaticJsRuntimeError(error));
+    };
+
+    function* closure() {
       yield* Q(EvaluateNodeCommand(_ecmaScriptCode));
+      return _realm.types.undefined;
     }
 
     function* moduleJob() {
-      const invocation = new AsyncInvocation(evaluateAsyncBody, _realm);
-      invocation.onComplete((_, err) => {
-        onComplete();
-        if (err) {
-          reject(new StaticJsRuntimeError(err));
-        } else {
-          resolve();
-        }
-      });
-
       yield* _context!.run(function* () {
-        yield* invocation.start();
+        const promiseCapability = yield* newPromiseCapability(_realm.intrinsics.Promise);
+
+        const onFulfilled = new StaticJsNativeFunctionImpl(_realm, "", function* (_thisArg) {
+          onModuleComplete();
+          return _realm.types.undefined;
+        });
+
+        const onRejected = new StaticJsNativeFunctionImpl(_realm, "", function* (_thisArg, arg) {
+          onModuleReject(arg);
+          return _realm.types.undefined;
+        });
+
+        yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);
+
+        yield* asyncBlockStart(promiseCapability, closure(), _context!);
       });
     }
 
     if (prereqs.length === 0) {
-      // I think the spec seems to let certain modules evaluate synchornously?
+      // I think the spec seems to let certain modules evaluate synchronously?
       // This whole thing is far from spec compliant, but...
       yield* moduleJob();
     } else {

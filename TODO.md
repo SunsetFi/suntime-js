@@ -2,11 +2,9 @@
 
 ## Immediate
 
-- [ ] Strip realm argument from
-  - [ ] newPromiseCapability
-  - [ ] asyncFromSyncIteratorContinuation
-  - [ ] createIteratorResultObject
-- Return completions from iteratorNext\
+- [ ] Task improvements
+  - [x] Property on a task indicating if its sync or async.
+  - [ ] Merge microtasks into same iterator?
 
 ### Refactor Await / Yield / Suspend
 
@@ -73,14 +71,12 @@ SuspendCommand.handleSuspend = function*(generator: EvaluationGenerator) {
 - [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
       This should be happening automatically due to the .then function, but isn't
-- [ ] Task improvements
-  - [x] Property on a task indicating if its sync or async.
-  - [ ] Merge microtasks into same iterator?
 - [ ] Rewrite async generators. Make AsyncDriver not care about yields at all, so we can use
       Await() inside generator implementation functions.
   - [ ] Remake await and yield as SuspendCommand. Spec seems to not care what type and just calls functions that suspend and resume.
         No need to make the implementations be defined at the handler level.
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
+- Return completions from iteratorNext
 
 ### Long term spec compliance reworks
 
