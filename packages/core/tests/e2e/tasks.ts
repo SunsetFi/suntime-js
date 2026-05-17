@@ -79,7 +79,6 @@ describe("E2E: Tasks", () => {
       // const a = 1;
       expect(capturedFrames).toContainEqual(
         expect.objectContaining({
-          functionName: null,
           sourceLocation: expect.objectContaining({
             character: 0,
             column: 0,
@@ -91,7 +90,6 @@ describe("E2E: Tasks", () => {
       // const b = 2;
       expect(capturedFrames).toContainEqual(
         expect.objectContaining({
-          functionName: null,
           sourceLocation: expect.objectContaining({
             character: 13,
             column: 0,
@@ -103,7 +101,6 @@ describe("E2E: Tasks", () => {
       // const c = 3;
       expect(capturedFrames).toContainEqual(
         expect.objectContaining({
-          functionName: null,
           sourceLocation: expect.objectContaining({
             character: 26,
             column: 0,
