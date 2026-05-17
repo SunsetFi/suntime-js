@@ -1,32 +1,77 @@
+import { isNode, Node } from "@babel/types";
+
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import type { EvaluatorCommand } from "../../../../evaluator/commands/EvaluatorCommand.js";
+import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
+import { SuspendCommand, SuspendContext } from "../../../../evaluator/commands/SuspendCommand.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import type { CompletionValue } from "../../../../evaluator/completions/CompletionValue.js";
+import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { getValue } from "../../../algorithms/get-value.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
-import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
-import type { StaticJsObject } from "../../StaticJsObject.js";
+import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsGenerator } from "../../StaticJsGenerator.js";
+import { StaticJsIteratorResult } from "../../StaticJsIterator.js";
+import { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { type StaticJsValue } from "../../StaticJsValue.js";
+import { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
-export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsGenerator {
-  private _generatorState: "suspended-start" | "suspended-yield" | "executing" | "completed" =
-    "suspended-start";
+export type GeneratorState = "suspended-start" | "suspended-yield" | "executing" | "completed";
 
-  private _pausedContext: EvaluationContext | null = null;
+export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsGenerator {
+  private _generatorState: GeneratorState = "suspended-start";
+  private _generatorContext: SuspendContext<StaticJsIteratorResult>;
 
   constructor(
-    private readonly _closure: EvaluationGenerator,
+    generatorBody: Node | EvaluationGenerator,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
     prototype?: StaticJsObject,
   ) {
     super(realm, prototype ?? realm.intrinsics["GeneratorPrototype"]);
-    this._pausedContext = EvaluationContext.current;
+
+    EvaluationContext.current.generator = this;
+
+    function* closure(): EvaluationGenerator<StaticJsIteratorResult> {
+      const acGenContext = EvaluationContext.current;
+      const { realm } = acGenContext;
+
+      const acGenerator = acGenContext.generator;
+      if (acGenerator instanceof StaticJsGeneratorImpl === false) {
+        throw new StaticJsEngineError("Generator context does not have a valid generator.");
+      }
+
+      let result: Completion;
+      if (isNode(generatorBody)) {
+        result = yield* EvaluateNodeCommand(generatorBody);
+      } else {
+        result = yield* captureThrownCompletion(generatorBody);
+      }
+
+      EvaluationContext.pop();
+      acGenerator._generatorState = "completed";
+
+      let resultValue: StaticJsValue;
+      if (Completion.Normal.is(result)) {
+        resultValue = realm.types.undefined;
+      } else if (Completion.Return.is(result)) {
+        resultValue = Completion.value(result);
+      } else {
+        if (!Completion.Throw.is(result)) {
+          throw new StaticJsEngineError("Expected a ThrowCompletion from generator body.");
+        }
+
+        throw result;
+      }
+
+      return {
+        value: resultValue,
+        done: true,
+      };
+    }
+
+    this._generatorContext =
+      SuspendCommand.createSuspendedContext<StaticJsIteratorResult>(closure());
   }
 
   get runtimeTypeOf() {
@@ -45,162 +90,74 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     return this._generatorState;
   }
 
-  *nextEvaluator(
-    value: StaticJsValue = this.realm.types.undefined,
+  nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    return this._generatorResume(value ?? this.realm.types.undefined);
+  }
+
+  throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    return this._generatorResumeAbrupt(Completion.Throw(value));
+  }
+
+  returnEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    return this._generatorResumeAbrupt(Completion.Return(value ?? this.realm.types.undefined));
+  }
+
+  *generatorYield(iteratorResult: StaticJsIteratorResult): EvaluationGenerator<Completion> {
+    const context = EvaluationContext.current;
+    if (context.generator !== this) {
+      throw new StaticJsEngineError("Generator yield called with wrong generator context.");
+    }
+
+    this._generatorState = "suspended-yield";
+
+    this._generatorContext = SuspendCommand.createContext<StaticJsIteratorResult>();
+    const resumptionValue = yield* Q(SuspendCommand(this._generatorContext, iteratorResult));
+    return resumptionValue;
+  }
+
+  private *_generatorResume(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    if (this._generatorState === "completed") {
+      return {
+        value: this.realm.types.undefined,
+        done: true,
+      };
+    }
+
+    this._generatorState = "executing";
+
+    return yield* Q(
+      SuspendCommand.runSuspendedContext(this._generatorContext, Completion.Normal(value)),
+    );
+  }
+
+  private *_generatorResumeAbrupt(
+    value: Completion.Abrupt,
   ): EvaluationGenerator<StaticJsIteratorResult> {
-    if (this._generatorState !== "suspended-start" && this._generatorState !== "suspended-yield") {
+    let state = this._generatorState;
+    if (state === "suspended-start") {
+      this._generatorState = "completed";
+      state = "completed";
+    }
+
+    if (state === "completed") {
+      if (Completion.Return.is(value)) {
+        return {
+          value: Completion.value(value),
+          done: true,
+        };
+      }
+
+      throw value;
+    }
+
+    if (state !== "suspended-yield") {
       throw new StaticJsEngineError(
         "Generator can only be resumed if it is in suspended-start or suspended-yield state.",
       );
     }
 
-    return yield* this._continue(value, "next");
-  }
-
-  *throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
-    let state = this._generatorState;
-    if (state === "suspended-start") {
-      state = this._generatorState = "completed";
-    }
-
-    if (state === "completed") {
-      // I think this is right?
-      throw Completion.Throw(value);
-    }
-
-    if (state !== "suspended-yield") {
-      throw new StaticJsEngineError(
-        "Generator can only be thrown into if it is in suspended-yield state.",
-      );
-    }
-
-    return yield* this._continue(value, "throw");
-  }
-
-  *returnEvaluator(
-    value: StaticJsValue = this.realm.types.undefined,
-  ): EvaluationGenerator<StaticJsIteratorResult> {
-    let state = this._generatorState;
-    if (state === "suspended-start") {
-      state = this._generatorState = "completed";
-    }
-
-    if (state === "completed") {
-      return {
-        done: true,
-        value,
-      };
-    }
-
-    if (state !== "suspended-yield") {
-      throw new StaticJsEngineError(
-        "Generator can only be returned into if it is in suspended-yield state.",
-      );
-    }
-
-    return yield* this._continue(value, "return");
-  }
-
-  private *_continue(
-    continueWith: StaticJsValue,
-    continueMode: "next" | "throw" | "return",
-  ): EvaluationGenerator<StaticJsIteratorResult> {
-    if (!this._pausedContext) {
-      throw new StaticJsEngineError("No paused context found for generator.");
-    }
-
-    const context = this._pausedContext;
-    this._pausedContext = null;
-
-    const doContinue = this._doContinue.bind(this);
-
-    return yield* context.run(function* () {
-      const result = yield* doContinue(continueWith, continueMode);
-      return result;
-    });
-  }
-
-  private *_doContinue(
-    continueWith: StaticJsValue,
-    continueMode: "next" | "throw" | "return",
-  ): EvaluationGenerator<StaticJsIteratorResult> {
     this._generatorState = "executing";
 
-    const { realm, _closure } = this;
-
-    let continuation: CompletionValue = continueWith;
-    let continuationMode = continueMode;
-    try {
-      while (true) {
-        let result: IteratorResult<EvaluatorCommand, Completion>;
-        if (continuationMode === "throw") {
-          // throw only happens on initial run, so continuation is always a value.
-          continuation = yield* getValue(continuation!);
-          result = _closure.throw(Completion.Throw(continuation));
-        } else if (continuationMode === "return") {
-          // This is a throw, not a return.
-          // We need to surface the return to our infrastructure; return() would just invoke finalizers,
-          // and would NOT catch any EvaluateCommands waiting on a return.
-
-          // return only happens on the initial run, so continuation is always a value.
-          const returnCompletion = Completion.Return(continuation as StaticJsValue);
-          result = _closure.throw(returnCompletion);
-        } else {
-          result = _closure.next(continuation);
-        }
-
-        continuationMode = "next";
-
-        const { value, done } = result;
-
-        if (done) {
-          return this._complete(realm.types.undefined);
-        }
-
-        if (value.command === "yield") {
-          return this._yield(value.value);
-        }
-
-        continuation = yield value;
-      }
-    } catch (e) {
-      if (Completion.Return.is(e)) {
-        return this._complete(e.value);
-      }
-
-      if (Completion.Throw.is(e)) {
-        return this._fail(e);
-      }
-
-      throw e;
-    }
-  }
-
-  private _yield(iteratorResult: StaticJsValue): StaticJsIteratorResult {
-    if (this._generatorState !== "executing") {
-      throw new StaticJsEngineError("Generator can only yield if it is in executing state.");
-    }
-
-    this._pausedContext = EvaluationContext.current;
-
-    this._generatorState = "suspended-yield";
-
-    return {
-      done: false,
-      value: iteratorResult,
-    };
-  }
-
-  private _complete(value: StaticJsValue): StaticJsIteratorResult {
-    this._generatorState = "completed";
-    return {
-      done: true,
-      value,
-    };
-  }
-
-  private _fail(completion: Completion.Throw): never {
-    this._generatorState = "completed";
-    throw completion;
+    return yield* Q(SuspendCommand.runSuspendedContext(this._generatorContext, value));
   }
 }

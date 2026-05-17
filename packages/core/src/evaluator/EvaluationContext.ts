@@ -4,6 +4,7 @@ import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJs
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../runtime/types/StaticJsCallable.js";
 import { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
+import { StaticJsGenerator } from "../runtime/types/StaticJsGenerator.js";
 import { dropUndefined } from "../utils/drop-undefined.js";
 import { typedEntries } from "../utils/typed-entries.js";
 
@@ -25,6 +26,7 @@ export interface EvaluationContextOptions {
   labelSet?: string[];
   evaluationParameters?: Record<string, unknown>;
   function?: StaticJsCallable | null;
+  generator?: StaticJsGenerator | null;
 }
 
 type EvaluationContextAutoDefProperties = EvaluationContextOptions & {
@@ -49,6 +51,7 @@ const EvaluationContextPropertyDefs: Record<
   labelSet: { inherits: false, defaultValue: [] },
   evaluationParameters: { inherits: true, defaultValue: Object.freeze({}) },
   function: { inherits: false, defaultValue: null },
+  generator: { inherits: false, defaultValue: null },
 };
 
 /**
@@ -90,6 +93,8 @@ class RealmOnlyEvaluationContext implements EvaluationContext {
   readonly evaluationParameters = Object.freeze({});
 
   readonly function = null;
+
+  readonly generator = null;
 
   readonly scriptOrModule = null;
 
@@ -325,6 +330,7 @@ class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperti
   labelSet!: string[];
 
   function!: StaticJsCallable | null;
+  generator!: StaticJsGenerator | null;
 
   parameter<T = unknown>(name: string, converter: (value: unknown) => T = (v) => v as T): T | null {
     const value = this.evaluationParameters[name];
@@ -367,6 +373,6 @@ class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperti
   }
 
   create(properties: EvaluationContextOptions = {}): EvaluationContext {
-    return new EvaluationContextImpl(this._realm, this, properties);
+    return new EvaluationContextImpl(this._realm, this, { ...this._properties, ...properties });
   }
 }

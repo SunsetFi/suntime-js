@@ -5,6 +5,7 @@ import { Await } from "../../runtime/algorithms/await.js";
 import { call } from "../../runtime/algorithms/call.js";
 import { getGeneratorKind } from "../../runtime/algorithms/get-generator-kind.js";
 import { getMethod } from "../../runtime/algorithms/get-method.js";
+import { Yield } from "../../runtime/algorithms/yield.js";
 import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
@@ -26,6 +27,13 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
   }
 
   const value = yield* Q.val(EvaluateNodeCommand(node.argument));
+
+  // FIXME: TEMP HACK transitioning to suspend
+  const context = EvaluationContext.current;
+  if (context.generator) {
+    const yieldResult = yield* Yield(value);
+    return yieldResult;
+  }
 
   const generatorKind = yield* getGeneratorKind();
 

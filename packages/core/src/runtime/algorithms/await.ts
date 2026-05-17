@@ -34,11 +34,11 @@ export const Await = Q.makeReceiver(function* Await(
 
   const promise = yield* Q(promiseResolve(realm.intrinsics.Promise, value, realm));
   const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, v) {
-    yield* SuspendCommand.resume(suspendContext, Completion.Normal(v));
+    yield* SuspendCommand.runSuspendedContext(suspendContext, Completion.Normal(v));
     return realm.types.undefined;
   });
   const onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, e) {
-    yield* SuspendCommand.resume(suspendContext, Completion.Throw(e));
+    yield* SuspendCommand.runSuspendedContext(suspendContext, Completion.Throw(e));
     return realm.types.undefined;
   });
 

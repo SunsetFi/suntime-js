@@ -14,6 +14,7 @@ import { call } from "./call.js";
 export function* asyncBlockStart(
   promiseCapability: StaticJsPromiseCapabilityRecord,
   asyncBody: Node | EvaluationGenerator<Completion>,
+  asyncContext: EvaluationContext,
 ): EvaluationGenerator<void> {
   function* closure() {
     const { realm } = EvaluationContext.current;
@@ -23,6 +24,8 @@ export function* asyncBlockStart(
     } else {
       result = yield* captureThrownCompletion(asyncBody);
     }
+
+    EvaluationContext.pop();
 
     if (Completion.Normal.is(result)) {
       yield* call(promiseCapability.resolve, realm.types.undefined, [realm.types.undefined]);
@@ -36,5 +39,6 @@ export function* asyncBlockStart(
     }
   }
 
-  yield* SuspendCommand.run(closure());
+  const context = SuspendCommand.createSuspendedContext(closure(), asyncContext);
+  yield* SuspendCommand.runSuspendedContext(context, Completion.Normal(null));
 }

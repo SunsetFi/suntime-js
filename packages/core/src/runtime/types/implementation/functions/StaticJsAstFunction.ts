@@ -26,7 +26,7 @@ import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import { asyncBlockStart } from "../../../algorithms/async-block-start.js";
+import { asyncFunctionStart } from "../../../algorithms/async-function-start.js";
 import { call } from "../../../algorithms/call.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { getPrototypeFromConstructor } from "../../../algorithms/get-prototype-from-constructor.js";
@@ -393,7 +393,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     if (Completion.Abrupt.is(completion)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(completion)]);
     } else {
-      yield* asyncBlockStart(promiseCapability, node.body);
+      yield* asyncFunctionStart(promiseCapability, node.body);
     }
     return Completion.Return(promiseCapability.promise);
   }
@@ -493,7 +493,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
         return Completion.Return(value);
       }
 
-      yield* asyncBlockStart(promiseCapability, closure());
+      yield* asyncFunctionStart(promiseCapability, closure());
     }
 
     return Completion.Return(promiseCapability.promise);

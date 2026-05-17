@@ -6,19 +6,32 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluatorCommand } from "./EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
-export interface SuspendContext {
+export interface SuspendContext<TOutput = unknown> {
   generator: EvaluationGenerator<unknown> | null;
   evaluationContext: EvaluationContext | null;
+  __kind_output: TOutput & void;
 }
 
-export interface SuspendCommand extends EvaluatorCommandBase {
+export interface SuspendCommand<TOutput = unknown> extends EvaluatorCommandBase {
   command: "suspend";
-  context: SuspendContext;
+  context: SuspendContext<TOutput>;
+  output: TOutput;
 }
-export function* SuspendCommand(context: SuspendContext): EvaluationGenerator<Completion> {
+export function SuspendCommand<TOutput>(
+  context: SuspendContext<TOutput>,
+  output: TOutput,
+): EvaluationGenerator<Completion>;
+export function SuspendCommand<TOutput>(
+  context: SuspendContext<TOutput>,
+): EvaluationGenerator<Completion>;
+export function* SuspendCommand<TOutput>(
+  context: SuspendContext<TOutput>,
+  output?: TOutput,
+): EvaluationGenerator<Completion> {
   const result = yield {
     command: "suspend",
     context,
+    output,
   };
 
   if (!Completion.is(result)) {
@@ -32,12 +45,36 @@ SuspendCommand.is = function (value: EvaluatorCommand): value is SuspendCommand 
   return value.command === "suspend";
 };
 
-SuspendCommand.createContext = function (): SuspendContext {
+function createContext(): SuspendContext;
+function createContext<TOutput>(): SuspendContext<TOutput>;
+function createContext<TOutput>(): SuspendContext<TOutput> {
   return {
     generator: null,
     evaluationContext: null,
+    __kind_output: undefined as any,
   };
-};
+}
+SuspendCommand.createContext = createContext;
+
+function createSuspendContext(
+  generator: EvaluationGenerator<unknown>,
+  evaluationContext?: EvaluationContext,
+): SuspendContext;
+function createSuspendContext<TOutput>(
+  generator: EvaluationGenerator<unknown>,
+  evaluationContext?: EvaluationContext,
+): SuspendContext<TOutput>;
+function createSuspendContext<TOutput>(
+  generator: EvaluationGenerator<unknown>,
+  evaluationContext: EvaluationContext = EvaluationContext.current,
+): SuspendContext<TOutput> {
+  return {
+    generator,
+    evaluationContext,
+    __kind_output: undefined as any,
+  };
+}
+SuspendCommand.createSuspendedContext = createSuspendContext;
 
 SuspendCommand.run = function* <T>(
   generator: EvaluationGenerator<T>,
@@ -64,7 +101,8 @@ SuspendCommand.run = function* <T>(
       }
       command.context.generator = generator;
       command.context.evaluationContext = EvaluationContext.current;
-      return null;
+      EvaluationContext.pop();
+      return command.output as T;
     }
 
     completion = yield command;
@@ -89,7 +127,7 @@ function generatorNextCaptureCompletion<T>(
   }
 }
 
-SuspendCommand.resume = function* <T>(
+SuspendCommand.runSuspendedContext = function* <T>(
   context: SuspendContext,
   completion: Completion,
 ): EvaluationGenerator<T> {
