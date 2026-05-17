@@ -383,19 +383,19 @@ it(
 
 it(
   "super-property-method.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/delete/super-property-method.js"),
 );
 
 it(
   "super-property-null-base.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/delete/super-property-null-base.js"),
 );
 
 it(
   "super-property-topropertykey.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/delete/super-property-topropertykey.js"),
 );
 
@@ -407,7 +407,7 @@ it(
 
 it(
   "super-property.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/delete/super-property.js"),
 );
 

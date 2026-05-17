@@ -1848,7 +1848,7 @@ it(
 
 it(
   "yield-star-return-then-getter-ticks.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/statements/async-generator/yield-star-return-then-getter-ticks.js"),
 );
 

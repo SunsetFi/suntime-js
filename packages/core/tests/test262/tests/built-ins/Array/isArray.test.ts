@@ -161,8 +161,8 @@ it(
 
 it(
   "proxy-revoked.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Array/isArray/proxy-revoked.js"),
 );
 
-it("proxy.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Array/isArray/proxy.js"));
+it("proxy.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Array/isArray/proxy.js"));

@@ -143,7 +143,7 @@ it(
 
 it(
   "star-iterable.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/yield/star-iterable.js"),
 );
 
@@ -203,7 +203,7 @@ it(
 
 it(
   "star-rhs-iter-nrml-res-done-no-value.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/yield/star-rhs-iter-nrml-res-done-no-value.js"),
 );
 
@@ -233,7 +233,7 @@ it(
 
 it(
   "star-rhs-iter-rtrn-res-done-no-value.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/yield/star-rhs-iter-rtrn-res-done-no-value.js"),
 );
 
@@ -281,7 +281,7 @@ it(
 
 it(
   "star-rhs-iter-thrw-res-done-no-value.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/yield/star-rhs-iter-thrw-res-done-no-value.js"),
 );
 
