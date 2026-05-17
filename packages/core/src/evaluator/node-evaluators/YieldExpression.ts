@@ -62,7 +62,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
       // Typescript 6 finds this as circular because:
       // received => innerResult => nextValue => received
       const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-      received = yield* Q(Yield(nextValue));
+      received = yield* Yield(nextValue);
     } else if (Completion.Throw.is(received)) {
       const throwMethod = yield* Q(getMethod(iterator, "throw"));
       if (throwMethod) {
@@ -79,7 +79,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         }
 
         const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-        received = yield* Q(Yield(nextValue));
+        received = yield* Yield(nextValue);
       } else {
         const closeCompletion = Completion.Normal(null);
         if (generatorKind === "async") {

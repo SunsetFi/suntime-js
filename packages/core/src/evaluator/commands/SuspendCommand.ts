@@ -28,11 +28,20 @@ export function* SuspendCommand<TOutput>(
   context: SuspendContext<TOutput>,
   output?: TOutput,
 ): EvaluationGenerator<Completion> {
-  const result = yield {
-    command: "suspend",
-    context,
-    output,
-  };
+  let result: Completion;
+  try {
+    result = yield {
+      command: "suspend",
+      context,
+      output,
+    };
+  } catch (e) {
+    if (Completion.Abrupt.is(e)) {
+      return e;
+    }
+
+    throw e;
+  }
 
   if (!Completion.is(result)) {
     throw new StaticJsEngineError("Expected Completion from suspend, got: " + result);
@@ -81,12 +90,11 @@ SuspendCommand.run = function* <T>(
   completion: Completion = null,
 ): EvaluationGenerator<T | null> {
   while (true) {
+    // In practice, this should usually be paused at a SuspendCommand, which doesn't actually want
+    // thrown abrupt completions.  However, EvaluationCompletion is configured to only allow
+    // NormalCompletion iteration results...
+    // We should fix this, at some time, somehow.
     let { done, value } = generatorNextCaptureCompletion(generator, completion);
-
-    if (Completion.Abrupt.is(value)) {
-      completion = value;
-      continue;
-    }
 
     if (done) {
       return value as T;
@@ -112,18 +120,13 @@ SuspendCommand.run = function* <T>(
 function generatorNextCaptureCompletion<T>(
   generator: EvaluationGenerator<T>,
   completion: Completion,
-): IteratorResult<EvaluatorCommand | Completion.Abrupt, T | Completion.Abrupt> {
-  try {
-    if (Completion.Abrupt.is(completion)) {
-      return generator.throw(completion);
-    } else {
-      return generator.next(completion);
-    }
-  } catch (value) {
-    if (Completion.Abrupt.is(value)) {
-      return { done: false, value };
-    }
-    throw value;
+): IteratorResult<EvaluatorCommand, T> {
+  // In practice, this SHOULD be a SuspendCommand, which doesn't actually want
+  // throwing.
+  if (Completion.Abrupt.is(completion)) {
+    return generator.throw(completion);
+  } else {
+    return generator.next(completion);
   }
 }
 

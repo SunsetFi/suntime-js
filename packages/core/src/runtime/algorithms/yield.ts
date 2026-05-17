@@ -1,7 +1,6 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { YieldCommand } from "../../evaluator/commands/YieldCommand.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
-import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
@@ -29,11 +28,9 @@ export function* Yield(value: StaticJsValue): EvaluationGenerator<Completion> {
     throw new StaticJsEngineError("Yield can only be used within a generator function.");
   }
 
-  const result = yield* Q(
-    generator.generatorYield({
-      value,
-      done: false,
-    }),
-  );
+  const result = yield* generator.generatorYield({
+    value,
+    done: false,
+  });
   return result;
 }

@@ -111,7 +111,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     this._generatorState = "suspended-yield";
 
     this._generatorContext = SuspendCommand.createContext<StaticJsIteratorResult>();
-    const resumptionValue = yield* Q(SuspendCommand(this._generatorContext, iteratorResult));
+    const resumptionValue = yield* SuspendCommand(this._generatorContext, iteratorResult);
     return resumptionValue;
   }
 
