@@ -1,17 +1,21 @@
-import { isFunction } from "@babel/types";
-
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsAsyncGeneratorImpl } from "../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
+import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
 export function* getGeneratorKind() {
-  const func = EvaluationContext.current.function;
-  if (func instanceof StaticJsAstFunction === false) {
+  const generator = EvaluationContext.current.generator;
+  if (!generator) {
+    return "non-generator";
+  }
+
+  if (generator instanceof StaticJsAsyncGeneratorImpl) {
+    return "async";
+  }
+
+  if (generator instanceof StaticJsGeneratorImpl) {
     return "sync";
   }
 
-  return isFunction(func.ecmaScriptCode) &&
-    func.ecmaScriptCode.generator &&
-    func.ecmaScriptCode.async
-    ? "async"
-    : "sync";
+  throw new StaticJsEngineError("Unknown generator type.");
 }

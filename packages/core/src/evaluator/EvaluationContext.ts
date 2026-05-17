@@ -2,6 +2,7 @@ import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import { StaticJsAsyncGenerator } from "../runtime/types/StaticJsAsyncGenerator.js";
 import { StaticJsCallable } from "../runtime/types/StaticJsCallable.js";
 import { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 import { StaticJsGenerator } from "../runtime/types/StaticJsGenerator.js";
@@ -26,7 +27,7 @@ export interface EvaluationContextOptions {
   labelSet?: string[];
   evaluationParameters?: Record<string, unknown>;
   function?: StaticJsCallable | null;
-  generator?: StaticJsGenerator | null;
+  generator?: StaticJsGenerator | StaticJsAsyncGenerator | null;
 }
 
 type EvaluationContextAutoDefProperties = EvaluationContextOptions & {
@@ -62,20 +63,20 @@ const EvaluationContextPropertyDefs: Record<
  * This is only used for {@link EvaluationContext.current}
  */
 export interface EvaluationContext extends Required<EvaluationContextAutoDefProperties> {
-  readonly realm: StaticJsRealm;
+  realm: StaticJsRealm;
 
   parameter<T = unknown>(name: string, converter?: (value: unknown) => T): T | null;
   requireParameter<T = unknown>(name: string, converter?: (value: unknown) => T): T;
   run<T>(callback: (context: EvaluationContext) => EvaluationGenerator<T>): EvaluationGenerator<T>;
 
-  create(properties?: EvaluationContextOptions): EvaluationContext;
+  clone(properties?: EvaluationContextOptions): EvaluationContext;
 }
 
 /**
  * More or less a hack, so we can get a resolvable realm when running non-invocation actions.
  */
 class RealmOnlyEvaluationContext implements EvaluationContext {
-  constructor(readonly realm: StaticJsRealm) {}
+  constructor(public realm: StaticJsRealm) {}
   readonly strict = false;
 
   get lexicalEnv() {
@@ -114,7 +115,7 @@ class RealmOnlyEvaluationContext implements EvaluationContext {
     throw new StaticJsEngineError("Cannot use run() on a realm-only evaluation context.");
   }
 
-  create(): EvaluationContext {
+  clone(): EvaluationContext {
     throw new StaticJsEngineError(
       "Cannot create new evaluation context from a realm-only evaluation context.",
     );
@@ -260,16 +261,14 @@ export const EvaluationContext = {
  * which are a consumer of this rather than contained within it.
  */
 class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperties> {
-  private readonly _realm: StaticJsRealm;
   private readonly _parent: EvaluationContext | null;
   private readonly _properties: EvaluationContextAutoDefProperties;
 
   constructor(
-    realm: StaticJsRealm,
+    public realm: StaticJsRealm,
     parent: EvaluationContext | null,
     properties: EvaluationContextAutoDefProperties,
   ) {
-    this._realm = realm;
     this._parent = parent;
     this._properties = properties;
 
@@ -306,10 +305,6 @@ class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperti
         enumerable: true,
       });
     }
-  }
-
-  get realm() {
-    return this._realm;
   }
 
   scriptOrModule!: StaticJsScriptOrModuleRecord;
@@ -372,7 +367,7 @@ class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperti
     }
   }
 
-  create(properties: EvaluationContextOptions = {}): EvaluationContext {
-    return new EvaluationContextImpl(this._realm, this, { ...this._properties, ...properties });
+  clone(properties: EvaluationContextOptions = {}): EvaluationContext {
+    return new EvaluationContextImpl(this.realm, this, { ...this._properties, ...properties });
   }
 }

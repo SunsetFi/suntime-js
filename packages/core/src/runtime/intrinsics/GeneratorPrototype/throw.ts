@@ -7,7 +7,7 @@ const generatorProtoThrowDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, thisArg, value = realm.types.undefined) {
     const completion = Completion.Throw(value);
-    return yield* generatorResumeAbrupt(thisArg, completion, null, realm);
+    return yield* generatorResumeAbrupt(thisArg, completion, null);
   },
 };
 

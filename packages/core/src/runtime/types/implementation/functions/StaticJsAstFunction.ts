@@ -407,14 +407,9 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
     yield* functionDeclarationInstantiation(this, args);
 
-    function* evaluator() {
-      yield* Q(EvaluateNodeCommand(node.body));
-      throw Completion.Return(realm.types.undefined);
-    }
-
     const proto = yield* getPrototypeFromConstructor(this, "AsyncGeneratorPrototype");
-    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm, proto);
 
+    const generator = new StaticJsAsyncGeneratorImpl(node.body, null, realm, proto);
     return Completion.Return(generator);
   }
 

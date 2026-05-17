@@ -1,5 +1,3 @@
-import { isFunction } from "@babel/types";
-
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { AwaitCommand } from "../../evaluator/commands/AwaitCommand.js";
 import { SuspendCommand } from "../../evaluator/commands/SuspendCommand.js";
@@ -17,14 +15,9 @@ export const Await = Q.makeReceiver(function* Await(
   value: StaticJsValue,
 ): EvaluationGenerator<StaticJsValue | Completion.Throw> {
   // FIXME: TEMP HACK: Starting to introduce SuspendCommand
+  // Only modules should use this at the moment.
   const currentFunc = EvaluationContext.current.function;
-  if (
-    !currentFunc ||
-    currentFunc instanceof StaticJsAstFunction === false ||
-    !isFunction(currentFunc.ecmaScriptCode) ||
-    !currentFunc.ecmaScriptCode.async ||
-    currentFunc.ecmaScriptCode.generator
-  ) {
+  if (!currentFunc || currentFunc instanceof StaticJsAstFunction === false) {
     return yield* Q(AwaitCommand(value));
   }
 

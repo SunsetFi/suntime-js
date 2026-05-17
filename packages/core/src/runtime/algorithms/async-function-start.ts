@@ -12,6 +12,6 @@ export function* asyncFunctionStart(
   asyncFunctionBody: Node | EvaluationGenerator<Completion>,
 ): EvaluationGenerator<void> {
   const runningContext = EvaluationContext.current;
-  const asyncContext = runningContext.create();
+  const asyncContext = runningContext.clone();
   yield* asyncBlockStart(promiseCapability, asyncFunctionBody, asyncContext);
 }

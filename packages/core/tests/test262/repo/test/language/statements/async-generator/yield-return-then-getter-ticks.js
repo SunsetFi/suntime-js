@@ -80,16 +80,22 @@ var actual = [];
 
 async function* f() {
   actual.push("start");
+  print("start");
   yield 123;
   actual.push("stop - never reached");
 }
 
 Promise.resolve(0)
-  .then(() => actual.push("tick 1"))
-  .then(() => actual.push("tick 2"))
+  .then(() => actual.push("tick 1"), print("tick 1"))
+  .then(() => actual.push("tick 2"), print("tick 2"))
   .then(() => {
-    assert.compareArray(actual, expected, "Ticks for return with thenable getter");
-}).then($DONE, $DONE);
+    assert.compareArray(
+      actual,
+      expected,
+      "Ticks for return with thenable getter",
+    );
+  })
+  .then($DONE, $DONE);
 
 var it = f();
 
@@ -100,5 +106,6 @@ it.next();
 it.return({
   get then() {
     actual.push("get then");
-  }
+    print("get then");
+  },
 });

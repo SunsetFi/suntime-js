@@ -115,8 +115,10 @@ function* instantiateAsyncGeneratorFunctionObject(
       yield* setFunctionName(func, node.id?.name ?? "default");
   }
 
+  const prototype = realm.types.object({}, realm.intrinsics["AsyncGeneratorPrototype"]);
+
   yield* func.defineOwnPropertyEvaluator("prototype", {
-    value: realm.types.object({}, realm.intrinsics["AsyncGeneratorPrototype"]),
+    value: prototype,
     writable: true,
     enumerable: false,
     configurable: false,

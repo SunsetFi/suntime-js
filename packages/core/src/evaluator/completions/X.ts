@@ -1,7 +1,7 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+import { isEvaluationGenerator, type EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { captureThrownCompletion } from "./capture-thrown-completion.js";
 import { Completion } from "./Completion.js";
@@ -9,25 +9,17 @@ import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 import { nameCompletionLike } from "./name-completion-like.js";
 
 export function* X<T = Completion.Normal>(value: CompletionEvaluator<T>): EvaluationGenerator<T> {
+  if (isEvaluationGenerator(value)) {
+    value = yield* captureThrownCompletion(value);
+  }
+
   if (Completion.Abrupt.is(value)) {
     throw new StaticJsEngineError(
       `Expected a normal completion, but got an abrupt completion: ${nameCompletionLike(value)}.`,
     );
   }
 
-  if (Completion.Normal.is(value)) {
-    return value;
-  }
-
-  const completion = yield* captureThrownCompletion<T>(value);
-
-  if (!Completion.Normal.is(completion)) {
-    throw new StaticJsEngineError(
-      `Expected a normal completion, but got ${nameCompletionLike(completion)}.`,
-    );
-  }
-
-  return completion;
+  return value;
 }
 
 X.ref = function xRef(value: CompletionEvaluator<Completion>) {

@@ -24,7 +24,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `1`,
     resultCollector: `x`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toBe(1);
     },
   },
@@ -34,7 +34,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ a: 10, b: 20 }`,
     resultCollector: `[a, b]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([10, 20]);
     },
   },
@@ -44,7 +44,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ a: 10 }`,
     resultCollector: `[a, b]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([10, 5]);
     },
   },
@@ -54,7 +54,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ a: 15, b: 25 }`,
     resultCollector: `[x, y]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([15, 25]);
     },
   },
@@ -64,7 +64,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ a: { b: 30, c: 40 } }`,
     resultCollector: `[b, c]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([30, 40]);
     },
   },
@@ -74,7 +74,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{}`,
     resultCollector: `[b, c]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([5, 10]);
     },
   },
@@ -84,7 +84,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ a: {} }`,
     resultCollector: `[b, c]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([7, 14]);
     },
   },
@@ -94,7 +94,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1, 2]`,
     resultCollector: `[x, y]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 2]);
     },
   },
@@ -104,7 +104,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1]`,
     resultCollector: `[x, y]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 3]);
     },
   },
@@ -114,7 +114,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1, [2, 3]]`,
     resultCollector: `[x, y, z]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 2, 3]);
     },
   },
@@ -124,7 +124,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1]`,
     resultCollector: `[x, y, z]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 3, 4]);
     },
   },
@@ -134,7 +134,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1, []]`,
     resultCollector: `[x, y, z]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 4, 5]);
     },
   },
@@ -144,7 +144,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ a: 1, b: 2, c: 3 }`,
     resultCollector: `[a, rest]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, { b: 2, c: 3 }]);
     },
   },
@@ -154,7 +154,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1, 2, 3, 4]`,
     resultCollector: `[head, tailStart, tailEnd]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 3, 4]);
     },
   },
@@ -164,7 +164,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{ top: [1, { second: 2 }] }`,
     resultCollector: `[first, second]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 2]);
     },
   },
@@ -175,7 +175,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `source`,
     resultCollector: `collected`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toBe(42);
     },
   },
@@ -198,7 +198,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[0, 1, 2, 3]`,
     resultCollector: `[second, fourth]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 3]);
     },
   },
@@ -220,7 +220,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `[1, 2, 3]`,
     resultCollector: `[x, y, z]`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toEqual([1, 2, 42]);
     },
   },
@@ -242,7 +242,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
           valueCode: `${start}${end}`,
           resultCollector: `fn.name`,
           assert({ result, error }) {
-            expect(error).toBeUndefined();
+            if (error) throw error;
             expect(result).toBe("fn");
           },
         },
@@ -252,7 +252,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
           valueCode: `${start}${end}`,
           resultCollector: `fn.name`,
           assert({ result, error }) {
-            expect(error).toBeUndefined();
+            if (error) throw error;
             expect(result).toBe("fn");
           },
         },
@@ -262,7 +262,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
           valueCode: `${start}${end}`,
           resultCollector: `fn.name`,
           assert({ result, error }) {
-            expect(error).toBeUndefined();
+            if (error) throw error;
             expect(result).toBe("named");
           },
         },
@@ -272,7 +272,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
           valueCode: `${start}${end}`,
           resultCollector: `fn.name`,
           assert({ result, error }) {
-            expect(error).toBeUndefined();
+            if (error) throw error;
             expect(result).toBe("");
           },
         },
@@ -284,7 +284,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{}`,
     resultCollector: `myProp.name`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toBe("myProp");
     },
   },
@@ -296,7 +296,7 @@ const bindingScenarios: BindingScenarioDefinition[] = [
     valueCode: `{}`,
     resultCollector: `myFn.name`,
     assert({ result, error }) {
-      expect(error).toBeUndefined();
+      if (error) throw error;
       expect(result).toBe("myFn");
     },
   },

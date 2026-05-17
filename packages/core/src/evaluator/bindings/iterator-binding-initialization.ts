@@ -7,7 +7,6 @@ import { putValue } from "../../runtime/algorithms/put-value.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
-import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -52,7 +51,7 @@ export const iteratorBindingInitialization: IteratorBindingInitialization = Q.ma
       return Completion.Normal(null);
     }
 
-    const { realm, strict, lexicalEnv } = EvaluationContext.current;
+    const { realm } = EvaluationContext.current;
 
     let initializer: Expression | null = null;
     if (node.type === "AssignmentPattern") {
@@ -63,7 +62,7 @@ export const iteratorBindingInitialization: IteratorBindingInitialization = Q.ma
     switch (node.type) {
       case "RestElement": {
         if (node.argument.type === "Identifier") {
-          const lhs = yield* getIdentifierReference(lexicalEnv, node.argument.name, strict);
+          const lhs = yield* resolveBinding(node.argument.name, environment);
 
           const A = yield* arrayCreate(0);
           let n = 0;
@@ -118,7 +117,7 @@ export const iteratorBindingInitialization: IteratorBindingInitialization = Q.ma
       }
       case "Identifier": {
         const bindingId = node.name;
-        const lhs = yield* resolveBinding(bindingId, lexicalEnv);
+        const lhs = yield* resolveBinding(bindingId, environment);
 
         let v: StaticJsValue = realm.types.undefined;
 
@@ -169,32 +168,38 @@ export const iteratorBindingInitialization: IteratorBindingInitialization = Q.ma
   },
 ) as any;
 
-iteratorBindingInitialization.arrayBindingPattern = Q.makeReceiver(function* (
-  node: ArrayPattern,
-  iteratorRecord: StaticJsIteratorRecord,
-  environment: StaticJsEnvironmentRecord | null,
-): EvaluationGenerator<Completion> {
-  // TODO: Spec shows no acknowledgement of initializer here, verify correctness
-  let lastCompletion: Completion = null;
-  for (const element of node.elements) {
-    if (element?.type === "RestElement") {
-      lastCompletion = yield* Q(
-        iteratorBindingInitialization(element, iteratorRecord, environment),
-      );
-      continue;
+iteratorBindingInitialization.arrayBindingPattern = Q.makeReceiver(
+  function* iteratorBindingInitializationArrayPattern(
+    node: ArrayPattern,
+    iteratorRecord: StaticJsIteratorRecord,
+    environment: StaticJsEnvironmentRecord | null,
+  ): EvaluationGenerator<Completion> {
+    // TODO: Spec shows no acknowledgement of initializer here, verify correctness
+    let lastCompletion: Completion = null;
+    for (const element of node.elements) {
+      if (element?.type === "RestElement") {
+        lastCompletion = yield* Q(
+          iteratorBindingInitialization(element, iteratorRecord, environment),
+        );
+        continue;
+      }
+
+      if (element === null) {
+        lastCompletion = yield* Q(
+          iteratorDestructuringAssignmentEvaluation(element, iteratorRecord),
+        );
+      } else if (element.type === "VoidPattern") {
+        // What on earth is this?
+        throw new StaticJsEngineError(
+          `Unsupported void pattern in iterator binding initialization`,
+        );
+      } else {
+        lastCompletion = yield* Q(
+          iteratorBindingInitialization(element, iteratorRecord, environment),
+        );
+      }
     }
 
-    if (element === null) {
-      lastCompletion = yield* Q(iteratorDestructuringAssignmentEvaluation(element, iteratorRecord));
-    } else if (element.type === "VoidPattern") {
-      // What on earth is this?
-      throw new StaticJsEngineError(`Unsupported void pattern in iterator binding initialization`);
-    } else {
-      lastCompletion = yield* Q(
-        iteratorBindingInitialization(element, iteratorRecord, environment),
-      );
-    }
-  }
-
-  return lastCompletion;
-});
+    return lastCompletion;
+  },
+);

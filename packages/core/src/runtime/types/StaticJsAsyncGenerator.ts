@@ -10,10 +10,8 @@ export interface StaticJsAsyncGenerator extends StaticJsObject {
   readonly runtimeTypeOf: "async-generator";
 
   nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsPromise>;
-
-  throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsPromise>;
-
   returnEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsPromise>;
+  throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsPromise>;
 }
 
 export function isStaticJsAsyncGenerator(value: unknown): value is StaticJsAsyncGenerator {

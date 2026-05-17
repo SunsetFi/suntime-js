@@ -6,34 +6,61 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { EvaluatorCommand } from "./EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
-export interface SuspendContext<TOutput = unknown> {
-  generator: EvaluationGenerator<unknown> | null;
-  evaluationContext: EvaluationContext | null;
-  __kind_output: TOutput & void;
+export interface SuspendContextResumptionValue<TCallerResumptionValue = unknown> {
+  __kind_resumption_value: TCallerResumptionValue;
 }
 
-export interface SuspendCommand<TOutput = unknown> extends EvaluatorCommandBase {
-  command: "suspend";
-  context: SuspendContext<TOutput>;
-  output: TOutput;
+export interface InitialSuspendContext<
+  TCallerResumptionValue = unknown,
+> extends SuspendContextResumptionValue<TCallerResumptionValue> {
+  state: "initial";
+  generator: null;
+  evaluationContext: null;
 }
-export function SuspendCommand<TOutput>(
-  context: SuspendContext<TOutput>,
-  output: TOutput,
+
+export interface PrimedSuspendContext<
+  TCallerResumptionValue = unknown,
+> extends SuspendContextResumptionValue<TCallerResumptionValue> {
+  state: "primed";
+  generator: EvaluationGenerator<unknown>;
+  evaluationContext: EvaluationContext;
+}
+
+export interface ConsumedSuspendContext<
+  TCallerResumptionValue = unknown,
+> extends SuspendContextResumptionValue<TCallerResumptionValue> {
+  state: "consumed";
+  generator: null;
+  evaluationContext: null;
+}
+
+export type SuspendContext<TCallerResumptionValue = unknown> =
+  | InitialSuspendContext<TCallerResumptionValue>
+  | PrimedSuspendContext<TCallerResumptionValue>
+  | ConsumedSuspendContext<TCallerResumptionValue>;
+
+export interface SuspendCommand<TCallerResumptionValue = unknown> extends EvaluatorCommandBase {
+  command: "suspend";
+  context: SuspendContext<TCallerResumptionValue>;
+  callerResumptionValue: TCallerResumptionValue;
+}
+export function SuspendCommand<TCallerResumptionValue>(
+  context: SuspendContext<TCallerResumptionValue>,
+  callerResumptionValue: TCallerResumptionValue,
 ): EvaluationGenerator<Completion>;
-export function SuspendCommand<TOutput>(
-  context: SuspendContext<TOutput>,
+export function SuspendCommand<TCallerResumptionValue>(
+  context: SuspendContext<TCallerResumptionValue>,
 ): EvaluationGenerator<Completion>;
-export function* SuspendCommand<TOutput>(
-  context: SuspendContext<TOutput>,
-  output?: TOutput,
+export function* SuspendCommand<TCallerResumptionValue>(
+  context: SuspendContext<TCallerResumptionValue>,
+  callerResumptionValue?: TCallerResumptionValue,
 ): EvaluationGenerator<Completion> {
   let result: Completion;
   try {
     result = yield {
       command: "suspend",
       context,
-      output,
+      callerResumptionValue: callerResumptionValue,
     };
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
@@ -55,12 +82,13 @@ SuspendCommand.is = function (value: EvaluatorCommand): value is SuspendCommand 
 };
 
 function createContext(): SuspendContext;
-function createContext<TOutput>(): SuspendContext<TOutput>;
-function createContext<TOutput>(): SuspendContext<TOutput> {
+function createContext<TCallerResumptionValue>(): SuspendContext<TCallerResumptionValue>;
+function createContext<TCallerResumptionValue>(): SuspendContext<TCallerResumptionValue> {
   return {
+    state: "initial",
     generator: null,
     evaluationContext: null,
-    __kind_output: undefined as any,
+    __kind_resumption_value: undefined as any,
   };
 }
 SuspendCommand.createContext = createContext;
@@ -69,19 +97,17 @@ function createSuspendContext(
   generator: EvaluationGenerator<unknown>,
   evaluationContext?: EvaluationContext,
 ): SuspendContext;
-function createSuspendContext<TOutput>(
-  generator: EvaluationGenerator<unknown>,
+function createSuspendContext<TCallerResumptionValue>(
+  generator: EvaluationGenerator<TCallerResumptionValue>,
   evaluationContext?: EvaluationContext,
-): SuspendContext<TOutput>;
-function createSuspendContext<TOutput>(
-  generator: EvaluationGenerator<unknown>,
+): SuspendContext<TCallerResumptionValue>;
+function createSuspendContext<TCallerResumptionValue>(
+  generator: EvaluationGenerator<TCallerResumptionValue>,
   evaluationContext: EvaluationContext = EvaluationContext.current,
-): SuspendContext<TOutput> {
-  return {
-    generator,
-    evaluationContext,
-    __kind_output: undefined as any,
-  };
+): SuspendContext<TCallerResumptionValue> {
+  const initial = createContext<TCallerResumptionValue>();
+  suspendedContextPrime(initial, generator, evaluationContext);
+  return initial;
 }
 SuspendCommand.createSuspendedContext = createSuspendContext;
 
@@ -107,10 +133,11 @@ SuspendCommand.run = function* <T>(
       if (command.context.generator) {
         throw new StaticJsEngineError("Suspend context is already running.");
       }
-      command.context.generator = generator;
-      command.context.evaluationContext = EvaluationContext.current;
+
+      suspendedContextPrime(command.context, generator, EvaluationContext.current);
       EvaluationContext.pop();
-      return command.output as T;
+
+      return command.callerResumptionValue as T;
     }
 
     completion = yield command;
@@ -123,6 +150,9 @@ function generatorNextCaptureCompletion<T>(
 ): IteratorResult<EvaluatorCommand, T> {
   // In practice, this SHOULD be a SuspendCommand, which doesn't actually want
   // throwing.
+  // However, EvaluationGenerator says we return NormalCompletions as our iteration output,
+  // so typescript gets angry if we do.
+  // Should fix this as part of the Completion migration.
   if (Completion.Abrupt.is(completion)) {
     return generator.throw(completion);
   } else {
@@ -137,10 +167,48 @@ SuspendCommand.runSuspendedContext = function* <T>(
   if (!context.generator) {
     throw new StaticJsEngineError("Suspend context is not running.");
   }
-  const generator = context.generator;
-  EvaluationContext.push(context.evaluationContext!);
-  context.generator = null;
-  context.evaluationContext = null;
+
+  const [generator, evaluationContext] = suspendedContextConsume(context);
+
+  EvaluationContext.push(evaluationContext);
+
   const result = yield* SuspendCommand.run(generator, completion);
+
   return result as T;
 };
+
+function suspendedContextPrime(
+  context: SuspendContext,
+  generator: EvaluationGenerator<unknown>,
+  evaluationContext: EvaluationContext,
+): void {
+  if (context.state === "primed") {
+    throw new StaticJsEngineError(
+      `Can only prime an already-primed context.  Current state: ${context.state}`,
+    );
+  }
+
+  const primed = context as unknown as PrimedSuspendContext;
+  primed.state = "primed";
+  primed.generator = generator;
+  primed.evaluationContext = evaluationContext;
+}
+
+function suspendedContextConsume(
+  context: SuspendContext,
+): [generator: EvaluationGenerator<unknown>, evaluationContext: EvaluationContext] {
+  if (context.state !== "primed") {
+    throw new StaticJsEngineError(
+      `Can only consume a primed suspend context.  Current state: ${context.state}`,
+    );
+  }
+
+  const { generator, evaluationContext } = context;
+
+  const consumed = context as unknown as ConsumedSuspendContext;
+  consumed.state = "consumed";
+  consumed.generator = null;
+  consumed.evaluationContext = null;
+
+  return [generator, evaluationContext];
+}

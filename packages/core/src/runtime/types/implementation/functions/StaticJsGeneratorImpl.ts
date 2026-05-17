@@ -8,6 +8,9 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
+import { iteratorComplete } from "../../../iterators/iterator-complete.js";
+import { iteratorValue } from "../../../iterators/iterator-value.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import { StaticJsIteratorResult } from "../../StaticJsIterator.js";
@@ -20,19 +23,20 @@ export type GeneratorState = "suspended-start" | "suspended-yield" | "executing"
 
 export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsGenerator {
   private _generatorState: GeneratorState = "suspended-start";
-  private _generatorContext: SuspendContext<StaticJsIteratorResult>;
+  private _generatorContext: SuspendContext<StaticJsObject>;
 
   constructor(
-    generatorBody: Node | EvaluationGenerator,
+    generatorBody: Node | EvaluationGenerator<Completion>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
     prototype?: StaticJsObject,
   ) {
     super(realm, prototype ?? realm.intrinsics["GeneratorPrototype"]);
 
-    EvaluationContext.current.generator = this;
+    const genContext = EvaluationContext.current;
+    genContext.generator = this;
 
-    function* closure(): EvaluationGenerator<StaticJsIteratorResult> {
+    function* closure(): EvaluationGenerator<StaticJsObject> {
       const acGenContext = EvaluationContext.current;
       const { realm } = acGenContext;
 
@@ -64,14 +68,13 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
         throw result;
       }
 
-      return {
-        value: resultValue,
-        done: true,
-      };
+      return yield* createIteratorResultObject(resultValue, true, realm);
     }
 
-    this._generatorContext =
-      SuspendCommand.createSuspendedContext<StaticJsIteratorResult>(closure());
+    this._generatorContext = SuspendCommand.createSuspendedContext<StaticJsObject>(
+      closure(),
+      genContext,
+    );
   }
 
   get runtimeTypeOf() {
@@ -90,19 +93,43 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     return this._generatorState;
   }
 
-  nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
-    return this._generatorResume(value ?? this.realm.types.undefined);
+  *nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    const result = yield* this.generatorResume(
+      value ?? this.realm.types.undefined,
+      this._generatorBrand,
+    );
+    const resultValue = yield* iteratorValue(result);
+    const resultDone = yield* iteratorComplete(result);
+    return {
+      value: resultValue,
+      done: resultDone,
+    };
   }
 
-  throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
-    return this._generatorResumeAbrupt(Completion.Throw(value));
+  *returnEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    const result = yield* this.generatorResumeAbrupt(
+      Completion.Return(value ?? this.realm.types.undefined),
+      this._generatorBrand,
+    );
+    const resultValue = yield* iteratorValue(result);
+    const resultDone = yield* iteratorComplete(result);
+    return {
+      value: resultValue,
+      done: resultDone,
+    };
   }
 
-  returnEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
-    return this._generatorResumeAbrupt(Completion.Return(value ?? this.realm.types.undefined));
+  *throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+    const result = yield* this.generatorResumeAbrupt(Completion.Throw(value), this._generatorBrand);
+    const resultValue = yield* iteratorValue(result);
+    const resultDone = yield* iteratorComplete(result);
+    return {
+      value: resultValue,
+      done: resultDone,
+    };
   }
 
-  *generatorYield(iteratorResult: StaticJsIteratorResult): EvaluationGenerator<Completion> {
+  *generatorYield(iteratorResult: StaticJsObject): EvaluationGenerator<Completion> {
     const context = EvaluationContext.current;
     if (context.generator !== this) {
       throw new StaticJsEngineError("Generator yield called with wrong generator context.");
@@ -110,29 +137,39 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
 
     this._generatorState = "suspended-yield";
 
-    this._generatorContext = SuspendCommand.createContext<StaticJsIteratorResult>();
+    this._generatorContext = SuspendCommand.createContext<StaticJsObject>();
     const resumptionValue = yield* SuspendCommand(this._generatorContext, iteratorResult);
     return resumptionValue;
   }
 
-  private *_generatorResume(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
+  *generatorResume(
+    value: StaticJsValue,
+    generatorBrand: string | null,
+  ): EvaluationGenerator<StaticJsObject> {
+    yield* Q(this._generatorValidate("next", generatorBrand));
+
     if (this._generatorState === "completed") {
-      return {
-        value: this.realm.types.undefined,
-        done: true,
-      };
+      return yield* createIteratorResultObject(this.realm.types.undefined, true, this.realm);
     }
 
     this._generatorState = "executing";
-
-    return yield* Q(
-      SuspendCommand.runSuspendedContext(this._generatorContext, Completion.Normal(value)),
-    );
+    const context = this._generatorContext;
+    return yield* EvaluationContext.withRealm(this.realm, function* () {
+      return yield* Q(SuspendCommand.runSuspendedContext(context, Completion.Normal(value)));
+    });
   }
 
-  private *_generatorResumeAbrupt(
-    value: Completion.Abrupt,
-  ): EvaluationGenerator<StaticJsIteratorResult> {
+  *generatorResumeAbrupt(
+    completion: Completion.Abrupt,
+    generatorBrand: string | null,
+  ): EvaluationGenerator<StaticJsObject> {
+    yield* Q(
+      this._generatorValidate(
+        Completion.Return.is(completion) ? "return" : "throw",
+        generatorBrand,
+      ),
+    );
+
     let state = this._generatorState;
     if (state === "suspended-start") {
       this._generatorState = "completed";
@@ -140,14 +177,11 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     }
 
     if (state === "completed") {
-      if (Completion.Return.is(value)) {
-        return {
-          value: Completion.value(value),
-          done: true,
-        };
+      if (Completion.Return.is(completion)) {
+        return yield* createIteratorResultObject(Completion.value(completion), true, this.realm);
       }
 
-      throw value;
+      throw completion;
     }
 
     if (state !== "suspended-yield") {
@@ -157,7 +191,22 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     }
 
     this._generatorState = "executing";
+    const context = this._generatorContext;
+    return yield* EvaluationContext.withRealm(this.realm, function* () {
+      return yield* Q(SuspendCommand.runSuspendedContext(context, completion));
+    });
+  }
 
-    return yield* Q(SuspendCommand.runSuspendedContext(this._generatorContext, value));
+  private *_generatorValidate(
+    func: string,
+    generatorBrand: string | null,
+  ): EvaluationGenerator<void> {
+    if (generatorBrand !== undefined && generatorBrand !== this._generatorBrand) {
+      throw Completion.Throw("TypeError", `${func} called on incompatible receiver`);
+    }
+
+    if (this._generatorState === "executing") {
+      throw Completion.Throw("TypeError", "Generator is already running");
+    }
   }
 }

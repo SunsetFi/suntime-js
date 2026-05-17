@@ -56,10 +56,10 @@ Q.val = function* qValue(evaluator: CompletionEvaluator<Completion>) {
   return yield* getValue(completion);
 };
 
-Q.makeReceiver = function <TArgs extends unknown[], TResult>(
+Q.makeReceiver = function QMakeReceiver<TArgs extends unknown[], TResult>(
   receiver: (...args: TArgs) => EvaluationGenerator<TResult>,
 ): (...args: TArgs) => EvaluationGenerator<TResult | Completion.Abrupt> {
-  return function* (...args: TArgs) {
+  return function* QReceiver(...args: TArgs) {
     try {
       return yield* receiver(...args);
     } catch (e) {

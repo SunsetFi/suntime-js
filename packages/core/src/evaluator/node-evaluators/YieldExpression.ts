@@ -11,6 +11,8 @@ import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../runtime/iterators/iterator-complete.js";
 import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
+import { StaticJsAsyncGeneratorImpl } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
+import { StaticJsGeneratorImpl } from "../../runtime/types/implementation/functions/StaticJsGeneratorImpl.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -28,14 +30,16 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
   const value = yield* Q.val(EvaluateNodeCommand(node.argument));
 
   const generatorKind = yield* getGeneratorKind();
+  if (generatorKind == "non-generator") {
+    throw new StaticJsEngineError("Yield can only be used within a generator function.");
+  }
 
   if (!node.delegate) {
-    let resolved = value;
-    if (generatorKind === "async") {
-      resolved = yield* Q(Await(value));
-    }
-    return yield* Q(Yield(resolved));
+    return yield* Q(Yield(value));
   }
+
+  // Guarenteed by getGeneratorKind.
+  const generator = EvaluationContext.current.generator!;
 
   const iteratorRecord = yield* getIterator(value, generatorKind);
   const { iterator } = iteratorRecord;
@@ -59,10 +63,16 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         return yield* Q(iteratorValue(innerResult));
       }
 
-      // Typescript 6 finds this as circular because:
-      // received => innerResult => nextValue => received
-      const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-      received = yield* Yield(nextValue);
+      if (generatorKind === "async") {
+        const asyncGenerator = generator as StaticJsAsyncGeneratorImpl;
+        // Typescript 6 finds this as circular because:
+        // received => innerResult => nextValue => received
+        const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
+        received = yield* asyncGenerator.asyncGeneratorYield(nextValue);
+      } else {
+        const syncGenerator = generator as StaticJsGeneratorImpl;
+        received = yield* syncGenerator.generatorYield(innerResult);
+      }
     } else if (Completion.Throw.is(received)) {
       const throwMethod = yield* Q(getMethod(iterator, "throw"));
       if (throwMethod) {
@@ -78,8 +88,16 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
           return yield* Q(iteratorValue(innerResult));
         }
 
-        const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-        received = yield* Yield(nextValue);
+        if (generatorKind === "async") {
+          const asyncGenerator = generator as StaticJsAsyncGeneratorImpl;
+          // Typescript 6 finds this as circular because:
+          // received => innerResult => nextValue => received
+          const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
+          received = yield* asyncGenerator.asyncGeneratorYield(nextValue);
+        } else {
+          const syncGenerator = generator as StaticJsGeneratorImpl;
+          received = yield* syncGenerator.generatorYield(innerResult);
+        }
       } else {
         const closeCompletion = Completion.Normal(null);
         if (generatorKind === "async") {
@@ -118,7 +136,16 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         throw Completion.Return(returnedValue);
       }
 
-      received = yield* Yield(yield* Q(iteratorValue(innerReturnResult)));
+      if (generatorKind === "async") {
+        const asyncGenerator = generator as StaticJsAsyncGeneratorImpl;
+        // Typescript 6 finds this as circular because:
+        // received => innerResult => nextValue => received
+        const nextValue: StaticJsValue = yield* Q(iteratorValue(innerReturnResult));
+        received = yield* asyncGenerator.asyncGeneratorYield(nextValue);
+      } else {
+        const syncGenerator = generator as StaticJsGeneratorImpl;
+        received = yield* syncGenerator.generatorYield(innerReturnResult);
+      }
     }
   }
 }
