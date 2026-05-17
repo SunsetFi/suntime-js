@@ -294,13 +294,6 @@ function frameToIteratorFrame(
   return {
     depth,
     function: func,
-    get functionName() {
-      if (!func) {
-        return null;
-      }
-
-      return func.getNameSync();
-    },
     get sourceLocation() {
       if (!currentNode) {
         return null;

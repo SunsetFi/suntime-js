@@ -168,8 +168,11 @@ describe("E2E: Tasks", () => {
         const expectedFrame = expected.shift()!;
         while (captured.length > 0) {
           const capturedFrame = captured.shift()!;
+          const capturedFunction = capturedFrame.function
+            ? capturedFrame.function.getSync("name").toNative()
+            : null;
           if (
-            capturedFrame.functionName === expectedFrame.functionName &&
+            capturedFunction === expectedFrame.functionName &&
             capturedFrame.sourceLocation?.line === expectedFrame.line
           ) {
             break;

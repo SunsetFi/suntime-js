@@ -6,5 +6,4 @@ export interface StaticJsTaskIteratorStackFrame {
   readonly depth: number;
   readonly sourceLocation: StaticJsTaskSourceLocation | null;
   readonly function: StaticJsFunction | null;
-  readonly functionName: string | null;
 }

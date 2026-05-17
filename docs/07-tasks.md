@@ -18,8 +18,6 @@ Additionally, the `value` property of the iterator result will always be `undefi
 
 Task runners are invoked when the evaluator runtime begins evaluating code. Note that this might not be immediately upon calling the `evaluate` functions if the realm is busy evaluating something else. Tasks are created as-needed whenever the realm begins the execution.
 
-Even when passing a task runner for a single operation, the runner may be called more than once. This is because all macrotasks will run queued microtasks to exhaustion, and each microtask will get its own invocation.
-
 ### Implementing task runners
 
 Task runners are responsible for calling .next() until the task completes:
@@ -66,6 +64,12 @@ function runTask(task) {
 }
 ```
 
+### Microtasks
+
+Each macrotask will invoke runTask exactly once. If the macrotask has additional microtasks, they will be merged into the singular task iterator.
+
+You can observe the switch from macrotask to microtask using the `type` property on the [task iterator](#staticjstaskiterator).
+
 ### Synchronous vs Asynchronous
 
 Task runners can be expected to synchronously complete their task, depending on the context.
@@ -109,8 +113,6 @@ function runTask(task) {
   }
 }
 ```
-
-Note that multiple tasks may be created for a single evaluation request, so for cases of implementing a time limit, you may want to externalize computing the end time in order to catch infinite promise resolution loops.
 
 Keep in mind that the realm might not get to your task immediately, if other evaluations are ongoing.
 
@@ -177,33 +179,6 @@ function runTask(task) {
 }
 ```
 
-### Reusing task runners
-
-If you want to create a task runner function that can reset on new tasks, you may wish to check for and respond to `task.type` equaling `macrotask` or `host-invocation`, both which indicate a new task has been entered.
-
-```ts
-function makeRunTask(timeout) {
-  // Use a single timeout time for all tasks created by this task runner.
-  let end = undefined;
-  return (task) => {
-    // Start a new timer when we enter a new task.
-    if (end === undefined || task === "macrotask" || task === "host-invocation") {
-      end = Date.now() + timeout;
-    }
-
-    while (!task.done) {
-      task.next();
-
-      if (Date.now() > end) {
-        console.warn("Task took longer than 1 minute");
-        task.abort();
-        return;
-      }
-    }
-  };
-}
-```
-
 ### Specifying task runners
 
 Task runners can be specified in a few ways:
@@ -254,7 +229,7 @@ realm.evaluateScriptSync(`while(true) {}`);
 
 #### `runTask` option on realm evaluation methods
 
-The evaluation functions (`realm.evaluateExpression`, `realm.evaluateExpressionSync`, `realm.evaluateScript`, `realm.evaluateScriptSync` and `realm.evaluateModule`) all take a second options argument that accepts a `runTask` property. Setting this property will apply a task runner for all tasks created by this invocation (macrotask, microtasks, module evaluations, and so on). This will be used over any `runTask` supplied to the realm.
+The evaluation functions (`realm.evaluateExpression`, `realm.evaluateExpressionSync`, `realm.evaluateScript`, `realm.evaluateScriptSync` and `realm.evaluateModule`) all take a second options argument that accepts a `runTask` property. Setting this property will specify a task runner to use for this invocation. This will be used over any `runTask` or `runTaskSync` supplied to the realm.
 
 Note that the synchronous variants all expect their task runner to complete synchronously, and will throw a `StaticJsEngineError` if they do not.
 
@@ -337,11 +312,8 @@ All instances of task are a StaticJsTaskIterator
 - `stack`: An array containing stack frames for the operation, with the current frame at index 0.
   - `function`: A reference to the StaticJsFunction being invoked, or null if none. Note that this may reference internal functions
     and is not exclusively user code.
-  - `functionName`: A getter property that returns the name of the function.
-    This getter will fetch and compute the function name on invocation. Taking references to a stack frame and invoking this getter
-    at a later time may reflect an updated function name, if the sandbox renamed the function in the interim.
-    **WARNING**: This performs synchronous evaluation of sandboxed code, may throw errors, and may cause deadlocks if infinite loops are present.
-    You may wish to implement a guard in [runTaskSync](./04-realms.md#runtasksync), which will be used if present.
+    For reflection, you may wish to use `function?.getAsync("name")` to get the function name. Take care to use a task runner as appropriate,
+    as the sandbox may set function names to getters which can invoke sandboxed code when accessed.
   - `sourceLocation`: An object containing information in the location in the stack this frame is on.
     - `sourceName`: The source name provided in the evaluate call. If none was provided, an an auto-generated one will be present instead.
       - `line`: The 1-based line number of the start of the operation on the script being evaluated.

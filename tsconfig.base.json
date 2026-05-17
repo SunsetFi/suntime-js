@@ -4,6 +4,7 @@
     "lib": ["ES2024", "ESNext.Disposable", "ESNext.Iterator"],
     "module": "node20",
     "moduleResolution": "node16",
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
     "exactOptionalPropertyTypes": true,
