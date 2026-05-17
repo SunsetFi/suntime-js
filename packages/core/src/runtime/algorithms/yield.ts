@@ -1,4 +1,6 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { YieldCommand } from "../../evaluator/commands/YieldCommand.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
@@ -7,7 +9,14 @@ import { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { getGeneratorKind } from "./get-generator-kind.js";
 
-export function* Yield(value: StaticJsValue): EvaluationGenerator {
+export function* Yield(value: StaticJsValue): EvaluationGenerator<Completion> {
+  // FIXME: TEMP HACK transitioning to suspend
+  const context = EvaluationContext.current;
+  if (!context.generator) {
+    const yieldResult = yield* YieldCommand(value);
+    return yieldResult;
+  }
+
   const generatorKind = yield* getGeneratorKind();
   if (generatorKind === "async") {
     // TODO: AsyncGeneratorYield

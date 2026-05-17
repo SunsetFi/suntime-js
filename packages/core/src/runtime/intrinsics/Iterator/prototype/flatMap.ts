@@ -1,9 +1,9 @@
-import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
+import { Yield } from "../../../algorithms/yield.js";
 import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import { getIteratorFlattenable } from "../../../iterators/get-iterator-flattenable.js";
@@ -76,7 +76,7 @@ const iteratorProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           if (innerValue === null) {
             innerAlive = false;
           } else {
-            const completion = yield* YieldCommand(innerValue);
+            const completion = yield* Q(Yield(innerValue));
             if (Completion.Abrupt.is(completion)) {
               const backupCompletion = yield* iteratorClose(innerIterator, completion);
               if (Completion.Abrupt.is(backupCompletion)) {

@@ -1,10 +1,10 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
 import { toNumber } from "../../../algorithms/to-number.js";
+import { Yield } from "../../../algorithms/yield.js";
 import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
@@ -64,7 +64,7 @@ const iteratorProtoDropDeclaration: IntrinsicPropertyDeclaration = {
           return realm.types.undefined;
         }
 
-        const completion = yield* YieldCommand(value);
+        const completion = yield* Q(Yield(value));
         if (Completion.Abrupt.is(completion)) {
           return yield* Q(iteratorClose(iterated, completion));
         }

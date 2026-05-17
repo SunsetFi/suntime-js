@@ -14,7 +14,6 @@ import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
-import { YieldCommand } from "../commands/YieldCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
@@ -23,17 +22,10 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 export default function* yieldExpressionNodeEvaluator(node: YieldExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
   if (!node.argument) {
-    return yield* Q(YieldCommand(realm.types.undefined));
+    return yield* Q(Yield(realm.types.undefined));
   }
 
   const value = yield* Q.val(EvaluateNodeCommand(node.argument));
-
-  // FIXME: TEMP HACK transitioning to suspend
-  const context = EvaluationContext.current;
-  if (context.generator) {
-    const yieldResult = yield* Yield(value);
-    return yieldResult;
-  }
 
   const generatorKind = yield* getGeneratorKind();
 
@@ -42,7 +34,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
     if (generatorKind === "async") {
       resolved = yield* Q(Await(value));
     }
-    return yield* Q(YieldCommand(resolved));
+    return yield* Q(Yield(resolved));
   }
 
   const iteratorRecord = yield* getIterator(value, generatorKind);
@@ -70,7 +62,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
       // Typescript 6 finds this as circular because:
       // received => innerResult => nextValue => received
       const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-      received = yield* YieldCommand(nextValue);
+      received = yield* Q(Yield(nextValue));
     } else if (Completion.Throw.is(received)) {
       const throwMethod = yield* Q(getMethod(iterator, "throw"));
       if (throwMethod) {
@@ -87,7 +79,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         }
 
         const nextValue: StaticJsValue = yield* Q(iteratorValue(innerResult));
-        received = yield* YieldCommand(nextValue);
+        received = yield* Q(Yield(nextValue));
       } else {
         const closeCompletion = Completion.Normal(null);
         if (generatorKind === "async") {
@@ -126,7 +118,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         throw Completion.Return(returnedValue);
       }
 
-      received = yield* YieldCommand(yield* Q(iteratorValue(innerReturnResult)));
+      received = yield* Yield(yield* Q(iteratorValue(innerReturnResult)));
     }
   }
 }

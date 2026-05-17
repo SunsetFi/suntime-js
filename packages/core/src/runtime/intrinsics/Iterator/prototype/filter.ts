@@ -1,10 +1,10 @@
-import { YieldCommand } from "../../../../evaluator/commands/YieldCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { toBoolean } from "../../../algorithms/to-boolean.js";
+import { Yield } from "../../../algorithms/yield.js";
 import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
 import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
@@ -61,7 +61,7 @@ const iteratorProtoFilterDeclaration: IntrinsicPropertyDeclaration = {
 
         const selectedValue = yield* toBoolean.js(selected);
         if (selectedValue) {
-          const completion = yield* YieldCommand(value);
+          const completion = yield* Q(Yield(value));
           if (Completion.Abrupt.is(completion)) {
             return yield* Q(iteratorClose(iterated, completion));
           }
