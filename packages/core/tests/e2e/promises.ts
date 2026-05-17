@@ -1,4 +1,4 @@
-import { describe, it, expect, vitest } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 import { evaluateScript, type StaticJsFunction, StaticJsRealm } from "../../src/index.js";
 
@@ -46,7 +46,7 @@ describe("E2E: Promises", () => {
     });
 
     it("Fulfills when the promise is resolved", async () => {
-      const cb = vitest.fn();
+      const cb = vi.fn();
       const realm = StaticJsRealm({
         global: {
           value: {
@@ -69,7 +69,7 @@ describe("E2E: Promises", () => {
     });
 
     it("Invokes the fulfillment handler exactly once", async () => {
-      const cb = vitest.fn();
+      const cb = vi.fn();
       const realm = StaticJsRealm({
         global: {
           value: {
@@ -88,7 +88,7 @@ describe("E2E: Promises", () => {
     });
 
     it("Does not fulfill when the promise is rejected", async () => {
-      const cb = vitest.fn();
+      const cb = vi.fn();
       const realm = StaticJsRealm({
         global: {
           value: {
@@ -111,7 +111,7 @@ describe("E2E: Promises", () => {
     });
 
     it("Rejects when the promise is rejected", async () => {
-      const cb = vitest.fn();
+      const cb = vi.fn();
       const realm = StaticJsRealm({
         global: {
           value: {
@@ -150,5 +150,37 @@ describe("E2E: Promises", () => {
         // message: expect.stringContaining("Rejected!"),
       }),
     );
+  });
+
+  it("Continues on the same task", async () => {
+    const code = `
+      Promise.resolve(1)
+        .then(() => Promise.resolve(2))
+        .then(() => Promise.resolve(3))
+        .then(() => done())
+    `;
+
+    const runTask = vi.fn((iter) => {
+      while (!iter.done) {
+        iter.next();
+      }
+    });
+    const done = vi.fn();
+
+    const realm = StaticJsRealm({
+      runTask,
+      global: {
+        properties: {
+          done: {
+            value: done,
+          },
+        },
+      },
+    });
+
+    await realm.evaluateExpression(code);
+
+    expect(runTask).toHaveBeenCalledTimes(1);
+    expect(done).toHaveBeenCalledTimes(1);
   });
 });

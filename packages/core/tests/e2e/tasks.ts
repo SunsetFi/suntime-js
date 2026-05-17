@@ -194,10 +194,16 @@ describe("E2E: Tasks", () => {
 
   describe("Task types", () => {
     it("Should trigger runTask with correct types", async () => {
+      // Note: We used to run a new task iterator per macro/micro task, but now we
+      // reuse the same iterator for the entire evaluation, so we need to track types across ticks.
       const sequence: string[] = [];
+
       const runTask = vi.fn((task: StaticJsTaskIterator) => {
-        sequence.push(task.type);
         while (!task.done) {
+          // Squish the types together, as we will tick a lot for the main macrotask.
+          if (sequence.at(-1) !== task.type) {
+            sequence.push(task.type ?? "null");
+          }
           task.next();
         }
       });

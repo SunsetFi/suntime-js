@@ -5,10 +5,12 @@ import {
   EvaluationContextStackProvider,
 } from "../../../evaluator/EvaluationContext.js";
 import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
-import { StaticJsTaskIteratorImpl } from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
+import {
+  StaticJsIteratedTask,
+  StaticJsTaskIteratorImpl,
+} from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-import type { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 export class EvaluationTask implements EvaluationContextStackProvider {
@@ -192,12 +194,14 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
     this._status = "running";
 
-    this._runTask(
-      this._evaluator,
-      "macrotask",
-      (value) => this._acceptMacrotask(value),
-      (reason) => this._reject(reason),
+    const iterator = new StaticJsTaskIteratorImpl(
+      this._calleeType,
+      this._async,
+      this._iterateTasks(),
+      this._scope,
     );
+
+    this._taskRunner(iterator);
   }
 
   private _trySuppressPromiseRejection() {
@@ -205,57 +209,36 @@ export class EvaluationTask implements EvaluationContextStackProvider {
       return;
     }
 
-    this._promise.catch(() => {
-      // No need to do anything here, we will synchronously check for uncaught errors and reject the promise if needed.
-    });
+    this._promise.catch(() => {});
 
     this._promiseRejectSuppressed = true;
   }
 
-  private _tryDrainMicrotasks() {
-    if (this._status !== "running") {
-      throw new StaticJsEngineError(
-        `Cannot drain microtasks when task is not running.  Current status: ${this._status}`,
-      );
-    }
-
-    const microtask = this._microtasks.shift();
-    if (!microtask) {
-      this._accept();
-      return;
-    }
-
-    this._runTask(
-      microtask,
-      "microtask",
-      () => this._acceptMicrotask(),
-      (reason) => {
+  private *_iterateTasks(): Generator<StaticJsIteratedTask, void, void> {
+    yield {
+      evaluator: this._evaluator,
+      accept: (value) => {
+        this._acceptMacrotask(value);
+      },
+      reject: (reason) => {
         this._reject(reason);
       },
-    );
-  }
+      type: "macrotask",
+    };
 
-  private _runTask(
-    evaluator: StaticJsEvaluator,
-    type: StaticJsTaskType,
-    accept: (value: unknown) => void,
-    reject: (reason: unknown) => void,
-  ) {
-    try {
-      const taskIterator = new StaticJsTaskIteratorImpl(
-        type,
-        this._calleeType,
-        this._async,
-        evaluator,
-        this._scope,
-        accept,
-        reject,
-      );
-
-      this._taskRunner(taskIterator);
-    } catch (e) {
-      reject(e);
+    while (this._microtasks.length > 0) {
+      const microtaskEvaluator = this._microtasks.shift()!;
+      yield {
+        evaluator: microtaskEvaluator,
+        accept: () => {},
+        reject: (reason) => {
+          this._reject(reason);
+        },
+        type: "microtask",
+      };
     }
+
+    this._accept();
   }
 
   private _scope = (cb: () => void) => {
@@ -270,11 +253,6 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
   private _acceptMacrotask(value: unknown) {
     this._macrotaskCompletionValue = value;
-    this._tryDrainMicrotasks();
-  }
-
-  private _acceptMicrotask() {
-    this._tryDrainMicrotasks();
   }
 
   private _accept() {

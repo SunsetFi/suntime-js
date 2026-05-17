@@ -20,28 +20,38 @@ interface TaskIteratorFrame {
 
 const MaxDeadIteratorLoopCount = 100;
 
-const Unset = Symbol("Unset");
+export interface StaticJsIteratedTask {
+  type: StaticJsTaskType;
+  evaluator: StaticJsEvaluator<unknown>;
+  accept: (value: unknown) => void;
+  reject: (reason: unknown) => void;
+}
 
-export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
-  private _state: "pending" | "running" | "done" | "aborted" = "pending";
+type StaticJsTaskIteratorImplState = "pending" | "running" | "done" | "aborted";
 
-  private _innerIterator: Generator<void, TReturn, void> | null = null;
+export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
+  private _state: StaticJsTaskIteratorImplState = "pending";
+
+  private _currentTask: StaticJsIteratedTask | null = null;
+  private _currentEvaluator: Generator<void, unknown, void> | null = null;
 
   private readonly _frames: TaskIteratorFrame[] = [];
   private _currentNode: Node | null = null;
 
+  private _resultError: unknown;
+
   constructor(
-    private readonly _type: StaticJsTaskType,
     private readonly _calleeType: StaticJsTaskCalleeType,
     private readonly _async: boolean,
-    private readonly _evaluator: StaticJsEvaluator<TReturn>,
+    private readonly _taskIterator: Iterator<StaticJsIteratedTask>,
     private readonly _scope: (callback: () => void) => void,
-    private readonly _accept: (value: TReturn) => void,
-    private readonly _reject: (reason: unknown) => void,
-  ) {}
+  ) {
+    // Was happening on first tick, but we want type to be populated to introspect the .next() call.
+    this._start();
+  }
 
-  get type(): StaticJsTaskType {
-    return this._type;
+  get type(): StaticJsTaskType | null {
+    return this._currentTask ? this._currentTask.type : null;
   }
 
   get calleeType(): StaticJsTaskCalleeType {
@@ -77,12 +87,27 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
     return this._frames.map((frame, index) => frameToIteratorFrame(frame, frameLength - index));
   }
 
-  next(): IteratorResult<void, void> {
-    return this._next();
+  next() {
+    this._verifyResultError();
+
+    this._prepareTick();
+
+    if (!this._currentTask) {
+      return { done: true, value: undefined };
+    }
+    return this._tick("next");
   }
 
-  throw(error: unknown): IteratorResult<void, void> {
-    return this._next(error);
+  throw(error: unknown) {
+    this._verifyResultError();
+
+    this._prepareTick();
+
+    if (!this._currentTask) {
+      throw error;
+    }
+
+    return this._tick("throw", error);
   }
 
   abort(): void {
@@ -94,66 +119,7 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
       throw new StaticJsEngineError("Cannot call abort() on a completed task");
     }
 
-    this._doneAbort();
-  }
-
-  private _next(err?: unknown): IteratorResult<void, void> {
-    if (this._state === "done") {
-      throw new StaticJsEngineError("Cannot call next() on a completed task");
-    }
-
-    if (this._state === "aborted") {
-      throw new StaticJsEngineError("Cannot call next() on an aborted task");
-    }
-
-    if (this._state === "pending") {
-      this._start();
-    }
-
-    let error: unknown = Unset;
-    let value: TReturn | typeof Unset = Unset;
-    try {
-      this._scope(() => {
-        const innerIterator = this._innerIterator!;
-        let deadIteratorLoops = 0;
-        while (true) {
-          const result = err ? innerIterator.throw(err) : innerIterator.next();
-          err = null;
-
-          if (result.done) {
-            value = result.value;
-            return;
-          }
-
-          if (this._currentNode) {
-            // We stopped at another concrete node.
-            return;
-          }
-
-          // We aren't stopped at an AST node.  Consume.
-
-          if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
-            throw new StaticJsEngineError(
-              "Too many consecutive empty node iterations without yielding. Possible infinite loop in task.",
-            );
-          }
-
-          continue;
-        }
-      });
-    } catch (e) {
-      error = e;
-    }
-
-    if (error !== Unset) {
-      this._doneReject(error);
-      return { done: true, value: undefined };
-    } else if (value !== Unset) {
-      this._doneAccept(value);
-      return { done: true, value: undefined };
-    } else {
-      return { done: false, value: undefined };
-    }
+    this._reject(new StaticJsTaskAbortedError("Task was aborted"));
   }
 
   private _start() {
@@ -161,7 +127,19 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
       throw new StaticJsEngineError("Task already started");
     }
 
-    this._innerIterator = evaluateCommands(invokeEvaluator(this._evaluator), {
+    this._nextTask();
+
+    this._state = "running";
+  }
+
+  private _verifyResultError() {
+    if (this._resultError) {
+      throw this._resultError;
+    }
+  }
+
+  private _createEvaluatorFromTask(task: StaticJsIteratedTask): Generator<void, unknown, void> {
+    return evaluateCommands(invokeEvaluator(task.evaluator), {
       onBeforeNode: (node) => {
         this._currentNode = node;
         const lastFrame = this._frames[0];
@@ -184,28 +162,127 @@ export class StaticJsTaskIteratorImpl<TReturn> implements StaticJsTaskIterator {
         this._frames.shift();
       },
     });
+  }
 
+  private _prepareTick() {
+    if (this._state === "done") {
+      throw new StaticJsEngineError("Cannot iterate a completed task");
+    }
+
+    if (this._state === "aborted") {
+      throw new StaticJsEngineError("Cannot iterate an aborted task");
+    }
+  }
+
+  private _tick(func: "next" | "return" | "throw", value?: unknown): IteratorResult<void, void> {
+    this._scope(() => {
+      let deadIteratorLoops = 0;
+      while (true) {
+        let result: IteratorResult<void, unknown>;
+        try {
+          // This can be changed and reset by _processIterResult
+          if (!this._currentEvaluator) {
+            this._currentEvaluator = this._createEvaluatorFromTask(this._currentTask!);
+          }
+
+          if (func === "next") {
+            result = this._currentEvaluator.next();
+          } else {
+            result = this._currentEvaluator[func](value);
+          }
+        } catch (e) {
+          this._reject(e);
+          return;
+        }
+
+        const { done } = this._processIterResult(result);
+        if (done) {
+          break;
+        }
+
+        if (this._currentNode) {
+          // We stopped at another concrete node.
+          break;
+        }
+
+        // We aren't stopped at an AST node.  Consume.
+
+        if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
+          throw new StaticJsEngineError(
+            "Too many consecutive empty node iterations without yielding. Possible infinite loop in task.",
+          );
+        }
+      }
+    });
+
+    // State can change from the above.
+    // Typescript does not know this.
+    const state = this._state as StaticJsTaskIteratorImplState;
+    const done = state === "done" || state === "aborted";
+
+    return {
+      done,
+      value: undefined,
+    };
+  }
+
+  private _processIterResult({
+    done,
+    value,
+  }: IteratorResult<void, unknown>): IteratorResult<void, void> {
+    if (done) {
+      this._acceptCurrentTask(value);
+
+      if (!this._nextTask()) {
+        this._state = "done";
+        return { done: true, value: undefined };
+      }
+    }
+
+    return { done: false, value: undefined };
+  }
+
+  private _nextTask() {
+    this._currentEvaluator = null;
+
+    const { value, done } = this._taskIterator.next();
+    if (done) {
+      this._currentTask = null;
+      return false;
+    }
+
+    this._currentTask = value;
+
+    this._frames.length = 0;
     this._frames.unshift({ currentNode: null, function: null });
 
-    this._state = "running";
+    return true;
   }
 
-  private _doneAccept(value: TReturn) {
-    this._frames.length = 0;
-    this._state = "done";
-    this._accept(value);
+  private _acceptCurrentTask(value: unknown) {
+    if (!this._currentTask) {
+      throw new StaticJsEngineError("No current task to accept");
+    }
+
+    const { accept } = this._currentTask;
+    accept(value);
   }
 
-  private _doneReject(reason: unknown) {
-    this._frames.length = 0;
-    this._state = "done";
-    this._reject(reason);
-  }
+  private _reject(reason: unknown) {
+    if (!this._currentTask) {
+      throw new StaticJsEngineError("No current task to reject");
+    }
 
-  private _doneAbort() {
-    this._frames.length = 0;
+    const { reject } = this._currentTask;
+    reject(reason);
+
+    this._resultError = reason;
     this._state = "aborted";
-    this._reject(new StaticJsTaskAbortedError("Task was aborted"));
+
+    this._frames.length = 0;
+    this._currentNode = null;
+    this._currentTask = null;
+    this._currentEvaluator = null;
   }
 }
 

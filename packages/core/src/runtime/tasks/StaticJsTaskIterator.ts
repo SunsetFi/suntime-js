@@ -13,9 +13,9 @@ import type { StaticJsTaskType } from "./StaticJsTaskType.js";
  */
 export interface StaticJsTaskIterator {
   /**
-   * The type of the task, either "macrotask" or "microtask".
+   * The type of the current task, either "macrotask" or "microtask".
    */
-  readonly type: StaticJsTaskType;
+  readonly type: StaticJsTaskType | null;
 
   /**
    * The callee of the task, which indicates how the task was triggered.

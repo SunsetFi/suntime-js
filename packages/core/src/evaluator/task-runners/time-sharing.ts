@@ -15,12 +15,6 @@ export interface TimeSharingTaskRunnerOptions {
   yieldTime?: number;
 
   /**
-   * The maximum time, in milliseconds, that a task is allowed to run for.
-   * If not specified, the default is no limit.
-   */
-  maxTaskTime?: number;
-
-  /**
    * The maximum time, in milliseconds, that the entire evaluation is allowed to run for.
    * If not specified, the default is no limit.
    */
@@ -30,24 +24,15 @@ export interface TimeSharingTaskRunnerOptions {
 export function createTimeSharingTaskRunner({
   operationsPerIteration = 10000,
   yieldTime = 100,
-  maxTaskTime = Number.POSITIVE_INFINITY,
   maxRunTime = Number.POSITIVE_INFINITY,
 }: TimeSharingTaskRunnerOptions = {}): StaticJsTaskRunner {
-  let runEnd: number | undefined;
   return function timeSharingTaskRunner(task) {
-    if (runEnd === undefined) {
-      runEnd = Date.now() + maxRunTime;
-    }
+    const runEnd = Date.now() + maxRunTime;
 
-    const taskEnd = Date.now() + maxTaskTime;
     function doTask() {
       let operations = 0;
       while (!task.done && operations < operationsPerIteration) {
         const now = Date.now();
-        if (now >= taskEnd) {
-          task.throw(new StaticJsTaskAbortedError(`Task took too long to complete.`));
-          return;
-        }
 
         if (now >= runEnd!) {
           task.throw(new StaticJsTaskAbortedError(`Evaluation took too long to complete.`));

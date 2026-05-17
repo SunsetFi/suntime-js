@@ -2,79 +2,12 @@
 
 ## Immediate
 
-- [ ] Task improvements
-  - [x] Property on a task indicating if its sync or async.
-  - [ ] Merge microtasks into same iterator?
-
-### Refactor Await / Yield / Suspend
-
-Spec wants suspending to be based on execution contexts. Doesn't differentiate between await and yield suspending, just "Suspend the current context".
-When suspending, the spec often sets up callbacks for [ResumeSuspendedContext](https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-runsuspendedcontext):
-
-- [Await](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#await)
-- [Yield / Resume](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-generatorresume)
-
-Currently, the design requires a listener in the generator chain to handle these specifically, which complicates and disjoints the logic; one spec function has to be split
-across the suspend and the resume side.
-
-Replace this with a single Suspend command that takes a function which will be invoked with the resumer generator:
-
-```ts
-function await(promise) {
-  const resumeContext = SuspendCommand.createContext();
-  const promiseResolve = function*() {
-    yield* SuspendCommand.resume(resumeContext);
-  }
-
-  yield* promiseThen(promise, promiseResolve);
-
-  yield* SuspendCommand(resumeContext);
-}
-
-function SuspendCommand(context) {
-  return { type: "suspend", context };
-}
-
-SuspendCommand.createContext = function() {
-  return { generator: null };
-}
-
-SuspendCommand.resume = function(context) {
-  if (context.generator === null) {
-    throw;
-  }
-
-  return yield* SuspendCommand.handleSuspend(context.generator);
-}
-
-SuspendCommand.handleSuspend = function*(generator: EvaluationGenerator) {
-  while(true) {
-    const { value, done } = generator.next();
-    if (done) {
-      return value;
-    }
-
-    if (value.type === "suspend") {
-      value.context.generator = generator;
-      return null;
-    }
-
-    yield value;
-  }
-}
-```
-
 ## Less imidiate
 
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
 - [ ] StaticJsFunction.toString revealing source
-- [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
       This should be happening automatically due to the .then function, but isn't
-- [ ] Rewrite async generators. Make AsyncDriver not care about yields at all, so we can use
-      Await() inside generator implementation functions.
-  - [ ] Remake await and yield as SuspendCommand. Spec seems to not care what type and just calls functions that suspend and resume.
-        No need to make the implementations be defined at the handler level.
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
 - Return completions from iteratorNext
 
@@ -89,6 +22,10 @@ SuspendCommand.handleSuspend = function*(generator: EvaluationGenerator) {
 - [ ] Rework modules for spec compliance
   - [ ] EvaluateModuleSync
   - [ ] CyclicModuleRecord
+
+### Weird
+
+- [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 
 ### Debugger improvements
 
