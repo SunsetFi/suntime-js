@@ -5,7 +5,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import { FunctionEnterCommand } from "./FunctionEnterCommand.js";
 import { FunctionExitCommand } from "./FunctionExitCommand.js";
 
-export function* FunctionEvaluateBodyCommand<T>(
+export function* EvaluateFunctionBodyCommand<T>(
   func: StaticJsFunction,
   evaluator: EvaluationGenerator<T> | (() => EvaluationGenerator<T>),
 ): EvaluationGenerator<T> {

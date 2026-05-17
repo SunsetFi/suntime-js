@@ -15,8 +15,8 @@ import {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { EvaluateFunctionBodyCommand } from "../../../../evaluator/commands/EvaluateFunctionBodyCommand.js";
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
-import { FunctionEvaluateBodyCommand } from "../../../../evaluator/commands/FunctionEvaluateCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { ReturnCompletion } from "../../../../evaluator/completions/completion-types/ReturnCompletion.js";
 import { ThrowCompletion } from "../../../../evaluator/completions/completion-types/ThrowCompletion.js";
@@ -196,7 +196,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     // oxlint-disable-next-line typescript/no-this-alias
     const func = this;
-    return yield* FunctionEvaluateBodyCommand(this, function* () {
+    return yield* EvaluateFunctionBodyCommand(this, function* () {
       // TODO: If class constructor, throw TypeError.
       yield* func._ordinaryCallBindThis(calleeContext, thisArg);
 
@@ -240,7 +240,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     // oxlint-disable-next-line typescript/no-this-alias
     const func = this;
-    return yield* FunctionEvaluateBodyCommand(func, function* () {
+    return yield* EvaluateFunctionBodyCommand(func, function* () {
       if (kind === "base") {
         yield* func._ordinaryCallBindThis(calleeContext, thisArg!);
         // Note: NOT doing initializeInstanceElements here,

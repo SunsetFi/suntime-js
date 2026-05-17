@@ -7,7 +7,7 @@ import {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { FunctionEvaluateBodyCommand } from "../../../../evaluator/commands/FunctionEvaluateCommand.js";
+import { EvaluateFunctionBodyCommand } from "../../../../evaluator/commands/EvaluateFunctionBodyCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
@@ -93,7 +93,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
 
     // oxlint-disable-next-line typescript/no-this-alias
     const func = this;
-    return yield* FunctionEvaluateBodyCommand(func, function* () {
+    return yield* EvaluateFunctionBodyCommand(func, function* () {
       if (kind === "base") {
         yield* func._ordinaryCallBindThis(calleeContext, thisArg!);
         if (func instanceof StaticJsClassConstructorFunction) {
@@ -162,7 +162,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
     }
 
     yield* this._prepareForOrdinaryCall(newTarget ?? null);
-    return yield* FunctionEvaluateBodyCommand(this, function* () {
+    return yield* EvaluateFunctionBodyCommand(this, function* () {
       const result = yield* captureThrownCompletion(nativeFunc(thisArg, newTarget, args));
       EvaluationContext.pop();
       return yield* Q(result);

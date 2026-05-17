@@ -4,8 +4,8 @@ import type { Completion } from "../completions/Completion.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
-import { EnterNodeCommand } from "./EnterNodeCommand.js";
-import { ExitNodeCommand } from "./ExitNodeCommand.js";
+import { NodeEnterCommand } from "./NodeEnterCommand.js";
+import { NodeExitCommand } from "./NodeExitCommand.js";
 
 export function* EvaluateNodeCommand(node: Node): EvaluationGenerator<Completion> {
   // At one point, our commands were evaluated by a handler at the root of the evaluation chain,
@@ -14,11 +14,11 @@ export function* EvaluateNodeCommand(node: Node): EvaluationGenerator<Completion
   // how to handle an async yield.
   // Instead, this acts more as an advisory and "ask permission to continue" step.
 
-  yield* EnterNodeCommand(node);
+  yield* NodeEnterCommand(node);
 
   try {
     return yield* evaluateNode(node);
   } finally {
-    yield* ExitNodeCommand();
+    yield* NodeExitCommand();
   }
 }
