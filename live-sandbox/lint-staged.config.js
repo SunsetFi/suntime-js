@@ -8,6 +8,5 @@ const tsLint = [
   () => "pnpm run --filter live-sandbox check",
 ];
 export default {
-  "src/**/*.ts": tsLint,
-  "!(tests/test262/tests/**/*)tests/**/*.ts": tsLint,
+  "src/**/*.{ts,tsx}": tsLint,
 };
