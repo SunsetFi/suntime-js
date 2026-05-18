@@ -1,5 +1,6 @@
-import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
 import type { StaticJsValue } from "@suntime-js/core";
+
+import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
 
 /**
  * Create a sandboxed realm whose `console` global routes output through a

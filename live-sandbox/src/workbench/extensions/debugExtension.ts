@@ -13,12 +13,14 @@
  * `api.enableDebugExtension: false` in WorkbenchBootstrapOptions to skip it.
  */
 
-import { ExtensionHostKind, registerExtension } from "@codingame/monaco-vscode-api/extensions";
-import { STATIC_JS_DEBUGGER_TYPE, createStaticJsWebDebugAdapter } from "@suntime-js/dap/web";
 import type { StaticJsWebDebugAdapterOptions } from "@suntime-js/dap/web";
 import type * as vscode from "vscode";
 
+import { ExtensionHostKind, registerExtension } from "@codingame/monaco-vscode-api/extensions";
+import { STATIC_JS_DEBUGGER_TYPE, createStaticJsWebDebugAdapter } from "@suntime-js/dap/web";
+
 import type { WorkbenchBootstrapContext } from "../types/index.js";
+
 import { createSandboxRealm } from "./createSandboxRealm.js";
 
 const EXTENSION_VIRTUAL_PATH = "/extension";

@@ -1,9 +1,9 @@
-import * as monaco from "monaco-editor";
 import {
   RegisteredFileSystemProvider,
   RegisteredMemoryFile,
   registerFileSystemOverlay,
 } from "@codingame/monaco-vscode-files-service-override";
+import * as monaco from "monaco-editor";
 
 import type { WorkbenchFile } from "../types/index.js";
 

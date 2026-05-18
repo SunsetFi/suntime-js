@@ -1,5 +1,6 @@
-import { createDefaultWorkspace } from "./filesystem/createDefaultWorkspace.js";
 import { registerDebugExtension } from "./extensions/debugExtension.js";
+import { createDefaultWorkspace } from "./filesystem/createDefaultWorkspace.js";
+import type { VirtualFileSystem } from "./filesystem/VirtualFileSystem.js";
 import { initializeWorkbenchServices } from "./services/initialize.js";
 import type {
   WorkbenchApiOptions,
@@ -8,7 +9,6 @@ import type {
   WorkbenchBootstrapSnapshot,
 } from "./types/index.js";
 import { createWorkerRegistry } from "./workers/WorkerRegistry.js";
-import type { VirtualFileSystem } from "./filesystem/VirtualFileSystem.js";
 
 export type { VirtualFileSystem } from "./filesystem/VirtualFileSystem.js";
 
@@ -37,9 +37,7 @@ export class WorkbenchBootstrap {
     return this._snapshot;
   }
 
-  async initialize(
-    options: WorkbenchBootstrapOptions = {},
-  ): Promise<WorkbenchBootstrapRuntime> {
+  async initialize(options: WorkbenchBootstrapOptions = {}): Promise<WorkbenchBootstrapRuntime> {
     if (this._snapshot.runtime) {
       return this._snapshot.runtime;
     }
@@ -54,13 +52,8 @@ export class WorkbenchBootstrap {
     return this._bootstrapPromise;
   }
 
-  private async _bootstrap(
-    options: WorkbenchBootstrapOptions,
-  ): Promise<WorkbenchBootstrapRuntime> {
-    const container =
-      options.container ??
-      document.getElementById("workbench") ??
-      document.body;
+  private async _bootstrap(options: WorkbenchBootstrapOptions): Promise<WorkbenchBootstrapRuntime> {
+    const container = options.container ?? document.getElementById("workbench") ?? document.body;
 
     const workspace = options.workspace ?? createDefaultWorkspace();
     const workers = createWorkerRegistry(options.workerLoaders);

@@ -14,18 +14,12 @@ export function getDefaultWorkerLoaders(): WorkerLoaderMap {
       }),
     TextMateWorker: () =>
       new Worker(
-        new URL(
-          "@codingame/monaco-vscode-textmate-service-override/worker",
-          import.meta.url,
-        ),
+        new URL("@codingame/monaco-vscode-textmate-service-override/worker", import.meta.url),
         { type: "module" },
       ),
     OutputLinkDetectionWorker: () =>
       new Worker(
-        new URL(
-          "@codingame/monaco-vscode-output-service-override/worker",
-          import.meta.url,
-        ),
+        new URL("@codingame/monaco-vscode-output-service-override/worker", import.meta.url),
         { type: "module" },
       ),
   };

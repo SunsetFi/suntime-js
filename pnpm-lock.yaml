@@ -133,6 +133,12 @@ importers:
         specifier: npm:@codingame/monaco-vscode-extension-api@^30.0.0
         version: '@codingame/monaco-vscode-extension-api@30.0.0'
     devDependencies:
+      oxfmt:
+        specifier: ~0.46.0
+        version: 0.46.0
+      oxlint:
+        specifier: ^1.61.0
+        version: 1.61.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

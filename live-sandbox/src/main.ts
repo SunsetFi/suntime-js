@@ -1,7 +1,6 @@
 import "./style.css";
-import { workbenchBootstrap } from "./workbench/bootstrap.js";
-
 import defaultSource from "./default-source.js?raw";
+import { workbenchBootstrap } from "./workbench/bootstrap.js";
 import { createDefaultWorkspace } from "./workbench/filesystem/createDefaultWorkspace";
 
 workbenchBootstrap

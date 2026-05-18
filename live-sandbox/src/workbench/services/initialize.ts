@@ -1,4 +1,3 @@
-import * as monaco from "monaco-editor";
 import { initialize } from "@codingame/monaco-vscode-api";
 import getConfigurationServiceOverride from "@codingame/monaco-vscode-configuration-service-override";
 import getDebugServiceOverride from "@codingame/monaco-vscode-debug-service-override";
@@ -15,15 +14,13 @@ import getStorageServiceOverride from "@codingame/monaco-vscode-storage-service-
 import getTextmateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
 import getWorkbenchServiceOverride from "@codingame/monaco-vscode-workbench-service-override";
-
+import * as monaco from "monaco-editor";
 // Default extensions — imported for side-effects only; they self-register after initialize().
 import "@codingame/monaco-vscode-javascript-default-extension";
 import "@codingame/monaco-vscode-json-default-extension";
 import "@codingame/monaco-vscode-theme-defaults-default-extension";
-
 // Required: sets up the in-process extension host before initialize() is called.
 import "vscode/localExtensionHost";
-
 import { VirtualFileSystem } from "../filesystem/VirtualFileSystem.js";
 import type { WorkbenchBootstrapContext } from "../types/index.js";
 

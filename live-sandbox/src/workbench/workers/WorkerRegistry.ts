@@ -1,4 +1,5 @@
 import type { WorkerLoaderMap, WorkerRegistry } from "../types/index.js";
+
 import { getDefaultWorkerLoaders } from "./loaders.js";
 
 export function createWorkerRegistry(
