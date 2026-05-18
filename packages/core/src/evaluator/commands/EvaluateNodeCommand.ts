@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import type { Completion } from "../completions/Completion.js";
+import { Completion } from "../completions/Completion.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import evaluateNode from "../node-evaluators/evaluate-node.js";
 
@@ -14,10 +14,18 @@ export function* EvaluateNodeCommand(node: Node): EvaluationGenerator<Completion
   // how to handle an async yield.
   // Instead, this acts more as an advisory and "ask permission to continue" step.
 
-  yield* NodeEnterCommand(node);
-
   try {
+    // This may throw if the task wants to inject an abrupt completion, eg with task.throw().
+    yield* NodeEnterCommand(node);
+
+    // Note: Does not throw abrupt completions.  Returns them.
     return yield* evaluateNode(node);
+  } catch (e) {
+    if (Completion.Abrupt.is(e)) {
+      return e;
+    }
+
+    throw e;
   } finally {
     yield* NodeExitCommand();
   }

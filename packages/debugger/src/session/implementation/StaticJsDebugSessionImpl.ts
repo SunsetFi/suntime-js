@@ -184,13 +184,14 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
   getSnapshot(): StaticJsDebugSnapshot | null {
     const operation = this._activeTask?.operation;
+    const location = this._activeTask?.location;
     const stack = this._activeTask?.stack;
 
-    if (!operation || !operation.location || !stack) {
+    if (!operation || !location || !stack) {
       return null;
     }
 
-    const { location, operationType } = operation;
+    const { operationType } = operation;
 
     return {
       sourceName: location.sourceName ?? this._options.launch.sourceName ?? "unknown",
@@ -415,6 +416,9 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       get operation() {
         return task.operation;
       },
+      get location() {
+        return task.location;
+      },
       get stack() {
         return task.stack;
       },
@@ -493,7 +497,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   }
 
   private _matchesCurrentBreakpoint(): boolean {
-    const location = this._activeTask?.operation?.location;
+    const location = this._activeTask?.location;
     if (!location?.sourceName) {
       return false;
     }

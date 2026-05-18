@@ -42,16 +42,15 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   private readonly _frames: TaskIteratorFrame[] = [];
   private _currentNode: Node | null = null;
 
-  private _resultError: unknown;
-
   constructor(
     private readonly _calleeType: StaticJsTaskCalleeType,
     private readonly _async: boolean,
     private readonly _taskIterator: Iterator<StaticJsIteratedTask>,
     private readonly _scope: (callback: () => void) => void,
   ) {
-    // Was happening on first tick, but we want type to be populated to introspect the .next() call.
-    this._start();
+    // Was happening on first .next() call, but we want type to be populated to introspect the first .next() call.
+    this._nextTask();
+    this._state = "running";
   }
 
   get type(): StaticJsTaskType | null {
@@ -81,9 +80,17 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     }
 
     return {
-      location: captureLocation(node),
       operationType: node.type,
     };
+  }
+
+  get location(): StaticJsTaskSourceLocation | null {
+    const node = this._currentNode;
+    if (!node) {
+      return null;
+    }
+
+    return captureLocation(node);
   }
 
   get stack(): readonly StaticJsTaskIteratorStackFrame[] {
@@ -92,8 +99,6 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   }
 
   next() {
-    this._verifyResultError();
-
     this._prepareTick();
 
     if (!this._currentTask) {
@@ -103,8 +108,6 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   }
 
   throw(error: unknown) {
-    this._verifyResultError();
-
     this._prepareTick();
 
     if (!this._currentTask) {
@@ -124,22 +127,6 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     }
 
     this._reject(err ?? new StaticJsTaskAbortedError("Task was aborted"));
-  }
-
-  private _start() {
-    if (this._state !== "pending") {
-      throw new StaticJsEngineError("Task already started");
-    }
-
-    this._nextTask();
-
-    this._state = "running";
-  }
-
-  private _verifyResultError() {
-    if (this._resultError) {
-      throw this._resultError;
-    }
   }
 
   private _createEvaluatorFromTask(task: StaticJsIteratedTask): Generator<void, unknown, void> {
@@ -251,6 +238,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   private _nextTask() {
     this._currentEvaluator = null;
     this._currentNode = null;
+    this._frames.length = 0;
 
     const { value, done } = this._taskIterator.next();
     if (done) {
@@ -260,7 +248,6 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
 
     this._currentTask = value;
 
-    this._frames.length = 0;
     this._frames.unshift({ currentNode: null, function: null });
 
     return true;
@@ -283,7 +270,6 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     const { reject } = this._currentTask;
     reject(reason);
 
-    this._resultError = reason;
     this._state = "aborted";
 
     this._frames.length = 0;

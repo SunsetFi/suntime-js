@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 
+import { StaticJsRuntimeError } from "../../src/errors/StaticJsRuntimeError.js";
 import {
   isStaticJsFunction,
   StaticJsConcurrentEvaluationError,
@@ -276,7 +277,7 @@ describe("E2E: Tasks", () => {
   });
 
   describe("Task sources", () => {
-    it("Should pass sourceName through task operation metadata", async () => {
+    it("Should pass sourceName through task location", async () => {
       const runTask = vi.fn();
       const realm = StaticJsRealm({
         runTask,
@@ -294,10 +295,8 @@ describe("E2E: Tasks", () => {
       task.next();
 
       expect(task).toMatchObject({
-        operation: expect.objectContaining({
-          location: expect.objectContaining({
-            sourceName: "test.js",
-          }),
+        location: expect.objectContaining({
+          sourceName: "test.js",
         }),
       });
     });
@@ -344,10 +343,9 @@ describe("E2E: Tasks", () => {
     it("Should prefer per-evaluation runTask over the realm handler", async () => {
       const runTaskRealm = vi.fn();
       const runTaskEvaluate = vi.fn((task: StaticJsTaskIterator) => {
-        let result: ReturnType<typeof task.next>;
-        do {
-          result = task.next();
-        } while (!result.done);
+        while (!task.done) {
+          task.next();
+        }
       });
 
       const realm = StaticJsRealm({
@@ -364,19 +362,18 @@ describe("E2E: Tasks", () => {
     });
   });
 
-  describe("Task cancellation", () => {
+  describe("Task Abort", () => {
     it("Should abort a task", async () => {
       let iterations = 0;
       const runTask = vi.fn((task: StaticJsTaskIterator) => {
-        let result: ReturnType<typeof task.next>;
-        do {
-          result = task.next();
+        while (!task.done) {
+          task.next();
           iterations++;
           if (iterations > 10) {
             task.abort();
             return;
           }
-        } while (!result.done);
+        }
       });
 
       const realm = StaticJsRealm({
@@ -388,6 +385,43 @@ describe("E2E: Tasks", () => {
       ).rejects.toThrow(StaticJsTaskAbortedError);
     });
 
+    it("Should abort a task with a custom error", async () => {
+      const err = new Error("Custom abort reason");
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        task.abort(err);
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      await expect(() =>
+        realm.evaluateScript("for(let i = 0; i < 10000; i++) {  }"),
+      ).rejects.toThrow(err);
+    });
+
+    it("Should not allow the error to be caught", async () => {
+      let err: unknown;
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        task.abort(err);
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+      });
+
+      err = new StaticJsRuntimeError(realm.types.string("This error should not be catchable"));
+
+      await expect(() =>
+        realm.evaluateScript(
+          "try { for(let i = 0; i < 10000; i++) {  } } catch (e) { globalThis.caught = e; }",
+        ),
+      ).rejects.toThrow(err);
+
+      const caught = realm.global.getSync("caught");
+      expect(caught.toNative()).toBeUndefined();
+    });
+
     it("Should resume the next queued task after an abort", async () => {
       let queuedTask: StaticJsTaskIterator | undefined;
 
@@ -397,10 +431,10 @@ describe("E2E: Tasks", () => {
         }
 
         const task = queuedTask;
-        let result: ReturnType<typeof task.next>;
-        do {
-          result = task.next();
-        } while (!result.done);
+
+        while (!task.done) {
+          task.next();
+        }
 
         if (queuedTask !== task) {
           throw new Error("Queued task changed while draining previous task.");
@@ -447,6 +481,87 @@ describe("E2E: Tasks", () => {
     });
   });
 
+  describe("Task throw", () => {
+    it("Should throw a catchable error", async () => {
+      let shouldThrow = false;
+      let err: unknown;
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          if (shouldThrow) {
+            task.throw(err);
+            shouldThrow = false;
+            continue;
+          }
+          task.next();
+        }
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+        global: {
+          properties: {
+            throwError: {
+              value: () => {
+                shouldThrow = true;
+              },
+            },
+          },
+        },
+      });
+
+      err = new StaticJsRuntimeError(realm.types.error("Error", "This error should be catchable"));
+
+      await expect(
+        realm.evaluateScript(
+          "try { for(let i = 0; i < 10000; i++) { throwError(); } } catch (e) { globalThis.caught = e; }",
+        ),
+      ).resolves.not.toThrow();
+
+      const caught = realm.global.getSync("caught");
+      expect(caught.toNative()).toMatchObject({
+        name: "Error",
+        message: "This error should be catchable",
+      });
+    });
+
+    it("Should not catch a non-runtime error", async () => {
+      let shouldThrow = false;
+      const err = new Error("This error should not be catchable");
+      const runTask = vi.fn((task: StaticJsTaskIterator) => {
+        while (!task.done) {
+          if (shouldThrow) {
+            task.throw(err);
+            shouldThrow = false;
+            continue;
+          }
+          task.next();
+        }
+      });
+
+      const realm = StaticJsRealm({
+        runTask,
+        global: {
+          properties: {
+            throwError: {
+              value: () => {
+                shouldThrow = true;
+              },
+            },
+          },
+        },
+      });
+
+      await expect(() =>
+        realm.evaluateScript(
+          "try { for(let i = 0; i < 10000; i++) { throwError(); } } catch (e) { globalThis.caught = e; }",
+        ),
+      ).rejects.toThrow(err);
+
+      const caught = realm.global.getSync("caught");
+      expect(caught.toNative()).toBeUndefined();
+    });
+  });
+
   describe("Synchronous tasks", () => {
     it("Should resolve microtasks before returning from evaluateScriptSync", () => {
       const realm = StaticJsRealm();
@@ -463,10 +578,9 @@ describe("E2E: Tasks", () => {
 
     it("Should run evaluateScriptSync with the realm runTaskSync handler", () => {
       const runTaskSync = vi.fn((task: StaticJsTaskIterator) => {
-        let result: ReturnType<typeof task.next>;
-        do {
-          result = task.next();
-        } while (!result.done);
+        while (!task.done) {
+          task.next();
+        }
       });
 
       const realm = StaticJsRealm({
@@ -494,10 +608,9 @@ describe("E2E: Tasks", () => {
     it("Should prefer the per-call runTask override for sync evaluation", () => {
       const runTaskRealm = vi.fn();
       const runTaskEvaluate = vi.fn((task: StaticJsTaskIterator) => {
-        let result: ReturnType<typeof task.next>;
-        do {
-          result = task.next();
-        } while (!result.done);
+        while (!task.done) {
+          task.next();
+        }
       });
 
       const realm = StaticJsRealm({

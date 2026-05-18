@@ -1,5 +1,6 @@
 import {
   StaticJsRealm,
+  StaticJsTaskSourceLocation,
   type StaticJsTaskIterator,
   type StaticJsTaskIteratorOperation,
 } from "@suntime-js/core";
@@ -718,12 +719,13 @@ describe("StaticJsDebugSession", () => {
     it("stays terminated when a delayed task callback arrives after terminate", async () => {
       const fakeOperation: StaticJsTaskIteratorOperation = {
         operationType: "FakeOp",
-        location: {
-          sourceName: "fake.js",
-          line: 1,
-          column: 0,
-          character: 0,
-        },
+      };
+
+      const fakeLocation: StaticJsTaskSourceLocation = {
+        sourceName: "fake.js",
+        line: 1,
+        column: 0,
+        character: 0,
       };
 
       let done = false;
@@ -739,6 +741,9 @@ describe("StaticJsDebugSession", () => {
         },
         get operation() {
           return done ? null : fakeOperation;
+        },
+        get location() {
+          return done ? null : fakeLocation;
         },
         stack: [],
         next() {
@@ -777,6 +782,7 @@ describe("StaticJsDebugSession", () => {
           evaluateModule() {
             throw new Error("unused");
           },
+          config: {},
         } as never,
       });
 

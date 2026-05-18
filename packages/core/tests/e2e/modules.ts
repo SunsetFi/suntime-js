@@ -506,15 +506,12 @@ describe("E2E: Modules", () => {
       it("Task provides the correct source names", async () => {
         const sourceNames = new Set<string>();
         const runTask = vitest.fn((task: StaticJsTaskIterator) => {
-          while (true) {
-            const location = task.operation?.location;
+          while (!task.done) {
+            const location = task.location;
             if (location) {
               sourceNames.add(location.sourceName);
             }
-            const { done } = task.next();
-            if (done) {
-              break;
-            }
+            task.next();
           }
         });
 

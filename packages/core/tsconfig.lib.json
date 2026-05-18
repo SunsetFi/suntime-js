@@ -6,7 +6,8 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "composite": true
   },
   "include": ["./src"],
   "exclude": ["tests/e2e", "**/*.spec.ts"]

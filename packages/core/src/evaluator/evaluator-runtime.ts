@@ -1,7 +1,10 @@
 import type { Node } from "@babel/types";
 
+import { StaticJsRuntimeError } from "../errors/StaticJsRuntimeError.js";
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 
+import { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
+import { Completion } from "./completions/Completion.js";
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
 export interface EvaluateCommandsOptions {
@@ -30,15 +33,36 @@ export function* evaluateCommands<TReturn>(
 
   let currentNode: Node | null = null;
 
+  let insertCompletion: Completion.Abrupt | null = null;
+
+  function* awaitTaskContinue() {
+    try {
+      // Yield so the running task can interrogate and choose to continue the task.
+      yield;
+    } catch (err) {
+      if (err instanceof StaticJsRuntimeError) {
+        // Inject the error as a completion into the current evaluator.
+        insertCompletion = Completion.Throw(err.thrown);
+      } else {
+        // If it's not an expected error, rethrow it to be handled by the task runner.
+        throw err;
+      }
+    }
+  }
+
   while (true) {
-    // We accept that calling the generator immediately without waiting for a yield will
-    // start executing code, but the proper use should be that we start with a
-    // NodeEvaluationCommand, which will first yield a value of kind "evaluate-node".
-    // It will then pause until the next run.
-    // This effectively sets up the proper line and column that will be executed
-    // when yield is called.
-    // FIXME: Is this true?  Usage has to call .next() on the iterator once to get the line/column set up...
-    const { value, done } = generator.next(null);
+    let result: IteratorResult<EvaluatorCommand, TReturn>;
+    if (insertCompletion) {
+      // Note: This only works because our old system was designed around throwing abrupt completions.
+      // In practice, we want to transition to use .next() here, as EvaluateNodeCommand wants to return completions, not have them thrown.
+      const toThrow = insertCompletion;
+      insertCompletion = null;
+      result = generator.throw(toThrow);
+    } else {
+      result = generator.next();
+    }
+
+    const { value, done } = result;
 
     // The above generator invocation will have invoked the node we were queued on.
     if (currentNode) {
@@ -58,7 +82,7 @@ export function* evaluateCommands<TReturn>(
         onNodeEnter?.(currentNode!);
 
         // Yield so the runner can interrogate and decide to evaluate the node.
-        yield;
+        yield* awaitTaskContinue();
 
         break;
       }

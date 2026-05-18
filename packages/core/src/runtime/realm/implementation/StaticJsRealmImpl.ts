@@ -573,6 +573,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // Invoke on the microtask queue, so that
     // we do not end up calling another task while inside the
     // final .next() call of a previous task.
+    // FIXME: Draining the task queue is now done on a setTimeout, so this shouldn't be needed.
     Promise.resolve().then(() => {
       if (this._currentTask !== task) {
         throw new Error("Cannot invoke a task that is not the current task.");
@@ -671,6 +672,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         return iterDone;
       },
       get operation() {
+        return null;
+      },
+      get location() {
         return null;
       },
       get stack() {
