@@ -2,6 +2,10 @@
 
 ## Immediate
 
+- [ ] introspect / spy function for objects - Analyze properties without invoking sandbox code.
+  - [ ] Use for debugger function name
+  - [ ] Re-add frame-level functionName using above.
+
 ## Less imidiate
 
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
@@ -9,7 +13,13 @@
 - [ ] Get promises returned to proxied functions to await properly in the sandbox.
       This should be happening automatically due to the .then function, but isn't
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
-- Return completions from iteratorNext
+
+### Implement More
+
+- [ ] Date
+- [ ] Regex
+      No hope but to do this ourselves. No way we can pass this through to the engine with catastrophic backtracking.
+      Need to process this so backtracking still ticks the operation counter for interrupts / timeshare / abort.
 
 ### Long term spec compliance reworks
 
@@ -22,10 +32,6 @@
 - [ ] Rework modules for spec compliance
   - [ ] EvaluateModuleSync
   - [ ] CyclicModuleRecord
-
-### Weird
-
-- [ ] Figure out why a tiny number of test262 tests trigger a context.run() to pop a context different from what it pushed.
 
 ### Debugger improvements
 
@@ -53,7 +59,7 @@
 ## General
 
 - [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
-  - [x] Add builtins tests (Currently only testing language folder)
+  - [x] Add builtins tests
   - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
 - [-] toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
   - Test against engine-native iterators
@@ -94,4 +100,3 @@ Figure out public API for invoking and implementing evaluators.
 ## Think about
 
 - Host fingerprinting using Math trig functions - different results between firefox and chrome. Problem? Use a manual implementation?
-  - Same problems with most pass-throughs; Date and Regex if we pass those through to.

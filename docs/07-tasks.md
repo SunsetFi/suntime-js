@@ -298,8 +298,9 @@ All instances of task are a StaticJsTaskIterator
 - `type`: The type of task being evaluated:
   - `macrotask`: A top-level entry to an evaluate function
   - `microtask`: A follow-up for a promise resolution
-  - `host-invocation`: A call to a host function, such as `toNative` or `callAsync`.
-  - `host-invocation-nested`: A call to a host function that occurred during the evaluation of a `macrotask` or `microtask`.
+- `calleeType`: The type of invoker that triggered this task
+  - `evaluate`: A standard `evaluteScript` / `evaluateExpression` / `evaluteModule` call.
+  - `host`: A call `toNative`, or other API function.
 - `done`: Whether the task is completed. This will be `true` if the task has completed by any means, including by `.abort()` or having the controlling task runner throw.
 - `aborted`: True if `.abort()` has been called.
 - `operation`: Information on the next operation to be evaluated by a call to `.next()`. If the task is done, this will be `null`.
@@ -323,8 +324,12 @@ All instances of task are a StaticJsTaskIterator
 ### Methods
 
 - `next()`: Invoke the next operation. Returns an IteratorResult where `done` indicates if the task is completed. If the task is already done, a `StaticJsEngineError` is thrown.
-- `abort()`: Aborts the task. If the task is already done, a StaticJsEngineError is thrown.
-- `throw(value)`: Causes the task to fail its promise or call with the given value as the error.
+- `abort(err?)`: Aborts the task, yielding the specified error on the task's promise.
+  The evaluating code will NOT be able to catch the error.
   For async methods, the promise will reject with the given value.
   For sync methods, the function will throw.
-  Note that sandboxed code cannot intercept errors thrown with this using try / catch.
+  If no error is specified, a StaticJsTaskAbortedError will be used.
+  If the task is already done, a StaticJsEngineError is thrown.
+- `throw(err)`: Causes the task to fail its promise or call with the given value as the error.
+  If the provided error is a StaticJsRuntimeError, the evaluating code WILL be able to capture the thrown error.
+  Otherwise, the error will bubble up to the promise or call for the evaluation.

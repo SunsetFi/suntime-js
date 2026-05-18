@@ -13,13 +13,6 @@ import { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFram
 import { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
 import { StaticJsTaskType } from "../StaticJsTaskType.js";
 
-interface TaskIteratorFrame {
-  currentNode: Node | null;
-  function: StaticJsFunction | null;
-}
-
-const MaxDeadIteratorLoopCount = 100;
-
 export interface StaticJsIteratedTask {
   type: StaticJsTaskType;
   evaluator: StaticJsEvaluator<unknown>;
@@ -28,6 +21,17 @@ export interface StaticJsIteratedTask {
 }
 
 type StaticJsTaskIteratorImplState = "pending" | "running" | "done" | "aborted";
+
+// We consume internal iterations that do not stop at an AST node, to avoid yielding an empty operation.
+// This provides a safety to ensure we don't spin forever if something goes wrong.
+const MaxDeadIteratorLoopCount = 100;
+
+const Unset = Symbol("Unset");
+
+interface TaskIteratorFrame {
+  currentNode: Node | null;
+  function: StaticJsFunction | null;
+}
 
 export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   private _state: StaticJsTaskIteratorImplState = "pending";
@@ -95,7 +99,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     if (!this._currentTask) {
       return { done: true, value: undefined };
     }
-    return this._tick("next");
+    return this._tick();
   }
 
   throw(error: unknown) {
@@ -107,10 +111,10 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
       throw error;
     }
 
-    return this._tick("throw", error);
+    return this._tick(error);
   }
 
-  abort(): void {
+  abort(err?: unknown): void {
     if (this._state === "aborted") {
       return;
     }
@@ -119,7 +123,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
       throw new StaticJsEngineError("Cannot call abort() on a completed task");
     }
 
-    this._reject(new StaticJsTaskAbortedError("Task was aborted"));
+    this._reject(err ?? new StaticJsTaskAbortedError("Task was aborted"));
   }
 
   private _start() {
@@ -174,7 +178,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     }
   }
 
-  private _tick(func: "next" | "return" | "throw", value?: unknown): IteratorResult<void, void> {
+  private _tick(err: unknown = Unset): IteratorResult<void, void> {
     this._scope(() => {
       let deadIteratorLoops = 0;
       while (true) {
@@ -185,15 +189,17 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
             this._currentEvaluator = this._createEvaluatorFromTask(this._currentTask!);
           }
 
-          if (func === "next") {
-            result = this._currentEvaluator.next();
+          if (err !== Unset) {
+            result = this._currentEvaluator.throw(err);
           } else {
-            result = this._currentEvaluator[func](value);
+            result = this._currentEvaluator.next();
           }
         } catch (e) {
           this._reject(e);
           return;
         }
+
+        err = Unset;
 
         const { done } = this._processIterResult(result);
         if (done) {
@@ -244,6 +250,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
 
   private _nextTask() {
     this._currentEvaluator = null;
+    this._currentNode = null;
 
     const { value, done } = this._taskIterator.next();
     if (done) {
@@ -270,7 +277,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
 
   private _reject(reason: unknown) {
     if (!this._currentTask) {
-      throw new StaticJsEngineError("No current task to reject");
+      throw new AggregateError([new StaticJsEngineError("No current task to reject"), reason]);
     }
 
     const { reject } = this._currentTask;
