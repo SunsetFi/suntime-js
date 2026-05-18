@@ -1,4 +1,4 @@
-import { lintStagedWorkspaceRunner } from "../../workspace-utils.mjs";
+import { lintStagedWorkspaceRunner } from "../workspace-utils.mjs";
 
 const run = lintStagedWorkspaceRunner("live-sandbox");
 
