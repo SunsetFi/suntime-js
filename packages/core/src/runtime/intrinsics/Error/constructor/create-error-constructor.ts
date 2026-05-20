@@ -1,5 +1,6 @@
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { captureStackTrace } from "../../../algorithms/capture-stack-trace.js";
 import { createNonEnumerableDataPropertyOrThrow } from "../../../algorithms/create-non-enumerable-data-property-or-throw.js";
 import { installErrorCause } from "../../../algorithms/install-error-cause.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
@@ -41,6 +42,11 @@ export function* createErrorConstructor(realm: StaticJsRealm, errorProto: Static
     }
 
     yield* installErrorCause(obj, options);
+
+    // Note: The spec doesn't define this, but v8 and spidermonkey do this, with minor differences.
+    // We may yet want to figure out where exactly this occurs.  Is it before or after cause?
+    // Stuff like that matters to test262, but this isn't spec, so...
+    yield* captureStackTrace(obj, newTarget);
 
     return obj;
   }

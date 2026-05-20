@@ -1,5 +1,3 @@
-import { expressionStatement, file, program } from "@babel/types";
-
 import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
@@ -203,8 +201,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         expression,
         opts?.sourceName ?? this._createInlineSourceName(),
       );
-      const node = file(program([expressionStatement(parsed)], [], "script"));
-      const record = StaticJsScriptRecord(node, expression);
+      const record = StaticJsScriptRecord(parsed, expression);
       const evaluator = doEvaluateScript(record, this);
       return this._enqueueMacrotask(evaluator, "evaluate", opts);
     } catch (e) {

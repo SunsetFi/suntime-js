@@ -12,6 +12,9 @@ export function* definePropertyOrThrow(
   const success = yield* O.defineOwnPropertyEvaluator(P, desc);
 
   if (!success) {
+    // TODO: Make this error message more clear:
+    // non-configurable: cannot redefine property
+    // non-extensible: cannot define property ${}, object is not extensible
     throw Completion.Throw("TypeError", `Cannot define property ${String(P)}`);
   }
 }

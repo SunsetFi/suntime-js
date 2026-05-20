@@ -22,6 +22,21 @@ export interface FunctionIntrinsicPropertyDeclaration extends IntrinsicPropertyD
     ...args: (StaticJsValue | undefined)[]
   ) => EvaluationGenerator<StaticJsValue>;
   length?: number | ((realm: StaticJsRealm) => StaticJsPropertyDescriptorRecord);
+
+  /**
+   * @default false
+   */
+  enumerable?: boolean;
+
+  /**
+   * @default true
+   */
+  configurable?: boolean;
+
+  /**
+   * @default true
+   */
+  writable?: boolean;
 }
 function isFunctionIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
@@ -31,6 +46,21 @@ function isFunctionIntrinsicPropertyDeclaration(
 
 export interface DataIntrinsicPropertyDeclaration extends IntrinsicPropertyDeclarationBase {
   value: StaticJsValue | ((realm: StaticJsRealm) => StaticJsValue);
+
+  /**
+   * @default false
+   */
+  enumerable?: boolean;
+
+  /**
+   * @default false
+   */
+  configurable?: boolean;
+
+  /**
+   * @default false
+   */
+  writable?: boolean;
 }
 function isDataIntrinsicPropertyDeclaration(
   prop: IntrinsicPropertyDeclaration,
@@ -45,6 +75,16 @@ export interface AccessorIntrinsicPropertyDeclaration extends IntrinsicPropertyD
     thisArg: StaticJsValue,
     value: StaticJsValue,
   ) => EvaluationGenerator<StaticJsValue>;
+
+  /**
+   * @default false
+   */
+  enumerable?: boolean;
+
+  /**
+   * @default true
+   */
+  configurable?: boolean;
 }
 
 function isAccessorIntrinsicPropertyDeclaration(
@@ -72,74 +112,104 @@ export function* applyIntrinsicProperties(
     }
 
     if (isFunctionIntrinsicPropertyDeclaration(prop)) {
-      let name: string | undefined = undefined;
-      if (typeof key === "string") {
-        name = key;
-      } else if (isStaticJsSymbol(key)) {
-        // Just guessing based on the builtin tests
-        // This seems to be what AsyncIteratorPrototype[Symbol.asyncIterator] expects.
-        name = `[${key.description}]`;
-      }
-
-      const func = (thisArg: StaticJsValue, ...args: (StaticJsValue | undefined)[]) =>
-        prop.func(realm, thisArg, ...args);
-
-      const nativeFunc = new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func);
-      let lengthDecl: StaticJsPropertyDescriptorRecord;
-      if (prop.length == null) {
-        lengthDecl = {
-          // In practice, this is useless as recently we are using arg defaults for undefined.
-          // We should instead set length manually.
-          // TODO: We could flip this, consume prop.func.length, and stub in non-specified with undefined.
-          value: realm.types.number(prop.func.length - 2),
-          writable: false,
-          enumerable: false,
-          configurable: true,
-        };
-      } else if (typeof prop.length === "number") {
-        lengthDecl = {
-          value: realm.types.number(prop.length),
-          writable: false,
-          enumerable: false,
-          configurable: true,
-        };
-      } else if (typeof prop.length === "function") {
-        lengthDecl = prop.length(realm);
-      } else {
-        throw new Error("Invalid length declaration for intrinsic function property");
-      }
-
-      // Not using setFunctionLength as some things (eval) has special length declarations.
-      yield* nativeFunc.defineOwnPropertyEvaluator("length", lengthDecl);
-
-      yield* obj.defineOwnPropertyEvaluator(key, {
-        value: nativeFunc,
-        enumerable: prop.enumerable ?? false,
-        configurable: prop.configurable ?? true,
-        writable: prop.writable ?? true,
-      });
+      yield* declareFunctionIntrinsic(key, prop, realm, obj);
     } else if (isDataIntrinsicPropertyDeclaration(prop)) {
-      yield* obj.defineOwnPropertyEvaluator(key, {
-        value: typeof prop.value === "function" ? prop.value(realm) : prop.value,
-        enumerable: prop.enumerable ?? false,
-        configurable: prop.configurable ?? false,
-        writable: prop.writable ?? false,
-      });
+      yield* declareDataPropertyIntrinsic(obj, key, prop, realm);
     } else if (isAccessorIntrinsicPropertyDeclaration(prop)) {
-      yield* obj.defineOwnPropertyEvaluator(key, {
-        get: prop.get
-          ? new StaticJsNativeFunctionImpl(realm, "get", (thisArg) => prop.get!(realm, thisArg))
-          : undefined,
-        set: prop.set
-          ? new StaticJsNativeFunctionImpl(realm, "set", (thisArg, value) =>
-              prop.set!(realm, thisArg, value),
-            )
-          : undefined,
-        enumerable: prop.enumerable ?? false,
-        configurable: prop.configurable ?? true,
-      });
+      yield* declareAccessorIntrinsic(obj, key, prop, realm);
     } else {
       throw new Error("Intrinsic property declaration must have a function property");
     }
   }
+}
+
+// FIXME: Why are enumerable/configurable/[writable] inconsistent with these?  What should sensible defaults be?
+// Should we not give defaults at all?
+
+function* declareAccessorIntrinsic(
+  obj: StaticJsObject,
+  key: StaticJsPropertyKey,
+  prop: AccessorIntrinsicPropertyDeclaration,
+  realm: StaticJsRealm,
+) {
+  yield* obj.defineOwnPropertyEvaluator(key, {
+    get: prop.get
+      ? new StaticJsNativeFunctionImpl(realm, "get", (thisArg) => prop.get!(realm, thisArg))
+      : undefined,
+    set: prop.set
+      ? new StaticJsNativeFunctionImpl(realm, "set", (thisArg, value) =>
+          prop.set!(realm, thisArg, value),
+        )
+      : undefined,
+    enumerable: prop.enumerable ?? false,
+    configurable: prop.configurable ?? true,
+  });
+}
+
+function* declareDataPropertyIntrinsic(
+  obj: StaticJsObject,
+  key: StaticJsPropertyKey,
+  prop: DataIntrinsicPropertyDeclaration,
+  realm: StaticJsRealm,
+) {
+  yield* obj.defineOwnPropertyEvaluator(key, {
+    value: typeof prop.value === "function" ? prop.value(realm) : prop.value,
+    enumerable: prop.enumerable ?? false,
+    configurable: prop.configurable ?? false,
+    writable: prop.writable ?? false,
+  });
+}
+
+function* declareFunctionIntrinsic(
+  key: StaticJsPropertyKey,
+  prop: FunctionIntrinsicPropertyDeclaration,
+  realm: StaticJsRealm,
+  obj: StaticJsObject,
+) {
+  let name: string | undefined = undefined;
+  if (typeof key === "string") {
+    name = key;
+  } else if (isStaticJsSymbol(key)) {
+    // Just guessing based on the builtin tests
+    // This seems to be what AsyncIteratorPrototype[Symbol.asyncIterator] expects.
+    name = `[${key.description}]`;
+  }
+
+  const func = (thisArg: StaticJsValue, ...args: (StaticJsValue | undefined)[]) =>
+    prop.func(realm, thisArg, ...args);
+
+  const nativeFunc = new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func);
+  let lengthDecl: StaticJsPropertyDescriptorRecord;
+  if (prop.length == null) {
+    lengthDecl = {
+      // In practice, this is useless as recently we are using arg defaults for undefined.
+      // We should instead set length manually.
+      // TODO: We could flip this, consume prop.func.length, and stub in non-specified with undefined.
+      value: realm.types.number(prop.func.length - 2),
+      writable: false,
+      enumerable: false,
+      configurable: true,
+    };
+  } else if (typeof prop.length === "number") {
+    lengthDecl = {
+      value: realm.types.number(prop.length),
+      writable: false,
+      enumerable: false,
+      configurable: true,
+    };
+  } else if (typeof prop.length === "function") {
+    lengthDecl = prop.length(realm);
+  } else {
+    throw new Error("Invalid length declaration for intrinsic function property");
+  }
+
+  // Not using setFunctionLength as some things (eval) has special length declarations.
+  yield* nativeFunc.defineOwnPropertyEvaluator("length", lengthDecl);
+
+  yield* obj.defineOwnPropertyEvaluator(key, {
+    value: nativeFunc,
+    enumerable: prop.enumerable ?? false,
+    configurable: prop.configurable ?? true,
+    writable: prop.writable ?? true,
+  });
 }
