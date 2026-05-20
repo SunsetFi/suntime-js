@@ -14,6 +14,7 @@ export class StaticJsMethodFunction extends StaticJsAstFunction {
   constructor(
     realm: StaticJsRealm,
     node: StaticJsAstFunctionNode,
+    sourceText: string,
     homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
     privateEnv: StaticJsPrivateEnvironmentRecord | null,
@@ -21,7 +22,7 @@ export class StaticJsMethodFunction extends StaticJsAstFunction {
   ) {
     const { strict, scriptOrModule } = EvaluationContext.current;
 
-    super(realm, node, {
+    super(realm, node, sourceText, {
       thisMode: "non-lexical-this",
       construct: false,
       env,

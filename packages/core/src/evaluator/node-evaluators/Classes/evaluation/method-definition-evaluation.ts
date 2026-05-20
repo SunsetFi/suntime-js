@@ -51,14 +51,15 @@ function* getterMethodDefinitionEvaluation(
   object: StaticJsObject,
   enumerable: boolean,
 ): EvaluationGenerator<StaticJsPrivateElement | null> {
-  const { realm, lexicalEnv: env, privateEnv } = EvaluationContext.current;
+  const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(element.params);
 
   const propKey = yield* classElementNameNodeEvaluator(element);
 
   // OrdinaryFunctionCreate
-  const closure = new StaticJsMethodFunction(realm, element, object, env, privateEnv);
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const closure = new StaticJsMethodFunction(realm, element, sourceText, object, env, privateEnv);
   const len = expectedArgumentCount(element.params);
   yield* setFunctionLength(closure, len);
   // End OrdinaryFunctionCreate
@@ -89,14 +90,15 @@ function* setterMethodDefinitionEvaluation(
   object: StaticJsObject,
   enumerable: boolean,
 ): EvaluationGenerator<StaticJsPrivateElement | null> {
-  const { realm, lexicalEnv: env, privateEnv } = EvaluationContext.current;
+  const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(element.params);
 
   const propKey = yield* classElementNameNodeEvaluator(element);
 
   // OrdinaryFunctionCreate
-  const closure = new StaticJsMethodFunction(realm, element, object, env, privateEnv);
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const closure = new StaticJsMethodFunction(realm, element, sourceText, object, env, privateEnv);
   const len = expectedArgumentCount(element.params);
   yield* setFunctionLength(closure, len);
   // End OrdinaryFunctionCreate
@@ -127,15 +129,17 @@ function* asyncGeneratorMethodDefinitionEvaluation(
   object: StaticJsObject,
   enumerable: boolean,
 ) {
-  const { realm, lexicalEnv: env, privateEnv } = EvaluationContext.current;
+  const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(element.params);
 
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
   const closure = new StaticJsMethodFunction(
     realm,
     element,
+    sourceText,
     object,
     env,
     privateEnv,
@@ -159,15 +163,17 @@ function* asyncMethodDefinitionEvaluation(
   object: StaticJsObject,
   enumerable: boolean,
 ) {
-  const { realm, lexicalEnv: env, privateEnv } = EvaluationContext.current;
+  const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(element.params);
 
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
   const closure = new StaticJsMethodFunction(
     realm,
     element,
+    sourceText,
     object,
     env,
     privateEnv,
@@ -184,15 +190,17 @@ function* generatorMethodDefinitionEvaluation(
   object: StaticJsObject,
   enumerable: boolean,
 ) {
-  const { realm, lexicalEnv: env, privateEnv } = EvaluationContext.current;
+  const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(element.params);
 
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
   const closure = new StaticJsMethodFunction(
     realm,
     element,
+    sourceText,
     object,
     env,
     privateEnv,

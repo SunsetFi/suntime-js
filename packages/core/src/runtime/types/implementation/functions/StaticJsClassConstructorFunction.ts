@@ -42,6 +42,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
   constructor(
     realm: StaticJsRealm,
     node: Function | Expression | StaticJsClassConstructorNativeConstruct,
+    sourceText: string,
     homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
     privateEnv: StaticJsPrivateEnvironmentRecord,
@@ -58,7 +59,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
       resolvedConstruct = null;
     }
 
-    super(realm, resolvedNode, homeObject, env, privateEnv, prototype);
+    super(realm, resolvedNode, sourceText, homeObject, env, privateEnv, prototype);
 
     this._nativeFunc = resolvedConstruct;
   }

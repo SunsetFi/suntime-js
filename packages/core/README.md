@@ -99,7 +99,9 @@ const result = await addFoo.callAsync(realm.types.undefined, realm.types.number(
 - Arrays
 - Set, Map
 - Math
-- Error (and variants), try / catch
+- try / catch
+- Error and variants
+- Stack traces (including Error.captureStackTrace)
 - Promises
 - Functions / Arrow functions
 - Async Functions

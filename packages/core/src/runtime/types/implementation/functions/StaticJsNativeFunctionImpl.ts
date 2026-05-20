@@ -38,7 +38,7 @@ export class StaticJsNativeFunctionImpl
 
   constructor(
     realm: StaticJsRealm,
-    private _name: StaticJsPropertyKey | null,
+    private readonly _name: StaticJsPropertyKey | null,
     private readonly _call: (
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
@@ -65,6 +65,10 @@ export class StaticJsNativeFunctionImpl
 
   override get isConstructor() {
     return !!this._construct;
+  }
+
+  get intitialName() {
+    return this._name;
   }
 
   *callEvaluator(

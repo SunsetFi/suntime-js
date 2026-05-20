@@ -84,12 +84,14 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   private readonly _environment: StaticJsEnvironmentRecord;
   private readonly _privateEnv: StaticJsPrivateEnvironmentRecord | null;
   private readonly _thisMode: "lexical" | "strict" | "global";
+  private _sourceText: string;
 
   private _constructorKind: null | "base" | "derived" = null;
 
   constructor(
     realm: StaticJsRealm,
     protected readonly _node: StaticJsAstFunctionNode,
+    sourceText: string,
     {
       thisMode,
       strict,
@@ -130,6 +132,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     this._scriptOrModule = scriptOrModule;
     this._environment = env;
     this._privateEnv = privateEnv ?? null;
+    this._sourceText = sourceText;
 
     // Another shim from old pre-spec era
     if (construct) {
@@ -139,6 +142,14 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
   override get ecmaScriptCode(): Node {
     return this._node;
+  }
+
+  get sourceText(): string {
+    return this._sourceText;
+  }
+
+  set sourceText(value: string) {
+    this._sourceText = value;
   }
 
   override get scriptOrModule(): StaticJsScriptOrModuleRecord | null {

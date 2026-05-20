@@ -96,41 +96,6 @@ describe("E2E: Functions", () => {
         expect(result).toBe(42);
       });
 
-      it("stuff", async () => {
-        const code = `
-function f1(){
-  var x;
-  
-  return x;
-  
-  function x(){
-    return 7;
-  }
-}
-
-if (f1().constructor.prototype !==  Function.prototype) {
-  throw new Error("Test failed 1");
-}
-
-//CHECK#2
-function f2(){
-  var x;
-  
-  return typeof x;
-  
-  function x(){
-    return 7;
-  }
-}
-
-if (f2() !== "function") {
-  throw new Error("Test failed 2");
-}
-
-`;
-        await evaluateScript(code);
-      });
-
       it("Is hoisted within functions with var", async () => {
         const code = `
           function outer() {
@@ -404,6 +369,15 @@ if (f2() !== "function") {
       await evaluateScript("function x() { return 42; }", { realm });
       expect(await evaluateScript("x()", { realm })).toEqual(42);
     });
+
+    it("provides a source string", async () => {
+      const funcSource = ["function test() {", "  return 42;", "}"].join("\n");
+      const result = await evaluateScript(`
+      ${funcSource}
+      test.toString();
+    `);
+      expect(result).toBe(funcSource);
+    });
   });
 
   describe("Strict", () => {
@@ -561,6 +535,15 @@ if (f2() !== "function") {
         a.name;
       `;
       expect(await evaluateScript(code)).toBe("myFunc");
+    });
+
+    it("provides a source string", async () => {
+      const funcSource = ["function test() {", "  return 42;", "}"].join("\n");
+      const result = await evaluateScript(`
+      const foo = ${funcSource}
+      foo.toString();
+    `);
+      expect(result).toBe(funcSource);
     });
   });
 

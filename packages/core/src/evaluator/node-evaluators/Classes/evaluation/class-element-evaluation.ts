@@ -51,7 +51,7 @@ function* classFieldDefinitionEvaluation(
 
   let initializer: StaticJsMethodFunction | undefined;
   if (element.value) {
-    const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
+    const { lexicalEnv: env, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
     if (!privateEnv) {
       throw new StaticJsEngineError(
         "Cannot call classFieldDefinitionEvaluation without a private env.",
@@ -59,6 +59,8 @@ function* classFieldDefinitionEvaluation(
     }
 
     // By spec, OrdinaryFunctionCreate
+    const sourceText =
+      scriptOrModule?.ecmaScriptSource.slice(element.value.start!, element.value.end!) ?? "";
     initializer = new StaticJsMethodFunction(
       realm,
       // Spec wants this to be an assignment expression, but to us that means
@@ -68,6 +70,7 @@ function* classFieldDefinitionEvaluation(
       // just evaluate that function.
       // Luckally, babel has parenthesizedExpression even though it doesn't generate them by default.
       parenthesizedExpression(element.value),
+      sourceText,
       object,
       env,
       privateEnv,
@@ -89,8 +92,16 @@ function* classStaticBlockDefinitionEvaluation(
   element: StaticBlock,
   object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassStaticBlockDefinitionRecord | Completion.Abrupt> {
-  const { lexicalEnv: lex, privateEnv, realm } = EvaluationContext.current;
-  const bodyFunction = new StaticJsMethodFunction(realm, element, object, lex, privateEnv);
+  const { lexicalEnv: lex, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const bodyFunction = new StaticJsMethodFunction(
+    realm,
+    element,
+    sourceText,
+    object,
+    lex,
+    privateEnv,
+  );
   return {
     type: "class-static-block-definition",
     bodyFunction,

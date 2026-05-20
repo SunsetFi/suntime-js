@@ -176,4 +176,13 @@ describe("E2E: Generator Functions", () => {
     expect(getNext2Resolved()).toBe(true);
     expect(getNext3Resolved()).toBe(true);
   });
+
+  it("provides a source string", async () => {
+    const funcSource = ["async function* test() {", "  return 42;", "}"].join("\n");
+    const result = await evaluateScript(`
+      ${funcSource}
+      test.toString();
+    `);
+    expect(result).toBe(funcSource);
+  });
 });

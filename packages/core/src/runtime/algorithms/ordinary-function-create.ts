@@ -19,6 +19,7 @@ import { setFunctionLength } from "./set-function-length.js";
 
 export function* ordinaryFunctionCreate(
   functionPrototype: StaticJsObject,
+  sourceText: string,
   parameterList: FunctionParameter[],
   body: Function | ObjectMethod | ClassMethod | ClassPrivateMethod,
   thisMode: "lexical-this" | "non-lexical-this",
@@ -29,7 +30,7 @@ export function* ordinaryFunctionCreate(
 
   const strict = isStrict(body);
 
-  const func = new StaticJsAstFunction(realm, body, {
+  const func = new StaticJsAstFunction(realm, body, sourceText, {
     thisMode,
     env,
     privateEnv,

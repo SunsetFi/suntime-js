@@ -27,18 +27,23 @@ export function* createDynamicFunction(
     newTarget = constructor;
   }
 
+  let prefix: string;
   let fallbackProto: keyof Prototypes;
   let async = false;
   let generator = false;
   if (kind === "normal") {
+    prefix = "function";
     fallbackProto = "Function.prototype";
   } else if (kind === "generator") {
+    prefix = "function*";
     generator = true;
     fallbackProto = "GeneratorFunction.prototype";
   } else if (kind === "async") {
+    prefix = "async function";
     async = true;
     fallbackProto = "AsyncFunction.prototype";
   } else {
+    prefix = "async function*";
     async = true;
     generator = true;
     fallbackProto = "AsyncGeneratorFunction.prototype";
@@ -68,7 +73,7 @@ export function* createDynamicFunction(
   }
 
   const bodyParseString = `\n${bodyString}\n`;
-
+  const sourceString = `${prefix} anonymous(${parameterString}\n){${bodyParseString}}`;
   // Weird speccy stuff:
   // Spec says params come first, but test262 says params need to be validated based on the body strictness.
   // Maybe this is because the spec tests syntax errors after parsing.
@@ -109,6 +114,7 @@ export function* createDynamicFunction(
   const privateEnv = null;
   const func = yield* ordinaryFunctionCreate(
     proto,
+    sourceString,
     parameters,
     fn,
     "non-lexical-this",

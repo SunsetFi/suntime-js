@@ -11,7 +11,6 @@ import { setFunctionLength } from "../../../../runtime/algorithms/set-function-l
 import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsAstFunction } from "../../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
 import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
@@ -59,7 +58,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
   className: StaticJsPropertyKey | StaticJsPrivateName,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.current;
-  const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment } = context;
+  const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment, scriptOrModule } = context;
   const classEnv = new StaticJsDeclarativeEnvironmentRecord(env, realm);
   if (classBinding) {
     yield* classEnv.createImmutableBindingEvaluator(classBinding, true);
@@ -109,6 +108,8 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     let constructorKind: "derived" | "base";
     let F: StaticJsClassConstructorFunction;
     if (!constructor) {
+      // The entire class expression, apparently.
+      // In the spec, this is passed in externally.
       F = new StaticJsClassConstructorFunction(
         realm,
         function* (
@@ -159,6 +160,8 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
           yield* Q(initializeInstanceElements(result, F));
           return result;
         },
+        // Set later
+        "",
         proto,
         // Aren't used for native ctor mode.
         classEnv,
@@ -184,13 +187,13 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
       yield* setFunctionName(F, className);
     }
 
-    // This is supposed to apply to our native default constructor too, but...
-    // I think we do everything manually above???
-    if (F instanceof StaticJsAstFunction) {
-      yield* F.makeConstructor(false, proto);
-      if (node.superClass) {
-        F.constructorKind = "derived";
-      }
+    // This is supposed to be sourced by grammer productions outside of this algorithm.
+    const sourceText = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+    F.sourceText = sourceText;
+
+    yield* F.makeConstructor(false, proto);
+    if (node.superClass) {
+      F.constructorKind = "derived";
     }
 
     if (node.superClass) {

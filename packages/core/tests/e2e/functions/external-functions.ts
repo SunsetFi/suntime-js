@@ -62,14 +62,19 @@ describe("E2E: External Functions", () => {
     expect(result).toEqual("Received: Hello World");
   });
 
-  it("Is hoisted", async () => {
-    const code = `
-        let result = a();
-        function a() {
-          return 42;
-        }
-        a();
-      `;
-    expect(await evaluateScript(code)).toBe(42);
+  it("provides a source string", async () => {
+    const realm = StaticJsRealm({
+      global: {
+        value: {
+          a: function () {
+            throw { message: "Hello World" };
+          },
+        },
+      },
+    });
+    const result = await realm.evaluateScript(`
+      a.toString();
+    `);
+    expect(result.toNative()).toBe(`function a() { [ native code ] }`);
   });
 });

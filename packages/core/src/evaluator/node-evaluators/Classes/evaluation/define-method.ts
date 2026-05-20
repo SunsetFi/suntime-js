@@ -29,7 +29,10 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
   // Spec says evaluation here, but its syntax tree type is ClassElementName, while we have Identifier.
   // Trying to use EvaluateNodeCommand here will just give us a value reference.
   const propKey = yield* Q(classElementNameNodeEvaluator(method));
-  const { lexicalEnv: env, privateEnv, realm } = EvaluationContext.current;
+  const { lexicalEnv: env, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
+
+  const sourceText = scriptOrModule?.ecmaScriptSource.slice(method.start!, method.end!) ?? "";
+
   if (!functionPrototype) {
     functionPrototype = realm.intrinsics["Function.prototype"];
   }
@@ -47,13 +50,22 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
     closure = new StaticJsClassConstructorFunction(
       realm,
       method,
+      sourceText,
       object,
       env,
       privateEnv,
       functionPrototype,
     );
   } else {
-    closure = new StaticJsMethodFunction(realm, method, object, env, privateEnv, functionPrototype);
+    closure = new StaticJsMethodFunction(
+      realm,
+      method,
+      sourceText,
+      object,
+      env,
+      privateEnv,
+      functionPrototype,
+    );
   }
 
   const len = expectedArgumentCount(method.params);

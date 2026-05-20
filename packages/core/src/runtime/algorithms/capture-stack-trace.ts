@@ -23,6 +23,7 @@ const StackFrameIndent = "    ";
  * @remarks
  * This is not part of the ECMAScript specification, but a common standard implemented by v8 and others.
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/captureStackTrace
+ * https://v8.dev/docs/stack-trace-api
  */
 export function* captureStackTrace(
   obj: StaticJsObject,
@@ -95,6 +96,8 @@ export function* captureStackTrace(
     lines.push(line);
   }
 
+  // Note: v8 avoids formatting the strings until the first stack access.
+
   yield* setErrorStack(obj, EvaluationContext.current.realm.types.string(lines.join("\n")));
 }
 
@@ -103,8 +106,10 @@ function captureStackLocation(loc: SourceLocation): string {
 }
 
 function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGenerator<void> {
-  // Note: V8 uses a getter/setter here, while firefox and others use a writable data property.
-  // We are following v8 conventions, here and elsewhere, for error stacks.
+  // Note: V8 uses a getter/setter here, as it avoids formatting the string until it's accessed.
+  // Firefox and others use a writable data property instead.
+  // We are following v8 conventions, here and elsewhere, for error stacks,
+  // but we (currently) don't lazy format it.
   yield* definePropertyOrThrow(obj, "stack", {
     get: new StaticJsNativeFunctionImpl(obj.realm, "", function* () {
       return stack;

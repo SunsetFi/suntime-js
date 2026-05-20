@@ -19,14 +19,16 @@ export function* instantiateArrowFunctionExpression(
     name = "";
   }
 
-  const { realm } = EvaluationContext.current;
+  const { realm, scriptOrModule } = EvaluationContext.current;
 
   const proto = node.async
     ? realm.intrinsics["AsyncFunction.prototype"]
     : realm.intrinsics["Function.prototype"];
 
+  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     proto,
+    sourceString,
     node.params,
     node,
     "lexical-this",

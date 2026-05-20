@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
 
-import { StaticJsRealm, isStaticJsPromise, type StaticJsPromise } from "../../../src/index.js";
+import {
+  StaticJsRealm,
+  isStaticJsPromise,
+  type StaticJsPromise,
+  evaluateScript,
+} from "../../../src/index.js";
 
 describe("E2E: Async method functions", () => {
   it("Returns a promise", async () => {
@@ -103,6 +108,17 @@ describe("E2E: Async method functions", () => {
 
     const promise = staticJsPromiseToPromise(result as StaticJsPromise, realm);
     await expect(promise).resolves.toBe(42);
+  });
+
+  it("provides a source string", async () => {
+    const funcSource = ["async test() {", "  return 42;", "}"].join("\n");
+    const result = await evaluateScript(`
+        const obj = {
+          ${funcSource}
+        };
+        obj.test.toString();
+      `);
+    expect(result).toBe(funcSource);
   });
 });
 

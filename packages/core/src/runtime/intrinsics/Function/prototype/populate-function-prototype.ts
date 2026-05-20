@@ -10,6 +10,7 @@ import { functionProtoBindDeclaration } from "./bind.js";
 import { functionProtoCallDeclaration } from "./call.js";
 import { functionProtoLengthDeclaration } from "./length.js";
 import { functionProtoSymbolHasInstanceDeclaration } from "./symbol_hasInstance.js";
+import { functionProtoToStringDeclaration } from "./toString.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   functionProtoApplyDeclaration,
@@ -17,6 +18,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   functionProtoCallDeclaration,
   functionProtoLengthDeclaration,
   functionProtoSymbolHasInstanceDeclaration,
+  functionProtoToStringDeclaration,
 ];
 
 export function* populateFunctionPrototype(realm: StaticJsRealm, functionProto: StaticJsObject) {

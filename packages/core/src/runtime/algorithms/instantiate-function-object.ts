@@ -33,12 +33,14 @@ function* instantiateOrdinaryFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): EvaluationGenerator<StaticJsFunction> {
-  const { realm } = EvaluationContext.current;
+  const { realm, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(node.params);
 
+  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["Function.prototype"],
+    sourceString,
     node.params,
     node,
     "non-lexical-this",
@@ -62,12 +64,14 @@ function* instantiateGeneratorFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): EvaluationGenerator<StaticJsFunction> {
-  const { realm } = EvaluationContext.current;
+  const { realm, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(node.params);
 
+  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["GeneratorFunction.prototype"],
+    sourceString,
     node.params,
     node,
     "non-lexical-this",
@@ -96,12 +100,14 @@ function* instantiateAsyncGeneratorFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): EvaluationGenerator<StaticJsFunction> {
-  const { realm } = EvaluationContext.current;
+  const { realm, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(node.params);
 
+  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["AsyncGeneratorFunction.prototype"],
+    sourceString,
     node.params,
     node,
     "non-lexical-this",
@@ -132,12 +138,14 @@ function* instantiateAsyncFunctionObject(
   env: StaticJsEnvironmentRecord,
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): EvaluationGenerator<StaticJsFunction> {
-  const { realm } = EvaluationContext.current;
+  const { realm, scriptOrModule } = EvaluationContext.current;
 
   verifyNoTsParameterProperties(node.params);
 
+  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["AsyncFunction.prototype"],
+    sourceString,
     node.params,
     node,
     "non-lexical-this",

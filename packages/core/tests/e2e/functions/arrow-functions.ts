@@ -34,4 +34,12 @@ describe("E2E: Arrow Functions", () => {
     `);
     expect(result).toBe(42);
   });
+
+  it("provides a source string", async () => {
+    const result = await evaluateScript(`
+      const a = () => 42;
+      a.toString();
+    `);
+    expect(result).toBe("() => 42");
+  });
 });

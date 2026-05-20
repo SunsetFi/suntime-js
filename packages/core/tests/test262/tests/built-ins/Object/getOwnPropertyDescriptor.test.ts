@@ -1431,7 +1431,7 @@ it(
 
 it(
   "15.2.3.3-4-35.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Object/getOwnPropertyDescriptor/15.2.3.3-4-35.js"),
 );
 

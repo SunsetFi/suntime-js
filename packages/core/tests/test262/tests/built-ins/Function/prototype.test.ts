@@ -1230,22 +1230,22 @@ describe("toString", () => {
   );
   it(
     "S15.3.4.2_A12.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/S15.3.4.2_A12.js"),
   );
   it(
     "S15.3.4.2_A13.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/S15.3.4.2_A13.js"),
   );
   it(
     "S15.3.4.2_A14.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/S15.3.4.2_A14.js"),
   );
   it(
     "S15.3.4.2_A16.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/S15.3.4.2_A16.js"),
   );
   it(
@@ -1265,32 +1265,32 @@ describe("toString", () => {
   );
   it(
     "arrow-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/arrow-function.js"),
   );
   it(
     "async-arrow-function.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-arrow-function.js"),
   );
   it(
     "async-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-function-declaration.js"),
   );
   it(
     "async-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-function-expression.js"),
   );
   it(
     "async-generator-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-generator-declaration.js"),
   );
   it(
     "async-generator-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-generator-expression.js"),
   );
   it(
@@ -1302,7 +1302,7 @@ describe("toString", () => {
   );
   it(
     "async-generator-method-class-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/toString/async-generator-method-class-expression.js",
     ),
@@ -1316,14 +1316,14 @@ describe("toString", () => {
   );
   it(
     "async-generator-method-class-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/toString/async-generator-method-class-statement.js",
     ),
   );
   it(
     "async-generator-method-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-generator-method-object.js"),
   );
   it(
@@ -1335,7 +1335,7 @@ describe("toString", () => {
   );
   it(
     "async-method-class-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-method-class-expression.js"),
   );
   it(
@@ -1347,12 +1347,12 @@ describe("toString", () => {
   );
   it(
     "async-method-class-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-method-class-statement.js"),
   );
   it(
     "async-method-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/async-method-object.js"),
   );
   it(
@@ -1367,61 +1367,61 @@ describe("toString", () => {
   );
   it(
     "class-declaration-complex-heritage.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/toString/class-declaration-complex-heritage.js",
     ),
   );
   it(
     "class-declaration-explicit-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/class-declaration-explicit-ctor.js"),
   );
   it(
     "class-declaration-implicit-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/class-declaration-implicit-ctor.js"),
   );
   it(
     "class-expression-explicit-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/class-expression-explicit-ctor.js"),
   );
   it(
     "class-expression-implicit-ctor.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/class-expression-implicit-ctor.js"),
   );
   it(
     "function-declaration-non-simple-parameter-list.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/toString/function-declaration-non-simple-parameter-list.js",
     ),
   );
   it(
     "function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/function-declaration.js"),
   );
   it(
     "function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/function-expression.js"),
   );
   it(
     "generator-function-declaration.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/generator-function-declaration.js"),
   );
   it(
     "generator-function-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/generator-function-expression.js"),
   );
   it(
     "generator-method.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/generator-method.js"),
   );
   it(
@@ -1431,7 +1431,7 @@ describe("toString", () => {
   );
   it(
     "getter-class-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/getter-class-expression.js"),
   );
   it(
@@ -1441,29 +1441,29 @@ describe("toString", () => {
   );
   it(
     "getter-class-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/getter-class-statement.js"),
   );
   it(
     "getter-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/getter-object.js"),
   );
   it(
     "line-terminator-normalisation-CR-LF.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/Function/prototype/toString/line-terminator-normalisation-CR-LF.js",
     ),
   );
   it(
     "line-terminator-normalisation-CR.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/line-terminator-normalisation-CR.js"),
   );
   it(
     "line-terminator-normalisation-LF.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/line-terminator-normalisation-LF.js"),
   );
   it(
@@ -1473,7 +1473,7 @@ describe("toString", () => {
   );
   it(
     "method-class-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/method-class-expression.js"),
   );
   it(
@@ -1483,17 +1483,17 @@ describe("toString", () => {
   );
   it(
     "method-class-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/method-class-statement.js"),
   );
   it(
     "method-computed-property-name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/method-computed-property-name.js"),
   );
   it(
     "method-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/method-object.js"),
   );
   it(
@@ -1508,12 +1508,12 @@ describe("toString", () => {
   );
   it(
     "private-method-class-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/private-method-class-expression.js"),
   );
   it(
     "private-method-class-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/private-method-class-statement.js"),
   );
   it(
@@ -1584,7 +1584,7 @@ describe("toString", () => {
   );
   it(
     "proxy-non-callable-throws.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/proxy-non-callable-throws.js"),
   );
   it(
@@ -1594,7 +1594,7 @@ describe("toString", () => {
   );
   it(
     "setter-class-expression.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/setter-class-expression.js"),
   );
   it(
@@ -1604,12 +1604,12 @@ describe("toString", () => {
   );
   it(
     "setter-class-statement.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/setter-class-statement.js"),
   );
   it(
     "setter-object.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/setter-object.js"),
   );
   it(
@@ -1619,7 +1619,7 @@ describe("toString", () => {
   );
   it(
     "unicode.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/prototype/toString/unicode.js"),
   );
 });
