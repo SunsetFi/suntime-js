@@ -72,56 +72,6 @@ export interface EvaluationContext extends Required<EvaluationContextAutoDefProp
   clone(properties?: EvaluationContextOptions): EvaluationContext;
 }
 
-/**
- * More or less a hack, so we can get a resolvable realm when running non-invocation actions.
- */
-class RealmOnlyEvaluationContext implements EvaluationContext {
-  constructor(public realm: StaticJsRealm) {}
-  readonly strict = false;
-
-  get lexicalEnv() {
-    return this.realm.globalEnv;
-  }
-
-  get variableEnv() {
-    return this.realm.globalEnv;
-  }
-
-  readonly privateEnv = null;
-
-  readonly labelSet = [];
-
-  readonly evaluationParameters = Object.freeze({});
-
-  readonly function = null;
-
-  readonly generator = null;
-
-  readonly scriptOrModule = null;
-
-  parameter<T = unknown>(): T | null {
-    throw new StaticJsEngineError(
-      "Cannot get evaluation parameter from realm-only evaluation context.",
-    );
-  }
-
-  requireParameter<T = unknown>(): T {
-    throw new StaticJsEngineError(
-      "Cannot get evaluation parameter from realm-only evaluation context.",
-    );
-  }
-
-  *run<T>(): EvaluationGenerator<T> {
-    throw new StaticJsEngineError("Cannot use run() on a realm-only evaluation context.");
-  }
-
-  clone(): EvaluationContext {
-    throw new StaticJsEngineError(
-      "Cannot create new evaluation context from a realm-only evaluation context.",
-    );
-  }
-}
-
 let _currentStackProvider: EvaluationContextStackProvider | null = null;
 let _realmProvider: RealmOnlyEvaluationContext | null = null;
 export const EvaluationContext = {
@@ -256,11 +206,61 @@ export const EvaluationContext = {
 };
 
 /**
+ * More or less a hack, so we can get a resolvable realm when running non-invocation actions.
+ */
+class RealmOnlyEvaluationContext implements EvaluationContext {
+  constructor(public realm: StaticJsRealm) {}
+  readonly strict = false;
+
+  get lexicalEnv() {
+    return this.realm.globalEnv;
+  }
+
+  get variableEnv() {
+    return this.realm.globalEnv;
+  }
+
+  readonly privateEnv = null;
+
+  readonly labelSet = [];
+
+  readonly evaluationParameters = Object.freeze({});
+
+  readonly function = null;
+
+  readonly generator = null;
+
+  readonly scriptOrModule = null;
+
+  parameter<T = unknown>(): T | null {
+    throw new StaticJsEngineError(
+      "Cannot get evaluation parameter from realm-only evaluation context.",
+    );
+  }
+
+  requireParameter<T = unknown>(): T {
+    throw new StaticJsEngineError(
+      "Cannot get evaluation parameter from realm-only evaluation context.",
+    );
+  }
+
+  *run<T>(): EvaluationGenerator<T> {
+    throw new StaticJsEngineError("Cannot use run() on a realm-only evaluation context.");
+  }
+
+  clone(): EvaluationContext {
+    throw new StaticJsEngineError(
+      "Cannot create new evaluation context from a realm-only evaluation context.",
+    );
+  }
+}
+
+/**
  * ECMAScript equivalent to ExecutionContext.
  * Note: Code evaluation state is implicit to the generators being used,
  * which are a consumer of this rather than contained within it.
  */
-class EvaluationContextImpl implements Required<EvaluationContextAutoDefProperties> {
+class EvaluationContextImpl implements EvaluationContext {
   private readonly _parent: EvaluationContext | null;
   private readonly _properties: EvaluationContextAutoDefProperties;
 

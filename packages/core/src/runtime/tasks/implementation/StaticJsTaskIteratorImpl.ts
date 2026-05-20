@@ -2,7 +2,7 @@ import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
-import { evaluateCommands } from "../../../evaluator/evaluator-runtime.js";
+import { evaluateCommands } from "../../../evaluator/evaluate-commands.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
 import { StaticJsFunction } from "../../types/StaticJsFunction.js";
@@ -20,11 +20,7 @@ export interface StaticJsIteratedTask {
   reject: (reason: unknown) => void;
 }
 
-type StaticJsTaskIteratorImplState = "pending" | "running" | "done" | "aborted";
-
-// We consume internal iterations that do not stop at an AST node, to avoid yielding an empty operation.
-// This provides a safety to ensure we don't spin forever if something goes wrong.
-const MaxDeadIteratorLoopCount = 100;
+type StaticJsTaskIteratorImplState = "running" | "done" | "aborted";
 
 const Unset = Symbol("Unset");
 
@@ -34,7 +30,7 @@ interface TaskIteratorFrame {
 }
 
 export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
-  private _state: StaticJsTaskIteratorImplState = "pending";
+  private _state: StaticJsTaskIteratorImplState;
 
   private _currentTask: StaticJsIteratedTask | null = null;
   private _currentEvaluator: Generator<void, unknown, void> | null = null;
@@ -48,7 +44,8 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     private readonly _taskIterator: Iterator<StaticJsIteratedTask>,
     private readonly _scope: (callback: () => void) => void,
   ) {
-    // Was happening on first .next() call, but we want type to be populated to introspect the first .next() call.
+    // We start in the running state, so the values of the current operation are
+    // populated immediately.
     this._nextTask();
     this._state = "running";
   }
@@ -167,43 +164,31 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
 
   private _tick(err: unknown = Unset): IteratorResult<void, void> {
     this._scope(() => {
-      let deadIteratorLoops = 0;
-      while (true) {
-        let result: IteratorResult<void, unknown>;
-        try {
-          // This can be changed and reset by _processIterResult
-          if (!this._currentEvaluator) {
-            this._currentEvaluator = this._createEvaluatorFromTask(this._currentTask!);
-          }
-
-          if (err !== Unset) {
-            result = this._currentEvaluator.throw(err);
-          } else {
-            result = this._currentEvaluator.next();
-          }
-        } catch (e) {
-          this._reject(e);
-          return;
+      let result: IteratorResult<void, unknown>;
+      try {
+        // This can be changed and reset by _processIterResult
+        if (!this._currentEvaluator) {
+          this._currentEvaluator = this._createEvaluatorFromTask(this._currentTask!);
         }
 
-        err = Unset;
-
-        const { done } = this._processIterResult(result);
-        if (done) {
-          break;
+        if (err !== Unset) {
+          result = this._currentEvaluator.throw(err);
+        } else {
+          result = this._currentEvaluator.next();
         }
+      } catch (e) {
+        this._reject(e);
+        return;
+      }
 
-        if (this._currentNode) {
-          // We stopped at another concrete node.
-          break;
-        }
+      err = Unset;
 
-        // We aren't stopped at an AST node.  Consume.
+      const { done, value } = result;
+      if (done) {
+        this._acceptCurrentTask(value);
 
-        if (++deadIteratorLoops > MaxDeadIteratorLoopCount) {
-          throw new StaticJsEngineError(
-            "Too many consecutive empty node iterations without yielding. Possible infinite loop in task.",
-          );
+        if (!this._nextTask()) {
+          this._state = "done";
         }
       }
     });
@@ -217,22 +202,6 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
       done,
       value: undefined,
     };
-  }
-
-  private _processIterResult({
-    done,
-    value,
-  }: IteratorResult<void, unknown>): IteratorResult<void, void> {
-    if (done) {
-      this._acceptCurrentTask(value);
-
-      if (!this._nextTask()) {
-        this._state = "done";
-        return { done: true, value: undefined };
-      }
-    }
-
-    return { done: false, value: undefined };
   }
 
   private _nextTask() {
