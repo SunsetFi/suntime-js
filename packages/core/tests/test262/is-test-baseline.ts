@@ -8,12 +8,15 @@ const TESTS_MARKER = "test262/tests/";
 
 type BaselineIndex = Map<string, boolean>;
 
-let languageIndex: BaselineIndex | null = null;
-let builtinsIndex: BaselineIndex | null = null;
+let index: BaselineIndex | null = null;
 
-function buildIndex(baselinePath: string): BaselineIndex {
-  const data = JSON.parse(readFileSync(baselinePath, "utf-8"));
-  const index: BaselineIndex = new Map();
+export function parseBaselineData(data: {
+  testResults: {
+    name: string;
+    assertionResults: { fullName: string; status: string }[];
+  }[];
+}): BaselineIndex {
+  const result: BaselineIndex = new Map();
 
   for (const testResult of data.testResults) {
     const markerIdx = (testResult.name as string).indexOf(TESTS_MARKER);
@@ -22,29 +25,24 @@ function buildIndex(baselinePath: string): BaselineIndex {
 
     for (const assertion of testResult.assertionResults) {
       const key = `${fileSuffix}|${assertion.fullName}`;
-      index.set(key, assertion.status === "passed");
+      result.set(key, assertion.status === "passed");
     }
   }
 
-  return index;
+  return result;
 }
 
-function getIndex(category: "language" | "built-ins"): BaselineIndex {
-  if (category === "language") {
-    if (!languageIndex) {
-      languageIndex = buildIndex(
-        fileURLToPath(new URL("../test-results-language-baseline.json", import.meta.url)),
-      );
-    }
-    return languageIndex;
-  } else {
-    if (!builtinsIndex) {
-      builtinsIndex = buildIndex(
-        fileURLToPath(new URL("../test-results-builtins-baseline.json", import.meta.url)),
-      );
-    }
-    return builtinsIndex;
+function getIndex(): BaselineIndex {
+  if (!index) {
+    const data = JSON.parse(
+      readFileSync(
+        fileURLToPath(new URL("../test-results-baseline.json", import.meta.url)),
+        "utf-8",
+      ),
+    );
+    index = parseBaselineData(data);
   }
+  return index;
 }
 
 export function isTestBaseline(test: Test262File): boolean {
@@ -63,5 +61,5 @@ export function isTestBaseline(test: Test262File): boolean {
 
   const fullName = isShort ? testPathParts.at(-1)! : testPathParts.slice(FLATTEN_DEPTH).join(" ");
 
-  return getIndex(category).get(`${fileSuffix}|${fullName}`) === true;
+  return getIndex().get(`${fileSuffix}|${fullName}`) === true;
 }

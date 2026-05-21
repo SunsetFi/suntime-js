@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import { JsonReporter } from "vitest/node";
 
 import createBaseline from "./tests/env/create-baseline.js";
-import createBuiltinsBaseline from "./tests/env/create-builtins-baseline.js";
+import ValidateBaselineReporter from "./tests/reporters/ValidateBaselineReporter.js";
 import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
 
 export default defineConfig({
@@ -12,7 +12,7 @@ export default defineConfig({
         test: {
           name: "spec",
           setupFiles: ["./tests/setup.ts"],
-          include: ["./src/**/*.spec.ts"],
+          include: ["./src/**/*.spec.ts", "./tests/**/*.spec.ts"],
         },
       },
       "./tests/e2e/vite.config.ts",
@@ -21,20 +21,22 @@ export default defineConfig({
     ],
     reporters: [
       "default",
-      createBaseline &&
-        new JsonReporter({ outputFile: "tests/test-results-language-baseline.json" }),
+      createBaseline && new JsonReporter({ outputFile: "tests/test-results-baseline.json" }),
+      createBaseline && new ValidateBaselineReporter(),
       createBaseline &&
         new VitestBadgeReporter({
-          outputFile: "badges/test262-language.json",
-          label: "Test262 Language Suite",
-          totalsFile: "badges/test262.json",
-        }),
-      createBuiltinsBaseline &&
-        new JsonReporter({ outputFile: "tests/test-results-builtins-baseline.json" }),
-      createBuiltinsBaseline &&
-        new VitestBadgeReporter({
-          outputFile: "badges/test262-builtins.json",
-          label: "Test262 Built-ins Suite",
+          badges: [
+            {
+              project: "Test262:Language",
+              outputFile: "badges/test262-language.json",
+              label: "Test262 Language Suite",
+            },
+            {
+              project: "Test262:Built-ins",
+              outputFile: "badges/test262-builtins.json",
+              label: "Test262 Built-ins Suite",
+            },
+          ],
           totalsFile: "badges/test262.json",
         }),
     ].filter(isNotFalse),

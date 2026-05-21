@@ -1,103 +1,97 @@
 import type { Reporter, TestModule } from "vitest/node";
 
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, dirname, join, resolve } from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
+
+export interface BadgeConfig {
+  project: string;
+  outputFile: string;
+  label: string;
+  includeSkippedInTotal?: boolean;
+}
 
 export interface VitestBadgeReporterOptions {
+  /** Multi-badge mode: one badge per project. */
+  badges?: BadgeConfig[];
+  /** Single-badge mode (legacy): write one badge from all modules. */
   outputFile?: string;
   label?: string;
   includeSkippedInTotal?: boolean;
+  /** Written once after all badges, summing across all configured badges. */
   totalsFile?: string;
 }
 
 export default class VitestBadgeReporter implements Reporter {
-  private readonly _outputFile: string;
-  private readonly _label: string;
-  private readonly _includeSkippedInTotal: boolean;
-  private readonly _totalsFile: string | undefined;
+  private readonly _options: VitestBadgeReporterOptions;
 
   constructor(options: VitestBadgeReporterOptions = {}) {
-    this._outputFile = options.outputFile ?? "badges/vitest-badge.json";
-    this._label = options.label ?? "tests";
-    this._includeSkippedInTotal = options.includeSkippedInTotal ?? true;
-    this._totalsFile = options.totalsFile;
+    this._options = options;
   }
 
   onTestRunEnd(testModules: ReadonlyArray<TestModule>): void {
-    let passed = 0;
-    let failed = 0;
-    let skipped = 0;
-
-    for (const testModule of testModules) {
-      for (const test of testModule.children.allTests()) {
-        const state = test.result()?.state;
-
-        if (state === "passed") {
-          passed++;
-        } else if (state === "failed") {
-          failed++;
-        } else if (state === "skipped" || state === "pending") {
-          skipped++;
-        }
-      }
-    }
-
-    const total = this._includeSkippedInTotal ? passed + failed + skipped : passed + failed;
-
-    const percent = total === 0 ? 0 : (passed / total) * 100;
-
-    const badge = {
-      schemaVersion: 1,
-      label: this._label,
-      message: `${passed} / ${total} (${percent.toFixed(2)}%)`,
-      color: pickColor(percent),
-    };
-
-    mkdirSync(dirname(this._outputFile), { recursive: true });
-    writeFileSync(this._outputFile, `${JSON.stringify(badge, null, 2)}\n`, "utf8");
-
-    if (this._totalsFile) {
-      this._updateTotals(this._totalsFile);
+    if (this._options.badges) {
+      this._writeMultiBadges(testModules, this._options.badges);
+    } else {
+      this._writeSingleBadge(testModules);
     }
   }
 
-  private _updateTotals(totalsFile: string): void {
-    const badgeDir = resolve(dirname(this._outputFile));
-    const totalsPath = resolve(totalsFile);
-    const totalsName = basename(totalsPath);
-
+  private _writeMultiBadges(testModules: ReadonlyArray<TestModule>, badges: BadgeConfig[]): void {
     let totalPassed = 0;
     let totalCount = 0;
 
-    for (const entry of readdirSync(badgeDir)) {
-      if (!entry.endsWith(".json") || entry === totalsName) {
-        continue;
-      }
-      try {
-        const raw = readFileSync(join(badgeDir, entry), "utf8");
-        const data = JSON.parse(raw) as { message?: string };
-        const match = /^(\d+) \/ (\d+)/.exec(data.message ?? "");
-        if (match) {
-          totalPassed += parseInt(match[1], 10);
-          totalCount += parseInt(match[2], 10);
-        }
-      } catch {
-        // skip unreadable or malformed badge files
-      }
+    for (const config of badges) {
+      const modules = testModules.filter((m) => m.project.name === config.project);
+      const { passed, total } = countTests(modules, config.includeSkippedInTotal ?? true);
+      writeBadge(config.outputFile, config.label, passed, total);
+      totalPassed += passed;
+      totalCount += total;
     }
 
-    const totalPercent = totalCount === 0 ? 0 : (totalPassed / totalCount) * 100;
-
-    const totalsBadge = {
-      schemaVersion: 1,
-      label: "Test262 Totals",
-      message: `${totalPassed} / ${totalCount} (${totalPercent.toFixed(2)}%)`,
-      color: pickColor(totalPercent),
-    };
-
-    mkdirSync(dirname(totalsPath), { recursive: true });
-    writeFileSync(totalsPath, `${JSON.stringify(totalsBadge, null, 2)}\n`, "utf8");
+    if (this._options.totalsFile) {
+      writeBadge(this._options.totalsFile, "Test262 Totals", totalPassed, totalCount);
+    }
   }
+
+  private _writeSingleBadge(testModules: ReadonlyArray<TestModule>): void {
+    const outputFile = this._options.outputFile ?? "badges/vitest-badge.json";
+    const label = this._options.label ?? "tests";
+    const { passed, total } = countTests(testModules, this._options.includeSkippedInTotal ?? true);
+    writeBadge(outputFile, label, passed, total);
+  }
+}
+
+function countTests(
+  testModules: ReadonlyArray<TestModule>,
+  includeSkipped: boolean,
+): { passed: number; total: number } {
+  let passed = 0;
+  let failed = 0;
+  let skipped = 0;
+
+  for (const testModule of testModules) {
+    for (const test of testModule.children.allTests()) {
+      const state = test.result()?.state;
+      if (state === "passed") passed++;
+      else if (state === "failed") failed++;
+      else if (state === "skipped" || state === "pending") skipped++;
+    }
+  }
+
+  const total = includeSkipped ? passed + failed + skipped : passed + failed;
+  return { passed, total };
+}
+
+function writeBadge(outputFile: string, label: string, passed: number, total: number): void {
+  const percent = total === 0 ? 0 : (passed / total) * 100;
+  const badge = {
+    schemaVersion: 1,
+    label,
+    message: `${passed} / ${total} (${percent.toFixed(2)}%)`,
+    color: pickColor(percent),
+  };
+  mkdirSync(dirname(outputFile), { recursive: true });
+  writeFileSync(outputFile, `${JSON.stringify(badge, null, 2)}\n`, "utf8");
 }
 
 function pickColor(percent: number): string {
