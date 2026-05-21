@@ -13,3 +13,19 @@ export function makeModule(
     children: { allTests: () => tests },
   } as unknown as TestModule;
 }
+
+export function makeTest262Test(fullName: string, state: "passed" | "failed" | "skipped") {
+  return { fullName, result: () => ({ state }) };
+}
+
+export function makeTest262Module(
+  projectName: string,
+  moduleId: string,
+  tests: ReturnType<typeof makeTest262Test>[] = [],
+): TestModule {
+  return {
+    project: { name: projectName },
+    moduleId,
+    children: { allTests: () => tests },
+  } as unknown as TestModule;
+}

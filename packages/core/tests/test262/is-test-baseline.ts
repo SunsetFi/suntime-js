@@ -3,44 +3,21 @@ import { fileURLToPath } from "node:url";
 
 import Test262File from "./Test262File.js";
 
-const FLATTEN_DEPTH = 3;
-const TESTS_MARKER = "test262/tests/";
-
-type BaselineIndex = Map<string, boolean>;
+type BaselineIndex = Set<string>;
 
 let index: BaselineIndex | null = null;
 
-export function parseBaselineData(data: {
-  testResults: {
-    name: string;
-    assertionResults: { fullName: string; status: string }[];
-  }[];
-}): BaselineIndex {
-  const result: BaselineIndex = new Map();
-
-  for (const testResult of data.testResults) {
-    const markerIdx = (testResult.name as string).indexOf(TESTS_MARKER);
-    if (markerIdx < 0) continue;
-    const fileSuffix = (testResult.name as string).slice(markerIdx + TESTS_MARKER.length);
-
-    for (const assertion of testResult.assertionResults) {
-      const key = `${fileSuffix}|${assertion.fullName}`;
-      result.set(key, assertion.status === "passed");
-    }
-  }
-
-  return result;
+export function parseBaselineText(content: string): BaselineIndex {
+  return new Set(content.split("\n").filter((line) => line.length > 0));
 }
 
 function getIndex(): BaselineIndex {
   if (!index) {
-    const data = JSON.parse(
-      readFileSync(
-        fileURLToPath(new URL("../test-results-baseline.json", import.meta.url)),
-        "utf-8",
-      ),
+    const content = readFileSync(
+      fileURLToPath(new URL("../test262-baseline.txt", import.meta.url)),
+      "utf-8",
     );
-    index = parseBaselineData(data);
+    index = parseBaselineText(content);
   }
   return index;
 }
@@ -53,13 +30,5 @@ export function isTestBaseline(test: Test262File): boolean {
     return false;
   }
 
-  const isShort = testPathParts.length <= FLATTEN_DEPTH;
-
-  const fileSuffix = isShort
-    ? testPathParts.join("/").replace(/\.js$/, ".test.ts")
-    : testPathParts.slice(0, FLATTEN_DEPTH).join("/") + ".test.ts";
-
-  const fullName = isShort ? testPathParts.at(-1)! : testPathParts.slice(FLATTEN_DEPTH).join(" ");
-
-  return getIndex().get(`${fileSuffix}|${fullName}`) === true;
+  return getIndex().has(testPathParts.join("/"));
 }

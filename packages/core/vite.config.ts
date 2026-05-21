@@ -1,8 +1,7 @@
 import { defineConfig } from "vitest/config";
-import { JsonReporter } from "vitest/node";
 
 import createBaseline from "./tests/env/create-baseline.js";
-import ValidateBaselineReporter from "./tests/reporters/ValidateBaselineReporter.js";
+import BaselineReporter from "./tests/reporters/BaselineReporter.js";
 import VitestBadgeReporter from "./tests/reporters/VitestBadgeReporter.js";
 
 export default defineConfig({
@@ -21,8 +20,7 @@ export default defineConfig({
     ],
     reporters: [
       "default",
-      createBaseline && new JsonReporter({ outputFile: "tests/test-results-baseline.json" }),
-      createBaseline && new ValidateBaselineReporter(),
+      createBaseline && new BaselineReporter("tests/test262-baseline.txt"),
       createBaseline &&
         new VitestBadgeReporter({
           badges: [
