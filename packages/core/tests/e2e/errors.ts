@@ -4,7 +4,7 @@ import { StaticJsRealm } from "../../src/runtime/realm/factories/StaticJsRealm.j
 import { isStaticJsFunction } from "../../src/runtime/types/StaticJsFunction.js";
 import { isStaticJsObject } from "../../src/runtime/types/StaticJsObject.js";
 
-import { expectStaticJsObject, expectStaticJsString } from "./staticjs-expect.js";
+import { expectStaticJsObject, expectStaticJsString } from "./utils/staticjs-expect.js";
 
 describe("E2E: Errors", () => {
   describe("Error constructor", () => {

@@ -6,7 +6,7 @@
   - [ ] Use for debugger function name
   - [ ] Re-add frame-level functionName using above.
 
-## Less imidiate
+## Less imediate
 
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
 - [ ] StaticJsFunction.toString revealing source
