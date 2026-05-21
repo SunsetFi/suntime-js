@@ -183,4 +183,50 @@ describe("E2E: Promises", () => {
     expect(runTask).toHaveBeenCalledTimes(1);
     expect(done).toHaveBeenCalledTimes(1);
   });
+
+  describe("toNative", () => {
+    it("can be awaited", async () => {
+      let callback: () => void;
+      const realm = StaticJsRealm({
+        global: {
+          properties: {
+            setCallback: {
+              value: (cb: () => void) => {
+                callback = cb;
+              },
+            },
+          },
+        },
+      });
+
+      const code = `
+        const p = new Promise(r => setCallback(r));
+        p;
+      `;
+
+      const promiseValue = await realm.evaluateScript(code);
+      const nativeThenable = promiseValue.toNative() as PromiseLike<unknown>;
+
+      let settled = false;
+      void (async () => {
+        await nativeThenable;
+        settled = true;
+      })();
+
+      // Tick over to see if the await resolves before the callback is called.
+      await Promise.resolve();
+      await Promise.resolve();
+
+      expect(settled).toBe(false);
+
+      // Trigger the resolution of the promise.
+      callback!();
+
+      // Tick over to allow the promise resolution to propagate.
+      await Promise.resolve();
+      await Promise.resolve();
+
+      expect(settled).toBe(true);
+    });
+  });
 });
