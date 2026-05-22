@@ -33,7 +33,7 @@ const result = map([1, 2], (value) => {
 ```
 
 :::note
-Type coercion is provided for convienence with low-security use cases. The preferred method of dealign with types is to use the [StaticJsValue](./06-types.md) directly.
+Type coercion is provided for convienence with low-security use cases. The preferred method of dealign with types is to use the [StaticJs Type System](./06-types.md) directly.
 :::
 
 ## Host to Sandbox
