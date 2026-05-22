@@ -14,8 +14,8 @@ The API functions `evaluateScriptSync(string)` and `evaluateExpressionSync(strin
 Using StaticJs in this way will try to run the code until completion, which is vulnurable to infinite loops. For solutions to this, see [Putting time limits on evaluation](#putting-time-limits-on-evaluation).
 :::
 
-```ts
-import { evaluateExpressionSync } from "@suntime-js/core";
+```ts live
+//import { evaluateExpressionSync } from "@suntime-js/core";
 
 const result = evaluateExpressionSync("2 + 2");
 ```

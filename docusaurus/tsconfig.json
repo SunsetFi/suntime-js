@@ -4,6 +4,7 @@
 {
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
+    "types": ["@docusaurus/theme-live-codeblock"],
     "baseUrl": ".",
     "ignoreDeprecations": "6.0",
     "strict": true

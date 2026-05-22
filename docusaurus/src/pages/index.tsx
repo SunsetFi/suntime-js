@@ -1,23 +1,20 @@
-import type {ReactNode} from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import CodeBlock from '@theme/CodeBlock';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
+import type { ReactNode } from "react";
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
+import CodeBlock from "@theme/CodeBlock";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import Heading from "@theme/Heading";
 
-import styles from './index.module.css';
+import styles from "./index.module.css";
 
-const QUICK_START_CODE = `import { evaluateScriptSync } from "@suntime-js/core";
-
-const result = evaluateScriptSync(\`2 + 2\`);
-console.log(result); // 4`;
+import quickStartCode from "!!raw-loader!./quick-start-code.js";
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
@@ -40,7 +37,8 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/quick-start">
+            to="/docs/quick-start"
+          >
             Get Started →
           </Link>
         </div>
@@ -53,23 +51,26 @@ function HomepageCodeSnippet() {
   return (
     <div className={styles.codeSnippet}>
       <div className="container">
-        <Heading as="h2">Get running in seconds</Heading>
-        <CodeBlock language="ts">{QUICK_START_CODE}</CodeBlock>
+        <Heading as="h2">Try it out!</Heading>
+        <CodeBlock language="ts" metastring="live-staticjs">
+          {quickStartCode}
+        </CodeBlock>
       </div>
     </div>
   );
 }
 
 export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title={siteConfig.title}
-      description="A sandboxed JavaScript interpreter implementing the TC39 ECMAScript standard">
+      description="A sandboxed JavaScript interpreter implementing the TC39 ECMAScript standard"
+    >
       <HomepageHeader />
       <main>
-        <HomepageCodeSnippet />
         <HomepageFeatures />
+        <HomepageCodeSnippet />
       </main>
     </Layout>
   );

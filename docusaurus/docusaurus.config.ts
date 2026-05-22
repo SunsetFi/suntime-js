@@ -1,25 +1,13 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
-
-function processEnvDefinePlugin() {
-  return {
-    name: 'process-env-define',
-    configureWebpack(_config: unknown, _isServer: boolean, utils: any) {
-      const {DefinePlugin} = utils.currentBundler.instance;
-      return {
-        plugins: [new DefinePlugin({'process.env': JSON.stringify({})})],
-      };
-    },
-  };
-}
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Suntime-JS',
-  tagline: 'A sandboxed JavaScript interpreter',
-  favicon: 'img/favicon.ico',
+  title: "Suntime-JS",
+  tagline: "A sandboxed JavaScript interpreter",
+  favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -27,38 +15,38 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://sunsetfi.github.io',
+  url: "https://sunsetfi.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/suntime-js/',
+  baseUrl: "/suntime-js/",
 
   // GitHub pages deployment config.
-  organizationName: 'SunsetFi',
-  projectName: 'suntime-js',
+  organizationName: "SunsetFi",
+  projectName: "suntime-js",
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: "throw",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   plugins: [processEnvDefinePlugin],
 
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/SunsetFi/suntime-js/tree/main/docusaurus/',
+          sidebarPath: "./sidebars.ts",
+          editUrl: "https://github.com/SunsetFi/suntime-js/tree/main/docusaurus/",
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
     ],
@@ -66,52 +54,52 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: "img/docusaurus-social-card.jpg",
     colorMode: {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Suntime-JS',
+      title: "Suntime-JS",
       logo: {
-        alt: 'Suntime-JS Logo',
-        src: 'img/logo.svg',
+        alt: "Suntime-JS Logo",
+        src: "img/logo.svg",
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
-          position: 'left',
-          label: 'Docs',
+          type: "docSidebar",
+          sidebarId: "docsSidebar",
+          position: "left",
+          label: "Docs",
         },
         {
-          href: 'https://github.com/SunsetFi/suntime-js',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/SunsetFi/suntime-js",
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'Quick Start',
-              to: '/docs/quick-start',
+              label: "Quick Start",
+              to: "/docs/quick-start",
             },
           ],
         },
         {
-          title: 'More',
+          title: "More",
           items: [
             {
-              label: 'GitHub',
-              href: 'https://github.com/SunsetFi/suntime-js',
+              label: "GitHub",
+              href: "https://github.com/SunsetFi/suntime-js",
             },
             {
-              label: 'npm',
-              href: 'https://www.npmjs.com/package/@suntime-js/core',
+              label: "npm",
+              href: "https://www.npmjs.com/package/@suntime-js/core",
             },
           ],
         },
@@ -126,3 +114,15 @@ const config: Config = {
 };
 
 export default config;
+
+function processEnvDefinePlugin() {
+  return {
+    name: "process-env-define",
+    configureWebpack(_config: unknown, _isServer: boolean, utils: any) {
+      const { DefinePlugin } = utils.currentBundler.instance;
+      return {
+        plugins: [new DefinePlugin({ "process.env": JSON.stringify({}) })],
+      };
+    },
+  };
+}

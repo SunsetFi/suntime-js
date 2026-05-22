@@ -44,7 +44,6 @@ export default function createHostApi(
           runTask: createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
         });
 
-        console.log("createRealm()");
         return createHostApi(newrealm, accessRealm);
       }),
     },
