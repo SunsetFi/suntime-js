@@ -1,5 +1,5 @@
-import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 import {
   EvaluationContext,
@@ -232,8 +232,8 @@ export class EvaluationTask implements EvaluationContextStackProvider {
     // Status is changed by the above
     const status = this._status as EvaluationTaskStatus;
 
-    if (status !== "fulfilled") {
-      throw new StaticJsConcurrentEvaluationError("The task did not complete synchronously.");
+    if (status !== "fulfilled" && status !== "rejected") {
+      throw new StaticJsSynchronousTaskIncompleteError("The task did not complete synchronously.");
     }
 
     if (rejection !== undefined) {
