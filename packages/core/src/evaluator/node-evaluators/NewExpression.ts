@@ -11,7 +11,7 @@ import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 export default function* newExpressionNodeEvaluator(node: NewExpression): EvaluationGenerator {
   const callee = yield* Q.val(EvaluateNodeCommand(node.callee));
   if (!isCallable(callee)) {
-    throw Completion.Throw("TypeError", "Not a function");
+    throw yield* Completion.Throw.create("TypeError", "Not a function");
   }
 
   const args: StaticJsValue[] = [];

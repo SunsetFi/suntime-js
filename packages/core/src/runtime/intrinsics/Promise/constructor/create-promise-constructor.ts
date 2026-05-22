@@ -38,16 +38,22 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
     realm,
     "Promise",
     function* () {
-      throw Completion.Throw("TypeError", "Promise constructor cannot be called as a function");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Promise constructor cannot be called as a function",
+      );
     },
     {
       *construct(newTarget, func) {
         if (!isStaticJsObject(newTarget)) {
-          throw Completion.Throw("TypeError", "Promise constructor called on a non-object");
+          throw yield* Completion.Throw.create(
+            "TypeError",
+            "Promise constructor called on a non-object",
+          );
         }
 
         if (!isCallable(func)) {
-          throw Completion.Throw("TypeError", "Promise resolver is not a function.");
+          throw yield* Completion.Throw.create("TypeError", "Promise resolver is not a function.");
         }
 
         const promise = yield* ordinaryCreateFromConstructor(

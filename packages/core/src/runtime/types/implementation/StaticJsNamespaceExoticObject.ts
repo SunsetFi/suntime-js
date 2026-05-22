@@ -92,7 +92,7 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
       // but that doesn't work for us due to external modules.
       const resolved = yield* targetModule.getOwnBindingValueEvaluator(binding.bindingName);
       if (!resolved) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "ReferenceError",
           // TODO: What error message?
           // In theory we need to use the module's environment,

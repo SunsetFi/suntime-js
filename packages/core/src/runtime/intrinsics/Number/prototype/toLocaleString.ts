@@ -7,7 +7,7 @@ const numberProtoToLocaleStringDeclaration: FunctionIntrinsicPropertyDeclaration
   length: 0,
   func: function* (realm, thisArg) {
     if (!isNumberLike(thisArg)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Number.prototype.toLocaleString requires that 'this' be a Number",
       );

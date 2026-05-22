@@ -115,7 +115,10 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
 
   private *_ensureDeclarativeBindingNotDeclared(name: string): EvaluationGenerator<void> {
     if (yield* this.declarativeRecord.hasBindingEvaluator(name)) {
-      throw Completion.Throw("SyntaxError", `Identifier ${name} has already been declared`);
+      throw yield* Completion.Throw.create(
+        "SyntaxError",
+        `Identifier ${name} has already been declared`,
+      );
     }
   }
 }

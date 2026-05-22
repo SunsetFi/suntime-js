@@ -15,15 +15,18 @@ export const reflectConstructDeclaration: IntrinsicPropertyDeclaration = {
     newTarget = target,
   ) {
     if (!isCallable(target)) {
-      throw Completion.Throw("TypeError", "Reflect.construct called on non-function");
+      throw yield* Completion.Throw.create("TypeError", "Reflect.construct called on non-function");
     }
 
     if (!target.isConstructor) {
-      throw Completion.Throw("TypeError", "Reflect.construct called on non-constructor");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Reflect.construct called on non-constructor",
+      );
     }
 
     if (!isCallable(newTarget) || !newTarget.isConstructor) {
-      throw Completion.Throw("TypeError", "newTarget must be a constructor");
+      throw yield* Completion.Throw.create("TypeError", "newTarget must be a constructor");
     }
 
     const args = yield* createListFromArrayLike(argumentsList);

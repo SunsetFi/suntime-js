@@ -13,7 +13,7 @@ const promiseProtoThenDeclaration: IntrinsicPropertyDeclaration = {
     onRejected = realm.types.undefined,
   ) {
     if (!isStaticJsPromise(thisArg)) {
-      throw Completion.Throw("TypeError", "then called on non-promise");
+      throw yield* Completion.Throw.create("TypeError", "then called on non-promise");
     }
 
     // Spec says these can be unspecified and also non-functions

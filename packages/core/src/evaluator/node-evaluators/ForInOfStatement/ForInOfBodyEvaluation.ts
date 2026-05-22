@@ -67,7 +67,7 @@ export const forInOfBodyEvaluation = Q.makeReceiver(function* forInOfBodyEvaluat
     }
 
     if (!isStaticJsObject(nextResult)) {
-      throw Completion.Throw("TypeError", "Iterator result is not an object");
+      throw yield* Completion.Throw.create("TypeError", "Iterator result is not an object");
     }
 
     const done = yield* Q(iteratorComplete(nextResult));

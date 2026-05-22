@@ -56,7 +56,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         innerResult = yield* Q(Await(innerResult));
       }
       if (!isStaticJsObject(innerResult)) {
-        throw Completion.Throw("TypeError", "Iterator result is not an object");
+        throw yield* Completion.Throw.create("TypeError", "Iterator result is not an object");
       }
       const done = yield* Q(iteratorComplete(innerResult));
       if (done) {
@@ -81,7 +81,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
           innerResult = yield* Q(Await(innerResult));
         }
         if (!isStaticJsObject(innerResult)) {
-          throw Completion.Throw("TypeError", "Iterator result is not an object");
+          throw yield* Completion.Throw.create("TypeError", "Iterator result is not an object");
         }
         const done = yield* Q(iteratorComplete(innerResult));
         if (done) {
@@ -105,7 +105,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         } else {
           yield* Q(iteratorClose(iteratorRecord, closeCompletion));
         }
-        throw Completion.Throw("TypeError", "Iterator does not have a throw method");
+        throw yield* Completion.Throw.create("TypeError", "Iterator does not have a throw method");
       }
     } else {
       if (!Completion.Return.is(received)) {
@@ -128,7 +128,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
         innerReturnResult = yield* Q(Await(innerReturnResult));
       }
       if (!isStaticJsObject(innerReturnResult)) {
-        throw Completion.Throw("TypeError", "Iterator result is not an object");
+        throw yield* Completion.Throw.create("TypeError", "Iterator result is not an object");
       }
       const done = yield* Q(iteratorComplete(innerReturnResult));
       if (done) {

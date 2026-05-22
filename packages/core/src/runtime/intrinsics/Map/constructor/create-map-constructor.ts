@@ -33,7 +33,7 @@ export function* createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsOb
     realm,
     "Map",
     function* (_thisArg) {
-      throw Completion.Throw("TypeError", "Map constructor requires 'new'");
+      throw yield* Completion.Throw.create("TypeError", "Map constructor requires 'new'");
     },
     {
       *construct(_thisArg, iterable) {
@@ -47,7 +47,7 @@ export function* createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsOb
         // At least, the builtin tests mess with this for checking other things.
         const adder = yield* get(map, "set");
         if (!isStaticJsCallable(adder)) {
-          throw Completion.Throw("TypeError", "Map.prototype.set is not callable");
+          throw yield* Completion.Throw.create("TypeError", "Map.prototype.set is not callable");
         }
 
         return yield* addEntriesFromIterable(map, iterable, adder);
@@ -86,7 +86,7 @@ function* addEntriesFromIterable(
     }
 
     if (!isStaticJsObject(next)) {
-      const error = Completion.Throw("TypeError", "Iterator value is not an object");
+      const error = yield* Completion.Throw.create("TypeError", "Iterator value is not an object");
       return yield* Q(iteratorClose(iteratorRecord, error));
     }
 

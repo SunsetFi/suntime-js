@@ -41,7 +41,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (len + itemCount - actualDeleteCount > 2 ** 53 - 1) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "The number of elements in the array after the splice operation exceeds the maximum allowed length.",
       );

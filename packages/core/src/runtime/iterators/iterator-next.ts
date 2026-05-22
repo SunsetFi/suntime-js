@@ -27,7 +27,7 @@ export function* iteratorNext(
 
   if (!isStaticJsObject(result)) {
     iteratorRecord.done = true;
-    throw Completion.Throw("TypeError", "Result of iterator next is not an object");
+    throw yield* Completion.Throw.create("TypeError", "Result of iterator next is not an object");
   }
 
   return result;

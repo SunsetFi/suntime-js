@@ -8,7 +8,7 @@ export const promiseCtorResolveDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, thisArg, value = realm.types.undefined) {
     if (!isStaticJsObject(thisArg)) {
-      throw Completion.Throw("TypeError", "Promise.resolve called on non-object");
+      throw yield* Completion.Throw.create("TypeError", "Promise.resolve called on non-object");
     }
     return yield* promiseResolve(thisArg, value, realm);
   },

@@ -23,7 +23,7 @@ export function* getMethod(
   }
 
   if (!isCallable(func)) {
-    throw Completion.Throw("TypeError", "Method is not a function");
+    throw yield* Completion.Throw.create("TypeError", "Method is not a function");
   }
 
   return func;

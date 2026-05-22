@@ -15,7 +15,7 @@ export function* set(
   const success = yield* o.setEvaluator(p, v, o);
   if (!success && throwError) {
     const objStr = yield* toString.js(o);
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       `Cannot assign to read only property '${String(p)}' of object '${objStr}'`,
     );

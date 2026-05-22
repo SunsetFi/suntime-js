@@ -23,7 +23,10 @@ export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, iterable = realm.types.undefined) {
     const c = thisArg;
     if (!isConstructor(c)) {
-      throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Promise constructor must be a constructor",
+      );
     }
 
     const promiseCapability = yield* newPromiseCapability(c, realm);

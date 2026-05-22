@@ -9,7 +9,10 @@ export const reflectSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   length: 2,
   *func(realm, _thisArg, target = realm.types.undefined, prototype = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
-      throw Completion.Throw("TypeError", "Reflect.setPrototypeOf called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Reflect.setPrototypeOf called on non-object",
+      );
     }
 
     // FIXME: More jank from us accepting direct null instead of realm.types.null
@@ -19,7 +22,7 @@ export const reflectSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
     } else if (isStaticJsObject(prototype)) {
       proto = prototype;
     } else {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Reflect.setPrototypeOf called with non-object, non-null prototype",
       );

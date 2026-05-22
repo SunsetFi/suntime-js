@@ -10,7 +10,7 @@ export function* arrayCreate(
   proto?: StaticJsObject,
 ): EvaluationGenerator<StaticJsArray> {
   if (length > 2 ** 32 - 1) {
-    throw Completion.Throw("RangeError", "Invalid array length");
+    throw yield* Completion.Throw.create("RangeError", "Invalid array length");
   }
 
   const A = new StaticJsArrayImpl(EvaluationContext.current.realm, length, proto);

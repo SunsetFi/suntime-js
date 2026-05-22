@@ -77,14 +77,14 @@ function* deleteExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenera
     }
 
     if (isSuperReference(ref)) {
-      throw Completion.Throw("ReferenceError", "Cannot delete a super reference.");
+      throw yield* Completion.Throw.create("ReferenceError", "Cannot delete a super reference.");
     }
 
     const baseObj = yield* toObject(ref.base);
     const propertyKey = yield* toPropertyKey(ref.referencedName);
     const result = yield* baseObj.deleteEvaluator(propertyKey);
     if (!result && strict) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Cannot delete property ${String(propertyKey)} of object: Property is non-configurable.`,
       );

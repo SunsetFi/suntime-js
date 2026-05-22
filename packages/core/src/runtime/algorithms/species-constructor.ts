@@ -25,7 +25,7 @@ export function* speciesConstructor(
   }
 
   if (!isStaticJsObject(C)) {
-    throw Completion.Throw("TypeError", "Constructor is not an object");
+    throw yield* Completion.Throw.create("TypeError", "Constructor is not an object");
   }
 
   const S = yield* get(C, realm.types.symbols.species);
@@ -34,7 +34,7 @@ export function* speciesConstructor(
   }
 
   if (!isConstructor(S)) {
-    throw Completion.Throw("TypeError", "Species is not a constructor");
+    throw yield* Completion.Throw.create("TypeError", "Species is not a constructor");
   }
 
   return S as StaticJsFunction;

@@ -20,13 +20,16 @@ const arrayProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isCallable(callback)) {
       const callbackStr = yield* toString.js(callback);
-      throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
+      throw yield* Completion.Throw.create("TypeError", `${callbackStr} is not a function`);
     }
 
     const length = yield* lengthOfArrayLike(o);
     if (length === 0) {
       if (initialValue == null) {
-        throw Completion.Throw("TypeError", "Reduce of empty array with no initial value");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Reduce of empty array with no initial value",
+        );
       }
 
       return initialValue;

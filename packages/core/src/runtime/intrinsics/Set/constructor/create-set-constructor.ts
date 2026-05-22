@@ -24,7 +24,7 @@ export function* createSetConstructor(realm: StaticJsRealm, setProto: StaticJsOb
     realm,
     "Set",
     function* (_thisArg) {
-      throw Completion.Throw("TypeError", "Set constructor requires 'new'");
+      throw yield* Completion.Throw.create("TypeError", "Set constructor requires 'new'");
     },
     {
       *construct(_thisArg, iterable) {

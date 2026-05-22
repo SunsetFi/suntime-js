@@ -10,14 +10,17 @@ export function* createIteratorConstructor(realm: StaticJsRealm, iteratorProto: 
     realm,
     "Iterator",
     function* (_thisArg) {
-      throw Completion.Throw("TypeError", "Iterator constructor requires 'new'");
+      throw yield* Completion.Throw.create("TypeError", "Iterator constructor requires 'new'");
     },
     {
       *construct(newTarget) {
         if (isStaticJsUndefined(newTarget)) {
-          throw Completion.Throw("TypeError", "Iterator constructor requires 'new'");
+          throw yield* Completion.Throw.create("TypeError", "Iterator constructor requires 'new'");
         } else if (newTarget === realm.intrinsics.Iterator) {
-          throw Completion.Throw("TypeError", "Iterator constructor requires a subclass");
+          throw yield* Completion.Throw.create(
+            "TypeError",
+            "Iterator constructor requires a subclass",
+          );
         }
 
         return realm.types.object({}, realm.intrinsics["Iterator.prototype"]);

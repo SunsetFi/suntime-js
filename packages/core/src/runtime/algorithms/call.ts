@@ -10,7 +10,7 @@ export function* call(
   args: StaticJsValue[] = [],
 ): EvaluationGenerator<StaticJsValue> {
   if (!isCallable(F)) {
-    throw Completion.Throw("TypeError", "Called object is not a function");
+    throw yield* Completion.Throw.create("TypeError", "Called object is not a function");
   }
 
   return yield* F.callEvaluator(V, args);

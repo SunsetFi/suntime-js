@@ -16,7 +16,7 @@ const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
       const constructed = yield* construct(thisArg, [len]);
       // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
       if (!isStaticJsObject(constructed)) {
-        throw Completion.Throw("TypeError", "Constructor did not produce an object");
+        throw yield* Completion.Throw.create("TypeError", "Constructor did not produce an object");
       }
 
       A = constructed;

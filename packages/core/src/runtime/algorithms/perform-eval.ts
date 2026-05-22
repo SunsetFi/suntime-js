@@ -72,29 +72,35 @@ export function* performEval(
     });
   } catch (e: unknown) {
     if (e instanceof StaticJsSyntaxError) {
-      throw Completion.Throw("SyntaxError", e.message);
+      throw yield* Completion.Throw.create("SyntaxError", e.message);
     }
 
     throw e;
   }
 
   if (!inFunction && containsNewTarget(node)) {
-    throw Completion.Throw("SyntaxError", "new.target is not allowed outside of functions");
+    throw yield* Completion.Throw.create(
+      "SyntaxError",
+      "new.target is not allowed outside of functions",
+    );
   }
 
   if (!inMethod && containsSuperProperty(node)) {
-    throw Completion.Throw("SyntaxError", "super is not allowed outside of methods");
+    throw yield* Completion.Throw.create("SyntaxError", "super is not allowed outside of methods");
   }
 
   if (!inDerivedConstructor && containsSuperCall(node)) {
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "SyntaxError",
       "new.target is not allowed outside of derived constructors",
     );
   }
 
   if (inClassFieldInitializer && containsArguments(node)) {
-    throw Completion.Throw("SyntaxError", "arguments is not allowed in class field initializers");
+    throw yield* Completion.Throw.create(
+      "SyntaxError",
+      "arguments is not allowed in class field initializers",
+    );
   }
 
   // Very grossness due to our strict tracking not being at all

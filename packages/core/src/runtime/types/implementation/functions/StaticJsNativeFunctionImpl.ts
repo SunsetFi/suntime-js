@@ -96,7 +96,7 @@ export class StaticJsNativeFunctionImpl
     newTarget: StaticJsCallable = this,
   ): EvaluationGenerator<StaticJsObject> {
     if (!this._construct) {
-      throw Completion.Throw("TypeError", "This function is not a constructor.");
+      throw yield* Completion.Throw.create("TypeError", "This function is not a constructor.");
     }
 
     const { realm, scriptOrModule } = EvaluationContext.current;

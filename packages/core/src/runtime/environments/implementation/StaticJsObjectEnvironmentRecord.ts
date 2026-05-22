@@ -49,7 +49,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
   *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
     const hasProp = yield* this._obj.hasPropertyEvaluator(name);
     if (!hasProp) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Binding ${name} does not exist in this environment`,
       );
@@ -82,7 +82,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
   ): EvaluationGenerator<void> {
     const stillExists = yield* this._obj.hasPropertyEvaluator(name);
     if (!stillExists && strict) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Cannot set uninitialized binding ${name} in strict mode`,
       );
@@ -95,7 +95,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
     const hasProp = yield* this._obj.hasPropertyEvaluator(name);
     if (!hasProp) {
       if (strict) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "ReferenceError",
           `Binding ${name} does not exist in this environment`,
         );

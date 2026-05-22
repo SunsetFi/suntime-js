@@ -16,7 +16,7 @@ export const reflectSetDeclaration: IntrinsicPropertyDeclaration = {
     receiver = target,
   ) {
     if (!isStaticJsObject(target)) {
-      throw Completion.Throw("TypeError", "Reflect.set called on non-object");
+      throw yield* Completion.Throw.create("TypeError", "Reflect.set called on non-object");
     }
 
     const key = yield* toPropertyKey(propertyKey);

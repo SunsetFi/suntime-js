@@ -13,7 +13,7 @@ export function* privateGet(
 ): EvaluationGenerator<StaticJsValue> {
   const entry = yield* o.privateElementFindEvaluator(p);
   if (!entry) {
-    throw Completion.Throw("TypeError", `Cannot find private name ${p.description}`);
+    throw yield* Completion.Throw.create("TypeError", `Cannot find private name ${p.description}`);
   }
   if (entry.kind === "field" || entry.kind === "method") {
     return entry.value;
@@ -25,7 +25,7 @@ export function* privateGet(
 
   const getter = entry.get;
   if (!getter) {
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       // FIXME: What should the error message be?
       `Cannot get private name ${p.description}`,

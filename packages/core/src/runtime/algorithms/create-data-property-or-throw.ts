@@ -13,6 +13,6 @@ export function* createDataPropertyOrThrow(
 ): EvaluationGenerator<void> {
   const success = yield* createDataProperty(O, P, V);
   if (!success) {
-    throw Completion.Throw("TypeError", "Cannot create data property");
+    throw yield* Completion.Throw.create("TypeError", "Cannot create data property");
   }
 }

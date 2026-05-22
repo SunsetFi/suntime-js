@@ -26,7 +26,7 @@ const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {
 
     if (!isCallable(callback)) {
       const callbackStr = yield* toString.js(callback);
-      throw Completion.Throw("TypeError", `${callbackStr} is not a function`);
+      throw yield* Completion.Throw.create("TypeError", `${callbackStr} is not a function`);
     }
 
     const length = yield* lengthOfArrayLike(thisObj);

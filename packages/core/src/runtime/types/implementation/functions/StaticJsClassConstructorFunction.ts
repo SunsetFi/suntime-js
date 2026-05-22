@@ -68,7 +68,10 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
   fields: StaticJsClassFieldDefinitionRecord[] = [];
 
   override *callEvaluator(): EvaluationGenerator<StaticJsValue> {
-    throw Completion.Throw("TypeError", "Class constructor cannot be invoked without 'new'");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Class constructor cannot be invoked without 'new'",
+    );
   }
 
   override *constructEvaluator(
@@ -82,7 +85,7 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
     const kind = this.constructorKind;
     if (kind === null) {
       // FIXME: Better error message.  What does NodeJs say?
-      throw Completion.Throw("TypeError", "This function is not a constructor.");
+      throw yield* Completion.Throw.create("TypeError", "This function is not a constructor.");
     }
 
     let thisArg: StaticJsObject | undefined;
@@ -138,7 +141,10 @@ export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
       }
 
       if (!isStaticJsUndefined(value)) {
-        throw Completion.Throw("TypeError", "Derived constructor returned a non-object value.");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Derived constructor returned a non-object value.",
+        );
       }
 
       const thisBinding = yield* Q(constructorEnv.getThisBindingEvaluator());

@@ -21,7 +21,10 @@ export const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, target, thisArg = realm.types.undefined, ...args) {
     if (!isCallable(target)) {
-      throw Completion.Throw("TypeError", "Function.prototype.bind called on incompatible target");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Function.prototype.bind called on incompatible target",
+      );
     }
 
     const boundFunc = yield* boundFunctionCreate(realm, target, thisArg, args as StaticJsValue[]);

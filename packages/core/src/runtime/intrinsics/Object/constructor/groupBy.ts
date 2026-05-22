@@ -16,7 +16,10 @@ const objectCtorGroupByDeclaration: IntrinsicPropertyDeclaration = {
     const collection = new Map<string, StaticJsValue[]>();
 
     if (!isCallable(callbackFn)) {
-      throw Completion.Throw("TypeError", "Object.groupBy callback must be a function");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Object.groupBy callback must be a function",
+      );
     }
 
     const iterator = yield* getIterator(items, "sync");

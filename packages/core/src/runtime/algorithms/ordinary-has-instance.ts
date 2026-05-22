@@ -29,7 +29,7 @@ export function* ordinaryHasInstance(
 
   const proto = yield* get(constructor, "prototype");
   if (!isStaticJsObject(proto)) {
-    throw Completion.Throw("TypeError", "Function has non-object prototype");
+    throw yield* Completion.Throw.create("TypeError", "Function has non-object prototype");
   }
 
   // Weird typing issue.

@@ -14,13 +14,14 @@ import { isStaticJsString } from "../types/StaticJsString.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { requireObjectCoercable } from "./require-object-coercable.js";
+import { requireObjectCoercible } from "./require-object-coercible.js";
 
 export function* toObject(
   value: StaticJsValue,
   realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
-  requireObjectCoercable(value);
+  yield* requireObjectCoercible(value);
+  requireObjectCoercible.enforce(value);
 
   if (isStaticJsBoolean(value)) {
     return new StaticJsBooleanBoxed(realm ?? EvaluationContext.current.realm, value.value);

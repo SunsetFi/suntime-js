@@ -136,7 +136,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
       return null;
     }
     if (resolution === "ambiguous") {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Ambiguous binding ${exportName} in module ${this._name}.`,
       );

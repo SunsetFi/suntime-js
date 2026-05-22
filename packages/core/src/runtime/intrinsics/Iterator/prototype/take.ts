@@ -18,7 +18,10 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, limit = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Iterator.prototype.take called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Iterator.prototype.take called on non-object",
+      );
     }
 
     let iterated: StaticJsIteratorRecord = {
@@ -33,13 +36,13 @@ const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (Number.isNaN(numLimit)) {
-      const error = Completion.Throw("RangeError", "Limit must not be NaN");
+      const error = yield* Completion.Throw.create("RangeError", "Limit must not be NaN");
       return yield* Q(iteratorClose(iterated, error));
     }
 
     const integerLimit = yield* toIntegerOrInfinity.js(numLimit);
     if (integerLimit < 0) {
-      const error = Completion.Throw(
+      const error = yield* Completion.Throw.create(
         "RangeError",
         "Limit must be a non-negative integer or Infinity",
       );

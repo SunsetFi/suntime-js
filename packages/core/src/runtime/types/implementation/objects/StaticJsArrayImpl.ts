@@ -108,7 +108,7 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
 
     const numberLen = yield* toNumber(desc.value);
     if (numberLen.value !== newLen) {
-      throw Completion.Throw("RangeError", "Invalid array length");
+      throw yield* Completion.Throw.create("RangeError", "Invalid array length");
     }
 
     const newLenDesc: Writable<StaticJsDataPropertyDescriptor> = {

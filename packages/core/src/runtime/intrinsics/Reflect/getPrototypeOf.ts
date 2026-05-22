@@ -8,7 +8,10 @@ export const reflectGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, _thisArg, target = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
-      throw Completion.Throw("TypeError", "Reflect.getPrototypeOf called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Reflect.getPrototypeOf called on non-object",
+      );
     }
 
     const proto = yield* Q(target.getPrototypeOfEvaluator());

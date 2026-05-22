@@ -30,12 +30,12 @@ export function* globalDeclarationInstantiation(
   for (const name of lexNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
-      throw Completion.Throw("SyntaxError", `${name} has already been declared`);
+      throw yield* Completion.Throw.create("SyntaxError", `${name} has already been declared`);
     }
 
     const restricted = yield* hasRestrictedGlobalProperty(name, env);
     if (restricted) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "SyntaxError",
         `Cannot declare lexically scoped variable ${name} in global scope`,
       );
@@ -45,7 +45,7 @@ export function* globalDeclarationInstantiation(
   for (const name of varNames) {
     const hasBinding = yield* hasLexicalDeclaration(name, env);
     if (hasBinding) {
-      throw Completion.Throw("SyntaxError", `${name} has already been declared`);
+      throw yield* Completion.Throw.create("SyntaxError", `${name} has already been declared`);
     }
   }
 
@@ -63,7 +63,7 @@ export function* globalDeclarationInstantiation(
     }
     const isDefinable = yield* canDeclareGlobalFunction(fnName, env);
     if (!isDefinable) {
-      throw Completion.Throw("TypeError", `Cannot declare global function ${fnName}`);
+      throw yield* Completion.Throw.create("TypeError", `Cannot declare global function ${fnName}`);
     }
 
     declaredFunctionNames.add(fnName);
@@ -83,7 +83,7 @@ export function* globalDeclarationInstantiation(
 
       const definable = yield* canDeclareGlobalVar(vn, env);
       if (!definable) {
-        throw Completion.Throw("TypeError", `Cannot declare global variable ${vn}`);
+        throw yield* Completion.Throw.create("TypeError", `Cannot declare global variable ${vn}`);
       }
 
       declaredVarNames.add(vn);

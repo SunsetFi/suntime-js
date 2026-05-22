@@ -270,7 +270,7 @@ export class StaticJsAsyncGeneratorImpl
     generatorBrand?: string | null,
   ): EvaluationGenerator<void> {
     if (generatorBrand !== undefined && generatorBrand !== this._generatorBrand) {
-      throw Completion.Throw("TypeError", `${func} called on incompatible receiver`);
+      throw yield* Completion.Throw.create("TypeError", `${func} called on incompatible receiver`);
     }
   }
 

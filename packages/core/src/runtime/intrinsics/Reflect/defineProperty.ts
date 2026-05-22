@@ -16,7 +16,10 @@ export const reflectDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
     attributes = realm.types.undefined,
   ) {
     if (!isStaticJsObject(target)) {
-      throw Completion.Throw("TypeError", "Reflect.defineProperty called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Reflect.defineProperty called on non-object",
+      );
     }
 
     const key = yield* toPropertyKey(propertyKey);

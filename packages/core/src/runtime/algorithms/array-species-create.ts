@@ -52,7 +52,7 @@ export function* arraySpeciesCreate(
   }
 
   if (!isConstructor(c)) {
-    throw Completion.Throw("TypeError", "Array constructor is not a constructor");
+    throw yield* Completion.Throw.create("TypeError", "Array constructor is not a constructor");
   }
 
   return yield* construct(c, [thisRealm.types.number(length)]);

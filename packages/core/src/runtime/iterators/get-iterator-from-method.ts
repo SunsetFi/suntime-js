@@ -14,7 +14,10 @@ export function* getIteratorFromMethod(
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const iterator = yield* call(method, obj);
   if (!isStaticJsObject(iterator)) {
-    throw Completion.Throw("TypeError", "Result of the iterator method is not an object");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Result of the iterator method is not an object",
+    );
   }
 
   return yield* getIteratorDirect(iterator);

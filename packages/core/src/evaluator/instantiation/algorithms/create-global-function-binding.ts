@@ -32,7 +32,10 @@ export default function* createGlobalFunctionBinding(
 
   const result = yield* globalObject.defineOwnPropertyEvaluator(name, desc);
   if (!result) {
-    throw Completion.Throw("TypeError", `Cannot create global function binding for ${name}`);
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      `Cannot create global function binding for ${name}`,
+    );
   }
 
   yield* set(globalObject, name, value, false);

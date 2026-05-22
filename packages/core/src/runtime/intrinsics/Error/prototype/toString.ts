@@ -9,7 +9,10 @@ const errorProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
   *func(realm, thisArg) {
     if (!isStaticJsObject(thisArg)) {
-      throw Completion.Throw("TypeError", "Error.prototype.toString called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Error.prototype.toString called on non-object",
+      );
     }
 
     const nameValue = yield* get(thisArg, "name");

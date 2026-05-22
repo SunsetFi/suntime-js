@@ -14,7 +14,7 @@ const arrayProtoPushDeclaration: IntrinsicPropertyDeclaration = {
     const length = yield* lengthOfArrayLike(thisObj);
 
     if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Pushing ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
       );

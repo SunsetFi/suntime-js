@@ -22,7 +22,7 @@ export function* getValue(
   }
 
   if (isUnresolvableReference(v)) {
-    throw Completion.Throw("ReferenceError", `${v.referencedName} is not defined`);
+    throw yield* Completion.Throw.create("ReferenceError", `${v.referencedName} is not defined`);
   }
 
   if (isPropertyReference(v)) {

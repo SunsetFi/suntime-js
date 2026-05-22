@@ -7,7 +7,10 @@ const mapProtoKeysDeclaration: IntrinsicPropertyDeclaration = {
   length: 0,
   *func(_realm, thisArg) {
     if (!isStaticJsMap(thisArg)) {
-      throw Completion.Throw("TypeError", "Map.prototype.keys called on incompatible receiver");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Map.prototype.keys called on incompatible receiver",
+      );
     }
 
     return yield* thisArg.keysEvaluator();

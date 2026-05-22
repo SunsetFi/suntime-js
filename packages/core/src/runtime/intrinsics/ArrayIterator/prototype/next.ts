@@ -9,12 +9,15 @@ const arrayIteratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Array Iterator.prototype.next called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Array Iterator.prototype.next called on non-object",
+      );
     }
 
     // FIXME: Won't work if this is in the prototype chain.
     if (O instanceof StaticJsArrayIteratorImpl === false) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Array Iterator.prototype.next called on incompatible receiver",
       );

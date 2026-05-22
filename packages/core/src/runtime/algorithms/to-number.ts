@@ -52,7 +52,7 @@ toNumber.js = function* toNumberJs(value: unknown): EvaluationGenerator<number> 
   }
 
   if (isStaticJsSymbol(value)) {
-    throw Completion.Throw("TypeError", "Cannot convert a Symbol value to a number");
+    throw yield* Completion.Throw.create("TypeError", "Cannot convert a Symbol value to a number");
   }
 
   if (isStaticJsValue(value)) {

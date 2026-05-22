@@ -9,7 +9,7 @@ export function* getPromiseResolve(
 ): EvaluationGenerator<StaticJsCallable> {
   const promiseResolve = yield* get(promiseConstructor, "resolve");
   if (!isStaticJsCallable(promiseResolve)) {
-    throw Completion.Throw("TypeError", "Promise.resolve is not callable");
+    throw yield* Completion.Throw.create("TypeError", "Promise.resolve is not callable");
   }
   return promiseResolve;
 }

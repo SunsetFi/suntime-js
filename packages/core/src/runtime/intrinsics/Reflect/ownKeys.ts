@@ -11,7 +11,7 @@ export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, _thisArg, target = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
-      throw Completion.Throw("TypeError", "Reflect.ownKeys called on non-object");
+      throw yield* Completion.Throw.create("TypeError", "Reflect.ownKeys called on non-object");
     }
 
     const ownKeys = yield* Q(target.ownPropertyKeysEvaluator());

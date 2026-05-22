@@ -15,11 +15,11 @@ export function* setterThatIgnoresPrototypeProperties(
   v: StaticJsValue,
 ): EvaluationGenerator<void> {
   if (!isStaticJsObject(thisValue)) {
-    throw Completion.Throw("TypeError", "Setter called on non-object");
+    throw yield* Completion.Throw.create("TypeError", "Setter called on non-object");
   }
 
   if (sameValue(thisValue, home)) {
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       // ??? What is the error message?
       // Should be the same as trying to write to a non-writable property in strict mode.

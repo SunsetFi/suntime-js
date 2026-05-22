@@ -12,7 +12,7 @@ export const booleanProtoValueOfDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsBoolean(thisArg) && !(thisArg instanceof StaticJsBooleanBoxed)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Boolean.prototype.valueOf requires that 'this' be a Boolean",
       );

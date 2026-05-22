@@ -16,20 +16,26 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
     realm,
     "Proxy",
     function* () {
-      throw Completion.Throw("TypeError", "Proxy constructor cannot be called as a function");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Proxy constructor cannot be called as a function",
+      );
     },
     {
       *construct(thisArg, target, handler) {
         if (!isStaticJsObject(thisArg)) {
-          throw Completion.Throw("TypeError", "Proxy constructor called on a non-object");
+          throw yield* Completion.Throw.create(
+            "TypeError",
+            "Proxy constructor called on a non-object",
+          );
         }
 
         if (!isStaticJsObject(target)) {
-          throw Completion.Throw("TypeError", "Proxy target is not an object");
+          throw yield* Completion.Throw.create("TypeError", "Proxy target is not an object");
         }
 
         if (!isStaticJsObject(handler)) {
-          throw Completion.Throw("TypeError", "Proxy handler is not an object");
+          throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
         return new StaticJsProxyImpl(target, handler, realm);
@@ -43,11 +49,11 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
       "revocable",
       function* (_thisArg, target, handler) {
         if (!isStaticJsObject(target)) {
-          throw Completion.Throw("TypeError", "Proxy target is not an object");
+          throw yield* Completion.Throw.create("TypeError", "Proxy target is not an object");
         }
 
         if (!isStaticJsObject(handler)) {
-          throw Completion.Throw("TypeError", "Proxy handler is not an object");
+          throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
         const proxy = new StaticJsProxyImpl(target, handler, realm);

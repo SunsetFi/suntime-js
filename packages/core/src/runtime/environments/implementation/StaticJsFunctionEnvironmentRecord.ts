@@ -46,7 +46,10 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
 
   *bindThisValue(thisValue: StaticJsValue): EvaluationGenerator<void> {
     if (this._thisBindingStatus === "initialized") {
-      throw Completion.Throw("ReferenceError", "This binding has already been initialized");
+      throw yield* Completion.Throw.create(
+        "ReferenceError",
+        "This binding has already been initialized",
+      );
     }
 
     this._thisValue = thisValue;
@@ -66,7 +69,7 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
       return this._thisValue!;
     }
 
-    throw Completion.Throw("ReferenceError", "This binding is uninitialized");
+    throw yield* Completion.Throw.create("ReferenceError", "This binding is uninitialized");
   }
 
   // Weirdly only seems to be used in PerformEval

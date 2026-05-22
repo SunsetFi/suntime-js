@@ -9,7 +9,10 @@ export const functionProtoCallDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, thisFunc, thisArg = realm.types.undefined, ...args) {
     if (!isCallable(thisFunc)) {
-      throw Completion.Throw("TypeError", "Function.prototype.call called on a non-function.");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Function.prototype.call called on a non-function.",
+      );
     }
 
     const result = yield* call(

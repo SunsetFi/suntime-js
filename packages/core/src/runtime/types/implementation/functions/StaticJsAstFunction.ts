@@ -239,7 +239,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const kind = this.constructorKind;
     if (kind === null) {
       // FIXME: Better error message.  What does NodeJs say?
-      throw Completion.Throw("TypeError", "This function is not a constructor.");
+      throw yield* Completion.Throw.create("TypeError", "This function is not a constructor.");
     }
 
     let thisArg: StaticJsObject | undefined;
@@ -290,7 +290,10 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       }
 
       if (!isStaticJsUndefined(value)) {
-        throw Completion.Throw("TypeError", "Derived constructor returned a non-object value.");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Derived constructor returned a non-object value.",
+        );
       }
 
       const thisBinding = yield* Q(constructorEnv.getThisBindingEvaluator());

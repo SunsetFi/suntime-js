@@ -13,7 +13,7 @@ export function* toPropertyDescriptor(
   obj: StaticJsValue,
 ): EvaluationGenerator<StaticJsPropertyDescriptorRecord> {
   if (!isStaticJsObject(obj)) {
-    throw Completion.Throw("TypeError", "Property description must be an object");
+    throw yield* Completion.Throw.create("TypeError", "Property description must be an object");
   }
 
   const desc: StaticJsPropertyDescriptorRecord = {};
@@ -51,7 +51,7 @@ export function* toPropertyDescriptor(
     if (isCallable(getter)) {
       desc.get = getter;
     } else if (!isStaticJsUndefined(getter)) {
-      throw Completion.Throw("TypeError", "Getter must be a function");
+      throw yield* Completion.Throw.create("TypeError", "Getter must be a function");
     }
   }
 
@@ -61,13 +61,13 @@ export function* toPropertyDescriptor(
     if (isCallable(setter)) {
       desc.set = setter;
     } else if (!isStaticJsUndefined(setter)) {
-      throw Completion.Throw("TypeError", "Setter must be a function");
+      throw yield* Completion.Throw.create("TypeError", "Setter must be a function");
     }
   }
 
   if (desc.get || desc.set) {
     if (desc.value || desc.writable != null) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Invalid property descriptor. Cannot both specify accessors and a value or writable attribute",
       );

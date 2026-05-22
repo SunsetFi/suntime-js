@@ -25,7 +25,7 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
   *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
     const binding = this._moduleBindings.get(name);
     if (!binding) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Binding ${name} does not exist in this module environment`,
       );
@@ -36,21 +36,21 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
   }
 
   *createMutableBindingEvaluator(_name: string, _deletable: boolean) {
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       "Cannot create mutable bindings in a module environment record",
     );
   }
 
   *createImmutableBindingEvaluator(_name: string, _strict: boolean) {
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       "Cannot create immutable bindings in a module environment recor",
     );
   }
 
   *initializeBindingEvaluator(_name: string, _value: StaticJsValue): EvaluationGenerator<void> {
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       "Cannot initialize bindings in a module environment record",
     );
@@ -62,10 +62,10 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     _strict: boolean,
   ): EvaluationGenerator<void> {
     if (this._moduleBindings.has(name)) {
-      throw Completion.Throw("TypeError", "Assignment to constant");
+      throw yield* Completion.Throw.create("TypeError", "Assignment to constant");
     }
 
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "ReferenceError",
       `Binding ${name} does not exist in this module environment`,
     );
@@ -74,7 +74,7 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
   *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
     const binding = this._moduleBindings.get(name);
     if (!binding) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Binding ${name} does not exist in this module environment`,
       );
@@ -89,7 +89,10 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
   }
 
   *deleteBindingEvaluator(_name: string): EvaluationGenerator<boolean> {
-    throw Completion.Throw("TypeError", "Cannot delete bindings in a module environment record.");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Cannot delete bindings in a module environment record.",
+    );
   }
 
   *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {

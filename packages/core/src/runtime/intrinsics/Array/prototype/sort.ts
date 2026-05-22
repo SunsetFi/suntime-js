@@ -19,7 +19,7 @@ const arrayProtoSortDeclaration: IntrinsicPropertyDeclaration = {
     if (!comparatorArg || isStaticJsUndefined(comparatorArg)) {
       resolvedComparator = null;
     } else if (!isCallable(comparatorArg)) {
-      throw Completion.Throw("TypeError", "Comparator must be a function");
+      throw yield* Completion.Throw.create("TypeError", "Comparator must be a function");
     } else {
       resolvedComparator = comparatorArg;
     }

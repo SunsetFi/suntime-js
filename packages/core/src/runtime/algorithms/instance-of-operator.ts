@@ -17,7 +17,10 @@ export function* instanceOfOperator(
   const { realm } = EvaluationContext.current;
 
   if (!isStaticJsObject(target)) {
-    throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not an object");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Right-hand side of 'instanceof' is not an object",
+    );
   }
 
   const instOfHandler = yield* getMethod(target, realm.types.symbols.hasInstance);
@@ -27,7 +30,10 @@ export function* instanceOfOperator(
   }
 
   if (!isCallable(target)) {
-    throw Completion.Throw("TypeError", "Right-hand side of 'instanceof' is not callable");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Right-hand side of 'instanceof' is not callable",
+    );
   }
 
   return yield* ordinaryHasInstance(target, value);

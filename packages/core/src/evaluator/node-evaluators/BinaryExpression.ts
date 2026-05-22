@@ -165,7 +165,10 @@ function* inExpression(node: BinaryExpression): EvaluationGenerator {
   const right = yield* Q.val(EvaluateNodeCommand(node.right));
 
   if (!isStaticJsObject(right)) {
-    throw Completion.Throw("TypeError", "Right side of in operator must be an object");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Right side of in operator must be an object",
+    );
   }
   const rightObj = yield* toObject(right);
 

@@ -19,7 +19,7 @@ export function* newPromiseCapability(
   realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromiseCapabilityRecord> {
   if (!isConstructor(constructor)) {
-    throw Completion.Throw("TypeError", "Promise constructor must be a constructor");
+    throw yield* Completion.Throw.create("TypeError", "Promise constructor must be a constructor");
   }
 
   let resolveFunc: StaticJsCallable | null = null;
@@ -32,11 +32,11 @@ export function* newPromiseCapability(
     "resolver",
     function* (_thisArg, resolve, reject) {
       if (resolveFunc !== null || rejectFunc !== null) {
-        throw Completion.Throw("TypeError", "Promise resolver called multiple times");
+        throw yield* Completion.Throw.create("TypeError", "Promise resolver called multiple times");
       }
 
       if (!isCallable(resolve) || !isCallable(reject)) {
-        throw Completion.Throw("TypeError", "Resolve and reject must be functions");
+        throw yield* Completion.Throw.create("TypeError", "Resolve and reject must be functions");
       }
 
       resolveFunc = resolve;
@@ -48,13 +48,16 @@ export function* newPromiseCapability(
 
   const promise = yield* construct(constructor, [resolver]);
   if (resolveFunc == null || rejectFunc == null) {
-    throw Completion.Throw("TypeError", "Promise resolver did not get called");
+    throw yield* Completion.Throw.create("TypeError", "Promise resolver did not get called");
   }
 
   // Our 'regular' constructor replaces the object instance with itself,
   // but still maintains the object prototype chain.
   if (!isStaticJsPromise(promise)) {
-    throw Completion.Throw("TypeError", "Promise constructor did not result in a promise");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Promise constructor did not result in a promise",
+    );
   }
 
   return {

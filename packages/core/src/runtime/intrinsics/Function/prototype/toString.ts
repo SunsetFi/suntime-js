@@ -21,7 +21,7 @@ export const functionProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.string("function anonymous() { [ native code ] }");
     }
 
-    throw Completion.Throw(
+    throw yield* Completion.Throw.create(
       "TypeError",
       "Function.prototype.toString called on incompatible receiver.",
     );

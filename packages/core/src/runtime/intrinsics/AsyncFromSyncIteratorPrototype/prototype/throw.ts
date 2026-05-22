@@ -6,7 +6,10 @@ export const asyncFromSyncIteratorProtoThrowDeclaration: IntrinsicPropertyDeclar
   key: "throw",
   *func(_realm, thisArg, value) {
     if (thisArg instanceof StaticJsAsyncFromSyncIterator === false) {
-      throw Completion.Throw("TypeError", "Iterator.throw called on incompatible receiver");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Iterator.throw called on incompatible receiver",
+      );
     }
 
     return yield* thisArg.throwEvaluator(value);

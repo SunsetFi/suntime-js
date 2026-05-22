@@ -424,12 +424,15 @@ export abstract class StaticJsAbstractObject
     // SPEC WEIRDNESS: Not in the spec, but in test262
     const extensible = yield* this.isExtensibleEvaluator();
     if (!extensible) {
-      throw Completion.Throw("TypeError", "Cannot add private element to a non-extensible object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Cannot add private element to a non-extensible object",
+      );
     }
 
     const entry = yield* this.privateElementFindEvaluator(element.key);
     if (entry) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Cannot redeclare private field ${element.key.description}`,
       );

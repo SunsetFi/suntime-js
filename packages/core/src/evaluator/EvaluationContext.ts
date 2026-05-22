@@ -148,13 +148,28 @@ export const EvaluationContext = {
     this.stackProvider.popContext();
   },
 
-  withRealm<T = unknown>(realm: StaticJsRealm, callback: () => T): T {
+  withRealmDirect<T = unknown>(realm: StaticJsRealm, callback: () => T): T {
     const realmContext = new RealmOnlyEvaluationContext(realm);
+    const lastProvider = _realmProvider;
     _realmProvider = realmContext;
     try {
       return callback();
     } finally {
-      _realmProvider = null;
+      _realmProvider = lastProvider;
+    }
+  },
+
+  *withRealmEvaluator<T = unknown>(
+    realm: StaticJsRealm,
+    callback: () => EvaluationGenerator<T>,
+  ): EvaluationGenerator<T> {
+    const realmContext = new RealmOnlyEvaluationContext(realm);
+    const lastProvider = _realmProvider;
+    _realmProvider = realmContext;
+    try {
+      return yield* callback();
+    } finally {
+      _realmProvider = lastProvider;
     }
   },
 

@@ -18,7 +18,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
       // Note: Not exactly what NodeJs does, it says "invalid array length".
       // Not sure on the exact situations of when it says that though.
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Unshifting ${args.length} elements on an array-like of length ${length} is disallowed, as the total surpasses the maximum array length.`,
       );

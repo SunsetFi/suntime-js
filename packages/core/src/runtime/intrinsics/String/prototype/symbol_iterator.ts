@@ -14,7 +14,7 @@ const stringProtoSymbolIteratorDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.iterator,
   *func(realm, thisArg = realm.types.undefined) {
     if (isStaticJsNull(thisArg) || isStaticJsUndefined(thisArg)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "String.prototype[Symbol.iterator] called on null or undefined",
       );

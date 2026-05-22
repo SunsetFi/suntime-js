@@ -36,7 +36,10 @@ export function* toPrimitive(
       return result;
     }
 
-    throw Completion.Throw("TypeError", `Object[Symbol.toPrimitive] returned an object.`);
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      `Object[Symbol.toPrimitive] returned an object.`,
+    );
   }
 
   return yield* ordinaryToPrimitive(input, preferredType ?? "number");
@@ -66,5 +69,5 @@ function* ordinaryToPrimitive(
     }
   }
 
-  throw Completion.Throw("TypeError", `Cannot convert object to primitive value`);
+  throw yield* Completion.Throw.create("TypeError", `Cannot convert object to primitive value`);
 }

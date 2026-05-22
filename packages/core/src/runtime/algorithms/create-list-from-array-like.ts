@@ -22,7 +22,7 @@ export function* createListFromArrayLike(
   validElementTypes: "all" | "property-key" = "all",
 ): EvaluationGenerator<unknown[]> {
   if (!isStaticJsObject(obj)) {
-    throw Completion.Throw("TypeError", "Argument must be an object");
+    throw yield* Completion.Throw.create("TypeError", "Argument must be an object");
   }
 
   const len = yield* lengthOfArrayLike(obj);
@@ -37,7 +37,7 @@ export function* createListFromArrayLike(
       } else if (isStaticJsPropertyKey(next)) {
         key = next;
       } else {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Element at index ${index} (${toString(next)}) is not a valid property key.`,
         );

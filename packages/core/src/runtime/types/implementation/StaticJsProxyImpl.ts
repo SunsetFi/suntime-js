@@ -77,9 +77,8 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   get runtimeTypeCode(): StaticJsTypeCode {
     return this._callable ? StaticJsTypeCode.ProxyCallable : StaticJsTypeCode.Proxy;
   }
-  get proxyTarget(): StaticJsObject {
-    this.validateNonRevokedProxy();
-    return this._proxyTarget!;
+  get proxyTarget(): StaticJsObject | null {
+    return this._proxyTarget;
   }
 
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null> {
@@ -91,7 +90,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
     const target = this._proxyTarget!;
     const handler = this._handler!;
 
@@ -103,7 +102,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     const handlerProto = yield* Q(call(trap, handler, [target]));
 
     if (!isStaticJsObject(handlerProto) && handlerProto !== null) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Proxy handler's getPrototypeOf trap must return an object or null",
       );
@@ -116,7 +115,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
     const targetProto = yield* Q(target.getPrototypeOfEvaluator());
     if (sameValue.nullHack(handlerProto, targetProto)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Proxy handler's getPrototypeOf trap result does not match the target's prototype",
       );
@@ -136,7 +135,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *setPrototypeOfEvaluator(prototype: StaticJsObject | null): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -160,7 +159,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
     const targetProto = yield* Q(target.getPrototypeOfEvaluator());
     if (!sameValue.nullHack(prototype, targetProto)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Proxy handler's setPrototypeOf returned true, but the passed value does not match the target's prototype",
       );
@@ -178,7 +177,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *isExtensibleEvaluator(opts?: StaticJsRunTaskOptions): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -192,7 +191,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     const targetResult = yield* Q(target.isExtensibleEvaluator(opts));
 
     if (booleanTrapResult !== targetResult) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Proxy handler's isExtensible trap result does not match the target's extensibility",
       );
@@ -210,7 +209,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *preventExtensionsEvaluator(): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -224,7 +223,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     if (booleanTrapResult) {
       const extensibleTarget = yield* Q(target.isExtensibleEvaluator());
       if (extensibleTarget) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           "Proxy handler's preventExtensions trap returned true, but the target is still extensible",
         );
@@ -243,7 +242,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -256,7 +255,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     const trapResultArray = yield* Q(call(trap, handler, [target]));
     const trapResult = yield* Q(createListFromArrayLike(trapResultArray, "property-key"));
     if (hasDuplicates(trapResult)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Proxy handler's ownKeys trap returned a list with duplicate keys",
       );
@@ -284,7 +283,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     const uncheckedResultKeys = new Set(trapResult);
     for (const key of targetNonconfigurableKeys) {
       if (!uncheckedResultKeys.has(key)) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's ownKeys trap did not include non-configurable key ${String(key)}`,
         );
@@ -298,7 +297,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
     for (const key of targetConfigurableKeys) {
       if (!uncheckedResultKeys.has(key)) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's ownKeys trap did not include configurable key ${String(key)} from a non-extensible target`,
         );
@@ -307,7 +306,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     }
 
     if (uncheckedResultKeys.size > 0) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Proxy handler's ownKeys trap included extra keys not found on the non-extensible target: ${[
           ...uncheckedResultKeys,
@@ -366,7 +365,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *hasOwnPropertyEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -383,7 +382,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       const targetDesc = yield* Q(target.getOwnPropertyEvaluator(key));
       if (targetDesc) {
         if (!targetDesc.configurable) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's has trap returned false for existing non-configurable property ${String(
               key,
@@ -392,7 +391,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         }
         const extensibleTarget = yield* Q(target.isExtensibleEvaluator());
         if (!extensibleTarget) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's has trap returned false for existing property ${String(
               key,
@@ -452,7 +451,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   *getOwnPropertyEvaluator(
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -466,7 +465,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       call(trap, handler, [target, staticJsPropertyKeyToValue(key, this._realm)]),
     );
     if (!isStaticJsObject(trapResultObject) && !isStaticJsUndefined(trapResultObject)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Proxy handler's getOwnPropertyDescriptor trap must return an object or undefined for property ${String(
           key,
@@ -481,7 +480,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       }
 
       if (!targetDesc.configurable) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's getOwnPropertyDescriptor trap returned undefined for existing non-configurable property ${String(
             key,
@@ -491,7 +490,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
       const extensibleTarget = yield* Q(target.isExtensibleEvaluator());
       if (!extensibleTarget) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's getOwnPropertyDescriptor trap returned undefined for existing property ${String(
             key,
@@ -507,7 +506,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     const resultDesc = completePropertyDescriptor(yield* toPropertyDescriptor(trapResultObject));
     const valid = yield* isCompatiblePropertyDescriptor(extensibleTarget, resultDesc, targetDesc);
     if (!valid) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Proxy handler's getOwnPropertyDescriptor trap returned a property descriptor that is not compatible with the target's property descriptor for key ${String(
           key,
@@ -517,7 +516,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
     if (resultDesc.configurable === false) {
       if (targetDesc === undefined || targetDesc.configurable) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's getOwnPropertyDescriptor trap returned a non-configurable descriptor for property ${String(
             key,
@@ -533,7 +532,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         }
 
         if (targetDesc.writable) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's getOwnPropertyDescriptor trap returned a non-writable data descriptor for property ${String(
               key,
@@ -566,7 +565,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     key: StaticJsPropertyKey,
     desc: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -598,7 +597,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
     if (targetDesc === undefined) {
       if (!extensibleTarget) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's defineProperty trap returned true for new property ${String(
             key,
@@ -606,7 +605,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         );
       }
       if (settingConfigFalse) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's defineProperty trap returned true for new property ${String(
             key,
@@ -620,7 +619,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         targetDesc,
       );
       if (!isCompatible) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's defineProperty trap returned true for property ${String(
             key,
@@ -628,7 +627,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         );
       }
       if (settingConfigFalse && targetDesc.configurable) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's defineProperty trap returned true for property ${String(
             key,
@@ -641,7 +640,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         targetDesc.writable === true
       ) {
         if ("writable" in desc && desc.writable === false) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's defineProperty trap returned true for property ${String(
               key,
@@ -666,7 +665,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     key: StaticJsPropertyKey,
     receiver: StaticJsValue,
   ): EvaluationGenerator<StaticJsValue> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -684,7 +683,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     if (targetDesc && !targetDesc.configurable) {
       if (isStaticJsDataPropertyDescriptor(targetDesc) && targetDesc.writable === false) {
         if (!sameValue(trapResult, targetDesc.value)) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's get trap returned a value for non-configurable, non-writable data property ${String(
               key,
@@ -694,7 +693,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       }
       if (isStaticJsAccessorPropertyDescriptor(targetDesc) && targetDesc.get === undefined) {
         if (trapResult !== undefined) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's get trap returned a non-undefined value for non-configurable accessor property ${String(
               key,
@@ -724,7 +723,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     value: StaticJsValue,
     receiver: StaticJsValue,
   ): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -752,7 +751,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     if (targetDesc && !targetDesc.configurable) {
       if (isStaticJsDataPropertyDescriptor(targetDesc) && targetDesc.writable === false) {
         if (!sameValue(value, targetDesc.value)) {
-          throw Completion.Throw(
+          throw yield* Completion.Throw.create(
             "TypeError",
             `Proxy handler's set trap returned true for non-configurable, non-writable data property ${String(
               key,
@@ -761,7 +760,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
         }
       }
       if (isStaticJsAccessorPropertyDescriptor(targetDesc) && targetDesc.set === undefined) {
-        throw Completion.Throw(
+        throw yield* Completion.Throw.create(
           "TypeError",
           `Proxy handler's set trap returned true for non-configurable accessor property ${String(
             key,
@@ -782,7 +781,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   }
 
   *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -805,7 +804,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     }
 
     if (targetDesc.configurable === false) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Proxy handler's deleteProperty trap returned true for non-configurable property ${String(
           key,
@@ -815,7 +814,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
     const extensibleTarget = yield* Q(target.isExtensibleEvaluator());
     if (!extensibleTarget) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         `Proxy handler's deleteProperty trap returned true for property ${String(
           key,
@@ -846,7 +845,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     thisArg: StaticJsValue,
     args?: StaticJsValue[],
   ): EvaluationGenerator<StaticJsValue> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -881,12 +880,12 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     // FIXME: What is the default newTarget here.  The target or the proxy?
     newTarget: StaticJsCallable = this,
   ): EvaluationGenerator<StaticJsObject> {
-    this.validateNonRevokedProxy();
+    yield* this.validateNonRevokedProxyEvaluator();
 
     const target = this._proxyTarget!;
     // FIXME: We are supposed to just not implement [[Construct]] in this case.
     if (!isStaticJsCallable(target) || !target.isConstructor) {
-      throw Completion.Throw("TypeError", "Proxy target is not a constructor");
+      throw yield* Completion.Throw.create("TypeError", "Proxy target is not a constructor");
     }
 
     const handler = this._handler!;
@@ -900,7 +899,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     // FIXME: newTarget
     const newObj = yield* Q(call(trap, handler, [target, argArray, newTarget]));
     if (!isStaticJsObject(newObj)) {
-      throw Completion.Throw("TypeError", "Proxy handler's construct trap must return an object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Proxy handler's construct trap must return an object",
+      );
     }
 
     return newObj;
@@ -933,9 +935,12 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     this._proxyTarget = null;
   }
 
-  validateNonRevokedProxy(): void {
+  *validateNonRevokedProxyEvaluator(): EvaluationGenerator<void> {
     if (this._handler === null || this._proxyTarget === null) {
-      throw Completion.Throw("TypeError", "Cannot perform operation on a revoked proxy");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Cannot perform operation on a revoked proxy",
+      );
     }
   }
 }

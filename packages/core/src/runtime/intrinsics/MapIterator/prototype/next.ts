@@ -9,11 +9,14 @@ export const mapIteratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Map Iterator.prototype.next called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Map Iterator.prototype.next called on non-object",
+      );
     }
 
     if (O instanceof StaticJsMapIteratorImpl === false) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Map Iterator.prototype.next called on incompatible receiver",
       );

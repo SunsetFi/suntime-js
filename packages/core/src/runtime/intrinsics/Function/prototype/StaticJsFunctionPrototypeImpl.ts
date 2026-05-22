@@ -71,10 +71,10 @@ export class StaticJsFunctionPrototypeImpl
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  constructEvaluator(
+  *constructEvaluator(
     _args?: StaticJsValue[],
     _newTarget?: StaticJsCallable,
   ): EvaluationGenerator<StaticJsObject> {
-    throw Completion.Throw("TypeError", "Function.prototype is not a constructor");
+    throw yield* Completion.Throw.create("TypeError", "Function.prototype is not a constructor");
   }
 }

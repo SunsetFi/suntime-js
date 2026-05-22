@@ -32,7 +32,7 @@ export class StaticJsPlainObjectImpl extends StaticJsOrdinaryObjectImpl {
 
     // We can be instantiated outside of sandbox code, so ensure we have a realm for
     // validateAndApplyPropertyDescriptor to reference types from.
-    EvaluationContext.withRealm(realm, () => {
+    EvaluationContext.withRealmDirect(realm, () => {
       // This should be safe, as plain objects extend OrdinaryObject, which does not do anything special
       // here.
       // We could expose _contents and set it directly, but this is our route to populating defaults for StaticJsPropertyDescriptorRecord.

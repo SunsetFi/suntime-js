@@ -12,7 +12,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
   length: 1,
   *func(realm, thisArg, onFinally) {
     if (!isStaticJsPromise(thisArg)) {
-      throw Completion.Throw("TypeError", "finally called on non-promise");
+      throw yield* Completion.Throw.create("TypeError", "finally called on non-promise");
     }
 
     if (!onFinally) {

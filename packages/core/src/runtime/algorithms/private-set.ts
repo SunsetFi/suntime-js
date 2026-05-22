@@ -13,11 +13,14 @@ export function* privateSet(
 ): EvaluationGenerator<void> {
   const entry = yield* o.privateElementFindEvaluator(p);
   if (!entry) {
-    throw Completion.Throw("TypeError", `Cannot find private name ${p.description}`);
+    throw yield* Completion.Throw.create("TypeError", `Cannot find private name ${p.description}`);
   }
 
   if (entry.kind === "method") {
-    throw Completion.Throw("TypeError", `Cannot set private name ${p.description}: is a method`);
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      `Cannot set private name ${p.description}: is a method`,
+    );
   }
 
   if (entry.kind === "field") {
@@ -26,7 +29,7 @@ export function* privateSet(
   }
 
   if (!entry.set) {
-    throw Completion.Throw("TypeError", `Cannot set private name ${p.description}`);
+    throw yield* Completion.Throw.create("TypeError", `Cannot set private name ${p.description}`);
   }
   yield* call(entry.set, o, [value]);
 }

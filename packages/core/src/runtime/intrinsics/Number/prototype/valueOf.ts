@@ -9,7 +9,7 @@ const numberProtoValueOfDeclaration: FunctionIntrinsicPropertyDeclaration = {
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Number.prototype.toLocaleString requires that 'this' be a Number",
       );

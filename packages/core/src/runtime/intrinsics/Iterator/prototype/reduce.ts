@@ -17,7 +17,10 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, reducer = realm.types.undefined, initialValue) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Iterator.prototype.reduce called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Iterator.prototype.reduce called on non-object",
+      );
     }
 
     let iterated: StaticJsIteratorRecord = {
@@ -27,7 +30,7 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     };
 
     if (!isCallable(reducer)) {
-      const error = Completion.Throw("TypeError", "Reducer must be a function");
+      const error = yield* Completion.Throw.create("TypeError", "Reducer must be a function");
       return yield* Q(iteratorClose(iterated, error));
     }
 
@@ -39,7 +42,10 @@ const iteratorProtoReduceDeclaration: IntrinsicPropertyDeclaration = {
     if (!initialValue) {
       const firstValue = yield* Q(iteratorStepValue(iterated));
       if (firstValue === null) {
-        throw Completion.Throw("TypeError", "Reduce of empty iterator with no initial value");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Reduce of empty iterator with no initial value",
+        );
       }
       accumulator = firstValue;
       counter = 1;

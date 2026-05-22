@@ -17,7 +17,10 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Iterator.prototype.some called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Iterator.prototype.some called on non-object",
+      );
     }
 
     let iterated: StaticJsIteratorRecord = {
@@ -27,7 +30,7 @@ const iteratorProtoSomeDeclaration: IntrinsicPropertyDeclaration = {
     };
 
     if (!isCallable(predicate)) {
-      const error = Completion.Throw("TypeError", "Predicate must be a function");
+      const error = yield* Completion.Throw.create("TypeError", "Predicate must be a function");
       return yield* Q(iteratorClose(iterated, error));
     }
 

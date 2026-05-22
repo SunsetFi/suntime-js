@@ -1,16 +1,16 @@
-import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsString } from "../types/StaticJsString.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
 
-import { requireObjectCoercable } from "./require-object-coercable.js";
+import { requireObjectCoercible } from "./require-object-coercible.js";
 import { toString } from "./to-string.js";
 
 export function* trimString(
   string: StaticJsValue,
   where: "start" | "end" | "start+end",
 ): EvaluationGenerator<StaticJsString> {
-  yield* Q(requireObjectCoercable(string));
+  yield* requireObjectCoercible(string);
+  requireObjectCoercible.enforce(string);
 
   const str = yield* toString(string);
 

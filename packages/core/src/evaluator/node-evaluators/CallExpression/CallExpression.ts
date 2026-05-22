@@ -80,7 +80,7 @@ function* callSuperEvaluator(node: CallExpression): EvaluationGenerator {
   const func = yield* getSuperConstructor();
   const argList = yield* argumentsListEvaluation(node.arguments);
   if (!isConstructor(func)) {
-    throw Completion.Throw("TypeError", "Super call target is not a constructor");
+    throw yield* Completion.Throw.create("TypeError", "Super call target is not a constructor");
   }
 
   const result = yield* construct(func, argList, newTarget);

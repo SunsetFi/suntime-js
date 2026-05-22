@@ -14,7 +14,7 @@ export function* getFunctionRealm(func: StaticJsCallable): EvaluationGenerator<S
   }
 
   if (func instanceof StaticJsProxyImpl) {
-    func.validateNonRevokedProxy();
+    yield* func.validateNonRevokedProxyEvaluator();
     return yield* getFunctionRealm(func.proxyTarget as StaticJsCallable);
   }
 

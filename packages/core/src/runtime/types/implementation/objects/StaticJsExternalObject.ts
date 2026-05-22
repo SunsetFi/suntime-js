@@ -120,7 +120,10 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   override *privateElementAddEvaluator(): EvaluationGenerator<void> {
-    throw Completion.Throw("TypeError", "Cannot add a private elemnt to this object.");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Cannot add a private elemnt to this object.",
+    );
   }
 
   protected *_setPropertyDescriptorEvaluator(

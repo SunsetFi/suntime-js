@@ -18,7 +18,10 @@ const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
   *func(realm, thisArg, predicate = realm.types.undefined) {
     const O = thisArg;
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Iterator.prototype.every called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Iterator.prototype.every called on non-object",
+      );
     }
 
     let iterated: StaticJsIteratorRecord = {
@@ -28,7 +31,7 @@ const iteratorProtoEveryDeclaration: IntrinsicPropertyDeclaration = {
     };
 
     if (!isCallable(predicate)) {
-      const error = Completion.Throw("TypeError", "Predicate must be a function");
+      const error = yield* Completion.Throw.create("TypeError", "Predicate must be a function");
       yield* Q(iteratorClose(iterated, error));
       throw new StaticJsEngineError("Unreachable code after iteratorClose with abrupt completion");
     }

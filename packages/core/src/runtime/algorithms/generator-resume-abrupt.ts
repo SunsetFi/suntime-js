@@ -10,7 +10,10 @@ export function* generatorResumeAbrupt(
   generatorBrand: string | null,
 ): EvaluationGenerator<StaticJsObject> {
   if (generator instanceof StaticJsGeneratorImpl === false) {
-    throw Completion.Throw("TypeError", "Generator resume called on incompatible receiver");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Generator resume called on incompatible receiver",
+    );
   }
 
   return yield* generator.generatorResumeAbrupt(completion, generatorBrand);

@@ -11,7 +11,7 @@ export const functionProtoApplyDeclaration: IntrinsicPropertyDeclaration = {
   length: 2,
   *func(realm, func, thisArg = realm.types.undefined, argArray = realm.types.undefined) {
     if (!isStaticJsCallable(func)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Function.prototype.apply called on incompatible receiver",
       );

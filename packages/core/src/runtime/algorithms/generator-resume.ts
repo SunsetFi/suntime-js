@@ -12,7 +12,10 @@ export function* generatorResume(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
   if (generator instanceof StaticJsGeneratorImpl === false) {
-    throw Completion.Throw("TypeError", "Generator resume called on incompatible receiver");
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Generator resume called on incompatible receiver",
+    );
   }
 
   return yield* generator.generatorResume(nextValue ?? realm.types.undefined, generatorBrand);

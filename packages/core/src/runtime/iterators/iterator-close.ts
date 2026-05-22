@@ -39,7 +39,7 @@ export function* iteratorClose<T extends Completion>(
   }
 
   if (!isStaticJsObject(innerResult)) {
-    throw Completion.Throw("TypeError", "iterator.return() did not return an object");
+    throw yield* Completion.Throw.create("TypeError", "iterator.return() did not return an object");
   }
 
   return completion;

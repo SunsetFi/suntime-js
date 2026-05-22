@@ -11,7 +11,7 @@ const numberProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {
     // Node is really confusing here, it requires thisArg to be a function???
 
     if (!isNumberLike(thisArg)) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "TypeError",
         "Number.prototype.toString requires that 'this' be a Number",
       );

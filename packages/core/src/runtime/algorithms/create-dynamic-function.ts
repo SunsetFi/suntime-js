@@ -87,7 +87,7 @@ export function* createDynamicFunction(
     });
   } catch (e) {
     if (e instanceof StaticJsSyntaxError) {
-      throw Completion.Throw("SyntaxError", e.message);
+      throw yield* Completion.Throw.create("SyntaxError", e.message);
     }
 
     throw e;
@@ -100,7 +100,7 @@ export function* createDynamicFunction(
     parameters = parseParameters(parameterString, { strict: localStrict });
   } catch (e) {
     if (e instanceof StaticJsSyntaxError) {
-      throw Completion.Throw("SyntaxError", e.message);
+      throw yield* Completion.Throw.create("SyntaxError", e.message);
     }
 
     throw e;

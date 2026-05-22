@@ -9,6 +9,6 @@ export function* deletePropertyOrThrow(
 ): EvaluationGenerator<void> {
   const success = yield* obj.deleteEvaluator(p);
   if (!success) {
-    throw Completion.Throw("TypeError", "Cannot delete property");
+    throw yield* Completion.Throw.create("TypeError", "Cannot delete property");
   }
 }

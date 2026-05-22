@@ -29,7 +29,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
     const binding = this._bindings.get(name);
     if (!binding) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Binding ${name} does not exist in this environment`,
       );
@@ -41,7 +41,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
     const binding = this._bindings.get(name);
     if (!binding) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Binding ${name} does not exist in this environment`,
       );
@@ -51,14 +51,14 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   }
 
   *createMutableBindingEvaluator(name: string, deletable: boolean) {
-    this._assertBindingNotDeclared(name);
+    yield* this._assertBindingNotDeclared(name);
 
     this._bindings.set(name, new DeclarativeEnvironmentBinding(name, true, false, deletable, null));
   }
 
   *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
     // TODO: Do we throw if not strict?
-    this._assertBindingNotDeclared(name);
+    yield* this._assertBindingNotDeclared(name);
 
     this._bindings.set(name, new DeclarativeEnvironmentBinding(name, false, strict, false, null));
   }
@@ -71,7 +71,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     const binding = this._bindings.get(name);
     if (!binding) {
       if (strict) {
-        throw Completion.Throw("ReferenceError", `${name} is not defined`);
+        throw yield* Completion.Throw.create("ReferenceError", `${name} is not defined`);
       }
 
       yield* this.createMutableBindingEvaluator(name, true);
@@ -84,18 +84,21 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     }
 
     if (!binding.isInitialized) {
-      throw Completion.Throw("ReferenceError", `Cannot set value of uninitialized binding ${name}`);
+      throw yield* Completion.Throw.create(
+        "ReferenceError",
+        `Cannot set value of uninitialized binding ${name}`,
+      );
     } else if (binding.isMutable) {
       yield* binding.set(value);
     } else if (strict) {
-      throw Completion.Throw("TypeError", `Assignment to constant variable`);
+      throw yield* Completion.Throw.create("TypeError", `Assignment to constant variable`);
     }
   }
 
   *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
     const binding = this._bindings.get(name);
     if (!binding) {
-      throw Completion.Throw("ReferenceError", `${name} is not defined`);
+      throw yield* Completion.Throw.create("ReferenceError", `${name} is not defined`);
     }
 
     return yield* binding.get();
@@ -131,9 +134,12 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     return this._realm.types.undefined;
   }
 
-  protected _assertBindingNotDeclared(name: string) {
+  protected *_assertBindingNotDeclared(name: string) {
     if (this._bindings.has(name)) {
-      throw Completion.Throw("SyntaxError", `Identifier ${name} has already been declared`);
+      throw yield* Completion.Throw.create(
+        "SyntaxError",
+        `Identifier ${name} has already been declared`,
+      );
     }
   }
 }
@@ -165,7 +171,7 @@ class DeclarativeEnvironmentBinding {
 
   *get(): EvaluationGenerator<StaticJsValue> {
     if (this._value == null) {
-      throw Completion.Throw(
+      throw yield* Completion.Throw.create(
         "ReferenceError",
         `Cannot get value of uninitialized binding ${this.name}`,
       );

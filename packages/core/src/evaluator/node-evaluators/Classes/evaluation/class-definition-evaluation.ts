@@ -87,11 +87,14 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
       protoParent = realm.types.null;
       constructorParent = realm.intrinsics["Function.prototype"];
     } else if (!isConstructor(superclass)) {
-      throw Completion.Throw("TypeError", "Superclass must be null or a constructor");
+      throw yield* Completion.Throw.create("TypeError", "Superclass must be null or a constructor");
     } else {
       const superProto = yield* Q(get(superclass, "prototype"));
       if (!isStaticJsObject(superProto) && !isStaticJsNull(superProto)) {
-        throw Completion.Throw("TypeError", "Superclass prototype must be an object or null");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Superclass prototype must be an object or null",
+        );
       }
       protoParent = superProto;
       constructorParent = superclass;
@@ -132,7 +135,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
           }
 
           if (!newTarget) {
-            throw Completion.Throw(
+            throw yield* Completion.Throw.create(
               "TypeError",
               "Default class constructor cannot be called without new",
             );
@@ -148,7 +151,10 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
           if (constructorKind! === "derived") {
             const func = yield* F.getPrototypeOfEvaluator();
             if (!isConstructor(func)) {
-              throw Completion.Throw("TypeError", "Superclass constructor must be a constructor");
+              throw yield* Completion.Throw.create(
+                "TypeError",
+                "Superclass constructor must be a constructor",
+              );
             }
             result = yield* construct(func, args, newTarget);
           } else {

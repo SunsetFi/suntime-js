@@ -154,7 +154,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
 
     this._generatorState = "executing";
     const context = this._generatorContext;
-    return yield* EvaluationContext.withRealm(this.realm, function* () {
+    return yield* EvaluationContext.withRealmEvaluator(this.realm, function* () {
       return yield* Q(SuspendCommand.runSuspendedContext(context, Completion.Normal(value)));
     });
   }
@@ -192,7 +192,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
 
     this._generatorState = "executing";
     const context = this._generatorContext;
-    return yield* EvaluationContext.withRealm(this.realm, function* () {
+    return yield* EvaluationContext.withRealmEvaluator(this.realm, function* () {
       return yield* Q(SuspendCommand.runSuspendedContext(context, completion));
     });
   }
@@ -202,11 +202,11 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     generatorBrand: string | null,
   ): EvaluationGenerator<void> {
     if (generatorBrand !== undefined && generatorBrand !== this._generatorBrand) {
-      throw Completion.Throw("TypeError", `${func} called on incompatible receiver`);
+      throw yield* Completion.Throw.create("TypeError", `${func} called on incompatible receiver`);
     }
 
     if (this._generatorState === "executing") {
-      throw Completion.Throw("TypeError", "Generator is already running");
+      throw yield* Completion.Throw.create("TypeError", "Generator is already running");
     }
   }
 }

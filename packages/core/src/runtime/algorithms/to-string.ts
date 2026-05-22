@@ -20,7 +20,7 @@ export function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsStr
     return value;
   }
   if (isStaticJsSymbol(value)) {
-    throw Completion.Throw("TypeError", "Cannot convert a Symbol value to a string");
+    throw yield* Completion.Throw.create("TypeError", "Cannot convert a Symbol value to a string");
   }
 
   if (isStaticJsUndefined(value)) {

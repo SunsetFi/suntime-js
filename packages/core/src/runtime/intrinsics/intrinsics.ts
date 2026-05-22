@@ -23,7 +23,7 @@ export interface IntrinsicSymbols {
 }
 
 export interface IntrinsicsRecord {
-  // AggregateError: StaticJsFunction;
+  AggregateError: StaticJsFunction;
 
   Array: StaticJsFunction;
   ["Array.prototype"]: StaticJsObject;

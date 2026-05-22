@@ -16,7 +16,10 @@ const objectCtorDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {
     attributes = realm.types.undefined,
   ) {
     if (!isStaticJsObject(O)) {
-      throw Completion.Throw("TypeError", "Object.defineProperty called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Object.defineProperty called on non-object",
+      );
     }
 
     const key = yield* toPropertyKey(P);

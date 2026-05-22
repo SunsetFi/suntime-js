@@ -8,7 +8,10 @@ export const reflectPreventExtensionsDeclaration: IntrinsicPropertyDeclaration =
   length: 1,
   *func(realm, _thisArg, target = realm.types.undefined) {
     if (!isStaticJsObject(target)) {
-      throw Completion.Throw("TypeError", "Reflect.preventExtensions called on non-object");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Reflect.preventExtensions called on non-object",
+      );
     }
 
     const prevented = yield* Q(target.preventExtensionsEvaluator());

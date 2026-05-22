@@ -1,4 +1,7 @@
-import type { MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type {
+  EvaluationGenerator,
+  MaybeEvaluationGenerator,
+} from "../../evaluator/EvaluationGenerator.js";
 
 import type { StaticJsCallable } from "./StaticJsCallable.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
@@ -83,9 +86,9 @@ export const StaticJsProxyHandlerKeys = [
 export interface StaticJsProxy extends StaticJsObject, StaticJsCallable {
   readonly runtimeTypeOf: "proxy";
 
-  get proxyTarget(): StaticJsObject;
+  get proxyTarget(): StaticJsObject | null;
 
-  validateNonRevokedProxy(): void;
+  validateNonRevokedProxyEvaluator(): EvaluationGenerator<void>;
 }
 
 export function isStaticJsProxy(value: unknown): value is StaticJsProxy {

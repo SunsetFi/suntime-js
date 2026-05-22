@@ -12,7 +12,10 @@ export const booleanProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
     }
 
     if (!isStaticJsBoolean(thisArg) && thisArg instanceof StaticJsBooleanBoxed === false) {
-      throw Completion.Throw("TypeError", "Cannot call Boolean.prototype.toString on non-boolean");
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Cannot call Boolean.prototype.toString on non-boolean",
+      );
     }
 
     const value = thisArg.value;

@@ -16,7 +16,7 @@ export const reflectApplyDeclaration: IntrinsicPropertyDeclaration = {
     argumentsList = realm.types.undefined,
   ) {
     if (!isCallable(target)) {
-      throw Completion.Throw("TypeError", "Reflect.apply called on non-function");
+      throw yield* Completion.Throw.create("TypeError", "Reflect.apply called on non-function");
     }
 
     const args = yield* createListFromArrayLike(argumentsList);

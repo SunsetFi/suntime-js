@@ -14,8 +14,8 @@ export function* isArray(value: StaticJsValue): EvaluationGenerator<boolean> {
   }
 
   if (isStaticJsProxy(value)) {
-    value.validateNonRevokedProxy();
-    const proxyTarget = value.proxyTarget;
+    yield* value.validateNonRevokedProxyEvaluator();
+    const proxyTarget = value.proxyTarget!;
     return yield* isArray(proxyTarget);
   }
 

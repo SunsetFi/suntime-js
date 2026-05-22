@@ -37,7 +37,7 @@ export default function* destructuringAssignmentEvaluation(
   switch (node.type) {
     case "ObjectPattern": {
       if (isStaticJsUndefined(value) || isStaticJsNull(value)) {
-        throw Completion.Throw("TypeError", "Cannot destructure undefined or null");
+        throw yield* Completion.Throw.create("TypeError", "Cannot destructure undefined or null");
       }
       const properties = node.properties.filter((p) => isObjectProperty(p));
       const excludedNames: StaticJsPropertyKey[] = [];

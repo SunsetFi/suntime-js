@@ -48,7 +48,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
         const objE = E as StaticJsObject;
         const len = yield* lengthOfArrayLike(objE);
         if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw Completion.Throw("TypeError", "Maximum array size exceeded");
+          throw yield* Completion.Throw.create("TypeError", "Maximum array size exceeded");
         }
 
         let k = 0;
@@ -71,7 +71,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
         }
       } else {
         if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
-          throw Completion.Throw("TypeError", "Maximum array size exceeded");
+          throw yield* Completion.Throw.create("TypeError", "Maximum array size exceeded");
         }
 
         // Per spec, must be defineProperty

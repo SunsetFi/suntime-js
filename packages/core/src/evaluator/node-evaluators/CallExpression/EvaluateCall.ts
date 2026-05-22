@@ -42,7 +42,10 @@ export function* evaluateCall(
   const args = yield* argumentsListEvaluation(callArgs);
 
   if (!isStaticJsCallable(func)) {
-    throw Completion.Throw("TypeError", `TypeError: ${nameNode(node.callee)} is not a function`);
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      `TypeError: ${nameNode(node.callee)} is not a function`,
+    );
   }
 
   return yield* call(func, thisValue, args);
