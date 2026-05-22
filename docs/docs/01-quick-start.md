@@ -141,10 +141,6 @@ console.log(result.increment(10)); // Results in 14
 
 Tasks can be used to enforce limits on how long an evaluation can run for. This can be handy for guarding against infinite loops and deadlocks. To specify a task runner, set the `runTask` argument, and consume the [Task Iterator](./07-tasks.md#implementing-task-runners)
 
-Note that in this simple example, the start time is computed outside of `runTask`. This is because any given evaluation may result in more than one task, as microtasks will also be invoked if the evaluated code runs promise completions.
-
-Because of this, this type of task implementation is one use only. More advanced recipes exist that can make a task runner multi-use.
-
 ```ts
 const code = `while(true) {}`;
 const start = Date.now();

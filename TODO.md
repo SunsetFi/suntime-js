@@ -12,6 +12,7 @@
   - [ ] Update type coercion docs.
 - [ ] Find a way for StaticJsObject.toNative to have a return type of object
       Currently conflicts with StaticJsSymbol.toNative wanting to return symbol.
+- [ ] InitialName for functions. Expose it in the stack as a non-invoking getter.
 
 ## Less imediate
 
