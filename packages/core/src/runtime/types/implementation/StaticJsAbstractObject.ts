@@ -42,7 +42,7 @@ export abstract class StaticJsAbstractObject
   private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
 
-  private _cachedJsObject: unknown | null = null;
+  private _cachedJsObject: object | null = null;
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
     super(realm);

@@ -10,11 +10,11 @@ const debug = false;
 describe("E2E: Do While loops", () => {
   let evaluateScript: typeof evaluateScriptCore;
   beforeEach(() => {
-    const taskRunner = createTimeBoundTaskRunner({
+    const runTask = createTimeBoundTaskRunner({
       maxRunTime: debug ? Infinity : 1000,
     });
     evaluateScript = (code: string) => {
-      return evaluateScriptCore(code, { taskRunner });
+      return evaluateScriptCore(code, { runTask });
     };
   });
 

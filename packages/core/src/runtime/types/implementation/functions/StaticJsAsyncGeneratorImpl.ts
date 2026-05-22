@@ -314,7 +314,7 @@ export class StaticJsAsyncGeneratorImpl
 
     const promiseCapability = next.capability;
 
-    // Spec seems to guarentee this can only ever be a value.
+    // Spec seems to guarantee this can only ever be a value.
     // Only really an issue for NormalCompletion, which can be non-StaticJsValue values.
     const value = Completion.value(completion) as StaticJsValue;
 

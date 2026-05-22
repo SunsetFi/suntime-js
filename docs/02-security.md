@@ -2,21 +2,21 @@
 
 This project intends to do its best to sandbox the evaluated code from the host system. That is, the evaluated code should not be capable of referencing or manipulating any part of the host that was not passed into the sandbox explicitly.
 
-However, it should be noted that care must be taken by the implementer to ensure this guarentee remains in place. Code inside the sandbox will have access to anything you give it, so it us up to you to not pass more than you intend.
+However, it should be noted that care must be taken by the implementer to ensure this guarantee remains in place. Code inside the sandbox will have access to anything you give it, so it us up to you to not pass more than you intend.
 
-The safest way to use StaticJs is to always manually create StaticJs objects and functions using the Realm. This ensures that you do not leak any host concerns through the prototype. However, there is a [bidirectional native to sandbox coercing system](./05-type-coersion.md) which coerces passed objects to StaticJs sandbox types, enforces read-only access, and only exposes enumerable properties.
+The safest way to use StaticJs is to always manually create StaticJs objects and functions using the Realm. This ensures that you do not leak any host concerns through the prototype. However, there is a [bidirectional native to sandbox coercing system](./05-type-coercion.md) which coerces passed objects to StaticJs sandbox types, enforces read-only access, and only exposes enumerable properties.
 
 **This project has not been security audited.** Take care when using it for critical applications.
 
 ## Writing secure sandbox interop code.
 
-When interoping with sandbox code, it is **strongly engouraged** that you always deal directly with [StaticJs Types](./06-types.md), and **do not use native interop / type coersion features**. Type coersion may result in unexpected and synchronous sandbox invocations at any time, as Proxies and property accessors may be returned to you. Additionally, coersion can easily result in granting sandbox access to properties you did not intend.
+When interoping with sandbox code, it is **strongly encouraged** that you always deal directly with [StaticJs Types](./06-types.md), and **do not use native interop / type coercion features**. Type coercion may result in unexpected and synchronous sandbox invocations at any time, as Proxies and property accessors may be returned to you. Additionally, coercion can easily result in granting sandbox access to properties you did not intend.
 
 There are a few rules to keeping sandboxed code from misbehaving:
 
 - Always specify a [runTask](./04-realms#runtask) and [runTaskSync](./04-realms.md#runtasksync) [Task Scheduler](./07-tasks.md). These are critical to prevent infinite loops and runaway code.
 - Always use the [Type Factory](./06-types.md) and StaticJs type objects, to ensure you know where you are potentially evaluating sandboxed code.
-- Avoid [toNative](./06-types.md#staticjsvalue) and [Type Coersion](./03-type-coersion.md), to avoid accidentally invoking sandboxed code unexpectedly.
+- Avoid [toNative](./06-types.md#staticjsvalue) and [Type Coercion](./03-type-coercion.md), to avoid accidentally invoking sandboxed code unexpectedly.
 
 ### Objects
 
@@ -62,9 +62,9 @@ const keys =
   await value.ownEnumerableKeysAsync(/* Optionally, pass a runTask here for further restrictions */);
 ```
 
-#### With Coersion
+#### With Coercion
 
-While it is strongly advised to avoid type coersion, the type coersion system does attempt to provide some degree of security when passing in native objects:
+While it is strongly advised to avoid type coercion, the type coercion system does attempt to provide some degree of security when passing in native objects:
 
 ```js
 const targetObj = {
@@ -82,11 +82,11 @@ const realm = StaticJsRealm({
   global: {
     properties: {
       targetObj: {
-        // Direct usage of a native object performs type coersion.
+        // Direct usage of a native object performs type coercion.
         value: nativeObj,
       },
       myOtherObject: {
-        // Direct usage of a native object performs type coersion.
+        // Direct usage of a native object performs type coercion.
         value: myOtherObject,
       },
     },
@@ -149,7 +149,7 @@ const func = realm.types.function("myFunc", function* (_thisArg, a, b) {
 
 ### Invoking Functions
 
-Don't use type coersion, and use the Async evaluators
+Don't use type coercion, and use the Async evaluators
 
 **Incorrect**
 
@@ -169,7 +169,7 @@ const func = evaluateScript(`
   add;
 `);
 
-// Incorrect: Creates a function with type coersion
+// Incorrect: Creates a function with type coercion
 //  - The Function itself may not terminate and deadlock behind runTaskSync
 //  - The Function may return values that unexpectedly run sandboxed code synchronously.
 const native = func.toNative();
@@ -264,7 +264,7 @@ const attackStr = `myObject.constructor.constructor("console.log('hello')")()`;
 evaluateExpression(attackStr, { realm });
 ```
 
-Despite this, this code will still remain secure. This is because incoming objects are [coerced](./05-type-coersion.md), and a proxy object is used instead. This proxy only allows read-only access to enumerable properties, and uses the sandboxed prototype instead of the host's.
+Despite this, this code will still remain secure. This is because incoming objects are [coerced](./05-type-coercion.md), and a proxy object is used instead. This proxy only allows read-only access to enumerable properties, and uses the sandboxed prototype instead of the host's.
 
 ## Host Fingerprinting and Determinism
 

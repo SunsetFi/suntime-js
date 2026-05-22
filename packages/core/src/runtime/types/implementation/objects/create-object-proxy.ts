@@ -26,7 +26,7 @@ export function createStaticJsObjectProxy(
   obj: StaticJsObject,
   target: StaticJsObjectProxyTarget = {},
   additionalTraps: ProxyHandler<StaticJsObjectProxyTarget> = {},
-): unknown {
+): object {
   const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
     let staticJsPropertyKey: StaticJsPropertyKey;
     if (typeof propertyName === "symbol") {

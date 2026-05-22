@@ -19,23 +19,41 @@ export interface TimeSharingTaskRunnerOptions {
    * If not specified, the default is no limit.
    */
   maxRunTime?: number;
+
+  /**
+   * The maximum time, in milliseconds, that a single task (macrotask or microtask)
+   * is allowed to run for before being aborted.
+   * If not specified, the default is no limit.
+   */
+  maxTaskTime?: number;
 }
 
 export function createTimeSharingTaskRunner({
   operationsPerIteration = 10000,
   yieldTime = 100,
   maxRunTime = Number.POSITIVE_INFINITY,
+  maxTaskTime = Number.POSITIVE_INFINITY,
 }: TimeSharingTaskRunnerOptions = {}): StaticJsTaskRunner {
   return function timeSharingTaskRunner(task) {
     const runEnd = Date.now() + maxRunTime;
 
+    let taskEnd: number | null = null;
+    let currentTaskId: string | null = null;
     function doTask() {
       let operations = 0;
       while (!task.done && operations < operationsPerIteration) {
         const now = Date.now();
 
         if (now >= runEnd!) {
-          task.throw(new StaticJsTaskAbortedError(`Evaluation took too long to complete.`));
+          task.abort(new StaticJsTaskAbortedError(`Evaluation took too long to complete.`));
+          return;
+        }
+
+        if (taskEnd === null || currentTaskId !== task.currentTaskId) {
+          currentTaskId = task.currentTaskId;
+          taskEnd = now + maxTaskTime;
+        } else if (now >= taskEnd) {
+          task.abort(new StaticJsTaskAbortedError(`A single task took too long to complete.`));
           return;
         }
 

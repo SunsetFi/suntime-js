@@ -20,17 +20,15 @@ export async function evaluateModule(
 ): Promise<StaticJsModule> {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner, sourceName } = opts;
+  const { runTask, sourceName } = opts;
 
-  realm ??= StaticJsRealm();
+  realm ??= StaticJsRealm(dropUndefined({ runTask }));
   if (!isStaticJsRealm(realm)) {
     throw new TypeError("Provided realm is not a StaticJsRealm");
   }
 
-  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName });
-
   try {
-    return await realm.evaluateModule(code, evalOpts);
+    return await realm.evaluateModule(code, dropUndefined({ sourceName }));
   } catch (e) {
     let error = e;
 

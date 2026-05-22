@@ -33,6 +33,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   private _state: StaticJsTaskIteratorImplState;
 
   private _currentTask: StaticJsIteratedTask | null = null;
+  private _currentTaskId: number = 0;
   private _currentEvaluator: Generator<void, unknown, void> | null = null;
 
   private readonly _frames: TaskIteratorFrame[] = [];
@@ -50,16 +51,23 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     this._state = "running";
   }
 
-  get type(): StaticJsTaskType | null {
-    return this._currentTask ? this._currentTask.type : null;
-  }
-
   get calleeType(): StaticJsTaskCalleeType {
     return this._calleeType;
   }
 
   get async() {
     return this._async;
+  }
+
+  get currentTaskType(): StaticJsTaskType | null {
+    return this._currentTask ? this._currentTask.type : null;
+  }
+
+  get currentTaskId(): string | null {
+    if (this._currentTaskId === -1) {
+      return null;
+    }
+    return String(this._currentTaskId);
   }
 
   get done(): boolean {
@@ -212,10 +220,12 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     const { value, done } = this._taskIterator.next();
     if (done) {
       this._currentTask = null;
+      this._currentTaskId = -1;
       return false;
     }
 
     this._currentTask = value;
+    this._currentTaskId++;
 
     this._frames.unshift({ currentNode: null, function: null });
 
@@ -245,6 +255,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     this._currentNode = null;
     this._currentTask = null;
     this._currentEvaluator = null;
+    this._currentTaskId = -1;
   }
 }
 

@@ -1,8 +1,11 @@
 packages:
   - packages/*
   - live-sandbox
+  - docusaurus
 
 allowBuilds:
+  "@swc/core": true
+  core-js: false
   esbuild: false
 
 catalog:

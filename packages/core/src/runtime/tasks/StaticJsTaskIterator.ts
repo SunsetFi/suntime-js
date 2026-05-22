@@ -14,11 +14,6 @@ import type { StaticJsTaskType } from "./StaticJsTaskType.js";
  */
 export interface StaticJsTaskIterator {
   /**
-   * The type of the current task, either "macrotask" or "microtask".
-   */
-  readonly type: StaticJsTaskType | null;
-
-  /**
    * The callee of the task, which indicates how the task was triggered.
    */
   readonly calleeType: StaticJsTaskCalleeType;
@@ -29,6 +24,17 @@ export interface StaticJsTaskIterator {
    * Async tasks are allowed to not fully drain their iterator before the runTask call returns.
    */
   readonly async: boolean;
+
+  /**
+   * The type of the current task, either "macrotask" or "microtask".
+   */
+  readonly currentTaskType: StaticJsTaskType | null;
+
+  /**
+   * The unique identifier for the current task.
+   * This will change as more microtasks are ran.
+   */
+  readonly currentTaskId: string | null;
 
   /**
    * Whether the task has completed execution.

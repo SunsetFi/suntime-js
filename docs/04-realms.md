@@ -16,13 +16,13 @@ _Note: Realms are pseudo-classes. They can be constructed with or without `new`,
 
 Sets the global `this` arg for the realm.
 
-- `globalThis`.`value`: Sets the this arg to the given value. If the value is not a [StaticJsValue](./06-types.md#staticjsvalue), it will be [coerced to one](./03-type-coersion.md).
+- `globalThis`.`value`: Sets the this arg to the given value. If the value is not a [StaticJsValue](./06-types.md#staticjsvalue), it will be [coerced to one](./03-type-coercion.md).
 
 #### global
 
 Sets the global object or its properties for the realm.
 
-- `global`.`value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a [StaticJsObject](./06-types.md#object), it will be [coerced to one](./03-type-coersion.md).
+- `global`.`value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a [StaticJsObject](./06-types.md#object), it will be [coerced to one](./03-type-coercion.md).
 - `global`.`properties`: Specifies propertery descriptors of the global object.
 
 Only one of `value` or `properties` may be set.
@@ -242,7 +242,7 @@ Note that this may not indicate that the realm is idle, as other tasks may be qu
 
 Returns a promise that resolves when the realm is idle, i.e. there are no macrotasks or microtasks remaining to be processed.
 
-The promise provides the following guarentees:
+The promise provides the following guarantees:
 
 - If a script evaluation is queued as a result of an awaitIdle promise, other awaitIdle promises taken before the queuing will resolve before that script evaluation begins.
 - If awaitIdle is called after an evaluation is queued, it will still await that evaluation, even if other previous awaitIdle calls are still in the process of resolving.

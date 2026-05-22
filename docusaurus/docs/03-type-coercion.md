@@ -1,4 +1,8 @@
-# Type coersion between the native runtime and the script evaluation
+---
+title: Type Coercion
+sidebar_label: Type Coercion
+sidebar_position: 3
+---
 
 Any value passing the barrier between the scripting engine and the host is transparently proxied.
 
@@ -46,7 +50,7 @@ When the sandbox invokes the function, all arguments to the function, as well as
 
 ## Sandbox to Host
 
-Sandbox to Host coersion is not used often, and generally **should be avoided**, as its usage introduces the possibility of unintentionally and synchronously evaluating sandbox code as a result of property getters and setters. While it is possible to time-gate these evaluations using [runTaskSync](./04-realms.md#runtasksync), the default task runner will run forever and will deadlock for infinite loops.
+Sandbox to Host coercion is not used often, and generally **should be avoided**, as its usage introduces the possibility of unintentionally and synchronously evaluating sandbox code as a result of property getters and setters. While it is possible to time-gate these evaluations using [runTaskSync](./04-realms.md#runtasksync), the default task runner will run forever and will deadlock for infinite loops.
 
 Generally, this is only used for `toNative`, `evaluateScriptSync` and friends, and for invoking host functions that were passed to the sandbox.
 

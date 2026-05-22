@@ -9,11 +9,11 @@ import isDebuggerActive from "../../env/is-debugger-active.js";
 describe("E2E: For loops", () => {
   let evaluateScript: typeof evaluateScriptCore;
   beforeEach(() => {
-    const taskRunner = createTimeBoundTaskRunner({
+    const runTask = createTimeBoundTaskRunner({
       maxRunTime: isDebuggerActive ? Infinity : 1000,
     });
     evaluateScript = (code: string) => {
-      return evaluateScriptCore(code, { taskRunner });
+      return evaluateScriptCore(code, { runTask });
     };
   });
 

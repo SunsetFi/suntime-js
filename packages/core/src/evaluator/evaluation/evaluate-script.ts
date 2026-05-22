@@ -37,18 +37,17 @@ export async function evaluateScript(
 ): Promise<unknown> {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner, sourceName, topLevelAwait } = opts;
+  const { runTask, sourceName, topLevelAwait } = opts;
 
-  realm ??= StaticJsRealm();
+  realm ??= StaticJsRealm(dropUndefined({ runTask }));
+
   if (!isStaticJsRealm(realm)) {
     throw new TypeError("Provided realm is not a StaticJsRealm");
   }
 
-  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName, topLevelAwait });
-
   let result: StaticJsValue;
   try {
-    result = await realm.evaluateScript(script, evalOpts);
+    result = await realm.evaluateScript(script, dropUndefined({ sourceName, topLevelAwait }));
   } catch (e) {
     let error = e;
     if (error instanceof StaticJsRuntimeError) {
@@ -77,14 +76,12 @@ export async function evaluateScript(
 export function evaluateScriptSync(script: string, opts?: EvaluationOptions): unknown {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner } = opts;
+  const { runTask } = opts;
 
-  realm ??= StaticJsRealm();
-
-  const evalOpts = dropUndefined({ runTask: taskRunner });
+  realm ??= StaticJsRealm(dropUndefined({ runTask }));
 
   try {
-    const result = realm.evaluateScriptSync(script, evalOpts);
+    const result = realm.evaluateScriptSync(script, dropUndefined({ runTask }));
     return result.toNative();
   } catch (e) {
     let error = e;

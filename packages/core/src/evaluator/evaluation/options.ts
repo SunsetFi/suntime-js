@@ -3,6 +3,6 @@ import type { StaticJsTaskRunner } from "../../runtime/tasks/StaticJsTaskRunner.
 
 export interface EvaluationOptions {
   realm?: StaticJsRealm;
-  taskRunner?: StaticJsTaskRunner;
+  runTask?: StaticJsTaskRunner;
   sourceName?: string;
 }

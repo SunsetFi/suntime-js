@@ -9,7 +9,7 @@ export function* enumerateObjectProperties(
   obj: StaticJsObject,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
-  // The spec says that newly added properties are "not guarenteed" to be visited,
+  // The spec says that newly added properties are "not guaranteed" to be visited,
   // but the pseudocode does show that it might be a possibility.
   // However, it seems to also indicate that all properties present at the start WILL be enumerated, so
   // to avoid deletions shifting things around, we will just snapshot the keys at each object start.

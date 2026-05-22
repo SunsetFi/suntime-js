@@ -25,7 +25,7 @@ export function* getIterator(
       }
 
       const syncIteratorRecord = yield* getIteratorFromMethod(
-        // Guarenteed due to getMethod above
+        // Guaranteed due to getMethod above
         obj as StaticJsObject,
         syncMethod,
       );

@@ -1,8 +1,10 @@
-export function drainIterator(task: Iterator<unknown>) {
+export function drainIterator<TIter = unknown, TReturn = unknown>(
+  task: Iterator<TIter, TReturn>,
+): TReturn {
   while (true) {
-    const { done } = task.next();
+    const { done, value } = task.next();
     if (done) {
-      break;
+      return value;
     }
   }
 }

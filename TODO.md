@@ -9,9 +9,9 @@
 ## Less imediate
 
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
-- [ ] StaticJsFunction.toString revealing source
-- [ ] Get promises returned to proxied functions to await properly in the sandbox.
-      This should be happening automatically due to the .then function, but isn't
+- [+] StaticJsFunction.toString revealing source
+- [+] Get promises returned to proxied functions to await properly in the sandbox.
+  This should be happening automatically due to the .then function, but isn't
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
 
 ### Implement More

@@ -202,8 +202,8 @@ describe("E2E: Tasks", () => {
       const runTask = vi.fn((task: StaticJsTaskIterator) => {
         while (!task.done) {
           // Squish the types together, as we will tick a lot for the main macrotask.
-          if (sequence.at(-1) !== task.type) {
-            sequence.push(task.type ?? "null");
+          if (sequence.at(-1) !== task.currentTaskType) {
+            sequence.push(task.currentTaskType ?? "null");
           }
           task.next();
         }

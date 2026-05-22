@@ -22,18 +22,21 @@ export async function evaluateExpression(
 ): Promise<unknown> {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner, sourceName } = opts;
+  const { runTask, sourceName } = opts;
 
-  realm ??= StaticJsRealm();
+  realm ??= StaticJsRealm(
+    dropUndefined({
+      runTask,
+    }),
+  );
+
   if (!isStaticJsRealm(realm)) {
     throw new TypeError("Provided realm is not a StaticJsRealm");
   }
 
-  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName });
-
   let result: StaticJsValue;
   try {
-    result = await realm.evaluateExpression(expression, evalOpts);
+    result = await realm.evaluateExpression(expression, dropUndefined({ sourceName }));
   } catch (e) {
     let error = e;
 
@@ -70,15 +73,13 @@ export async function evaluateExpression(
 export function evaluateExpressionSync(expression: string, opts?: EvaluationOptions): unknown {
   opts ??= {};
   let { realm } = opts;
-  const { taskRunner, sourceName } = opts;
+  const { runTask, sourceName } = opts;
 
-  realm ??= StaticJsRealm();
-
-  const evalOpts = dropUndefined({ runTask: taskRunner, sourceName });
+  realm ??= StaticJsRealm(dropUndefined({ runTask }));
 
   let result: StaticJsValue;
   try {
-    result = realm.evaluateExpressionSync(expression, evalOpts);
+    result = realm.evaluateExpressionSync(expression, dropUndefined({ sourceName }));
   } catch (e) {
     let error = e;
 

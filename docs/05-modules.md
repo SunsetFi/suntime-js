@@ -95,7 +95,7 @@ The following are valid for passing as a StaticJs module, both for StaticJsRealm
 
 ### Exports object
 
-An object containing a single `exports` property will create a virtual module. The property names of the exports object will be the named exports, and the values will be [coerced](./03-type-coersion.md) unless it is a StaticJsValue.
+An object containing a single `exports` property will create a virtual module. The property names of the exports object will be the named exports, and the values will be [coerced](./03-type-coercion.md) unless it is a StaticJsValue.
 
 ```ts
 import { StaticJsRealm } from "@suntime-js/core";
@@ -148,10 +148,10 @@ Note that some exports can be dynamic. The exported object will NOT reflect chan
 
 Returns the current value of the export, coerced to a native value. The string "default" can be used to get the default export.
 
-The returned value will be [coerced to native representation](./03-type-coersion.md).
+The returned value will be [coerced to native representation](./03-type-coercion.md).
 
 #### getModuleNamespaceJsSync
 
 Returns a coerced-native namespace object for all (non-default) exports of the module. This properties of this object will reflect the current state of the module, including any changes made after its creation.
 
-The mapped values will be [coerced to native representations](./03-type-coersion.md).
+The mapped values will be [coerced to native representations](./03-type-coercion.md).

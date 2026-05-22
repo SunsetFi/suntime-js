@@ -1,3 +1,4 @@
+import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 import {
@@ -13,8 +14,9 @@ import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
+type EvaluationTaskStatus = "pending" | "running" | "fulfilled" | "rejected";
 export class EvaluationTask implements EvaluationContextStackProvider {
-  private _status: "pending" | "running" | "fulfilled" | "rejected" = "pending";
+  private _status: EvaluationTaskStatus = "pending";
 
   /**
    * The microtasks that have been enqueued during this macrotask.
@@ -28,7 +30,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
    * This needs to be stored separately before the promise completes as we may need to
    * invoke microtasks that themselves can throw and reject our promise.
    */
-  private _macrotaskCompletionValue: unknown | undefined = undefined;
+  private _pendingCompletionValue: unknown | undefined = undefined;
 
   /**
    * Errors that have been raised but not yet handled.
@@ -204,6 +206,43 @@ export class EvaluationTask implements EvaluationContextStackProvider {
     this._taskRunner(iterator);
   }
 
+  invokeSync() {
+    if (this._status !== "pending") {
+      throw new StaticJsEngineError(`Cannot invoke a task that is already ${this._status}.`);
+    }
+
+    this._status = "running";
+
+    const iterator = new StaticJsTaskIteratorImpl(
+      this._calleeType,
+      this._async,
+      this._iterateTasks(),
+      this._scope,
+    );
+
+    let rejection: unknown = undefined;
+    let completion: unknown = undefined;
+    this.onComplete((value, err) => {
+      completion = value;
+      rejection = err;
+    });
+
+    this._taskRunner(iterator);
+
+    // Status is changed by the above
+    const status = this._status as EvaluationTaskStatus;
+
+    if (status !== "fulfilled") {
+      throw new StaticJsConcurrentEvaluationError("The task did not complete synchronously.");
+    }
+
+    if (rejection !== undefined) {
+      throw rejection;
+    }
+
+    return completion;
+  }
+
   private _trySuppressPromiseRejection() {
     if (this._promiseRejectSuppressed) {
       return;
@@ -252,7 +291,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
   };
 
   private _acceptMacrotask(value: unknown) {
-    this._macrotaskCompletionValue = value;
+    this._pendingCompletionValue = value;
   }
 
   private _accept() {
@@ -268,10 +307,10 @@ export class EvaluationTask implements EvaluationContextStackProvider {
     }
 
     this._status = "fulfilled";
-    this._acceptPromise(this._macrotaskCompletionValue);
-    this._onCompletedCallbacks.forEach((cb) => cb(this._macrotaskCompletionValue));
+    this._acceptPromise(this._pendingCompletionValue);
+    this._onCompletedCallbacks.forEach((cb) => cb(this._pendingCompletionValue));
     this._onCompletedCallbacks = [];
-    this._macrotaskCompletionValue = undefined;
+    this._pendingCompletionValue = undefined;
   }
 
   private _reject(reason?: unknown) {
@@ -285,6 +324,6 @@ export class EvaluationTask implements EvaluationContextStackProvider {
     this._rejectPromise(reason);
     this._onCompletedCallbacks.forEach((cb) => cb(undefined, reason));
     this._onCompletedCallbacks = [];
-    this._macrotaskCompletionValue = undefined;
+    this._pendingCompletionValue = undefined;
   }
 }

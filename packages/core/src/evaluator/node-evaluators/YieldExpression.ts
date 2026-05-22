@@ -38,7 +38,7 @@ export default function* yieldExpressionNodeEvaluator(node: YieldExpression): Ev
     return yield* Q(Yield(value));
   }
 
-  // Guarenteed by getGeneratorKind.
+  // Guaranteed by getGeneratorKind.
   const generator = EvaluationContext.current.generator!;
 
   const iteratorRecord = yield* getIterator(value, generatorKind);

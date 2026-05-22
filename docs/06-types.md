@@ -4,9 +4,9 @@ The StaticJs runtime creates its own implementations of all intrinsic types. Eac
 
 ## Type factory
 
-The `types` property on a `StaticJsRealm` contains factories for creating all primitive types. Using these factories will let you pass in types to the sandbox directly without any coersion.
+The `types` property on a `StaticJsRealm` contains factories for creating all primitive types. Using these factories will let you pass in types to the sandbox directly without any coercion.
 
-Additionally, it contains a `toStaticJsValue` function that performs [coersion on native types](./03-type-coersion.md).
+Additionally, it contains a `toStaticJsValue` function that performs [coercion on native types](./03-type-coercion.md).
 
 ## Types
 
@@ -378,13 +378,13 @@ The following methods are available on the Type Factory:
 
 Coerces the host / native value to a sandboxed value.
 
-This follows the [coersion rules](./03-type-coersion.md). This may produce bidirectional conversion for the case of functions or objects with accessor properties.
+This follows the [coercion rules](./03-type-coercion.md). This may produce bidirectional conversion for the case of functions or objects with accessor properties.
 
 Note that native objects passed through this will **not be mutable** in the sandbox. The properties will appear as nonconfigurable, and set accessor properties will not be invoked. However, get accessors will still be invoked.
 
 The conversion is recursive: Native property values will be converted, as will values returned by any get accessor or function invocations.
 
-See [Type Coersion](./03-type-coersion.md) for full details.
+See [Type Coercion](./03-type-coercion.md) for full details.
 
 ## Using synchonous functions
 

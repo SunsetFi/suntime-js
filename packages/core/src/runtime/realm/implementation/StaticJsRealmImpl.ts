@@ -1,8 +1,6 @@
 import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJsSynchronousTaskIncompleteError.js";
 import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
-import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
@@ -43,7 +41,6 @@ import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-import { StaticJsTaskType } from "../../tasks/StaticJsTaskType.js";
 import { StaticJsExternalFunction } from "../../types/implementation/functions/StaticJsExternalFunction.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import type { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
@@ -400,10 +397,15 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRunTaskOptions & { calleeType?: StaticJsTaskCalleeType } = {},
   ): TReturn {
     if (this._boostrapping) {
-      return this._invokeEvaluatorSyncNow(evaluator, "macrotask", "host", drainIterator);
-    } else if (this._currentTask && this._currentTask.entered) {
-      return this._invokeEvaluatorSyncNow(evaluator, "macrotask", calleeType, runTask);
+      return drainIterator(invokeEvaluator(evaluator));
+      // return this._invokeEvaluatorSyncNow(evaluator, "macrotask", "host", drainIterator);
     }
+
+    // FIXME: If we are already in a task, inject it into the current iterator IFF
+    // it is synchronous.
+    //  else if (this._currentTask && this._currentTask.entered) {
+    //   return this._invokeEvaluatorSyncNow(evaluator, "macrotask", calleeType, runTask);
+    // }
 
     // oxlint-disable-next-line typescript/no-this-alias
     const realm = this;
@@ -421,7 +423,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       return yield* invokeEvaluator(evaluator);
     }
 
-    return this._invokeMacrotaskSync(evaluate, calleeType, { runTask: this._defaultRunTaskSync });
+    return this._invokeMacrotaskSync(evaluate, calleeType, { runTask });
   }
 
   invokeEvaluatorAsync<TReturn>(
@@ -588,10 +590,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const previousTask = this._currentTask;
 
     try {
-      let result: TReturn | undefined = undefined;
-      let error: unknown | undefined = undefined;
-      let complete = false;
-
       // oxlint-disable-next-line typescript/no-this-alias
       const realm = this;
       function* evaluate() {
@@ -609,112 +607,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       }
 
       const macrotask = this._createMacrotask(evaluate, calleeType, false, runTask);
-      macrotask.onComplete((value, err) => {
-        complete = true;
-        error = err;
-        result = value as TReturn;
-      });
-
       this._currentTask = macrotask;
 
-      macrotask.invoke();
-
-      if (!macrotask.done) {
-        throw new StaticJsSynchronousTaskIncompleteError(
-          `A synchronous task did not complete synchronously.  The task runner was: ${runTask.name || "anonymous"}`,
-        );
-      }
-
-      if (!complete) {
-        // This should never occur and indicates a bug in the Macrotask implementation.
-        throw new StaticJsEngineError("The macrotask did not complete correctly.");
-      }
-
-      if (error) {
-        throw error;
-      }
-
-      return result!;
+      return macrotask.invokeSync() as TReturn;
     } finally {
       this._currentTask = previousTask;
     }
-  }
-
-  private _invokeEvaluatorSyncNow<TReturn>(
-    evaluator: StaticJsEvaluator<TReturn>,
-    type: StaticJsTaskType,
-    calleeType: StaticJsTaskCalleeType,
-    runTask: StaticJsTaskRunner,
-  ): TReturn {
-    const iter = invokeEvaluator(evaluator);
-
-    let iterDone: boolean = false;
-    let iterAborted: boolean = false;
-    let iterReturn: TReturn | undefined = undefined;
-    let iterThrow: unknown | undefined = undefined;
-    const task: StaticJsTaskIterator = {
-      get type() {
-        return type;
-      },
-      get calleeType() {
-        return calleeType;
-      },
-      get async() {
-        return false;
-      },
-      get aborted() {
-        return iterAborted;
-      },
-      get done() {
-        return iterDone;
-      },
-      get operation() {
-        return null;
-      },
-      get location() {
-        return null;
-      },
-      get stack() {
-        return [];
-      },
-      next: () => {
-        if (iterDone) {
-          return { done: true, value: undefined };
-        }
-        const { done, value } = iter.next();
-        if (done) {
-          iterDone = true;
-          iterReturn = value as TReturn;
-          return { done: true, value: undefined };
-        }
-        return { done: false, value: undefined };
-      },
-      throw: (error: unknown) => {
-        if (iterDone) {
-          return { done: true, value: undefined };
-        }
-        iterDone = true;
-        iterThrow = error;
-        return { done: true, value: undefined };
-      },
-      abort() {
-        iterDone = true;
-        iterAborted = true;
-        iterThrow = new StaticJsTaskAbortedError();
-      },
-    };
-
-    runTask(task);
-
-    if (!iterDone) {
-      throw new StaticJsSynchronousTaskIncompleteError();
-    }
-
-    if (iterThrow) {
-      throw iterThrow;
-    }
-
-    return iterReturn as TReturn;
   }
 }
 

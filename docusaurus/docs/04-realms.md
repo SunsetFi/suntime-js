@@ -1,0 +1,312 @@
+---
+title: Realms
+sidebar_label: Realms
+sidebar_position: 4
+---
+
+The root unit of sandbox evaluation is `StaticJsRealm`. These realms provide independent virtual javascript evaluation. Each realm has its own prototypes, types, globals, and task queue.
+
+Once you have created a realm, you can use it to evaluate scripts.
+
+## Creating Realms
+
+You can create a realm using `StaticJsRealm(opts?)`.
+
+_Note: Realms are pseudo-classes. They can be constructed with or without `new`, and `instanceof` should behave correctly. However, Suntime-JS never relies on this check, and uses duck-typing interally._
+
+### Realm factory options
+
+#### globalThis
+
+Sets the global `this` arg for the realm.
+
+- `globalThis`.`value`: Sets the this arg to the given value. If the value is not a [StaticJsValue](./06-types.md#staticjsvalue), it will be [coerced to one](./03-type-coercion.md).
+
+#### global
+
+Sets the global object or its properties for the realm.
+
+- `global`.`value`: Sets the this arg to the given value. The value must be an object-like. If the value is not a [StaticJsObject](./06-types.md#object), it will be [coerced to one](./03-type-coercion.md).
+- `global`.`properties`: Specifies propertery descriptors of the global object.
+
+Only one of `value` or `properties` may be set.
+
+Often, you may need the realm type factory when creating values or sub-properties of the global object. Because of this, it may be easier
+to create the realm first, and then call `realm.global.definePropertySync` to add properties to the global object.
+
+The realm itself will add its intrinsics to whatever global object you create. If you want to modify these intrinsics, you can re-define them using `realm.global.definePropertySync` after the realm is created.
+
+#### modules
+
+Modules can be set to a record of module names to [Resolvable StaticJs Modules](./05-modules.md#resolvable-modules).
+
+Refer to the [module documentation](./05-modules.md) for what values are accepted.
+
+```ts
+import { StaticJsRealm } from "@suntime-js/core";
+
+const realm = StaticJsRealm({
+  modules: {
+    "my-module": {
+      exports: {
+        add(a, b) {
+          return a + b;
+        },
+      },
+    },
+  },
+});
+
+await realm.evaluateModule(`
+  import { add } from "my-module";
+  add(1, 2);
+`);
+```
+
+#### resolveImportedModule
+
+For asynchronous module resolution, the `resolveImportedModule` function will be invoked if `modules` has no record for the desired module. It will be called with a reference to the importing [StaticJsModule](./05-modules.md) as its first argument, and the module specifier as the second argument. It should return either a [Resolvable StaticJs Modules](./05-modules.md#resolvable-modules), or a Promise that resolves to one.
+
+Refer to the [module documentation](./05-modules.md) for what values may be returned from this function.
+
+#### runTask
+
+The default [Task Handler](./07-tasks.md) for running tasks using `evaluateExpression`,
+`evaluateScript`, and `evaluateModule`.
+If you pass a `runTask` option to any of those methods, it will be used in place of this function.
+
+Tasks can be used to timeshare, enforce time limits, pause, debug, and abort ongoing sandbox code evaluations. See [Task handling](./07-tasks.md) for more information.
+
+#### runTaskSync
+
+The default [Task Handler](./07-tasks.md) for running tasks using `evaluateExpressionSync` and
+`evaluateScriptSync`.
+
+This will also be used for synchronous sub-task evaluation, such as StaticJsValue.toNative or StaticJsModule.getExportSync
+
+If you pass a `runTask` option to any of those methods, it will be used in place of this function.
+
+Synchronous tasks can be used to enforce task time limits and abort ongoing sandbox code evaluations. See [Task handling](./07-tasks.md) for more information.
+
+Tasks passed to this function MUST either fully complete or be aborted before the function ends. If neither occurs, a `StaticJsSynchronousTaskIncompleteError` error will be thrown.
+
+#### hooks
+
+The hooks property allows providing custom behavior to various engine internals. All hooks provide sensible defaults, but can be overriden as-needed.
+
+All hooks recieve the current realm as the first argument. Hooks may take additional arguments as-needed.
+
+##### `hooks.math.{key}`
+
+Type: **object**
+
+hooks.math accepts an object taking various Math.\* implementations.
+
+You may want to override these to provide deterministic implementations of the Math functions across engines, as many of these are left as **implementation-specific** in the spec and may cause nondeterministic behavior across engies.
+
+All values not provided will default to using the host's Math.\* implementation.
+
+Signature: `hook(realm, ...args) => number`
+
+**Note: The hooks in hooks.math are configured to recieve all arguments passed by the sandbox, coerced to native numbers. As such, the number and values of the arguments are specified by sandboxed code. Be aware that you may recieve more or fewer arguments than expected.**
+
+Supported methods:
+
+- acos
+- acosh
+- asin
+- asinh
+- atan
+- atan2
+- atanh
+- cbrt
+- cos
+- cosh
+- exp
+- expm1
+- hypot
+- log
+- log10
+- log1p
+- log2
+- random
+- sin
+- sinh
+- sqrt
+- tan
+- tanh
+
+##### Example: Seeding the Math.random() value
+
+```ts
+import { Random } from "random";
+
+const r = new Random("my-seed");
+
+const realm = StaticJsRealm({
+  hooks: {
+    math: {
+      random: () => r.float(),
+    },
+  },
+});
+```
+
+## Realm methods
+
+### `evaluateExpression(expression: string, opts?: StaticJsRealmEvaluateSourceOptions)`
+
+Queues an expression evaluation into the realm's task queue. If the realm is idle, the expression will begin evaluation in a macrotask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
+
+Returns a promise that resolves to the [StaticJsValue](./06-types.md) result of the evaluation.
+
+### `evaluateExpressionSync(expression: string, opts?: StaticJsRealmEvaluateSourceOptions)`
+
+Evaluates an expression synchronously and returns the resultant [StaticJsValue](./06-types.md) of the evaluation.
+
+If the realm is already evaluating asynchronously, then this can only be called from inside the realm's evaluation.
+
+That is, this will work:
+
+```ts
+const realm = StaticJsRealm();
+realm.global.definePropertySync("evalExpression", {
+  value: realm.types.toStaticJsValue((arg) => {
+    const code = String(arg);
+    return realm.evaluateExpressionSync(code);
+  }),
+});
+
+await realm.evaluateScriptSync(`evalExpression("2+2")`);
+```
+
+And this will not work:
+
+```ts
+const promise = realm.evaluateExpression("2+2");
+const result = realm.evaluateExpressionSync("2+4");
+await promise;
+```
+
+If this requirement is violated, `evaluateExpressionSync` will throw `StaticJsConcurrentEvaluationError`
+
+### `evaluateScript(script: string, opts?: StaticJsEvaluateScriptOptions)`
+
+Queues a script evaluation in the realm's task queue. If the realm is idle, the script will begin evaluation in a macrotask. Otherwise, it will be added to the queue and evaluate when all other evaluations have finished.
+
+Returns a promise that resolves to the [StaticJsValue](./06-types.md) result of the evaluation.
+
+### `evaluateScriptSync(expression: string, opts?: StaticJsRealmEvaluateSourceOptions)`
+
+Evaluates a script synchronously and returns the resultant [StaticJsValue](./06-types.md) of the evaluation.
+
+If the realm is already evaluating asynchronously, then this can only be called from inside the realm's evaluation.
+
+That is, this will work:
+
+```ts
+const realm = StaticJsRealm();
+realm.global.definePropertySync("eval", {
+  value: realm.types.toStaticJsValue((arg) => {
+    const code = String(arg);
+    return realm.evaluateScriptSync(code);
+  }),
+});
+
+await realm.evaluateScriptSync(`eval("2+2")`);
+```
+
+And this will not work:
+
+```ts
+const promise = realm.evaluateScript("2+2");
+const result = realm.evaluateScriptSync("2+4");
+await promise;
+```
+
+If this requirement is violated, `evaluateExpressionSync` will throw `StaticJsConcurrentEvaluationError`
+
+### `evaluateModule(script: string, opts?: StaticJsRealmEvaluateSourceOptions)`
+
+Queues a module evaluation in the realm's task queue and returns a promise that resolves to the resulting [StaticJsModule](./05-modules.md).
+
+If the module is asynchronous (has a top-level await), or depends on another module that is asynchronous, the promise will wait until the full module chain fully evaluates before resolving.
+
+Note that module linking will be done immediately upon calling the method, while the declaration and evaluation steps will wait for the task queue.
+
+There is no synchronous version of `evaluateModule`, as modules are inherently asynchronous.
+
+### `awaitCurrentTask()`
+
+Returns a promise that resolves when the current macrotask, and all resulting microtasks, have completed.
+
+Note that this may not indicate that the realm is idle, as other tasks may be queued. See [awaitIdle](#awaitidle).
+
+### `awaitIdle()`
+
+Returns a promise that resolves when the realm is idle, i.e. there are no macrotasks or microtasks remaining to be processed.
+
+The promise provides the following guarantees:
+
+- If a script evaluation is queued as a result of an awaitIdle promise, other awaitIdle promises taken before the queuing will resolve before that script evaluation begins.
+- If awaitIdle is called after an evaluation is queued, it will still await that evaluation, even if other previous awaitIdle calls are still in the process of resolving.
+
+## Realm properties
+
+### `types`
+
+The type factory for a realm can be found on the `types` property for that realm.
+
+See [Realm Type Factory](./06-types.md#type-factory)
+
+### `global`
+
+The global-scope global [StaticJsObject](./06-types.md#object) for this realm.
+
+This value can be specified using the [global](#global) realm constructor property, but cannot be changed afterward.
+
+### `globalThis`
+
+The global-scope global [StaticJsValue](./06-types.md#staticjsvalue) for this realm.
+
+This value can be specified using the [globalThis](#globalthis) realm constructor property, but cannot be changed afterward.
+
+## StaticJsRunTaskOptions
+
+The StaticJsRunTaskOptions interface allows customization for evaluated tasks.
+
+The following properties are accepted:
+
+- `runTask: StaticJsTaskRunner`
+  Specifies the [Task Runner](./07-tasks.md#implementing-task-runners) for this operation.
+  Default: the [runTask](#runtask) or [runTaskSync](#runtasksync) options passed to the realm on creation.
+  Note that synchronous invocations MUST run the task iterator to completion. Asynchronous invocations
+  do not have this requirement, and may pause and resume iteration at a later time.
+
+## StaticJsRealmEvaluateSourceOptions
+
+The StaticJsRealmEvaluateSourceOptions interface allows further customizations for evaluating units of code
+
+Inherits from: StaticJsRunTaskOptions
+
+The following additional properties are accepted:
+
+- `sourceName: string`
+  Specifies the name of the source being evaluated. This is used for stack traces and task iterator introspection.
+  This is not applicable to all usages of StaticJsRunTaskOptions, and can be ignored in some cases.
+
+## StaticJsEvaluateScriptOptions
+
+The StaticJsEvaluateScriptOptions interface provides further options for evaluating top-level scripts with `realm.evaluateScript`.
+
+Inherits from: StaticJsEvaluateCodeOptions
+
+The following additional properties are accepted:
+
+- `topLevelAwait: boolean | "auto"`
+  Specifies whether `await` keywords at the top-level are allowed.
+  Default: `false`
+  If set to `true`, realm.evaluateScript will return a [StaticJsPromise](./06-types.md) that resolves to the script's completion value.
+  If set to `"auto"`, realm.evaluateScript will return a [StaticJsPromise](./06-types.md) only if a top-level await keyword is present. If not, it will return the normal value.
+  If set to `false`, top-level await will throw a syntax error.
+  Note: This is not available for the synchronous evaluateScriptSync.

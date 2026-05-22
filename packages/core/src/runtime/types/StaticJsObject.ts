@@ -115,6 +115,9 @@ export interface StaticJsObject extends StaticJsPrimitive {
     p: StaticJsPrivateName,
   ): EvaluationGenerator<StaticJsPrivateElement | null>;
   privateElementAddEvaluator(element: StaticJsPrivateElement): EvaluationGenerator<void>;
+
+  // Note: I want to redefine toNative() here to return object,
+  // but symbols inherit from objects yet typescript says symbol is not assignable to object.
 }
 
 export function isStaticJsObject(value: unknown): value is StaticJsObject {

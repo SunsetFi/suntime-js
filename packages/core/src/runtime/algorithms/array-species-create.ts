@@ -23,7 +23,7 @@ export function* arraySpeciesCreate(
     return yield* arrayCreate(length);
   }
 
-  // The above should guarentee this, but we want the type guard.
+  // The above should guarantee this, but we want the type guard.
   if (!isStaticJsObject(originalArray)) {
     throw new StaticJsEngineError("originalArray returned isArray true but is not an object");
   }

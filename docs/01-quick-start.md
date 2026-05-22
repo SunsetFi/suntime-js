@@ -12,7 +12,7 @@ import { evaluateExpressionSync } from "@suntime-js/core";
 const result = evaluateExpressionSync("2 + 2");
 ```
 
-The result will be converted to a native representation. This can either be a primitive, but for objects, it will be a complex proxy into the StaticJs runtime. For more information on how values are proxied, see [Type Coersion](./03-type-coersion.md).
+The result will be converted to a native representation. This can either be a primitive, but for objects, it will be a complex proxy into the StaticJs runtime. For more information on how values are proxied, see [Type Coercion](./03-type-coercion.md).
 
 It is important to note that returned object and function proxies can invoke sandboxed code when used:
 
@@ -69,7 +69,7 @@ const result = evaluateScriptSync(code);
 console.log(result(2, 4)); // 6
 ```
 
-Note that for security, objects passed in this way are not mutatable by the StaticJs code. See [Native / Script type coersion](#type-coersion-between-the-native-runtime-and-the-script-evaluation).
+Note that for security, objects passed in this way are not mutatable by the StaticJs code. See [Native / Script type coercion](#type-coercion-between-the-native-runtime-and-the-script-evaluation).
 
 ```ts
 const code = `
@@ -92,7 +92,7 @@ console.log(value.foo);
 
 If you want to allow mutation of values, you will need to [produce a StaticJs-native object](./04-realms.md#types).
 
-On the other hand, mutating values on returned objects will reflect the mutation in the sandbox. Mutations from the native side will [coerce the native value](./03-type-coersion.md) when sent to the sandbox.
+On the other hand, mutating values on returned objects will reflect the mutation in the sandbox. Mutations from the native side will [coerce the native value](./03-type-coercion.md) when sent to the sandbox.
 
 ```ts
 import { evaluateExpressionSync } from "@suntime-js/core";
