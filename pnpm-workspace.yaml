@@ -1,7 +1,7 @@
 packages:
+  - docs
   - packages/*
   - playground
-  - docusaurus
 
 allowBuilds:
   "@swc/core": true
