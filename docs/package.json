@@ -2,7 +2,6 @@
   "name": "@suntime-js/docs",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "pnpm run sync-playground && docusaurus start",
     "sync-playground": "pnpm --filter @suntime-js/playground... build && rm -rf static/playground-embed && cp -r ../playground/dist static/playground-embed",
