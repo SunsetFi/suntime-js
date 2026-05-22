@@ -199,7 +199,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       operationType,
       line: location.line ?? 0,
       column: location.column ?? 0,
-      taskKind: this._activeTask?.type === "microtask" ? "microtask" : "macrotask",
+      taskKind: this._activeTask?.currentTaskType === "microtask" ? "microtask" : "macrotask",
     };
   }
 
@@ -398,14 +398,17 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     };
 
     const outerTask: StaticJsTaskIterator = {
-      get type() {
-        return task.type;
-      },
       get calleeType() {
         return task.calleeType;
       },
       get async() {
         return task.async;
+      },
+      get currentTaskType() {
+        return task.currentTaskType;
+      },
+      get currentTaskId() {
+        return task.currentTaskId;
       },
       get done() {
         return stopped || task.done;

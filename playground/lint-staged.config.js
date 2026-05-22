@@ -1,11 +1,11 @@
 import { lintStagedWorkspaceRunner } from "../workspace-utils.mjs";
 
-const run = lintStagedWorkspaceRunner("live-sandbox");
+const run = lintStagedWorkspaceRunner("@suntime-js/playground");
 
 const tsLint = [
   run("format"),
   run("lint"),
-  () => "pnpm run --filter live-sandbox check",
+  () => "pnpm run --filter @suntime-js/playground check",
 ];
 export default {
   "src/**/*.{ts,tsx}": tsLint,

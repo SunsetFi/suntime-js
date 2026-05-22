@@ -72,6 +72,11 @@ const config: Config = {
           label: "Docs",
         },
         {
+          to: "/playground",
+          label: "Playground",
+          position: "left",
+        },
+        {
           href: "https://github.com/SunsetFi/suntime-js",
           label: "GitHub",
           position: "right",

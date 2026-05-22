@@ -1,11 +1,12 @@
 {
-  "name": "docusaurus",
+  "name": "@suntime-js/docusaurus",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "dev": "docusaurus start",
+    "dev": "pnpm run sync-playground && docusaurus start",
     "start": "docusaurus start",
+    "sync-playground": "pnpm --filter @suntime-js/playground... build && rm -rf static/playground-embed && cp -r ../playground/dist static/playground-embed",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

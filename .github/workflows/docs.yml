@@ -1,0 +1,61 @@
+name: Deploy Docs + Playground
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+          cache: "pnpm"
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Build the Vite sandbox app (also builds its workspace dep @suntime-js/core).
+      - name: Build playground-embed
+        run: pnpm run --filter @suntime-js/playground... build
+
+      # Copy the Vite output into Docusaurus's static/ directory so it gets
+      # bundled into the docs site as /playground-embed/.
+      - name: Copy playground-embed into Docusaurus static
+        run: |
+          rm -rf docusaurus/static/playground-embed
+          cp -r playground/dist docusaurus/static/playground-embed
+
+      # Build the Docusaurus site. @suntime-js/core was already built above.
+      - name: Build Docusaurus
+        run: pnpm run --filter @suntime-js/docusaurus build
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: docs
+          path: docusaurus/build
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: docs

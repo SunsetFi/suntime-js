@@ -92,8 +92,7 @@ export async function initializeWorkbenchServices(
             viewColumn: 1,
           },
         ],
-        // Don't force-reset layout on every reload so the user's panel state persists.
-        force: false,
+        force: true,
       },
     },
   );

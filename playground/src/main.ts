@@ -8,5 +8,5 @@ workbenchBootstrap
     workspace: createDefaultWorkspace(defaultSource),
   })
   .catch((err) => {
-    console.error("[live-sandbox-2] Failed to initialize workbench:", err);
+    console.error("Failed to initialize workbench:", err);
   });

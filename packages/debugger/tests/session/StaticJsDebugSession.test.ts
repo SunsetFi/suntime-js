@@ -730,9 +730,10 @@ describe("StaticJsDebugSession", () => {
 
       let done = false;
       const fakeTask: StaticJsTaskIterator = {
-        type: "macrotask",
         calleeType: "evaluate",
         async: true,
+        currentTaskType: "macrotask",
+        currentTaskId: "0",
         get done() {
           return done;
         },

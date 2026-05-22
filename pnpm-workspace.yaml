@@ -1,6 +1,6 @@
 packages:
   - packages/*
-  - live-sandbox
+  - playground
   - docusaurus
 
 allowBuilds:

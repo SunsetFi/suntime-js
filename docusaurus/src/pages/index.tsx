@@ -9,7 +9,7 @@ import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
 
-import quickStartCode from "!!raw-loader!./quick-start-code.js";
+import quickStartCode from "!!raw-loader!./_quick-start-code.js";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -52,6 +52,11 @@ function HomepageCodeSnippet() {
     <div className={styles.codeSnippet}>
       <div className="container">
         <Heading as="h2">Try it out!</Heading>
+        <p>
+          Or try it in the{" "}
+          <Link href="/playground">interactive playground</Link> complete with
+          breakpoints!
+        </p>
         <CodeBlock language="ts" metastring="live-staticjs">
           {quickStartCode}
         </CodeBlock>

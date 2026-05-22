@@ -1,0 +1,27 @@
+/* Hide the footer and strip content-area padding on the playground page.
+ * The body class is applied via useEffect in playground.tsx so these rules
+ * are only active while that page is mounted. */
+
+:global(body.playground-page) :global(.footer) {
+  display: none;
+}
+
+/* Docusaurus wraps page content in .main-wrapper > main; remove their padding
+ * so the iframe can bleed edge-to-edge. */
+:global(body.playground-page) :global(.main-wrapper) {
+  padding: 0;
+}
+
+:global(body.playground-page) main {
+  padding: 0;
+  margin: 0;
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  /* Fill the viewport below the fixed navbar */
+  height: calc(100vh - var(--ifm-navbar-height));
+  border: none;
+  overflow: hidden;
+}
