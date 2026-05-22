@@ -77,7 +77,6 @@ export default function createHostApi(
   });
 
   if (realm !== accessRealm) {
-    console.log("Proxying $262 for access realm");
     $262 = createFullAccessProxy($262, accessRealm);
   }
   return $262;

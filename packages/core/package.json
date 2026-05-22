@@ -59,6 +59,8 @@
     "@vitest/ui": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "typescript": "catalog:",
