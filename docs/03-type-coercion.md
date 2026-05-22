@@ -32,7 +32,7 @@ When passing an object to the Sandbox that originated in the sandbox, its proxy 
 
 Symbols will be converted to runtime symbols, with their descriptions preserved.
 
-Note that due to javascript semantics, symbols from Symbol.for() will cause a sandbox symbol to be permenantly created and never GCd, while symbols created with the Symbol() function will have their proxies GCd when the originating symbol is.
+Note that due to javascript semantics, symbols from Symbol.for() will cause a sandbox symbol to be permanently created and never GCd, while symbols created with the Symbol() function will have their proxies GCd when the originating symbol is.
 
 #### Sandbox-defined symbols (round trip)
 

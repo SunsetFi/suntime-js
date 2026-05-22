@@ -5,6 +5,13 @@
 - [ ] introspect / spy function for objects - Analyze properties without invoking sandbox code.
   - [ ] Use for debugger function name
   - [ ] Re-add frame-level functionName using above.
+- [ ] Rework ExternalFunction
+  - [ ] Allow enumerable own properties to be exposed non-writable and non-configurable,
+        as StaticJsExternalObjectt does
+  - [ ] Don't allow mutations to other properties
+  - [ ] Update type coercion docs.
+- [ ] Find a way for StaticJsObject.toNative to have a return type of object
+      Currently conflicts with StaticJsSymbol.toNative wanting to return symbol.
 
 ## Less imediate
 
@@ -13,6 +20,8 @@
 - [+] Get promises returned to proxied functions to await properly in the sandbox.
   This should be happening automatically due to the .then function, but isn't
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
+
+- `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
 
 ### Implement More
 
