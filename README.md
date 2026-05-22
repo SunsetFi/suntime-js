@@ -6,7 +6,9 @@ A (work in progress) JavaScript interpreter built on the TC39 ECMAScript standar
 
 A spiritual successor to [static-eval](https://www.npmjs.com/package/static-eval).
 
-Try it out in [the sandbox](https://sunsetfi.github.io/suntime-js)!
+[Read the Docs](https://sunsetfi.github.io/suntime-js)
+
+Try it out in [the playground](https://sunsetfi.github.io/suntime-js/playground)!
 
 ## Spec Compliance
 
