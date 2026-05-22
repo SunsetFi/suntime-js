@@ -50,7 +50,7 @@
 }
 
 .runButton {
-  color: var(--ifm-color-primary);
+  color: var(--ifm-color-success);
 }
 
 .stopButton {

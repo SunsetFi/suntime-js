@@ -15,7 +15,7 @@ import styles from "./styles.module.css";
 type Props = WrapperProps<typeof CodeBlockType>;
 type Status = "idle" | "running" | "completed" | "stopped" | "errored";
 
-const MAX_OUTPUT_LINES = 200;
+const MAX_OUTPUT_LINES = 100;
 
 export default function SuntimeCodeBlock(props: Props): ReactNode {
   const [lines, setLines] = useState<OutputLine[]>([]);
