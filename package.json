@@ -6,11 +6,15 @@
     "prepare": "husky",
     "lint-staged": "lint-staged",
     "build": "pnpm -r build",
+    "format": "pnpm -r format",
+    "lint": "pnpm -r lint",
     "check": "pnpm -r check",
     "update:test262": "git subtree pull --prefix=packages/core/tests/test262/repo test262 main --squash"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.0"
+    "lint-staged": "^15.5.0",
+    "oxfmt": "~0.51.0",
+    "oxlint": "^1.66.0"
   }
 }

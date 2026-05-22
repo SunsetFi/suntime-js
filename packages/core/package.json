@@ -9,9 +9,6 @@
   "repository": {
     "url": "https://github.com/SunsetFi/static-js"
   },
-  "engines": {
-    "node": ">= 22"
-  },
   "files": [
     "lib"
   ],
@@ -59,14 +56,15 @@
     "@vitest/ui": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
-    "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "^4.1.5",
     "yaml": "^2.8.2"
+  },
+  "engines": {
+    "node": ">= 22"
   },
   "packageManager": "pnpm@10.6.2"
 }

@@ -1,6 +1,5 @@
 import { registerDebugExtension } from "./extensions/debugExtension.js";
 import { createDefaultWorkspace } from "./filesystem/createDefaultWorkspace.js";
-import type { VirtualFileSystem } from "./filesystem/VirtualFileSystem.js";
 import { initializeWorkbenchServices } from "./services/initialize.js";
 import type {
   WorkbenchApiOptions,
