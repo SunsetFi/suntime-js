@@ -5,6 +5,7 @@ import {
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
 
+import { stringProtoAtDeclaration } from "./at.js";
 import stringProtoCharAtDeclaration from "./charAt.js";
 import stringProtoCharCodeAtDeclaration from "./charCodeAt.js";
 import stringProtoConcatDeclaration from "./concat.js";
@@ -33,6 +34,7 @@ import stringProtoTrimStartDeclaration from "./trimStart.js";
 import stringProtoValueOfDeclaration from "./valueOf.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
+  stringProtoAtDeclaration,
   stringProtoCharAtDeclaration,
   stringProtoCharCodeAtDeclaration,
   stringProtoConcatDeclaration,
