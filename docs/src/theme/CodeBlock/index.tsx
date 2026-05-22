@@ -1,7 +1,9 @@
-import React, { type ReactNode } from "react";
-import CodeBlock from "@theme-original/CodeBlock";
-import type CodeBlockType from "@theme/CodeBlock";
 import type { WrapperProps } from "@docusaurus/types";
+import type CodeBlockType from "@theme/CodeBlock";
+
+import CodeBlock from "@theme-original/CodeBlock";
+import React, { type ReactNode } from "react";
+
 import SuntimeCodeBlock from "./SuntimeCodeBlock";
 
 type Props = WrapperProps<typeof CodeBlockType>;

@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import Layout from "@theme/Layout";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Layout from "@theme/Layout";
+import { useEffect } from "react";
+
 import styles from "./index.module.css";
 
 export default function PlaygroundPage(): React.ReactElement {

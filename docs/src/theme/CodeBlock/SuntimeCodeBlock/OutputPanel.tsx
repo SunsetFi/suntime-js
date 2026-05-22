@@ -1,4 +1,5 @@
 import React, { type ReactNode } from "react";
+
 import styles from "./styles.module.css";
 
 export interface OutputLine {
@@ -13,12 +14,7 @@ interface OutputPanelProps {
   onStop: () => void;
 }
 
-export default function OutputPanel({
-  lines,
-  status,
-  onRun,
-  onStop,
-}: OutputPanelProps): ReactNode {
+export default function OutputPanel({ lines, status, onRun, onStop }: OutputPanelProps): ReactNode {
   const isRunning = status === "running";
 
   const outputRef = React.useRef<HTMLDivElement>(null);

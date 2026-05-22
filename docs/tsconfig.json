@@ -4,9 +4,10 @@
 {
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
+    "types": [],
     "baseUrl": ".",
     "ignoreDeprecations": "6.0",
     "strict": true
   },
-  "exclude": [".docusaurus", "build"]
+  "exclude": [".docusaurus", "build", "static/playground-embed"]
 }

@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
-import clsx from "clsx";
-import Link from "@docusaurus/Link";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import Layout from "@theme/Layout";
-import CodeBlock from "@theme/CodeBlock";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
-import Heading from "@theme/Heading";
-
-import styles from "./index.module.css";
 
 import quickStartCode from "!!raw-loader!./_quick-start-code.js";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import CodeBlock from "@theme/CodeBlock";
+import Heading from "@theme/Heading";
+import Layout from "@theme/Layout";
+import clsx from "clsx";
+
+import styles from "./index.module.css";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -35,10 +35,7 @@ function HomepageHeader() {
           />
         </div>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/quick-start"
-          >
+          <Link className="button button--secondary button--lg" to="/docs/quick-start">
             Get Started →
           </Link>
         </div>
@@ -53,8 +50,7 @@ function HomepageCodeSnippet() {
       <div className="container">
         <Heading as="h2">Try it out!</Heading>
         <p>
-          Or try it in the{" "}
-          <Link href="/playground">interactive playground</Link> complete with
+          Or try it in the <Link href="/playground">interactive playground</Link> complete with
           breakpoints!
         </p>
         <CodeBlock language="ts" metastring="live-staticjs">

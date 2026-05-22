@@ -2,20 +2,19 @@
   "name": "@suntime-js/docs",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "docusaurus": "docusaurus",
     "dev": "pnpm run sync-playground && docusaurus start",
-    "start": "docusaurus start",
     "sync-playground": "pnpm --filter @suntime-js/playground... build && rm -rf static/playground-embed && cp -r ../playground/dist static/playground-embed",
     "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
     "serve": "docusaurus serve",
+    "clean": "docusaurus clear",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
-    "test": "vitest run"
+    "check": "tsc",
+    "test": "vitest run",
+    "format": "oxfmt",
+    "lint": "oxlint"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
@@ -32,7 +31,9 @@
     "@docusaurus/module-type-aliases": "3.10.1",
     "@docusaurus/tsconfig": "3.10.1",
     "@docusaurus/types": "3.10.1",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.2.5",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
     "raw-loader": "^4.0.2",
     "typescript": "~6.0.2",
     "vitest": "catalog:"

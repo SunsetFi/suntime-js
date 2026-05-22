@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState, type ReactNode } from "react";
-import CodeBlock from "@theme-original/CodeBlock";
-import type CodeBlockType from "@theme/CodeBlock";
 import type { WrapperProps } from "@docusaurus/types";
+import type CodeBlockType from "@theme/CodeBlock";
 
 import {
   StaticJsRealm,
   StaticJsTaskAbortedError,
   createTimeSharingTaskRunner,
 } from "@suntime-js/core";
+import CodeBlock from "@theme-original/CodeBlock";
+import React, { useEffect, useRef, useState, type ReactNode } from "react";
+
 import OutputPanel, { type OutputLine } from "./OutputPanel";
 import { serialize } from "./serialize";
 import styles from "./styles.module.css";
@@ -44,14 +45,11 @@ export default function SuntimeCodeBlock(props: Props): ReactNode {
     const realm = StaticJsRealm();
     realm.global.defineOwnPropertySync("console", {
       value: realm.types.toStaticJsValue({
-        log: (...args: unknown[]) =>
-          addLine({ kind: "log", text: args.map(serialize).join(" ") }),
-        warn: (...args: unknown[]) =>
-          addLine({ kind: "log", text: args.map(serialize).join(" ") }),
+        log: (...args: unknown[]) => addLine({ kind: "log", text: args.map(serialize).join(" ") }),
+        warn: (...args: unknown[]) => addLine({ kind: "log", text: args.map(serialize).join(" ") }),
         error: (...args: unknown[]) =>
           addLine({ kind: "error", text: args.map(serialize).join(" ") }),
-        info: (...args: unknown[]) =>
-          addLine({ kind: "log", text: args.map(serialize).join(" ") }),
+        info: (...args: unknown[]) => addLine({ kind: "log", text: args.map(serialize).join(" ") }),
       }),
       writable: true,
       configurable: true,
@@ -105,12 +103,7 @@ export default function SuntimeCodeBlock(props: Props): ReactNode {
       <div className={styles.codePanel}>
         <CodeBlock {...props} />
       </div>
-      <OutputPanel
-        lines={lines}
-        status={status}
-        onRun={handleRun}
-        onStop={handleStop}
-      />
+      <OutputPanel lines={lines} status={status} onRun={handleRun} onStop={handleStop} />
     </div>
   );
 }
