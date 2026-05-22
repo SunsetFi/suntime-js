@@ -27,18 +27,18 @@ jobs:
       # bundled into the docs site as /playground-embed/.
       - name: Copy playground-embed into Docusaurus static
         run: |
-          rm -rf docusaurus/static/playground-embed
-          cp -r playground/dist docusaurus/static/playground-embed
+          rm -rf docs/static/playground-embed
+          cp -r playground/dist docs/static/playground-embed
 
       # Build the Docusaurus site. @suntime-js/core was already built above.
       - name: Build Docusaurus
-        run: pnpm run --filter @suntime-js/docusaurus build
+        run: pnpm run --filter @suntime-js/docs build
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           name: docs
-          path: docusaurus/build
+          path: docs/build
 
   deploy:
     needs: build

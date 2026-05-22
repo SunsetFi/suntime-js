@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suntime JS Sandbox</title>
+
+    <!--
+      If this page is accessed directly (not embedded in an iframe), redirect to
+      the Docusaurus playground page once the service worker is active.
+
+      We check navigator.serviceWorker.controller because the COI SW triggers
+      a reload on its first install — on that first load the controller is null
+      and we must let the SW do its reload rather than redirect immediately.
+      On the second load (post-SW-reload) the controller is set and we redirect.
+    -->
+    <script>
+      if (import.meta.DEV) {
+        return;
+      }
+      if (window.top === window.self) {
+        window.location.replace("../playground");
+      }
+    </script>
+    <script type="module" crossorigin src="/suntime-js/playground-embed/assets/index-CXS_cgTT.js"></script>
+    <link rel="stylesheet" crossorigin href="/suntime-js/playground-embed/assets/index-kPYk2CdE.css">
+  </head>
+  <body>
+    <div id="workbench"></div>
+  </body>
+</html>
