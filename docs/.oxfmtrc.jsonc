@@ -1,9 +1,10 @@
-import { defineConfig } from "oxfmt";
-
-export default defineConfig({
-  ignorePatterns: ["/static/playground-embed", "docs/api/types/function.md"],
-  sortImports: {
-    groups: [
+// Forced to be jsonc:
+// Cannot use .ts as docusaurus forbids using "type": "module"
+// Cannt use .mts as oxfmt ignores this.
+{
+  "ignorePatterns": ["/static/playground-embed", "docs/api/types/function.md"],
+  "sortImports": {
+    "groups": [
       "type-import",
       ["value-builtin", "value-external"],
       ["type-internal", "value-internal"],
@@ -13,4 +14,4 @@ export default defineConfig({
       "unknown",
     ],
   },
-});
+}

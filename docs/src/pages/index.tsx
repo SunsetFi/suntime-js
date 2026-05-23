@@ -4,10 +4,10 @@ import quickStartCode from "!!raw-loader!./_quick-start-code.js";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import Admonition from "@theme/Admonition";
 import CodeBlock from "@theme/CodeBlock";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
-import Admonition from "@theme/Admonition";
 import clsx from "clsx";
 
 import styles from "./index.module.css";
