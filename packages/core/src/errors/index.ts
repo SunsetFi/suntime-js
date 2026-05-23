@@ -4,4 +4,6 @@ export * from "./StaticJsSyntaxError.js";
 export * from "./StaticJsRuntimeError.js";
 export * from "./StaticJsSynchronousTaskIncompleteError.js";
 export * from "./StaticJsTaskAbortedError.js";
+export * from "./StaticJsTaskCompletedError.js";
+export * from "./StaticJsTaskError.js";
 export * from "./StaticJsUnhandledRejectionError.js";

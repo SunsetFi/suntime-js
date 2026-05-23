@@ -4,7 +4,7 @@ sidebar_label: Security
 sidebar_position: 2
 ---
 
-This project intends to do its best to sandbox the evaluated code from the host system. That is, the evaluated code should not be capable of referencing or manipulating any part of the host that was not passed into the sandbox explicitly.
+StaticJs provides a sandbox isolating the evaluated code from the host system. That is, the evaluated code should not be capable of referencing or manipulating any part of the host that was not passed into the sandbox explicitly.
 
 However, it should be noted that care must be taken by the implementer to ensure this guarantee remains in place. Code inside the sandbox will have access to anything you give it, so it is up to you to not pass more than you intend.
 

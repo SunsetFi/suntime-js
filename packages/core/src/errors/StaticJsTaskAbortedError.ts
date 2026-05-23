@@ -1,6 +1,6 @@
-import { symbolInspect } from "../utils/symbol-inspect.js";
+import { StaticJsTaskCompletedError } from "./StaticJsTaskCompletedError.js";
 
-export class StaticJsTaskAbortedError extends Error {
+export class StaticJsTaskAbortedError extends StaticJsTaskCompletedError {
   /**
    * Creates a new StaticJsTaskAbortedError.
    * @param message The error message.
@@ -8,9 +8,5 @@ export class StaticJsTaskAbortedError extends Error {
   constructor(message: string = "The task was aborted.") {
     super(message);
     this.name = "StaticJsTaskAbortedError";
-  }
-
-  [symbolInspect](): string {
-    return `${this.name}: ${this.message}`;
   }
 }

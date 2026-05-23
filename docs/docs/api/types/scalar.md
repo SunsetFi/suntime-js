@@ -1,3 +1,5 @@
+# StaticJsScalar
+
 ## type-guard
 
 `isStaticJsScalar`

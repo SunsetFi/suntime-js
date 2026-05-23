@@ -1,3 +1,3 @@
-fac
+# StaticJsTypeFactory
 
 ## toStaticJsValue

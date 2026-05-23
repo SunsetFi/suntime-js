@@ -2,6 +2,7 @@ import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
+import { StaticJsTaskCompletedError } from "../../../errors/StaticJsTaskCompletedError.js";
 import { evaluateCommands } from "../../../evaluator/evaluate-commands.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
@@ -166,11 +167,11 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
 
   private _prepareTick() {
     if (this._state === "done") {
-      throw new StaticJsEngineError("Cannot iterate a completed task");
+      throw new StaticJsTaskCompletedError("Cannot iterate a completed task");
     }
 
     if (this._state === "aborted") {
-      throw new StaticJsEngineError("Cannot iterate an aborted task");
+      throw new StaticJsTaskAbortedError("Cannot iterate an aborted task");
     }
   }
 

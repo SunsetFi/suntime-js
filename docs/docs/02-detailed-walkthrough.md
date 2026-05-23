@@ -88,7 +88,7 @@ StaticJs provides two robust built-in task runners:
 
 **Time-limited synchronous**
 
-[createTimeBoundTaskRunner](./api/task-runners/time-bound.md) creates a task runner that executes synchronously, but provides an upper time limit on the evaluation.
+[createTimeBoundTaskRunner](./api/tasks.md#createtimeboundtaskrunneropts) creates a task runner that executes synchronously, but provides an upper time limit on the evaluation.
 
 ```ts
 import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
@@ -113,7 +113,7 @@ const result = await realm.evaluateScript(`while(true) {}`);
 
 **Time-sharing asynchronous**
 
-[createTimeSharingTaskRunner](./api/task-runners/time-sharing.md) creates an **asynchronous** task runner that will divide time between evaluating the script and allowing the underlying engine to run its own tasks.
+[createTimeSharingTaskRunner](./api/tasks.md#createtimesharingtaskrunneropts) creates an **asynchronous** task runner that will divide time between evaluating the script and allowing the underlying engine to run its own tasks.
 
 Note that this is only usable for asynchronous tasks. Passing this to `runTaskSync` or other synchronous methods can result in errors.
 
