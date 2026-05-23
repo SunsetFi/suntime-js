@@ -84,7 +84,7 @@ Invokes the function as a constructor (`new fn(...args)`). Returns the construct
 const instance = await MyClass.constructAsync([realm.types.number(42)]);
 ```
 
-### Type guard {/_ #isstaticjscallable _/}
+### Type guard {/* #isstaticjscallable */}
 
 ```ts
 isStaticJsCallable(value: unknown): value is StaticJsCallable
@@ -151,7 +151,7 @@ Prefer [`callAsync`](#callasyncthisarg-args-opts--callsync) or [`callSync`](#cal
 
 See [Type Coercion](../../04-type-coercion.md) for how arguments and return values are coerced when calling the native wrapper.
 
-### Type guard {/_ #isstaticjsfunction _/}
+### Type guard {/* #isstaticjsfunction */}
 
 ```ts
 isStaticJsFunction(value: unknown): value is StaticJsFunction

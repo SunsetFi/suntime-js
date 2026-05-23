@@ -130,7 +130,7 @@ Stack frames for the currently executing operation, with the innermost frame at 
 next(): IteratorResult<void, void>
 ```
 
-Evaluates the current queued operation and advances to the next one. Returns `{ done: true }` when the task is finished. Throws a `StaticJsTaskError` if called on an already-done task (Either a `StaticJsTaskCompletedError` or a `StaticJsTaskAbortedError`).
+Evaluates the current queued operation and advances to the next one. Returns `{ done: true }` when the task is finished. Throws a [`StaticJsTaskError`](./errors/task-error.md) if called on an already-done task (either a [`StaticJsTaskCompletedError`](./errors/task-completed-error.md) or a [`StaticJsTaskAbortedError`](./errors/task-aborted-error.md)).
 
 ### abort(error?)
 
@@ -142,9 +142,9 @@ Aborts the task. Sandboxed code **cannot** catch this. The error will bubble up 
 
 - For async tasks: the evaluation promise rejects with `error`.
 - For sync tasks: the evaluation function throws `error`.
-- If `error` is omitted or is a string, a `StaticJsTaskAbortedError` is used (wrapping the string if provided).
+- If `error` is omitted or is a string, a [`StaticJsTaskAbortedError`](./errors/task-aborted-error.md) is used (wrapping the string if provided).
 
-Throws `StaticJsTaskError` if the task is already done.
+Throws [`StaticJsTaskError`](./errors/task-error.md) if the task is already done.
 
 ### throw(error)
 
@@ -154,7 +154,7 @@ throw(error: unknown): IteratorResult<void, void>
 
 Raises an error at the current operation.
 
-- If `error` is a `StaticJsRuntimeError`, sandboxed code **can** catch it (e.g. with `try/catch` inside the sandbox).
+- If `error` is a [`StaticJsRuntimeError`](./errors/runtime-error.md), sandboxed code **can** catch it (e.g. with `try/catch` inside the sandbox).
 - Otherwise, the error bypasses the sandbox and surfaces on the evaluation promise or function.
 
 ---
@@ -177,7 +177,7 @@ Task runners are configured:
 
 ### Sync vs. async runners
 
-Tasks flagged `task.async === false` **must** be drained synchronously before the runner returns. Failing to do so causes `StaticJsSynchronousTaskIncompleteError`. You can gate on `task.async` to decide whether to defer:
+Tasks flagged `task.async === false` **must** be drained synchronously before the runner returns. Failing to do so causes [`StaticJsSynchronousTaskIncompleteError`](./errors/synchronous-task-incomplete-error.md). You can gate on `task.async` to decide whether to defer:
 
 ```ts
 function runTask(task: StaticJsTaskIterator) {
@@ -236,7 +236,7 @@ realm.evaluateScriptSync(`while (true) {}`);
 import { createTimeSharingTaskRunner } from "@suntime-js/core";
 ```
 
-An **asynchronous** runner that interleaves evaluation with host event-loop turns, keeping the host responsive even during infinite loops. **Do not use with `runTaskSync`**, as it will not drain synchronously and will cause a `StaticJsSynchronousTaskIncompleteError`.
+An **asynchronous** runner that interleaves evaluation with host event-loop turns, keeping the host responsive even during infinite loops. **Do not use with `runTaskSync`**, as it will not drain synchronously and will cause a [`StaticJsSynchronousTaskIncompleteError`](./errors/synchronous-task-incomplete-error.md).
 
 ```ts
 const realm = StaticJsRealm({

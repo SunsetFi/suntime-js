@@ -2,7 +2,12 @@
 // Cannot use .ts as docusaurus forbids using "type": "module"
 // Cannt use .mts as oxfmt ignores this.
 {
-  "ignorePatterns": ["/static/playground-embed", "docs/api/types/function.md"],
+  "ignorePatterns": [
+    // Generated code
+    "/static/playground-embed",
+    // Requires use of the {/* #id */} syntax that oxfmt will mangle.
+    "docs/api/types/function.md",
+  ],
   "sortImports": {
     "groups": [
       "type-import",

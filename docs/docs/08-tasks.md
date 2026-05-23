@@ -62,7 +62,7 @@ Tasks passed to the following methods are **asynchronous**, and the runner may r
 - The top-level `evaluateScript`, `evaluateExpression`, `evaluateModule` exports
 - `*Async()` methods on `StaticJsValue`
 
-Tasks passed to the following methods are **synchronous**. The runner must fully drain or abort the task before returning, or a `StaticJsSynchronousTaskIncompleteError` is thrown:
+Tasks passed to the following methods are **synchronous**. The runner must fully drain or abort the task before returning, or a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete-error.md) is thrown:
 
 - `realm.evaluateScriptSync`, `realm.evaluateExpressionSync`
 - The top-level `evaluateScriptSync`, `evaluateExpressionSync` exports
@@ -74,7 +74,7 @@ If you do not pass a `runTask` option to an evaluation call, the realm's `runTas
 
 ### Aborting tasks
 
-Tasks can be aborted by calling `task.abort(err?)`. Sandboxed code cannot catch an abort; it bypasses the sandbox's try/catch and surfaces directly on the evaluation promise or function. By default, `task.abort()` rejects or throws with a `StaticJsTaskAbortedError`.
+Tasks can be aborted by calling `task.abort(err?)`. Sandboxed code cannot catch an abort; it bypasses the sandbox's try/catch and surfaces directly on the evaluation promise or function. By default, `task.abort()` rejects or throws with a [StaticJsTaskAbortedError](./api/errors/task-aborted-error.md).
 
 ```ts
 function runTask(task) {
@@ -89,7 +89,7 @@ function runTask(task) {
 ```
 
 :::tip
-You can pass your own error objects to task.abort() to have them bubble up. If you pass a string, a new [StaticJsTaskAbortedError](./api/errors/task-aborted.md) is created with the given message.
+You can pass your own error objects to task.abort() to have them bubble up. If you pass a string, a new [StaticJsTaskAbortedError](./api/errors/task-aborted-error.md) is created with the given message.
 :::
 
 ### Specifying task runners
@@ -137,7 +137,7 @@ See the [API reference](./api/tasks.md#createtimeboundtaskrunneropts) for all op
 
 ### createTimeSharingTaskRunner
 
-An **asynchronous** runner that interleaves evaluation with host event-loop turns, keeping the host responsive even for infinite loops. **Do not use with `runTaskSync`**, as it will result in a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete.md).
+An **asynchronous** runner that interleaves evaluation with host event-loop turns, keeping the host responsive even for infinite loops. **Do not use with `runTaskSync`**, as it will result in a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete-error.md).
 
 ```ts
 import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";

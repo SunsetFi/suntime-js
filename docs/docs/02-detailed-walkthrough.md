@@ -414,7 +414,7 @@ Evaluators have a few rules:
 - Avoid using `*Sync` or `*Async` methods in favor of `*Evaluator`
 - Always use `yield*` or otherwise fully delegate `*Evaluator` call generators.
 - Always return a [StaticJsValue](./api/types/value.md).
-- When throwing errors intended for the sandbox, use [StaticJsRuntimeError](./api/errors/runtime.md).
+- When throwing errors intended for the sandbox, use [StaticJsRuntimeError](./api/errors/runtime-error.md).
 
 ```ts
 const sort = realm.types.function("sort", function* (a, b) {

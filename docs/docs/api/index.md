@@ -59,12 +59,18 @@ The core types used by StaticJs.
 
 ---
 
-## [Errors](./errors/runtime.md)
+## [Errors](./errors/engine-error.md)
 
 Error classes thrown by the runtime or surfaced through evaluation.
 
-| Class                                                                             | When thrown                                                                                                    |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| [StaticJsRuntimeError](./errors/runtime.md)                                       | Wraps a sandbox error value so it can propagate through host code while remaining catchable inside the sandbox |
-| [StaticJsTaskAbortedError](./errors/task-aborted.md)                              | The evaluation was stopped by `task.abort()`                                                                   |
-| [StaticJsSynchronousTaskIncompleteError](./errors/synchronous-task-incomplete.md) | A synchronous task runner returned without fully draining the task iterator                                    |
+| Class                                                                                   | When thrown                                                                      |
+| --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [StaticJsEngineError](./errors/engine-error.md)                                         | Internal interpreter bug or unsupported host API usage                           |
+| [StaticJsSyntaxError](./errors/syntax-error.md)                                         | Source text could not be parsed                                                  |
+| [StaticJsRuntimeError](./errors/runtime-error.md)                                       | Sandboxed code threw a value that propagated out of the sandbox                  |
+| [StaticJsUnhandledRejectionError](./errors/unhandled-rejection-error.md)                | A sandbox `Promise` was rejected with no rejection handler                       |
+| [StaticJsConcurrentEvaluationError](./errors/concurrent-evaluation-error.md)            | A synchronous evaluation was attempted while another task was already running    |
+| [StaticJsSynchronousTaskIncompleteError](./errors/synchronous-task-incomplete-error.md) | A synchronous task runner returned without fully draining the task iterator      |
+| [StaticJsTaskError](./errors/task-error.md)                                             | Base class for task lifecycle errors                                             |
+| [StaticJsTaskCompletedError](./errors/task-completed-error.md)                          | A task method was called after the task already finished                         |
+| [StaticJsTaskAbortedError](./errors/task-aborted-error.md)                              | A task method was called on an aborted task, or used as the default abort reason |

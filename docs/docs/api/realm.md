@@ -74,7 +74,7 @@ Type: `StaticJsTaskRunner`
 
 Default task runner used by `evaluateExpressionSync` and `evaluateScriptSync`, and for synchronous sub-task evaluation (e.g. `StaticJsValue.toNative`, `StaticJsModule.getExportSync`). The runner **must** drive the task iterator to completion before returning. Overridable per-call via `opts.runTask`.
 
-If the task is not completed synchronously, a `StaticJsSynchronousTaskIncompleteError` is thrown. See [Task Runners](../08-tasks.md).
+If the task is not completed synchronously, a [StaticJsSynchronousTaskIncompleteError](./errors/synchronous-task-incomplete-error.md) is thrown. See [Task Runners](../08-tasks.md).
 
 #### hooks
 
@@ -170,7 +170,7 @@ evaluateExpressionSync(
 
 Evaluates a JavaScript expression synchronously and returns the result.
 
-Must not be called while the realm is already evaluating asynchronously, unless the call originates from within that evaluation (e.g. a host function called by sandboxed code). Violating this throws `StaticJsConcurrentEvaluationError`.
+Must not be called while the realm is already evaluating asynchronously, unless the call originates from within that evaluation (e.g. a host function called by sandboxed code). Violating this throws [StaticJsConcurrentEvaluationError](./errors/concurrent-evaluation-error.md).
 
 Options are documented at [StaticJsRealmEvaluateSourceOptions](#staticjsrealmevaluatesourceoptions).
 

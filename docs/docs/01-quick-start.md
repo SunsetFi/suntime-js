@@ -140,7 +140,7 @@ const result = realm.evaluateScriptSync(`while(true) {} `);
 
 StaticJs can perform time-sharing by halting and resuming the running script at arbitrary points. This allows for a form of running scripts asynchronously.
 
-Such time sharing can **only** be performed by async methods. Trying to pass a time sharing task runner to a synchronous method will result in a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete.md).
+Such time sharing can **only** be performed by async methods. Trying to pass a time sharing task runner to a synchronous method will result in a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete-error.md).
 
 ```ts
 import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
