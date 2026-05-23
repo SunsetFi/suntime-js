@@ -43,7 +43,7 @@ import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import { StaticJsExternalFunction } from "../../types/implementation/functions/StaticJsExternalFunction.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import type { StaticJsPlainObject } from "../../types/StaticJsPlainObject.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import {
   type StaticJsPropertyDescriptorRecord,
@@ -52,7 +52,10 @@ import {
 import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
-import type { StaticJsRealmGlobalDeclProperty } from "../factories/StaticJsRealmGlobalOptions.js";
+import type {
+  StaticJsRealmGlobalDeclProperty,
+  StaticJsRealmGlobalOption,
+} from "../factories/StaticJsRealmGlobalOptions.js";
 import { StaticJsConfig } from "../StaticJsConfig.js";
 import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
 import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
@@ -67,7 +70,7 @@ import { EvaluationTask } from "./EvaluationTask.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _intrinsics: Intrinsics;
-  private readonly _global: StaticJsPlainObject;
+  private readonly _global: StaticJsObject;
   private readonly _globalThis: StaticJsValue;
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
   private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
@@ -616,11 +619,32 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 }
 
-function resolveGlobalObject(realm: StaticJsRealm, globalObject?: StaticJsRealmOptions["global"]) {
-  let globalObjectResolved: StaticJsPlainObject;
+function resolveGlobalObject(
+  realm: StaticJsRealm,
+  globalObject: StaticJsRealmGlobalOption | undefined,
+) {
+  const value = resolveGlobalObjectValue(realm, globalObject);
+  return value ?? realm.types.object();
+}
+
+function resolveGlobalThis(
+  realm: StaticJsRealm,
+  globalObject: StaticJsObject,
+  globalThisOpt: StaticJsRealmGlobalOption | undefined,
+) {
+  const value = resolveGlobalObjectValue(realm, globalThisOpt);
+  return value ?? globalObject;
+}
+
+function resolveGlobalObjectValue(
+  realm: StaticJsRealm,
+  globalObject: StaticJsRealmGlobalOption | undefined,
+): StaticJsObject | null {
   if (!globalObject) {
-    globalObjectResolved = realm.types.object();
-  } else if (globalObject && "value" in globalObject) {
+    return null;
+  }
+
+  if ("value" in globalObject) {
     const value = globalObject.value;
     if (!value || typeof value !== "object") {
       throw new Error("Invalid global object value.  Must be an object.");
@@ -631,9 +655,11 @@ function resolveGlobalObject(realm: StaticJsRealm, globalObject?: StaticJsRealmO
     // Make our object be the prototype, so we can freely attach our globals.
     // FIXME: This is suprising from the user's perspective, since it has an appreciable effect on the runtime.
     // We used to have a special global that passively adds the objects.  Reconsider doing that again.
-    globalObjectResolved = realm.types.object(undefined, staticJsValue);
-  } else if (globalObject && "properties" in globalObject) {
-    globalObjectResolved = realm.types.object(
+    return realm.types.object(undefined, staticJsValue);
+  }
+
+  if ("properties" in globalObject) {
+    return realm.types.object(
       Object.fromEntries(
         Object.entries(globalObject.properties).map(([name, descriptor]) => {
           const descr = globalDeclToDescriptor(realm, descriptor);
@@ -641,25 +667,13 @@ function resolveGlobalObject(realm: StaticJsRealm, globalObject?: StaticJsRealmO
         }),
       ),
     );
-  } else {
-    throw new Error("Invalid globalObject");
   }
 
-  return globalObjectResolved;
-}
-
-function resolveGlobalThis(
-  realm: StaticJsRealm,
-  globalObject: StaticJsPlainObject,
-  globalThisOpt?: StaticJsRealmOptions["globalThis"],
-) {
-  let globalThisResolved: StaticJsValue;
-  if (globalThisOpt) {
-    globalThisResolved = realm.types.toStaticJsValue(globalThisOpt.value);
-  } else {
-    globalThisResolved = globalObject;
+  if (typeof globalObject === "function") {
+    return globalObject(realm.types);
   }
-  return globalThisResolved;
+
+  throw new Error("Invalid global or globalThis");
 }
 
 function realmModuleToModule(

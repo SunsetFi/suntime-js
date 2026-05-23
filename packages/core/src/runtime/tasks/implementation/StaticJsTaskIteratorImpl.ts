@@ -131,6 +131,10 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
       throw new StaticJsEngineError("Cannot call abort() on a completed task");
     }
 
+    if (typeof err === "string") {
+      err = new StaticJsTaskAbortedError(err);
+    }
+
     this._reject(err ?? new StaticJsTaskAbortedError("Task was aborted"));
   }
 

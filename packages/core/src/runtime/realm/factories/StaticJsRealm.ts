@@ -18,7 +18,7 @@ export interface StaticJsRealmOptions {
   /**
    * Settings for the global 'this' object in the realm.
    */
-  globalThis?: { value: unknown };
+  globalThis?: StaticJsRealmGlobalOption;
 
   /**
    * Settings for the global object in the realm.

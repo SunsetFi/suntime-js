@@ -1,4 +1,6 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { StaticJsObject } from "../../types/StaticJsObject.js";
+import { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 
 export interface StaticJsRealmGlobalDataPropertyDecl {
   readonly configurable?: boolean;
@@ -26,4 +28,11 @@ export interface StaticJsRealmGlobalValue {
   value: object;
 }
 
-export type StaticJsRealmGlobalOption = StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue;
+export interface StaticJsRealmGlobalFactory {
+  (types: StaticJsTypeFactory): StaticJsObject;
+}
+
+export type StaticJsRealmGlobalOption =
+  | StaticJsRealmGlobalDecl
+  | StaticJsRealmGlobalValue
+  | StaticJsRealmGlobalFactory;

@@ -5,7 +5,7 @@ import { Intrinsics } from "../intrinsics/intrinsics.js";
 import type { StaticJsModule } from "../modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
-import type { StaticJsPlainObject } from "../types/StaticJsPlainObject.js";
+import { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsTypeFactory } from "../types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
@@ -43,7 +43,7 @@ export interface StaticJsRealm {
   /**
    * The global-scope global object of the realm.
    */
-  readonly global: StaticJsPlainObject;
+  readonly global: StaticJsObject;
 
   /**
    * The global-scope `this` value of the realm.
