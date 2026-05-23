@@ -1,7 +1,7 @@
 import { defineConfig } from "oxfmt";
 
 export default defineConfig({
-  ignorePatterns: ["/static/playground-embed"],
+  ignorePatterns: ["/static/playground-embed", "docs/api/types/function.md"],
   sortImports: {
     groups: [
       "type-import",

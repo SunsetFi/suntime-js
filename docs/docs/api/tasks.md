@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # StaticJsTaskIterator
 
 A task represents a unit of work being evaluated in the runtime. Tasks can be a script, expression, module, or host-triggered invocation. Tasks follow an iterator pattern: each call to `.next()` evaluates one operation.

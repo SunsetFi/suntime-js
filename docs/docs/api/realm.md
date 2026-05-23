@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # StaticJsRealm
 
 The top-level construct for sandboxed JavaScript execution. Each realm has its own prototypes, globals, and task queue.
