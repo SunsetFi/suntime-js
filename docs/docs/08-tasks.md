@@ -22,6 +22,8 @@ Additionally, the `value` property of the iterator result will always be `undefi
 
 Task runners are invoked when the evaluator runtime begins evaluating code. Note that this might not be immediately upon calling the `evaluate` functions if the realm is busy evaluating something else. Tasks are created as-needed whenever the realm begins the execution.
 
+For most use cases, the [built-in task runners](#built-in-task-runners) are sufficient without writing a custom runner.
+
 ### Implementing task runners
 
 Task runners are responsible for calling .next() until the task completes:
@@ -47,7 +49,7 @@ function runTask(task) {
 }
 ```
 
-Notably, most task runners do _not_ have to fully iterate the task. This allows evaluation to be suspended or resumed at any time. The only exception to this are task runners passed to synchronous functions (either directly or through [runTaskSync](./04-realms.md#runtasksync)). You can detect whether a task expects to complete synchronously or asynchronously by checking the `task.async` boolean.
+Notably, most task runners do _not_ have to fully iterate the task. This allows evaluation to be suspended or resumed at any time. The only exception to this are task runners passed to synchronous functions (either directly or through [runTaskSync](./05-realms.md#runtasksync)). You can detect whether a task expects to complete synchronously or asynchronously by checking the `task.async` boolean.
 
 As an example, here is a task runner that will pause every 1000 operations to allow the browser to do other work, preventing deadlocking for large loops while still allowing them to evaluate.
 
@@ -78,7 +80,7 @@ You can observe the switch from macrotask to microtask using the `type` property
 
 Task runners can be expected to synchronously complete their task, depending on the context.
 
-Tasks passed to the [StaticJsRunTaskOptions.runTask](./04-realms.md#staticjsruntaskoptions) option of the following methods will be asynchronous:
+Tasks passed to the [StaticJsRunTaskOptions.runTask](./05-realms.md#staticjsruntaskoptions) option of the following methods will be asynchronous:
 
 - `realm.evaluateScript`
 - `realm.evaluateExpression`
@@ -88,9 +90,9 @@ Tasks passed to the [StaticJsRunTaskOptions.runTask](./04-realms.md#staticjsrunt
 - `evaluateModule`
 - `*Async()` StaticJsValue methods.
 
-If you do not pass this option, the realm's [runTask](./04-realms.md#runtask) option will be used to run the async task instead.
+If you do not pass this option, the realm's [runTask](./05-realms.md#runtask) option will be used to run the async task instead.
 
-Tasks passed to the [StaticJsRunTaskOptions.runTask](./04-realms.md#staticjsruntaskoptions) option of the following methods will be synchronous:
+Tasks passed to the [StaticJsRunTaskOptions.runTask](./05-realms.md#staticjsruntaskoptions) option of the following methods will be synchronous:
 
 - `realm.evaluateScriptSync`
 - `realm.evaluateExpressionSync`
@@ -98,9 +100,67 @@ Tasks passed to the [StaticJsRunTaskOptions.runTask](./04-realms.md#staticjsrunt
 - `evaluateExpressionSync`
 - `*Sync()` StaticJsValue methods.
 
-If you do not pass this option, the realm's [runTaskSync](./04-realms.md#runtasksync) option will be used to run the sync task instead.
+If you do not pass this option, the realm's [runTaskSync](./05-realms.md#runtasksync) option will be used to run the sync task instead.
 
 Note that there is no synchronous implementation of `evaluateModule`, as modules are inherently asynchronous.
+
+### Built-in task runners
+
+StaticJs provides two robust built-in task runners that cover the most common use cases.
+
+#### `createTimeBoundTaskRunner(opts?)`
+
+Creates a synchronous, blocking task runner with an upper time limit on evaluation. Best used for `runTaskSync`. Can also be passed to `runTask` but will block the host event loop for the duration of evaluation.
+
+```ts
+import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
+
+const realm = StaticJsRealm({
+  runTaskSync: createTimeBoundTaskRunner({ maxRunTime: 5_000 }),
+});
+
+// Throws StaticJsTaskAbortedError after 5 seconds.
+const result = realm.evaluateScriptSync(`while(true) {}`);
+```
+
+Options:
+
+- `maxRunTime: number`
+  Maximum milliseconds the entire evaluation may run. Default: `Infinity`.
+- `maxTaskTime: number`
+  Maximum milliseconds a single macro or microtask may run. For advanced use cases. Default: `Infinity`.
+
+#### `createTimeSharingTaskRunner(opts?)`
+
+Creates an **asynchronous** task runner that divides time between evaluating the script and yielding control back to the host event loop, preventing deadlocks for infinite loops.
+
+**This runner is only safe for async methods.** Passing it to `runTaskSync` or synchronous evaluation methods will cause a `StaticJsSynchronousTaskIncompleteError`.
+
+```ts
+import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
+
+const realm = StaticJsRealm({
+  runTask: createTimeSharingTaskRunner({
+    operationsPerIteration: 10_000,
+    yieldTime: 100,
+  }),
+});
+
+// Does not hang the runtime, the host remains responsive.
+// With no maxRunTime set, this promise never resolves for an infinite loop.
+await realm.evaluateScript(`while(true) {}`);
+```
+
+Options:
+
+- `operationsPerIteration: number`
+  AST operations to evaluate per chunk before yielding. Default: `10_000`.
+- `yieldTime: number`
+  Milliseconds to yield to the host between chunks. Default: `100`.
+- `maxRunTime: number`
+  Maximum milliseconds the entire evaluation may run. Default: `Infinity`.
+- `maxTaskTime: number`
+  Maximum milliseconds a single macro or microtask may run. Default: `Infinity`.
 
 ### Aborting tasks
 
@@ -230,7 +290,7 @@ const value = await evaluateScript(
 
 Most methods on StaticJs objects contain methods ending with Sync and Async. Both of these variations accept a runTask argument as the option to the last argument. This lets you provide time and timesharing guards on individual operations.
 
-For examples of this, see [StaticJsObject](./06-types.md#object).
+For examples of this, see [StaticJsObject](./07-types.md#object).
 
 ## StaticJsTaskIterator
 

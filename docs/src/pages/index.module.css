@@ -38,6 +38,11 @@
 
 .codeSnippet :global(.theme-code-block) {
   text-align: left;
-  max-width: 520px;
+  max-width: 620px;
   margin: 0 auto;
+}
+
+.inProgress {
+  max-width: 620px;
+  margin: 2rem auto;
 }

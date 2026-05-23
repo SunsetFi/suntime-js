@@ -33,7 +33,7 @@ const result = map([1, 2], (value) => {
 ```
 
 :::note
-Type coercion is provided for convienence with low-security use cases. The preferred method of dealign with types is to use the [StaticJs Type System](./06-types.md) directly.
+Type coercion is provided for convienence with low-security use cases. The preferred method of dealign with types is to use the [StaticJs Type System](./07-types.md) directly.
 :::
 
 ## Host to Sandbox
@@ -50,7 +50,7 @@ Scalars act the same in the host or the sandbox. Boxed scalers will use the sand
 
 When an object is proxied from the host to the sandbx, **only own enumerable properties are exposed**, and those properties are **read-only**. Additionally, the prototype of the object is **not proxied**, and the sandbox's object prototype will be used instead.
 
-This is critical for [maintaining security](./02-security.md). Currently, there is no way to opt out of this. If you want passed objects to be mutable, you must [create and use a realm object](./06-types.md#object)
+This is critical for [maintaining security](./03-security.md). Currently, there is no way to opt out of this. If you want passed objects to be mutable, you must [create and use a realm object](./07-types.md#object)
 
 The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.
 
@@ -106,7 +106,7 @@ When the sandbox invokes the function, all arguments to the function, as well as
 :::warning
 Sandbox to host coercion generally **should be avoided**, as its usage introduces the possibility of unintentionally and synchronously evaluating sandbox code as a result of property getters and setters.
 
-If you choose to use this, it is **strongly recommended** to time-gate these evaluations using [runTaskSync](./04-realms.md#runtasksync) on the StaticJsRealm, as the default task runner will run forever and will deadlock for infinite loops.
+If you choose to use this, it is **strongly recommended** to time-gate these evaluations using [runTaskSync](./05-realms.md#runtasksync) and the [built-in task runners](./08-tasks.md#built-in-task-runners) on the StaticJsRealm, as the default task runner will run forever and will deadlock for infinite loops.
 :::
 
 ### Scalars

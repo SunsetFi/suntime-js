@@ -10,7 +10,7 @@ The StaticJs runtime creates its own implementations of all intrinsic types. Eac
 
 The `types` property on a `StaticJsRealm` contains factories for creating all primitive types. Using these factories will let you pass in types to the sandbox directly without any coercion.
 
-Additionally, it contains a `toStaticJsValue` function that performs [coercion on native types](./03-type-coercion.md).
+Additionally, it contains a `toStaticJsValue` function that performs [coercion on native types](./04-type-coercion.md).
 
 ```ts
 import { StaticJsRealm } from "@suntime-js/core";
@@ -182,6 +182,16 @@ Specific "plain objects" not extending anything beneath.
 
 #### Instance Methods
 
+:::info[Method triplets]
+Most methods on `StaticJsObject` come in triplets:
+
+- `*Async` performs the operation asynchronously using the realm's `runTask`.
+- `*Sync` performs the operation synchronously using the realm's `runTaskSync`. See [Caveats](#using-synchonous-functions).
+- `*Evaluator` is intended for use inside host-defined generator/evaluator callbacks. Do not call from general host code.
+
+Both `*Async` and `*Sync` variants accept a [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions) as their final argument.
+:::
+
 ##### Async methods
 
 - `getPrototypeOfAsync(StaticJsRunTaskOptions?)`
@@ -229,10 +239,10 @@ Specific "plain objects" not extending anything beneath.
   This follows usual delete semantics, and may fail.
   The return value is a native boolean indicating if the property was able to be deleted. This follows usual JavaScript semantics in that properties that did not exist will return true for deletion.
 
-Note: All async methods take a [StaticJsRunTaskOptions](./04-realms.md#staticjsruntaskoptions) argument.
-You can use this to supply a custom `runTask` [Task Runner](./07-tasks.md#implementing-task-runners) to control time limits or timesharing on the options. However, these functions do not make use of `sourceName`.
+Note: All async methods take a [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions) argument.
+You can use this to supply a custom `runTask` [Task Runner](./08-tasks.md#implementing-task-runners) to control time limits or timesharing on the options. However, these functions do not make use of `sourceName`.
 
-Note: All async methods above have Sync counterparts. These all still operate on StaticJsValues and do not coerce to native, but they will complete synchronously using the [runTaskSync](./04-realms.md#runtasksync) realm option. **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
+Note: All async methods above have Sync counterparts. These all still operate on StaticJsValues and do not coerce to native, but they will complete synchronously using the [runTaskSync](./05-realms.md#runtasksync) realm option. **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 
 #### Examples
 
@@ -316,21 +326,18 @@ The suntime-js prototype of the array will be `realm.intrinsics["Array.prototype
 
 Functions can be created with `realm.types.function(name, callback, options?)`.
 
-**Alpha Implementation**: Currently, the callback is expected to complete synchronously, and cannot participate in the time-sharing asyncronous evaluation. Work is planned to expose the internal evaluator system to allow functions made with this factory to pause and resume evaluation as all StaticJs constructs can.
+The callback will be called when the function is invoked (or as a constructor, depending on options).
 
-The callback will be called when the function is invoked (or when used as a constructor, depending on the options passed).
+For full participation in time-sharing async evaluation, define the callback as a **generator function** using `function*` and delegate `*Evaluator` calls using `yield*`. Non-generator callbacks work but execute synchronously and cannot be paused by the task runner.
 
-When invoked, the callback will:
+When invoked, the callback receives:
 
-- Receive all arguments as [StaticJsValue](#staticjsvalue) objects.
-- Be called with a `this` arg as a [StaticJsValue](#staticjsvalue). If no `this` arg was specified, it will be [StaticJsUndefined](#undefined)
+- `thisArg` as a [StaticJsValue](#staticjsvalue) (or [StaticJsUndefined](#undefined) if unspecified).
+- All arguments as [StaticJsValue](#staticjsvalue) objects.
 
-Your callback **must** return a [StaticJsValue](#staticjsvalue), otherwise a `TypeError` will be thrown (and surface in the evaluate promise or sync call that triggered it).
+The callback **must** return a [StaticJsValue](#staticjsvalue).
 
-Thrown values will be caught and handled. However, there are special semantics here:
-
-- If the thrown value is a [StaticJsValue](#staticjsvalue), the throw will be catchable by sandboxed code.
-- If the throw value is **not** a [StaticJsValue](#staticjsvalue), the sandbox **cannot** intercept it, and it will be surfaced in the evaluate promise or sync call that triggered the function.
+For errors catchable by sandbox `try/catch`, throw a [StaticJsValue](#staticjsvalue) directly or wrap it in `StaticJsRuntimeError`. Any other thrown value bypasses the sandbox and surfaces in the host's evaluate call.
 
 - `isConstructor`: Whether the function is a constructor. Defaults to false.
   When set to `true`, the function may be called with `new` in the sandbox.
@@ -367,28 +374,41 @@ Inherits all properties from `StaticJsObject`
   Note that this will invoke `toString` semantics on the name property before returning the native string,
   so setting the function name to objects or other primitives will be stringified asynchronously before returning.
 
-Note: Async here refers to the evaluation of the sandboxed function. The function itself will run synchronously within the context of the sandbox, but based on your [Task Runner](./07-tasks.md), the invocation may not complete synchronously for the host.
+Note: Async here refers to the evaluation of the sandboxed function. The function itself will run synchronously within the context of the sandbox, but based on your [Task Runner](./08-tasks.md), the invocation may not complete synchronously for the host.
 
-Note: All async methods take a [StaticJsRunTaskOptions](./04-realms.md#staticjsruntaskoptions) argument.
-You can use this to supply a custom `runTask` [Task Runner](./07-tasks.md#implementing-task-runners) to control time limits or timesharing on the options. However, these functions do not make use of `sourceName`.
+Note: All async methods take a [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions) argument.
+You can use this to supply a custom `runTask` [Task Runner](./08-tasks.md#implementing-task-runners) to control time limits or timesharing on the options. However, these functions do not make use of `sourceName`.
 
-Note: All async methods above have Sync counterparts. These all still operate on StaticJsValues and do not coerce to native, but they will complete synchronously using the [runTaskSync](./04-realms.md#runtasksync) realm option. **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
+Note: All async methods above have Sync counterparts. These all still operate on StaticJsValues and do not coerce to native, but they will complete synchronously using the [runTaskSync](./05-realms.md#runtasksync) realm option. **WARNING**: See [Caveats](#using-synchonous-functions) to synchronous functions.
 
 #### Examples
 
-```ts
-import { StaticJsValue } from "@suntime-js/core";
+For async-capable functions that can be paused by the task runner, use a generator:
 
-const add = realm.types.function("add", (a: StaticJsValue, b: StaticJsValue) => {
-  if (a.typeOf !== "number" || b.typeOf !== "number") {
-    // Thrown StaticJsValue types will act as thrown errors within the sandbox.
-    // Any other thrown value will bypass sandbox evaluation and bubble up to either the evaluate* function
-    // promise or thrown from the synchronous invocation.
-    throw realm.types.error("TypeError", "Arguments to add must be numbers");
+```ts
+import { isStaticJsObject, isStaticJsNumber, StaticJsRuntimeError } from "@suntime-js/core";
+
+const sort = realm.types.function("sort", function* (a, b) {
+  if (!isStaticJsObject(a) || !isStaticJsObject(b)) {
+    throw new StaticJsRuntimeError(realm.types.error("TypeError", "Arguments must be objects"));
   }
 
-  return realm.types.number(a.value + b.value);
+  const valueA = yield* a.getEvaluator("value");
+  const valueB = yield* b.getEvaluator("value");
+
+  if (!isStaticJsNumber(valueA) || !isStaticJsNumber(valueB)) {
+    throw new StaticJsRuntimeError(realm.types.error("TypeError", "Object values must be numbers"));
+  }
+
+  return realm.types.number(valueB.value - valueA.value);
 });
+
+await realm.global.setAsync("sort", sort);
+
+await realm.evaluateScript(`
+  const array = [{ value: 4 }, { value: 2 }, { value: 3 }];
+  const sorted = array.toSorted(sort);
+`);
 ```
 
 ## Methods
@@ -399,13 +419,13 @@ The following methods are available on the Type Factory:
 
 Coerces the host / native value to a sandboxed value.
 
-This follows the [coercion rules](./03-type-coercion.md). This may produce bidirectional conversion for the case of functions or objects with accessor properties.
+This follows the [coercion rules](./04-type-coercion.md). This may produce bidirectional conversion for the case of functions or objects with accessor properties.
 
 Note that native objects passed through this will **not be mutable** in the sandbox. The properties will appear as nonconfigurable, and set accessor properties will not be invoked. However, get accessors will still be invoked.
 
 The conversion is recursive: Native property values will be converted, as will values returned by any get accessor or function invocations.
 
-See [Type Coercion](./03-type-coercion.md) for full details.
+See [Type Coercion](./04-type-coercion.md) for full details.
 
 ## Using synchonous functions
 
@@ -432,7 +452,7 @@ const func = await realm.evaluateScript(`
 const name = func.getNameSync();
 ```
 
-The way around this is using [Tasks](./07-tasks.md).
+The way around this is using [Tasks](./08-tasks.md).
 
 ```ts
 const name = func.getNameSync({
@@ -440,6 +460,8 @@ const name = func.getNameSync({
 });
 ```
 
-All sync methods accepts a [StaticJsRunTaskOptions](./04-realms.md#staticjsruntaskoptions) argument as their last argument, through which the `runTask` which can be used to time-guard the execution.
+See [Built-in task runners](./08-tasks.md#built-in-task-runners) for configuration options.
+
+All sync methods accepts a [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions) argument as their last argument, through which the `runTask` which can be used to time-guard the execution.
 
 Note that for sync functions, the `runTask` function **must** either run the iterator to exhaustion, or call `.abort()` or `.throw()` on the iterator. Failure to do either will result in a `StaticJsSynchronousTaskIncompleteError` being thrown.

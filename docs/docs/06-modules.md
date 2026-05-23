@@ -99,7 +99,7 @@ The following are valid for passing as a StaticJs module, both for StaticJsRealm
 
 ### Exports object
 
-An object containing a single `exports` property will create a virtual module. The property names of the exports object will be the named exports, and the values will be [coerced](./03-type-coercion.md) unless it is a StaticJsValue.
+An object containing a single `exports` property will create a virtual module. The property names of the exports object will be the named exports, and the values will be [coerced](./04-type-coercion.md) unless it is a StaticJsValue.
 
 ```ts
 import { StaticJsRealm } from "@suntime-js/core";
@@ -126,7 +126,7 @@ await realm.evaluateModule(`
 
 Providing string values as modules will cause StaticJs to evaluate that string within the realm as an independent module.
 
-Note that doing so during `resolveImportedModule` will invoke that module's evaluation with the [task evaluator](./07-tasks.md) specified for the module that requested the import.
+Note that doing so during `resolveImportedModule` will invoke that module's evaluation with the [task evaluator](./08-tasks.md) specified for the module that requested the import.
 
 ## Async Modules
 
@@ -144,7 +144,7 @@ Returns an array of string names for all exports from the module, including star
 
 #### getExportSync(exportName)
 
-Returns the current value of the export, as a [StaticJsValue](./06-types.md#staticjsvalue). The string "default" can be used to get the default export.
+Returns the current value of the export, as a [StaticJsValue](./07-types.md#staticjsvalue). The string "default" can be used to get the default export.
 
 Note that some exports can be dynamic. The exported object will NOT reflect changes for primitive values, but WILL reflect changes on exported objects.
 
@@ -152,10 +152,10 @@ Note that some exports can be dynamic. The exported object will NOT reflect chan
 
 Returns the current value of the export, coerced to a native value. The string "default" can be used to get the default export.
 
-The returned value will be [coerced to native representation](./03-type-coercion.md).
+The returned value will be [coerced to native representation](./04-type-coercion.md).
 
 #### getModuleNamespaceJsSync
 
 Returns a coerced-native namespace object for all (non-default) exports of the module. This properties of this object will reflect the current state of the module, including any changes made after its creation.
 
-The mapped values will be [coerced to native representations](./03-type-coercion.md).
+The mapped values will be [coerced to native representations](./04-type-coercion.md).

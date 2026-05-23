@@ -8,7 +8,7 @@ This project intends to do its best to sandbox the evaluated code from the host 
 
 However, it should be noted that care must be taken by the implementer to ensure this guarantee remains in place. Code inside the sandbox will have access to anything you give it, so it is up to you to not pass more than you intend.
 
-The safest way to use StaticJs is to always manually create StaticJs objects and functions using the Realm. This ensures that you do not leak any host concerns through the prototype. However, there is a [bidirectional native to sandbox coercing system](./03-type-coercion.md) which coerces passed objects to StaticJs sandbox types, enforces read-only access, and only exposes enumerable properties.
+The safest way to use StaticJs is to always manually create StaticJs objects and functions using the Realm. This ensures that you do not leak any host concerns through the prototype. However, there is a [bidirectional native to sandbox coercing system](./04-type-coercion.md) which coerces passed objects to StaticJs sandbox types, enforces read-only access, and only exposes enumerable properties.
 
 :::danger
 This project has not been security audited. Take care when using it for critical applications.
@@ -16,13 +16,13 @@ This project has not been security audited. Take care when using it for critical
 
 ## Writing secure sandbox interop code.
 
-When interoping with sandbox code, it is **strongly encouraged** that you always deal directly with [StaticJs Types](./06-types.md), and **do not use native interop / type coercion features**. Type coercion may result in unexpected and synchronous sandbox invocations at any time, as Proxies and property accessors may be returned to you. Additionally, coercion can easily result in granting sandbox access to properties you did not intend.
+When interoping with sandbox code, it is **strongly encouraged** that you always deal directly with [StaticJs Types](./07-types.md), and **do not use native interop / type coercion features**. Type coercion may result in unexpected and synchronous sandbox invocations at any time, as Proxies and property accessors may be returned to you. Additionally, coercion can easily result in granting sandbox access to properties you did not intend.
 
 There are a few rules to keeping sandboxed code from misbehaving:
 
-- Always specify a [runTask](./04-realms.md#runtask) and [runTaskSync](./04-realms.md#runtasksync) [Task Scheduler](./07-tasks.md). These are critical to prevent infinite loops and runaway code.
-- Always use the [Type Factory](./06-types.md) and StaticJs type objects, to ensure you know where you are potentially evaluating sandboxed code.
-- Avoid [toNative](./06-types.md#staticjsvalue) and [Type Coercion](./03-type-coercion.md), to avoid accidentally invoking sandboxed code unexpectedly.
+- Always specify a [runTask](./05-realms.md#runtask) and [runTaskSync](./05-realms.md#runtasksync) [Task Scheduler](./08-tasks.md). These are critical to prevent infinite loops and runaway code.
+- Always use the [Type Factory](./07-types.md) and StaticJs type objects, to ensure you know where you are potentially evaluating sandboxed code.
+- Avoid [toNative](./07-types.md#staticjsvalue) and [Type Coercion](./04-type-coercion.md), to avoid accidentally invoking sandboxed code unexpectedly.
 
 ### Objects
 
@@ -45,7 +45,7 @@ const value = evaluateScript(`
 const Object.keys(value);
 ```
 
-Use [StaticJs Types](./06-types.md) instead:
+Use [StaticJs Types](./07-types.md) instead:
 
 ```ts
 import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
@@ -115,14 +115,14 @@ realm.evaluateScript(`
 
 ### Writing Functions
 
-Functions in StaticJs are typically outwardly-async, even when the sandboxed evaluation is synchronous. This is to allow time-sharing and interrupting evaluation through the [Task System](./07-tasks.md). This is implemented using JavasScript Generators rather than async / promises, as this allows the function to be paused at key checkpoints; usually before every AST node evaluation.
+Functions in StaticJs are typically outwardly-async, even when the sandboxed evaluation is synchronous. This is to allow time-sharing and interrupting evaluation through the [Task System](./08-tasks.md). This is implemented using JavasScript Generators rather than async / promises, as this allows the function to be paused at key checkpoints; usually before every AST node evaluation.
 
 When creating functions, you should use \*Evaluator() function calls on the sandboxed types to preserve this async nature.
 
 **Incorrect**
 
 ```ts
-const add = realm.types.function("myFunc", (_thisArg, a, b) => {
+const add = realm.types.function("myFunc", (a, b) => {
   // Incorrect: Synchronous evaluation cannot be
   // time-shared and invokes runTaskSync on the realm.
   const aValue = a.getSync("value");
@@ -143,7 +143,7 @@ const add = realm.types.function("myFunc", (_thisArg, a, b) => {
 **Correct**
 
 ```ts
-const func = realm.types.function("myFunc", function* (_thisArg, a, b) {
+const func = realm.types.function("myFunc", function* (a, b) {
   // Correct: Evaluators will run through the task system
   // and may be asynchronous to the host.
   const aValue = yield* a.getEvaluator("value");
@@ -159,6 +159,8 @@ const func = realm.types.function("myFunc", function* (_thisArg, a, b) {
   return realm.types.number(aValue.value + bValue.value);
 });
 ```
+
+For a complete guide to writing host functions including the generator pattern, see [Runtime Function](./07-types.md#function).
 
 ### Invoking Functions
 
@@ -232,6 +234,8 @@ if (!isStaticJsNumber(result)) {
 const result = returnValue.value;
 ```
 
+For worked examples of safely invoking sandbox functions, see [Invoking Functions](./02-detailed-walkthrough.md#invoking-functions).
+
 ## Traditionally problematic code
 
 There are a few vectors that enable arbitrary code execution on the host if the sandbox is ever able to gain access to such components. Most of these come from JavaScript features that allow strings to be evaluated as code:
@@ -281,7 +285,7 @@ const attackStr = `myObject.constructor.constructor("console.log('hello')")()`;
 evaluateExpression(attackStr, { realm });
 ```
 
-Despite this, this code **will still remain secure**. This is because incoming objects are [coerced](./03-type-coercion.md), and a proxy object is used instead. This proxy only allows read-only access to enumerable properties, and **does not expose the native object's prototype**. Instead, the sandboxed Object prototype is used.
+Despite this, this code **will still remain secure**. This is because incoming objects are [coerced](./04-type-coercion.md), and a proxy object is used instead. This proxy only allows read-only access to enumerable properties, and **does not expose the native object's prototype**. Instead, the sandboxed Object prototype is used.
 
 ## Host Fingerprinting and Determinism
 
@@ -292,6 +296,6 @@ Many areas of JavaScript are left up to "host-implementation". As such, these fu
 
 For example, the sin, cost, and tan functions of Math can yield different values for the same input between Chrome and Firefox browsers. Beyond this, there are some methods that by their nature return inconsistent values, such as Math.random() and Date.now().
 
-All of these can be made consistent across invocations providing deterministic implementations to the StaticJsRealm for such behaviors. This can be done through utilizing the realm's [Host Hooks](./04-realms.md#hooks) option.
+All of these can be made consistent across invocations providing deterministic implementations to the StaticJsRealm for such behaviors. This can be done through utilizing the realm's [Host Hooks](./05-realms.md#hooks) option.
 
 Note that Suntime-Js defaults to the **engine-implemented behavior** for all hooks. You will need to provide your own implementations if you want to make them deterministic.

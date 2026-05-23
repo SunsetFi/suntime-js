@@ -7,6 +7,7 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import CodeBlock from "@theme/CodeBlock";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
+import Admonition from "@theme/Admonition";
 import clsx from "clsx";
 
 import styles from "./index.module.css";
@@ -71,6 +72,11 @@ export default function Home(): ReactNode {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+        <Admonition type="warning" className={styles.inProgress}>
+          Suntime-JS is a work in progress. Currently, the majority of the ECMAScript language
+          features are implemented, but support is missing for many built-in APIs. Check the{" "}
+          <Link to="/docs/status">status page</Link> for details on what is and isn't supported.
+        </Admonition>
         <HomepageCodeSnippet />
       </main>
     </Layout>
