@@ -70,7 +70,7 @@ const obj = realm.types.object({
 });
 ```
 
-Additionally, type guard functions are supplied for checking resultant types:
+Additionally, type guard functions are supplied for checking resultant types. See [isStaticJsString](./api/types/string.md#isstaticjsstringvalue), [isStaticJsNumber](./api/types/number.md#isstaticjsnumbervalue), and [isStaticJsScalar](./api/types/scalar.md#isstaticjsscalarvalue) for the full API.
 
 ```ts
 import { StaticJsRealm, isStaticJsString, isStaticJsNumber } from "@suntime-js/core";
@@ -162,6 +162,7 @@ const resultPromise = realm.evaluateScript(`while(true) {}`);
 For a complete tour of the type system, task runners, modules, and writing host functions, see the following sections:
 
 - [Detailed Walkthrough](./02-detailed-walkthrough.md) - Conceptual guide with worked examples
+- [Security](./03-security.md) - What is safe to expose to sandboxed code and how to avoid escapes
 - [Realms](./05-realms.md) - Full realm options and method reference
 - [Runtime Types](./07-types.md) - All type factories and APIs
 - [Tasks](./08-tasks.md) - Task runner reference and built-in runners

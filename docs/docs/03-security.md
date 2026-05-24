@@ -160,7 +160,7 @@ const func = realm.types.function("myFunc", function* (a, b) {
 });
 ```
 
-For a complete guide to writing host functions including the generator pattern, see [Runtime Function](./07-types.md#function).
+For a complete guide to writing host functions including the generator pattern, see [Defining Function](./02-detailed-walkthrough.md#defining-functions).
 
 ### Invoking Functions
 
@@ -295,6 +295,6 @@ Many areas of JavaScript are left up to "host-implementation". As such, these fu
 
 For example, the sin, cost, and tan functions of Math can yield different values for the same input between Chrome and Firefox browsers. Beyond this, there are some methods that by their nature return inconsistent values, such as Math.random() and Date.now().
 
-All of these can be made consistent across invocations providing deterministic implementations to the StaticJsRealm for such behaviors. This can be done through utilizing the realm's [Host Hooks](./05-realms.md#hooks) option.
+All of these can be made consistent across invocations providing deterministic implementations to the StaticJsRealm for such behaviors. This can be done through utilizing the realm's [Host Hooks](./api/realm.md#hooks) option.
 
 Note that Suntime-Js defaults to the **engine-implemented behavior** for all hooks. You will need to provide your own implementations if you want to make them deterministic.

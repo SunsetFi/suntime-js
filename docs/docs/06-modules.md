@@ -41,6 +41,26 @@ const result = await addValue.callAsync(realm.types.undefined, [
 ]);
 ```
 
+### Listing exports
+
+Use `getExportedNames()` to enumerate all export names declared by the module:
+
+```ts
+const names = module.getExportedNames();
+// e.g. ["add"]
+```
+
+### Module namespace object
+
+`getModuleNamespaceAsync()` returns the module's namespace object as a [`StaticJsObject`](./api/types/object.md) — equivalent to `import * as ns from "..."` in JavaScript. This lets you pass the whole namespace into sandboxed code or iterate its keys:
+
+```ts
+const ns = await module.getModuleNamespaceAsync();
+const keys = await ns.ownPropertyKeysAsync();
+```
+
+The synchronous equivalents `getExportJsSync` and `getModuleNamespaceJsSync` are also available and return native host values directly (coerced via the [type coercion rules](./04-type-coercion.md)) rather than sandbox values.
+
 ## Providing host modules
 
 ### Static map

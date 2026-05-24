@@ -42,7 +42,6 @@ import {
 } from "../../modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
-import type { StaticJsTaskIterator } from "../../tasks/StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import { StaticJsExternalFunction } from "../../types/implementation/functions/StaticJsExternalFunction.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
@@ -111,8 +110,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     private readonly _hooks: RealmHooks,
   ) {
     this._externalResolveModule = resolveModule;
-    this._defaultRunTask = runTask ?? defaultTaskRunner;
-    this._defaultRunTaskSync = runTaskSync ?? defaultTaskRunner;
+    this._defaultRunTask = runTask ?? drainIterator;
+    this._defaultRunTaskSync = runTaskSync ?? drainIterator;
     this._config = Object.freeze({
       runTask: this._defaultRunTask,
       runTaskSync: this._defaultRunTaskSync,
@@ -733,15 +732,6 @@ function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmG
 
   validateStaticJsPropertyDescriptorRecord(descr);
   return descr as StaticJsPropertyDescriptor;
-}
-
-function defaultTaskRunner(task: StaticJsTaskIterator) {
-  // This is a default task runner that runs the generator synchronously.
-  // It can be replaced by the user to run tasks asynchronously.
-  let result = task.next();
-  while (!result.done) {
-    result = task.next();
-  }
 }
 
 function* doEvaluateScript(

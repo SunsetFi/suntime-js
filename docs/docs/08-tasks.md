@@ -137,7 +137,7 @@ See the [API reference](./api/tasks.md#createtimeboundtaskrunneropts) for all op
 
 ### createTimeSharingTaskRunner
 
-An **asynchronous** runner that interleaves evaluation with host event-loop turns, keeping the host responsive even for infinite loops. **Do not use with `runTaskSync`**, as it will result in a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete-error.md).
+An **asynchronous** runner that interleaves evaluation with host event-loop turns, keeping the host responsive even for infinite loops. **Do not use with [`runTaskSync`](./api/realm.md#runtasksync)**, as it will result in a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete-error.md).
 
 ```ts
 import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";

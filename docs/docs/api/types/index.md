@@ -67,6 +67,10 @@ classDiagram
         +proxyTarget StaticJsObject
     }
 
+    class StaticJsScalar["StaticJsScalar"] {
+        <<union>>
+    }
+
     StaticJsPrimitive <|-- StaticJsString
     StaticJsPrimitive <|-- StaticJsNumber
     StaticJsPrimitive <|-- StaticJsBoolean
@@ -79,6 +83,12 @@ classDiagram
     StaticJsObject <|-- StaticJsCallable
     StaticJsCallable <|-- StaticJsFunction
     StaticJsObject <|-- StaticJsProxy
+    StaticJsScalar ..> StaticJsString : includes
+    StaticJsScalar ..> StaticJsNumber : includes
+    StaticJsScalar ..> StaticJsBoolean : includes
+    StaticJsScalar ..> StaticJsNull : includes
+    StaticJsScalar ..> StaticJsUndefined : includes
+    StaticJsScalar ..> StaticJsSymbol : includes
     StaticJsCallable <|-- StaticJsProxy
 ```
 

@@ -16,7 +16,9 @@ import { StaticJsUnhandledRejectionError } from "@suntime-js/core";
 
 ## When thrown
 
-Thrown after the realm's microtask queue has been fully drained and one or more `Promise` rejections were never handled. Typically surfaces during `realm.awaitIdle()` or at the end of an async evaluation. The `thrown` property (inherited from [`StaticJsRuntimeError`](./runtime-error.md)) holds the rejection reason as a sandboxed value.
+Thrown after the realm's microtask queue has been fully drained and one or more `Promise` rejections were never handled. Typically surfaces during [`realm.awaitIdle()`](../realm.md#awaitidle) or at the end of an async evaluation. The `thrown` property (inherited from [`StaticJsRuntimeError`](./runtime-error.md)) holds the rejection reason as a sandboxed value.
+
+See [Realms](../realm.md#awaitidle) for guidance on using `awaitIdle()` and [Tasks](../../08-tasks.md) for how evaluation lifecycles work.
 
 ## Properties
 

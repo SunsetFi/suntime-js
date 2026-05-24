@@ -279,7 +279,7 @@ The \*Evaluator function is a special case, and should only be used when writing
 There are many ways in JavaScript for an object property access or reflection to invoke code. Be aware that any time you call a method on an object, you may be invoking sandboxed code. Take care to ensure you use the appropriate task runners.
 :::
 
-For the full list of property methods, see [StaticJsObject](./07-types.md#object).
+For the full list of property methods, see [StaticJsObject](./api/types/object.md).
 
 #### Property access
 
@@ -402,7 +402,7 @@ const apply = await instance.getAsync("apply");
 const result = await apply.callAsync(instance, [realm.types.number(10)]);
 ```
 
-See [StaticJsFunction](./07-types.md#function) for the full `callAsync`, `constructAsync`, and `getNameAsync` API.
+See [StaticJsFunction](./api/types/function.md) for the full `callAsync`, `constructAsync`, and `getNameAsync` API.
 
 #### Defining functions
 

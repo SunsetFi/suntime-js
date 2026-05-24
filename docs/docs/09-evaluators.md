@@ -47,18 +47,6 @@ function* setIfNotExists(obj: StaticJsObject, property: StaticJsPropertyKey, val
 }
 ```
 
-Usage of `*Evaluator` functions and `yield*` is important, as this is what keeps the iteration of the task ticking through all downstream functions.
-
-:::warning
-Using `*Sync` or `*Async` functions here would start a brand new evaluation task that is beyond the reach of the current running task iterator, and not be interruptable or subject to the same time constraints or time sharing.
-:::
-
-:::warning
-Always ensure you `yield*` the results of all `*Evaluator` functions. Failing to do so will not create any type errors, but ultimately will cause that function to never evaluate, resulting in a no-op.
-:::
-
-### Throwing Sandbox Exceptions
-
 If you want to throw an error that is catchable by a try/catch wrapping your evaluator function, you need to wrap your error in a [StaticJsRuntimeError](./api/errors/runtime-error.md). This error holds special semantics both inside and out of the evaluator, and is used to package thrown [StaticJsValue](./api/types/value.md) items across the library's API surface.
 
 The error itself takes a single parameter — the thrown [StaticJsValue](./api/types/value.md) that will be caught by any try / catch.
@@ -76,3 +64,23 @@ function* setOrError(obj: StaticJsObject, property: StaticJsPropertyKey, value: 
   yield* obj.setEvaluator(property, value);
 }
 ```
+
+When writing evaluators, always follow these rules:
+
+- Evaluators MUST either be generator functions, or return a generator instance.
+- Avoid using `*Sync` or `*Async` methods in favor of `*Evaluator`
+- Always use `yield*` or otherwise fully delegate `*Evaluator` call generators.
+- Always return a [StaticJsValue](./api/types/value.md).
+- When throwing errors intended for the sandbox, use [StaticJsRuntimeError](./api/errors/runtime-error.md).
+
+:::warning
+Using `*Sync` or `*Async` functions here would start a brand new evaluation task that is beyond the reach of the current running task iterator, and not be interruptable or subject to the same time constraints or time sharing.
+:::
+
+:::warning
+Always ensure you `yield*` the results of all `*Evaluator` functions. Failing to do so will not create any type errors, but ultimately will cause that function to never evaluate, resulting in a no-op.
+:::
+
+## Usage
+
+Generally, evaluators are used by the [Type Factory](./api/type-factory.md#functionname-func-opts) when declaring functions for the sandbox. However, you can make your own individual evaluator functions, so long as the initial entrypoint of the call stack is within one such function factory.
