@@ -6,6 +6,11 @@ import { createDefaultWorkspace } from "./workbench/filesystem/createDefaultWork
 workbenchBootstrap
   .initialize({
     workspace: createDefaultWorkspace(defaultSource),
+    api: {
+      configurationDefaults: {
+        "workbench.colorTheme": "Default Dark Modern",
+      },
+    },
   })
   .catch((err) => {
     console.error("Failed to initialize workbench:", err);

@@ -1,10 +1,6 @@
 import { ENTRY_FILE_PATH, LAUNCH_CONFIG_PATH, WORKSPACE_ROOT } from "../config/paths.js";
 import type { WorkbenchWorkspace } from "../types/index.js";
 
-const DEFAULT_SOURCE = `// Write your JavaScript code here
-console.log("Hello, world!");
-`;
-
 const DEFAULT_LAUNCH_CONFIG = JSON.stringify(
   {
     version: "0.2.0",
@@ -21,7 +17,7 @@ const DEFAULT_LAUNCH_CONFIG = JSON.stringify(
   2,
 );
 
-export function createDefaultWorkspace(source: string = DEFAULT_SOURCE): WorkbenchWorkspace {
+export function createDefaultWorkspace(source: string = ""): WorkbenchWorkspace {
   return {
     workspacePath: WORKSPACE_ROOT,
     entryFilePath: ENTRY_FILE_PATH,
