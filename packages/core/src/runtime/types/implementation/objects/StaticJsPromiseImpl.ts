@@ -8,6 +8,7 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { speciesConstructor } from "../../../algorithms/species-constructor.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import {
@@ -80,6 +81,28 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     this._rejectReactions = [];
   }
 
+  thenSync(
+    onFulfilled?: StaticJsCallable | undefined,
+    onRejected?: StaticJsCallable | undefined,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsPromise {
+    return this.realm.invokeEvaluatorSync(
+      () => this.thenEvaluator(onFulfilled, onRejected, true),
+      opts,
+    );
+  }
+
+  thenAsync(
+    onFulfilled?: StaticJsCallable | undefined,
+    onRejected?: StaticJsCallable | undefined,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsPromise> {
+    return this.realm.invokeEvaluatorAsync(
+      () => this.thenEvaluator(onFulfilled, onRejected, true),
+      opts,
+    );
+  }
+
   thenEvaluator(
     onFulfilled?: StaticJsCallable | undefined,
     onRejected?: StaticJsCallable | undefined,
@@ -133,6 +156,17 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     }
 
     return capability?.promise;
+  }
+
+  catchSync(func: StaticJsCallable | undefined, opts?: StaticJsRunTaskOptions): StaticJsPromise {
+    return this.thenSync(undefined, func, opts);
+  }
+
+  catchAsync(
+    func: StaticJsCallable | undefined,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsPromise> {
+    return this.thenAsync(undefined, func, opts);
   }
 
   *catchEvaluator(onRejected: StaticJsCallable): EvaluationGenerator<StaticJsPromise> {

@@ -8,6 +8,7 @@ import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
 import { type StaticJsCallable } from "../../StaticJsCallable.js";
@@ -37,9 +38,147 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return StaticJsTypeCode.Set;
   }
 
+  sizeSync(opts?: StaticJsRunTaskOptions): number {
+    return this.realm.invokeEvaluatorSync(this.sizeEvaluator(), opts);
+  }
+
+  sizeAsync(opts?: StaticJsRunTaskOptions): Promise<number> {
+    return this.realm.invokeEvaluatorAsync(this.sizeEvaluator(), opts);
+  }
+
+  *sizeEvaluator(): EvaluationGenerator<number> {
+    return this._backingStore.size;
+  }
+
+  keysSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
+    return this.realm.invokeEvaluatorSync(this.keysEvaluator(), opts);
+  }
+
+  keysAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsIterator> {
+    return this.realm.invokeEvaluatorAsync(this.keysEvaluator(), opts);
+  }
+
+  keysEvaluator(): EvaluationGenerator<StaticJsIterator> {
+    return this.valuesEvaluator();
+  }
+
+  valuesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
+    return this.realm.invokeEvaluatorSync(this.valuesEvaluator(), opts);
+  }
+
+  valuesAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsIterator> {
+    return this.realm.invokeEvaluatorAsync(this.valuesEvaluator(), opts);
+  }
+
+  *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
+    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key", this.realm);
+  }
+
+  entriesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
+    return this.realm.invokeEvaluatorSync(this.entriesEvaluator(), opts);
+  }
+
+  entriesAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsIterator> {
+    return this.realm.invokeEvaluatorAsync(this.entriesEvaluator(), opts);
+  }
+
+  *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
+    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key+value", this.realm);
+  }
+
+  hasSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.hasEvaluator(value), opts);
+  }
+
+  hasAsync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.hasEvaluator(value), opts);
+  }
+
+  *hasEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
+    const unwrapped = toNativeUnwrap(value);
+    return this._backingStore.has(unwrapped);
+  }
+
+  addValueSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): void {
+    return this.realm.invokeEvaluatorSync(this.addValueEvaluator(value), opts);
+  }
+
+  addValueAsync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<void> {
+    return this.realm.invokeEvaluatorAsync(this.addValueEvaluator(value), opts);
+  }
+
   *addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
     const unwrapped = toNativeUnwrap(value);
     this._backingStore.add(unwrapped);
+  }
+
+  deleteValueSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.deleteValueEvaluator(value), opts);
+  }
+
+  deleteValueAsync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.deleteValueEvaluator(value), opts);
+  }
+
+  *deleteValueEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
+    const unwrapped = toNativeUnwrap(value);
+    return this._backingStore.delete(unwrapped);
+  }
+
+  clearSync(opts?: StaticJsRunTaskOptions): void {
+    return this.realm.invokeEvaluatorSync(this.clearEvaluator(), opts);
+  }
+
+  clearAsync(opts?: StaticJsRunTaskOptions): Promise<void> {
+    return this.realm.invokeEvaluatorAsync(this.clearEvaluator(), opts);
+  }
+
+  *clearEvaluator(): EvaluationGenerator<void> {
+    this._backingStore.clear();
+  }
+
+  forEachSync(
+    callback: StaticJsCallable,
+    thisArg?: StaticJsValue,
+    opts?: StaticJsRunTaskOptions,
+  ): void {
+    return this.realm.invokeEvaluatorSync(this.forEachEvaluator(callback, thisArg), opts);
+  }
+
+  forEachAsync(
+    callback: StaticJsCallable,
+    thisArg?: StaticJsValue,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<void> {
+    return this.realm.invokeEvaluatorAsync(this.forEachEvaluator(callback, thisArg), opts);
+  }
+
+  *forEachEvaluator(
+    callback: StaticJsCallable,
+    thisArg: StaticJsValue = this.realm.types.undefined,
+  ): EvaluationGenerator<void> {
+    if (!isCallable(callback)) {
+      throw new StaticJsRuntimeError(
+        this.realm.types.error("TypeError", "Callback is not a function"),
+      );
+    }
+
+    if (!isStaticJsValue(thisArg)) {
+      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "thisArg is not a value"));
+    }
+
+    for (const value of this._backingStore) {
+      const wrapped = toRuntimeWrap(value, this.realm);
+      yield* call(callback, thisArg, [wrapped, wrapped, this]);
+    }
+  }
+
+  differenceSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.differenceEvaluator(otherSet), opts);
+  }
+
+  differenceAsync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.differenceEvaluator(otherSet), opts);
   }
 
   *differenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
@@ -68,9 +207,15 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return result;
   }
 
-  *hasEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
-    const unwrapped = toNativeUnwrap(value);
-    return this._backingStore.has(unwrapped);
+  intersectionSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.intersectionEvaluator(otherSet), opts);
+  }
+
+  intersectionAsync(
+    otherSet: StaticJsValue,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.intersectionEvaluator(otherSet), opts);
   }
 
   *intersectionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
@@ -99,6 +244,14 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return result;
   }
 
+  isDisjointFromSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.isDisjointFromEvaluator(otherSet), opts);
+  }
+
+  isDisjointFromAsync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.isDisjointFromEvaluator(otherSet), opts);
+  }
+
   *isDisjointFromEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
     if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
@@ -123,6 +276,14 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return true;
   }
 
+  isSubsetOfSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.isSubsetOfEvaluator(otherSet), opts);
+  }
+
+  isSubsetOfAsync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.isSubsetOfEvaluator(otherSet), opts);
+  }
+
   *isSubsetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
     if (!isStaticJsObject(otherSet)) {
       throw new StaticJsRuntimeError(
@@ -145,6 +306,14 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     }
 
     return true;
+  }
+
+  isSupersetOfSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
+    return this.realm.invokeEvaluatorSync(this.isSupersetOfEvaluator(otherSet), opts);
+  }
+
+  isSupersetOfAsync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<boolean> {
+    return this.realm.invokeEvaluatorAsync(this.isSupersetOfEvaluator(otherSet), opts);
   }
 
   *isSupersetOfEvaluator(otherSet: StaticJsValue): EvaluationGenerator<boolean> {
@@ -174,8 +343,15 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     });
   }
 
-  keysEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return this.valuesEvaluator();
+  symmetricDifferenceSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.symmetricDifferenceEvaluator(otherSet), opts);
+  }
+
+  symmetricDifferenceAsync(
+    otherSet: StaticJsValue,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.symmetricDifferenceEvaluator(otherSet), opts);
   }
 
   *symmetricDifferenceEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
@@ -220,6 +396,14 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return result;
   }
 
+  unionSync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.unionEvaluator(otherSet), opts);
+  }
+
+  unionAsync(otherSet: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.unionEvaluator(otherSet), opts);
+  }
+
   *unionEvaluator(otherSet: StaticJsValue): EvaluationGenerator<StaticJsValue> {
     const [result, resultAdd] = yield* setCreate(this, this.realm);
 
@@ -245,47 +429,6 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     });
 
     return result;
-  }
-
-  *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key", this.realm);
-  }
-
-  *clearEvaluator(): EvaluationGenerator<void> {
-    this._backingStore.clear();
-  }
-
-  *deleteValueEvaluator(value: StaticJsValue): EvaluationGenerator<boolean> {
-    const unwrapped = toNativeUnwrap(value);
-    return this._backingStore.delete(unwrapped);
-  }
-
-  *entriesEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key+value", this.realm);
-  }
-
-  *forEachEvaluator(
-    callback: StaticJsCallable,
-    thisArg: StaticJsValue = this.realm.types.undefined,
-  ): EvaluationGenerator<void> {
-    if (!isCallable(callback)) {
-      throw new StaticJsRuntimeError(
-        this.realm.types.error("TypeError", "Callback is not a function"),
-      );
-    }
-
-    if (!isStaticJsValue(thisArg)) {
-      throw new StaticJsRuntimeError(this.realm.types.error("TypeError", "thisArg is not a value"));
-    }
-
-    for (const value of this._backingStore) {
-      const wrapped = toRuntimeWrap(value, this.realm);
-      yield* call(callback, thisArg, [wrapped, wrapped, this]);
-    }
-  }
-
-  *sizeEvaluator(): EvaluationGenerator<number> {
-    return this._backingStore.size;
   }
 }
 

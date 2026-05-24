@@ -15,6 +15,7 @@ import { performPromiseThen } from "../../../algorithms/perform-promise-then.js"
 import { promiseResolve } from "../../../algorithms/promise-resolve.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
@@ -107,6 +108,14 @@ export class StaticJsAsyncGeneratorImpl
     return this._generatorBrand;
   }
 
+  nextSync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsPromise {
+    return this.realm.invokeEvaluatorSync(this.nextEvaluator(value), opts);
+  }
+
+  nextAsync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsPromise> {
+    return this.realm.invokeEvaluatorAsync(this.nextEvaluator(value), opts);
+  }
+
   *nextEvaluator(
     value: StaticJsValue = this.realm.types.undefined,
     generatorBrand?: string | null,
@@ -146,6 +155,14 @@ export class StaticJsAsyncGeneratorImpl
     return promiseCapability.promise;
   }
 
+  returnSync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsPromise {
+    return this.realm.invokeEvaluatorSync(this.returnEvaluator(value), opts);
+  }
+
+  returnAsync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsPromise> {
+    return this.realm.invokeEvaluatorAsync(this.returnEvaluator(value), opts);
+  }
+
   *returnEvaluator(
     value: StaticJsValue = this.realm.types.undefined,
     generatorBrand?: string | null,
@@ -180,6 +197,14 @@ export class StaticJsAsyncGeneratorImpl
     }
 
     return promiseCapability.promise;
+  }
+
+  throwSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsPromise {
+    return this.realm.invokeEvaluatorSync(this.throwEvaluator(value), opts);
+  }
+
+  throwAsync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsPromise> {
+    return this.realm.invokeEvaluatorAsync(this.throwEvaluator(value), opts);
   }
 
   *throwEvaluator(

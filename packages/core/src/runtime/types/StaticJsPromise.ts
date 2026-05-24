@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
 import { StaticJsCallable } from "./StaticJsCallable.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
@@ -17,6 +18,16 @@ export interface StaticJsPromise extends StaticJsObject {
   resolve(value: StaticJsValue): void;
   reject(reason: StaticJsValue): void;
 
+  thenSync(
+    onFulfilled?: StaticJsCallable | undefined,
+    onRejected?: StaticJsCallable | undefined,
+    opts?: StaticJsRunTaskOptions,
+  ): StaticJsPromise;
+  thenAsync(
+    onFulfilled?: StaticJsCallable | undefined,
+    onRejected?: StaticJsCallable | undefined,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsPromise>;
   thenEvaluator(
     onFulfilled?: StaticJsCallable | undefined,
     onRejected?: StaticJsCallable | undefined,
@@ -28,6 +39,11 @@ export interface StaticJsPromise extends StaticJsObject {
     resultCapability: false,
   ): EvaluationGenerator<void>;
 
+  catchSync(func: StaticJsCallable | undefined, opts?: StaticJsRunTaskOptions): StaticJsPromise;
+  catchAsync(
+    func: StaticJsCallable | undefined,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsPromise>;
   catchEvaluator(func: StaticJsCallable | undefined): EvaluationGenerator<StaticJsPromise>;
 
   toNative(): Promise<unknown>;

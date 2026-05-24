@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
@@ -12,6 +13,8 @@ export interface StaticJsIteratorResult {
 export interface StaticJsIterator extends StaticJsObject {
   readonly runtimeTypeOf: "iterator";
 
+  nextSync(opts?: StaticJsRunTaskOptions): StaticJsIteratorResult;
+  nextAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsIteratorResult>;
   nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult>;
 }
 

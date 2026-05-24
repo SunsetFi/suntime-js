@@ -12,6 +12,7 @@ import { createIteratorResultObject } from "../../../iterators/create-iterator-r
 import { iteratorComplete } from "../../../iterators/iterator-complete.js";
 import { iteratorValue } from "../../../iterators/iterator-value.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import { StaticJsObject } from "../../StaticJsObject.js";
@@ -93,6 +94,14 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     return this._generatorState;
   }
 
+  nextSync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsIteratorResult {
+    return this.realm.invokeEvaluatorSync(this.nextEvaluator(value), opts);
+  }
+
+  nextAsync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsIteratorResult> {
+    return this.realm.invokeEvaluatorAsync(this.nextEvaluator(value), opts);
+  }
+
   *nextEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
     const result = yield* this.generatorResume(
       value ?? this.realm.types.undefined,
@@ -106,6 +115,17 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     };
   }
 
+  returnSync(value?: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsIteratorResult {
+    return this.realm.invokeEvaluatorSync(this.returnEvaluator(value), opts);
+  }
+
+  returnAsync(
+    value?: StaticJsValue,
+    opts?: StaticJsRunTaskOptions,
+  ): Promise<StaticJsIteratorResult> {
+    return this.realm.invokeEvaluatorAsync(this.returnEvaluator(value), opts);
+  }
+
   *returnEvaluator(value?: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
     const result = yield* this.generatorResumeAbrupt(
       Completion.Return(value ?? this.realm.types.undefined),
@@ -117,6 +137,14 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
       value: resultValue,
       done: resultDone,
     };
+  }
+
+  throwSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsIteratorResult {
+    return this.realm.invokeEvaluatorSync(this.throwEvaluator(value), opts);
+  }
+
+  throwAsync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsIteratorResult> {
+    return this.realm.invokeEvaluatorAsync(this.throwEvaluator(value), opts);
   }
 
   *throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult> {
