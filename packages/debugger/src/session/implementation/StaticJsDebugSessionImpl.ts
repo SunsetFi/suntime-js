@@ -7,7 +7,7 @@ import {
   StaticJsTaskIterator,
   StaticJsTaskRunner,
   StaticJsTaskIteratorStackFrame,
-  isStaticJsPrimitive,
+  isStaticJsScalar,
 } from "@suntime-js/core";
 
 import createDeferred, { Deferred } from "../../utils/create-deferred.js";
@@ -657,10 +657,10 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     if (func) {
       try {
         const funcNameVal = func.getSync("name", { runTask: debugTaskIterator });
-        if (isStaticJsPrimitive(funcNameVal)) {
-          functionName = String(funcNameVal.toNative());
+        if (isStaticJsScalar(funcNameVal)) {
+          functionName = String(funcNameVal.value);
         } else {
-          functionName = "<Non-primitive function name>";
+          functionName = "<Non-scalar function name>";
         }
       } catch {
         functionName = "<Error determining function name>";
