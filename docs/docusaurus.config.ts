@@ -63,13 +63,13 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: "dark",
     },
     navbar: {
       title: "Suntime-JS",
       logo: {
         alt: "Suntime-JS Logo",
-        src: "img/logo.svg",
+        src: "img/logo.png",
       },
       items: [
         {
