@@ -18,7 +18,7 @@ A realm provides a persistent global environment for JavaScript. Each realm is u
 
 ## Invoking synchronous code
 
-Synchronous code can be invoked with `evaluateScriptSync` and `evaluateExpressionSync`.
+Synchronous code can be invoked with [`evaluateScriptSync`](./api/realm.md#evaluatescriptsyncscript-opts) and [`evaluateExpressionSync`](./api/realm.md#evaluateexpressionsyncexpression-opts).
 
 ```ts
 import { StaticJsRealm, createTimeBoundTaskRunner, isStaticJsNumber } from "@suntime-js/core";

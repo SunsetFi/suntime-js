@@ -14,7 +14,7 @@ The safest way to use StaticJs is to always manually create StaticJs objects and
 This project has not been security audited. Take care when using it for critical applications.
 :::
 
-## Writing secure sandbox interop code.
+## Writing secure sandbox interop code
 
 When interoping with sandbox code, it is **strongly encouraged** that you always deal directly with [StaticJs Types](./07-types.md), and **do not use native interop / type coercion features**. Type coercion may result in unexpected and synchronous sandbox invocations at any time, as Proxies and property accessors may be returned to you. Additionally, coercion can easily result in granting sandbox access to properties you did not intend.
 

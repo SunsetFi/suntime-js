@@ -24,7 +24,7 @@ While using `new` is not required, the realm factory will still work correctly w
 
 ## Evaluating your first script
 
-To evaluate script-sourced code, use `realm.evaluateScript` or `realm.evaluateScriptSync`.
+To evaluate script-sourced code, use [`realm.evaluateScript`](./api/realm.md#evaluatescriptscript-opts) or [`realm.evaluateScriptSync`](./api/realm.md#evaluatescriptsyncscript-opts).
 
 ```ts
 import { StaticJsRealm } from "@suntime-js/core";
@@ -80,7 +80,7 @@ Async runners may return before the task completes, yielding to the host between
 
 ### Specifying tasks
 
-Task runners can be set at the realm level (`runTask`, `runTaskSync`) or overridden per-call via the `runTask` option on any evaluation or object method. See [StaticJsRealm.runTask](./05-realms.md#runtask) and [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
+Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)) or overridden per-call via the [`runTask`](./api/realm.md#runtask) option on any evaluation or object method. See [StaticJsRealm.runTask](./05-realms.md#runtask) and [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
 
 ### Built-in task runners
 
@@ -115,7 +115,7 @@ const result = await realm.evaluateScript(`while(true) {}`);
 
 [createTimeSharingTaskRunner](./api/tasks.md#createtimesharingtaskrunneropts) creates an **asynchronous** task runner that will divide time between evaluating the script and allowing the underlying engine to run its own tasks.
 
-Note that this is only usable for asynchronous tasks. Passing this to `runTaskSync` or other synchronous methods can result in errors.
+Note that this is only usable for asynchronous tasks. Passing this to [`runTaskSync`](./api/realm.md#runtasksync) or other synchronous methods can result in errors.
 
 ```ts
 import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
@@ -231,30 +231,30 @@ function toString(value: StaticJsValue): string {
 All scalar types in StaticJs have a 'value' property containing the host-native javascript value of the scalar.
 :::
 
-Note that these functions exist for a mix of specific types and type classes. For example, `isStaticJsScalar` returns true for values guarded by `isStaticJsString`, `isStaticJsNumber`, and so on. In particular, `isStaticJsObject` returns true for `isStaticJsFunction` and other object-like values.
+Note that these functions exist for a mix of specific types and type classes. For example, [`isStaticJsScalar`](./api/types/scalar.md#isstaticjsscalarvalue) returns true for values guarded by [`isStaticJsString`](./api/types/string.md#isstaticjsstringvalue), [`isStaticJsNumber`](./api/types/number.md#isstaticjsnumbervalue), and so on. In particular, [`isStaticJsObject`](./api/types/object.md#isstaticjsobjectvalue) returns true for [`isStaticJsFunction`](./api/types/function.md#isstaticjsfunction) and other object-like values.
 
 :::info[Type codes]
-The type guard functions work internally by checking the `.runtimeTypeCode` property against the `StaticJsTypeCode` enum. You can use these yourself, but be aware that the type codes are a mix of ordinals and bit flags, and usage might not be as straightforward.
+The type guard functions work internally by checking the [`.runtimeTypeCode`](./api/types/primitive.md#runtimetypecode) property against the `StaticJsTypeCode` enum. You can use these yourself, but be aware that the type codes are a mix of ordinals and bit flags, and usage might not be as straightforward.
 :::
 
 ### Native value coercion
 
-All StaticJs values have a `toNative()` method that produces a host-proxied representation.
+All StaticJs values have a [`toNative()`](./api/types/primitive.md#tonative) method that produces a host-proxied representation.
 
 :::danger[toNative() and objects]
-While toNative is safe for scalar values, it returns live proxies for objects. Such proxies carry risks, as accessing any property on it may synchronously invoke sandboxed code. Avoid `toNative()` on objects unless you have a time-bounded [StaticJsRealm.runTaskSync](./05-realms.md#runtasksync) configured.
+While toNative is safe for scalar values, it returns live proxies for objects. Such proxies carry risks, as accessing any property on it may synchronously invoke sandboxed code. Avoid [`toNative()`](./api/types/primitive.md#tonative) on objects unless you have a time-bounded [StaticJsRealm.runTaskSync](./05-realms.md#runtasksync) configured.
 
-Prefer `.value` on scalars (accessible after an `isStaticJsScalar` check) and direct `StaticJsObject` API methods on objects.
+Prefer `.value` on scalars (accessible after an [`isStaticJsScalar`](./api/types/scalar.md#isstaticjsscalarvalue) check) and direct [`StaticJsObject`](./api/types/object.md) API methods on objects.
 :::
 
 See [Type Coercion](./04-type-coercion.md) for full coercion rules.
 
 ### Sandbox value coercion
 
-`realm.types.toStaticJsValue(nativeValue)` coerces a native value into the sandbox. For objects, this is a shallow-on-demand proxy: only own enumerable properties are exposed, they are read-only, and the prototype is replaced with the sandbox's `Object.prototype`.
+[`realm.types.toStaticJsValue(nativeValue)`](./api/type-factory.md#tostaticjsvaluevalue) coerces a native value into the sandbox. For objects, this is a shallow-on-demand proxy: only own enumerable properties are exposed, they are read-only, and the prototype is replaced with the sandbox's `Object.prototype`.
 
 :::danger
-Avoid `toStaticJsValue` for objects you intend to mutate inside the sandbox. Prefer creating typed values directly via `realm.types.object(...)`.
+Avoid [`toStaticJsValue`](./api/type-factory.md#tostaticjsvaluevalue) for objects you intend to mutate inside the sandbox. Prefer creating typed values directly via [`realm.types.object(...)`](./api/type-factory.md#objectproperties-prototype).
 :::
 
 See [Type Coercion](./04-type-coercion.md) for the full coercion rules including symbol and function semantics.
@@ -459,7 +459,7 @@ See [Type Coercion](./04-type-coercion.md) for the complete rules.
 
 ## Working with the global environment
 
-The global enivronment of a realm is exposed through the `global` property. The global property is an instance of [StaticJsObject](./api/types/object.md), and supports all the same methods.
+The global enivronment of a realm is exposed through the [`global`](./api/realm.md#global) property. The global property is an instance of [StaticJsObject](./api/types/object.md), and supports all the same methods.
 
 ```ts
 const realm = StaticJsRealm();
