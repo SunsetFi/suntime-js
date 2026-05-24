@@ -13,6 +13,13 @@ import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
+export interface StaticJsObjectPropertyAccessOptions {
+  receiver?: StaticJsValue;
+}
+
+export type StaticJsObjectPropertyAccessRunTaskOptions = StaticJsObjectPropertyAccessOptions &
+  StaticJsRunTaskOptions;
+
 export interface StaticJsObject extends StaticJsPrimitive {
   getPrototypeOfAsync(opts?: StaticJsRunTaskOptions): Promise<StaticJsObject | null>;
   getPrototypeOfSync(opts?: StaticJsRunTaskOptions): StaticJsObject | null;
@@ -88,23 +95,42 @@ export interface StaticJsObject extends StaticJsPrimitive {
     descriptor: StaticJsPropertyDescriptorRecord,
   ): EvaluationGenerator<boolean>;
 
-  getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>;
-  getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue;
+  getAsync(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsObjectPropertyAccessRunTaskOptions,
+  ): Promise<StaticJsValue>;
+  getSync(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsObjectPropertyAccessRunTaskOptions,
+  ): StaticJsValue;
   getEvaluator(
     key: StaticJsPropertyKey,
-    receiver: StaticJsValue,
+    receiver?: StaticJsValue,
+  ): EvaluationGenerator<StaticJsValue>;
+  getEvaluator(
+    key: StaticJsPropertyKey,
+    opts?: StaticJsObjectPropertyAccessOptions,
   ): EvaluationGenerator<StaticJsValue>;
 
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    opts?: StaticJsRunTaskOptions,
+    opts?: StaticJsObjectPropertyAccessRunTaskOptions,
   ): Promise<boolean>;
-  setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean;
+  setSync(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessRunTaskOptions,
+  ): boolean;
   setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    receiver: StaticJsValue,
+    receiver?: StaticJsValue,
+  ): EvaluationGenerator<boolean>;
+  setEvaluator(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions,
   ): EvaluationGenerator<boolean>;
 
   deleteAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<boolean>;

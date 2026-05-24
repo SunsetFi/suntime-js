@@ -8,7 +8,12 @@ import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
+import {
+  isStaticJsObject,
+  StaticJsObjectPropertyAccessOptions,
+  StaticJsObjectPropertyAccessRunTaskOptions,
+  type StaticJsObject,
+} from "../StaticJsObject.js";
 import { type StaticJsPlainObject } from "../StaticJsPlainObject.js";
 import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import { StaticJsPrivateName } from "../StaticJsPrivateName.js";
@@ -269,18 +274,26 @@ export abstract class StaticJsAbstractObject
     key: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined>;
 
-  getAsync(name: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name, this), opts);
+  getAsync(
+    name: StaticJsPropertyKey,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
+  ): Promise<StaticJsValue> {
+    return this.realm.invokeEvaluatorAsync(this.getEvaluator(name, receiver), opts);
   }
 
-  getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.getEvaluator(key, this), opts);
+  getSync(
+    key: StaticJsPropertyKey,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
+  ): StaticJsValue {
+    return this.realm.invokeEvaluatorSync(this.getEvaluator(key, receiver), opts);
   }
 
   *getEvaluator(
     key: StaticJsPropertyKey,
-    receiver: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions | StaticJsValue,
   ): EvaluationGenerator<StaticJsValue> {
+    const receiver = isStaticJsValue(opts) ? opts : (opts?.receiver ?? this);
+
     const decl = yield* this.getPropertyEvaluator(key);
     if (decl === undefined) {
       return this.realm.types.undefined;
@@ -315,20 +328,26 @@ export abstract class StaticJsAbstractObject
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    opts?: StaticJsRunTaskOptions,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
   ): Promise<boolean> {
-    return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value, this), opts);
+    return this.realm.invokeEvaluatorAsync(this.setEvaluator(key, value, receiver), opts);
   }
 
-  setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
-    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value, this), opts);
+  setSync(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
+  ): boolean {
+    return this.realm.invokeEvaluatorSync(this.setEvaluator(key, value, receiver), opts);
   }
 
   *setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    receiver: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions | StaticJsValue,
   ): EvaluationGenerator<boolean> {
+    const receiver = isStaticJsValue(opts) ? opts : (opts?.receiver ?? this);
+
     if (!isStaticJsValue(value)) {
       throw new TypeError(`Value must be a StaticJsValue instance`);
     }

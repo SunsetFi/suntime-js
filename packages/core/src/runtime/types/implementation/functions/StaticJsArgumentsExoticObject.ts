@@ -3,7 +3,7 @@ import { get } from "../../../algorithms/get.js";
 import { sameValue } from "../../../algorithms/same-value.js";
 import { set } from "../../../algorithms/set.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsObject } from "../../StaticJsObject.js";
+import type { StaticJsObject, StaticJsObjectPropertyAccessOptions } from "../../StaticJsObject.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -12,7 +12,7 @@ import {
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
@@ -90,11 +90,11 @@ export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
 
   override *getEvaluator(
     property: StaticJsPropertyKey,
-    receiver: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions | StaticJsValue,
   ): EvaluationGenerator<StaticJsValue> {
     const isMapped = yield* this._parameterMap.hasOwnPropertyEvaluator(property);
     if (!isMapped) {
-      return yield* super.getEvaluator(property, receiver);
+      return yield* super.getEvaluator(property, opts);
     }
 
     return yield* get(this._parameterMap, property);
@@ -103,8 +103,9 @@ export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
   override *setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    receiver: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions | StaticJsValue,
   ): EvaluationGenerator<boolean> {
+    const receiver = isStaticJsValue(opts) ? opts : (opts?.receiver ?? this);
     let isMapped: boolean;
     if (!sameValue(this, receiver)) {
       isMapped = false;
@@ -117,7 +118,7 @@ export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
       // Fall through to OrdinarySet.
     }
 
-    return yield* super.setEvaluator(key, value, receiver);
+    return yield* super.setEvaluator(key, value, opts);
   }
 
   override *deleteEvaluator(key: StaticJsPropertyKey): EvaluationGenerator<boolean> {

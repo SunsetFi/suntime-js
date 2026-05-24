@@ -19,7 +19,12 @@ import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
-import { isStaticJsObject, StaticJsObject } from "../StaticJsObject.js";
+import {
+  isStaticJsObject,
+  StaticJsObject,
+  StaticJsObjectPropertyAccessOptions,
+  StaticJsObjectPropertyAccessRunTaskOptions,
+} from "../StaticJsObject.js";
 import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -33,7 +38,7 @@ import { StaticJsProxy } from "../StaticJsProxy.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
-import { StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
 
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 
@@ -653,19 +658,27 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     return true;
   }
 
-  getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue> {
-    return this._realm.invokeEvaluatorAsync(this.getEvaluator(key, this), opts);
+  getAsync(
+    key: StaticJsPropertyKey,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
+  ): Promise<StaticJsValue> {
+    return this._realm.invokeEvaluatorAsync(this.getEvaluator(key, receiver), opts);
   }
 
-  getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue {
-    return this._realm.invokeEvaluatorSync(this.getEvaluator(key, this), opts);
+  getSync(
+    key: StaticJsPropertyKey,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
+  ): StaticJsValue {
+    return this._realm.invokeEvaluatorSync(this.getEvaluator(key, receiver), opts);
   }
 
   *getEvaluator(
     key: StaticJsPropertyKey,
-    receiver: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions | StaticJsValue,
   ): EvaluationGenerator<StaticJsValue> {
     yield* this.validateNonRevokedProxyEvaluator();
+
+    const receiver = isStaticJsValue(opts) ? opts : (opts?.receiver ?? this);
 
     const target = this._proxyTarget!;
     const handler = this._handler!;
@@ -709,21 +722,27 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   setAsync(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    opts?: StaticJsRunTaskOptions,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
   ): Promise<boolean> {
-    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value, this), opts);
+    return this._realm.invokeEvaluatorAsync(this.setEvaluator(key, value, receiver), opts);
   }
 
-  setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
-    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value, this), opts);
+  setSync(
+    key: StaticJsPropertyKey,
+    value: StaticJsValue,
+    { receiver, ...opts }: StaticJsObjectPropertyAccessRunTaskOptions = {},
+  ): boolean {
+    return this._realm.invokeEvaluatorSync(this.setEvaluator(key, value, receiver), opts);
   }
 
   *setEvaluator(
     key: StaticJsPropertyKey,
     value: StaticJsValue,
-    receiver: StaticJsValue,
+    opts?: StaticJsObjectPropertyAccessOptions | StaticJsValue,
   ): EvaluationGenerator<boolean> {
     yield* this.validateNonRevokedProxyEvaluator();
+
+    const receiver = isStaticJsValue(opts) ? opts : (opts?.receiver ?? this);
 
     const target = this._proxyTarget!;
     const handler = this._handler!;

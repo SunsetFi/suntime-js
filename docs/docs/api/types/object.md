@@ -36,7 +36,7 @@ Every property operation is exposed as three variants:
 | `*Sync`      | Returns `T`                      | Host code that must complete synchronously. Drives evaluation via the realm's [`runTaskSync`](../realm.md#runtasksync). Requires a sync-safe task runner. |
 | `*Evaluator` | Returns `EvaluationGenerator<T>` | Inside [evaluator functions](../../09-evaluators.md) only. Must be consumed with `yield*`.                                                                |
 
-Both `*Async` and `*Sync` accept an optional [`StaticJsRunTaskOptions`](../realm.md#staticjsruntaskoptions) as their final argument, letting you override the task runner per-call.
+Both `*Async` and `*Sync` accept an optional [`StaticJsObjectPropertyAccessRunTaskOptions`](#staticjsobjectpropertyaccessruntaskoptions) as their final argument, letting you override the task runner and receiver per-call. `*Evaluator` variants of `get`/`set` do not accept a runTask, and instead can accept the receiver directly as a as a positional argument (preferred) or via [`StaticJsObjectPropertyAccessOptions`](#staticjsobjectpropertyaccessoptions).
 
 :::warning[Code invocation]
 Property access can invoke sandboxed code (getters, setters, Proxy traps). Always use a time-bounded task runner when calling `*Sync` methods on untrusted objects.
@@ -202,22 +202,36 @@ See [`StaticJsPropertyDescriptorRecord`](../type-factory.md#staticjspropertydesc
 ### get(key, opts?)
 
 ```ts
-getAsync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue>
-getSync(key: StaticJsPropertyKey, opts?: StaticJsRunTaskOptions): StaticJsValue
+getAsync(key: StaticJsPropertyKey, opts?: StaticJsObjectPropertyAccessRunTaskOptions): Promise<StaticJsValue>
+getSync(key: StaticJsPropertyKey, opts?: StaticJsObjectPropertyAccessRunTaskOptions): StaticJsValue
+
+// preferred — pass receiver directly:
+getEvaluator(key: StaticJsPropertyKey, receiver?: StaticJsValue): EvaluationGenerator<StaticJsValue>
+// alternative — pass receiver inside an opts object:
+getEvaluator(key: StaticJsPropertyKey, opts?: StaticJsObjectPropertyAccessOptions): EvaluationGenerator<StaticJsValue>
 ```
 
 Gets the value of `key` on this object or its prototype chain. Invokes getter functions if present. Returns [`StaticJsUndefined`](./undefined.md) if the key does not exist.
+
+`receiver` is the value bound as `this` inside getter calls. Defaults to the object itself. For `*Async`/`*Sync` pass it as `opts.receiver`; for `*Evaluator` pass it as the second argument directly (preferred) or via `opts.receiver`.
 
 ---
 
 ### set(key, value, opts?)
 
 ```ts
-setAsync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<boolean>
-setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean
+setAsync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsObjectPropertyAccessRunTaskOptions): Promise<boolean>
+setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsObjectPropertyAccessRunTaskOptions): boolean
+
+// preferred — pass receiver directly:
+setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue, receiver?: StaticJsValue): EvaluationGenerator<boolean>
+// alternative — pass receiver inside an opts object:
+setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsObjectPropertyAccessOptions): EvaluationGenerator<boolean>
 ```
 
 Sets `key` to `value`. Invokes setter functions if present. Returns `true` on success, `false` if the assignment is rejected (e.g. in strict mode with a non-writable property).
+
+`receiver` is the value bound as `this` inside setter calls. Defaults to the object itself. For `*Async`/`*Sync` pass it as `opts.receiver`; for `*Evaluator` pass it as the third argument directly (preferred) or via `opts.receiver`.
 
 ---
 
@@ -247,6 +261,31 @@ Prefer the `StaticJsObject` API methods (`getAsync`, `setAsync`, `defineOwnPrope
 :::
 
 See [Type Coercion](../../04-type-coercion.md) for the complete coercion rules applied when crossing the sandbox boundary.
+
+---
+
+## Options types
+
+### StaticJsObjectPropertyAccessOptions
+
+```ts
+interface StaticJsObjectPropertyAccessOptions {
+  receiver?: StaticJsValue;
+}
+```
+
+Accepted by the opts-object overload of `*Evaluator` variants of `get` and `set`. `receiver` is the value bound as `this` inside getter and setter calls. Defaults to the object itself when not provided.
+
+---
+
+### StaticJsObjectPropertyAccessRunTaskOptions
+
+```ts
+type StaticJsObjectPropertyAccessRunTaskOptions = StaticJsObjectPropertyAccessOptions &
+  StaticJsRunTaskOptions;
+```
+
+Combined options for the `*Async` and `*Sync` variants. Extends [`StaticJsObjectPropertyAccessOptions`](#staticjsobjectpropertyaccessoptions) with all fields from [`StaticJsRunTaskOptions`](../realm.md#staticjsruntaskoptions) (`runTask`, etc.).
 
 ---
 
