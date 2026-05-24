@@ -314,3 +314,17 @@ Extends `StaticJsRealmEvaluateSourceOptions`.
 ### `StaticJsModuleResolution`
 
 See [`StaticJsModuleResolution`](./modules.md#staticjsmoduleresolution) in the Modules reference.
+
+---
+
+## Type guard
+
+### isStaticJsRealm(value)
+
+```ts
+import { isStaticJsRealm } from "@suntime-js/core";
+
+isStaticJsRealm(value: unknown): value is StaticJsRealm
+```
+
+Returns `true` if `value` is a `StaticJsRealm` instance. Useful when accepting realm references from untrusted or loosely-typed sources.

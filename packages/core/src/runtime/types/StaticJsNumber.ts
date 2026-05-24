@@ -6,6 +6,7 @@ export interface StaticJsNumber extends StaticJsPrimitive {
   readonly runtimeTypeOf: "number";
   value: number;
 }
+
 export function isStaticJsNumber(value: unknown): value is StaticJsNumber {
   if (!isStaticJsValue(value)) {
     return false;
