@@ -26,6 +26,14 @@ Key members: `boolean`, `number`, `string`, `object`, `array`, `function`, `erro
 
 ---
 
+## [StaticJsModule](./modules.md)
+
+Returned by `realm.evaluateModule()` and passed to module resolver callbacks. Exposes named exports as `StaticJsValue` instances or coerced native values. Also documents `StaticJsModuleResolver`, `StaticJsModuleResolution`, and `StaticJsRealmModuleExports`.
+
+Key members: `getExportedNames`, `getExportAsync`, `getExportJsSync`, `getModuleNamespaceAsync`, `getModuleNamespaceJsSync`
+
+---
+
 ## [StaticJsTaskIterator](./tasks.md)
 
 The iterator interface passed to task runners. Each call to `.next()` evaluates one operation in the sandbox. Exposes introspection (`location`, `stack`, `currentTaskType`) and control (`abort`, `throw`).

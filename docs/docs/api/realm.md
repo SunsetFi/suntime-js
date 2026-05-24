@@ -44,7 +44,7 @@ The realm always installs its intrinsics onto the global object. You can overrid
 
 Type: `Record<string, StaticJsModuleResolution>`
 
-A static map of module specifiers to module implementations. Consulted first during `import` resolution. See [StaticJsModuleResolution](#staticjsmoduleresolution).
+A static map of module specifiers to module implementations. Consulted first during `import` resolution. See [StaticJsModuleResolution](./modules.md#staticjsmoduleresolution).
 
 ```ts
 const realm = StaticJsRealm({
@@ -60,7 +60,7 @@ const realm = StaticJsRealm({
 
 Type: `(specifier: string, referencingModule: StaticJsModule) => Promise<StaticJsModuleResolution>`
 
-Called for module specifiers not found in `modules`. Return a [StaticJsModuleResolution](#staticjsmoduleresolution) or a Promise that resolves to one.
+Called for module specifiers not found in `modules`. Return a [StaticJsModuleResolution](./modules.md#staticjsmoduleresolution) or a Promise that resolves to one. See [StaticJsModuleResolver](./modules.md#staticjsmoduleresolver) for the full type signature and an example.
 
 #### runTask
 
@@ -209,7 +209,7 @@ evaluateModule(
 ): Promise<StaticJsModule>
 ```
 
-Links and evaluates an ECMAScript module. Returns a promise that resolves to the resulting [`StaticJsModule`](../06-modules.md).
+Links and evaluates an ECMAScript module. Returns a promise that resolves to the resulting [`StaticJsModule`](./modules.md).
 
 Module linking happens immediately; declaration and evaluation are queued. If the module (or any dependency) uses top-level `await`, the promise waits for the full module graph to settle before resolving.
 
@@ -313,10 +313,4 @@ Extends `StaticJsRealmEvaluateSourceOptions`.
 
 ### `StaticJsModuleResolution`
 
-Values accepted by `modules` and returned from `resolveImportedModule`:
-
-| Type                                   | Description                                                                                      |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `{ exports: Record<string, unknown> }` | Plain object of exported values. Values are coerced via [type coercion](../04-type-coercion.md). |
-| `StaticJsModule`                       | A pre-built module instance.                                                                     |
-| `string`                               | Source code of an ECMAScript module to be parsed and evaluated.                                  |
+See [`StaticJsModuleResolution`](./modules.md#staticjsmoduleresolution) in the Modules reference.

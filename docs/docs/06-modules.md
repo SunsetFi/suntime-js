@@ -4,67 +4,13 @@ sidebar_label: Modules
 sidebar_position: 5
 ---
 
-StaticJs supports ECMAScript modules, both for consumption by sandboxed code, and allowing evaluation and linking of sandboxed modules.
+StaticJs supports ECMAScript modules, both through host-defined modules exposed to sandboxed code, and sandboxed module source that is parsed and evaluated within the realm.
 
-## Evaluating sandboxed modules
+For the complete type and method reference, see the [StaticJsModule API reference](./api/modules.md).
 
-Modules can be used by either the quick `evaluateModule` function, or by calling `evaluateModule` on a realm object.
+## Evaluating a sandboxed module
 
-## Defining modules on a realm
-
-Realms have two ways of defining modules
-
-### StaticJsRealmOpts.modules
-
-Modules can be defined by setting keyed properties of the modules config option:
-
-```ts
-import { StaticJsRealm } from "@suntime-js/core";
-
-const realm = StaticJsRealm({
-  modules: {
-    "my-module-1": {
-      exports: {
-        foo: 42,
-      },
-    },
-    "my-module-2": `
-      export const bar = 64;
-    `,
-  },
-});
-```
-
-### StaticJsRealmOpts.resolveImportedModule
-
-Modules can be created per-request by the `resolveImportedModule` option
-
-```ts
-import { StaticJsRealm } from "@suntime-js/core";
-
-function resolveImportedModule(importer, specifier) {
-  switch (specifier) {
-    case "my-module-1":
-      return {
-        exports: {
-          foo: 42,
-        },
-      };
-    case "my-module-2":
-      return `
-        export const bar = 64;
-      `;
-  }
-  return null;
-}
-const realm = StaticJsRealm({
-  resolveImportedModule,
-});
-```
-
-## Consuming evaluated modules
-
-Evaluating a module will return a promise to a [StaticJsModule](#staticjsmodule-type). From there, you can use `module.getExportSync` and `module.getExportAsync` to obtain exports.
+Pass ECMAScript module source to `realm.evaluateModule()`. It returns a promise that resolves once the module and all its dependencies are fully evaluated:
 
 ```ts
 import { StaticJsRealm } from "@suntime-js/core";
@@ -72,42 +18,77 @@ import { StaticJsRealm } from "@suntime-js/core";
 const realm = StaticJsRealm();
 
 const module = await realm.evaluateModule(`
+  export const foo = 42;
+`);
+```
+
+## Reading exports
+
+`evaluateModule` resolves to a [`StaticJsModule`](./api/modules.md). Use `getExportAsync` to retrieve individual exports as sandbox values.
+
+```ts
+const module = await realm.evaluateModule(`
   export function add(a, b) {
     return a + b;
   }
 `);
 
-// Result will be a StaticJsValue
-const addValue = await module.getExportAsync("add");
-
-// Invoke the function safely
-const resultValue = await addValue.callAsync(realm.types.undefined, [
+const result = await addValue.callAsync(realm.types.undefined, [
   realm.types.number(2),
   realm.types.number(3),
 ]);
-
-// Alternatively, coerce it to a native function
-const add = addValue.toNative();
-const result = add(4, 3);
 ```
 
-## Providing external modules.
+## Providing host modules
 
-### Resolvable modules
+### Static map
 
-The following are valid for passing as a StaticJs module, both for StaticJsRealm `modules` and `resolveImportedModule` results:
+Register modules by specifier at realm construction time using the `modules` option. The value for each key is a [`StaticJsModuleResolution`](./api/modules.md#staticjsmoduleresolution):
+
+```ts
+const realm = StaticJsRealm({
+  modules: {
+    "my-lib": {
+      exports: {
+        add(a, b) {
+          return a + b;
+        },
+      },
+    },
+    prebuilt: existingModule,
+    inline: `export const x = 1;`,
+  },
+});
+```
+
+### Dynamic resolver
+
+For modules that need to be resolved on demand, use `resolveImportedModule`:
+
+```ts
+const realm = StaticJsRealm({
+  resolveImportedModule: async (specifier, referencingModule) => {
+    if (specifier === "utils") {
+      return { exports: { add: (a, b) => a + b } };
+    }
+    // Return null or throw to signal a failed resolution
+    return null;
+  },
+});
+```
+
+The static `modules` map is checked first; `resolveImportedModule` is only called for specifiers not found there. See [StaticJsModuleResolver](./api/modules.md#staticjsmoduleresolver) for the full signature.
 
 ### Exports object
 
-An object containing a single `exports` property will create a virtual module. The property names of the exports object will be the named exports, and the values will be [coerced](./04-type-coercion.md) unless it is a StaticJsValue.
+The simplest form for a host module is a plain object with an `exports` property. Each key becomes a named export; values are [coerced to sandbox types](./04-type-coercion.md) unless they are already `StaticJsValue` instances:
 
 ```ts
-import { StaticJsRealm } from "@suntime-js/core";
-
 const realm = StaticJsRealm({
   modules: {
-    "my-module": {
+    "host-api": {
       exports: {
+        version: "1.0.0",
         add(a, b) {
           return a + b;
         },
@@ -117,45 +98,47 @@ const realm = StaticJsRealm({
 });
 
 await realm.evaluateModule(`
-  import { add } from "my-module";
-  add(1, 2);
+  import { version, add } from "host-api";
+  console.log(version);   // "1.0.0"
+  console.log(add(1, 2)); // 3
 `);
 ```
 
-### string
+See [`StaticJsRealmModuleExports`](./api/modules.md#staticjsrealmmoduleexports) for details.
 
-Providing string values as modules will cause StaticJs to evaluate that string within the realm as an independent module.
+### Module source string
 
-Note that doing so during `resolveImportedModule` will invoke that module's evaluation with the [task evaluator](./08-tasks.md) specified for the module that requested the import.
+Passing a string as a module value causes StaticJs to parse and evaluate it as ECMAScript module source within the realm:
 
-## Async Modules
+```ts
+const realm = StaticJsRealm({
+  modules: {
+    constants: `export const PI = 3.14159;`,
+  },
+});
+```
 
-Top-level await is supported for both direct evaluateModule calls and for additional dependent modules. The module evaluation promise will not resolve until the module itself, and all its dependencies, fully resolve.
+When a string is returned from `resolveImportedModule`, it is evaluated using the task runner of the importing module.
 
-## StaticJsModule type
+### Pre-built module instance
 
-Modules in StaticJs are interfaced with through the `StaticJsModule` type.
+A [`StaticJsModule`](./api/modules.md) returned by a previous `evaluateModule` call can be re-used directly:
 
-### StaticJsModule methods
+```ts
+const lib = await realm.evaluateModule(`export const x = 1;`);
 
-#### getExportedNames
+const realm2 = StaticJsRealm({
+  modules: { lib: lib },
+});
+```
 
-Returns an array of string names for all exports from the module, including star re-exports. The default export is not included in this list.
+## Async modules
 
-#### getExportSync(exportName)
+Top-level `await` is supported in both directly evaluated modules and their dependencies. The `evaluateModule` promise does not resolve until the entire module graph has settled:
 
-Returns the current value of the export, as a [StaticJsValue](./07-types.md#staticjsvalue). The string "default" can be used to get the default export.
-
-Note that some exports can be dynamic. The exported object will NOT reflect changes for primitive values, but WILL reflect changes on exported objects.
-
-#### getExportJsSync(exportName)
-
-Returns the current value of the export, coerced to a native value. The string "default" can be used to get the default export.
-
-The returned value will be [coerced to native representation](./04-type-coercion.md).
-
-#### getModuleNamespaceJsSync
-
-Returns a coerced-native namespace object for all (non-default) exports of the module. This properties of this object will reflect the current state of the module, including any changes made after its creation.
-
-The mapped values will be [coerced to native representations](./04-type-coercion.md).
+```ts
+const module = await realm.evaluateModule(`
+  const data = await fetch("...");
+  export const result = await data.json();
+`);
+```
