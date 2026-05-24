@@ -2,7 +2,8 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsIteratorResult } from "./StaticJsIterator.js";
-import type { StaticJsValue } from "./StaticJsValue.js";
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
+import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 import type { StaticJsObject } from "./index.js";
 
@@ -23,4 +24,12 @@ export interface StaticJsGenerator extends StaticJsObject {
   throwSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): StaticJsIteratorResult;
   throwAsync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): Promise<StaticJsIteratorResult>;
   throwEvaluator(value: StaticJsValue): EvaluationGenerator<StaticJsIteratorResult>;
+}
+
+export function isStaticJsGenerator(value: unknown): value is StaticJsGenerator {
+  if (!isStaticJsValue(value)) {
+    return false;
+  }
+
+  return value.runtimeTypeCode === StaticJsTypeCode.Generator;
 }

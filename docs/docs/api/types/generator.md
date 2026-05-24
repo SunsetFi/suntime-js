@@ -81,6 +81,16 @@ Resumes the generator by throwing `value` at the current suspension point. If th
 
 ---
 
+## Type guard
+
+### isStaticJsGenerator(value)
+
+```ts
+isStaticJsGenerator(value: unknown): value is StaticJsGenerator
+```
+
+---
+
 ## See also
 
 - [`StaticJsIteratorResult`](./iterator.md#staticjsiteratorresult): the result record type
