@@ -113,22 +113,28 @@ StaticJsScalar = StaticJsString | StaticJsNumber | StaticJsBoolean
 
 ## Type reference
 
-| Type                                     | Kind           | Type guard                                                            | `.value`                                                     |
-| ---------------------------------------- | -------------- | --------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [StaticJsValue](./value.md)              | Union          | [isStaticJsValue](./value.md#isstaticjsvaluevalue)                    | —                                                            |
-| [StaticJsPrimitive](./primitive.md)      | Base interface | [isStaticJsPrimitive](./primitive.md#isstaticjsprimitivevalue)        | —                                                            |
-| [StaticJsScalar](./scalar.md)            | Union          | [isStaticJsScalar](./scalar.md#isstaticjsscalarvalue)                 | `string \| number \| boolean \| null \| undefined \| symbol` |
-| [StaticJsObject](./object.md)            | Base interface | [isStaticJsObject](./object.md#isstaticjsobjectvalue)                 | —                                                            |
-| [StaticJsCallable](./function.md)        | Base interface | [isStaticJsCallable](./function.md#isstaticjscallable)                | —                                                            |
-| [StaticJsString](./string.md)            | Concrete       | [isStaticJsString](./string.md#isstaticjsstringvalue)                 | `string`                                                     |
-| [StaticJsNumber](./number.md)            | Concrete       | [isStaticJsNumber](./number.md#isstaticjsnumbervalue)                 | `number`                                                     |
-| [StaticJsBoolean](./boolean.md)          | Concrete       | [isStaticJsBoolean](./boolean.md#isstaticjsbooleanvalue)              | `boolean`                                                    |
-| [StaticJsNull](./null.md)                | Concrete       | [isStaticJsNull](./null.md#isstaticjsnullvalue)                       | `null`                                                       |
-| [StaticJsUndefined](./undefined.md)      | Concrete       | [isStaticJsUndefined](./undefined.md#isstaticjsundefinedvalue)        | `undefined`                                                  |
-| [StaticJsSymbol](./symbol.md)            | Concrete       | [isStaticJsSymbol](./symbol.md#isstaticjssymbolvalue)                 | `symbol`                                                     |
-| [StaticJsPlainObject](./plain-object.md) | Concrete       | [isStaticJsPlainObject](./plain-object.md#isstaticjsplainobjectvalue) | —                                                            |
-| [StaticJsArray](./array.md)              | Concrete       | [isStaticJsArray](./array.md#isstaticjsarrayvalue)                    | —                                                            |
-| [StaticJsFunction](./function.md)        | Concrete       | [isStaticJsFunction](./function.md#isstaticjsfunction)                | —                                                            |
-| [StaticJsProxy](./proxy.md)              | Concrete       | [isStaticJsProxy](./proxy.md#isstaticjsproxyvalue)                    | —                                                            |
+| Type                                           | Kind           | Type guard                                                                     | `.value`                                                     |
+| ---------------------------------------------- | -------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| [StaticJsValue](./value.md)                    | Union          | [isStaticJsValue](./value.md#isstaticjsvaluevalue)                             | —                                                            |
+| [StaticJsPrimitive](./primitive.md)            | Base interface | [isStaticJsPrimitive](./primitive.md#isstaticjsprimitivevalue)                 | —                                                            |
+| [StaticJsScalar](./scalar.md)                  | Union          | [isStaticJsScalar](./scalar.md#isstaticjsscalarvalue)                          | `string \| number \| boolean \| null \| undefined \| symbol` |
+| [StaticJsObject](./object.md)                  | Base interface | [isStaticJsObject](./object.md#isstaticjsobjectvalue)                          | —                                                            |
+| [StaticJsCallable](./function.md)              | Base interface | [isStaticJsCallable](./function.md#isstaticjscallable)                         | —                                                            |
+| [StaticJsString](./string.md)                  | Concrete       | [isStaticJsString](./string.md#isstaticjsstringvalue)                          | `string`                                                     |
+| [StaticJsNumber](./number.md)                  | Concrete       | [isStaticJsNumber](./number.md#isstaticjsnumbervalue)                          | `number`                                                     |
+| [StaticJsBoolean](./boolean.md)                | Concrete       | [isStaticJsBoolean](./boolean.md#isstaticjsbooleanvalue)                       | `boolean`                                                    |
+| [StaticJsNull](./null.md)                      | Concrete       | [isStaticJsNull](./null.md#isstaticjsnullvalue)                                | `null`                                                       |
+| [StaticJsUndefined](./undefined.md)            | Concrete       | [isStaticJsUndefined](./undefined.md#isstaticjsundefinedvalue)                 | `undefined`                                                  |
+| [StaticJsSymbol](./symbol.md)                  | Concrete       | [isStaticJsSymbol](./symbol.md#isstaticjssymbolvalue)                          | `symbol`                                                     |
+| [StaticJsPlainObject](./plain-object.md)       | Concrete       | [isStaticJsPlainObject](./plain-object.md#isstaticjsplainobjectvalue)          | —                                                            |
+| [StaticJsArray](./array.md)                    | Concrete       | [isStaticJsArray](./array.md#isstaticjsarrayvalue)                             | —                                                            |
+| [StaticJsFunction](./function.md)              | Concrete       | [isStaticJsFunction](./function.md#isstaticjsfunction)                         | —                                                            |
+| [StaticJsProxy](./proxy.md)                    | Concrete       | [isStaticJsProxy](./proxy.md#isstaticjsproxyvalue)                             | —                                                            |
+| [StaticJsMap](./map.md)                        | Concrete       | [isStaticJsMap](./map.md#isstaticjsmapvalue)                                   | —                                                            |
+| [StaticJsSet](./set.md)                        | Concrete       | [isStaticJsSet](./set.md#isstaticjssetvalue)                                   | —                                                            |
+| [StaticJsPromise](./promise.md)                | Concrete       | [isStaticJsPromise](./promise.md#isstaticjspromisevalue)                       | —                                                            |
+| [StaticJsIterator](./iterator.md)              | Concrete       | [isStaticJsIterator](./iterator.md#isstaticjsiteratorvalue)                    | —                                                            |
+| [StaticJsAsyncGenerator](./async-generator.md) | Concrete       | [isStaticJsAsyncGenerator](./async-generator.md#isstaticjsasyncgeneratorvalue) | —                                                            |
+| [StaticJsGenerator](./generator.md)            | Internal       | —                                                                              | —                                                            |
 
-All type guards and types are importable from `@suntime-js/core`.
+All type guards and types (except `StaticJsGenerator`) are importable from `@suntime-js/core`.
