@@ -42,13 +42,13 @@ const MathNumericImplicitFunctionKeys = [
   "floor",
   "fround",
   "imul",
-  "max",
-  "min",
   "pow",
   "round",
   "sign",
   "trunc",
 ] satisfies MathNumericFunctionKeys[];
+
+const MathNumericVariadicImplicitFunctionKeys = ["max", "min"] satisfies MathNumericFunctionKeys[];
 
 const MathNumericHookFunctionKeys = [
   "acos",
@@ -63,7 +63,6 @@ const MathNumericHookFunctionKeys = [
   "cosh",
   "exp",
   "expm1",
-  "hypot",
   "log",
   "log10",
   "log1p",
@@ -76,46 +75,10 @@ const MathNumericHookFunctionKeys = [
   "tanh",
 ] satisfies MathNumericFunctionKeys[];
 
+const MathNumericVariadicHookFunctionKeys = ["hypot"] satisfies MathNumericFunctionKeys[];
+
 type MathNumericHook = (this: undefined, realm: StaticJsRealm, ...values: number[]) => number;
 
-const mathFunctionLengths: Record<MathNumericFunctionKeys, number> = {
-  abs: 1,
-  ceil: 1,
-  clz32: 1,
-  f16round: 1,
-  floor: 1,
-  fround: 1,
-  imul: 1,
-  max: 1,
-  min: 1,
-  pow: 1,
-  round: 1,
-  sign: 1,
-  trunc: 1,
-  acos: 1,
-  acosh: 1,
-  asin: 1,
-  asinh: 1,
-  atan: 1,
-  atan2: 1,
-  atanh: 1,
-  cbrt: 1,
-  cos: 1,
-  cosh: 1,
-  exp: 1,
-  expm1: 1,
-  hypot: 1,
-  log: 1,
-  log10: 1,
-  log1p: 1,
-  log2: 1,
-  random: 1,
-  sin: 1,
-  sinh: 1,
-  sqrt: 1,
-  tan: 1,
-  tanh: 1,
-};
 /*
 This is a little bit concerning having computed access to a javascript intrinsic from the runtime,
 but we filter what keys this can be and still fully expect inputs and outputs to be
@@ -130,23 +93,47 @@ function createMathNumericFunctionDeclaration(
     throw new StaticJsEngineError(`Tried to make Math function from non-function Math.${key}`);
   }
 
+  const arity = func.length;
   return {
     key: key,
-    length: mathFunctionLengths[key],
+    length: arity,
     *func(realm, _thisObj, ...args) {
       // Building native JS value arrays from sandbox values is a little spicey, but
       // presumably there are no security exploits that can be gained by passing weird numbers to math functions.
       const asNumbers: number[] = [];
-      for (let i = 0; i < args.length; i++) {
-        const arg = args[i] ?? realm.types.undefined;
-        const asNumber = yield* toNumber(arg);
-        asNumbers[i] = asNumber.value;
+      for (let i = 0; i < arity; i++) {
+        if (i < args.length) {
+          asNumbers[i] = (yield* toNumber(args[i]!)).value;
+        } else {
+          asNumbers[i] = NaN;
+        }
       }
 
       const computed = func.call(undefined, ...asNumbers);
 
-      const asRuntime = realm.types.number(computed);
-      return asRuntime;
+      return realm.types.number(computed);
+    },
+  };
+}
+
+function createMathNumericVariadicFunctionDeclaration(
+  key: MathNumericFunctionKeys,
+): IntrinsicPropertyDeclaration {
+  const func = Math[key];
+  if (typeof func !== "function") {
+    throw new StaticJsEngineError(`Tried to make Math function from non-function Math.${key}`);
+  }
+
+  return {
+    key,
+    length: func.length,
+    *func(realm, _thisObj, ...args) {
+      const asNumbers: number[] = [];
+      for (let i = 0; i < args.length; i++) {
+        asNumbers[i] = (yield* toNumber(args[i]!)).value;
+      }
+
+      return realm.types.number(func.call(undefined, ...asNumbers));
     },
   };
 }
@@ -178,18 +165,20 @@ function createMathNumericFunctionHookDeclaration(
     );
   }
 
+  const arity = (Math[key] as (...args: number[]) => number).length;
   return {
     key,
-    length: mathFunctionLengths[key],
+    length: arity,
     *func(realm, _thisObj, ...args) {
       const hook = realm.hooks.math[key] as MathNumericHook;
 
       const asNumbers: number[] = [];
-      const argLength = Math.max(args.length, mathDefaultHooks[key].length);
-      for (let i = 0; i < argLength; i++) {
-        const arg = args[i] ?? realm.types.undefined;
-        const asNumber = yield* toNumber(arg);
-        asNumbers[i] = asNumber.value;
+      for (let i = 0; i < arity; i++) {
+        if (i < args.length) {
+          asNumbers[i] = (yield* toNumber(args[i]!)).value;
+        } else {
+          asNumbers[i] = NaN;
+        }
       }
 
       const computed = hook.apply(undefined, [realm, ...asNumbers]);
@@ -200,15 +189,50 @@ function createMathNumericFunctionHookDeclaration(
         );
       }
 
-      const asRuntime = realm.types.number(computed);
-      return asRuntime;
+      return realm.types.number(computed);
     },
   };
 }
+
+function createMathNumericVariadicHookFunctionDeclaration(
+  key: (typeof MathNumericVariadicHookFunctionKeys)[number],
+): IntrinsicPropertyDeclaration {
+  if (typeof mathDefaultHooks[key] !== "function") {
+    throw new StaticJsEngineError(
+      `Tried to make Math function hook from ${key}, but it does not exist as a function on the default hooks.`,
+    );
+  }
+
+  return {
+    key,
+    length: (Math[key] as (...args: number[]) => number).length,
+    *func(realm, _thisObj, ...args) {
+      const hook = realm.hooks.math[key] as MathNumericHook;
+
+      const asNumbers: number[] = [];
+      for (let i = 0; i < args.length; i++) {
+        asNumbers[i] = (yield* toNumber(args[i]!)).value;
+      }
+
+      const computed = hook.apply(undefined, [realm, ...asNumbers]);
+
+      if (typeof computed !== "number") {
+        throw new StaticJsEngineError(
+          `Math hook ${key} did not return a number, got ${typeof computed}`,
+        );
+      }
+
+      return realm.types.number(computed);
+    },
+  };
+}
+
 const declarations: IntrinsicPropertyDeclaration[] = [
   ...MathNumericPrimitiveKeys.map(createMathNumericPropertyDeclaration),
   ...MathNumericImplicitFunctionKeys.map(createMathNumericFunctionDeclaration),
+  ...MathNumericVariadicImplicitFunctionKeys.map(createMathNumericVariadicFunctionDeclaration),
   ...MathNumericHookFunctionKeys.map(createMathNumericFunctionHookDeclaration),
+  ...MathNumericVariadicHookFunctionKeys.map(createMathNumericVariadicHookFunctionDeclaration),
 ];
 
 export function* createMathIntrinsic(realm: StaticJsRealm) {

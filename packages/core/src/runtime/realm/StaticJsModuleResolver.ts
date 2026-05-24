@@ -7,7 +7,7 @@ import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImpl
 export type StaticJsModuleResolver = (
   specifier: string,
   referencingModule: StaticJsModule,
-) => Promise<StaticJsModuleResolution>;
+) => Promise<StaticJsModuleResolution | null>;
 
 /**
  * A host-defined ECMAScript module

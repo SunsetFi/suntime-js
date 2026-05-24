@@ -365,7 +365,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     if (!module && this._externalResolveModule) {
       const resolved = await this._externalResolveModule(specifier, referencingModule);
-      module = realmModuleToModule(this, specifier, resolved);
+      if (resolved) {
+        module = realmModuleToModule(this, specifier, resolved);
+      }
     }
 
     return module ?? null;
