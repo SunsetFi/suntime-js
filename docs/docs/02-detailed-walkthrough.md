@@ -80,7 +80,7 @@ Async runners may return before the task completes, yielding to the host between
 
 ### Specifying tasks
 
-Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)) or overridden per-call via the [`runTask`](./api/realm.md#runtask) option on any evaluation or object method. See [StaticJsRealm.runTask](./05-realms.md#runtask) and [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
+Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)). It can also be overridden per-call via the [`runTask`](./api/realm.md#staticjsrealmevaluatesourceoptions) option on [`evaluateScript`](./api/realm.md#evaluatescriptscript-opts), ['evaluateScriptSync'](./api/realm.md#evaluatescriptsyncscript-opts), its [expression](./api/realm.md#evaluateexpressionexpression-opts) counterparts, and any [object method](./api/types/object.md#methods) supporting [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
 
 ### Built-in task runners
 
