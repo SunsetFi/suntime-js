@@ -3,37 +3,35 @@ import { describe, it, expect, vi } from "vitest";
 import { StaticJsRealm, StaticJsTaskIterator } from "../../../src/index.js";
 
 function drainTask(task: StaticJsTaskIterator) {
-  while (!task.done) task.next();
-}
-
-function makeRealm() {
-  return StaticJsRealm({ runTask: drainTask, runTaskSync: drainTask });
+  while (!task.done) {
+    task.next();
+  }
 }
 
 describe("E2E: StaticJsObject API (realm.types.object())", () => {
   describe("getPrototypeOf", () => {
     it("getPrototypeOfAsync returns the prototype", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object();
       const obj = realm.types.object(undefined, proto);
       expect(await obj.getPrototypeOfAsync()).toBe(proto);
     });
 
     it("getPrototypeOfSync returns the prototype", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object();
       const obj = realm.types.object(undefined, proto);
       expect(obj.getPrototypeOfSync()).toBe(proto);
     });
 
     it("getPrototypeOfAsync returns null for null-prototype objects", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object(undefined, realm.types.null);
       expect(await obj.getPrototypeOfAsync()).toBeNull();
     });
 
     it("getPrototypeOfSync returns null for null-prototype objects", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object(undefined, realm.types.null);
       expect(obj.getPrototypeOfSync()).toBeNull();
     });
@@ -41,7 +39,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("setPrototypeOf", () => {
     it("setPrototypeOfAsync updates the prototype", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const newProto = realm.types.object();
       await obj.setPrototypeOfAsync(newProto);
@@ -49,7 +47,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("setPrototypeOfSync updates the prototype", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const newProto = realm.types.object();
       obj.setPrototypeOfSync(newProto);
@@ -57,14 +55,14 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("setPrototypeOfAsync returns true on success", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const result = await obj.setPrototypeOfAsync(realm.types.object());
       expect(result).toBe(true);
     });
 
     it("setPrototypeOfAsync returns false on non-extensible object", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       await obj.preventExtensionsAsync();
       const result = await obj.setPrototypeOfAsync(realm.types.object());
@@ -74,26 +72,26 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("isExtensible", () => {
     it("isExtensibleAsync returns true for new objects", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect(await obj.isExtensibleAsync()).toBe(true);
     });
 
     it("isExtensibleSync returns true for new objects", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect(obj.isExtensibleSync()).toBe(true);
     });
 
     it("isExtensibleAsync returns false after preventExtensions", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       await obj.preventExtensionsAsync();
       expect(await obj.isExtensibleAsync()).toBe(false);
     });
 
     it("isExtensibleSync returns false after preventExtensions", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       obj.preventExtensionsSync();
       expect(obj.isExtensibleSync()).toBe(false);
@@ -102,14 +100,14 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("preventExtensions", () => {
     it("preventExtensionsAsync makes object non-extensible", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       await obj.preventExtensionsAsync();
       expect(obj.isExtensibleSync()).toBe(false);
     });
 
     it("preventExtensionsSync makes object non-extensible", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       obj.preventExtensionsSync();
       expect(obj.isExtensibleSync()).toBe(false);
@@ -118,7 +116,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("ownPropertyKeys", () => {
     it("ownPropertyKeysAsync returns defined string keys", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         a: { value: realm.types.number(1), enumerable: true },
         b: { value: realm.types.number(2), enumerable: false },
@@ -128,7 +126,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("ownPropertyKeysSync returns defined string keys", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         a: { value: realm.types.number(1), enumerable: true },
         b: { value: realm.types.number(2), enumerable: false },
@@ -140,7 +138,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("ownEnumerableKeys", () => {
     it("ownEnumerableKeysAsync returns only enumerable keys", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         a: { value: realm.types.number(1), enumerable: true },
         b: { value: realm.types.number(2), enumerable: false },
@@ -150,7 +148,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("ownEnumerableKeysSync returns only enumerable keys", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         a: { value: realm.types.number(1), enumerable: true },
         b: { value: realm.types.number(2), enumerable: false },
@@ -162,39 +160,39 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("hasProperty", () => {
     it("hasPropertyAsync returns true for own properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({ x: { value: realm.types.number(1) } });
       expect(await obj.hasPropertyAsync("x")).toBe(true);
     });
 
     it("hasPropertySync returns true for own properties", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({ x: { value: realm.types.number(1) } });
       expect(obj.hasPropertySync("x")).toBe(true);
     });
 
     it("hasPropertyAsync returns true for inherited properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object({ inherited: { value: realm.types.number(42) } });
       const obj = realm.types.object(undefined, proto);
       expect(await obj.hasPropertyAsync("inherited")).toBe(true);
     });
 
     it("hasPropertySync returns true for inherited properties", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object({ inherited: { value: realm.types.number(42) } });
       const obj = realm.types.object(undefined, proto);
       expect(obj.hasPropertySync("inherited")).toBe(true);
     });
 
     it("hasPropertyAsync returns false for missing properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect(await obj.hasPropertyAsync("missing")).toBe(false);
     });
 
     it("hasPropertySync returns false for missing properties", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect(obj.hasPropertySync("missing")).toBe(false);
     });
@@ -202,26 +200,26 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("hasOwnProperty", () => {
     it("hasOwnPropertyAsync returns true for own properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({ x: { value: realm.types.number(1) } });
       expect(await obj.hasOwnPropertyAsync("x")).toBe(true);
     });
 
     it("hasOwnPropertySync returns true for own properties", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({ x: { value: realm.types.number(1) } });
       expect(obj.hasOwnPropertySync("x")).toBe(true);
     });
 
     it("hasOwnPropertyAsync returns false for inherited properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object({ inherited: { value: realm.types.number(42) } });
       const obj = realm.types.object(undefined, proto);
       expect(await obj.hasOwnPropertyAsync("inherited")).toBe(false);
     });
 
     it("hasOwnPropertySync returns false for inherited properties", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object({ inherited: { value: realm.types.number(42) } });
       const obj = realm.types.object(undefined, proto);
       expect(obj.hasOwnPropertySync("inherited")).toBe(false);
@@ -230,7 +228,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("getProperty", () => {
     it("getPropertyAsync returns the descriptor for an own property", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const val = realm.types.number(42);
       const obj = realm.types.object({ x: { value: val, enumerable: true, writable: true } });
       const desc = await obj.getPropertyAsync("x");
@@ -238,7 +236,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("getPropertySync returns the descriptor for an own property", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const val = realm.types.number(42);
       const obj = realm.types.object({ x: { value: val, enumerable: true, writable: true } });
       const desc = obj.getPropertySync("x");
@@ -246,7 +244,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("getPropertyAsync returns the descriptor from the prototype chain", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const val = realm.types.number(7);
       const proto = realm.types.object({ y: { value: val } });
       const obj = realm.types.object(undefined, proto);
@@ -255,7 +253,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("getPropertyAsync returns undefined for missing properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect(await obj.getPropertyAsync("nope")).toBeUndefined();
     });
@@ -263,7 +261,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("getOwnProperty", () => {
     it("getOwnPropertyAsync returns the descriptor for own property", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const val = realm.types.number(99);
       const obj = realm.types.object({ z: { value: val } });
       const desc = await obj.getOwnPropertyAsync("z");
@@ -271,7 +269,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("getOwnPropertySync returns the descriptor for own property", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const val = realm.types.number(99);
       const obj = realm.types.object({ z: { value: val } });
       const desc = obj.getOwnPropertySync("z");
@@ -279,7 +277,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("getOwnPropertyAsync returns undefined for inherited properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object({ inherited: { value: realm.types.number(1) } });
       const obj = realm.types.object(undefined, proto);
       expect(await obj.getOwnPropertyAsync("inherited")).toBeUndefined();
@@ -288,7 +286,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("defineOwnProperty", () => {
     it("defineOwnPropertyAsync defines a new property", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const val = realm.types.string("hello");
       await obj.defineOwnPropertyAsync("k", { value: val, writable: true, enumerable: true });
@@ -296,7 +294,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("defineOwnPropertySync defines a new property", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const val = realm.types.string("world");
       obj.defineOwnPropertySync("k", { value: val, writable: true, enumerable: true });
@@ -304,7 +302,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("defineOwnPropertyAsync returns true on success", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const result = await obj.defineOwnPropertyAsync("p", {
         value: realm.types.number(1),
@@ -313,7 +311,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("defineOwnPropertyAsync returns false when adding to non-extensible object", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       await obj.preventExtensionsAsync();
       const result = await obj.defineOwnPropertyAsync("p", { value: realm.types.number(1) });
@@ -323,26 +321,26 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("get", () => {
     it("getAsync retrieves an own property value", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({ a: { value: realm.types.number(5), enumerable: true } });
       expect((await obj.getAsync("a")).toNative()).toBe(5);
     });
 
     it("getSync retrieves an own property value", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({ a: { value: realm.types.number(5), enumerable: true } });
       expect(obj.getSync("a").toNative()).toBe(5);
     });
 
     it("getAsync retrieves an inherited property value", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const proto = realm.types.object({ b: { value: realm.types.number(8), enumerable: true } });
       const obj = realm.types.object(undefined, proto);
       expect((await obj.getAsync("b")).toNative()).toBe(8);
     });
 
     it("getAsync returns undefined for missing properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect((await obj.getAsync("missing")).toNative()).toBeUndefined();
     });
@@ -350,28 +348,28 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("set", () => {
     it("setAsync sets an own property value", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       await obj.setAsync("x", realm.types.number(42));
       expect(obj.getSync("x").toNative()).toBe(42);
     });
 
     it("setSync sets an own property value", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       obj.setSync("x", realm.types.number(42));
       expect(obj.getSync("x").toNative()).toBe(42);
     });
 
     it("setAsync returns true on success", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       const result = await obj.setAsync("x", realm.types.number(1));
       expect(result).toBe(true);
     });
 
     it("setAsync cannot set on a non-writable, non-configurable property", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         x: { value: realm.types.number(1), writable: false, configurable: false },
       });
@@ -383,7 +381,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
 
   describe("delete", () => {
     it("deleteAsync removes an own configurable property", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         x: { value: realm.types.number(1), configurable: true },
       });
@@ -392,7 +390,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("deleteSync removes an own configurable property", () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         x: { value: realm.types.number(1), configurable: true },
       });
@@ -401,7 +399,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("deleteAsync returns true when successful", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         x: { value: realm.types.number(1), configurable: true },
       });
@@ -409,7 +407,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("deleteAsync returns false for non-configurable properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object({
         x: { value: realm.types.number(1), configurable: false },
       });
@@ -417,7 +415,7 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
 
     it("deleteAsync returns true for missing properties", async () => {
-      const realm = makeRealm();
+      const realm = new StaticJsRealm();
       const obj = realm.types.object();
       expect(await obj.deleteAsync("nope")).toBe(true);
     });

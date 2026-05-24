@@ -3,6 +3,7 @@ import { createDefaultWorkspace } from "./filesystem/createDefaultWorkspace.js";
 import { initializeWorkbenchServices } from "./services/initialize.js";
 import type {
   WorkbenchApiOptions,
+  WorkbenchBootstrapContext,
   WorkbenchBootstrapOptions,
   WorkbenchBootstrapRuntime,
   WorkbenchBootstrapSnapshot,
@@ -61,7 +62,7 @@ export class WorkbenchBootstrap {
       ...options.api,
     };
 
-    const context = { container, workspace, workers, api };
+    const context: WorkbenchBootstrapContext = { container, workspace, workers, api };
 
     try {
       const vfs = await initializeWorkbenchServices(context);
