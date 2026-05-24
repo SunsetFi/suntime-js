@@ -1,6 +1,6 @@
-import { StaticJsTaskCompletedError } from "./StaticJsTaskCompletedError.js";
+import { StaticJsTaskError } from "./StaticJsTaskError.js";
 
-export class StaticJsTaskAbortedError extends StaticJsTaskCompletedError {
+export class StaticJsTaskAbortedError extends StaticJsTaskError {
   /**
    * Creates a new StaticJsTaskAbortedError.
    * @param message The error message.

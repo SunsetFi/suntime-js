@@ -12,7 +12,7 @@ import { StaticJsTaskAbortedError } from "@suntime-js/core";
 
 ## Extends
 
-`Error` → [`StaticJsTaskError`](./task-error.md) → [`StaticJsTaskCompletedError`](./task-completed-error.md) → `StaticJsTaskAbortedError`
+`Error` → [`StaticJsTaskError`](./task-error.md) → `StaticJsTaskAbortedError`
 
 ## When thrown
 

@@ -17,5 +17,3 @@ import { StaticJsTaskCompletedError } from "@suntime-js/core";
 ## When thrown
 
 Thrown by [`task.next()`](../tasks.md#next), [`task.abort()`](../tasks.md#aborterror), and [`task.throw()`](../tasks.md#throwerror) when called on a task whose `done` property is already `true`. Check `task.done` before calling these methods if task completion may race with your runner loop.
-
-Known subclass: [`StaticJsTaskAbortedError`](./task-aborted-error.md).

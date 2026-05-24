@@ -6,7 +6,10 @@ import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCom
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import {
+  EvaluationGenerator,
+  MaybeEvaluationGenerator,
+} from "../../../evaluator/EvaluationGenerator.js";
 import { globalDeclarationInstantiation } from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 import { type StaticJsEvaluator, invokeEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
@@ -710,40 +713,26 @@ function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmG
     descr.writable = hasOwnProperty(descriptor, "writable") ? Boolean(descriptor.writable) : false;
   } else if (hasOwnProperty(descriptor, "get") || hasOwnProperty(descriptor, "set")) {
     const { get, set } = descriptor as {
-      get?: () => unknown | EvaluationGenerator<unknown>;
-      set?: (value: unknown) => void | EvaluationGenerator<void>;
+      get?: () => MaybeEvaluationGenerator<unknown>;
+      set?: (value: unknown) => MaybeEvaluationGenerator<void>;
     };
 
     if (typeof get === "function") {
       descr.get = new StaticJsExternalFunction(realm, "get", function* () {
-        let value = get();
-        if (isIterator(value)) {
-          value = yield* value;
-        }
-
-        // ExternalFunction wraps this for us.
-        return value;
+        return yield* EvaluationGenerator(get());
       });
     }
 
     if (typeof set === "function") {
       descr.set = new StaticJsExternalFunction(realm, "set", function* (value: unknown) {
-        const setResult = set(value);
-        if (isIterator(setResult)) {
-          yield* setResult;
-        }
+        yield* EvaluationGenerator(set(value));
+        return realm.types.undefined;
       });
     }
   }
 
   validateStaticJsPropertyDescriptorRecord(descr);
   return descr as StaticJsPropertyDescriptor;
-}
-
-function isIterator<T>(obj: unknown): obj is Generator<T, unknown, unknown> {
-  return (
-    typeof obj === "object" && obj !== null && typeof (obj as Generator<T>).next === "function"
-  );
 }
 
 function defaultTaskRunner(task: StaticJsTaskIterator) {

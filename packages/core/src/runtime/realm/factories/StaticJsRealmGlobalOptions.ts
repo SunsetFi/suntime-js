@@ -1,4 +1,4 @@
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import type { MaybeEvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { StaticJsObject } from "../../types/StaticJsObject.js";
 import { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
 
@@ -12,8 +12,8 @@ export interface StaticJsRealmGlobalDataPropertyDecl {
 export interface StaticJsRealmGlobalAccessorPropertyDecl {
   readonly configurable?: boolean;
   readonly enumerable?: boolean;
-  get?(): unknown | EvaluationGenerator<unknown>;
-  set?(value: unknown): void | EvaluationGenerator<void>;
+  get?(): MaybeEvaluationGenerator<unknown>;
+  set?(value: unknown): MaybeEvaluationGenerator<void>;
 }
 
 export type StaticJsRealmGlobalDeclProperty =

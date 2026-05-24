@@ -19,7 +19,7 @@ const realm = StaticJsRealm();
 ```
 
 :::tip
-While using `new` is not required, the realm factory will still work correctly with it. You can use it or not at your discression.
+While using `new` is not required, the realm factory will still work correctly with it. You can use it or not at your discretion.
 :::
 
 ## Evaluating your first script
@@ -52,7 +52,7 @@ You may be wondering why an asynchronous API is provided in the first place. Sta
 
 ## Time-bounding evaluations
 
-In order to enforce a time limit on evaluations, you may specify a [Task Runner](./api/tasks.md).
+In order to enforce a time limit on evaluations, you may specify a [Task Runner](./api/tasks#staticjstaskrunner).
 
 ### Tasks
 
@@ -76,7 +76,7 @@ function runTask(task: StaticJsTaskIterator) {
 }
 ```
 
-Async runners may return before the task completes, yielding to the host between chunks. See [Tasks](./08-tasks.md) for the full task runner API including aborting, introspection, and sync vs async semantics.
+Async runners may return before the task completes, yielding to the host between chunks. See [Tasks](./08-tasks.md) for more information about using task runners.
 
 ### Specifying tasks
 
@@ -316,7 +316,7 @@ await obj.defineOwnPropertyAsync("myProp", {
 });
 ```
 
-As well as use it's opposite, `getProperty*`:
+As well as use its opposite, `getProperty*`:
 
 ```ts
 const def = await obj.getPropertyAsync("myProp");
@@ -417,6 +417,8 @@ Evaluators have a few rules:
 - When throwing errors intended for the sandbox, use [StaticJsRuntimeError](./api/errors/runtime-error.md).
 
 ```ts
+const realm = StaticJsRealm();
+
 const sort = realm.types.function("sort", function* (a, b) {
   if (!isStaticJsObject(a) || !isStaticJsObject(b)) {
     const err = realm.types.error("TypeError", "Arguments must be objects");
@@ -433,8 +435,6 @@ const sort = realm.types.function("sort", function* (a, b) {
 
   return realm.types.number(valueB.value - valueA.value);
 });
-
-const realm = StaticJsRealm();
 
 await realm.global.setAsync("sort", sort);
 

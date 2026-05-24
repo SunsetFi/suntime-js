@@ -26,19 +26,37 @@ const realm = StaticJsRealm({ global: { properties: { ... } } });
 
 ### Options
 
-#### globalThis
-
-Type: `StaticJsRealmGlobalOption`
-
-Sets the value of `globalThis` inside the sandbox. Accepts a [global option](#staticjsrealmglobaloption).
-
 #### global
 
 Type: `StaticJsRealmGlobalOption`
 
-Sets the global object for the realm. Accepts a [global option](#staticjsrealmglobaloption).
+Sets the **global object** for the realm. All built-in intrinsics (`Array`, `Object`, `Promise`, etc.) are installed here, and top-level `var` declarations and function declarations are added to it at evaluation time. Accepts a [global option](#staticjsrealmglobaloption).
 
-The realm always installs its intrinsics onto the global object. You can override individual intrinsics after construction using `realm.global.defineOwnPropertySync(...)`.
+You can add your own properties before construction via the `properties` form, or override intrinsics after construction:
+
+```ts
+realm.global.defineOwnPropertySync("myApi", {
+  value: realm.types.toStaticJsValue({ greet: () => "hello" }),
+});
+```
+
+#### globalThis
+
+Type: `StaticJsRealmGlobalOption`
+
+Sets the value that sandboxed code sees when it reads `globalThis`. Accepts a [global option](#staticjsrealmglobaloption).
+
+When omitted, `globalThis` inside the sandbox refers to the same object as `global`. Setting this option lets the two diverge; the `global` object still backs the environment and holds intrinsics, but `globalThis` evaluates to a different value. This mirrors the ECMAScript spec, which keeps the global object and `[[GlobalThisValue]]` as separate slots.
+
+```ts
+const realm = StaticJsRealm({
+  globalThis: {
+    value: realm.types.proxy(backingGlobal, handlerObject),
+  },
+});
+```
+
+In most cases you only need `global`, not `globalThis`.
 
 #### modules
 
@@ -259,9 +277,9 @@ Three forms are accepted for `global` and `globalThis`:
 }
 ```
 
-Each property is either a data descriptor (`value`, `writable?`, `enumerable?`, `configurable?`) or an accessor descriptor (`get?`, `set?`, `enumerable?`, `configurable?`). Accessor `get`/`set` may return or be an `EvaluationGenerator`.
+Each property is either a data descriptor (`value`, `writable?`, `enumerable?`, `configurable?`) or an accessor descriptor (`get?`, `set?`, `enumerable?`, `configurable?`). Accessor `get`/`set` may return a [StaticJsValue](./types/value.md), a native value [to coerce](../04-type-coercion.md), or be an [`EvaluationGenerator`](../09-evaluators.md#evaluationgenerator).
 
-Values and accessors may either be [StaticJsValue](./types/value.md) instances, or native host values and functions. If native, they will be coerced according to the [Type Coercsion Rules](../04-type-coercion.md).
+Values and accessors may either be [StaticJsValue](./types/value.md) instances, or native host values and functions. If native, they will be coerced according to the [Type Coercion Rules](../04-type-coercion.md).
 
 **Native value**
 

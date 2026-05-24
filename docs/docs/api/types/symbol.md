@@ -66,7 +66,7 @@ Inherits all methods from [`StaticJsObject`](./object.md).
 toNative(): symbol
 ```
 
-Returns the native host `symbol`. This is Safe to call, as symbols coerce to a plain native `symbol` with no proxy indirection.
+Returns the native host `symbol`. This is safe to call, as symbols coerce to a plain native `symbol` with no proxy indirection.
 
 See [Type Coercion](../../04-type-coercion.md) for the complete coercion rules.
 

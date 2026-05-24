@@ -33,7 +33,7 @@ const result = map([1, 2], (value) => {
 ```
 
 :::note
-Type coercion is provided for convienence with low-security use cases. The preferred method of dealign with types is to use the [StaticJs Type System](./07-types.md) directly.
+Type coercion is provided for convenience with low-security use cases. The preferred method of dealing with types is to use the [StaticJs Type System](./07-types.md) directly.
 :::
 
 ## Host to Sandbox
@@ -130,7 +130,7 @@ Object from the sandbox are transparently proxied into native representations, b
 ```ts
 import { evaluateScriptSync } from "@suntime-js/core";
 
-const obj = evaluteScriptSync(`
+const obj = evaluateScriptSync(`
   const obj = {
     get value() {
       // Deadlock

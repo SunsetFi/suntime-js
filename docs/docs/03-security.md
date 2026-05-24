@@ -115,7 +115,7 @@ realm.evaluateScript(`
 
 ### Writing Functions
 
-Functions in StaticJs are typically outwardly-async, even when the sandboxed evaluation is synchronous. This is to allow time-sharing and interrupting evaluation through the [Task System](./08-tasks.md). This is implemented using JavasScript Generators rather than async / promises, as this allows the function to be paused at key checkpoints; usually before every AST node evaluation.
+Functions in StaticJs are typically outwardly-async, even when the sandboxed evaluation is synchronous. This is to allow time-sharing and interrupting evaluation through the [Task System](./08-tasks.md). This is implemented using JavaScript Generators rather than async / promises, as this allows the function to be paused at key checkpoints; usually before every AST node evaluation.
 
 When creating functions, you should use \*Evaluator() function calls on the sandboxed types to preserve this async nature.
 
@@ -264,7 +264,7 @@ const functionConstructor = objectConstructor.constructor;
 functionConstructor("console.log('hello')")();
 ```
 
-When run inside the sandbox, this will be fine, as the function constructor it will access is the sandboxed function constructor, which mantains the sandbox when invoked.
+When run inside the sandbox, this will be fine, as the function constructor it will access is the sandboxed function constructor, which maintains the sandbox when invoked.
 
 However, where things get risky is when native objects are passed into the system. For example:
 
