@@ -20,14 +20,14 @@ Realms can be constructed with or without `new`. Once created, a realm persists 
 
 ## Customizing the global object
 
-The most common setup task is adding host-defined values to the sandbox's global scope. You can do this either at construction time via the `global.properties` option, or after creation using `realm.global.definePropertySync`.
+The most common setup task is adding host-defined values to the sandbox's global scope. You can do this either at construction time via the `global.properties` option, or after creation using `realm.global.defineOwnPropertySync`.
 
 Defining properties after construction is often more practical because you have access to `realm.types` for building typed values:
 
 ```ts
 const realm = StaticJsRealm();
 
-realm.global.definePropertySync("version", {
+realm.global.defineOwnPropertySync("version", {
   value: realm.types.string("1.0.0"),
   enumerable: true,
   configurable: false,

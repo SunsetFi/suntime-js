@@ -38,7 +38,7 @@ Type: `StaticJsRealmGlobalOption`
 
 Sets the global object for the realm. Accepts a [global option](#staticjsrealmglobaloption).
 
-The realm always installs its intrinsics onto the global object. You can override individual intrinsics after construction using `realm.global.definePropertySync(...)`.
+The realm always installs its intrinsics onto the global object. You can override individual intrinsics after construction using `realm.global.defineOwnPropertySync(...)`.
 
 #### modules
 
@@ -119,7 +119,7 @@ Type: `StaticJsObject`
 The global object for this realm. Equivalent to `globalThis` in most host environments. You can add properties to it after construction:
 
 ```ts
-realm.global.definePropertySync("myApi", {
+realm.global.defineOwnPropertySync("myApi", {
   value: realm.types.toStaticJsValue({ greet: () => "hello" }),
 });
 ```

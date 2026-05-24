@@ -203,7 +203,7 @@ const realm = StaticJsRealm({
   runTask: createTimeSharingTaskRunner({ maxRunTime: 5_000 }),
 });
 
-const func = realm.evaluateScript(`
+const func = await realm.evaluateScript(`
   function add(a, b) {
     // Returns an object that can unexpectedly run sandbox code.
     return {
@@ -219,13 +219,12 @@ const func = realm.evaluateScript(`
 // runTask will be used, so the function call will be time-gated.
 // With time sharing, the host is free to do other things
 // while this runs.
-const returnValue = await func.callAsync(
-  realm.types.undefined,
+const returnValue = await func.callAsync(realm.types.undefined, [
   realm.types.number(1),
   realm.types.number(2),
-);
+]);
 
-if (!isStaticJsNumber(result)) {
+if (!isStaticJsNumber(returnValue)) {
   // User didn't return a real number
   throw new Error("Did not receive a number");
 }
