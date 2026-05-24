@@ -38,6 +38,8 @@ Every property operation is exposed as three variants:
 
 Both `*Async` and `*Sync` accept an optional [`StaticJsObjectPropertyAccessRunTaskOptions`](#staticjsobjectpropertyaccessruntaskoptions) as their final argument, letting you override the task runner and receiver per-call. `*Evaluator` variants of `get`/`set` do not accept a runTask, and instead can accept the receiver directly as a as a positional argument (preferred) or via [`StaticJsObjectPropertyAccessOptions`](#staticjsobjectpropertyaccessoptions).
 
+All `key` parameters throughout this API are of type [`StaticJsPropertyKey`](#staticjspropertykey): either a native `string` or a [`StaticJsSymbol`](./symbol.md).
+
 :::warning[Code invocation]
 Property access can invoke sandboxed code (getters, setters, Proxy traps). Always use a time-bounded task runner when calling `*Sync` methods on untrusted objects.
 :::
@@ -205,9 +207,9 @@ See [`StaticJsPropertyDescriptorRecord`](../type-factory.md#staticjspropertydesc
 getAsync(key: StaticJsPropertyKey, opts?: StaticJsObjectPropertyAccessRunTaskOptions): Promise<StaticJsValue>
 getSync(key: StaticJsPropertyKey, opts?: StaticJsObjectPropertyAccessRunTaskOptions): StaticJsValue
 
-// preferred — pass receiver directly:
+// Preferred: pass receiver directly:
 getEvaluator(key: StaticJsPropertyKey, receiver?: StaticJsValue): EvaluationGenerator<StaticJsValue>
-// alternative — pass receiver inside an opts object:
+// Alternative: pass receiver inside an opts object:
 getEvaluator(key: StaticJsPropertyKey, opts?: StaticJsObjectPropertyAccessOptions): EvaluationGenerator<StaticJsValue>
 ```
 
@@ -223,9 +225,9 @@ Gets the value of `key` on this object or its prototype chain. Invokes getter fu
 setAsync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsObjectPropertyAccessRunTaskOptions): Promise<boolean>
 setSync(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsObjectPropertyAccessRunTaskOptions): boolean
 
-// preferred — pass receiver directly:
+// Preferred: pass receiver directly:
 setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue, receiver?: StaticJsValue): EvaluationGenerator<boolean>
-// alternative — pass receiver inside an opts object:
+// Alternative: pass receiver inside an opts object:
 setEvaluator(key: StaticJsPropertyKey, value: StaticJsValue, opts?: StaticJsObjectPropertyAccessOptions): EvaluationGenerator<boolean>
 ```
 
@@ -261,6 +263,22 @@ Prefer the `StaticJsObject` API methods (`getAsync`, `setAsync`, `defineOwnPrope
 :::
 
 See [Type Coercion](../../04-type-coercion.md) for the complete coercion rules applied when crossing the sandbox boundary.
+
+---
+
+## Types
+
+### StaticJsPropertyKey
+
+```ts
+import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "@suntime-js/core";
+
+type StaticJsPropertyKey = string | StaticJsSymbol;
+```
+
+The union of valid property key types. All property-access methods on `StaticJsObject` accept either a native `string` (for string-keyed properties) or a [`StaticJsSymbol`](./symbol.md) (for symbol-keyed properties).
+
+`isStaticJsPropertyKey(value)` narrows an unknown value to `StaticJsPropertyKey`.
 
 ---
 

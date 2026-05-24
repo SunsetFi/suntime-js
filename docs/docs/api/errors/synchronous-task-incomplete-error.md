@@ -24,7 +24,7 @@ Thrown when the `runTaskSync` runner configured on a realm (or passed per-call) 
 
 Common causes:
 
-- Using an async task runner (e.g. [`createTimeSharingTaskRunner`](../tasks.md#createtimesharingtaskrenneropts)) as the `runTaskSync` option.
+- Using an async task runner (e.g. [`createTimeSharingTaskRunner`](../tasks.md#createtimesharingtaskrunneropts)) as the `runTaskSync` option.
 - A custom runner that breaks early based on a step count without checking `task.done`.
 
 See [Sync vs. async runners](../tasks.md#sync-vs-async-runners) for guidance on writing a correct synchronous runner.

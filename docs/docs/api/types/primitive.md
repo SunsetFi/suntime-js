@@ -101,12 +101,4 @@ Synchronously returns a native string representation of this value. Follows `toS
 
 ## Type guard
 
-### isStaticJsPrimitive(value)
-
-```ts
-import { isStaticJsPrimitive } from "@suntime-js/core";
-
-isStaticJsPrimitive(value: unknown): value is StaticJsPrimitive
-```
-
-Returns `true` for scalar (non-object) sandbox values: strings, numbers, booleans, null, undefined, and symbols.
+There is no type guard for StaticJsPrimitive. Use [`isStaticJsValue`](./value.md#type-guard) instead.

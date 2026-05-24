@@ -125,7 +125,7 @@ object(
 ): StaticJsPlainObject
 ```
 
-Creates a plain object. `properties` is a map of property names to descriptor records. `prototype` defaults to the realm's `Object.prototype` when omitted.
+Creates a plain object. `properties` is a map of [StaticJsPropertyKey](./types/object.md#staticjspropertykey) keys to descriptor records, which may be strings or [`StaticJsSymbol`](./types/symbol.md) instances. (). `prototype` defaults to the realm's `Object.prototype` when omitted.
 
 ```ts
 const obj = realm.types.object({
@@ -228,7 +228,7 @@ All traps are optional. Each receives a [StaticJsObject](./types/object.md) (or 
 | `get`                      | `(target, key, receiver) =>` [StaticJsValue](./types/value.md)                                               |
 | `set`                      | `(target, key, value, receiver) => boolean`                                                                  |
 | `deleteProperty`           | `(target, key) => boolean`                                                                                   |
-| `ownKeys`                  | `(target) => StaticJsPropertyKey[]`                                                                          |
+| `ownKeys`                  | `(target) =>` [`StaticJsPropertyKey`](./types/object.md#staticjspropertykey)`[]`                             |
 | `apply`                    | `(target, thisArgument, argArray) =>` [StaticJsValue](./types/value.md)                                      |
 | `construct`                | `(target, argArray, newTarget) =>` [StaticJsObject](./types/object.md)                                       |
 

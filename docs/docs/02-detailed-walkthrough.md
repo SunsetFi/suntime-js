@@ -122,7 +122,7 @@ import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
 
 const taskRunner = createTimeSharingTaskRunner({
   // AST nodes / operations to evaluate per iteration
-  operationsPerIteration: 10,000
+  operationsPerIteration: 10_000
 
   // How long to yield in milliseconds between iterations
   yieldTime: 100,
@@ -398,8 +398,8 @@ const instance = await ctor.constructAsync();
 
 await instance.setAsync("amount", realm.types.number(5));
 
-const apply = instance.getAsync("apply");
-const result = apply.callAsync(instance, [realm.types.number(10)]);
+const apply = await instance.getAsync("apply");
+const result = await apply.callAsync(instance, [realm.types.number(10)]);
 ```
 
 See [StaticJsFunction](./07-types.md#function) for the full `callAsync`, `constructAsync`, and `getNameAsync` API.

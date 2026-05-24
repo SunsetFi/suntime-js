@@ -96,13 +96,13 @@ See the [Tasks](./08-tasks.md) guide for a full explanation of task runners, inc
 A realm exposes several evaluation methods. They all return a [`StaticJsValue`](./api/types/value.md) (or a Promise that resolves to one).
 
 ```ts
-// Async — queues evaluation; returns a Promise
+// Async: queues evaluation; returns a Promise
 const result = await realm.evaluateScript(`1 + 1`);
 
-// Sync — runs to completion immediately (may deadlock without a time-bound runner)
+// Sync: runs to completion immediately (may deadlock without a time-bound runner)
 const result = realm.evaluateScriptSync(`1 + 1`);
 
-// Module — always async; returns a Promise<StaticJsModule>
+// Module: always async; returns a Promise<StaticJsModule>
 const mod = await realm.evaluateModule(`export const x = 42`);
 ```
 

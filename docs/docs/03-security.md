@@ -42,7 +42,7 @@ const value = evaluateScript(`
 
 // Invoking sandboxed code here may be unexpected.
 // This will cause a deadlock, as runTaskSync was never specified.
-const Object.keys(value);
+const keys = Object.keys(value);
 ```
 
 Use [StaticJs Types](./07-types.md) instead:
@@ -53,7 +53,7 @@ import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
 const realm = StaticJsRealm({
   runTask: createTimeBoundTaskRunner({ maxRunTime: 500 }),
 });
-const value = evaluateScript(`
+const value = await realm.evaluateScript(`
   const obj = new Proxy({}, {
     ownKeys: () => {
       // Deadlock

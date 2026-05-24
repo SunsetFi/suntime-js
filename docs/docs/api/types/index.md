@@ -79,6 +79,7 @@ classDiagram
     StaticJsObject <|-- StaticJsCallable
     StaticJsCallable <|-- StaticJsFunction
     StaticJsObject <|-- StaticJsProxy
+    StaticJsCallable <|-- StaticJsProxy
 ```
 
 ---
@@ -118,6 +119,7 @@ StaticJsScalar = StaticJsString | StaticJsNumber | StaticJsBoolean
 | [StaticJsPrimitive](./primitive.md)      | Base interface | [isStaticJsPrimitive](./primitive.md#isstaticjsprimitivevalue)        | —                                                            |
 | [StaticJsScalar](./scalar.md)            | Union          | [isStaticJsScalar](./scalar.md#isstaticjsscalarvalue)                 | `string \| number \| boolean \| null \| undefined \| symbol` |
 | [StaticJsObject](./object.md)            | Base interface | [isStaticJsObject](./object.md#isstaticjsobjectvalue)                 | —                                                            |
+| [StaticJsCallable](./function.md)        | Base interface | [isStaticJsCallable](./function.md#isstaticjscallable)                | —                                                            |
 | [StaticJsString](./string.md)            | Concrete       | [isStaticJsString](./string.md#isstaticjsstringvalue)                 | `string`                                                     |
 | [StaticJsNumber](./number.md)            | Concrete       | [isStaticJsNumber](./number.md#isstaticjsnumbervalue)                 | `number`                                                     |
 | [StaticJsBoolean](./boolean.md)          | Concrete       | [isStaticJsBoolean](./boolean.md#isstaticjsbooleanvalue)              | `boolean`                                                    |

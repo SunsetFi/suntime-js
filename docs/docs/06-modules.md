@@ -33,6 +33,8 @@ const module = await realm.evaluateModule(`
   }
 `);
 
+const addValue = await module.getExportAsync("add");
+
 const result = await addValue.callAsync(realm.types.undefined, [
   realm.types.number(2),
   realm.types.number(3),

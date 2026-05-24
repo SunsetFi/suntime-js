@@ -86,9 +86,9 @@ Partial overrides for engine-internal behavior. All hooks receive the realm as t
 
 Override individual `Math.*` implementations. Useful for deterministic behavior across engines, since many `Math` functions are implementation-defined by the spec.
 
-Signature: `(realm, ...args: number[]) => number`
+The signature will match the same signature from the `Math[key]` set of functions. All arguments will be converted to javascript numbers before being passed to the hook. For variadic functions, they can accept any number of arguments. Otherwise, you will get exactly `Math[key].length` arguments.
 
-Arguments are passed as native numbers coerced from sandbox values. The sandbox controls the argument count.
+You are expected to return a native javascript number, which will be converted back to the sandboxed representation by the realm.
 
 Supported keys: `acos`, `acosh`, `asin`, `asinh`, `atan`, `atan2`, `atanh`, `cbrt`, `cos`, `cosh`, `exp`, `expm1`, `hypot`, `log`, `log10`, `log1p`, `log2`, `random`, `sin`, `sinh`, `sqrt`, `tan`, `tanh`
 
@@ -192,7 +192,7 @@ Options are documented at [StaticJsRealmEvaluateSourceOptions](#staticjsrealmeva
 ```ts
 evaluateScriptSync(
   script: string,
-  opts?: StaticJsRealmEvaluateScriptSyncOptions,
+  opts?: StaticJsEvaluateScriptSyncOptions,
 ): StaticJsValue
 ```
 
