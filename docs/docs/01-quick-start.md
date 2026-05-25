@@ -47,7 +47,7 @@ const realm = StaticJsRealm();
 const result = realm.evaluateScriptSync(`while(true) {}`);
 ```
 
-See below for solutions.
+See [Enforcing Time Limits](#enforcing-time-limits) below for solutions.
 :::
 
 ## Working with types
