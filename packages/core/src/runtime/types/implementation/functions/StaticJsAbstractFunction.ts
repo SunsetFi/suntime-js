@@ -4,14 +4,15 @@ import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import { get } from "../../../algorithms/get.js";
-import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
-import { StaticJsNull } from "../../StaticJsNull.js";
+import { isStaticJsNull, StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
+import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
@@ -80,8 +81,19 @@ export abstract class StaticJsAbstractFunction
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {
     const nameValue = yield* get(this, "name");
-    const nameStr = yield* toString.js(nameValue);
-    return nameStr.toString();
+    if (
+      isStaticJsScalar(nameValue) &&
+      !isStaticJsNull(nameValue) &&
+      !isStaticJsUndefined(nameValue)
+    ) {
+      return String(nameValue.value);
+    }
+
+    if (this._initialName) {
+      return this._initialName;
+    }
+
+    return "";
   }
 
   override toStringSync() {

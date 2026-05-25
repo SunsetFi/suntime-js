@@ -9,7 +9,10 @@ import {
   StaticJsTaskIteratorStackFrame,
   StaticJsTaskScopeFrame,
   StaticJsValue,
+  StaticJsObject,
   isStaticJsScalar,
+  isStaticJsObject,
+  isStaticJsFunction,
 } from "@suntime-js/core";
 
 import createDeferred, { Deferred } from "../../utils/create-deferred.js";
@@ -71,7 +74,10 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   private _activeTask: StaticJsTaskIterator | null = null;
   private _lastStopEvent: StaticJsDebugStopEvent | null = null;
 
-  private _variablesRefMap = new Map<number, StaticJsTaskScopeFrame>();
+  private _variablesRefMap = new Map<
+    number,
+    { kind: "scope"; scope: StaticJsTaskScopeFrame } | { kind: "object"; object: StaticJsObject }
+  >();
   private _nextVarRef = 1;
 
   private _activeStepMode: StepMode | null = null;
@@ -226,7 +232,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
     return this._activeTask.scopes.map((scope) => {
       const ref = this._nextVarRef++;
-      this._variablesRefMap.set(ref, scope);
+      this._variablesRefMap.set(ref, { kind: "scope", scope });
       return {
         name: scope.name,
         type: scope.type,
@@ -237,17 +243,46 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   }
 
   getVariables(variablesReference: number): StaticJsDebugVariable[] {
-    const scope = this._variablesRefMap.get(variablesReference);
-    if (!scope) {
+    const entry = this._variablesRefMap.get(variablesReference);
+    if (!entry) {
       return [];
     }
 
-    return scope.getVariables({ runTask: debugTaskIterator }).map(({ name, value }) => ({
+    if (entry.kind === "scope") {
+      return entry.scope
+        .getVariables({ runTask: debugTaskIterator })
+        .map(({ name, value }) => this._toDebugVariable(name, value));
+    }
+
+    const opts: StaticJsRunTaskOptions = { runTask: debugTaskIterator };
+    const keys = entry.object
+      .ownPropertyKeysSync(opts)
+      .filter((key): key is string => typeof key === "string");
+    const variables = keys.map((key) => {
+      const value = entry.object.getSync(key, opts);
+      return this._toDebugVariable(key, value);
+    });
+
+    const prototype = entry.object.getPrototypeOfSync(opts);
+    if (prototype) {
+      variables.push(this._toDebugVariable("[[Prototype]]", prototype));
+    }
+
+    return variables;
+  }
+
+  private _toDebugVariable(name: string, value: StaticJsValue | null): StaticJsDebugVariable {
+    let variablesReference = 0;
+    if (value !== null && isStaticJsObject(value)) {
+      variablesReference = this._nextVarRef++;
+      this._variablesRefMap.set(variablesReference, { kind: "object", object: value });
+    }
+    return {
       name,
       value: formatStaticJsValue(value),
       type: value?.runtimeTypeOf ?? "undefined",
-      variablesReference: 0,
-    }));
+      variablesReference,
+    };
   }
 
   waitForStop(): Promise<StaticJsDebugStopEvent> {
@@ -726,14 +761,13 @@ function formatStaticJsValue(value: StaticJsValue | null): string {
   if (isStaticJsScalar(value)) {
     return String(value.value);
   }
-  switch (value.runtimeTypeOf) {
-    case "array":
-      return "Array";
-    case "function":
-      return "[Function]";
-    default:
-      return "Object";
+
+  if (isStaticJsFunction(value)) {
+    const name = value.getNameSync({ runTask: debugTaskIterator });
+    return `ƒ ${name}()`;
   }
+
+  return capitalize(value.runtimeTypeOf);
 }
 
 const DebugTaskIteratorOpts = 5000;
@@ -751,4 +785,11 @@ function debugTaskIterator(task: StaticJsTaskIterator) {
       task.throw(new StaticJsTaskAbortedError("Unable to determine function name."));
     }
   }
+}
+
+function capitalize(str: string): string {
+  if (str.length === 0) {
+    return str;
+  }
+  return str[0].toUpperCase() + str.slice(1);
 }

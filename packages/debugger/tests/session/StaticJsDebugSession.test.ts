@@ -927,6 +927,120 @@ describe("StaticJsDebugSession", () => {
       expect(varA!.value).toBe("42");
     });
 
+    it("expands a function to show name and length properties", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "fn-expand-test.js",
+          sourceText: "function foo(a, b) { return a + b; }\nconst x = null;",
+          breakpoints: [{ sourceName: "fn-expand-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const globalScope = scopes.find((s) => s.type === "global")!;
+      const variables = session.getVariables(globalScope.variablesReference);
+      const varFoo = variables.find((v) => v.name === "foo")!;
+
+      expect(varFoo.variablesReference).toBeGreaterThan(0);
+
+      const fnProps = session.getVariables(varFoo.variablesReference);
+      expect(fnProps.find((v) => v.name === "name")?.value).toBe("foo");
+      expect(fnProps.find((v) => v.name === "length")?.value).toBe("2");
+    });
+
+    it("gives scalar variables a variablesReference of 0", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "scalar-ref-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+          breakpoints: [{ sourceName: "scalar-ref-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const globalScope = scopes.find((s) => s.type === "global")!;
+      const variables = session.getVariables(globalScope.variablesReference);
+      const varA = variables.find((v) => v.name === "a")!;
+
+      expect(varA.variablesReference).toBe(0);
+    });
+
+    it("gives object variables a non-zero variablesReference", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "object-ref-test.js",
+          sourceText: "const obj = { x: 1, y: 2 };\nconst b = 99;",
+          breakpoints: [{ sourceName: "object-ref-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const globalScope = scopes.find((s) => s.type === "global")!;
+      const variables = session.getVariables(globalScope.variablesReference);
+      const varObj = variables.find((v) => v.name === "obj")!;
+
+      expect(varObj.variablesReference).toBeGreaterThan(0);
+    });
+
+    it("expands object properties via the object's variablesReference", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "object-expand-test.js",
+          sourceText: "const obj = { x: 1, y: 2 };\nconst b = 99;",
+          breakpoints: [{ sourceName: "object-expand-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const globalScope = scopes.find((s) => s.type === "global")!;
+      const variables = session.getVariables(globalScope.variablesReference);
+      const varObj = variables.find((v) => v.name === "obj")!;
+
+      const objProperties = session.getVariables(varObj.variablesReference);
+      expect(objProperties.find((v) => v.name === "x")?.value).toBe("1");
+      expect(objProperties.find((v) => v.name === "y")?.value).toBe("2");
+    });
+
+    it("expands array elements via the array's variablesReference", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "array-expand-test.js",
+          sourceText: "const arr = [10, 20, 30];\nconst b = 99;",
+          breakpoints: [{ sourceName: "array-expand-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const globalScope = scopes.find((s) => s.type === "global")!;
+      const variables = session.getVariables(globalScope.variablesReference);
+      const varArr = variables.find((v) => v.name === "arr")!;
+
+      const arrElements = session.getVariables(varArr.variablesReference);
+      expect(arrElements.find((v) => v.name === "0")?.value).toBe("10");
+      expect(arrElements.find((v) => v.name === "1")?.value).toBe("20");
+      expect(arrElements.find((v) => v.name === "2")?.value).toBe("30");
+    });
+
     it("invalidates variablesReferences after resuming", async () => {
       const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({

@@ -213,10 +213,17 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
 
   private _handleVariablesRequest(request: DebugProtocol.Request): void {
     const args = request.arguments as DebugProtocol.VariablesArguments;
-    const variables = this._sessionState.debugSession?.getVariables(args.variablesReference) ?? [];
-    this._messageBus.emitResponse<DebugProtocol.VariablesResponse>(request, {
-      variables: variables.map(toDapVariable),
-    });
+    try {
+      const variables =
+        this._sessionState.debugSession?.getVariables(args.variablesReference) ?? [];
+      this._messageBus.emitResponse<DebugProtocol.VariablesResponse>(request, {
+        variables: variables.map(toDapVariable),
+      });
+    } catch {
+      this._messageBus.emitResponse<DebugProtocol.VariablesResponse>(request, {
+        variables: [],
+      });
+    }
   }
 
   private _handlePauseRequest(request: DebugProtocol.Request): void {

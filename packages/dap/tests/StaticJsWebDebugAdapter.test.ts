@@ -347,6 +347,39 @@ describe("createStaticJsWebDebugAdapter", () => {
       expect(varA!.value).toBe("42");
     });
 
+    it("expands object properties via the object's variablesReference", async () => {
+      const session = createSession();
+
+      await session.initialize();
+      await session.launchStoppedScript(
+        createScriptLaunchArgs({
+          sourceName: "staticjs:///script/object-expand-test.js",
+          sourceText: "const obj = { x: 1, y: 2 };\nconst b = 99;",
+        }),
+      );
+
+      // Step past `const obj = ...` so it is in scope.
+      const nextSeq = session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+      await session.collector.waitFor(isResponse("next", nextSeq));
+      await session.collector.waitFor(isStoppedEvent("step"));
+
+      const stackTrace = await session.requestStackTrace();
+      const frameId = stackTrace.body.stackFrames[0]!.id;
+      const scopesResponse = await session.requestScopes(frameId);
+
+      const globalScope = scopesResponse.body.scopes.find((s) => s.presentationHint === "globals");
+      const allVars = await session.requestVariables(globalScope!.variablesReference);
+
+      const objVar = allVars.body.variables.find((v) => v.name === "obj");
+      expect(objVar).toBeDefined();
+      expect(objVar!.variablesReference).toBeGreaterThan(0);
+
+      const objProps = await session.requestVariables(objVar!.variablesReference);
+      expect(objProps.success).toBe(true);
+      expect(objProps.body.variables.find((v) => v.name === "x")?.value).toBe("1");
+      expect(objProps.body.variables.find((v) => v.name === "y")?.value).toBe("2");
+    });
+
     it("returns success with empty variables for an unknown variablesReference", async () => {
       const session = createSession();
 

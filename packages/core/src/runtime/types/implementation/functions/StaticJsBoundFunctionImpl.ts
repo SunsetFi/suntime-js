@@ -3,13 +3,13 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import { construct } from "../../../algorithms/construct.js";
 import { get } from "../../../algorithms/get.js";
 import { sameValue } from "../../../algorithms/same-value.js";
-import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
+import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
@@ -143,7 +143,14 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
 
   private *_getNameEvaluator(): EvaluationGenerator<string> {
     const nameValue = yield* get(this, "name");
-    const nameStr = yield* toString.js(nameValue);
-    return nameStr.toString();
+    if (isStaticJsScalar(nameValue)) {
+      return String(nameValue.value);
+    }
+
+    if (this._initialName) {
+      return this._initialName;
+    }
+
+    return "<anonymous>";
   }
 }
