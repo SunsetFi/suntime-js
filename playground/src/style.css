@@ -17,3 +17,27 @@ body {
   width: 100%;
   height: 100%;
 }
+
+/*
+Fix the debug scope / variables list items.
+No idea why the styling is messing up here, but they aren't indented enough
+and there is no spacing after the icon.
+*/
+.debug-view-content .monaco-tl-twistie {
+  margin-left: 8px;
+  margin-right: 6px;
+}
+
+/*
+Fix the stack frame icon stomping the breakpoint icon.
+This way, they can coexist.
+TODO: Needs to also handle verified breakpoints, once we can verify them.
+*/
+.codicon-debug-breakpoint-unverified {
+  position: relative;
+}
+.codicon-debug-breakpoint-unverified::after {
+  position: absolute;
+  content: "\eabc";
+  color: #848484 !important;
+}
