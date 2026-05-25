@@ -1,5 +1,6 @@
 import type { Node } from "@babel/types";
 
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import { get } from "../../../algorithms/get.js";
@@ -19,6 +20,8 @@ export abstract class StaticJsAbstractFunction
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsFunction
 {
+  private _initialName: string | null = null;
+
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
   }
@@ -49,6 +52,22 @@ export abstract class StaticJsAbstractFunction
 
   get strict(): boolean {
     return false;
+  }
+
+  get initialName(): string | null {
+    return this._initialName;
+  }
+
+  setInitialName(value: string) {
+    if (typeof value !== "string") {
+      throw new StaticJsEngineError("Initial name must be a string");
+    }
+
+    if (this._initialName !== null) {
+      throw new StaticJsEngineError("Initial name can only be set once");
+    }
+
+    this._initialName = value;
   }
 
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string> {

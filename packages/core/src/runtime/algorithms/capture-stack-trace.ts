@@ -4,6 +4,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsFunction } from "../types/StaticJsFunction.js";
 import { StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
 import { StaticJsValue } from "../types/StaticJsValue.js";
@@ -68,9 +69,9 @@ export function* captureStackTrace(
 
       if (isStaticJsString(functionName)) {
         line += `at ${functionName.value}`;
+      } else if (isStaticJsFunction(func)) {
+        line += `at ${func.initialName ?? "<anonymous>"}`;
       } else {
-        // Note: v8 somehow will magically know the original name of the function if the name is not a string.
-        // Wait, what is func.ecmaScriptCode.loc.identifierName?  Would that be useful here?
         line += `at <unknown>`;
       }
 

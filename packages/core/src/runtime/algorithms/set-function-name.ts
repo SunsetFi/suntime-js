@@ -1,3 +1,4 @@
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsFunction } from "../types/StaticJsFunction.js";
 import { isStaticJsPrivateName, StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
@@ -13,6 +14,16 @@ export function* setFunctionName(
   name: StaticJsFunctionNameable,
   prefix?: string,
 ): EvaluationGenerator<void> {
+  const isExtensible = yield* f.isExtensibleEvaluator();
+  if (!isExtensible) {
+    throw new StaticJsEngineError("Cannot set function name on non-extensible object");
+  }
+
+  const hasName = yield* f.hasOwnPropertyEvaluator("name");
+  if (hasName) {
+    throw new StaticJsEngineError("Function already has a name");
+  }
+
   // SetFunctionName
   // This is wonky.  This is normally done elsewhere by calls and the function
   // creator doesn't always know the name.
@@ -29,6 +40,8 @@ export function* setFunctionName(
   } else {
     definedName = name;
   }
+
+  f.setInitialName(definedName);
 
   if (prefix) {
     definedName = `${prefix} ${definedName}`;

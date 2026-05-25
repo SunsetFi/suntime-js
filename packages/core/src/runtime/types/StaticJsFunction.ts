@@ -11,6 +11,10 @@ export interface StaticJsFunction extends StaticJsCallable {
 
   readonly strict: boolean;
 
+  readonly initialName: string | null;
+
+  setInitialName(value: string): void;
+
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string>;
   getNameSync(opts?: StaticJsRunTaskOptions): string;
 

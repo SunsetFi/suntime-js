@@ -15,6 +15,8 @@ import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {
+  private _initialName: string | null = null;
+
   constructor(
     realm: StaticJsRealm,
     public readonly targetFunc: StaticJsCallable,
@@ -50,6 +52,22 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
 
   get boundTargetFunction(): StaticJsCallable {
     return this.targetFunc;
+  }
+
+  get initialName(): string | null {
+    return this._initialName;
+  }
+
+  setInitialName(value: string) {
+    if (typeof value !== "string") {
+      throw new StaticJsEngineError("Initial name must be a string");
+    }
+
+    if (this._initialName !== null) {
+      throw new StaticJsEngineError("Initial name can only be set once");
+    }
+
+    this._initialName = value;
   }
 
   callAsync(

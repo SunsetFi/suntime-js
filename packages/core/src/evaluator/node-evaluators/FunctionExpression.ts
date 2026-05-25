@@ -1,7 +1,6 @@
 import type { FunctionExpression } from "@babel/types";
 
-import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
-import { setFunctionName } from "../../runtime/algorithms/set-function-name.js";
+import { instantiateFunctionExpression } from "../../runtime/algorithms/instantiate-function-expression.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { EvaluationContext } from "../EvaluationContext.js";
@@ -15,18 +14,23 @@ function* functionExpressionNodeEvaluator(node: FunctionExpression): EvaluationG
   const functionName = expressionFunctionName ?? getNamedEvaluationParameter() ?? "";
 
   let func: StaticJsFunction;
+  // This binding is normally done inside Instantiate*FunctionExpression
   if (expressionFunctionName) {
     const funcEnv = StaticJsDeclarativeEnvironmentRecord.from(context);
     yield* funcEnv.createImmutableBindingEvaluator(expressionFunctionName, false);
-
-    func = yield* instantiateFunctionObject(node, funcEnv, context.privateEnv);
-
+    // HACK: This is supposed to be done inside the Instantiate*FunctionExpression stuff
+    const ctx = EvaluationContext.current;
+    let oldEnv = ctx.lexicalEnv;
+    ctx.lexicalEnv = funcEnv;
+    try {
+      func = yield* instantiateFunctionExpression(node, functionName);
+    } finally {
+      ctx.lexicalEnv = oldEnv;
+    }
     yield* funcEnv.initializeBindingEvaluator(expressionFunctionName, func);
   } else {
-    func = yield* instantiateFunctionObject(node, context.lexicalEnv, context.privateEnv);
+    func = yield* instantiateFunctionExpression(node, functionName);
   }
-
-  yield* setFunctionName(func, functionName);
 
   return func;
 }
