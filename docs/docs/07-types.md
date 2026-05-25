@@ -105,7 +105,7 @@ const compare = realm.types.function("compare", function* (a, b) {
 realm.global.setAsync("compare", compare);
 ```
 
-See [StaticJsFunction](./api/types/function.md) for constructor options (`isConstructor`, `length`, `prototype`) and instance methods.
+Generator functions that are used in the service of evaluating sandboxed code are called Evaluators. See [Evaluators](./09-evaluators.md) for detailed instructions on how they work and how to write them.
 
 ## Coercing native values
 

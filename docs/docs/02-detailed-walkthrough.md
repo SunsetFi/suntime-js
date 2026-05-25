@@ -56,11 +56,9 @@ In order to enforce a time limit on evaluations, you may specify a [Task Runner]
 
 ### Tasks
 
-:::info[Task System Overview]
 Tasks are how StaticJs is able to monitor, limit, and evaluate JavaScript asynchronously.
 
 At its core, a task is simpy a JavaScript iterator, where every call to `.next()` permits a single AST node or equivalent unit of evaluation to occur.
-:::
 
 :::tip
 Tasks can do much more, including providing debugging and introspection into the current call stack. See [Tasks](./08-tasks.md) for more information.
@@ -80,7 +78,7 @@ Async runners may return before the task completes, yielding to the host between
 
 ### Specifying tasks
 
-Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)). It can also be overridden per-call via the [`runTask`](./api/realm.md#staticjsrealmevaluatesourceoptions) option on [`evaluateScript`](./api/realm.md#evaluatescriptscript-opts), ['evaluateScriptSync'](./api/realm.md#evaluatescriptsyncscript-opts), its [expression](./api/realm.md#evaluateexpressionexpression-opts) counterparts, and any [object method](./api/types/object.md#methods) supporting [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
+Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)). It can also be overridden per-call via the [`runTask`](./api/realm.md#staticjsrealmevaluatesourceoptions) option on [`evaluateScript`](./api/realm.md#evaluatescriptscript-opts), [`evaluateScriptSync`](./api/realm.md#evaluatescriptsyncscript-opts), its [expression](./api/realm.md#evaluateexpressionexpression-opts) counterparts, and any [object method](./api/types/object.md#methods) supporting [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
 
 ### Built-in task runners
 

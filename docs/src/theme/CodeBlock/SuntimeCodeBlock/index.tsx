@@ -2,8 +2,12 @@ import type { WrapperProps } from "@docusaurus/types";
 import type CodeBlockType from "@theme/CodeBlock";
 
 import {
+  StaticJsFunction,
+  StaticJsPropertyDescriptorRecord,
   StaticJsRealm,
   StaticJsTaskAbortedError,
+  StaticJsTypeFactory,
+  createTimeBoundTaskRunner,
   createTimeSharingTaskRunner,
 } from "@suntime-js/core";
 import CodeBlock from "@theme-original/CodeBlock";
@@ -42,25 +46,14 @@ export default function SuntimeCodeBlock(props: Props): ReactNode {
       }
     };
 
-    const realm = StaticJsRealm();
-    realm.global.defineOwnPropertySync("console", {
-      value: realm.types.toStaticJsValue({
-        log: (...args: unknown[]) => addLine({ kind: "log", text: args.map(serialize).join(" ") }),
-        warn: (...args: unknown[]) => addLine({ kind: "log", text: args.map(serialize).join(" ") }),
-        error: (...args: unknown[]) =>
-          addLine({ kind: "error", text: args.map(serialize).join(" ") }),
-        info: (...args: unknown[]) => addLine({ kind: "log", text: args.map(serialize).join(" ") }),
-      }),
-      writable: true,
-      configurable: true,
-      enumerable: false,
-    });
-
     const code = String(props.children ?? "");
+
     const runner = createTimeSharingTaskRunner({
       operationsPerIteration: 1000,
       yieldTime: 1,
     });
+
+    const realm = createRealm(addLine);
 
     realm
       .evaluateScript(code, {
@@ -106,4 +99,50 @@ export default function SuntimeCodeBlock(props: Props): ReactNode {
       <OutputPanel lines={lines} status={status} onRun={handleRun} onStop={handleStop} />
     </div>
   );
+}
+
+function createRealm(addLine: (line: OutputLine) => void) {
+  function makeLoggerProperty(
+    types: StaticJsTypeFactory,
+    name: string,
+    kind: "log" | "error",
+  ): StaticJsPropertyDescriptorRecord {
+    return {
+      value: types.function(name, function* (...args) {
+        addLine({
+          kind,
+          text: args
+            .map((x) => x.toNative())
+            .map(serialize)
+            .join(" "),
+        });
+        return types.undefined;
+      }),
+      enumerable: false,
+      writable: true,
+      configurable: true,
+    };
+  }
+
+  return StaticJsRealm({
+    runTask: createTimeSharingTaskRunner({
+      operationsPerIteration: 1000,
+      yieldTime: 1,
+    }),
+    runTaskSync: createTimeBoundTaskRunner(),
+    global: (types) =>
+      types.object({
+        console: {
+          value: types.object({
+            log: makeLoggerProperty(types, "log", "log"),
+            warn: makeLoggerProperty(types, "warn", "log"),
+            error: makeLoggerProperty(types, "error", "error"),
+            info: makeLoggerProperty(types, "info", "log"),
+          }),
+          enumerable: false,
+          writable: true,
+          configurable: true,
+        },
+      }),
+  });
 }

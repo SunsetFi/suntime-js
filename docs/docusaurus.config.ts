@@ -45,7 +45,11 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           editUrl: "https://github.com/SunsetFi/suntime-js/tree/main/docusaurus/",
         },
-        blog: false,
+        blog: {
+          path: "blog",
+          blogTitle: "JavaScript In JavaScript",
+          blogDescription: "Musings from rebuilding JavaScript from scratch in itself",
+        },
         theme: {
           customCss: "./src/css/custom.css",
         },
@@ -81,6 +85,11 @@ const config: Config = {
         {
           to: "/playground",
           label: "Playground",
+          position: "left",
+        },
+        {
+          to: "/blog",
+          label: "Blog",
           position: "left",
         },
         {

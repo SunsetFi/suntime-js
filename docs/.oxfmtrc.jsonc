@@ -5,8 +5,6 @@
   "ignorePatterns": [
     // Generated code
     "/static/playground-embed",
-    // Requires use of the {/* #id */} syntax that oxfmt will mangle.
-    "docs/api/types/function.md",
   ],
   "sortImports": {
     "groups": [

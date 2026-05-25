@@ -13,7 +13,7 @@
 }
 
 .codePanel {
-  flex: 1;
+  flex: 2;
   min-width: 0;
   overflow: scroll;
 }
@@ -74,7 +74,7 @@
 }
 
 .returnLine {
-  color: var(--ifm-color-primary);
+  color: var(--ifm-color-success);
 }
 
 .errorLine {

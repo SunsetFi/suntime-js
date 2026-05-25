@@ -49,9 +49,17 @@ export default function OutputPanel({ lines, status, onRun, onStop }: OutputPane
                   : styles.logLine
             }`}
           >
-            {line.kind === "log" && `[log] ${line.text}`}
-            {line.kind === "return" && `→ ${line.text}`}
-            {line.kind === "error" && `✗ ${line.text}`}
+            {line.kind === "log" && <span>{line.text}</span>}
+            {line.kind === "return" && (
+              <span>
+                <span className={styles.returnLine}>→</span> {line.text}
+              </span>
+            )}
+            {line.kind === "error" && (
+              <span>
+                <span className={styles.errorLine}>✗</span> {line.text}
+              </span>
+            )}
           </div>
         ))}
       </div>

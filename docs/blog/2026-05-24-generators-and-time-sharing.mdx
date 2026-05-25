@@ -1,0 +1,351 @@
+---
+slug: generators-intro
+title: Generators and Time-Sharing
+authors: [sunsetfi]
+tags: [javascript, generators]
+---
+
+# Generators and Time-Sharing
+
+The ability to pause, resume, and timeshare evaluation in StaticJs was a key design decision for StaticJs from its inception. The original design impetus was to create a sandboxed language that could run reasonably well with untrusted code, and part of that meant not hanging forever if the code enters an infinite loop.
+
+Beyond infinite loops, being able to suspend and resume whole call stacks carried several benefits:
+
+- Step-through debugging support.
+- Time-sharing evaluation (sharing time between running the sandbox and running the host browser).
+- Tracking and limiting the number of operations; "Script budget"
+- Pre-building for Async / Await functions, that suspend as a matter of course.
+- The ability to interrupt and cancel script evaluations.
+
+While the idea of being able to arbitrarly pause an entire call stack seems crazy, there is in fact a rather simple JavaScript feature that makes it quite an easy task, provided you design your system around it ahead of time.
+
+{/* truncate */}
+
+## Generators
+
+Generators in JavaScript are functions that emit values through an iteration-like syntax. You declare a generator by using an asterisk (`*`) on the function declaration:
+
+```ts live-staticjs
+function* generator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+for (const value of generator()) {
+  console.log(value);
+}
+```
+
+Internally, the for / of operator is simply taking the iterator object, and calling `.next()` until it reports it is out of values. This code is functionally identical:
+
+```ts live-staticjs
+function* generator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const iterator = generator();
+while (true) {
+  const { value, done } = iterator.next();
+  if (done) {
+    break;
+  }
+  console.log(value);
+}
+```
+
+One other tidbit of generators, they can have return values like any other. Although where their return value ends up is a bit counterintuitive at first:
+
+```ts live-staticjs
+function* generator() {
+  yield 1;
+  yield 2;
+  yield 3;
+  return "Done";
+}
+
+const iterator = generator();
+while (true) {
+  const { value, done } = iterator.next();
+  if (done) {
+    console.log("Iterator completed with value", value);
+    break;
+  }
+  console.log(value);
+}
+```
+
+So in short, generators are syntactic sugar to produce iterators. They yield values to their iterators, and when the iterator completes, their return value comes out the same way.
+
+### Generators in Suspense
+
+Given these examples, you might start wondering what happens if you don't call every `.next()` call synchronously. And this is where the beauty and use of generators starts to get revealed.
+
+Let's start logging different actions, and see how the control flow plays out:
+
+```ts live-staticjs
+function* generator() {
+  console.log("gen start");
+  console.log("yield 1");
+  yield 1;
+  console.log("yield 2");
+  yield 2;
+  console.log("yield 3");
+  yield 3;
+  console.log("gen end");
+}
+
+const iterator = generator();
+
+console.log("next 1");
+iterator.next();
+
+console.log("next 2");
+iterator.next();
+```
+
+Notice how the generator's evaluation does not start until the first `.next()` call. The function itself is suspended until we start drawing values from it. Also, we don't get yield 2 until we call our second `.next()` invocation.
+
+But notice something else: We do not see "gen end" in the output. We called `.next()` twice, and got two yield values out of it. But since we didn't call `.next()` a third time, the generator is still waiting on that second yield. The function is, effectively, suspended.
+
+## Writing suspendable call stacks
+
+So this is useful, but there are a few key points in making an entire call stack suspend with this.
+
+First, as you may have guessed, we can only halt a function when it comes across a `yield`. Everything between yields runs straight through as a normal function. It is only when the function hits a yield that it pauses and awaits our `.next()` call to continue.
+
+So the first order of business is to figure out what that means for the system we are building.
+
+In StaticJs, we have a very natural unit of evaluation: The AST node. StaticJs works by parsing the script into an AST tree (through [@babel/parser](https://babeljs.io), although I dearly regret not having found the estree spec earlier). Because of this, it makes sense to specify an AST node as our unit. Any time we want to begin evaluating an AST node, we should yield.
+
+```ts
+function* evaluateAstNode(node) {
+  // Yield to pause evaluation until our top-level iterator
+  // gives us permission to continue (through .next())
+  // highlight-next-line
+  yield;
+
+  const evaluator = findEvaluatorForNode(node);
+  return evaluator(node);
+}
+```
+
+Now, so long as all AST evaluations go through this function, we have a natural stopping cadence. This allows us to effectively monitor the number of operations we are performing, as well as to pause, resume, or cancel the evaluation.
+
+But we have another piece to solve. How do we pass our generator's iterator up the chain to the parent? After all, something like this wouldn't work:
+
+```ts
+function* addEvaluator(leftNode, rightNode) {
+  let leftIterator = evaluateAstNode(leftNode);
+
+  let leftValue;
+  while (true) {
+    const { value, done } = leftIterator.next();
+    if (done) {
+      leftValue = value;
+      break;
+    }
+  }
+
+  ...
+}
+```
+
+This won't work for a key reason: We are pumping the iterator manually. Without a yield in this function, we are fully draining the leftIterator to completion. Any function calling addEvaluator() will have it immediately compute the result without ever yielding control.
+
+Effectively, we need something like this:
+
+```ts
+function* addEvaluator(leftNode, rightNode) {
+  let leftIterator = evaluateAstNode(leftNode);
+
+  let leftValue;
+  while (true) {
+    const { value, done } = leftIterator.next();
+    if (done) {
+      leftValue = value;
+      break;
+    }
+
+    // Yield whenever the leftIterator does.
+    // highlight-next-line
+    yield;
+  }
+
+  ...
+}
+```
+
+But this code is gnarly and boilerplatey. It would be deeply unpleasent to have to write a code base where every function is invoked like this.
+
+But luckally, we don't have to!
+
+## The Yield Delegator
+
+JavaScript generators came pre-baked with the ability to forward an iterator up the chain. Consider this code:
+
+```ts live-staticjs
+function* alpha() {
+  yield "a";
+  yield "b";
+  yield "c";
+}
+
+function* numeric() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+function* sequence() {
+  yield "First";
+
+  const itr1 = alpha();
+  while (true) {
+    const { value, done } = itr1.next();
+    if (done) {
+      break;
+    }
+    yield value;
+  }
+
+  yield "Second";
+
+  const itr2 = numeric();
+  while (true) {
+    const { value, done } = itr2.next();
+    if (done) {
+      break;
+    }
+    yield value;
+  }
+}
+
+for (const v of sequence()) {
+  console.log(v);
+}
+```
+
+The yield delegate (`yield*`) lets us skip the boilerplate!
+
+```ts live-staticjs
+function* alpha() {
+  yield "a";
+  yield "b";
+  yield "c";
+}
+
+function* numeric() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+function* interleaved() {
+  yield "First";
+  // highlight-next-line
+  yield* alpha();
+
+  yield "Second";
+  // highlight-next-line
+  yield* numeric();
+}
+
+for (const v of interleaved()) {
+  console.log(v);
+}
+```
+
+Great! Only, for our purposes, we are going to need the return value. That is, the last `value` property when `done` is true.
+
+Thankfully, it has us covered there too!
+
+```ts live-staticjs
+function* inner() {
+  yield "inner-1";
+  yield "inner-2";
+  return "Inner Result";
+}
+
+function* outer() {
+  yield "outer-1";
+
+  const result = yield* inner();
+  console.log("Outer got", result, "from inner");
+
+  yield "outer-2";
+}
+
+for (const v of outer()) {
+  console.log(v);
+}
+```
+
+Great! Now let's apply that to our addition AST node evaluator!
+
+```ts
+function* addEvaluator(leftNode, rightNode) {
+  const left = yield* evaluateAstNode(leftNode);
+  const right = yield* evaluateAstNode(rightNode);
+  return Number(left) + Number(right);
+  ...
+}
+```
+
+So let's take stock of what we have here. We have an `evaluateAstNode` function that will essentially 'ask permission' to continue every time it tries to evaluate. This can be anywhere, as deep into our call stack as we want, so long as all functions in that stack are:
+
+- Generators
+- Delegate yield other generators
+
+Of course, calling into these call sites is a bit strange, as now we have to iterate through the values. Of course, this is simply abstracted away if we need to:
+
+```ts
+function invokeEvaluator(iter) {
+  while (true) {
+    const { value, done } = iter.next();
+    if (done) {
+      return value;
+    }
+  }
+}
+
+const result = invokeEvaluator(addEvaluator(left, right));
+```
+
+Calling it this way rather defeats the point, though, as it looses the ability to pause on each iteration step.
+
+For an example that makes full use of it, we can look at a time-sharing example:
+
+```ts
+function invokeEvaluatorAsync(iter) {
+  return new Promise((resolve) => {
+    function execute() {
+      // Run up to 10 AST nodes at a time
+      for (let i = 0; i < 10; i++) {
+        const { value, done } = iter.next();
+        if (done) {
+          resolve(value);
+          return;
+        }
+      }
+
+      // Still not done, schedule another pass
+      setTimeout(execute, 10);
+    }
+
+    execute();
+  });
+}
+
+const resultPromise = invokeEvaluatorAsync(addEvaluator(left, right));
+```
+
+There, now our script can take as long as it needs to evaluate, and it won't prevent our browser from running its own tasks alongside it!
+
+## Usage in StaticJs
+
+The above is a simplified form of what ultimately is happening within StaticJs when these engines are in operation.
+
+If you want to see how StaticJs uses this, check out the [Tasks](/docs/tasks) section of our docs. Or to see all the illustrious features enabled by such a system, check out the [StaticJsTaskIterator](/docs/api/tasks) type directly.

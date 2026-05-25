@@ -2,3 +2,8 @@ javascript:
   label: JavaScript
   permalink: /javascript
   description: JavaScript discussions
+
+generators:
+  label: Generators
+  permalink: /generators
+  description: JavaScript generator discussions

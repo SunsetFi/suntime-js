@@ -119,6 +119,8 @@ realm.global.setSync("console", consoleMock);
 realm.evaluateScriptSync(`console.log("Hello from sandbox!")`);
 ```
 
+For more information, see [Working with Types](./07-types.md)
+
 ## Enforcing time limits
 
 Time limits can be enforced on synchronous and asynchronous code
