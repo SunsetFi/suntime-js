@@ -18,6 +18,14 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     super(_realm.globalEnv);
   }
 
+  *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
+    const result: Record<string, StaticJsValue | null> = {};
+    for (const [name, { module, bindingName }] of this._moduleBindings.entries()) {
+      result[name] = yield* module.getOwnBindingValueEvaluator(bindingName);
+    }
+    return result;
+  }
+
   *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
     return this._moduleBindings.has(name);
   }

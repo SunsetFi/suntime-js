@@ -1,6 +1,7 @@
 import { StaticJsTaskCalleeType } from "./StaticJsTaskCalleeType.js";
 import type { StaticJsTaskIteratorOperation } from "./StaticJsTaskIteratorOperation.js";
 import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStackFrame.js";
+import { StaticJsTaskScopeFrame } from "./StaticJsTaskScopeFrame.js";
 import { StaticJsTaskSourceLocation } from "./StaticJsTaskSourceLocation.js";
 import type { StaticJsTaskType } from "./StaticJsTaskType.js";
 
@@ -63,7 +64,12 @@ export interface StaticJsTaskIterator {
   /**
    * The stack frames of the currently executing task, with the top of the stack at index 0.
    */
-  get stack(): ReadonlyArray<StaticJsTaskIteratorStackFrame>;
+  get stack(): readonly StaticJsTaskIteratorStackFrame[];
+
+  /**
+   * The variable scopes of the currently executing task, with the innermost scope at index 0.
+   */
+  get scopes(): readonly StaticJsTaskScopeFrame[];
 
   /**
    * Evaluate the current operation and proceed the iterator to the next one.

@@ -13,6 +13,8 @@ import { EvaluationGenerator } from "./EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 export interface EvaluationContextStackProvider {
+  enter(): void;
+  exit(): void;
   pushContext(context: EvaluationContext): void;
   popContext(): void;
   getCurrentContext(): EvaluationContext | null;
@@ -80,9 +82,11 @@ export const EvaluationContext = {
     // a new realm while in the process of evaluating code in an existing realm.  See $262.createRealm
     const previousStackProvider = _currentStackProvider;
     _currentStackProvider = provider;
+    provider.enter();
     try {
       return callback();
     } finally {
+      provider.exit();
       _currentStackProvider = previousStackProvider;
     }
   },

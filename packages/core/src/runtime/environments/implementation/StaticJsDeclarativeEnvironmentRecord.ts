@@ -8,18 +8,33 @@ import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js"
 
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
+interface DeclarativeBinding {
+  readonly name: string;
+  readonly isMutable: boolean;
+  readonly isStrict: boolean;
+  readonly isDeletable: boolean;
+  value: StaticJsValue | null;
+}
 export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static from(context: EvaluationContext) {
     return new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, context.realm);
   }
 
-  private readonly _bindings: Map<string, DeclarativeEnvironmentBinding> = new Map();
+  private readonly _bindings: Map<string, DeclarativeBinding> = new Map();
 
   constructor(
     outerEnv: StaticJsEnvironmentRecord | null,
     protected readonly _realm: StaticJsRealm,
   ) {
     super(outerEnv);
+  }
+
+  *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
+    const result: Record<string, StaticJsValue | null> = {};
+    for (const [name, binding] of this._bindings.entries()) {
+      result[name] = binding.value;
+    }
+    return result;
   }
 
   *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
@@ -35,7 +50,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       );
     }
 
-    return binding.isInitialized;
+    return binding.value !== null;
   }
 
   *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
@@ -47,20 +62,36 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       );
     }
 
-    yield* binding.initialize(value);
+    if (binding.value) {
+      throw new Error(`Cannot initialize binding ${name}: Already initialized`);
+    }
+
+    binding.value = value;
   }
 
-  *createMutableBindingEvaluator(name: string, deletable: boolean) {
+  *createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void> {
     yield* this._assertBindingNotDeclared(name);
 
-    this._bindings.set(name, new DeclarativeEnvironmentBinding(name, true, false, deletable, null));
+    this._bindings.set(name, {
+      name,
+      isMutable: true,
+      isStrict: false,
+      isDeletable: deletable,
+      value: null,
+    });
   }
 
   *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
     // TODO: Do we throw if not strict?
     yield* this._assertBindingNotDeclared(name);
 
-    this._bindings.set(name, new DeclarativeEnvironmentBinding(name, false, strict, false, null));
+    this._bindings.set(name, {
+      name,
+      isMutable: false,
+      isStrict: strict,
+      isDeletable: false,
+      value: null,
+    });
   }
 
   *setMutableBindingEvaluator(
@@ -83,13 +114,13 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       strict = true;
     }
 
-    if (!binding.isInitialized) {
+    if (!binding.value) {
       throw yield* Completion.Throw.create(
         "ReferenceError",
         `Cannot set value of uninitialized binding ${name}`,
       );
     } else if (binding.isMutable) {
-      yield* binding.set(value);
+      binding.value = value;
     } else if (strict) {
       throw yield* Completion.Throw.create("TypeError", `Assignment to constant variable`);
     }
@@ -101,7 +132,14 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       throw yield* Completion.Throw.create("ReferenceError", `${name} is not defined`);
     }
 
-    return yield* binding.get();
+    if (binding.value == null) {
+      throw yield* Completion.Throw.create(
+        "ReferenceError",
+        `Cannot get value of uninitialized binding ${name}`,
+      );
+    }
+
+    return binding.value;
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
@@ -141,54 +179,5 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
         `Identifier ${name} has already been declared`,
       );
     }
-  }
-}
-
-class DeclarativeEnvironmentBinding {
-  private _value: StaticJsValue | null;
-
-  constructor(
-    public readonly name: string,
-    public readonly isMutable: boolean,
-    public readonly isStrict: boolean,
-    public readonly isDeletable: boolean,
-    value: StaticJsValue | null,
-  ) {
-    this._value = value;
-  }
-
-  get isInitialized(): boolean {
-    return this._value !== null;
-  }
-
-  *initialize(value: StaticJsValue): EvaluationGenerator<void> {
-    if (this.isInitialized) {
-      throw new Error(`Cannot initialize binding ${this.name}: Already initialized`);
-    }
-
-    this._value = value;
-  }
-
-  *get(): EvaluationGenerator<StaticJsValue> {
-    if (this._value == null) {
-      throw yield* Completion.Throw.create(
-        "ReferenceError",
-        `Cannot get value of uninitialized binding ${this.name}`,
-      );
-    }
-
-    return this._value;
-  }
-
-  *set(value: StaticJsValue): EvaluationGenerator<void> {
-    if (!this.isMutable) {
-      throw new Error(`Cannot set value of immutable binding ${this.name}`);
-    }
-
-    this._value = value;
-  }
-
-  *delete(): EvaluationGenerator<void> {
-    throw new Error("Cannot delete bindings in declarative environments");
   }
 }

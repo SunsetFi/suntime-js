@@ -77,7 +77,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
   /**
    * Whether the task is currently evaluating code.
    */
-  private _isEntered: boolean = false;
+  private _enterDepth = 0;
 
   /**
    * The stack of evaluation contexts for the currently executing code.
@@ -107,11 +107,23 @@ export class EvaluationTask implements EvaluationContextStackProvider {
   }
 
   get entered() {
-    return this._isEntered;
+    return this._enterDepth;
   }
 
   get done() {
     return this._status === "fulfilled" || this._status === "rejected";
+  }
+
+  enter() {
+    this._assertIsRunning(this);
+    this._enterDepth++;
+  }
+
+  exit() {
+    if (this._enterDepth === 0) {
+      throw new StaticJsEngineError("Cannot exit evaluation context when not entered.");
+    }
+    this._enterDepth--;
   }
 
   pushContext(context: EvaluationContext): void {
@@ -200,7 +212,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
       this._calleeType,
       this._async,
       this._iterateTasks(),
-      this._scope,
+      this,
     );
 
     this._taskRunner(iterator);
@@ -217,7 +229,7 @@ export class EvaluationTask implements EvaluationContextStackProvider {
       this._calleeType,
       this._async,
       this._iterateTasks(),
-      this._scope,
+      this,
     );
 
     let rejection: unknown = undefined;
@@ -279,16 +291,6 @@ export class EvaluationTask implements EvaluationContextStackProvider {
 
     this._accept();
   }
-
-  private _scope = (cb: () => void) => {
-    this._assertIsRunning(this);
-    this._isEntered = true;
-    try {
-      EvaluationContext.withStackProvider(this, cb);
-    } finally {
-      this._isEntered = false;
-    }
-  };
 
   private _acceptMacrotask(value: unknown) {
     this._pendingCompletionValue = value;

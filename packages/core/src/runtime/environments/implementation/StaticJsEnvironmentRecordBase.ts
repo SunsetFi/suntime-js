@@ -9,6 +9,8 @@ export abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironme
     return this._outerEnv;
   }
 
+  abstract inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>>;
+
   abstract hasBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
   abstract createMutableBindingEvaluator(

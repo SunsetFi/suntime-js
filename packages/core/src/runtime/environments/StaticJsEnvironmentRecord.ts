@@ -4,6 +4,8 @@ import type { StaticJsValue } from "../types/StaticJsValue.js";
 export interface StaticJsEnvironmentRecord {
   get outerEnv(): StaticJsEnvironmentRecord | null;
 
+  inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>>;
+
   hasBindingEvaluator(name: string): EvaluationGenerator<boolean>;
 
   createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void>;

@@ -25,6 +25,17 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._objectRecord;
   }
 
+  *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
+    const inspectDeclarative = yield* this._declarativeRecord.inspectBindingsEvaluator();
+    const inspectObject = yield* this._objectRecord.inspectBindingsEvaluator();
+
+    // Declarative shadows global
+    return {
+      ...inspectObject,
+      ...inspectDeclarative,
+    };
+  }
+
   *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
     const hasDeclarativeBinding = yield* this._declarativeRecord.hasBindingEvaluator(name);
     if (hasDeclarativeBinding) {

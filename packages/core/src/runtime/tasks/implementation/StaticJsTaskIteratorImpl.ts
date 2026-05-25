@@ -4,13 +4,29 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
 import { StaticJsTaskCompletedError } from "../../../errors/StaticJsTaskCompletedError.js";
 import { evaluateCommands } from "../../../evaluator/evaluate-commands.js";
+import {
+  EvaluationContext,
+  EvaluationContextStackProvider,
+} from "../../../evaluator/EvaluationContext.js";
 import { invokeEvaluator, StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsFunctionEnvironmentRecord } from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
+import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
 import { StaticJsFunction } from "../../types/StaticJsFunction.js";
+import { StaticJsRunTaskOptions } from "../StaticJsRunTaskOptions.js";
 import { StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
 import { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
 import { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";
 import { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
+import {
+  StaticJsTaskScopeFrame,
+  StaticJsTaskScopeFrameType,
+  StaticJsTaskScopeVariable,
+} from "../StaticJsTaskScopeFrame.js";
 import { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
 import { StaticJsTaskType } from "../StaticJsTaskType.js";
 
@@ -25,7 +41,7 @@ type StaticJsTaskIteratorImplState = "running" | "done" | "aborted";
 
 const Unset = Symbol("Unset");
 
-interface TaskIteratorFrame {
+interface CapturedStackFrame {
   currentNode: Node | null;
   function: StaticJsFunction | null;
 }
@@ -37,14 +53,14 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   private _currentTaskId: number = 0;
   private _currentEvaluator: Generator<void, unknown, void> | null = null;
 
-  private readonly _frames: TaskIteratorFrame[] = [];
+  private readonly _frames: CapturedStackFrame[] = [];
   private _currentNode: Node | null = null;
 
   constructor(
     private readonly _calleeType: StaticJsTaskCalleeType,
     private readonly _async: boolean,
     private readonly _taskIterator: Iterator<StaticJsIteratedTask>,
-    private readonly _scope: (callback: () => void) => void,
+    private readonly _stackProvider: EvaluationContextStackProvider,
   ) {
     // We start in the running state, so the values of the current operation are
     // populated immediately.
@@ -100,8 +116,11 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   }
 
   get stack(): readonly StaticJsTaskIteratorStackFrame[] {
-    const frameLength = this._frames.length;
-    return this._frames.map((frame, index) => frameToIteratorFrame(frame, frameLength - index));
+    return this._captureStackFrames();
+  }
+
+  get scopes(): readonly StaticJsTaskScopeFrame[] {
+    return this._captureScopeFrames();
   }
 
   next() {
@@ -176,25 +195,23 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
   }
 
   private _tick(err: unknown = Unset): IteratorResult<void, void> {
-    this._scope(() => {
+    // This can be changed and reset by _processIterResult
+    if (!this._currentEvaluator) {
+      this._currentEvaluator = this._createEvaluatorFromTask(this._currentTask!);
+    }
+
+    return EvaluationContext.withStackProvider(this._stackProvider, () => {
       let result: IteratorResult<void, unknown>;
       try {
-        // This can be changed and reset by _processIterResult
-        if (!this._currentEvaluator) {
-          this._currentEvaluator = this._createEvaluatorFromTask(this._currentTask!);
-        }
-
         if (err !== Unset) {
-          result = this._currentEvaluator.throw(err);
+          result = this._currentEvaluator!.throw(err);
         } else {
-          result = this._currentEvaluator.next();
+          result = this._currentEvaluator!.next();
         }
       } catch (e) {
         this._reject(e);
-        return;
+        return { done: true, value: undefined };
       }
-
-      err = Unset;
 
       const { done, value } = result;
       if (done) {
@@ -202,19 +219,15 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
 
         if (!this._nextTask()) {
           this._state = "done";
+          return { done: true, value: undefined };
         }
       }
+
+      return {
+        done: false,
+        value: undefined,
+      };
     });
-
-    // State can change from the above.
-    // Typescript does not know this.
-    const state = this._state as StaticJsTaskIteratorImplState;
-    const done = state === "done" || state === "aborted";
-
-    return {
-      done,
-      value: undefined,
-    };
   }
 
   private _nextTask() {
@@ -262,10 +275,31 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     this._currentEvaluator = null;
     this._currentTaskId = -1;
   }
+
+  private _captureStackFrames(): readonly StaticJsTaskIteratorStackFrame[] {
+    const frameLength = this._frames.length;
+    return this._frames.map((frame, index) => frameToIteratorFrame(frame, frameLength - index));
+  }
+
+  private _captureScopeFrames(): readonly StaticJsTaskScopeFrame[] {
+    const context = this._stackProvider.getCurrentContext();
+    if (!context) {
+      return [];
+    }
+
+    const frames: StaticJsTaskScopeFrame[] = [];
+    let currentEnv: StaticJsEnvironmentRecord | null = context.lexicalEnv;
+    while (currentEnv) {
+      const frame = environmentRecordToTaskScopeFrame(currentEnv, context);
+      frames.push(frame);
+      currentEnv = currentEnv.outerEnv ?? null;
+    }
+    return frames;
+  }
 }
 
 function frameToIteratorFrame(
-  frame: TaskIteratorFrame,
+  frame: CapturedStackFrame,
   depth: number,
 ): StaticJsTaskIteratorStackFrame {
   const { function: func, currentNode } = frame;
@@ -279,6 +313,53 @@ function frameToIteratorFrame(
 
       return captureLocation(currentNode);
     },
+  };
+}
+
+function environmentRecordToTaskScopeFrame(
+  env: StaticJsEnvironmentRecord,
+  context: EvaluationContext,
+): StaticJsTaskScopeFrame {
+  let name: string;
+  let type: StaticJsTaskScopeFrameType;
+
+  if (env instanceof StaticJsFunctionEnvironmentRecord) {
+    name = env.functionObject.initialName ?? "<anonymous>";
+    type = "function";
+  } else if (env instanceof StaticJsDeclarativeEnvironmentRecord) {
+    name = "<block>";
+    type = "block";
+  } else if (env instanceof StaticJsObjectEnvironmentRecord) {
+    name = "<object>";
+    type = "block";
+  } else if (env instanceof StaticJsGlobalEnvironmentRecord) {
+    name = "<global>";
+    type = "global";
+  } else if (env instanceof StaticJsModuleEnvironmentRecord) {
+    if (context.scriptOrModule?.type === "module") {
+      const moduleName = context.scriptOrModule.module.name;
+      name = `${moduleName} [module]`;
+    } else {
+      name = "<module>";
+    }
+    type = "module";
+  } else {
+    throw new StaticJsEngineError(`Unknown environment record type: ${env.constructor.name}`);
+  }
+
+  function getVariables(opts?: StaticJsRunTaskOptions): StaticJsTaskScopeVariable[] {
+    const bindings = context.realm.invokeEvaluatorSync(() => env.inspectBindingsEvaluator(), opts);
+    const results: StaticJsTaskScopeVariable[] = [];
+    for (const [name, value] of Object.entries(bindings)) {
+      results.push({ name, value });
+    }
+    return results;
+  }
+
+  return {
+    name,
+    type,
+    getVariables,
   };
 }
 

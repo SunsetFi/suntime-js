@@ -5,6 +5,7 @@ import { set } from "../../algorithms/set.js";
 import { toBoolean } from "../../algorithms/to-boolean.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { isStaticJsObject, type StaticJsObject } from "../../types/StaticJsObject.js";
+import { isStaticJsSymbol } from "../../types/StaticJsSymbol.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
@@ -22,6 +23,29 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
 
   get bindingObject(): StaticJsObject {
     return this._obj;
+  }
+
+  *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
+    const result: Record<string, StaticJsValue | null> = {};
+
+    // Object env records share ALL keys
+    let obj: StaticJsObject | null = this._obj;
+    while (obj) {
+      const props = yield* obj.ownPropertyKeysEvaluator();
+      for (const prop of props) {
+        if (isStaticJsSymbol(prop)) {
+          continue;
+        }
+
+        if (!(prop in result)) {
+          result[prop] = yield* get(obj, prop);
+        }
+      }
+
+      obj = yield* obj.getPrototypeOfEvaluator();
+    }
+
+    return result;
   }
 
   *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
