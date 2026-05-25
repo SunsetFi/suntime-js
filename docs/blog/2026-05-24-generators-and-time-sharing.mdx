@@ -57,6 +57,10 @@ while (true) {
 }
 ```
 
+:::tip
+If you've only ever known for-of as "that thing that works with arrays", you may be suprised to learn that quite a few modern JavaScript builtins work with it. You can even add support for your own objects! Check out [Symbol.iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator#description) for more info.
+:::
+
 One other facet of generators is that they can have return values like any other. Although where their return value ends up is a bit counterintuitive at first:
 
 ```ts live-staticjs
