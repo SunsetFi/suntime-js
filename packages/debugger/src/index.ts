@@ -22,4 +22,6 @@ export type { StaticJsDebugSessionState } from "./session/StaticJsDebugSessionSt
 export type { StaticJsDebugStopReason } from "./session/StaticJsDebugStopReason.js";
 
 export type { StaticJsDebugFrame } from "./stack/StaticJsDebugFrame.js";
+export type { StaticJsDebugScope } from "./stack/StaticJsDebugScope.js";
 export type { StaticJsDebugSnapshot } from "./stack/StaticJsDebugSnapshot.js";
+export type { StaticJsDebugVariable } from "./stack/StaticJsDebugVariable.js";

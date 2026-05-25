@@ -5,8 +5,10 @@ import { StaticJsDebugAdapterErrorCode } from "../adapter/StaticJsDebugAdapterEr
 import type { NormalizedStaticJsLaunchRequestArguments } from "../adapter/types/NormalizedStaticJsLaunchRequestArguments.js";
 import type { StaticJsLaunchRequestArguments } from "../adapter/types/StaticJsLaunchRequestArguments.js";
 import { toDapBreakpoint } from "../dap/toDapBreakpoint.js";
+import { toDapScope } from "../dap/toDapScope.js";
 import { toDapStackFrame } from "../dap/toDapStackFrame.js";
 import { toDapStoppedEvent } from "../dap/toDapStoppedEvent.js";
+import { toDapVariable } from "../dap/toDapVariable.js";
 import {
   createAdapterSession,
   type CreatedAdapterSession,
@@ -75,18 +77,10 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
         this._handleStackTraceRequest(request);
         return;
       case "scopes":
-        this._emitNotSupported(
-          request,
-          StaticJsDebugAdapterErrorCode.UnsupportedScopes,
-          "scopes are",
-        );
+        this._handleScopesRequest(request);
         return;
       case "variables":
-        this._emitNotSupported(
-          request,
-          StaticJsDebugAdapterErrorCode.UnsupportedVariables,
-          "variables are",
-        );
+        this._handleVariablesRequest(request);
         return;
       case "evaluate":
         this._emitNotSupported(
@@ -206,6 +200,22 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
     this._messageBus.emitResponse<DebugProtocol.StackTraceResponse>(request, {
       stackFrames: frames.map((frame, index) => toDapStackFrame(frame, index + 1)),
       totalFrames: frames.length,
+    });
+  }
+
+  private _handleScopesRequest(request: DebugProtocol.Request): void {
+    const args = request.arguments as DebugProtocol.ScopesArguments;
+    const scopes = this._sessionState.debugSession?.getScopes(args.frameId) ?? [];
+    this._messageBus.emitResponse<DebugProtocol.ScopesResponse>(request, {
+      scopes: scopes.map(toDapScope),
+    });
+  }
+
+  private _handleVariablesRequest(request: DebugProtocol.Request): void {
+    const args = request.arguments as DebugProtocol.VariablesArguments;
+    const variables = this._sessionState.debugSession?.getVariables(args.variablesReference) ?? [];
+    this._messageBus.emitResponse<DebugProtocol.VariablesResponse>(request, {
+      variables: variables.map(toDapVariable),
     });
   }
 

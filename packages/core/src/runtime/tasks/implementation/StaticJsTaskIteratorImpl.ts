@@ -327,13 +327,13 @@ function environmentRecordToTaskScopeFrame(
     name = env.functionObject.initialName ?? "<anonymous>";
     type = "function";
   } else if (env instanceof StaticJsDeclarativeEnvironmentRecord) {
-    name = "<block>";
+    name = "Block";
     type = "block";
   } else if (env instanceof StaticJsObjectEnvironmentRecord) {
-    name = "<object>";
+    name = "Object";
     type = "block";
   } else if (env instanceof StaticJsGlobalEnvironmentRecord) {
-    name = "<global>";
+    name = "Global";
     type = "global";
   } else if (env instanceof StaticJsModuleEnvironmentRecord) {
     if (context.scriptOrModule?.type === "module") {

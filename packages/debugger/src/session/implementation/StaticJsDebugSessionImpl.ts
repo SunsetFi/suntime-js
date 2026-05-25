@@ -7,6 +7,8 @@ import {
   StaticJsTaskIterator,
   StaticJsTaskRunner,
   StaticJsTaskIteratorStackFrame,
+  StaticJsTaskScopeFrame,
+  StaticJsValue,
   isStaticJsScalar,
 } from "@suntime-js/core";
 
@@ -23,7 +25,9 @@ import { StaticJsDebugStopEvent } from "../../events/StaticJsDebugStopEvent.js";
 import { StaticJsDebugTerminateEvent } from "../../events/StaticJsDebugTerminateEvent.js";
 
 import { StaticJsDebugFrame } from "../../stack/StaticJsDebugFrame.js";
+import { StaticJsDebugScope } from "../../stack/StaticJsDebugScope.js";
 import { StaticJsDebugSnapshot } from "../../stack/StaticJsDebugSnapshot.js";
+import { StaticJsDebugVariable } from "../../stack/StaticJsDebugVariable.js";
 
 import { StaticJsDebugSession } from "../StaticJsDebugSession.js";
 import {
@@ -66,6 +70,9 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
   private _activeTask: StaticJsTaskIterator | null = null;
   private _lastStopEvent: StaticJsDebugStopEvent | null = null;
+
+  private _variablesRefMap = new Map<number, StaticJsTaskScopeFrame>();
+  private _nextVarRef = 1;
 
   private _activeStepMode: StepMode | null = null;
   private _activeStepFrame: StaticJsTaskIteratorStackFrame | null = null;
@@ -210,6 +217,37 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
 
     return task.stack.map((frame) => this._taskFrameToDebugFrame(frame));
+  }
+
+  getScopes(frameId: number): StaticJsDebugScope[] {
+    if (frameId !== 1 || !this._activeTask) {
+      return [];
+    }
+
+    return this._activeTask.scopes.map((scope) => {
+      const ref = this._nextVarRef++;
+      this._variablesRefMap.set(ref, scope);
+      return {
+        name: scope.name,
+        type: scope.type,
+        variablesReference: ref,
+        expensive: scope.type === "global",
+      };
+    });
+  }
+
+  getVariables(variablesReference: number): StaticJsDebugVariable[] {
+    const scope = this._variablesRefMap.get(variablesReference);
+    if (!scope) {
+      return [];
+    }
+
+    return scope.getVariables({ runTask: debugTaskIterator }).map(({ name, value }) => ({
+      name,
+      value: formatStaticJsValue(value),
+      type: value?.runtimeTypeOf ?? "undefined",
+      variablesReference: 0,
+    }));
   }
 
   waitForStop(): Promise<StaticJsDebugStopEvent> {
@@ -360,6 +398,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
 
     this._lastStopEvent = null;
+    this._variablesRefMap.clear();
     this._setState("running");
 
     let stopped = false;
@@ -424,6 +463,9 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       },
       get stack() {
         return task.stack;
+      },
+      get scopes() {
+        return task.scopes;
       },
       next: () => {
         return iterate(task.next());
@@ -674,6 +716,23 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       line: frame.sourceLocation?.line ?? 0,
       column: frame.sourceLocation?.column ?? 0,
     };
+  }
+}
+
+function formatStaticJsValue(value: StaticJsValue | null): string {
+  if (value === null) {
+    return "<uninitialized>";
+  }
+  if (isStaticJsScalar(value)) {
+    return String(value.value);
+  }
+  switch (value.runtimeTypeOf) {
+    case "array":
+      return "Array";
+    case "function":
+      return "[Function]";
+    default:
+      return "Object";
   }
 }
 

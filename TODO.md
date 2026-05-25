@@ -21,8 +21,7 @@
 - [+] Get promises returned to proxied functions to await properly in the sandbox.
   This should be happening automatically due to the .then function, but isn't
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
-
-- `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
+- [ ] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
 
 ### Implement More
 
@@ -42,6 +41,7 @@
 - [ ] Rework modules for spec compliance
   - [ ] EvaluateModuleSync
   - [ ] CyclicModuleRecord
+  - [ ] Modules have getOwnBindingValueEvaluator, which is okay for our stub modules, but the spec expects a DeclarativeEnvironmentRecord.
 
 ### Debugger improvements
 

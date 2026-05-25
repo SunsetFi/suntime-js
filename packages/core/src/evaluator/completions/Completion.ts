@@ -99,6 +99,12 @@ export namespace Completion {
     return value;
   }
 
+  export function unhandled(value: AbruptCompletion): never {
+    throw new StaticJsEngineError(
+      `Unhandled ${value.constructor.name} completion with value ${nameCompletionValue(value.value)}.`,
+    );
+  }
+
   export function handleRuntime(value: unknown): void {
     ControlFlowCompletion.handleRuntime(value);
     ThrowCompletion.handleRuntime(value);

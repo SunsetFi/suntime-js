@@ -7,7 +7,9 @@ import type { StaticJsDebugStartEvent } from "../events/StaticJsDebugStartEvent.
 import type { StaticJsDebugStopEvent } from "../events/StaticJsDebugStopEvent.js";
 import type { StaticJsDebugTerminateEvent } from "../events/StaticJsDebugTerminateEvent.js";
 import type { StaticJsDebugFrame } from "../stack/StaticJsDebugFrame.js";
+import type { StaticJsDebugScope } from "../stack/StaticJsDebugScope.js";
 import type { StaticJsDebugSnapshot } from "../stack/StaticJsDebugSnapshot.js";
+import type { StaticJsDebugVariable } from "../stack/StaticJsDebugVariable.js";
 import type { StaticJsDebugSessionState } from "./StaticJsDebugSessionState.js";
 
 export interface StaticJsDebugSession {
@@ -41,6 +43,8 @@ export interface StaticJsDebugSession {
 
   getSnapshot(): StaticJsDebugSnapshot | null;
   getStack(): readonly StaticJsDebugFrame[];
+  getScopes(frameId: number): StaticJsDebugScope[];
+  getVariables(variablesReference: number): StaticJsDebugVariable[];
   waitForStop(): Promise<StaticJsDebugStopEvent>;
 
   onDidStart(listener: (event: StaticJsDebugStartEvent) => void): () => void;

@@ -275,4 +275,93 @@ describe("createStaticJsWebDebugAdapter", () => {
     const stackTrace = await session.requestStackTrace();
     expect(stackTrace.body?.stackFrames[0]?.line).toBe(2);
   });
+
+  describe("scopes and variables", () => {
+    it("returns scopes for the top frame when paused", async () => {
+      const session = createSession();
+
+      await session.initialize();
+      await session.launchStoppedScript(
+        createScriptLaunchArgs({
+          sourceName: "staticjs:///script/scopes-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+        }),
+      );
+
+      const stackTrace = await session.requestStackTrace();
+      const frameId = stackTrace.body.stackFrames[0]!.id;
+      const scopesResponse = await session.requestScopes(frameId);
+
+      expect(scopesResponse.success).toBe(true);
+      expect(scopesResponse.body.scopes.length).toBeGreaterThan(0);
+    });
+
+    it("includes a global scope marked expensive for script execution", async () => {
+      const session = createSession();
+
+      await session.initialize();
+      await session.launchStoppedScript(
+        createScriptLaunchArgs({
+          sourceName: "staticjs:///script/scopes-global-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+        }),
+      );
+
+      const stackTrace = await session.requestStackTrace();
+      const frameId = stackTrace.body.stackFrames[0]!.id;
+      const scopesResponse = await session.requestScopes(frameId);
+
+      const globalScope = scopesResponse.body.scopes.find((s) => s.presentationHint === "globals");
+      expect(globalScope).toBeDefined();
+      expect(globalScope!.expensive).toBe(true);
+    });
+
+    it("returns variables for a scope's variablesReference", async () => {
+      const session = createSession();
+
+      await session.initialize();
+      await session.launchStoppedScript(
+        createScriptLaunchArgs({
+          sourceName: "staticjs:///script/vars-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+        }),
+      );
+
+      // Step past `const a = 42` so it is in scope.
+      const nextSeq = session.sendRequest("next", { threadId: MAIN_THREAD_ID });
+      await session.collector.waitFor(isResponse("next", nextSeq));
+      await session.collector.waitFor(isStoppedEvent("step"));
+
+      const stackTrace = await session.requestStackTrace();
+      const frameId = stackTrace.body.stackFrames[0]!.id;
+      const scopesResponse = await session.requestScopes(frameId);
+
+      const globalScope = scopesResponse.body.scopes.find((s) => s.presentationHint === "globals");
+      expect(globalScope).toBeDefined();
+
+      const variablesResponse = await session.requestVariables(globalScope!.variablesReference);
+      expect(variablesResponse.success).toBe(true);
+
+      const varA = variablesResponse.body.variables.find((v) => v.name === "a");
+      expect(varA).toBeDefined();
+      expect(varA!.value).toBe("42");
+    });
+
+    it("returns success with empty variables for an unknown variablesReference", async () => {
+      const session = createSession();
+
+      await session.initialize();
+      await session.launchStoppedScript(
+        createScriptLaunchArgs({
+          sourceName: "staticjs:///script/vars-unknown-test.js",
+          sourceText: "const a = 42;",
+        }),
+      );
+
+      const variablesResponse = await session.requestVariables(9999);
+
+      expect(variablesResponse.success).toBe(true);
+      expect(variablesResponse.body.variables).toHaveLength(0);
+    });
+  });
 });

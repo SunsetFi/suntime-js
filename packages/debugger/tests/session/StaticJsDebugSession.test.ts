@@ -747,6 +747,7 @@ describe("StaticJsDebugSession", () => {
           return done ? null : fakeLocation;
         },
         stack: [],
+        scopes: [],
         next() {
           done = true;
           return { value: undefined, done: true };
@@ -827,6 +828,170 @@ describe("StaticJsDebugSession", () => {
       await session.startAndWait();
 
       expect(terminateReason).toBe("complete");
+    });
+  });
+
+  describe("scopes and variables", () => {
+    it("returns at least one scope frame when paused", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "scopes-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      expect(session.getScopes(1).length).toBeGreaterThan(0);
+    });
+
+    it("returns empty scopes for a nonexistent frame id", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "scopes-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      expect(session.getScopes(999)).toHaveLength(0);
+    });
+
+    it("includes a global scope for script execution", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "scopes-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      expect(scopes.some((s) => s.type === "global")).toBe(true);
+    });
+
+    it("includes a function scope when paused inside a function", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "scopes-fn-test.js",
+          sourceText: [
+            "function foo(x) {",
+            "  const y = x + 1;",
+            "  return y;",
+            "}",
+            "foo(5);",
+          ].join("\n"),
+          breakpoints: [{ sourceName: "scopes-fn-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      expect(scopes.some((s) => s.type === "function")).toBe(true);
+    });
+
+    it("returns variables for a scope via variablesReference", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "vars-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+          breakpoints: [{ sourceName: "vars-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const globalScope = scopes.find((s) => s.type === "global")!;
+      expect(globalScope).toBeDefined();
+
+      const variables = session.getVariables(globalScope.variablesReference);
+      const varA = variables.find((v) => v.name === "a");
+      expect(varA).toBeDefined();
+      expect(varA!.value).toBe("42");
+    });
+
+    it("invalidates variablesReferences after resuming", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "vars-invalidate-test.js",
+          sourceText: "const a = 42;\nconst b = 99;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopesBeforeStep = session.getScopes(1);
+      const refBeforeStep = scopesBeforeStep[0]!.variablesReference;
+      expect(session.getVariables(refBeforeStep).length).toBeGreaterThan(0);
+
+      await session.stepOverAndWait();
+
+      expect(session.getVariables(refBeforeStep)).toHaveLength(0);
+    });
+
+    it("returns empty variables for an unknown variablesReference", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "vars-test.js",
+          sourceText: "const a = 42;",
+          stopOnEntry: true,
+        },
+      });
+
+      await session.startAndWait();
+
+      expect(session.getVariables(9999)).toHaveLength(0);
+    });
+
+    it("shows function-scoped parameters when paused inside a function", async () => {
+      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const session = debuggerInstance.createSession({
+        launch: {
+          sourceKind: "script",
+          sourceName: "fn-params-test.js",
+          sourceText: [
+            "function foo(x) {",
+            "  const y = x + 1;",
+            "  return y;",
+            "}",
+            "foo(5);",
+          ].join("\n"),
+          breakpoints: [{ sourceName: "fn-params-test.js", line: 2 }],
+        },
+      });
+
+      await session.startAndWait();
+
+      const scopes = session.getScopes(1);
+      const fnScope = scopes.find((s) => s.type === "function")!;
+      expect(fnScope).toBeDefined();
+
+      const variables = session.getVariables(fnScope.variablesReference);
+      const paramX = variables.find((v) => v.name === "x");
+      expect(paramX).toBeDefined();
+      expect(paramX!.value).toBe("5");
     });
   });
 });

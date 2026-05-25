@@ -113,6 +113,8 @@ export interface WebAdapterTestSession {
     launchArgs: StaticJsLaunchRequestArguments,
   ): Promise<DebugProtocol.StoppedEvent>;
   requestStackTrace(threadId?: number): Promise<DebugProtocol.StackTraceResponse>;
+  requestScopes(frameId: number): Promise<DebugProtocol.ScopesResponse>;
+  requestVariables(variablesReference: number): Promise<DebugProtocol.VariablesResponse>;
 }
 
 export function createWebAdapterTestSession(
@@ -161,6 +163,18 @@ export function createWebAdapterTestSession(
       return collector.waitFor(
         isResponse("stackTrace", requestSeq),
       ) as Promise<DebugProtocol.StackTraceResponse>;
+    },
+    async requestScopes(frameId: number): Promise<DebugProtocol.ScopesResponse> {
+      const requestSeq = sendRequest("scopes", { frameId });
+      return collector.waitFor(
+        isResponse("scopes", requestSeq),
+      ) as Promise<DebugProtocol.ScopesResponse>;
+    },
+    async requestVariables(variablesReference: number): Promise<DebugProtocol.VariablesResponse> {
+      const requestSeq = sendRequest("variables", { variablesReference });
+      return collector.waitFor(
+        isResponse("variables", requestSeq),
+      ) as Promise<DebugProtocol.VariablesResponse>;
     },
   };
 }

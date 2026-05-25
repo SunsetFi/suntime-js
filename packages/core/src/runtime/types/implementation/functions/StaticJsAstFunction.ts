@@ -12,6 +12,7 @@ import {
   isRestElement,
   isExpression,
   StaticBlock,
+  isBlockStatement,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
@@ -25,6 +26,7 @@ import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
+import evaluateStatementList from "../../../../evaluator/node-evaluators/StatementList.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import { asyncFunctionStart } from "../../../algorithms/async-function-start.js";
 import { call } from "../../../algorithms/call.js";
@@ -383,15 +385,13 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     yield* functionDeclarationInstantiation(this, args);
 
-    try {
-      yield* Q(EvaluateNodeCommand(node.body));
+    const completion = yield* this._evaluateFunctionBodyNode(node.body);
+    if (Completion.Return.is(completion) || Completion.Throw.is(completion)) {
+      return completion;
+    } else if (Completion.Abrupt.is(completion)) {
+      Completion.unhandled(completion);
+    } else {
       return Completion.Return(realm.types.undefined);
-    } catch (e) {
-      if (Completion.Return.is(e)) {
-        return e;
-      } else {
-        throw e;
-      }
     }
   }
 
@@ -407,7 +407,8 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     if (Completion.Abrupt.is(completion)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [Completion.value(completion)]);
     } else {
-      yield* asyncFunctionStart(promiseCapability, node.body);
+      const evaluator = this._evaluateFunctionBodyNode(node.body);
+      yield* asyncFunctionStart(promiseCapability, evaluator);
     }
     return Completion.Return(promiseCapability.promise);
   }
@@ -422,8 +423,8 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     yield* functionDeclarationInstantiation(this, args);
 
     const proto = yield* getPrototypeFromConstructor(this, "AsyncGeneratorPrototype");
-
-    const generator = new StaticJsAsyncGeneratorImpl(node.body, null, realm, proto);
+    const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
+    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm, proto);
     return Completion.Return(generator);
   }
 
@@ -436,7 +437,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     // it looks like errors thrown during argument initialization are not caught by the generator, so we don't need to catch them here.
     yield* functionDeclarationInstantiation(this, args);
 
-    const evaluator = Q(EvaluateNodeCommand(node.body));
+    const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
 
     const proto = yield* getPrototypeFromConstructor(this, "GeneratorPrototype");
     const generator = new StaticJsGeneratorImpl(evaluator, null, realm, proto);
@@ -514,6 +515,24 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     yield* functionDeclarationInstantiation(this, []);
     yield* Q(EvaluateNodeCommand(node));
     return Completion.Return(this.realm.types.undefined);
+  }
+
+  private *_evaluateFunctionBodyNode(node: Function["body"]): EvaluationGenerator<Completion> {
+    try {
+      if (isBlockStatement(node)) {
+        // We need to bypass BlockStatement as it will re-declare its variables in a new environment.
+        yield* Q(evaluateStatementList(node.body));
+      } else {
+        yield* Q(EvaluateNodeCommand(node));
+      }
+      return null;
+    } catch (e) {
+      if (Completion.Abrupt.is(e)) {
+        return e;
+      }
+
+      throw e;
+    }
   }
 
   protected *_ordinaryCallBindThis(
