@@ -1,6 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 
 import { StaticJsRealm, StaticJsTaskIterator } from "../../../src/index.js";
+import {
+  StaticJsDataPropertyDescriptor,
+  StaticJsPropertyDescriptor,
+} from "../../../src/runtime/types/StaticJsPropertyDescriptor.js";
 
 function drainTask(task: StaticJsTaskIterator) {
   while (!task.done) {
@@ -232,7 +236,8 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
       const val = realm.types.number(42);
       const obj = realm.types.object({ x: { value: val, enumerable: true, writable: true } });
       const desc = await obj.getPropertyAsync("x");
-      expect(desc).toMatchObject({ value: val });
+      expectDataPropertyDescriptor(desc);
+      expect(desc.value).toBe(val);
     });
 
     it("getPropertySync returns the descriptor for an own property", () => {
@@ -240,7 +245,8 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
       const val = realm.types.number(42);
       const obj = realm.types.object({ x: { value: val, enumerable: true, writable: true } });
       const desc = obj.getPropertySync("x");
-      expect(desc).toMatchObject({ value: val });
+      expectDataPropertyDescriptor(desc);
+      expect(desc.value).toBe(val);
     });
 
     it("getPropertyAsync returns the descriptor from the prototype chain", async () => {
@@ -249,7 +255,8 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
       const proto = realm.types.object({ y: { value: val } });
       const obj = realm.types.object(undefined, proto);
       const desc = await obj.getPropertyAsync("y");
-      expect(desc).toMatchObject({ value: val });
+      expectDataPropertyDescriptor(desc);
+      expect(desc.value).toBe(val);
     });
 
     it("getPropertyAsync returns undefined for missing properties", async () => {
@@ -265,7 +272,8 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
       const val = realm.types.number(99);
       const obj = realm.types.object({ z: { value: val } });
       const desc = await obj.getOwnPropertyAsync("z");
-      expect(desc).toMatchObject({ value: val });
+      expectDataPropertyDescriptor(desc);
+      expect(desc.value).toBe(val);
     });
 
     it("getOwnPropertySync returns the descriptor for own property", () => {
@@ -273,7 +281,8 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
       const val = realm.types.number(99);
       const obj = realm.types.object({ z: { value: val } });
       const desc = obj.getOwnPropertySync("z");
-      expect(desc).toMatchObject({ value: val });
+      expectDataPropertyDescriptor(desc);
+      expect(desc.value).toBe(val);
     });
 
     it("getOwnPropertyAsync returns undefined for inherited properties", async () => {
@@ -547,3 +556,10 @@ describe("E2E: StaticJsObject API (realm.types.object())", () => {
     });
   });
 });
+
+function expectDataPropertyDescriptor(
+  desc: StaticJsPropertyDescriptor | undefined,
+): asserts desc is StaticJsDataPropertyDescriptor {
+  expect(desc).not.toBeUndefined();
+  expect("value" in desc!).toBe(true);
+}
