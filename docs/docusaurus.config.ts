@@ -143,7 +143,30 @@ function processEnvDefinePlugin() {
       const { DefinePlugin } = utils.currentBundler.instance;
       return {
         plugins: [new DefinePlugin({ "process.env": JSON.stringify({}) })],
+        resolve: {
+          // When workspace packages are resolved via their "development" export
+          // condition (./src/index.ts), their internal imports use .js extensions
+          // as required by TypeScript ESM. Teach webpack to try .ts/.tsx first.
+          extensionAlias: {
+            ".js": [".ts", ".tsx", ".js"],
+          },
+        },
       };
     },
   };
 }
+
+// function pathAliasPlugin() {
+//   return {
+//     name: "path-alias",
+//     configureWebpack() {
+//       return {
+//         resolve: {
+//           alias: {
+//             "@site": path.resolve(__dirname, "src"),
+//           },
+//         },
+//       };
+//     },
+//   };
+// }

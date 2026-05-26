@@ -5,8 +5,12 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "types": [],
+    "lib": ["ESNext", "dom"],
     "baseUrl": ".",
     "ignoreDeprecations": "6.0",
+    "paths": {
+      "@site/*": ["./*"]
+    },
     "strict": true
   },
   "exclude": [".docusaurus", "build", "static/playground-embed"]

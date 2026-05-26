@@ -1,22 +1,27 @@
+import { CodeRuntimeLog, CodeRuntimeStatus } from "@site/src/code-runtime/CodeRuntime";
 import React, { type ReactNode } from "react";
 
 import styles from "./styles.module.css";
 
-export interface OutputLine {
-  kind: "log" | "return" | "error";
-  text: string;
-}
-
 interface OutputPanelProps {
-  lines: OutputLine[];
-  status: "idle" | "running" | "completed" | "stopped" | "errored";
+  log: CodeRuntimeLog[];
+  status: CodeRuntimeStatus;
   onRun: () => void;
   onStop: () => void;
+  onPause: () => void;
+  onResume: () => void;
+  onStep: () => void;
 }
 
-export default function OutputPanel({ lines, status, onRun, onStop }: OutputPanelProps): ReactNode {
-  const isRunning = status === "running";
-
+export default function OutputPanel({
+  log: lines,
+  status,
+  onRun,
+  onStop,
+  onPause,
+  onResume,
+  onStep,
+}: OutputPanelProps): ReactNode {
   const outputRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     if (outputRef.current) {
@@ -27,11 +32,30 @@ export default function OutputPanel({ lines, status, onRun, onStop }: OutputPane
   return (
     <div className={styles.outputPanel}>
       <div className={styles.toolbar}>
-        {isRunning ? (
-          <button className={styles.stopButton} onClick={onStop}>
-            Stop
-          </button>
-        ) : (
+        {status === "running" && (
+          <>
+            <button className={styles.pauseButton} onClick={onPause}>
+              Pause
+            </button>
+            <button className={styles.stopButton} onClick={onStop}>
+              Stop
+            </button>
+          </>
+        )}
+        {status === "paused" && (
+          <>
+            <button className={styles.resumeButton} onClick={onResume}>
+              Resume
+            </button>
+            <button className={styles.stepButton} onClick={onStep}>
+              Step
+            </button>
+            <button className={styles.stopButton} onClick={onStop}>
+              Stop
+            </button>
+          </>
+        )}
+        {(status === "idle" || status === "completed" || status === "errored") && (
           <button className={styles.runButton} onClick={onRun}>
             Run
           </button>
