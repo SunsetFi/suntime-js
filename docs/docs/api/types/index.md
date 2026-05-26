@@ -129,7 +129,7 @@ StaticJsScalar = StaticJsString | StaticJsNumber | StaticJsBoolean
 | [StaticJsPrimitive](./primitive.md)            | [isStaticJsPrimitive](./primitive.md#isstaticjsprimitivevalue)                 | —                                                            |
 | [StaticJsScalar](./scalar.md)                  | [isStaticJsScalar](./scalar.md#isstaticjsscalarvalue)                          | `string \| number \| boolean \| null \| undefined \| symbol` |
 | [StaticJsObject](./object.md)                  | [isStaticJsObject](./object.md#isstaticjsobjectvalue)                          | —                                                            |
-| [StaticJsCallable](./function.md)              | [isStaticJsCallable](./function.md#isstaticjscallable)                         | —                                                            |
+| [StaticJsCallable](./function.mdx)             | [isStaticJsCallable](./function.mdx#isstaticjscallable)                        | —                                                            |
 | [StaticJsString](./string.md)                  | [isStaticJsString](./string.md#isstaticjsstringvalue)                          | `string`                                                     |
 | [StaticJsNumber](./number.md)                  | [isStaticJsNumber](./number.md#isstaticjsnumbervalue)                          | `number`                                                     |
 | [StaticJsBoolean](./boolean.md)                | [isStaticJsBoolean](./boolean.md#isstaticjsbooleanvalue)                       | `boolean`                                                    |
@@ -138,7 +138,7 @@ StaticJsScalar = StaticJsString | StaticJsNumber | StaticJsBoolean
 | [StaticJsSymbol](./symbol.md)                  | [isStaticJsSymbol](./symbol.md#isstaticjssymbolvalue)                          | `symbol`                                                     |
 | [StaticJsPlainObject](./plain-object.md)       | [isStaticJsPlainObject](./plain-object.md#isstaticjsplainobjectvalue)          | —                                                            |
 | [StaticJsArray](./array.md)                    | [isStaticJsArray](./array.md#isstaticjsarrayvalue)                             | —                                                            |
-| [StaticJsFunction](./function.md)              | [isStaticJsFunction](./function.md#isstaticjsfunction)                         | —                                                            |
+| [StaticJsFunction](./function.mdx)             | [isStaticJsFunction](./function.mdx#isstaticjsfunction)                        | —                                                            |
 | [StaticJsProxy](./proxy.md)                    | [isStaticJsProxy](./proxy.md#isstaticjsproxyvalue)                             | —                                                            |
 | [StaticJsMap](./map.md)                        | [isStaticJsMap](./map.md#isstaticjsmapvalue)                                   | —                                                            |
 | [StaticJsSet](./set.md)                        | [isStaticJsSet](./set.md#isstaticjssetvalue)                                   | —                                                            |

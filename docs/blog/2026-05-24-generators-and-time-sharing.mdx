@@ -75,7 +75,7 @@ const iterator = generator();
 while (true) {
   const { value, done } = iterator.next();
   if (done) {
-    console.log("Iterator completed with value", value);
+    console.log("Iterator completed with", value);
     break;
   }
   console.log(value);

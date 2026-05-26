@@ -229,7 +229,7 @@ function toString(value: StaticJsValue): string {
 All scalar types in StaticJs have a 'value' property containing the host-native javascript value of the scalar.
 :::
 
-Note that these functions exist for a mix of specific types and type classes. For example, [`isStaticJsScalar`](./api/types/scalar.md#isstaticjsscalarvalue) returns true for values guarded by [`isStaticJsString`](./api/types/string.md#isstaticjsstringvalue), [`isStaticJsNumber`](./api/types/number.md#isstaticjsnumbervalue), and so on. In particular, [`isStaticJsObject`](./api/types/object.md#isstaticjsobjectvalue) returns true for [`isStaticJsFunction`](./api/types/function.md#isstaticjsfunction) and other object-like values.
+Note that these functions exist for a mix of specific types and type classes. For example, [`isStaticJsScalar`](./api/types/scalar.md#isstaticjsscalarvalue) returns true for values guarded by [`isStaticJsString`](./api/types/string.md#isstaticjsstringvalue), [`isStaticJsNumber`](./api/types/number.md#isstaticjsnumbervalue), and so on. In particular, [`isStaticJsObject`](./api/types/object.md#isstaticjsobjectvalue) returns true for [`isStaticJsFunction`](./api/types/function.mdx#isstaticjsfunction) and other object-like values.
 
 :::info[Type codes]
 The type guard functions work internally by checking the [`.runtimeTypeCode`](./api/types/primitive.md#runtimetypecode) property against the `StaticJsTypeCode` enum. You can use these yourself, but be aware that the type codes are a mix of ordinals and bit flags, and usage might not be as straightforward.
@@ -400,7 +400,7 @@ const apply = await instance.getAsync("apply");
 const result = await apply.callAsync(instance, [realm.types.number(10)]);
 ```
 
-See [StaticJsFunction](./api/types/function.md) for the full `callAsync`, `constructAsync`, and `getNameAsync` API.
+See [StaticJsFunction](./api/types/function.mdx) for the full `callAsync`, `constructAsync`, and `getNameAsync` API.
 
 #### Defining functions
 

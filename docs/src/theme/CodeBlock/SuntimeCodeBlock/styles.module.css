@@ -6,23 +6,49 @@
   max-height: 650px;
 }
 
-/* Suppress the default bottom margin that CodeBlock adds when nested */
+/* Suppress default bottom margin on CodeMirrorEditor's child elements */
 .codePanel > * {
   margin-bottom: 0 !important;
   border-radius: 0;
 }
 
 .codePanel {
+  text-align: left;
   flex: 2;
   min-width: 0;
-  overflow: scroll;
+  overflow: hidden;
+  position: relative;
+}
+
+.resetButton {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 10;
+  padding: 2px 10px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  cursor: pointer;
+  font-size: 0.8em;
+  background: var(--ifm-code-background);
+  color: var(--ifm-color-warning);
+  opacity: 0.85;
+}
+
+.resetButton:hover {
+  opacity: 1;
+}
+
+.resetButton:disabled {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .outputPanel {
   flex: 1;
   min-width: 0;
   max-height: 100%;
-  overflow: scroll;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: var(--ifm-code-background);

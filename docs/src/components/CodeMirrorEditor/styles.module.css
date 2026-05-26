@@ -1,0 +1,11 @@
+.editor {
+  height: 100%;
+}
+
+.editor :global(.cm-editor) {
+  height: 100%;
+}
+
+.editor :global(.cm-scroller) {
+  overflow: auto;
+}

@@ -136,14 +136,14 @@ const obj = realm.types.object({
 
 #### StaticJsPropertyDescriptorRecord
 
-| Property        | Type                                                                    | Description                               |
-| --------------- | ----------------------------------------------------------------------- | ----------------------------------------- |
-| `value?`        | [StaticJsValue](./types/value.md)                                       | Data descriptor value.                    |
-| `writable?`     | `boolean`                                                               | Whether the value can be reassigned.      |
-| `get?`          | [StaticJsCallable](./types/function.md#staticjscallable) \| `undefined` | Accessor getter.                          |
-| `set?`          | [StaticJsCallable](./types/function.md#staticjscallable) \| `undefined` | Accessor setter.                          |
-| `enumerable?`   | `boolean`                                                               | Appears in `for...in` / `Object.keys`.    |
-| `configurable?` | `boolean`                                                               | Whether the descriptor itself can change. |
+| Property        | Type                                                                     | Description                               |
+| --------------- | ------------------------------------------------------------------------ | ----------------------------------------- |
+| `value?`        | [StaticJsValue](./types/value.md)                                        | Data descriptor value.                    |
+| `writable?`     | `boolean`                                                                | Whether the value can be reassigned.      |
+| `get?`          | [StaticJsCallable](./types/function.mdx#staticjscallable) \| `undefined` | Accessor getter.                          |
+| `set?`          | [StaticJsCallable](./types/function.mdx#staticjscallable) \| `undefined` | Accessor setter.                          |
+| `enumerable?`   | `boolean`                                                                | Appears in `for...in` / `Object.keys`.    |
+| `configurable?` | `boolean`                                                                | Whether the descriptor itself can change. |
 
 ### array(itemsOrLength?)
 
@@ -210,11 +210,11 @@ proxy(target: StaticJsProxyTarget, handlers: StaticJsProxyHandlers): StaticJsPro
 
 Creates a [StaticJsProxy](./types/proxy.md), the sandbox equivalent of `new Proxy(target, handlers)`. All handler methods may be ordinary functions or `EvaluationGenerator` functions.
 
-`StaticJsProxyTarget` accepts an existing [StaticJsObject](./types/object.md) or [StaticJsCallable](./types/function.md#staticjscallable), a native `object` or `Function`, or the string literals `"object"` or `"function"` to create a fresh empty target of the given shape.
+`StaticJsProxyTarget` accepts an existing [StaticJsObject](./types/object.md) or [StaticJsCallable](./types/function.mdx#staticjscallable), a native `object` or `Function`, or the string literals `"object"` or `"function"` to create a fresh empty target of the given shape.
 
 #### StaticJsProxyHandlers
 
-All traps are optional. Each receives a [StaticJsObject](./types/object.md) (or [StaticJsCallable](./types/function.md#staticjscallable) for `apply`/`construct`) as its first argument and may return a value or yield from an `EvaluationGenerator`.
+All traps are optional. Each receives a [StaticJsObject](./types/object.md) (or [StaticJsCallable](./types/function.mdx#staticjscallable) for `apply`/`construct`) as its first argument and may return a value or yield from an `EvaluationGenerator`.
 
 | Trap                       | Signature                                                                                                    |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |

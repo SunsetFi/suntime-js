@@ -20,7 +20,7 @@ Every method comes in a set of three **triplets**, documented in the section bel
 
 - [`StaticJsPlainObject`](./plain-object.md): ordinary `{}` objects
 - [`StaticJsArray`](./array.md): array instances
-- [`StaticJsFunction`](./function.md): functions and callables
+- [`StaticJsFunction`](./function.mdx): functions and callables
 - [`StaticJsSymbol`](./symbol.md): symbols (for `Symbol.prototype` access)
 - [`StaticJsProxy`](./proxy.md): proxy objects
 

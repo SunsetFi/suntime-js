@@ -62,7 +62,7 @@ The core types used by StaticJs.
 | [StaticJsSymbol](./types/symbol.md)            | Sandboxed symbol                                  |
 | [StaticJsPlainObject](./types/plain-object.md) | Plain `{}` object                                 |
 | [StaticJsArray](./types/array.md)              | Array instance                                    |
-| [StaticJsFunction](./types/function.md)        | Function and callable interface                   |
+| [StaticJsFunction](./types/function.mdx)       | Function and callable interface                   |
 | [StaticJsProxy](./types/proxy.md)              | Proxy object                                      |
 
 ---

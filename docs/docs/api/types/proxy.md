@@ -12,7 +12,7 @@ import { type StaticJsProxy, isStaticJsProxy } from "@suntime-js/core";
 
 ## Extends
 
-[`StaticJsObject`](./object.md) + [`StaticJsCallable`](./function.md#staticjscallable) → [`StaticJsPrimitive`](./primitive.md)
+[`StaticJsObject`](./object.md) + [`StaticJsCallable`](./function.mdx#staticjscallable) → [`StaticJsPrimitive`](./primitive.md)
 
 ## Factory
 

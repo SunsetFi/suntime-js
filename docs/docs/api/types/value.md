@@ -30,7 +30,7 @@ Values created by one realm **cannot** be shared with another realm.
 | [`StaticJsSymbol`](./symbol.md)            | A sandboxed symbol        | [`isStaticJsSymbol`](./symbol.md#isstaticjssymbolvalue)                 |
 | [`StaticJsPlainObject`](./plain-object.md) | A plain sandbox object    | [`isStaticJsPlainObject`](./plain-object.md#isstaticjsplainobjectvalue) |
 | [`StaticJsArray`](./array.md)              | A sandbox array           | [`isStaticJsArray`](./array.md#isstaticjsarrayvalue)                    |
-| [`StaticJsFunction`](./function.md)        | A sandbox function        | [`isStaticJsFunction`](./function.md#isstaticjsfunction)                |
+| [`StaticJsFunction`](./function.mdx)       | A sandbox function        | [`isStaticJsFunction`](./function.mdx#isstaticjsfunction)               |
 
 Two grouping supertypes are also useful:
 

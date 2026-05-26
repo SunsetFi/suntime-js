@@ -66,7 +66,7 @@ realm.global.setSync("myObj", obj);
 
 An optional second argument sets the sandbox prototype. If omitted, `Object.prototype` from the realm's intrinsics is used.
 
-For accessor descriptors, `get` and `set` must be [`StaticJsFunction`](./api/types/function.md) values, not native functions.
+For accessor descriptors, `get` and `set` must be [`StaticJsFunction`](./api/types/function.mdx) values, not native functions.
 
 ## Creating functions
 
