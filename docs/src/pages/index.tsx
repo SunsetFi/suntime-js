@@ -75,7 +75,8 @@ export default function Home(): ReactNode {
         <Admonition type="warning" className={styles.inProgress}>
           Suntime-JS is a work in progress. Currently, the majority of the ECMAScript language
           features are implemented, but support is missing for many built-in APIs. Check the{" "}
-          <Link to="/docs/status">status page</Link> for details on what is and isn't supported.
+          <Link to="/docs/supported-features">status page</Link> for details on what is and isn't
+          supported.
         </Admonition>
         <HomepageCodeSnippet />
       </main>

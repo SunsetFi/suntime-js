@@ -2,7 +2,6 @@ import type { WrapperProps } from "@docusaurus/types";
 import type CodeBlockType from "@theme/CodeBlock";
 
 import {
-  StaticJsFunction,
   StaticJsPropertyDescriptorRecord,
   StaticJsRealm,
   StaticJsTaskAbortedError,
