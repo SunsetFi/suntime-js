@@ -8,7 +8,10 @@
     // due to TS6 not supporting the module keyword in d.ts anymore.
     // This collides with @vscode/debugadapter
     "esModuleInterop": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    // new TypeScript doesn't like the use of the module keyword.
+    "skipLibCheck": true,
+    "composite": true
   },
   "include": ["./src"],
   "references": [

@@ -9,6 +9,8 @@
     // This collides with @vscode/debugadapter
     "esModuleInterop": true,
     "isolatedModules": true,
+    // new TypeScript doesn't like the use of the module keyword.
+    "skipLibCheck": true,
     // Breaks typings for @vitest/runner
     "exactOptionalPropertyTypes": false
   },

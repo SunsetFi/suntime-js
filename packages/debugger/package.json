@@ -30,7 +30,7 @@
     "clean": "rimraf lib tsconfig.lib.tsbuildinfo tsconfig.tests.tsbuildinfo",
     "lint": "oxlint",
     "build": "tsc -p tsconfig.lib.json",
-    "check": "tsc -p tsconfig.lib.json --noEmit && tsc -p tsconfig.tests.json --noEmit",
+    "check": "tsgo -p tsconfig.lib.json --noEmit && tsgo -p tsconfig.tests.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "oxfmt"
@@ -45,6 +45,7 @@
     "@suntime-js/core": "workspace:*",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
+    "@typescript/native-preview": "catalog:",
     "rimraf": "^6.0.1",
     "typescript": "catalog:",
     "vitest": "catalog:"

@@ -10,6 +10,7 @@ import {
   StaticJsTaskScopeFrame,
   StaticJsValue,
   StaticJsObject,
+  StaticJsModule,
   isStaticJsScalar,
   isStaticJsObject,
   isStaticJsFunction,
@@ -319,7 +320,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     sourceKind: StaticJsDebugSourceKind,
     sourceName: string | undefined,
     sourceText: string,
-  ): Promise<void> {
+  ): Promise<StaticJsValue | StaticJsModule> {
     const runTaskOptions: StaticJsRunTaskOptions = {
       runTask: this._handleTask.bind(this),
       ...(sourceName ? { sourceName } : {}),
@@ -327,14 +328,11 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
     switch (sourceKind) {
       case "expression":
-        await this._realm.evaluateExpression(sourceText, runTaskOptions);
-        break;
+        return await this._realm.evaluateExpression(sourceText, runTaskOptions);
       case "module":
-        await this._realm.evaluateModule(sourceText, runTaskOptions);
-        break;
+        return await this._realm.evaluateModule(sourceText, runTaskOptions);
       case "script":
-        await this._realm.evaluateScript(sourceText, runTaskOptions);
-        break;
+        return await this._realm.evaluateScript(sourceText, runTaskOptions);
     }
   }
 
@@ -536,8 +534,8 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     this._acceptControlRequest(event);
   }
 
-  private _onSessionComplete() {
-    this._finishTerminal("complete", null);
+  private _onSessionComplete(value: StaticJsValue | StaticJsModule) {
+    this._finishTerminal("complete", value);
   }
 
   private _onSessionError(error: unknown) {
@@ -667,7 +665,10 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return false;
   }
 
-  private _finishTerminal(reason: StaticJsDebugStopReasonTerminal, error: unknown): void {
+  private _finishTerminal(
+    reason: StaticJsDebugStopReasonTerminal,
+    result: StaticJsValue | StaticJsModule | unknown,
+  ): void {
     if (isStaticJsDebugSessionStateTerminal(this._state)) {
       return;
     }
@@ -677,15 +678,23 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     this._stopOnEntryPending = false;
     this._lastStopEvent = null;
 
-    const nextState = reason === "complete" ? "completed" : "terminated";
-    this._setState(nextState);
-
-    this._events.didTerminate({
-      sessionId: this.id,
-      state: nextState,
-      reason,
-      error: reason === "error" ? error : undefined,
-    });
+    if (reason === "complete") {
+      this._setState("completed");
+      this._events.didTerminate({
+        sessionId: this.id,
+        state: "completed",
+        reason: "complete",
+        result: result as StaticJsValue | StaticJsModule,
+      });
+    } else {
+      this._setState("terminated");
+      this._events.didTerminate({
+        sessionId: this.id,
+        state: "terminated",
+        reason: "error",
+        error: result,
+      });
+    }
 
     this._acceptControlRequest(null);
   }
