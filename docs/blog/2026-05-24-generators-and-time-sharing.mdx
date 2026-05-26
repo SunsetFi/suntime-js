@@ -233,7 +233,7 @@ for (const v of sequence()) {
 }
 ```
 
-The yield delegate (`yield*`) lets us skip the boilerplate!
+The yield delegate (`yield*`) lets us skip the boilerplate:
 
 ```ts live-staticjs
 function* alpha() {
@@ -263,9 +263,9 @@ for (const v of sequence()) {
 }
 ```
 
-Great! Only, for our purposes, we are going to need the return value. That is, the last `value` property when `done` is true.
+That works for pure iterators, but for our purposes, we are going to need the function's return value. That is, the last `value` property when `done` is true.
 
-Thankfully, it has us covered there too!
+Thankfully, it has us covered there too:
 
 ```ts live-staticjs
 function* inner() {
@@ -288,7 +288,7 @@ for (const v of outer()) {
 }
 ```
 
-Great! Now let's apply that to our addition AST node evaluator!
+Great! Now let's apply that to our addition AST node evaluator:
 
 ```ts
 function* addEvaluator(leftNode, rightNode) {
