@@ -42,6 +42,10 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     }
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsSymbol";
+  }
+
   get runtimeTypeOf(): "symbol" {
     return "symbol";
   }

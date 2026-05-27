@@ -34,6 +34,10 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
     );
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsArray";
+  }
+
   get runtimeTypeOf() {
     return "array" as const;
   }

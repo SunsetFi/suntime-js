@@ -11,6 +11,10 @@ export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements St
     this._value = value;
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsBoolean";
+  }
+
   get runtimeTypeOf() {
     return "boolean" as const;
   }

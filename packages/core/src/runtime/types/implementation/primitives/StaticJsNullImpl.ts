@@ -5,6 +5,10 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 export class StaticJsNullImpl implements StaticJsNull {
   constructor(private readonly _realm: StaticJsRealm) {}
 
+  [Symbol.toStringTag](): string {
+    return "StaticJsNull";
+  }
+
   get realm() {
     return this._realm;
   }

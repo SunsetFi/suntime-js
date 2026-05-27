@@ -19,6 +19,10 @@ export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
     super(realm, realm.intrinsics["ArrayIteratorPrototype"]);
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsArrayIterator";
+  }
+
   *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {
     const array = this._iteratedArrayLike;
 

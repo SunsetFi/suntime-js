@@ -15,6 +15,10 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
     this._value = value;
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsString";
+  }
+
   get typeOf() {
     return "string" as const;
   }

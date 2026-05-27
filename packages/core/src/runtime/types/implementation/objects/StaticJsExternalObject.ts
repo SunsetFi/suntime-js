@@ -37,6 +37,10 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     super(realm, _opts.prototype ?? realm.intrinsics["Object.prototype"]);
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsExternalObject";
+  }
+
   get runtimeTypeOf() {
     return "object" as const;
   }

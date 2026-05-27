@@ -158,6 +158,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return `StaticJsRealm {}`;
   }
 
+  [Symbol.toStringTag](): string {
+    return "StaticJsRealm";
+  }
+
   get config() {
     return this._config;
   }

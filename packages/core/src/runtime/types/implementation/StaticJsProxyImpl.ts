@@ -63,6 +63,10 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       : false;
   }
 
+  [Symbol.toStringTag](): string {
+    return "StaticJsProxy";
+  }
+
   get isConstructor(): boolean {
     return this._callable === "constructor";
   }

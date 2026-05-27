@@ -58,6 +58,10 @@ export abstract class StaticJsAbstractObject
     }
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsObject";
+  }
+
   get typeOf(): string {
     return "object" as const;
   }

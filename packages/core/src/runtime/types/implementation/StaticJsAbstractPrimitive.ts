@@ -21,10 +21,10 @@ export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
   abstract toStringSync(): string;
 
   [Symbol.toStringTag](): string {
-    return `StaticJsValue ${this.runtimeTypeOf} [${this.toStringSync()}]`;
+    return `StaticJsValue`;
   }
 
   [symbolInspect](): string {
-    return this[Symbol.toStringTag]();
+    return `StaticJsValue ${this.runtimeTypeOf} [${this.toStringSync()}]`;
   }
 }

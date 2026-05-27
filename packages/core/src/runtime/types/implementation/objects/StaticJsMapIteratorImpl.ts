@@ -16,6 +16,10 @@ export class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
     super(realm, realm.intrinsics["MapIteratorPrototype"]);
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsMapIterator";
+  }
+
   *nextEvaluator(): EvaluationGenerator<StaticJsIteratorResult> {
     const iterator = this._backingIterator;
     if (!iterator) {

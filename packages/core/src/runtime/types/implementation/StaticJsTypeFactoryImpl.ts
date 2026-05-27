@@ -137,6 +137,10 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     } satisfies IntrinsicSymbols);
   }
 
+  [Symbol.toStringTag](): string {
+    return "StaticJsTypeFactory";
+  }
+
   get symbols(): IntrinsicSymbols {
     return this._symbols;
   }

@@ -15,6 +15,10 @@ export class StaticJsNumberImpl extends StaticJsAbstractPrimitive implements Sta
     this._value = value;
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsNumber";
+  }
+
   get typeOf() {
     return "number" as const;
   }

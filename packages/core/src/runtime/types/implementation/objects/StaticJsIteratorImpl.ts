@@ -18,6 +18,10 @@ export abstract class StaticJsIteratorImpl
     super(realm, prototype);
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsIterator";
+  }
+
   get runtimeTypeOf(): "iterator" {
     return "iterator";
   }

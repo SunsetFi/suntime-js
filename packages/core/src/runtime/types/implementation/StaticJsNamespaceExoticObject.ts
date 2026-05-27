@@ -27,6 +27,10 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
     super(realm, null);
   }
 
+  override [Symbol.toStringTag](): string {
+    return "StaticJsNamespaceExoticObject";
+  }
+
   get runtimeTypeOf(): string {
     return "object";
   }

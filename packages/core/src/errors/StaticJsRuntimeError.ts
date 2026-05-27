@@ -41,7 +41,7 @@ export class StaticJsRuntimeError extends Error {
   }
 
   [Symbol.toStringTag](): string {
-    return `${this.name} ${this.message}`;
+    return `StaticJsRuntimeError`;
   }
 
   toJSON(): Record<string, unknown> {
