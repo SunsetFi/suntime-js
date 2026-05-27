@@ -137,12 +137,10 @@ export class CodeRuntime {
       switch (event.reason) {
         case "complete":
           this._status$.next("completed");
-          if (sourceKind !== "module") {
-            this._addLog({
-              kind: "return",
-              text: serialize(event.result),
-            });
-          }
+          this._addLog({
+            kind: "return",
+            text: serialize(event.result),
+          });
           break;
         case "error":
           this._status$.next("errored");

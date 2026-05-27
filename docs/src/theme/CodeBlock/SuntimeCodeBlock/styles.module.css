@@ -1,12 +1,17 @@
 .container {
+  display: flex;
+  flex-direction: column;
   margin-bottom: var(--ifm-leading);
   max-height: 650px;
   overflow: hidden;
+  border-radius: var(--ifm-code-border-radius, 4px);
 }
 
 .panes {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
   display: flex;
-  border-radius: var(--ifm-code-border-radius, 4px);
 }
 
 /* Suppress default bottom margin on CodeMirrorEditor's child elements */
@@ -21,6 +26,12 @@
   min-width: 0;
   overflow: hidden;
   position: relative;
+}
+
+.noSandboxDisclaimer {
+  padding: 4px 6px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-warning);
 }
 
 .resetButton {
@@ -59,6 +70,7 @@
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   text-align: left;
+  overflow: auto;
 }
 
 .toolbar {

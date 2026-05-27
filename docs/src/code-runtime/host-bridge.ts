@@ -69,6 +69,10 @@ function clonePojo(obj: Record<string, unknown>, ctx: BridgeContext): StaticJsVa
   return realm.types.object(props);
 }
 
+function cloneArray(arr: unknown[], ctx: BridgeContext): StaticJsValue {
+  return ctx.spawnOpts.realm.types.array(arr.map((item) => wrapValue(item, ctx)));
+}
+
 export function wrapValue(value: unknown, ctx: BridgeContext): StaticJsValue {
   const { realm } = ctx.spawnOpts;
 
@@ -78,6 +82,10 @@ export function wrapValue(value: unknown, ctx: BridgeContext): StaticJsValue {
     (typeof value !== "object" && typeof value !== "function")
   ) {
     return realm.types.toStaticJsValue(value);
+  }
+
+  if (Array.isArray(value)) {
+    return cloneArray(value, ctx);
   }
 
   if (isStaticJsValue(value) || needsClassWrapping(value)) {

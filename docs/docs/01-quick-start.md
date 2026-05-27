@@ -54,7 +54,9 @@ See [Enforcing Time Limits](#enforcing-time-limits) below for solutions.
 
 Each StaticJsRealm contains its own definitons of all core JavaScript APIs, and has unique types. To create types, use the [Type Factory](./api/type-factory.md) associated with a given StaticJsRealm:
 
-```ts
+```ts live-staticjs include-runtime
+import { StaticJsRealm } from "@suntime-js/core";
+
 const realm = StaticJsRealm();
 
 const obj = realm.types.object({
@@ -68,11 +70,15 @@ const obj = realm.types.object({
     value: realm.types.string("baz"),
   },
 });
+
+console.log("properties are", obj.ownPropertyKeysSync());
+console.log("foo is", obj.getSync("foo").runtimeTypeOf);
+console.log("bar is", obj.getSync("bar").runtimeTypeOf);
 ```
 
-Additionally, type guard functions are supplied for checking resultant types. See [isStaticJsString](./api/types/string.md#isstaticjsstringvalue), [isStaticJsNumber](./api/types/number.md#isstaticjsnumbervalue), and [isStaticJsScalar](./api/types/scalar.md#isstaticjsscalarvalue) for the full API.
+Additionally, [type guard functions](./api/types/index.md#type-reference) are supplied for checking resultant types.
 
-```ts
+```ts live-staticjs include-runtime
 import { StaticJsRealm, isStaticJsString, isStaticJsNumber } from "@suntime-js/core";
 
 const realm = StaticJsRealm();
@@ -100,7 +106,7 @@ if (isStaticJsString(result)) {
 
 You can expose host functionality to sandboxed code by defining values on the global object.
 
-```ts
+```ts live-staticjs include-runtime
 import { StaticJsRealm, isStaticJsScalar } from "@suntime-js/core";
 
 const realm = StaticJsRealm();

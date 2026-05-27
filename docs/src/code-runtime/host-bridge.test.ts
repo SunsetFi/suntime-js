@@ -1,4 +1,4 @@
-import { isStaticJsObject, StaticJsRealm } from "@suntime-js/core";
+import { isStaticJsObject, StaticJsObject, StaticJsRealm } from "@suntime-js/core";
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -33,6 +33,15 @@ describe("wrapValue — primitives and POJOs", () => {
     const { ctx } = makeCtx();
     const result = wrapValue(42, ctx);
     expect(result.toNative()).toBe(42);
+  });
+
+  it("wraps a JS array as a sandbox array", () => {
+    const { ctx } = makeCtx();
+    const result = wrapValue([1, "hello", false], ctx) as StaticJsObject;
+    expect(result.getSync("length")?.toNative()).toBe(3);
+    expect(result.getSync("0")?.toNative()).toBe(1);
+    expect(result.getSync("1")?.toNative()).toBe("hello");
+    expect(result.getSync("2")?.toNative()).toBe(false);
   });
 
   it("wraps null as sandbox null", () => {
