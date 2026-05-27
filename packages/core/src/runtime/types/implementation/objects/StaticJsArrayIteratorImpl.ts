@@ -19,7 +19,7 @@ export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
     super(realm, realm.intrinsics["ArrayIteratorPrototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsArrayIterator";
   }
 

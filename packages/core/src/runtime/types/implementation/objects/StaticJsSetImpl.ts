@@ -30,7 +30,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     super(realm, realm.intrinsics["Set.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsSet";
   }
 

@@ -37,7 +37,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     super(realm, prototype ?? realm.intrinsics["Promise.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsPromise";
   }
 

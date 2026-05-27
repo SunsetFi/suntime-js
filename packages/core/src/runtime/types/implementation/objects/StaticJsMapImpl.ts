@@ -22,7 +22,7 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
     super(realm, realm.intrinsics["Map.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsMap";
   }
 

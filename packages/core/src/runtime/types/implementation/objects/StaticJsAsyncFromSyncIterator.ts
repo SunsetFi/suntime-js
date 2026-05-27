@@ -25,7 +25,7 @@ export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
     super(realm, realm.intrinsics["AsyncFromSyncIteratorPrototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsAsyncFromSyncIterator";
   }
 

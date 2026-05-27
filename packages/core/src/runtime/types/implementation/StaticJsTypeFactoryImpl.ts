@@ -15,7 +15,10 @@ import { isStaticJsNull } from "../StaticJsNull.js";
 import type { StaticJsNumber } from "../StaticJsNumber.js";
 import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
 import type { StaticJsPlainObject } from "../StaticJsPlainObject.js";
-import type { StaticJsPropertyDescriptorRecord } from "../StaticJsPropertyDescriptor.js";
+import {
+  validateStaticJsPropertyDescriptorRecord,
+  type StaticJsPropertyDescriptorRecord,
+} from "../StaticJsPropertyDescriptor.js";
 import { staticJsValueToPropertyKey, type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import {
   StaticJsProxy,
@@ -137,7 +140,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     } satisfies IntrinsicSymbols);
   }
 
-  [Symbol.toStringTag](): string {
+  get [Symbol.toStringTag](): string {
     return "StaticJsTypeFactory";
   }
 
@@ -186,6 +189,13 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     if (prototype === undefined) {
       prototype = this._realm.intrinsics["Object.prototype"];
     }
+
+    if (prototype !== null && !isStaticJsNull(prototype) && !isStaticJsObject(prototype)) {
+      throw new TypeError("Prototype must be a StaticJsObject, StaticJsNull, or null");
+    }
+
+    Object.values(properties ?? {}).forEach(validateStaticJsPropertyDescriptorRecord);
+
     const obj = new StaticJsPlainObjectImpl(
       this._realm,
       isStaticJsNull(prototype) ? null : prototype,

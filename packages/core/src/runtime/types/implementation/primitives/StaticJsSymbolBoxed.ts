@@ -10,7 +10,7 @@ export class StaticJsSymbolBoxed extends StaticJsPlainObjectImpl {
     super(realm, realm.intrinsics["Symbol.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsSymbolBoxed";
   }
 

@@ -25,6 +25,10 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
     return this._name;
   }
 
+  get [Symbol.toStringTag](): string {
+    return "StaticJsExternalModule";
+  }
+
   get moduleSpecifier() {
     // TODO: Figure out how to get an absolute value for this if we ever do relative imports.
     return this._name;

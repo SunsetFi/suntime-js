@@ -34,7 +34,7 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
     );
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsArray";
   }
 

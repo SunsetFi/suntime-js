@@ -27,7 +27,7 @@ export abstract class StaticJsAbstractFunction
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsFunction";
   }
 

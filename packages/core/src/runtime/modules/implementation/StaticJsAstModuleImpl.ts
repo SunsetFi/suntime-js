@@ -81,6 +81,10 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     this._exportEntries = exportEntries(this._ecmaScriptCode);
   }
 
+  get [Symbol.toStringTag](): string {
+    return "StaticJsAstModule";
+  }
+
   override get name() {
     return this._name;
   }

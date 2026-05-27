@@ -16,7 +16,7 @@ export class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
     super(realm, realm.intrinsics["MapIteratorPrototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsMapIterator";
   }
 

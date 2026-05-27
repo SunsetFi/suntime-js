@@ -40,7 +40,7 @@ export class StaticJsRuntimeError extends Error {
     return `${this.name}: ${this.message}`;
   }
 
-  [Symbol.toStringTag](): string {
+  get [Symbol.toStringTag](): string {
     return `StaticJsRuntimeError`;
   }
 

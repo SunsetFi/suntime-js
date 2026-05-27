@@ -63,7 +63,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
       : false;
   }
 
-  [Symbol.toStringTag](): string {
+  get [Symbol.toStringTag](): string {
     return "StaticJsProxy";
   }
 

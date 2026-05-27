@@ -16,7 +16,7 @@ export class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
     super(realm, realm.intrinsics["SetIteratorPrototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsSetIterator";
   }
 

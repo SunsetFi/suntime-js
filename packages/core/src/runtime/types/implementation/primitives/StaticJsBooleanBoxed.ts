@@ -9,7 +9,7 @@ export class StaticJsBooleanBoxed extends StaticJsPlainObjectImpl {
     super(realm, realm.intrinsics["Boolean.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsBooleanBoxed";
   }
 

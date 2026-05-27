@@ -9,7 +9,7 @@ export class StaticJsNumberBoxed extends StaticJsPlainObjectImpl {
     super(realm, realm.intrinsics["Number.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsNumberBoxed";
   }
 

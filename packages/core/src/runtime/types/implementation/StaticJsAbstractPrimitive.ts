@@ -20,7 +20,7 @@ export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
 
   abstract toStringSync(): string;
 
-  [Symbol.toStringTag](): string {
+  get [Symbol.toStringTag](): string {
     return `StaticJsValue`;
   }
 

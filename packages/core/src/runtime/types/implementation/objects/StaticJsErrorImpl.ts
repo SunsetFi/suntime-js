@@ -13,7 +13,7 @@ export class StaticJsErrorImpl extends StaticJsOrdinaryObjectImpl implements Sta
     super(realm, prototype);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsError";
   }
 

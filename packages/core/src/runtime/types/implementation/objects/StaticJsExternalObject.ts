@@ -37,7 +37,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     super(realm, _opts.prototype ?? realm.intrinsics["Object.prototype"]);
   }
 
-  override [Symbol.toStringTag](): string {
+  override get [Symbol.toStringTag](): string {
     return "StaticJsExternalObject";
   }
 
@@ -93,7 +93,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       });
     }
 
-    if (enableWrites && descrSet) {
+    if (descrSet) {
       isAccessor = true;
       staticJsDescr.set = new StaticJsExternalFunction(this.realm, "set", descrSet, {
         getThisArg: () => (enableThisArg ? staticJsDescr.get : this._obj),
@@ -134,7 +134,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     key: StaticJsPropertyKey,
     setDescr: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
-    const { enableWrites, enableThisArg } = this._opts;
+    const { enableWrites } = this._opts;
     if (!enableWrites) {
       return false;
     }
@@ -146,7 +146,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     const property = isStaticJsSymbol(key) ? key.toNative() : (key as string);
 
     const propertyDescr = Object.getOwnPropertyDescriptor(this._obj, property);
-    if (!propertyDescr) {
+    if (!propertyDescr || !propertyDescr.writable || "value" in propertyDescr === false) {
       return false;
     }
 
@@ -154,22 +154,10 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       return true;
     }
 
-    if (propertyDescr.set) {
-      propertyDescr.set.call(
-        enableThisArg ? propertyDescr.get : this._obj,
-        setDescr.value.toNative(),
-      );
-      return true;
-    }
-
-    if (propertyDescr.writable) {
-      Object.defineProperty(this._obj, property, {
-        value: setDescr.value.toNative(),
-      });
-      return true;
-    }
-
-    return false;
+    Object.defineProperty(this._obj, property, {
+      value: setDescr.value.toNative(),
+    });
+    return true;
   }
 
   protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {

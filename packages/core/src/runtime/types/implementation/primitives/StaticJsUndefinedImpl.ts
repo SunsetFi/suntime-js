@@ -5,7 +5,7 @@ import type { StaticJsUndefined } from "../../StaticJsUndefined.js";
 export class StaticJsUndefinedImpl implements StaticJsUndefined {
   constructor(private readonly _realm: StaticJsRealm) {}
 
-  [Symbol.toStringTag](): string {
+  get [Symbol.toStringTag](): string {
     return "StaticJsUndefined";
   }
 
