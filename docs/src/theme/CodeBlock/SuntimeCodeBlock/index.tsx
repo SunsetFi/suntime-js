@@ -11,25 +11,48 @@ import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
 import { bracketMatching } from "@codemirror/language";
 import { EditorView, keymap, lineNumbers } from "@codemirror/view";
+import { CodeRuntime, CodeRuntimeSpawnOptions } from "@site/src/code-runtime/CodeRuntime";
+import { createStaticJsRealmApi } from "@site/src/code-runtime/staticjs-api";
 import { CodeMirrorEditor } from "@site/src/components/CodeMirrorEditor";
 import { useDocusaurusTheme } from "@site/src/components/CodeMirrorEditor/useDocusaurusTheme";
 import useObservation from "@site/src/hooks/use-observation";
+import { StaticJsModuleResolution } from "@suntime-js/core";
 import React, { useMemo, useRef, useState, useEffect, type ReactNode } from "react";
-
-import { CodeRuntime } from "../../../code-runtime/CodeRuntime";
 
 import OutputPanel from "./OutputPanel";
 import styles from "./styles.module.css";
 
-type Props = WrapperProps<typeof CodeBlockType>;
+type Props = WrapperProps<typeof CodeBlockType> & {
+  exposeStaticJs?: boolean;
+};
 
-export default function SuntimeCodeBlock(props: Props): ReactNode {
-  const originalCodeRef = useRef(String(props.children ?? ""));
+export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): ReactNode {
+  const originalCodeRef = useRef(String(children ?? ""));
   const originalCode = originalCodeRef.current;
 
   const [code, setCode] = useState(originalCode);
 
-  const runtime = useMemo(() => new CodeRuntime(), []);
+  const runtime = useMemo(() => {
+    let resolveModule: (
+      specifier: string,
+      options: CodeRuntimeSpawnOptions,
+    ) => StaticJsModuleResolution | null = () => null;
+    if (exposeStaticJs) {
+      resolveModule = (specifier, opts): StaticJsModuleResolution | null => {
+        if (specifier === "@suntime-js/core") {
+          return {
+            exports: createStaticJsRealmApi(opts),
+          };
+        }
+
+        return null;
+      };
+    }
+    return new CodeRuntime({
+      resolveModule,
+    });
+  }, [exposeStaticJs]);
+
   const log = useObservation(runtime.log$) ?? [];
   const status = useObservation(runtime.status$) ?? "idle";
   const pausedLocation = useObservation(runtime.pausedLocation$);
@@ -39,7 +62,7 @@ export default function SuntimeCodeBlock(props: Props): ReactNode {
     return () => {
       runtime.dispose();
     };
-  }, []);
+  }, [runtime]);
 
   const theme = useDocusaurusTheme();
 
@@ -67,7 +90,7 @@ export default function SuntimeCodeBlock(props: Props): ReactNode {
   );
 
   function handleRun() {
-    runtime.run({ code });
+    runtime.run({ sourceKind: exposeStaticJs ? "module" : "script", code });
   }
 
   function handleStop() {

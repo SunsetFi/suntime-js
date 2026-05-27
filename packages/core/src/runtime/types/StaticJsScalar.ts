@@ -5,7 +5,6 @@ import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
-import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export type StaticJsScalar =
@@ -16,7 +15,7 @@ export type StaticJsScalar =
   | StaticJsSymbol
   | StaticJsUndefined;
 
-export function isStaticJsScalar(value: StaticJsValue): value is StaticJsScalar {
+export function isStaticJsScalar(value: unknown): value is StaticJsScalar {
   if (!isStaticJsValue(value)) {
     return false;
   }

@@ -106,12 +106,15 @@
 
 .outputLine {
   white-space: pre-wrap;
-  word-break: break-all;
   line-height: 1.5;
 }
 
 .logLine {
   color: var(--ifm-font-color-base);
+}
+
+.warningLine {
+  color: var(--ifm-color-warning);
 }
 
 .returnLine {

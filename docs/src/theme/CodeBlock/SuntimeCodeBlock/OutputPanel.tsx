@@ -13,6 +13,13 @@ interface OutputPanelProps {
   onStep: () => void;
 }
 
+const logLineClassnames: Record<CodeRuntimeLog["kind"], string> = {
+  log: styles.logLine,
+  error: styles.errorLine,
+  warning: styles.warningLine,
+  return: styles.returnLine,
+};
+
 export default function OutputPanel({
   log: lines,
   status,
@@ -63,27 +70,8 @@ export default function OutputPanel({
       </div>
       <div className={styles.output} ref={outputRef}>
         {lines.map((line, i) => (
-          <div
-            key={i}
-            className={`${styles.outputLine} ${
-              line.kind === "error"
-                ? styles.errorLine
-                : line.kind === "return"
-                  ? styles.returnLine
-                  : styles.logLine
-            }`}
-          >
-            {line.kind === "log" && <span>{line.text}</span>}
-            {line.kind === "return" && (
-              <span>
-                <span className={styles.returnLine}>→</span> {line.text}
-              </span>
-            )}
-            {line.kind === "error" && (
-              <span>
-                <span className={styles.errorLine}>✗</span> {line.text}
-              </span>
-            )}
+          <div key={i} className={styles.outputLine}>
+            <span className={logLineClassnames[line.kind]}>{line.text}</span>
           </div>
         ))}
       </div>

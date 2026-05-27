@@ -20,8 +20,8 @@ A realm provides a persistent global environment for JavaScript. Each realm is u
 
 Synchronous code can be invoked with [`evaluateScriptSync`](./api/realm.md#evaluatescriptsyncscript-opts) and [`evaluateExpressionSync`](./api/realm.md#evaluateexpressionsyncexpression-opts).
 
-```ts
-import { StaticJsRealm, createTimeBoundTaskRunner, isStaticJsNumber } from "@suntime-js/core";
+```ts live-staticjs include-runtime
+import { StaticJsRealm, isStaticJsNumber } from "@suntime-js/core";
 
 const realm = StaticJsRealm();
 

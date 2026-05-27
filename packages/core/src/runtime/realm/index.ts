@@ -10,6 +10,8 @@ export type {
 } from "./factories/StaticJsRealmGlobalOptions.js";
 export type { StaticJsRealmHookOptions } from "./factories/StaticJsRealmHooksOptions.js";
 
+export * from "./StaticJsModuleResolver.js";
+
 export type {
   StaticJsRealmEvaluateScriptSyncOptions as StaticJsEvaluateScriptSyncOptions,
   StaticJsRealmEvaluateScriptOptions,

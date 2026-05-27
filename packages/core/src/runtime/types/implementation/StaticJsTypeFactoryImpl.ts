@@ -6,7 +6,7 @@ import { createArrayFromList } from "../../algorithms/create-array-from-list.js"
 import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
 import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { StaticJsArray } from "../StaticJsArray.js";
+import { isStaticJsArray, type StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
 import { StaticJsCallable } from "../StaticJsCallable.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
@@ -509,6 +509,17 @@ function isFunction(f: unknown): f is (...args: unknown[]) => unknown {
 }
 
 const convertIdentity = (x: StaticJsValue) => x;
+function sandboxArrayToNative(array: StaticJsValue): unknown[] {
+  if (!isStaticJsArray(array)) {
+    throw new TypeError(`Expected a StaticJsArray, got ${array}`);
+  }
+  const length = Number(array.getSync("length").toNative());
+  const result = [];
+  for (let i = 0; i < length; i++) {
+    result.push(array.getSync(String(i)));
+  }
+  return result;
+}
 const proxyHandlerConverters: Partial<
   Record<keyof StaticJsProxyHandlers, ((value: StaticJsValue) => unknown)[]>
 > = {
@@ -518,4 +529,6 @@ const proxyHandlerConverters: Partial<
   get: [convertIdentity, staticJsValueToPropertyKey, convertIdentity],
   set: [convertIdentity, staticJsValueToPropertyKey, convertIdentity, convertIdentity],
   deleteProperty: [convertIdentity, staticJsValueToPropertyKey],
+  apply: [convertIdentity, convertIdentity, sandboxArrayToNative],
+  construct: [convertIdentity, sandboxArrayToNative, convertIdentity],
 };

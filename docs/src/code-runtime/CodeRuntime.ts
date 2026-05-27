@@ -1,9 +1,12 @@
 import {
   createTimeBoundTaskRunner,
   createTimeSharingTaskRunner,
+  StaticJsModuleResolution,
   StaticJsObject,
   StaticJsPropertyDescriptorRecord,
   StaticJsRealm,
+  StaticJsTaskIterator,
+  StaticJsTaskRunner,
   StaticJsTypeFactory,
 } from "@suntime-js/core";
 import {
@@ -15,9 +18,30 @@ import { BehaviorSubject } from "rxjs";
 
 import { serialize } from "./serialize";
 
+export interface CodeRuntimeRegisterSubTask {
+  (task: StaticJsTaskIterator): void;
+}
+
+export interface CodeRuntimeSpawnOptions {
+  realm: StaticJsRealm;
+  registerSubTask: CodeRuntimeRegisterSubTask;
+  addLog(log: CodeRuntimeLog): void;
+}
+
+export interface CodeRutimePopulateGlobalOptions {
+  types: StaticJsTypeFactory;
+  registerSubTask: CodeRuntimeRegisterSubTask;
+}
+
 export interface CodeRuntimeOptions {
   maxLogLines?: number;
-  populateGlobal?(global: StaticJsObject, types: StaticJsTypeFactory): void;
+  populateGlobal?(global: StaticJsObject, options: CodeRutimePopulateGlobalOptions): void;
+  resolveModule?(
+    specifier: string,
+    options: CodeRuntimeSpawnOptions,
+  ): StaticJsModuleResolution | null;
+  runTask?: StaticJsTaskRunner;
+  runTaskSync?: StaticJsTaskRunner;
 }
 
 export interface CodeRuntimeLaunchOptions {
@@ -32,7 +56,7 @@ export interface CodeRuntimeSourceLocation {
 }
 
 export interface CodeRuntimeLog {
-  kind: "log" | "error" | "return";
+  kind: "log" | "warning" | "error" | "return";
   text: string;
 }
 
@@ -41,6 +65,16 @@ export type CodeRuntimeStatus = "idle" | "running" | "paused" | "completed" | "e
 const defaultOptions = {
   maxLogLines: 100,
   populateGlobal: () => {},
+  resolveModule: () => null,
+  // Time sharing to allow infinite loops.
+  runTask: createTimeSharingTaskRunner({
+    operationsPerIteration: 1000,
+    yieldTime: 1,
+  }),
+  // Synchronous time bound to prevent infinite loops in toNative
+  runTaskSync: createTimeBoundTaskRunner({
+    maxRunTime: 1000,
+  }),
 };
 
 export class CodeRuntime {
@@ -50,7 +84,9 @@ export class CodeRuntime {
 
   private _debugSession: StaticJsDebugSession | null = null;
 
-  private _pauseLocation = new BehaviorSubject<Readonly<CodeRuntimeSourceLocation> | null>(null);
+  private _pauseLocation$ = new BehaviorSubject<Readonly<CodeRuntimeSourceLocation> | null>(null);
+
+  private _subTasks: StaticJsTaskIterator[] = [];
 
   private _options: Required<CodeRuntimeOptions>;
   constructor(options: CodeRuntimeOptions = {}) {
@@ -66,7 +102,7 @@ export class CodeRuntime {
   }
 
   get pausedLocation$() {
-    return this._pauseLocation;
+    return this._pauseLocation$;
   }
 
   dispose() {
@@ -110,7 +146,7 @@ export class CodeRuntime {
           this._status$.next("errored");
           this._addLog({
             kind: "error",
-            text: serialize(event.reason),
+            text: serialize(event.error),
           });
           break;
       }
@@ -123,7 +159,7 @@ export class CodeRuntime {
       switch (state) {
         case "running":
           this._status$.next("running");
-          this._pauseLocation.next(null);
+          this._pauseLocation$.next(null);
           break;
         case "paused":
           this._status$.next("paused");
@@ -137,6 +173,7 @@ export class CodeRuntime {
 
   pause() {
     this._verifyNotDisposed();
+    // TODO: Pause sub-tasks?
     this._debugSession?.pause();
   }
 
@@ -161,7 +198,7 @@ export class CodeRuntime {
       return;
     }
 
-    this._pauseLocation.next({
+    this._pauseLocation$.next({
       line: snapshot.line,
       column: snapshot.column,
     });
@@ -170,7 +207,9 @@ export class CodeRuntime {
   private _terminate() {
     this._debugSession?.terminate();
     this._debugSession = null;
-    this._pauseLocation.next(null);
+    this._subTasks.forEach((task) => task.abort());
+    this._subTasks = [];
+    this._pauseLocation$.next(null);
     this._status$.next("idle");
   }
 
@@ -204,16 +243,11 @@ export class CodeRuntime {
       };
     };
 
-    return StaticJsRealm({
+    const realm: StaticJsRealm = StaticJsRealm({
       // Time sharing to allow infinite loops.
-      runTask: createTimeSharingTaskRunner({
-        operationsPerIteration: 1000,
-        yieldTime: 1,
-      }),
+      runTask: this._options.runTask,
       // Synchronous time bound to prevent infinite loops in toNative
-      runTaskSync: createTimeBoundTaskRunner({
-        maxRunTime: 1000,
-      }),
+      runTaskSync: this._options.runTaskSync,
       global: (types) => {
         const global = types.object({
           console: {
@@ -228,10 +262,28 @@ export class CodeRuntime {
             configurable: true,
           },
         });
-        this._options.populateGlobal?.(global, types);
+        this._options.populateGlobal?.(global, {
+          types,
+          registerSubTask: this._registerSubTask.bind(this),
+        });
         return global;
       },
+      resolveImportedModule: async (specifier) => {
+        return (
+          this._options.resolveModule?.(specifier, {
+            realm,
+            registerSubTask: this._registerSubTask.bind(this),
+            addLog: this._addLog.bind(this),
+          }) ?? null
+        );
+      },
     });
+
+    return realm;
+  }
+
+  private _registerSubTask(task: StaticJsTaskIterator) {
+    this._subTasks.push(task);
   }
 
   private _addLog(log: CodeRuntimeLog) {

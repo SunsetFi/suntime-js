@@ -16,7 +16,7 @@ export default function CodeBlockWrapper(props: Props): ReactNode {
       <BrowserOnly fallback={<CodeBlock {...props} />}>
         {() => (
           <Suspense fallback={<CodeBlock {...props} />}>
-            <SuntimeCodeBlock {...props} />
+            <SuntimeCodeBlock {...props} exposeStaticJs={tags.includes("include-runtime")} />
           </Suspense>
         )}
       </BrowserOnly>
