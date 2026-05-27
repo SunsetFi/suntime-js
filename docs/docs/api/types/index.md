@@ -126,7 +126,7 @@ StaticJsScalar = StaticJsString | StaticJsNumber | StaticJsBoolean
 | Type                                           | Type guard                                                                     | `.value`                                                     |
 | ---------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
 | [StaticJsValue](./value.md)                    | [isStaticJsValue](./value.md#isstaticjsvaluevalue)                             | —                                                            |
-| [StaticJsPrimitive](./primitive.md)            | [isStaticJsPrimitive](./primitive.md#isstaticjsprimitivevalue)                 | —                                                            |
+| [StaticJsPrimitive](./primitive.md)            |                                                                                | —                                                            |
 | [StaticJsScalar](./scalar.md)                  | [isStaticJsScalar](./scalar.md#isstaticjsscalarvalue)                          | `string \| number \| boolean \| null \| undefined \| symbol` |
 | [StaticJsObject](./object.md)                  | [isStaticJsObject](./object.md#isstaticjsobjectvalue)                          | —                                                            |
 | [StaticJsCallable](./function.mdx)             | [isStaticJsCallable](./function.mdx#isstaticjscallable)                        | —                                                            |

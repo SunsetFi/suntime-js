@@ -84,7 +84,7 @@ Type guard that returns `true` if `x` satisfies the `StaticJsModule` interface.
 
 ---
 
-# StaticJsModuleResolver
+# Module Resolution
 
 Types used by the realm's module resolution system.
 

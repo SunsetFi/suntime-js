@@ -137,10 +137,12 @@ export class CodeRuntime {
       switch (event.reason) {
         case "complete":
           this._status$.next("completed");
-          this._addLog({
-            kind: "return",
-            text: serialize(event.result),
-          });
+          if (sourceKind !== "module") {
+            this._addLog({
+              kind: "return",
+              text: serialize(event.result),
+            });
+          }
           break;
         case "error":
           this._status$.next("errored");
@@ -207,7 +209,7 @@ export class CodeRuntime {
   private _terminate() {
     this._debugSession?.terminate();
     this._debugSession = null;
-    this._subTasks.forEach((task) => task.abort());
+    this._subTasks.filter((x) => !x.done).forEach((task) => task.abort());
     this._subTasks = [];
     this._pauseLocation$.next(null);
     this._status$.next("idle");

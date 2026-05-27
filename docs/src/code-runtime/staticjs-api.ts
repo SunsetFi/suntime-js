@@ -1,4 +1,3 @@
-// import * as StaticJs from "@suntime-js/core";
 import {
   createTimeBoundTaskRunner,
   isStaticJsBoolean,
@@ -9,158 +8,160 @@ import {
   isStaticJsArray,
   isStaticJsFunction,
   isStaticJsValue,
-  StaticJsPropertyDescriptorRecord,
   StaticJsRealm,
   StaticJsRealmOptions,
-  StaticJsValue,
   StaticJsTaskRunner,
+  StaticJsValue,
+  StaticJsRuntimeError,
 } from "@suntime-js/core";
 
+import { omit } from "../utils/omit";
+
 import { CodeRuntimeSpawnOptions } from "./CodeRuntime";
+import {
+  BridgeContext,
+  createBridgeContext,
+  getHostObject,
+  registerOverride,
+  wrapClassBacked,
+} from "./host-bridge";
+
+// Raw runners are stored here (not the hooked versions) so overrides can add their own
+// registerSubTask call without double-registering.
+interface RealmRunners {
+  runTask?: StaticJsTaskRunner;
+  runTaskSync?: StaticJsTaskRunner;
+}
+const realmRunners = new WeakMap<object, RealmRunners>();
+
+function hookRunner(runner: StaticJsValue, ctx: BridgeContext): StaticJsTaskRunner {
+  const { realm, registerSubTask } = ctx.spawnOpts;
+  return (task) => {
+    if (!isStaticJsFunction(runner)) {
+      const err = realm.types.error("TypeError", "Provided runTask is not a function");
+      throw new StaticJsRuntimeError(err);
+    }
+
+    registerSubTask(task);
+    const taskIter = wrapClassBacked(task, ctx);
+    runner.callSync(realm.types.undefined, [taskIter]);
+  };
+}
+
+// evaluateScriptSync cannot be auto-generated because it needs:
+// 1. registerSubTask called so the outer session can abort the evaluation
+// 2. A task runner sourced from (in priority order):
+//    a. the per-call runTask in the second sandbox argument
+//    b. the realm's configured runTaskSync
+//    c. a time-bound fallback (with a warning logged)
+registerOverride("StaticJsRealm", "evaluateScriptSync", function* (hostThis, sandboxArgs, ctx) {
+  const { spawnOpts } = ctx;
+  const realmInstance = hostThis as ReturnType<typeof StaticJsRealm>;
+
+  const codeArg = sandboxArgs[0];
+  if (!codeArg || !isStaticJsScalar(codeArg)) {
+    return spawnOpts.realm.types.undefined;
+  }
+  const code = String(codeArg.value);
+
+  let callRunTask: StaticJsTaskRunner | undefined;
+  const callOptsArg = sandboxArgs[1];
+  if (callOptsArg && isStaticJsObject(callOptsArg)) {
+    const runTaskProp = callOptsArg.getSync("runTask");
+    if (runTaskProp) {
+      callRunTask = hookRunner(runTaskProp, ctx);
+    }
+  }
+
+  const stored = realmRunners.get(hostThis);
+  const effectiveRunner = callRunTask ?? stored?.runTaskSync;
+
+  if (!effectiveRunner) {
+    spawnOpts.addLog({
+      kind: "warning",
+      text: "Detected an evaluateScriptSync call without a runTaskSync provided. Using a default. The StaticJs engine does NOT do this natively!",
+    });
+  }
+
+  const runner = effectiveRunner ?? createTimeBoundTaskRunner({ maxRunTime: 5_000 });
+
+  const result = realmInstance.evaluateScriptSync(code, {
+    runTask: (task) => {
+      spawnOpts.registerSubTask(task);
+      runner(task);
+    },
+  });
+  // Always wrap as a class-backed object so the outer sandbox sees a StaticJsValue
+  // wrapper (not an unwrapped primitive). Type guards like isStaticJsNumber rely on
+  // getHostObject returning the inner-realm value.
+  return wrapClassBacked(result, ctx);
+});
 
 export function createStaticJsRealmApi(
   spawnOpts: CodeRuntimeSpawnOptions,
 ): Record<string, StaticJsValue> {
-  return {
-    StaticJsRealm: makeStaticJsRealmFactoryProxy(spawnOpts),
-    isStaticJsValue: makeStaticJsTypeGuard(isStaticJsValue, spawnOpts),
-    isStaticJsScalar: makeStaticJsTypeGuard(isStaticJsScalar, spawnOpts),
-    isStaticJsNumber: makeStaticJsTypeGuard(isStaticJsNumber, spawnOpts),
-    isStaticJsBoolean: makeStaticJsTypeGuard(isStaticJsBoolean, spawnOpts),
-    isStaticJsString: makeStaticJsTypeGuard(isStaticJsString, spawnOpts),
-    isStaticJsObject: makeStaticJsTypeGuard(isStaticJsObject, spawnOpts),
-    isStaticJsArray: makeStaticJsTypeGuard(isStaticJsArray, spawnOpts),
-    isStaticJsFunction: makeStaticJsTypeGuard(isStaticJsFunction, spawnOpts),
-  };
-}
-
-const RootSymbol = Symbol("StaticJsApiRoot");
-
-function setRoot(obj: any, value: unknown) {
-  obj[RootSymbol] = value;
-}
-
-function getRoot(obj: any): unknown {
-  if (obj && obj[RootSymbol]) {
-    return obj[RootSymbol];
-  }
-  return null;
-}
-
-function makeStaticJsRealmFactoryProxy(spawnOpts: CodeRuntimeSpawnOptions) {
+  const ctx = createBridgeContext(spawnOpts);
   const { realm } = spawnOpts;
 
-  const func = realm.types.function("StaticJsRealm", function* (optsValue) {
-    const opts = (optsValue?.toNative() ?? {}) as StaticJsRealmOptions;
-    return makeStaticJsRealmProxy(opts, spawnOpts);
-  });
+  // Prime the prototype cache by scanning a throwaway instance.
+  const primeRealm = StaticJsRealm();
+  wrapClassBacked(primeRealm, ctx);
 
-  setRoot(func, StaticJsRealm);
-
-  return func;
-}
-
-function makeStaticJsRealmProxy(
-  realmOpts: StaticJsRealmOptions,
-  spawnOpts: CodeRuntimeSpawnOptions,
-): StaticJsValue {
-  const { realm } = spawnOpts;
-
-  const resolvedOpts: StaticJsRealmOptions = {
-    ...realmOpts,
-  };
-
-  if (realmOpts.runTask) {
-    resolvedOpts.runTask = (task) => {
-      spawnOpts.registerSubTask(task);
-      realmOpts.runTask!(task);
-    };
-  }
-
-  if (realmOpts.runTaskSync) {
-    resolvedOpts.runTaskSync = (task) => {
-      spawnOpts.registerSubTask(task);
-      realmOpts.runTaskSync!(task);
-    };
-  }
-
-  const newRealm = new StaticJsRealm(resolvedOpts);
-
-  const realmProxy = realm.types.object({
-    evaluateScriptSync: {
-      value: realm.types.function("evaluateScriptSync", function* (codeValue) {
-        let runTask: StaticJsTaskRunner | undefined;
-        if (!realmOpts.runTaskSync) {
-          spawnOpts.addLog({
-            kind: "warning",
-            text: "Detected an evaluateScriptSync call without a runTaskSync provided. Using a default.  The StaticJs engine does NOT do this natively!",
-          });
-          runTask = createTimeBoundTaskRunner({
-            maxRunTime: 5_000,
-          });
+  // StaticJsRealm is a factory/constructor — prototype scanning cannot auto-generate it.
+  const staticJsRealmFactory = realm.types.function(
+    "StaticJsRealm",
+    function* (optsArg?: StaticJsValue) {
+      let resolvedOpts: StaticJsRealmOptions = {};
+      if (isStaticJsObject(optsArg)) {
+        resolvedOpts = omit(optsArg.toNative() as Record<string, unknown>, [
+          "runTask",
+          "runTaskSync",
+        ]);
+        const runTask = optsArg.getSync("runTask");
+        const runTaskSync = optsArg.getSync("runTaskSync");
+        if (runTask) {
+          resolvedOpts.runTask = hookRunner(runTask, ctx);
         }
+        if (runTaskSync) {
+          resolvedOpts.runTaskSync = hookRunner(runTaskSync, ctx);
+        }
+      } else if (optsArg) {
+        const err = realm.types.error(
+          "TypeError",
+          "StaticJsRealm options argument must be an object if provided",
+        );
+        throw new StaticJsRuntimeError(err);
+      }
 
-        const code = codeValue.toNative() as string;
-        const result = newRealm.evaluateScriptSync(code, {
-          runTask,
-        });
-        return makeStaticJsValueProxy(result, spawnOpts);
-      }),
-      enumerable: false,
-      writable: false,
-      configurable: false,
+      // Raw runners are wrapped so sub-tasks register with the outer session.
+
+      const newRealm = StaticJsRealm(resolvedOpts);
+
+      realmRunners.set(newRealm, {
+        runTask: resolvedOpts.runTask,
+        runTaskSync: resolvedOpts.runTaskSync,
+      });
+
+      return wrapClassBacked(newRealm, ctx);
     },
-  });
+  );
 
-  setRoot(realmProxy, realm);
-  return realmProxy;
-}
-
-function makeStaticJsValueProxy(
-  value: StaticJsValue,
-  spawnOpts: CodeRuntimeSpawnOptions,
-): StaticJsValue {
-  const props: Record<string, StaticJsPropertyDescriptorRecord> = {};
-  if (isStaticJsScalar(value)) {
-    props.value = {
-      value: spawnOpts.realm.types.toStaticJsValue(value.toNative()),
-      enumerable: true,
-      writable: false,
-      configurable: false,
-    };
+  function makeTypeGuard(guard: (value: unknown) => boolean): StaticJsValue {
+    return realm.types.function(guard.name, function* (value?: StaticJsValue) {
+      const hostValue = value != null ? (getHostObject(value) ?? value) : undefined;
+      return realm.types.toStaticJsValue(guard(hostValue));
+    });
   }
 
-  const obj = spawnOpts.realm.types.object(props);
-  setRoot(obj, value);
-  return obj;
+  return {
+    StaticJsRealm: staticJsRealmFactory,
+    isStaticJsValue: makeTypeGuard(isStaticJsValue),
+    isStaticJsScalar: makeTypeGuard(isStaticJsScalar),
+    isStaticJsNumber: makeTypeGuard(isStaticJsNumber),
+    isStaticJsBoolean: makeTypeGuard(isStaticJsBoolean),
+    isStaticJsString: makeTypeGuard(isStaticJsString),
+    isStaticJsObject: makeTypeGuard(isStaticJsObject),
+    isStaticJsArray: makeTypeGuard(isStaticJsArray),
+    isStaticJsFunction: makeTypeGuard(isStaticJsFunction),
+  };
 }
-
-function makeStaticJsTypeGuard(
-  guard: (value: unknown) => boolean,
-  spawnOpts: CodeRuntimeSpawnOptions,
-) {
-  const func = spawnOpts.realm.types.function(guard.name, function* (value) {
-    console.log("Guard called with", value);
-    const root = getRoot(value);
-    console.log("Root of value:", root);
-    if (!isStaticJsValue(root)) {
-      return spawnOpts.realm.types.false;
-    }
-
-    return spawnOpts.realm.types.toStaticJsValue(guard(root));
-  });
-  setRoot(func, guard);
-  return func;
-}
-
-// function makeProxy(value: unknown, realm: StaticJsRealm): StaticJsValue {
-//   if (value == null || value === undefined) {
-//     return realm.types.toStaticJsValue(value);
-//   }
-
-//   if (typeof value === "object" || typeof value === "function") {
-//     return createReadExecuteAccessProxy(value, realm);
-//   }
-
-//   return realm.types.toStaticJsValue(value);
-// }

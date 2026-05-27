@@ -1,9 +1,12 @@
 .container {
-  display: flex;
-  border-radius: var(--ifm-code-border-radius, 4px);
-  overflow: hidden;
   margin-bottom: var(--ifm-leading);
   max-height: 650px;
+  overflow: hidden;
+}
+
+.panes {
+  display: flex;
+  border-radius: var(--ifm-code-border-radius, 4px);
 }
 
 /* Suppress default bottom margin on CodeMirrorEditor's child elements */

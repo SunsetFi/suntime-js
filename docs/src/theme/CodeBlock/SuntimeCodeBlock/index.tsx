@@ -115,31 +115,40 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
 
   return (
     <div className={styles.container}>
-      <div className={styles.codePanel}>
-        <CodeMirrorEditor
-          value={code}
-          onChange={setCode}
-          extensions={extensions}
-          highlightLine={pausedLine}
+      <div className={styles.panes}>
+        <div className={styles.codePanel}>
+          <CodeMirrorEditor
+            value={code}
+            onChange={setCode}
+            extensions={extensions}
+            highlightLine={pausedLine}
+          />
+          <button
+            className={styles.resetButton}
+            onClick={handleReset}
+            disabled={code === originalCode}
+            title="Reset to original"
+          >
+            Reset
+          </button>
+        </div>
+
+        <OutputPanel
+          log={log}
+          status={status}
+          onRun={handleRun}
+          onStop={handleStop}
+          onPause={handlePause}
+          onResume={handleResume}
+          onStep={handleStep}
         />
-        <button
-          className={styles.resetButton}
-          onClick={handleReset}
-          disabled={code === originalCode}
-          title="Reset to original"
-        >
-          Reset
-        </button>
       </div>
-      <OutputPanel
-        log={log}
-        status={status}
-        onRun={handleRun}
-        onStop={handleStop}
-        onPause={handlePause}
-        onResume={handleResume}
-        onStep={handleStep}
-      />
+      {exposeStaticJs && (
+        <span className={styles.warningLine}>
+          Note: The @suntime-js/core module is exposed, and therefore this editor is not a secure
+          sandbox.
+        </span>
+      )}
     </div>
   );
 }
