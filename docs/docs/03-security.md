@@ -20,9 +20,9 @@ When interoping with sandbox code, it is **strongly encouraged** that you always
 
 There are a few rules to keeping sandboxed code from misbehaving:
 
-- Always specify a [runTask](./05-realms.md#runtask) and [runTaskSync](./05-realms.md#runtasksync) [Task Scheduler](./08-tasks.md). These are critical to prevent infinite loops and runaway code.
+- Always specify a [runTask](./api/realm.md#runtask) and [runTaskSync](./api/realm.md#runtasksync) [Task Scheduler](./08-tasks.md). These are critical to prevent infinite loops and runaway code.
 - Always use the [Type Factory](./07-types.md) and StaticJs type objects, to ensure you know where you are potentially evaluating sandboxed code.
-- Avoid [toNative](./07-types.md#staticjsvalue) and [Type Coercion](./04-type-coercion.md), to avoid accidentally invoking sandboxed code unexpectedly.
+- Avoid [toNative](./api/types/primitive.md#tonative) and [Type Coercion](./04-type-coercion.md), to avoid accidentally invoking sandboxed code unexpectedly.
 
 ### Objects
 

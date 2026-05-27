@@ -98,9 +98,23 @@ Task runners can be set at two levels:
 
 **Per realm**: set `runTask` and/or `runTaskSync` on the `StaticJsRealm` constructor. These serve as the default for all evaluations on that realm. See the [StaticJsRealm API reference](./api/realm.md#runtask) for details.
 
+```ts
+const realm = StaticJsRealm({
+  runTask(task) {
+    for (let i = 0; i < 100_000; i++) {
+      if (task.done) return;
+      task.next();
+    }
+    task.abort();
+  },
+});
+await realm.evaluateScript(`while(true) {}`);
+```
+
 **Per call**: pass `runTask` in the options argument of any evaluation method. This overrides the realm default for that single invocation.
 
 ```ts
+const realm = StaticJsRealm();
 await realm.evaluateScript(`while(true) {}`, {
   runTask(task) {
     for (let i = 0; i < 100_000; i++) {

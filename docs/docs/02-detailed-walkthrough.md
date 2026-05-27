@@ -78,7 +78,7 @@ Async runners may return before the task completes, yielding to the host between
 
 ### Specifying tasks
 
-Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)). It can also be overridden per-call via the [`runTask`](./api/realm.md#staticjsrealmevaluatesourceoptions) option on [`evaluateScript`](./api/realm.md#evaluatescriptscript-opts), [`evaluateScriptSync`](./api/realm.md#evaluatescriptsyncscript-opts), its [expression](./api/realm.md#evaluateexpressionexpression-opts) counterparts, and any [object method](./api/types/object.md#methods) supporting [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
+Task runners can be set at the realm level ([`runTask`](./api/realm.md#runtask), [`runTaskSync`](./api/realm.md#runtasksync)). It can also be overridden per-call via the [`runTask`](./api/realm.md#staticjsrealmevaluatesourceoptions) option on [`evaluateScript`](./api/realm.md#evaluatescriptscript-opts), [`evaluateScriptSync`](./api/realm.md#evaluatescriptsyncscript-opts), its [expression](./api/realm.md#evaluateexpressionexpression-opts) counterparts, and any [object method](./api/types/object.md#methods) supporting [StaticJsRunTaskOptions](./api/realm.md#staticjsruntaskoptions).
 
 ### Built-in task runners
 
@@ -240,7 +240,7 @@ The type guard functions work internally by checking the [`.runtimeTypeCode`](./
 All StaticJs values have a [`toNative()`](./api/types/primitive.md#tonative) method that produces a host-proxied representation.
 
 :::danger[toNative() and objects]
-While toNative is safe for scalar values, it returns live proxies for objects. Such proxies carry risks, as accessing any property on it may synchronously invoke sandboxed code. Avoid [`toNative()`](./api/types/primitive.md#tonative) on objects unless you have a time-bounded [StaticJsRealm.runTaskSync](./05-realms.md#runtasksync) configured.
+While toNative is safe for scalar values, it returns live proxies for objects. Such proxies carry risks, as accessing any property on it may synchronously invoke sandboxed code. Avoid [`toNative()`](./api/types/primitive.md#tonative) on objects unless you have a time-bounded [StaticJsRealm.runTaskSync](./api/realm.md#runtasksync) configured.
 
 Prefer `.value` on scalars (accessible after an [`isStaticJsScalar`](./api/types/scalar.md#isstaticjsscalarvalue) check) and direct [`StaticJsObject`](./api/types/object.md) API methods on objects.
 :::
