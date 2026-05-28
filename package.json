@@ -8,7 +8,7 @@
     "build": "pnpm -r build",
     "format": "pnpm -r format",
     "lint": "pnpm -r lint",
-    "check": "pnpm -r check",
+    "typecheck": "pnpm -r check",
     "update:test262": "git subtree pull --prefix=packages/core/tests/test262/repo test262 main --squash"
   },
   "devDependencies": {
