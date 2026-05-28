@@ -1,3 +1,4 @@
+import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import typedKeys from "../../../utils/typed-keys.js";
@@ -229,8 +230,9 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     func: (this: StaticJsValue, ...args: StaticJsValue[]) => StaticJsValue,
     opts: StaticJsFunctionTypeCreationOptions = {},
   ): StaticJsFunction {
+    const realm = this._realm;
     return new StaticJsNativeFunctionImpl(
-      this._realm,
+      realm,
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
         try {
@@ -241,7 +243,15 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
           }
           return result;
         } catch (e) {
-          if (isStaticJsValue(e)) {
+          if (e instanceof StaticJsRuntimeError) {
+            if (e.thrown.realm === realm) {
+              throw Completion.Throw(e.thrown);
+            }
+
+            throw e;
+          }
+
+          if (isStaticJsValue(e) && e.realm === realm) {
             throw Completion.Throw(e);
           }
 
@@ -251,7 +261,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       {
         construct: opts.isConstructor ?? false,
         length: opts.length ?? func.length,
-        prototype: opts.prototype ?? this._realm.intrinsics["Function.prototype"],
+        prototype: opts.prototype ?? realm.intrinsics["Function.prototype"],
       },
     );
   }

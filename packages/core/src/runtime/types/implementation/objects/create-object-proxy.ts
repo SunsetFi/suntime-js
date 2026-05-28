@@ -8,14 +8,18 @@ import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
-const ProxyOwnerKey = Symbol("StaticJsObjectProxyOwner");
+const ProxyOwnerKey = Symbol.for("@suntime-js/core::StaticJsObjectProxyOwner");
 
 export type StaticJsObjectProxyTarget = (object | ((...args: unknown[]) => unknown)) & {
   [key: PropertyKey]: unknown;
 };
 
 export function getStaticJsObjectProxyOwner(proxy: unknown): StaticJsValue | null {
-  if (proxy && typeof proxy === "object" && ProxyOwnerKey in proxy) {
+  if (
+    proxy &&
+    (typeof proxy === "object" || typeof proxy === "function") &&
+    ProxyOwnerKey in proxy
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (proxy as any)[ProxyOwnerKey] as StaticJsValue;
   }
@@ -185,12 +189,6 @@ export function createStaticJsObjectProxy(
         return null;
       }
       return proto.toNative() as object;
-    },
-    apply() {
-      throw new TypeError("Object is not a function.");
-    },
-    construct() {
-      throw new TypeError("Object is not a constructor.");
     },
     ...additionalTraps,
   });

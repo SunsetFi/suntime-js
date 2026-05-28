@@ -336,6 +336,13 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
+  override toStringSync() {
+    const name = this.getNameSync();
+
+    // TODO: If its an AST function, we should return the body
+    return `function ${name ?? ""}() { ${this.sourceText} }`;
+  }
+
   protected *_evaluateBody(
     args: StaticJsValue[],
   ): EvaluationGenerator<ReturnCompletion | ThrowCompletion> {

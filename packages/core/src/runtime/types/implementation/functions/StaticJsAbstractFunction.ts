@@ -1,6 +1,7 @@
 import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import { get } from "../../../algorithms/get.js";
@@ -117,7 +118,16 @@ export abstract class StaticJsAbstractFunction
     args?: StaticJsValue[],
     opts?: StaticJsRunTaskOptions,
   ): Promise<StaticJsValue> {
-    return this.realm.invokeEvaluatorAsync(this.callEvaluator(thisArg, args), opts);
+    // oxlint-disable-next-line typescript/no-this-alias
+    const self = this;
+    return this.realm.invokeEvaluatorAsync(function* evaluate() {
+      try {
+        return yield* self.callEvaluator(thisArg, args);
+      } catch (e) {
+        Completion.handleRuntime(e);
+        throw e;
+      }
+    }, opts);
   }
 
   callSync(
@@ -125,7 +135,16 @@ export abstract class StaticJsAbstractFunction
     args?: StaticJsValue[],
     opts?: StaticJsRunTaskOptions,
   ): StaticJsValue {
-    return this.realm.invokeEvaluatorSync(this.callEvaluator(thisArg, args), opts);
+    // oxlint-disable-next-line typescript/no-this-alias
+    const self = this;
+    return this.realm.invokeEvaluatorSync(function* evaluate() {
+      try {
+        return yield* self.callEvaluator(thisArg, args);
+      } catch (e) {
+        Completion.handleRuntime(e);
+        throw e;
+      }
+    }, opts);
   }
 
   // TODO: newTarget
@@ -155,22 +174,18 @@ export abstract class StaticJsAbstractFunction
   }
 
   protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
-    return (() => {}) as StaticJsObjectProxyTarget;
-  }
-
-  protected override _configuretoNativeProxy(
-    _traps: ProxyHandler<StaticJsObjectProxyTarget>,
-  ): void {
-    _traps.apply = (_target: unknown, thisArg: unknown, args: unknown[]) => {
-      const argValues = args.map((value) => this.realm.types.toStaticJsValue(value));
+    // oxlint-disable-next-line typescript/no-this-alias
+    const self = this;
+    return function (this: unknown, ...args: unknown[]) {
+      const argValues = args.map((value) => self.realm.types.toStaticJsValue(value));
       // FIXME: Not sure of the wisdom of this.  This might result in leaking host concerns into the runtime,
       // if the caller is not aware that this is happening.
       // In general, .toNative() is a security nightmare anyway...
-      const thisArgValue = this.realm.types.toStaticJsValue(thisArg);
+      const thisArgValue = self.realm.types.toStaticJsValue(this);
 
-      const result = this.realm.invokeEvaluatorSync(this.callEvaluator(thisArgValue, argValues));
+      const result = self.realm.invokeEvaluatorSync(self.callEvaluator(thisArgValue, argValues));
 
       return result.toNative();
-    };
+    } as StaticJsObjectProxyTarget;
   }
 }

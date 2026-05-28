@@ -423,7 +423,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     function* evaluate() {
       // We may be ran from outside any active context, so bootstrap
       // one if needed.
-      if (EvaluationContext.stack.length === 0) {
+      if (EvaluationContext.stack.length === 0 || EvaluationContext.current.realm !== realm) {
         return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
           function* () {
             return yield* invokeEvaluator(evaluator);

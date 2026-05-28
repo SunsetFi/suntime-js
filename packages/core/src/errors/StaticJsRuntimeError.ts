@@ -6,7 +6,7 @@ export class StaticJsRuntimeError extends Error {
   private _message: string | null = null;
   constructor(
     private readonly _thrown: StaticJsValue,
-    private readonly _prefix: string = "Runtime Error: ",
+    private readonly _prefix: string = "",
   ) {
     super("StaticJsRuntimeError");
 
