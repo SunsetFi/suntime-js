@@ -21,9 +21,9 @@ import { CodeRuntimeSpawnOptions } from "./CodeRuntime";
 import {
   BridgeContext,
   createBridgeContext,
-  getHostObject,
   registerOverride,
-  wrapClassBacked,
+  wrapValue,
+  unwrapValue,
 } from "./host-bridge";
 
 // Raw runners are stored here (not the hooked versions) so overrides can add their own
@@ -43,7 +43,7 @@ function hookRunner(runner: StaticJsValue, ctx: BridgeContext): StaticJsTaskRunn
     }
 
     registerSubTask(task);
-    const taskIter = wrapClassBacked(task, ctx);
+    const taskIter = wrapValue(task, ctx);
     runner.callSync(realm.types.undefined, [taskIter]);
   };
 }
@@ -94,18 +94,20 @@ registerOverride("StaticJsRealm", "evaluateScriptSync", function* (hostThis, san
   // Always wrap as a class-backed object so the outer sandbox sees a StaticJsValue
   // wrapper (not an unwrapped primitive). Type guards like isStaticJsNumber rely on
   // getHostObject returning the inner-realm value.
-  return wrapClassBacked(result, ctx);
+  return wrapValue(result, ctx);
 });
 
 export function createStaticJsRealmApi(
   spawnOpts: CodeRuntimeSpawnOptions,
 ): Record<string, StaticJsValue> {
+  (spawnOpts.realm as any).__our_home_realm = true;
+  (spawnOpts.realm.types as any).__our_home_realm_types = true;
   const ctx = createBridgeContext(spawnOpts);
   const { realm } = spawnOpts;
 
   // Prime the prototype cache by scanning a throwaway instance.
   const primeRealm = StaticJsRealm();
-  wrapClassBacked(primeRealm, ctx);
+  wrapValue(primeRealm, ctx);
 
   // StaticJsRealm is a factory/constructor — prototype scanning cannot auto-generate it.
   const staticJsRealmFactory = realm.types.function(
@@ -136,19 +138,21 @@ export function createStaticJsRealmApi(
       // Raw runners are wrapped so sub-tasks register with the outer session.
 
       const newRealm = StaticJsRealm(resolvedOpts);
+      (newRealm as any).__our_child_realm = true;
+      (newRealm.types as any).__our_child_realm_types = true;
 
       realmRunners.set(newRealm, {
         runTask: resolvedOpts.runTask,
         runTaskSync: resolvedOpts.runTaskSync,
       });
 
-      return wrapClassBacked(newRealm, ctx);
+      return wrapValue(newRealm, ctx);
     },
   );
 
   function makeTypeGuard(guard: (value: unknown) => boolean): StaticJsValue {
     return realm.types.function(guard.name, function* (value?: StaticJsValue) {
-      const hostValue = value != null ? (getHostObject(value) ?? value) : undefined;
+      const hostValue = value != null ? unwrapValue(value, ctx) : undefined;
       return realm.types.toStaticJsValue(guard(hostValue));
     });
   }

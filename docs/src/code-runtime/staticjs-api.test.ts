@@ -1,6 +1,8 @@
 import { createTimeBoundTaskRunner, StaticJsRealm } from "@suntime-js/core";
 import { it, expect, vi } from "vitest";
 
+import isDebuggerActive from "../env/is-debugger-active";
+
 import { createStaticJsRealmApi } from "./staticjs-api";
 
 // Builds an outer realm with the full API injected into its global scope.
@@ -8,7 +10,7 @@ import { createStaticJsRealmApi } from "./staticjs-api";
 // Returns both the realm and the spawnOpts so tests can assert on mocks.
 function makeApiRealm() {
   const realm = StaticJsRealm({
-    runTaskSync: createTimeBoundTaskRunner({ maxRunTime: 5_000 }),
+    runTaskSync: isDebuggerActive ? undefined : createTimeBoundTaskRunner({ maxRunTime: 5_000 }),
   });
   const spawnOpts = {
     realm,
@@ -169,4 +171,33 @@ it("can create type factory objects", () => {
       ]
     `);
   expect(result.toNative()).toEqual([true, 1, "x"]);
+});
+
+it("can create function objects", () => {
+  const { realm } = makeApiRealm();
+  const result = realm.evaluateScriptSync(`
+      const inner = StaticJsRealm();
+      const fn = inner.types.function("hello", function thisIsHelloFunc() {
+        return inner.types.string("hello");
+      });
+      [isStaticJsFunction(fn), fn.callSync(inner.types.undefined, []).toNative()];
+    `);
+  expect(result.toNative()).toEqual([true, "hello"]);
+});
+
+it("can assign function objects to properties", () => {
+  const { realm } = makeApiRealm();
+  const result = realm.evaluateScriptSync(`
+      const inner = StaticJsRealm();
+      const fn = inner.types.function("hello", function thisIsHelloFunc(str) {
+        return inner.types.string(str.value + " - hello");
+      });
+      const obj = inner.types.object({
+        greet: {
+          value: fn,
+        }
+      });
+      [isStaticJsFunction(obj.getSync("greet")), obj.getSync("greet").callSync(inner.types.undefined, [inner.types.string("world")]).toNative()];
+    `);
+  expect(result.toNative()).toEqual([true, "world - hello"]);
 });

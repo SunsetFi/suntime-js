@@ -1,11 +1,17 @@
-import { isStaticJsObject, StaticJsObject, StaticJsRealm } from "@suntime-js/core";
+import {
+  isStaticJsObject,
+  StaticJsObject,
+  StaticJsRealm,
+  StaticJsRuntimeError,
+} from "@suntime-js/core";
 import { describe, expect, it, vi } from "vitest";
 
 import {
   createBridgeContext,
-  getHostObject,
-  unwrapArg,
+  unwrapThrown,
+  unwrapValue,
   wrapClassBacked,
+  wrapThrown,
   wrapValue,
 } from "./host-bridge";
 
@@ -17,11 +23,6 @@ function makeSpawnOpts(realm: ReturnType<typeof StaticJsRealm>) {
     addLog: vi.fn(),
   };
 }
-
-describe("host-bridge", () => {
-  it.todo("wrapClassBacked round-trips via getHostObject");
-  it.todo("unwrapArg extracts host value from sandbox wrapper");
-});
 
 describe("wrapValue — primitives and POJOs", () => {
   function makeCtx() {
@@ -57,7 +58,7 @@ describe("wrapValue — primitives and POJOs", () => {
     const innerNum = innerRealm.types.number(99);
     const result = wrapValue(innerNum, ctx);
     expect(isStaticJsObject(result)).toBe(true);
-    expect(getHostObject(result)).toBe(innerNum);
+    expect(unwrapValue(result, ctx)).toBe(innerNum);
   });
 
   it("plain-clones a POJO with recursive property wrapping", () => {
@@ -76,21 +77,21 @@ describe("unwrapArg", () => {
 
   it("extracts .value from a sandbox scalar", () => {
     const sandboxNum = realm.types.number(7);
-    expect(unwrapArg(sandboxNum)).toBe(7);
+    expect(unwrapValue(sandboxNum, ctx)).toBe(7);
   });
 
   it("calls .toNative() on a plain sandbox object", () => {
     const obj = realm.types.object({
       a: { value: realm.types.number(1), enumerable: true, writable: true, configurable: true },
     });
-    const result = unwrapArg(obj) as Record<string, unknown>;
+    const result = unwrapValue(obj, ctx) as Record<string, unknown>;
     expect(result.a).toBe(1);
   });
 
   it("returns the backing host object for a class-backed wrapper", () => {
     const innerRealm = StaticJsRealm();
     const wrapper = wrapClassBacked(innerRealm as unknown as object, ctx);
-    expect(unwrapArg(wrapper)).toBe(innerRealm);
+    expect(unwrapValue(wrapper, ctx)).toBe(innerRealm);
   });
 });
 
@@ -107,7 +108,7 @@ describe("wrapClassBacked", () => {
   it("backing map links wrapper back to host object", () => {
     const innerRealm = StaticJsRealm();
     const wrapper = wrapClassBacked(innerRealm as unknown as object, ctx);
-    expect(getHostObject(wrapper)).toBe(innerRealm);
+    expect(unwrapValue(wrapper, ctx)).toBe(innerRealm);
   });
 
   it("exposes prototype methods as sandbox functions", () => {
@@ -133,5 +134,100 @@ describe("wrapClassBacked", () => {
     // The method is still accessible via the prototype on the wrapper
     const fromProto = wrapper.getSync("evaluateScriptSync");
     expect(fromProto).toBeDefined();
+  });
+});
+
+describe("wrapThrown / unwrapThrown", () => {
+  const realm = StaticJsRealm();
+  const ctx = createBridgeContext(makeSpawnOpts(realm));
+
+  it("wraps a standard Error preserving its message", () => {
+    const wrapped = wrapThrown(new Error("oops"), ctx) as StaticJsObject;
+    expect(isStaticJsObject(wrapped)).toBe(true);
+    expect(wrapped.getSync("message")?.toNative()).toBe("oops");
+  });
+
+  it("preserves the error type name for known error names", () => {
+    const wrapped = wrapThrown(new TypeError("bad type"), ctx) as StaticJsObject;
+    expect(isStaticJsObject(wrapped)).toBe(true);
+    expect(wrapped.getSync("name")?.toNative()).toBe("TypeError");
+    expect(wrapped.getSync("message")?.toNative()).toBe("bad type");
+  });
+
+  it("wraps a non-Error object with a message property", () => {
+    const wrapped = wrapThrown({ message: "custom error" }, ctx) as StaticJsObject;
+    expect(isStaticJsObject(wrapped)).toBe(true);
+    expect(wrapped.getSync("message")?.toNative()).toBe("custom error");
+  });
+
+  it("unwrapThrown reconstructs a native Error from a StaticJsRuntimeError", () => {
+    const sandboxErr = realm.types.error("Error", "round trip");
+    const runtimeErr = new StaticJsRuntimeError(sandboxErr);
+    const unwrapped = unwrapThrown(runtimeErr) as Error;
+    expect(unwrapped).toBeInstanceOf(Error);
+    expect(unwrapped.message).toBe("round trip");
+  });
+
+  it("unwrapThrown reconstructs a typed error preserving the constructor", () => {
+    const sandboxErr = realm.types.error("TypeError", "bad type");
+    const runtimeErr = new StaticJsRuntimeError(sandboxErr);
+    const unwrapped = unwrapThrown(runtimeErr) as TypeError;
+    expect(unwrapped).toBeInstanceOf(TypeError);
+    expect(unwrapped.message).toBe("bad type");
+  });
+
+  it("unwrapThrown returns the original value for a plain non-runtime error", () => {
+    const err = new Error("native");
+    expect(unwrapThrown(err)).toBe(err);
+  });
+});
+
+describe("error propagation across bridge", () => {
+  it("preserves Error message when a host method throws", () => {
+    const realm = StaticJsRealm();
+    const ctx = createBridgeContext(makeSpawnOpts(realm));
+
+    class ThrowingHost {
+      get [Symbol.toStringTag]() {
+        return "ThrowingHost";
+      }
+      boom() {
+        throw new Error("boom message");
+      }
+    }
+
+    const wrapper = wrapClassBacked(new ThrowingHost(), ctx);
+    realm.global.setSync("host", wrapper);
+
+    const result = realm.evaluateScriptSync(`
+      let msg = null;
+      try { host.boom(); } catch(e) { msg = e.message; }
+      msg;
+    `);
+    expect(result.toNative()).toBe("boom message");
+  });
+
+  it("preserves TypeError name and message when a host method throws", () => {
+    const realm = StaticJsRealm();
+    const ctx = createBridgeContext(makeSpawnOpts(realm));
+
+    class ThrowingHost {
+      get [Symbol.toStringTag]() {
+        return "ThrowingHost";
+      }
+      badType() {
+        throw new TypeError("not a number");
+      }
+    }
+
+    const wrapper = wrapClassBacked(new ThrowingHost(), ctx);
+    realm.global.setSync("host", wrapper);
+
+    const result = realm.evaluateScriptSync(`
+      let info = null;
+      try { host.badType(); } catch(e) { info = e.name + ": " + e.message; }
+      info;
+    `);
+    expect(result.toNative()).toBe("TypeError: not a number");
   });
 });
