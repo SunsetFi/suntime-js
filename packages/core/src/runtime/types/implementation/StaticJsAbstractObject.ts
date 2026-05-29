@@ -467,7 +467,7 @@ export abstract class StaticJsAbstractObject
   toNative(): unknown {
     if (!this._cachedJsObject) {
       const proxyHandler: ProxyHandler<object> = {};
-      this._configuretoNativeProxy(proxyHandler);
+      this._configureToNativeProxy(proxyHandler);
       const target = this._createtoNativeProxyTarget();
       this._cachedJsObject = createStaticJsObjectProxy(this, target, proxyHandler);
     }
@@ -491,7 +491,7 @@ export abstract class StaticJsAbstractObject
     return {};
   }
 
-  protected _configuretoNativeProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {}
+  protected _configureToNativeProxy(_traps: ProxyHandler<StaticJsObjectProxyTarget>): void {}
 
   protected abstract _setPropertyDescriptorEvaluator(
     key: StaticJsPropertyKey,

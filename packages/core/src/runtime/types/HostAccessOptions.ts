@@ -65,7 +65,7 @@ export interface HostAccessOptions {
    *
    * Not consulted for the root object itself.
    */
-  childPolicy?: HostAccessChildPolicy;
+  childPolicy?: HostAccessChildOptions;
 }
 
 /**
@@ -82,7 +82,7 @@ export type HostAccessQueryFunction = (
  * Policy for child host objects reached from a parent host object. See HostAccessOptions.childPolicy.
  * If inherit, the child uses the same policy as the parent (sticky).
  */
-export type HostAccessChildPolicy = "inherit" | false | HostAccessQueryFunction;
+export type HostAccessChildOptions = "inherit" | false | HostAccessQueryFunction;
 
 /**
  * Argument option for specifying host access level to a host object in the sandbox.

@@ -1,6 +1,6 @@
 import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
-import { StaticJsCallable } from "./StaticJsCallable.js";
+import { StaticJsCallable, StaticJsCallableToNativeOpts } from "./StaticJsCallable.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
@@ -18,7 +18,7 @@ export interface StaticJsFunction extends StaticJsCallable {
   getNameAsync(opts?: StaticJsRunTaskOptions): Promise<string>;
   getNameSync(opts?: StaticJsRunTaskOptions): string;
 
-  toNative(): Function;
+  toNative(opts?: StaticJsCallableToNativeOpts): Function;
 }
 
 export interface StaticJsBoundFunction extends StaticJsFunction {

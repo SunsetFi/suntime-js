@@ -7,7 +7,8 @@ import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptO
 import { get } from "../../../algorithms/get.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsCallable } from "../../StaticJsCallable.js";
+import type { HostAccessArg } from "../../HostAccessOptions.js";
+import { StaticJsCallable, type StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull, StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -15,13 +16,21 @@ import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
+import { PolicyKeyInterner, type PolicyKey } from "../host-access/PolicyKey.js";
+import { RESOLVED_SAFE_DEFAULTS } from "../host-access/resolve-host-access-options.js";
+import {
+  createStaticJsObjectProxy,
+  StaticJsObjectProxyTarget,
+} from "../objects/create-object-proxy.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export abstract class StaticJsAbstractFunction
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsFunction
 {
+  private readonly _accessNativeInterner = new PolicyKeyInterner();
+  private readonly _accessNativeCache = new Map<PolicyKey, Function>();
+
   private _initialName: string | null = null;
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
@@ -169,19 +178,48 @@ export abstract class StaticJsAbstractFunction
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  override toNative(): Function {
-    return super.toNative() as Function;
+  /**
+   * Convert this function to a native (host) callable.
+   *
+   * When `opts.access` is provided, the bridge re-wraps the `this` and
+   * arguments it is later called with by passing that access as the `opts`
+   * argument of `toStaticJsValue` for each value, rather than using the realm's
+   * default behavior. This is how a sandbox function passed into host code
+   * keeps an inherited host-access level on its callback boundary instead of
+   * collapsing to the realm defaults.
+   *
+   * Bridges are cached per resolved access (keyed via {@link PolicyKeyInterner});
+   * the access-less bridge uses the shared cache on the base class.
+   */
+  override toNative(opts?: StaticJsCallableToNativeOpts): Function {
+    const access = opts?.access;
+    if (access === undefined) {
+      return super.toNative() as Function;
+    }
+
+    const key = this._accessNativeInterner.keyFor({ ...RESOLVED_SAFE_DEFAULTS, ...access });
+    let cached = this._accessNativeCache.get(key);
+    if (!cached) {
+      const proxyHandler: ProxyHandler<object> = {};
+      this._configureToNativeProxy(proxyHandler);
+      const target = this._createtoNativeProxyTarget(access);
+      cached = createStaticJsObjectProxy(this, target, proxyHandler) as Function;
+      this._accessNativeCache.set(key, cached);
+    }
+    return cached;
   }
 
-  protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
+  protected override _createtoNativeProxyTarget(access?: HostAccessArg): StaticJsObjectProxyTarget {
     // oxlint-disable-next-line typescript/no-this-alias
     const self = this;
+    // Each value handed back to the function is wrapped under `access` (the
+    // access the caller resolved for this function, e.g. via the parent's
+    // childPolicy) — passed straight through as toStaticJsValue's opts.
+    const toValue = (value: unknown): StaticJsValue =>
+      self.realm.types.toStaticJsValue(value, access);
     return function (this: unknown, ...args: unknown[]) {
-      const argValues = args.map((value) => self.realm.types.toStaticJsValue(value));
-      // FIXME: Not sure of the wisdom of this.  This might result in leaking host concerns into the runtime,
-      // if the caller is not aware that this is happening.
-      // In general, .toNative() is a security nightmare anyway...
-      const thisArgValue = self.realm.types.toStaticJsValue(this);
+      const argValues = args.map(toValue);
+      const thisArgValue = toValue(this);
 
       const result = self.realm.invokeEvaluatorSync(self.callEvaluator(thisArgValue, argValues));
 

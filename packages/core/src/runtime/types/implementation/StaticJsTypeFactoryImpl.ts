@@ -31,10 +31,12 @@ import {
 } from "../StaticJsProxy.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
+import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
 import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
 import { isErrorTypeName } from "../StaticJsTypeFactory.js";
 import type { StaticJsUndefined } from "../StaticJsUndefined.js";
+import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 
@@ -260,7 +262,9 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
         try {
-          const functionResult = func.apply(thisArg, args);
+          // When self-sandboxing, func.apply might be resolved through a proxy.
+          // We need to invoke the function directly without relying on such mechanisms.
+          const functionResult = Reflect.apply(func, thisArg, args);
           const result = yield* EvaluationGenerator(functionResult);
           if (!isStaticJsValue(result)) {
             throw new TypeError(`Function ${name} returned non-StaticJsValue: ${functionResult}`);
@@ -416,12 +420,22 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     // Check to see if its a StaticJsValue from another realm.
     if (isStaticJsValue(value)) {
       if (value.realm === this._realm) {
+        // Same realm: preserve it verbatim (no-op).
         return value;
       }
 
-      // Unwrap it to re-wrap with our own realm.
-      // This will result in foreign StaticJs objects being wrapped as external objects, which is desired.
-      value = value.toNative();
+      // Realm-agnostic interned values (symbols, null, undefined) must be
+      // normalized to THIS realm's representation. In particular a foreign
+      // well-known symbol has to map back to this realm's intrinsic symbol so
+      // it keeps working as a property key. Other foreign values (objects,
+      // functions, value-bearing scalars) fall through to be wrapped as opaque
+      // external handles below, preserving their StaticJsValue surface.
+      // NOTE: I am not really sure the wisdom of making these exceptions, but they were needed
+      // at the moment to get the self-sandboxing in the docs site working.
+      // TODO: Rethink this and see if we can make the docs site deal with this instead.
+      if (isStaticJsSymbol(value) || isStaticJsNull(value) || isStaticJsUndefined(value)) {
+        value = value.toNative();
+      }
     }
 
     if (value === null) return this._toStaticJsValueNull();

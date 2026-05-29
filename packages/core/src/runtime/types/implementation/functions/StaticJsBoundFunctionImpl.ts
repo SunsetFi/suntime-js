@@ -5,7 +5,7 @@ import { get } from "../../../algorithms/get.js";
 import { sameValue } from "../../../algorithms/same-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsCallable } from "../../StaticJsCallable.js";
+import { StaticJsCallable, type StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -137,7 +137,11 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
     return this.realm.invokeEvaluatorSync(this._getNameEvaluator(), opts);
   }
 
-  override toNative(): (...args: unknown[]) => unknown {
+  override toNative(
+    // Bound functions don't carry a host-access bridge of their own; the policy
+    // option is accepted for interface compatibility but not applied here.
+    _opts?: StaticJsCallableToNativeOpts,
+  ): (...args: unknown[]) => unknown {
     return super.toNative() as (...args: unknown[]) => unknown;
   }
 

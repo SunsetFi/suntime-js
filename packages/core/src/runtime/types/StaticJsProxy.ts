@@ -3,7 +3,7 @@ import type {
   MaybeEvaluationGenerator,
 } from "../../evaluator/EvaluationGenerator.js";
 
-import type { StaticJsCallable } from "./StaticJsCallable.js";
+import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "./StaticJsCallable.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
 import type {
   StaticJsPropertyDescriptor,
@@ -79,6 +79,9 @@ export const StaticJsProxyHandlerKeys = [
 
 export interface StaticJsProxy extends StaticJsObject, StaticJsCallable {
   readonly runtimeTypeOf: "proxy";
+
+  // Resolve the StaticJsObject/StaticJsCallable diamond on toNative.
+  toNative(opts?: StaticJsCallableToNativeOpts): unknown;
 
   get proxyTarget(): StaticJsObject | null;
 

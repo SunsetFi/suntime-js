@@ -1,11 +1,11 @@
 import type {
   HostAccessArg,
-  HostAccessChildPolicy,
+  HostAccessChildOptions,
   HostAccessOptions,
 } from "../../HostAccessOptions.js";
 
 export type ResolvedHostAccessOptions = Omit<Required<HostAccessOptions>, "childPolicy"> & {
-  childPolicy: HostAccessChildPolicy | undefined;
+  childPolicy: HostAccessChildOptions | undefined;
 };
 
 export const SAFE_DEFAULTS: Omit<ResolvedHostAccessOptions, "childPolicy"> = {

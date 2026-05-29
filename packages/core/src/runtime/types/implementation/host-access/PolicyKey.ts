@@ -1,4 +1,4 @@
-import { HostAccessChildPolicy } from "../../HostAccessOptions.js";
+import { HostAccessChildOptions } from "../../HostAccessOptions.js";
 
 import type { ResolvedHostAccessOptions } from "./resolve-host-access-options.js";
 
@@ -21,7 +21,7 @@ export class PolicyKeyInterner {
     );
   }
 
-  private _idForChildPolicy(policy: HostAccessChildPolicy): string {
+  private _idForChildPolicy(policy: HostAccessChildOptions): string {
     if (typeof policy === "function") {
       let id = this._grantIds.get(policy);
       if (id === undefined) {
