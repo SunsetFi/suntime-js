@@ -12,7 +12,7 @@ export const SAFE_DEFAULTS: Omit<ResolvedHostAccessOptions, "childPolicy"> = {
   walkPrototype: false,
   includeNonEnumerable: false,
   writable: false,
-  extendable: false,
+  extensible: false,
   useSandboxThis: false,
   rawPrototypes: false,
 };

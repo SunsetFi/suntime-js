@@ -90,7 +90,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   override *isExtensibleEvaluator(): EvaluationGenerator<boolean> {
-    return Boolean(this._policy.options.extendable);
+    return Boolean(this._policy.options.extensible);
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
@@ -153,8 +153,8 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       return true;
     }
 
-    if (this._policy.options.extendable) {
-      if (this._policy.options.extendable === "transparent") {
+    if (this._policy.options.extensible) {
+      if (this._policy.options.extensible === "transparent") {
         this._extends.set(key, setDescr);
         return true;
       }

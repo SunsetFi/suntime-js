@@ -33,7 +33,7 @@ export interface HostAccessOptions {
    * If false, the sandbox cannot add properties to the host object.
    * If "transparent", the sandbox can add properties to the host object, but those properties are not reflected back to the host (i.e. the wrapper stores its own copy of the added property and value).
    */
-  extendable?: boolean | "transparent";
+  extensible?: boolean | "transparent";
 
   /**
    * When a host method is invoked from the sandbox, pass the sandbox-side

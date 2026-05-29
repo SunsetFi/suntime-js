@@ -162,7 +162,7 @@ export function createStaticJsRealmApi(
     walkPrototype: true,
     useSandboxThis: true,
     writable: "transparent",
-    extendable: "transparent",
+    extensible: "transparent",
     childPolicy: "inherit",
   };
   return {

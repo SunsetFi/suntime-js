@@ -136,7 +136,7 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
     it("allows adding properties when extensible: true", () => {
       const realm = new StaticJsRealm();
       const host = { x: 1 };
-      const wrapped = realm.types.toStaticJsValue(host, { extendable: true });
+      const wrapped = realm.types.toStaticJsValue(host, { extensible: true });
       const result = wrapped.setSync("y", realm.types.number(2));
       expect(result).toBe(true);
       expect((host as any).y).toBe(2);
@@ -145,7 +145,7 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
     it("transparently allows adding properties when extensible: 'transparent'", () => {
       const realm = new StaticJsRealm();
       const host = { x: 1 };
-      const wrapped = realm.types.toStaticJsValue(host, { extendable: "transparent" });
+      const wrapped = realm.types.toStaticJsValue(host, { extensible: "transparent" });
       const result = wrapped.setSync("y", realm.types.number(2));
       expect(result).toBe(true);
       expect((host as any).y).toBeUndefined();
