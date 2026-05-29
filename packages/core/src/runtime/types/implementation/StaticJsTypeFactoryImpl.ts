@@ -1,3 +1,4 @@
+import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
@@ -7,6 +8,7 @@ import { createArrayFromList } from "../../algorithms/create-array-from-list.js"
 import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
 import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { HostAccessArg, HostAccessOptions } from "../HostAccessOptions.js";
 import { isStaticJsArray, type StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
 import { StaticJsCallable } from "../StaticJsCallable.js";
@@ -38,6 +40,14 @@ import { isStaticJsValue } from "../StaticJsValue.js";
 
 import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
+import type { HostAccessPolicy } from "./host-access/HostAccessPolicy.js";
+import { buildHostBuiltinMap, type HostBuiltinMap } from "./host-access/HostBuiltinMap.js";
+import { PolicyKeyInterner, type PolicyKey } from "./host-access/PolicyKey.js";
+import {
+  resolveHostAccessOptions,
+  applyChildPolicy,
+  type ResolvedHostAccessOptions,
+} from "./host-access/resolve-host-access-options.js";
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsErrorImpl } from "./objects/StaticJsErrorImpl.js";
@@ -57,14 +67,25 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   // The registry for our local Symbol.for()
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
 
-  // Map native objects to our StaticJsValue wrappers.
-  // We want to be weak for the value, not the key, as we can forget about these objects
-  // when the runtime is no longer using them, but we want to keep the instance the same
-  // so long as an instance actually exists in the runtime.
-  // We do NOT want or need a weak key, because:
-  // - StaticJsExternalObject needs to keep the backing object around for property access, and thus
-  //   requires a strong reference to the key.
-  private readonly _externalObjectMap = new WeakValueMap<object, StaticJsPlainObject>();
+  private readonly _policyInterner = new PolicyKeyInterner();
+  private readonly _externalObjectCache = new WeakMap<
+    object,
+    WeakValueMap<PolicyKey, StaticJsExternalObject | StaticJsExternalFunction>
+  >();
+
+  private _hostBuiltinMapCache: HostBuiltinMap | undefined;
+
+  private get _hostBuiltinMap(): HostBuiltinMap {
+    if (!this._hostBuiltinMapCache) {
+      if (!this._realm.intrinsics["Object.prototype"]) {
+        throw new StaticJsEngineError(
+          "HostBuiltinMap accessed before realm intrinsics were populated",
+        );
+      }
+      this._hostBuiltinMapCache = buildHostBuiltinMap(this._realm);
+    }
+    return this._hostBuiltinMapCache;
+  }
 
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
@@ -76,7 +97,10 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _null: StaticJsNull;
   private readonly _undefined: StaticJsUndefined;
 
-  constructor(private readonly _realm: StaticJsRealm) {
+  constructor(
+    private readonly _realm: StaticJsRealm,
+    private readonly _hostAccessDefaults?: HostAccessOptions,
+  ) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
     this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
@@ -325,10 +349,6 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       resolvedTarget = this.function("proxyTargetFunction", () => this.undefined);
     } else if (isStaticJsObject(target)) {
       resolvedTarget = target;
-    } else if (typeof target === "function") {
-      resolvedTarget = this._toStaticJsValueFunction(target);
-    } else if (target != null && typeof target === "object") {
-      resolvedTarget = this._toStaticJsValueObject(target);
     } else {
       throw new TypeError(
         `Invalid proxy target: ${target}. Must be an object, function, "object", or "function".`,
@@ -379,15 +399,15 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;
   toStaticJsValue(value: string): StaticJsString;
-  toStaticJsValue(value: unknown[]): StaticJsArray;
-  toStaticJsValue(value: object): StaticJsPlainObject;
+  toStaticJsValue(value: unknown[], opts?: HostAccessArg): StaticJsArray;
+  toStaticJsValue(value: object, opts?: HostAccessArg): StaticJsPlainObject;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  toStaticJsValue(value: Function): StaticJsFunction;
+  toStaticJsValue(value: Function, opts?: HostAccessArg): StaticJsFunction;
   toStaticJsValue(value: symbol): StaticJsSymbol;
   toStaticJsValue(value: null): StaticJsNull;
   toStaticJsValue(value: undefined): StaticJsUndefined;
-  toStaticJsValue(value: unknown): StaticJsValue;
-  toStaticJsValue(value: unknown): StaticJsValue {
+  toStaticJsValue(value: unknown, opts?: HostAccessArg): StaticJsValue;
+  toStaticJsValue(value: unknown, opts?: HostAccessArg): StaticJsValue {
     const owner = getStaticJsObjectProxyOwner(value) ?? getSymbolProxyOwner(value);
     if (owner) {
       value = owner;
@@ -404,27 +424,29 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       value = value.toNative();
     }
 
-    if (value === null) {
-      return this._toStaticJsValueNull();
-    } else if (value === undefined) {
-      return this._toStaticJsValueUndefined();
-    } else if (typeof value === "boolean") {
-      return this.boolean(value);
-    } else if (typeof value === "number") {
-      return this.number(value);
-    } else if (typeof value === "string") {
-      return this.string(value);
-    } else if (typeof value === "symbol") {
-      return this._toStaticJsValueSymbol(value);
-    } else if (Array.isArray(value)) {
-      return this._toStaticJsValueArray(value);
-    } else if (isFunction(value)) {
-      return this._toStaticJsValueFunction(value);
-    } else if (typeof value === "object") {
-      return this._toStaticJsValueObject(value);
-    } else {
-      throw new Error(`Cannot convert ${value} to StaticJsValue: Unknown type.`);
+    if (value === null) return this._toStaticJsValueNull();
+    if (value === undefined) return this._toStaticJsValueUndefined();
+    if (typeof value === "boolean") return this.boolean(value);
+    if (typeof value === "number") return this.number(value);
+    if (typeof value === "string") return this.string(value);
+    if (typeof value === "symbol") return this._toStaticJsValueSymbol(value);
+    if (Array.isArray(value)) return this._toStaticJsValueArray(value);
+
+    if (isFunction(value)) {
+      const policy = this._buildPolicy(value, opts);
+      return this._wrapHostFunction(value, policy);
     }
+
+    if (typeof value === "object") {
+      if (value instanceof Error && isErrorTypeName(value.name)) {
+        return this.error(value.name, value.message);
+      }
+
+      const policy = this._buildPolicy(value, opts);
+      return this._wrapHostObject(value, policy);
+    }
+
+    throw new Error(`Cannot convert ${value} to StaticJsValue: Unknown type.`);
   }
 
   boolean(value: boolean): StaticJsBoolean {
@@ -499,22 +521,99 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return this._realm.invokeEvaluatorSync(createArrayFromList(values));
   }
 
-  private _toStaticJsValueFunction(value: Function): StaticJsFunction {
-    return new StaticJsExternalFunction(this._realm, value.name, value);
+  private _buildPolicy(rootHostObj: object, opts: HostAccessArg | undefined): HostAccessPolicy {
+    const resolved = resolveHostAccessOptions(opts, this._hostAccessDefaults, rootHostObj);
+    return this._policyFor(resolved);
   }
 
-  private _toStaticJsValueObject(value: object): StaticJsObject {
-    if (value instanceof Error && isErrorTypeName(value.name)) {
-      return this.error(value.name, value.message);
+  private _policyFor(resolved: ResolvedHostAccessOptions): HostAccessPolicy {
+    return {
+      options: resolved,
+      wrapChild: (childHostValue: unknown): StaticJsValue => {
+        // If it's already a StaticJsValue from this realm, return it directly.
+        if (isStaticJsValue(childHostValue) && childHostValue.realm === this._realm) {
+          return childHostValue;
+        }
+
+        if (
+          childHostValue === null ||
+          childHostValue === undefined ||
+          (typeof childHostValue !== "object" && typeof childHostValue !== "function")
+        ) {
+          return this.toStaticJsValue(childHostValue);
+        }
+
+        const childResolved = applyChildPolicy(resolved, childHostValue);
+        const policy = this._policyFor(childResolved);
+
+        if (typeof childHostValue === "function") {
+          return this._wrapHostFunction(childHostValue, policy);
+        }
+
+        return this._wrapHostObject(childHostValue, policy);
+      },
+      wrapPrototype: (hostProto: object): StaticJsObject => {
+        if (!resolved.walkPrototype) {
+          return this._realm.intrinsics["Object.prototype"];
+        }
+        return this._wrapHostObject(hostProto, this._policyFor(resolved));
+      },
+    };
+  }
+
+  private _wrapHostObject(host: object, policy: HostAccessPolicy): StaticJsObject {
+    const cached = this._getCached(host, policy);
+    if (cached) {
+      return cached as StaticJsObject;
     }
 
-    let obj = this._externalObjectMap.get(value);
-    if (!obj) {
-      obj = new StaticJsExternalObject(this._realm, value);
-      this._externalObjectMap.set(value, obj);
+    if (!policy.options.rawPrototypes) {
+      const builtin = this._hostBuiltinMap.get(host);
+      if (builtin) {
+        return builtin;
+      }
     }
 
-    return obj;
+    const wrapper = new StaticJsExternalObject(this._realm, host, policy);
+    this._putCached(host, policy, wrapper);
+    return wrapper;
+  }
+
+  private _wrapHostFunction(host: Function, policy: HostAccessPolicy): StaticJsFunction {
+    const cached = this._getCached(host, policy);
+    if (cached) {
+      return cached as unknown as StaticJsFunction;
+    }
+
+    if (!policy.options.rawPrototypes) {
+      const builtin = this._hostBuiltinMap.get(host);
+      if (builtin) {
+        return builtin as StaticJsFunction;
+      }
+    }
+
+    const wrapper = new StaticJsExternalFunction(this._realm, host.name, host, policy);
+    this._putCached(host, policy, wrapper);
+    return wrapper;
+  }
+
+  private _getCached(host: object, policy: HostAccessPolicy) {
+    const inner = this._externalObjectCache.get(host);
+    if (!inner) return undefined;
+    return inner.get(this._policyInterner.keyFor(policy.options));
+  }
+
+  private _putCached(
+    host: object,
+    policy: HostAccessPolicy,
+    wrapper: StaticJsExternalObject | StaticJsExternalFunction,
+  ) {
+    let inner = this._externalObjectCache.get(host);
+    if (!inner) {
+      inner = new WeakValueMap();
+      this._externalObjectCache.set(host, inner);
+    }
+    inner.set(this._policyInterner.keyFor(policy.options), wrapper);
   }
 
   private _toStaticJsValueNull(): StaticJsNull {

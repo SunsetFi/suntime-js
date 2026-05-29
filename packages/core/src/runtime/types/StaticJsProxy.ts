@@ -13,13 +13,7 @@ import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
-export type StaticJsProxyTarget =
-  | StaticJsObject
-  | StaticJsCallable
-  | object
-  | Function
-  | "object"
-  | "function";
+export type StaticJsProxyTarget = StaticJsObject | StaticJsCallable | "object" | "function";
 
 export interface StaticJsProxyHandlers {
   getPrototypeOf?(target: StaticJsObject): MaybeEvaluationGenerator<StaticJsObject | null>;

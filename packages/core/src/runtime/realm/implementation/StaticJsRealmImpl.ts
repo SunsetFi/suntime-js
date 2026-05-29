@@ -43,7 +43,10 @@ import {
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import { StaticJsExternalFunction } from "../../types/implementation/functions/StaticJsExternalFunction.js";
+import type { HostAccessPolicy } from "../../types/implementation/host-access/HostAccessPolicy.js";
+import { resolveHostAccessOptions } from "../../types/implementation/host-access/resolve-host-access-options.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
@@ -106,21 +109,30 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       resolveImportedModule: resolveModule,
       runTask,
       runTaskSync,
+      hostAccessDefaults,
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? drainIterator;
     this._defaultRunTaskSync = runTaskSync ?? drainIterator;
-    this._config = Object.freeze({
+    const configObj: {
+      runTask: StaticJsTaskRunner;
+      runTaskSync: StaticJsTaskRunner;
+      hostAccessDefaults?: HostAccessOptions;
+    } = {
       runTask: this._defaultRunTask,
       runTaskSync: this._defaultRunTaskSync,
-    });
+    };
+    if (hostAccessDefaults !== undefined) {
+      configObj.hostAccessDefaults = hostAccessDefaults;
+    }
+    this._config = Object.freeze(configObj);
 
     const intrinsics: IntrinsicsRecord = {} as IntrinsicsRecord;
     this._intrinsics = intrinsics;
 
-    const typeFactory = new StaticJsTypeFactoryImpl(this);
+    const typeFactory = new StaticJsTypeFactoryImpl(this, hostAccessDefaults);
     // Set the type factory now, so the rest of the type instantiation can use it.
     // This is a little bit fiddly, but much of our systems rely on having a reference to the type factory
     // through us, so it needs to be available early.
@@ -705,6 +717,23 @@ function realmModuleToModule(
   }
 }
 
+const EMPTY_ROOT = Object.freeze({});
+
+function makeRealmStubPolicy(realm: StaticJsRealm): HostAccessPolicy {
+  // Engine-internal wrapping mirrors the realm's `hostAccessDefaults`, so a
+  // consumer can configure once and have all realm-side wrapping (including
+  // global decl accessors) behave the same as a bare `toStaticJsValue(v)`.
+  const options = resolveHostAccessOptions(undefined, realm.config.hostAccessDefaults, EMPTY_ROOT);
+  return {
+    options,
+    wrapChild: (v) => realm.types.toStaticJsValue(v),
+    wrapPrototype: (hostProto) =>
+      options.walkPrototype
+        ? (realm.types.toStaticJsValue(hostProto) as StaticJsObject)
+        : realm.intrinsics["Object.prototype"],
+  };
+}
+
 function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmGlobalDeclProperty) {
   const descr: StaticJsPropertyDescriptorRecord = {
     configurable: descriptor.configurable ?? false,
@@ -720,17 +749,29 @@ function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmG
       set?: (value: unknown) => MaybeEvaluationGenerator<void>;
     };
 
+    const realmStubPolicy = makeRealmStubPolicy(realm);
+
     if (typeof get === "function") {
-      descr.get = new StaticJsExternalFunction(realm, "get", function* () {
-        return yield* EvaluationGenerator(get());
-      });
+      descr.get = new StaticJsExternalFunction(
+        realm,
+        "get",
+        function* () {
+          return yield* EvaluationGenerator(get());
+        },
+        realmStubPolicy,
+      );
     }
 
     if (typeof set === "function") {
-      descr.set = new StaticJsExternalFunction(realm, "set", function* (value: unknown) {
-        yield* EvaluationGenerator(set(value));
-        return realm.types.undefined;
-      });
+      descr.set = new StaticJsExternalFunction(
+        realm,
+        "set",
+        function* (value: unknown) {
+          yield* EvaluationGenerator(set(value));
+          return realm.types.undefined;
+        },
+        realmStubPolicy,
+      );
     }
   }
 

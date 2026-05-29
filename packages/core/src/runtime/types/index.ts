@@ -1,3 +1,4 @@
+export * from "./HostAccessOptions.js";
 export * from "./StaticJsArray.js";
 export * from "./StaticJsAsyncGenerator.js";
 export * from "./StaticJsBoolean.js";

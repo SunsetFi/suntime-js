@@ -11,30 +11,17 @@ import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
+import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 
-export interface StaticJsExternalObjectOpts {
-  prototype?: StaticJsObject | null;
-  enableWrites?: boolean;
-  enableThisArg?: boolean;
-}
-
-/**
- * A static object that wraps a native javascript object.
- *
- * For security reasons:
- * - The object is not extensible.
- * - Only own setter properties are writable.
- * - The object is not configurable.
- * - Only enumerable properties are exposed.
- */
 export class StaticJsExternalObject extends StaticJsAbstractObject {
   constructor(
     realm: StaticJsRealm,
     private readonly _obj: object,
-    private readonly _opts: StaticJsExternalObjectOpts = {},
+    private readonly _policy: HostAccessPolicy,
+    prototype?: StaticJsObject | null,
   ) {
-    super(realm, _opts.prototype ?? realm.intrinsics["Object.prototype"]);
+    super(realm, prototype ?? realm.intrinsics["Object.prototype"]);
   }
 
   override get [Symbol.toStringTag](): string {
@@ -56,53 +43,56 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   *getOwnPropertyEvaluator(
     name: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
-    let property: PropertyKey;
-    if (isStaticJsSymbol(name)) {
-      // This is a safe operation and will not invoke any evaluator code that could loop.
-      property = name.toNative();
-    } else {
-      property = name as string;
-    }
+    const property: PropertyKey = isStaticJsSymbol(name) ? name.toNative() : (name as string);
 
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
-    if (!objDescr) {
-      return undefined;
-    }
+    if (!objDescr) return undefined;
 
-    const { enableWrites, enableThisArg } = this._opts;
-
+    const { includeNonEnumerable, writable, useSandboxThis } = this._policy.options;
     const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
     const hasValue = "value" in objDescr;
 
-    if (!enumerable) {
+    if (!enumerable && !includeNonEnumerable) {
       return undefined;
     }
 
     const staticJsDescr: StaticJsPropertyDescriptorRecord = {
-      enumerable,
+      enumerable: enumerable ?? false,
       configurable: false,
     };
 
-    // Do we want to cache these?  The object can be changed from underneath us...
+    // FIXME: Unify so all of this goes through wrapChild.
 
     let isAccessor = false;
     if (descrGet) {
       isAccessor = true;
-      staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet, {
-        getThisArg: (value) => (enableThisArg ? value.toNative() : this._obj),
+      staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet, this._policy, {
+        getThisArg: (v) => (useSandboxThis ? v.toNative() : this._obj),
       });
     }
 
     if (descrSet) {
       isAccessor = true;
-      staticJsDescr.set = new StaticJsExternalFunction(this.realm, "set", descrSet, {
-        getThisArg: () => (enableThisArg ? staticJsDescr.get : this._obj),
+      staticJsDescr.set = new StaticJsExternalFunction(this.realm, "set", descrSet, this._policy, {
+        getThisArg: (v) => (useSandboxThis ? v.toNative() : this._obj),
       });
     }
 
     if (!isAccessor && hasValue) {
-      staticJsDescr.value = this.realm.types.toStaticJsValue(value);
-      staticJsDescr.writable = enableWrites ?? false;
+      if (typeof value === "function") {
+        // FIXME: Not going through wrapChild so we do not correctly apply builtin filtering to this.
+        // It is relevant because function prototypes are functions.
+        staticJsDescr.value = new StaticJsExternalFunction(
+          this.realm,
+          value.name ?? null,
+          value,
+          this._policy,
+          { getThisArg: (v) => (useSandboxThis ? v.toNative() : this._obj) },
+        );
+      } else {
+        staticJsDescr.value = this._policy.wrapChild(value);
+      }
+      staticJsDescr.writable = writable;
     }
 
     return staticJsDescr as StaticJsPropertyDescriptor;
@@ -113,20 +103,35 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
-    const keys = Reflect.ownKeys(this._obj);
-    return keys.map((key) => {
-      if (typeof key === "symbol") {
-        return this.realm.types.toStaticJsValue(key);
-      }
+    const { includeNonEnumerable } = this._policy.options;
+    const obj = this._obj;
+    const allKeys: (string | symbol)[] = Reflect.ownKeys(obj);
+    const keys = includeNonEnumerable
+      ? allKeys
+      : allKeys.filter((k) => Object.getOwnPropertyDescriptor(obj, k)?.enumerable);
+    return keys.map((k) =>
+      typeof k === "symbol" ? this.realm.types.toStaticJsValue(k) : (k as string),
+    );
+  }
 
-      return key;
-    });
+  override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
+    const { walkPrototype } = this._policy.options;
+    if (!walkPrototype) {
+      return this.realm.intrinsics["Object.prototype"];
+    }
+
+    const hostProto = Object.getPrototypeOf(this._obj) as object | null;
+    if (hostProto === null) {
+      return null;
+    }
+
+    return this._policy.wrapPrototype(hostProto);
   }
 
   override *privateElementAddEvaluator(): EvaluationGenerator<void> {
     throw yield* Completion.Throw.create(
       "TypeError",
-      "Cannot add a private elemnt to this object.",
+      "Cannot add a private element to this object.",
     );
   }
 
@@ -134,19 +139,12 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     key: StaticJsPropertyKey,
     setDescr: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
-    const { enableWrites } = this._opts;
-    if (!enableWrites) {
-      return false;
-    }
+    if (!this._policy.options.writable) return false;
+    if (!isStaticJsDataPropertyDescriptor(setDescr)) return false;
 
-    if (!isStaticJsDataPropertyDescriptor(setDescr)) {
-      return false;
-    }
-
-    const property = isStaticJsSymbol(key) ? key.toNative() : (key as string);
-
+    const property = isStaticJsSymbol(key) ? key.toNative() : key;
     const propertyDescr = Object.getOwnPropertyDescriptor(this._obj, property);
-    if (!propertyDescr || !propertyDescr.writable || "value" in propertyDescr === false) {
+    if (!propertyDescr || !propertyDescr.writable || !("value" in propertyDescr)) {
       return false;
     }
 
@@ -154,14 +152,11 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       return true;
     }
 
-    Object.defineProperty(this._obj, property, {
-      value: setDescr.value.toNative(),
-    });
+    Object.defineProperty(this._obj, property, { value: setDescr.value.toNative() });
     return true;
   }
 
   protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {
-    /* No-op.  Externals are not configurable. */
     return false;
   }
 }

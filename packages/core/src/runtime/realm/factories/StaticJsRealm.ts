@@ -1,6 +1,7 @@
 import { mergeDeep } from "../../../utils/merge-deep.js";
 import { realmDefaultHooks } from "../../hooks/index.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import StaticJsRealmImpl from "../implementation/StaticJsRealmImpl.js";
 import type {
   StaticJsModuleResolution,
@@ -65,6 +66,13 @@ export interface StaticJsRealmOptions {
    * {@link StaticJsRunTaskOptions.runTask} option is not specified.
    */
   runTaskSync?: StaticJsTaskRunner;
+
+  /**
+   * Default host-access policy applied to `realm.types.toStaticJsValue(value)` calls
+   * that do not pass their own opts. When explicit opts are passed, they fully
+   * replace this default (no field-level merging).
+   */
+  hostAccessDefaults?: HostAccessOptions;
 }
 
 /**
@@ -81,11 +89,13 @@ function fStaticJsRealm(opts: StaticJsRealmOptions = {}): IStaticJsRealm {
 
 // Let the function be used in instanceof checks.
 // Delegate to StaticJsRealmImpl since it is the actual implementation of the realm.
-Object.setPrototypeOf(fStaticJsRealm, {
+const fStaticJsRealmProto = {
   [Symbol.hasInstance](instance: unknown) {
     return instance instanceof StaticJsRealmImpl;
   },
-});
+};
+Object.setPrototypeOf(fStaticJsRealmProto, Function.prototype);
+Object.setPrototypeOf(fStaticJsRealm, fStaticJsRealmProto);
 
 export interface StaticJsRealm {
   (opts?: StaticJsRealmOptions): IStaticJsRealm;

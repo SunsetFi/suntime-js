@@ -6,6 +6,7 @@ import {
 } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
@@ -13,11 +14,13 @@ export interface StaticJsExternalFunctionOpts {
   getThisArg?: (thisArg: StaticJsValue) => MaybeEvaluationGenerator<unknown>;
   getArgs?: (args: StaticJsValue[]) => MaybeEvaluationGenerator<unknown[]>;
 }
+
 export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
   constructor(
     realm: StaticJsRealm,
     name: string | null,
     private readonly _func: Function,
+    private readonly _policy: HostAccessPolicy,
     private readonly _opts: StaticJsExternalFunctionOpts = {},
   ) {
     super(realm, name, (thisArg, ...args) => this._invoke(thisArg, ...args));
@@ -27,9 +30,13 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
     thisArg: StaticJsValue,
     ...args: StaticJsValue[]
   ): EvaluationGenerator<StaticJsValue> {
-    let thisArgResolved: unknown = undefined;
+    let thisArgResolved: unknown;
     if (this._opts.getThisArg) {
       thisArgResolved = yield* EvaluationGenerator(this._opts.getThisArg(thisArg));
+    } else if (this._policy.options.useSandboxThis) {
+      thisArgResolved = thisArg.toNative();
+    } else {
+      thisArgResolved = undefined;
     }
 
     let valueArgsResolved: unknown[];
@@ -41,14 +48,12 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
 
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
-      return this.realm.types.toStaticJsValue(result);
+      return this._policy.wrapChild(result);
     } catch (e) {
       if (e instanceof StaticJsRuntimeError && e.thrown.realm === this.realm) {
         throw Completion.Throw(e.thrown);
-      } else {
-        const converted = this.realm.types.toStaticJsValue(e);
-        throw Completion.Throw(converted);
       }
+      throw Completion.Throw(this._policy.wrapChild(e));
     }
   }
 

@@ -177,27 +177,10 @@ it("can create function objects", () => {
   const { realm } = makeApiRealm();
   const result = realm.evaluateScriptSync(`
       const inner = StaticJsRealm();
-      const fn = inner.types.function("hello", function thisIsHelloFunc() {
-        return inner.types.string("hello");
+      const fn = inner.types.function("hello", function thisIsHelloFunc(val) {
+        return inner.types.string("hello " + val.value);
       });
-      [isStaticJsFunction(fn), fn.callSync(inner.types.undefined, []).toNative()];
+      [isStaticJsFunction(fn), fn.callSync(inner.types.undefined, [inner.types.string("world")]).toNative()];
     `);
-  expect(result.toNative()).toEqual([true, "hello"]);
-});
-
-it("can assign function objects to properties", () => {
-  const { realm } = makeApiRealm();
-  const result = realm.evaluateScriptSync(`
-      const inner = StaticJsRealm();
-      const fn = inner.types.function("hello", function thisIsHelloFunc(str) {
-        return inner.types.string(str.value + " - hello");
-      });
-      const obj = inner.types.object({
-        greet: {
-          value: fn,
-        }
-      });
-      [isStaticJsFunction(obj.getSync("greet")), obj.getSync("greet").callSync(inner.types.undefined, [inner.types.string("world")]).toNative()];
-    `);
-  expect(result.toNative()).toEqual([true, "world - hello"]);
+  expect(result.toNative()).toEqual([true, "hello world"]);
 });

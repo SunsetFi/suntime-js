@@ -9,22 +9,14 @@ import {
   isStaticJsFunction,
   isStaticJsValue,
   StaticJsRealm,
-  StaticJsRealmOptions,
   StaticJsTaskRunner,
   StaticJsValue,
   StaticJsRuntimeError,
+  HostAccessOptions,
 } from "@suntime-js/core";
 
-import { omit } from "../utils/omit";
-
 import { CodeRuntimeSpawnOptions } from "./CodeRuntime";
-import {
-  BridgeContext,
-  createBridgeContext,
-  registerOverride,
-  wrapValue,
-  unwrapValue,
-} from "./host-bridge";
+import { BridgeContext, registerOverride, wrapValue } from "./host-bridge";
 
 // Raw runners are stored here (not the hooked versions) so overrides can add their own
 // registerSubTask call without double-registering.
@@ -100,72 +92,90 @@ registerOverride("StaticJsRealm", "evaluateScriptSync", function* (hostThis, san
 export function createStaticJsRealmApi(
   spawnOpts: CodeRuntimeSpawnOptions,
 ): Record<string, StaticJsValue> {
-  (spawnOpts.realm as any).__our_home_realm = true;
-  (spawnOpts.realm.types as any).__our_home_realm_types = true;
-  const ctx = createBridgeContext(spawnOpts);
-  const { realm } = spawnOpts;
+  // (spawnOpts.realm as any).__our_home_realm = true;
+  // (spawnOpts.realm.types as any).__our_home_realm_types = true;
+  // const ctx = createBridgeContext(spawnOpts);
+  // const { realm } = spawnOpts;
 
-  // Prime the prototype cache by scanning a throwaway instance.
-  const primeRealm = StaticJsRealm();
-  wrapValue(primeRealm, ctx);
+  // // Prime the prototype cache by scanning a throwaway instance.
+  // const primeRealm = StaticJsRealm();
+  // wrapValue(primeRealm, ctx);
 
-  // StaticJsRealm is a factory/constructor — prototype scanning cannot auto-generate it.
-  const staticJsRealmFactory = realm.types.function(
-    "StaticJsRealm",
-    function* (optsArg?: StaticJsValue) {
-      let resolvedOpts: StaticJsRealmOptions = {};
-      if (isStaticJsObject(optsArg)) {
-        resolvedOpts = omit(optsArg.toNative() as Record<string, unknown>, [
-          "runTask",
-          "runTaskSync",
-        ]);
-        const runTask = optsArg.getSync("runTask");
-        const runTaskSync = optsArg.getSync("runTaskSync");
-        if (runTask) {
-          resolvedOpts.runTask = hookRunner(runTask, ctx);
-        }
-        if (runTaskSync) {
-          resolvedOpts.runTaskSync = hookRunner(runTaskSync, ctx);
-        }
-      } else if (optsArg) {
-        const err = realm.types.error(
-          "TypeError",
-          "StaticJsRealm options argument must be an object if provided",
-        );
-        throw new StaticJsRuntimeError(err);
-      }
+  // // StaticJsRealm is a factory/constructor — prototype scanning cannot auto-generate it.
+  // const staticJsRealmFactory = realm.types.function(
+  //   "StaticJsRealm",
+  //   function* (optsArg?: StaticJsValue) {
+  //     let resolvedOpts: StaticJsRealmOptions = {};
+  //     if (isStaticJsObject(optsArg)) {
+  //       resolvedOpts = omit(optsArg.toNative() as Record<string, unknown>, [
+  //         "runTask",
+  //         "runTaskSync",
+  //       ]);
+  //       const runTask = optsArg.getSync("runTask");
+  //       const runTaskSync = optsArg.getSync("runTaskSync");
+  //       if (runTask) {
+  //         resolvedOpts.runTask = hookRunner(runTask, ctx);
+  //       }
+  //       if (runTaskSync) {
+  //         resolvedOpts.runTaskSync = hookRunner(runTaskSync, ctx);
+  //       }
+  //     } else if (optsArg) {
+  //       const err = realm.types.error(
+  //         "TypeError",
+  //         "StaticJsRealm options argument must be an object if provided",
+  //       );
+  //       throw new StaticJsRuntimeError(err);
+  //     }
 
-      // Raw runners are wrapped so sub-tasks register with the outer session.
+  //     // Raw runners are wrapped so sub-tasks register with the outer session.
 
-      const newRealm = StaticJsRealm(resolvedOpts);
-      (newRealm as any).__our_child_realm = true;
-      (newRealm.types as any).__our_child_realm_types = true;
+  //     const newRealm = StaticJsRealm(resolvedOpts);
+  //     (newRealm as any).__our_child_realm = true;
+  //     (newRealm.types as any).__our_child_realm_types = true;
 
-      realmRunners.set(newRealm, {
-        runTask: resolvedOpts.runTask,
-        runTaskSync: resolvedOpts.runTaskSync,
-      });
+  //     realmRunners.set(newRealm, {
+  //       runTask: resolvedOpts.runTask,
+  //       runTaskSync: resolvedOpts.runTaskSync,
+  //     });
 
-      return wrapValue(newRealm, ctx);
-    },
-  );
+  //     return wrapValue(newRealm, ctx);
+  //   },
+  // );
 
-  function makeTypeGuard(guard: (value: unknown) => boolean): StaticJsValue {
-    return realm.types.function(guard.name, function* (value?: StaticJsValue) {
-      const hostValue = value != null ? unwrapValue(value, ctx) : undefined;
-      return realm.types.toStaticJsValue(guard(hostValue));
-    });
-  }
+  // function makeTypeGuard(guard: (value: unknown) => boolean): StaticJsValue {
+  //   return realm.types.function(guard.name, function* (value?: StaticJsValue) {
+  //     const hostValue = value != null ? unwrapValue(value, ctx) : undefined;
+  //     return realm.types.toStaticJsValue(guard(hostValue));
+  //   });
+  // }
 
+  // return {
+  //   StaticJsRealm: staticJsRealmFactory,
+  //   isStaticJsValue: makeTypeGuard(isStaticJsValue),
+  //   isStaticJsScalar: makeTypeGuard(isStaticJsScalar),
+  //   isStaticJsNumber: makeTypeGuard(isStaticJsNumber),
+  //   isStaticJsBoolean: makeTypeGuard(isStaticJsBoolean),
+  //   isStaticJsString: makeTypeGuard(isStaticJsString),
+  //   isStaticJsObject: makeTypeGuard(isStaticJsObject),
+  //   isStaticJsArray: makeTypeGuard(isStaticJsArray),
+  //   isStaticJsFunction: makeTypeGuard(isStaticJsFunction),
+  // };
+
+  const access: HostAccessOptions = {
+    includeNonEnumerable: true,
+    walkPrototype: true,
+    useSandboxThis: true,
+    childPolicy: "inherit",
+  };
   return {
-    StaticJsRealm: staticJsRealmFactory,
-    isStaticJsValue: makeTypeGuard(isStaticJsValue),
-    isStaticJsScalar: makeTypeGuard(isStaticJsScalar),
-    isStaticJsNumber: makeTypeGuard(isStaticJsNumber),
-    isStaticJsBoolean: makeTypeGuard(isStaticJsBoolean),
-    isStaticJsString: makeTypeGuard(isStaticJsString),
-    isStaticJsObject: makeTypeGuard(isStaticJsObject),
-    isStaticJsArray: makeTypeGuard(isStaticJsArray),
-    isStaticJsFunction: makeTypeGuard(isStaticJsFunction),
+    StaticJsRealm: spawnOpts.realm.types.toStaticJsValue(StaticJsRealm, access),
+    isStaticJsValue: spawnOpts.realm.types.toStaticJsValue(isStaticJsValue, access),
+    isStaticJsScalar: spawnOpts.realm.types.toStaticJsValue(isStaticJsScalar, access),
+    isStaticJsNumber: spawnOpts.realm.types.toStaticJsValue(isStaticJsNumber, access),
+    isStaticJsBoolean: spawnOpts.realm.types.toStaticJsValue(isStaticJsBoolean, access),
+    isStaticJsString: spawnOpts.realm.types.toStaticJsValue(isStaticJsString, access),
+    isStaticJsObject: spawnOpts.realm.types.toStaticJsValue(isStaticJsObject, access),
+    isStaticJsArray: spawnOpts.realm.types.toStaticJsValue(isStaticJsArray, access),
+    isStaticJsFunction: spawnOpts.realm.types.toStaticJsValue(isStaticJsFunction, access),
   };
 }

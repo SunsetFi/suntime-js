@@ -1,11 +1,21 @@
 # TODO:
 
+## Host access
+
+- [ ] Realm hostAccessDefaults should be able to be a function called with the object to test.
+- [ ] Look really closely at realm's global object initializer and stub policy.
+- [ ] Tests for host wrapped function thrown value wrap policies.
+- [ ] Try to launder all external object values through wrapChild, including functions
+
 ## Immediate
 
+- [ ] Figure out why oxclint is complaining about clearly reachable code being unreachable.
+      Doesn't do it for commits, only for manual lint run.
+- [ ] AggregateError
 - [ ] introspect / spy function for objects - Analyze properties without invoking sandbox code.
   - [ ] Use for debugger function name
   - [ ] Re-add frame-level functionName using above.
-- [ ] Rework ExternalFunction
+- [-] Rework ExternalFunction
   - [ ] Allow enumerable own properties to be exposed non-writable and non-configurable,
         as StaticJsExternalObjectt does
   - [ ] Don't allow mutations to other properties

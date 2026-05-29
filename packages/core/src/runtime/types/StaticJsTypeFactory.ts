@@ -1,6 +1,7 @@
 import { MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { IntrinsicSymbols } from "../intrinsics/intrinsics.js";
 
+import type { HostAccessArg } from "./HostAccessOptions.js";
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
@@ -83,15 +84,15 @@ export interface StaticJsTypeFactory {
 
   proxy(target: StaticJsProxyTarget, handlers: StaticJsProxyHandlers): StaticJsProxy;
 
-  toStaticJsValue(value: (...args: unknown[]) => unknown): StaticJsFunction;
+  toStaticJsValue(value: (...args: unknown[]) => unknown, opts?: HostAccessArg): StaticJsFunction;
   toStaticJsValue(value: boolean): StaticJsBoolean;
   toStaticJsValue(value: number): StaticJsNumber;
   toStaticJsValue(value: string): StaticJsString;
-  toStaticJsValue(value: unknown[]): StaticJsArray;
-  toStaticJsValue(value: object): StaticJsPlainObject;
-  toStaticJsValue(value: Function): StaticJsFunction;
+  toStaticJsValue(value: unknown[], opts?: HostAccessArg): StaticJsArray;
+  toStaticJsValue(value: object, opts?: HostAccessArg): StaticJsPlainObject;
+  toStaticJsValue(value: Function, opts?: HostAccessArg): StaticJsFunction;
   toStaticJsValue(value: symbol): StaticJsSymbol;
   toStaticJsValue(value: null): StaticJsNull;
   toStaticJsValue(value: undefined): StaticJsUndefined;
-  toStaticJsValue(value: unknown): StaticJsValue;
+  toStaticJsValue(value: unknown, opts?: HostAccessArg): StaticJsValue;
 }

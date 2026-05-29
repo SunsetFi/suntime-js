@@ -22,6 +22,11 @@ describe("E2E: Realm", () => {
       const realm = new StaticJsRealm();
       expect(realm).toBeInstanceOf(StaticJsRealm);
     });
+
+    it("Supports call", () => {
+      const realm = StaticJsRealm.call(null);
+      expect(realm).toBeInstanceOf(StaticJsRealm);
+    });
   });
 
   describe("evaluateScript", () => {

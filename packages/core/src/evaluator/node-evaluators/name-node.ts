@@ -15,6 +15,4 @@ export default function nameNode(node: Node): string {
     default:
       return "<expression>";
   }
-
-  return "<expression>";
 }
