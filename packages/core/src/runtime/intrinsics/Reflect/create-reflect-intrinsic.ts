@@ -1,11 +1,10 @@
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
-import { StaticJsObject } from "../../types/StaticJsObject.js";
 import {
   applyIntrinsicProperties,
   IntrinsicPropertyDeclaration,
 } from "../apply-intrinsic-properties.js";
+import { IntrinsicsRecord } from "../intrinsics.js";
 
 import { reflectApplyDeclaration } from "./apply.js";
 import { reflectConstructDeclaration } from "./construct.js";
@@ -37,10 +36,15 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   reflectSymbolToStringTagDeclaration,
 ];
 
-export function* createReflectIntrinsic(realm: StaticJsRealm): EvaluationGenerator<StaticJsObject> {
+export function* createReflect(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
   const Reflect = new StaticJsPlainObjectImpl(realm, realm.intrinsics["Object.prototype"]);
 
   yield* applyIntrinsicProperties(realm, Reflect, declarations);
 
-  return Reflect;
+  intrinsics.Reflect = Reflect;
 }
+
+export const globalObjectReflectDeclaration: IntrinsicPropertyDeclaration = {
+  key: "Reflect",
+  value: (realm) => realm.intrinsics.Reflect,
+};

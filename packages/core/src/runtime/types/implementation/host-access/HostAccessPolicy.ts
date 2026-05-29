@@ -15,7 +15,7 @@ export interface HostAccessPolicy {
    * defaults if none). Caller is responsible for short-circuiting primitives
    * if desired; this implementation must handle primitives correctly too.
    */
-  wrapChild(childHostValue: unknown): StaticJsValue;
+  wrapChild(childHostValue: unknown, member: boolean): StaticJsValue;
 
   /**
    * Wrap a host prototype reached via the structural [[Prototype]] chain,

@@ -24,6 +24,27 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
       const wrapped = realm.types.toStaticJsValue(new Greeter());
       expect(wrapped.getSync("greet").toNative()).toBe(undefined);
     });
+
+    it("preserves the host-side this", () => {
+      let observed: any;
+      class Holder {
+        capture(this: Holder) {
+          // oxlint-disable-next-line typescript/no-this-alias
+          observed = this;
+          return this;
+        }
+      }
+      const realm = new StaticJsRealm();
+      const host = new Holder();
+      const wrapped = realm.types.toStaticJsValue(host, {
+        walkPrototype: true,
+        includeNonEnumerable: true,
+      });
+      const capture = wrapped.getSync("capture") as StaticJsCallable;
+      const thisArg = realm.types.object();
+      capture.callSync(thisArg, []);
+      expect(observed).toBe(host);
+    });
   });
 
   describe("walkPrototype + includeNonEnumerable", () => {
@@ -64,11 +85,12 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
   });
 
   describe("useSandboxThis", () => {
-    it("passes the sandbox-side this (round-tripped) to host methods", () => {
+    it("passes the sandbox-side this to host methods", () => {
+      let observed: any;
       class Holder {
-        observed: object | undefined;
         capture(this: Holder) {
-          this.observed = this;
+          // oxlint-disable-next-line typescript/no-this-alias
+          observed = this;
           return this;
         }
       }
@@ -78,10 +100,14 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
         walkPrototype: true,
         includeNonEnumerable: true,
         useSandboxThis: true,
+        childPolicy: "inherit",
       });
       const capture = wrapped.getSync("capture") as StaticJsCallable;
-      capture.callSync(wrapped, []);
-      expect(host.observed).toBe(host);
+      const thisArg = realm.types.object();
+      capture.callSync(thisArg, []);
+
+      // Value is called as a native proxy, so get the original back.
+      expect(realm.types.toStaticJsValue(observed)).toBe(thisArg);
     });
   });
 
@@ -212,64 +238,105 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
       {
         source: Object.getPrototypeOf([][Symbol.iterator]()),
         intrinsic: "ArrayIteratorPrototype",
+        toStringTag: "Array Iterator",
       },
-      { source: Object.getPrototypeOf(asyncFn), intrinsic: "AsyncFunction.prototype" },
+      {
+        source: Object.getPrototypeOf(asyncFn),
+        intrinsic: "AsyncFunction.prototype",
+        toStringTag: "AsyncFunction",
+      },
       {
         source: Object.getPrototypeOf(asyncGeneratorFn),
         intrinsic: "AsyncGeneratorFunction.prototype",
+        toStringTag: "AsyncGeneratorFunction",
       },
       {
-        source: Object.getPrototypeOf(asyncGeneratorFn()),
+        source: Object.getPrototypeOf(asyncGeneratorFn.prototype),
         intrinsic: "AsyncGeneratorPrototype",
+        toStringTag: "AsyncGenerator",
       },
       {
-        source: Object.getPrototypeOf(Object.getPrototypeOf(asyncGeneratorFn())),
+        source: Object.getPrototypeOf(
+          Object.getPrototypeOf(Object.getPrototypeOf(asyncGeneratorFn())),
+        ),
         intrinsic: "AsyncIteratorPrototype",
       },
       { source: Boolean.prototype, intrinsic: "Boolean.prototype" },
       { source: Error.prototype, intrinsic: "Error.prototype" },
       { source: EvalError.prototype, intrinsic: "EvalError.prototype" },
       { source: Function.prototype, intrinsic: "Function.prototype" },
-      { source: Object.getPrototypeOf(generatorFn), intrinsic: "GeneratorFunction.prototype" },
-      { source: Object.getPrototypeOf(generatorFn()), intrinsic: "GeneratorPrototype" },
-      { source: Iterator.prototype, intrinsic: "Iterator.prototype" },
+      {
+        source: Object.getPrototypeOf(generatorFn),
+        intrinsic: "GeneratorFunction.prototype",
+        toStringTag: "GeneratorFunction",
+      },
+      {
+        source: Object.getPrototypeOf(generatorFn.prototype),
+        intrinsic: "GeneratorPrototype",
+        toStringTag: "Generator",
+      },
+      { source: Iterator.prototype, intrinsic: "Iterator.prototype", toStringTag: "Iterator" },
       {
         source: Object.getPrototypeOf([].values().map((x) => x)),
         intrinsic: "IteratorHelperPrototype",
+        toStringTag: "Iterator Helper",
       },
-      { source: Map.prototype, intrinsic: "Map.prototype" },
+      { source: Map.prototype, intrinsic: "Map.prototype", toStringTag: "Map" },
       { source: Number.prototype, intrinsic: "Number.prototype" },
       { source: Object.prototype, intrinsic: "Object.prototype" },
-      { source: Promise.prototype, intrinsic: "Promise.prototype" },
+      { source: Promise.prototype, intrinsic: "Promise.prototype", toStringTag: "Promise" },
       { source: RangeError.prototype, intrinsic: "RangeError.prototype" },
       { source: ReferenceError.prototype, intrinsic: "ReferenceError.prototype" },
-      { source: Set.prototype, intrinsic: "Set.prototype" },
+      { source: Set.prototype, intrinsic: "Set.prototype", toStringTag: "Set" },
       {
         source: Object.getPrototypeOf(new Set()[Symbol.iterator]()),
         intrinsic: "SetIteratorPrototype",
+        toStringTag: "Set Iterator",
       },
       { source: String.prototype, intrinsic: "String.prototype" },
       {
         source: Object.getPrototypeOf(""[Symbol.iterator]()),
         intrinsic: "StringIteratorPrototype",
+        toStringTag: "String Iterator",
       },
-      { source: Symbol.prototype, intrinsic: "Symbol.prototype" },
+      { source: Symbol.prototype, intrinsic: "Symbol.prototype", toStringTag: "Symbol" },
       { source: SyntaxError.prototype, intrinsic: "SyntaxError.prototype" },
       { source: TypeError.prototype, intrinsic: "TypeError.prototype" },
       { source: URIError.prototype, intrinsic: "URIError.prototype" },
-    ] satisfies { source: any; intrinsic: keyof IntrinsicsRecord }[])(
-      "$intrinsic",
-      ({ source, intrinsic }) => {
-        it(`maps host ${intrinsic} to realm intrinsic ${intrinsic} on properties`, () => {
-          const realm = new StaticJsRealm();
-          const obj = {
-            value: source,
-          };
-          const wrapped = realm.types.toStaticJsValue(obj);
-          expect(wrapped.getSync("value")).toBe(realm.intrinsics[intrinsic]);
+    ] satisfies {
+      source: any;
+      intrinsic: keyof IntrinsicsRecord;
+      toStringTag?: string;
+    }[])("$intrinsic", ({ source, intrinsic, toStringTag }) => {
+      it(`maps host ${intrinsic} to realm intrinsic ${intrinsic} on properties`, () => {
+        const realm = new StaticJsRealm();
+        const obj = {
+          value: source,
+          toString() {
+            // When errors happen, chai tries to call toString on us, which calls toString on value,
+            // which ends up trying to invoke the toString sitting on the prototype we shoved into it.
+            return `[Host ${intrinsic}]`;
+          },
+        };
+        const wrapped = realm.types.toStaticJsValue(obj);
+        expect(wrapped.getSync("value")).toBe(realm.intrinsics[intrinsic]);
+      });
+
+      if (toStringTag !== undefined) {
+        it(`test for ${intrinsic} targets the correct item (by "${toStringTag}")`, () => {
+          const descriptor = Object.getOwnPropertyDescriptor(source, Symbol.toStringTag);
+          expect(
+            descriptor,
+            `Host ${intrinsic} source is missing an own Symbol.toStringTag`,
+          ).toBeDefined();
+          // Iterator.prototype exposes the tag via an accessor; everything else
+          // uses a data property.
+          const actual =
+            descriptor && "value" in descriptor ? descriptor.value : descriptor?.get?.call(source);
+          expect(actual).toBe(toStringTag);
         });
-      },
-    );
+      }
+    });
 
     it("rawPrototypes: true exposes the host prototype as a wrapper", () => {
       const realm = new StaticJsRealm();

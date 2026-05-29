@@ -9,6 +9,7 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "./apply-intrinsic-properties.js";
+import { IntrinsicsRecord } from "./intrinsics.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 
@@ -235,10 +236,15 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   ...MathNumericVariadicHookFunctionKeys.map(createMathNumericVariadicHookFunctionDeclaration),
 ];
 
-export function* createMathIntrinsic(realm: StaticJsRealm) {
+export function* createMath(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
   const Math = new StaticJsPlainObjectImpl(realm);
 
   yield* applyIntrinsicProperties(realm, Math, declarations);
 
-  return Math;
+  intrinsics.Math = Math;
 }
+
+export const globalObjectMathDeclaration: IntrinsicPropertyDeclaration = {
+  key: "Math",
+  value: (realm) => realm.intrinsics.Math,
+};

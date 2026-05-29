@@ -6,7 +6,6 @@ import { getNewTarget } from "../../../runtime/algorithms/get-new-target.js";
 import { getSuperConstructor } from "../../../runtime/algorithms/get-super-constructor.js";
 import { getThisEnvironment } from "../../../runtime/algorithms/get-this-environment.js";
 import { getValue } from "../../../runtime/algorithms/get-value.js";
-import { get } from "../../../runtime/algorithms/get.js";
 import { isConstructor } from "../../../runtime/algorithms/is-constructor.js";
 import { performEval } from "../../../runtime/algorithms/perform-eval.js";
 import { sameValue } from "../../../runtime/algorithms/same-value.js";
@@ -51,8 +50,7 @@ export default function* callExpressionNodeEvaluator(node: CallExpression): Eval
     !isStaticJsPropertyReference(ref) &&
     ref.referencedName === "eval"
   ) {
-    const globalEval = yield* get(realm.global, "eval");
-    if (sameValue(func, globalEval)) {
+    if (sameValue(func, realm.intrinsics["eval"])) {
       const argList = yield* argumentsListEvaluation(node.arguments);
       if (argList.length === 0) {
         return realm.types.undefined;

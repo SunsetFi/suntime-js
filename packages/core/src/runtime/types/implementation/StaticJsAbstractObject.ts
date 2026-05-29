@@ -476,7 +476,15 @@ export abstract class StaticJsAbstractObject
   }
 
   toStringSync(opts?: StaticJsRunTaskOptions): string {
-    return this.realm.invokeEvaluatorSync(toString(this), opts).value;
+    function* toStringEval(self: StaticJsAbstractObject): EvaluationGenerator<string> {
+      try {
+        return yield* toString.js(self);
+      } catch (err) {
+        Completion.handleRuntime(err);
+        throw err;
+      }
+    }
+    return this.realm.invokeEvaluatorSync(toStringEval(this), opts);
   }
 
   protected _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {

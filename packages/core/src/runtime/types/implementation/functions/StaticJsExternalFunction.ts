@@ -48,12 +48,12 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
 
     try {
       const result = this._func.call(thisArgResolved, ...valueArgsResolved);
-      return this._policy.wrapChild(result);
+      return this._policy.wrapChild(result, false);
     } catch (e) {
       if (e instanceof StaticJsRuntimeError && e.thrown.realm === this.realm) {
         throw Completion.Throw(e.thrown);
       }
-      throw Completion.Throw(this._policy.wrapChild(e));
+      throw Completion.Throw(this._policy.wrapChild(e, false));
     }
   }
 

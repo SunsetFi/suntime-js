@@ -21,83 +21,94 @@ export function buildHostBuiltinMap(realm: StaticJsRealm): HostBuiltinMap {
   const setIterator = new Set()[Symbol.iterator]();
   const mapIterator = new Map()[Symbol.iterator]();
 
+  function setEntry(key: object, intrinsicName: keyof typeof i) {
+    const value = i[intrinsicName];
+    if (!value) {
+      throw new Error(`Missing intrinsic for host builtin: ${intrinsicName}`);
+    }
+    map.set(key, value);
+  }
+
   // Constructors
-  map.set(AggregateError, i["AggregateError"]);
-  map.set(Array, i["Array"]);
-  map.set(AsyncFunction, i["AsyncFunction"]);
-  map.set(AsyncGeneratorFunction, i["AsyncGeneratorFunction"]);
-  map.set(Boolean, i["Boolean"]);
-  map.set(Error, i["Error"]);
-  map.set(EvalError, i["EvalError"]);
-  map.set(Function, i["Function"]);
-  map.set(GeneratorFunction, i["GeneratorFunction"]);
-  map.set(Iterator, i["Iterator"]);
-  map.set(Map, i["Map"]);
-  map.set(Number, i["Number"]);
-  map.set(Object, i["Object"]);
-  map.set(Promise, i["Promise"]);
-  map.set(Proxy, i["Proxy"]);
-  map.set(RangeError, i["RangeError"]);
-  map.set(ReferenceError, i["ReferenceError"]);
-  map.set(Set, i["Set"]);
-  map.set(String, i["String"]);
-  map.set(Symbol, i["Symbol"]);
-  map.set(SyntaxError, i["SyntaxError"]);
-  map.set(TypeError, i["TypeError"]);
-  map.set(URIError, i["URIError"]);
+  // setEntry(AggregateError, "AggregateError");
+  setEntry(Array, "Array");
+  setEntry(AsyncFunction, "AsyncFunction");
+  setEntry(AsyncGeneratorFunction, "AsyncGeneratorFunction");
+  setEntry(Boolean, "Boolean");
+  setEntry(Error, "Error");
+  setEntry(EvalError, "EvalError");
+  setEntry(Function, "Function");
+  setEntry(GeneratorFunction, "GeneratorFunction");
+  setEntry(Iterator, "Iterator");
+  setEntry(Map, "Map");
+  setEntry(Number, "Number");
+  setEntry(Object, "Object");
+  setEntry(Promise, "Promise");
+  setEntry(Proxy, "Proxy");
+  setEntry(RangeError, "RangeError");
+  setEntry(ReferenceError, "ReferenceError");
+  setEntry(Set, "Set");
+  setEntry(String, "String");
+  setEntry(Symbol, "Symbol");
+  setEntry(SyntaxError, "SyntaxError");
+  setEntry(TypeError, "TypeError");
+  setEntry(URIError, "URIError");
 
   // Non-constructor function globals
-  map.set(eval, i["eval"]);
-  map.set(isFinite, i["isFinite"]);
-  map.set(isNaN, i["isNaN"]);
-  map.set(parseFloat, i["parseFloat"]);
-  map.set(parseInt, i["parseInt"]);
+  setEntry(eval, "eval");
+  setEntry(isFinite, "isFinite");
+  setEntry(isNaN, "isNaN");
+  setEntry(parseFloat, "parseFloat");
+  setEntry(parseInt, "parseInt");
 
   // Plain-object globals
-  map.set(Math, i["Math"]);
-  map.set(Reflect, i["Reflect"]);
+  setEntry(Math, "Math");
+  setEntry(Reflect, "Reflect");
 
   // Prototypes — error hierarchy
-  map.set(Error.prototype, i["Error.prototype"]);
-  map.set(EvalError.prototype, i["EvalError.prototype"]);
-  map.set(RangeError.prototype, i["RangeError.prototype"]);
-  map.set(ReferenceError.prototype, i["ReferenceError.prototype"]);
-  map.set(SyntaxError.prototype, i["SyntaxError.prototype"]);
-  map.set(TypeError.prototype, i["TypeError.prototype"]);
-  map.set(URIError.prototype, i["URIError.prototype"]);
+  setEntry(Error.prototype, "Error.prototype");
+  setEntry(EvalError.prototype, "EvalError.prototype");
+  setEntry(RangeError.prototype, "RangeError.prototype");
+  setEntry(ReferenceError.prototype, "ReferenceError.prototype");
+  setEntry(SyntaxError.prototype, "SyntaxError.prototype");
+  setEntry(TypeError.prototype, "TypeError.prototype");
+  setEntry(URIError.prototype, "URIError.prototype");
 
   // Prototypes — standard constructors
-  map.set(Array.prototype, i["Array.prototype"]);
-  map.set(Boolean.prototype, i["Boolean.prototype"]);
-  map.set(Function.prototype, i["Function.prototype"]);
-  map.set(Map.prototype, i["Map.prototype"]);
-  map.set(Number.prototype, i["Number.prototype"]);
-  map.set(Object.prototype, i["Object.prototype"]);
-  map.set(Promise.prototype, i["Promise.prototype"]);
-  map.set(Set.prototype, i["Set.prototype"]);
-  map.set(String.prototype, i["String.prototype"]);
-  map.set(Symbol.prototype, i["Symbol.prototype"]);
+  setEntry(Array.prototype, "Array.prototype");
+  setEntry(Boolean.prototype, "Boolean.prototype");
+  setEntry(Function.prototype, "Function.prototype");
+  setEntry(Map.prototype, "Map.prototype");
+  setEntry(Number.prototype, "Number.prototype");
+  setEntry(Object.prototype, "Object.prototype");
+  setEntry(Promise.prototype, "Promise.prototype");
+  setEntry(Set.prototype, "Set.prototype");
+  setEntry(String.prototype, "String.prototype");
+  setEntry(Symbol.prototype, "Symbol.prototype");
 
   // Prototypes — async/generator families
-  map.set(Object.getPrototypeOf(AsyncFunction), i["AsyncFunction.prototype"]);
-  map.set(Object.getPrototypeOf(AsyncGeneratorFunction), i["AsyncGeneratorFunction.prototype"]);
-  map.set(Object.getPrototypeOf(asyncGeneratorInstance), i["AsyncGeneratorPrototype"]);
-  map.set(
+  setEntry(AsyncFunction.prototype, "AsyncFunction.prototype");
+  setEntry(AsyncGeneratorFunction.prototype, "AsyncGeneratorFunction.prototype");
+  setEntry(
     Object.getPrototypeOf(Object.getPrototypeOf(asyncGeneratorInstance)),
-    i["AsyncIteratorPrototype"],
+    "AsyncGeneratorPrototype",
   );
-  map.set(Object.getPrototypeOf(GeneratorFunction), i["GeneratorFunction.prototype"]);
-  map.set(Object.getPrototypeOf(generatorInstance), i["GeneratorPrototype"]);
+  setEntry(
+    Object.getPrototypeOf(Object.getPrototypeOf(Object.getPrototypeOf(asyncGeneratorInstance))),
+    "AsyncIteratorPrototype",
+  );
+  setEntry(GeneratorFunction.prototype, "GeneratorFunction.prototype");
+  setEntry(Object.getPrototypeOf(Object.getPrototypeOf(generatorInstance)), "GeneratorPrototype");
 
   // Prototypes — Iterator and helpers
-  map.set(Iterator.prototype, i["Iterator.prototype"]);
-  map.set(Object.getPrototypeOf([].values().map((x) => x)), i["IteratorHelperPrototype"]);
+  setEntry(Iterator.prototype, "Iterator.prototype");
+  setEntry(Object.getPrototypeOf([].values().map((x) => x)), "IteratorHelperPrototype");
 
   // Prototypes — iterator instances
-  map.set(Object.getPrototypeOf(arrayIterator), i["ArrayIteratorPrototype"]);
-  map.set(Object.getPrototypeOf(mapIterator), i["MapIteratorPrototype"]);
-  map.set(Object.getPrototypeOf(setIterator), i["SetIteratorPrototype"]);
-  map.set(Object.getPrototypeOf(stringIterator), i["StringIteratorPrototype"]);
+  setEntry(Object.getPrototypeOf(arrayIterator), "ArrayIteratorPrototype");
+  setEntry(Object.getPrototypeOf(mapIterator), "MapIteratorPrototype");
+  setEntry(Object.getPrototypeOf(setIterator), "SetIteratorPrototype");
+  setEntry(Object.getPrototypeOf(stringIterator), "StringIteratorPrototype");
 
   return map;
 }

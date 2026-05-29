@@ -5,16 +5,16 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "./apply-intrinsic-properties.js";
-import globalObjectEvalDeclaration from "./eval.js";
+import { globalObjectEvalDeclaration } from "./eval.js";
 import globalObjectGlobalThisDeclaration from "./globalThis.js";
 import globalObjectInfinityDeclaration from "./Infinity.js";
-import globalObjectIsFiniteDeclaration from "./isFinite.js";
-import globalObjectIsNaNDeclaration from "./isNaN.js";
-import { createMathIntrinsic } from "./Math.js";
+import { globalObjectIsFiniteDeclaration } from "./isFinite.js";
+import { globalObjectIsNaNDeclaration } from "./isNaN.js";
+import { globalObjectMathDeclaration } from "./Math.js";
 import globalObjectNaNDeclaration from "./NaN.js";
-import globalObjectParseFloatDeclaration from "./parseFloat.js";
-import globalObjectParseIntDeclaration from "./parseInt.js";
-import { createReflectIntrinsic } from "./Reflect/create-reflect-intrinsic.js";
+import { globalObjectParseFloatDeclaration } from "./parseFloat.js";
+import { globalObjectParseIntDeclaration } from "./parseInt.js";
+import { globalObjectReflectDeclaration } from "./Reflect/create-reflect-intrinsic.js";
 import globalObjectUndefinedDeclaration from "./undefined.js";
 
 const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
@@ -23,9 +23,11 @@ const globalPropertyDeclarations: IntrinsicPropertyDeclaration[] = [
   globalObjectInfinityDeclaration,
   globalObjectIsFiniteDeclaration,
   globalObjectIsNaNDeclaration,
+  globalObjectMathDeclaration,
   globalObjectNaNDeclaration,
   globalObjectParseFloatDeclaration,
   globalObjectParseIntDeclaration,
+  globalObjectReflectDeclaration,
   globalObjectUndefinedDeclaration,
 ];
 
@@ -55,22 +57,6 @@ const globalConstructors = [
 ] as const;
 export function* populateGlobal(realm: StaticJsRealm, globalObject: StaticJsObject) {
   yield* applyIntrinsicProperties(realm, globalObject, globalPropertyDeclarations);
-
-  const Math = yield* createMathIntrinsic(realm);
-  yield* globalObject.defineOwnPropertyEvaluator("Math", {
-    value: Math,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
-
-  const Reflect = yield* createReflectIntrinsic(realm);
-  yield* globalObject.defineOwnPropertyEvaluator("Reflect", {
-    value: Reflect,
-    writable: true,
-    enumerable: false,
-    configurable: true,
-  });
 
   for (const key of globalConstructors) {
     const value = realm.intrinsics[key];

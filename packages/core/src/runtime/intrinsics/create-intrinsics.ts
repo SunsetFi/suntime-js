@@ -11,21 +11,28 @@ import { populateAsyncGeneratorPrototypeIntrinsics } from "./AsyncGeneratorProto
 import { populateAsyncIteratorIntrinsics } from "./AsyncIteratorPrototype/populate-async-iterator-intrinsics.js";
 import { populateBooleanIntrinsics } from "./Boolean/populate-boolean-intrinsics.js";
 import { populateErrorIntrinsics } from "./Error/populate-error-intrinsics.js";
+import { createEval } from "./eval.js";
 import { addRestrictedFunctionProperties } from "./Function/add-restricted-function-properties.js";
 import { populateFunctionIntrinsics } from "./Function/populate-function-intrinsics.js";
 import { StaticJsFunctionPrototypeImpl } from "./Function/prototype/StaticJsFunctionPrototypeImpl.js";
 import { populateGeneratorFunctionIntrinsics } from "./GeneratorFunction/populate-generator-function-intrinsics.js";
 import { populateGeneratorIntrinsics } from "./GeneratorPrototype/populate-generator-intrinsics.js";
 import { IntrinsicsRecord } from "./intrinsics.js";
+import { createIsFinite } from "./isFinite.js";
+import { createIsNaN } from "./isNaN.js";
 import { populateIteratorIntrinsics } from "./Iterator/populate-iterator-intrinsics.js";
 import { populateIteratorHelperIntrinsics } from "./IteratorHelper/populate-iterator-helper-intrinsics.js";
 import { populateMapIntrinsics } from "./Map/populate-map-intrinsics.js";
 import { populateMapIteratorIntrinsics } from "./MapIterator/populate-map-iterator-intrinsics.js";
+import { createMath } from "./Math.js";
 import { populateNativeErrorIntrinsics } from "./NativeError/populate-nativeerror-intrinsics.js";
 import { populateNumberIntrinsics } from "./Number/populate-number-intrinsics.js";
 import { populateObjectIntrinsics } from "./Object/populate-object-intrinsics.js";
+import { createParseFloat } from "./parseFloat.js";
+import { createParseInt } from "./parseInt.js";
 import { populatePromiseIntrinsics } from "./Promise/populate-promise-intrinsics.js";
 import { populateProxyIntrinsics } from "./Proxy/populate-proxy-intrinsics.js";
+import { createReflect } from "./Reflect/create-reflect-intrinsic.js";
 import { populateSetIntrinsics } from "./Set/populate-set-intrinsics.js";
 import { populateSetIteratorIntrinsics } from "./SetIteratorPrototype/populate-set-iterator-intrinsics.js";
 import { populateStringIntrinsics } from "./String/populate-string-intrinsics.js";
@@ -142,6 +149,14 @@ export function* populateIntrinsics(
   yield* populateNativeErrorIntrinsics(realm, intrinsics, "SyntaxError");
   yield* populateNativeErrorIntrinsics(realm, intrinsics, "TypeError");
   yield* populateNativeErrorIntrinsics(realm, intrinsics, "URIError");
+
+  yield* createEval(realm, intrinsics);
+  yield* createIsFinite(realm, intrinsics);
+  yield* createIsNaN(realm, intrinsics);
+  yield* createParseInt(realm, intrinsics);
+  yield* createParseFloat(realm, intrinsics);
+  yield* createMath(realm, intrinsics);
+  yield* createReflect(realm, intrinsics);
 
   yield* addRestrictedFunctionProperties(intrinsics["Function.prototype"], realm);
 }

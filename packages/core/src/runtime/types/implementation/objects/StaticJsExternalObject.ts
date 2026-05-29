@@ -1,6 +1,7 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
@@ -10,7 +11,6 @@ import {
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
 import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 
@@ -48,7 +48,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
     if (!objDescr) return undefined;
 
-    const { includeNonEnumerable, writable, useSandboxThis } = this._policy.options;
+    const { includeNonEnumerable, writable } = this._policy.options;
     const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
     const hasValue = "value" in objDescr;
 
@@ -61,37 +61,19 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       configurable: false,
     };
 
-    // FIXME: Unify so all of this goes through wrapChild.
-
     let isAccessor = false;
     if (descrGet) {
       isAccessor = true;
-      staticJsDescr.get = new StaticJsExternalFunction(this.realm, "get", descrGet, this._policy, {
-        getThisArg: (v) => (useSandboxThis ? v.toNative() : this._obj),
-      });
+      staticJsDescr.get = this._policy.wrapChild(descrGet, true) as StaticJsCallable;
     }
 
     if (descrSet) {
       isAccessor = true;
-      staticJsDescr.set = new StaticJsExternalFunction(this.realm, "set", descrSet, this._policy, {
-        getThisArg: (v) => (useSandboxThis ? v.toNative() : this._obj),
-      });
+      staticJsDescr.set = this._policy.wrapChild(descrSet, true) as StaticJsCallable;
     }
 
     if (!isAccessor && hasValue) {
-      if (typeof value === "function") {
-        // FIXME: Not going through wrapChild so we do not correctly apply builtin filtering to this.
-        // It is relevant because function prototypes are functions.
-        staticJsDescr.value = new StaticJsExternalFunction(
-          this.realm,
-          value.name ?? null,
-          value,
-          this._policy,
-          { getThisArg: (v) => (useSandboxThis ? v.toNative() : this._obj) },
-        );
-      } else {
-        staticJsDescr.value = this._policy.wrapChild(value);
-      }
+      staticJsDescr.value = this._policy.wrapChild(value, true);
       staticJsDescr.writable = writable;
     }
 

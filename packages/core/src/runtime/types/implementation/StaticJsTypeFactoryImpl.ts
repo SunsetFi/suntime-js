@@ -434,7 +434,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     if (isFunction(value)) {
       const policy = this._buildPolicy(value, opts);
-      return this._wrapHostFunction(value, policy);
+      return this._wrapHostFunction(value, policy, undefined);
     }
 
     if (typeof value === "object") {
@@ -523,13 +523,16 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   private _buildPolicy(rootHostObj: object, opts: HostAccessArg | undefined): HostAccessPolicy {
     const resolved = resolveHostAccessOptions(opts, this._hostAccessDefaults, rootHostObj);
-    return this._policyFor(resolved);
+    return this._policyFor(resolved, rootHostObj);
   }
 
-  private _policyFor(resolved: ResolvedHostAccessOptions): HostAccessPolicy {
+  private _policyFor(
+    resolved: ResolvedHostAccessOptions,
+    target: object | Function | undefined,
+  ): HostAccessPolicy {
     return {
       options: resolved,
-      wrapChild: (childHostValue: unknown): StaticJsValue => {
+      wrapChild: (childHostValue: unknown, member: boolean): StaticJsValue => {
         // If it's already a StaticJsValue from this realm, return it directly.
         if (isStaticJsValue(childHostValue) && childHostValue.realm === this._realm) {
           return childHostValue;
@@ -544,10 +547,10 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         }
 
         const childResolved = applyChildPolicy(resolved, childHostValue);
-        const policy = this._policyFor(childResolved);
+        const policy = this._policyFor(childResolved, childHostValue);
 
         if (typeof childHostValue === "function") {
-          return this._wrapHostFunction(childHostValue, policy);
+          return this._wrapHostFunction(childHostValue, policy, member ? target : undefined);
         }
 
         return this._wrapHostObject(childHostValue, policy);
@@ -556,7 +559,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         if (!resolved.walkPrototype) {
           return this._realm.intrinsics["Object.prototype"];
         }
-        return this._wrapHostObject(hostProto, this._policyFor(resolved));
+        return this._wrapHostObject(hostProto, this._policyFor(resolved, target));
       },
     };
   }
@@ -579,20 +582,28 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return wrapper;
   }
 
-  private _wrapHostFunction(host: Function, policy: HostAccessPolicy): StaticJsFunction {
+  private _wrapHostFunction(
+    host: Function,
+    policy: HostAccessPolicy,
+    homeObject: object | Function | undefined,
+  ): StaticJsFunction {
     const cached = this._getCached(host, policy);
     if (cached) {
       return cached as unknown as StaticJsFunction;
     }
 
-    if (!policy.options.rawPrototypes) {
+    const { rawPrototypes, useSandboxThis } = policy.options;
+
+    if (!rawPrototypes) {
       const builtin = this._hostBuiltinMap.get(host);
       if (builtin) {
         return builtin as StaticJsFunction;
       }
     }
 
-    const wrapper = new StaticJsExternalFunction(this._realm, host.name, host, policy);
+    const wrapper = new StaticJsExternalFunction(this._realm, host.name, host, policy, {
+      getThisArg: (v) => (useSandboxThis ? v.toNative() : homeObject),
+    });
     this._putCached(host, policy, wrapper);
     return wrapper;
   }
