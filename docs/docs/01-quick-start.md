@@ -116,6 +116,7 @@ const consoleMock = realm.types.object({
     value: realm.types.function("log", function (arg) {
       const str = isStaticJsScalar(arg) ? String(arg.value) : "[object]";
       console.log("[sandbox]", str);
+      return realm.types.undefined;
     }),
   },
 });
@@ -131,12 +132,12 @@ For more information, see [Working with Types](./07-types.md)
 
 Time limits can be enforced on synchronous and asynchronous code
 
-```ts
+```ts live-staticjs include-runtime
 import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
 
 const realm = StaticJsRealm({
   runTaskSync: createTimeBoundTaskRunner({
-    maxRunTime: 5_000,
+    maxRunTime: 3_000,
   }),
 });
 
@@ -162,7 +163,14 @@ const realm = StaticJsRealm({
 });
 
 // Will run forever, but not hang the browser or engine.
-const resultPromise = realm.evaluateScript(`while(true) {}`);
+const resultPromise = realm.evaluateScript(`
+  let count = 0;
+  while(true) {
+    if (count++ % 1000) {
+      console.log("Running...", count / 1000);
+    }
+  }
+`);
 ```
 
 ## Next steps

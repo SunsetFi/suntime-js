@@ -10,6 +10,8 @@ import {
   StaticJsRealm,
   StaticJsValue,
   HostAccessOptions,
+  createTimeBoundTaskRunner,
+  createTimeSharingTaskRunner,
 } from "@suntime-js/core";
 
 import { CodeRuntimeSpawnOptions } from "./CodeRuntime";
@@ -157,6 +159,8 @@ export function createStaticJsRealmApi(
   //   isStaticJsFunction: makeTypeGuard(isStaticJsFunction),
   // };
 
+  const { realm } = spawnOpts;
+
   const access: HostAccessOptions = {
     includeNonEnumerable: true,
     walkPrototype: true,
@@ -166,14 +170,16 @@ export function createStaticJsRealmApi(
     childPolicy: "inherit",
   };
   return {
-    StaticJsRealm: spawnOpts.realm.types.toStaticJsValue(StaticJsRealm, access),
-    isStaticJsValue: spawnOpts.realm.types.toStaticJsValue(isStaticJsValue, access),
-    isStaticJsScalar: spawnOpts.realm.types.toStaticJsValue(isStaticJsScalar, access),
-    isStaticJsNumber: spawnOpts.realm.types.toStaticJsValue(isStaticJsNumber, access),
-    isStaticJsBoolean: spawnOpts.realm.types.toStaticJsValue(isStaticJsBoolean, access),
-    isStaticJsString: spawnOpts.realm.types.toStaticJsValue(isStaticJsString, access),
-    isStaticJsObject: spawnOpts.realm.types.toStaticJsValue(isStaticJsObject, access),
-    isStaticJsArray: spawnOpts.realm.types.toStaticJsValue(isStaticJsArray, access),
-    isStaticJsFunction: spawnOpts.realm.types.toStaticJsValue(isStaticJsFunction, access),
+    StaticJsRealm: realm.types.toStaticJsValue(StaticJsRealm, access),
+    isStaticJsValue: realm.types.toStaticJsValue(isStaticJsValue, access),
+    isStaticJsScalar: realm.types.toStaticJsValue(isStaticJsScalar, access),
+    isStaticJsNumber: realm.types.toStaticJsValue(isStaticJsNumber, access),
+    isStaticJsBoolean: realm.types.toStaticJsValue(isStaticJsBoolean, access),
+    isStaticJsString: realm.types.toStaticJsValue(isStaticJsString, access),
+    isStaticJsObject: realm.types.toStaticJsValue(isStaticJsObject, access),
+    isStaticJsArray: realm.types.toStaticJsValue(isStaticJsArray, access),
+    isStaticJsFunction: realm.types.toStaticJsValue(isStaticJsFunction, access),
+    createTimeBoundTaskRunner: realm.types.toStaticJsValue(createTimeBoundTaskRunner, access),
+    createTimeSharingTaskRunner: realm.types.toStaticJsValue(createTimeSharingTaskRunner, access),
   };
 }

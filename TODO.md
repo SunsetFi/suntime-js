@@ -5,36 +5,34 @@
 - [ ] Realm hostAccessDefaults should be able to be a function called with the object to test.
 - [ ] Look really closely at realm's global object initializer and stub policy.
 - [ ] Tests for host wrapped function thrown value wrap policies.
-- [ ] Try to launder all external object values through wrapChild, including functions
+- [+] Try to launder all external object values through wrapChild, including functions
+- [-] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
+  - [ ] Update documentation
 
 ## Immediate
 
 - [ ] Figure out why oxclint is complaining about clearly reachable code being unreachable.
       Doesn't do it for commits, only for manual lint run.
-- [ ] AggregateError
 - [ ] introspect / spy function for objects - Analyze properties without invoking sandbox code.
   - [ ] Use for debugger function name
   - [ ] Re-add frame-level functionName using above.
 - [-] Rework ExternalFunction
   - [ ] Allow enumerable own properties to be exposed non-writable and non-configurable,
-        as StaticJsExternalObjectt does
-  - [ ] Don't allow mutations to other properties
+        as StaticJsExternalObject does
+    - [ ] Don't allow mutations to other properties (based on policy)
   - [ ] Update type coercion docs.
-- [ ] Find a way for StaticJsObject.toNative to have a return type of object
-      Currently conflicts with StaticJsSymbol.toNative wanting to return symbol.
-- [ ] InitialName for functions. Expose it in the stack as a non-invoking getter.
+- [-] InitialName for functions.
+  - [+] Expose it in the stack as a non-invoking getter.
+    Exposed under frame.function.initialName
 
 ## Less imediate
 
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
-- [+] StaticJsFunction.toString revealing source
-- [+] Get promises returned to proxied functions to await properly in the sandbox.
-  This should be happening automatically due to the .then function, but isn't
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
-- [ ] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
 
 ### Implement More
 
+- [ ] AggregateError
 - [ ] Date
 - [ ] Regex
       No hope but to do this ourselves. No way we can pass this through to the engine with catastrophic backtracking.
