@@ -19,8 +19,21 @@ export interface HostAccessOptions {
   /** Expose non-enumerable own properties (e.g. ES class methods). */
   includeNonEnumerable?: boolean;
 
-  /** Allow sandbox writes to mutate the host object. */
-  writable?: boolean;
+  /**
+   * Allow sandbox writes to mutate the host object.
+   * If true, the sandbox can modify data properties on the host.
+   * If false, the sandbox cannot modify data properties.
+   * If "transparent", the sandbox can modify data properties, but those modifications are not reflected back to the host (i.e. the wrapper stores its own copy of the data property value once it's written to).
+   * */
+  writable?: boolean | "transparent";
+
+  /**
+   * Allow the sandbox to add properties to the host object.
+   * If true, the sandbox can add properties to the host object, and those properties are reflected back to the host.
+   * If false, the sandbox cannot add properties to the host object.
+   * If "transparent", the sandbox can add properties to the host object, but those properties are not reflected back to the host (i.e. the wrapper stores its own copy of the added property and value).
+   */
+  extendable?: boolean | "transparent";
 
   /**
    * When a host method is invoked from the sandbox, pass the sandbox-side
@@ -42,11 +55,10 @@ export interface HostAccessOptions {
    * values, function return values, prototype-chain entries that are
    * themselves host objects).
    *
-   * Possible values:
-   * "inherit": reuse the parent's resolved policy (sticky)
-   * false: wrap with safe defaults
-   * object: that child becomes a new sub-root governed by these options
-   * function: Decide on a per-object basis.
+   * If "inherit", it will reuse the parent's resolved policy (sticky)
+   * If false, safe / immutable defaults will be used.
+   * If an object, the returned HostAccessOptions will be used for that child object and its descendants, unless overridden by a closer ancestor.
+   * If a function, it will be invoked with the child host object to determine the policy. Decide on a per-object basis.
    *
    * childHostObj may be any non-primitive host value — plain object, host
    * function, host class instance, host prototype.
@@ -62,7 +74,7 @@ export interface HostAccessOptions {
  * If false, the host object is wrapped with safe defaults.
  * If an object, that child becomes a new sub-root governed by these options.
  */
-export type HostAcessQueryFunction = (
+export type HostAccessQueryFunction = (
   childHostObj: object,
 ) => "inherit" | false | HostAccessOptions;
 
@@ -70,9 +82,9 @@ export type HostAcessQueryFunction = (
  * Policy for child host objects reached from a parent host object. See HostAccessOptions.childPolicy.
  * If inherit, the child uses the same policy as the parent (sticky).
  */
-export type HostAccessChildPolicy = "inherit" | false | HostAcessQueryFunction;
+export type HostAccessChildPolicy = "inherit" | false | HostAccessQueryFunction;
 
 /**
  * Argument option for specifying host access level to a host object in the sandbox.
  */
-export type HostAccessArg = HostAccessOptions | HostAcessQueryFunction;
+export type HostAccessArg = HostAccessOptions | HostAccessQueryFunction;

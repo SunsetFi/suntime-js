@@ -86,6 +86,7 @@ it("writes to realm wrapper do not affect the host realm methods", () => {
       inner.evaluateScriptSync = null;
       typeof inner.evaluateScriptSync;
     `);
+  expect(realm.evaluateScriptSync).toBeTypeOf("function");
   expect(result.toNative()).toBe("object"); // null typeof is "object"
 });
 

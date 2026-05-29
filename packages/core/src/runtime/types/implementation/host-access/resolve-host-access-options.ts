@@ -4,19 +4,15 @@ import type {
   HostAccessOptions,
 } from "../../HostAccessOptions.js";
 
-export interface ResolvedHostAccessOptions {
-  walkPrototype: boolean;
-  includeNonEnumerable: boolean;
-  writable: boolean;
-  useSandboxThis: boolean;
-  rawPrototypes: boolean;
+export type ResolvedHostAccessOptions = Omit<Required<HostAccessOptions>, "childPolicy"> & {
   childPolicy: HostAccessChildPolicy | undefined;
-}
+};
 
 export const SAFE_DEFAULTS: Omit<ResolvedHostAccessOptions, "childPolicy"> = {
   walkPrototype: false,
   includeNonEnumerable: false,
   writable: false,
+  extendable: false,
   useSandboxThis: false,
   rawPrototypes: false,
 };

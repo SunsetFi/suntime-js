@@ -1,5 +1,4 @@
 import {
-  createTimeBoundTaskRunner,
   isStaticJsBoolean,
   isStaticJsNumber,
   isStaticJsObject,
@@ -9,85 +8,82 @@ import {
   isStaticJsFunction,
   isStaticJsValue,
   StaticJsRealm,
-  StaticJsTaskRunner,
   StaticJsValue,
-  StaticJsRuntimeError,
   HostAccessOptions,
 } from "@suntime-js/core";
 
 import { CodeRuntimeSpawnOptions } from "./CodeRuntime";
-import { BridgeContext, registerOverride, wrapValue } from "./host-bridge";
 
 // Raw runners are stored here (not the hooked versions) so overrides can add their own
 // registerSubTask call without double-registering.
-interface RealmRunners {
-  runTask?: StaticJsTaskRunner;
-  runTaskSync?: StaticJsTaskRunner;
-}
-const realmRunners = new WeakMap<object, RealmRunners>();
+// interface RealmRunners {
+//   runTask?: StaticJsTaskRunner;
+//   runTaskSync?: StaticJsTaskRunner;
+// }
+// const realmRunners = new WeakMap<object, RealmRunners>();
 
-function hookRunner(runner: StaticJsValue, ctx: BridgeContext): StaticJsTaskRunner {
-  const { realm, registerSubTask } = ctx.spawnOpts;
-  return (task) => {
-    if (!isStaticJsFunction(runner)) {
-      const err = realm.types.error("TypeError", "Provided runTask is not a function");
-      throw new StaticJsRuntimeError(err);
-    }
+// function hookRunner(runner: StaticJsValue, ctx: BridgeContext): StaticJsTaskRunner {
+//   const { realm, registerSubTask } = ctx.spawnOpts;
+//   return (task) => {
+//     if (!isStaticJsFunction(runner)) {
+//       const err = realm.types.error("TypeError", "Provided runTask is not a function");
+//       throw new StaticJsRuntimeError(err);
+//     }
 
-    registerSubTask(task);
-    const taskIter = wrapValue(task, ctx);
-    runner.callSync(realm.types.undefined, [taskIter]);
-  };
-}
+//     registerSubTask(task);
+//     const taskIter = wrapValue(task, ctx);
+//     runner.callSync(realm.types.undefined, [taskIter]);
+//   };
+// }
 
-// evaluateScriptSync cannot be auto-generated because it needs:
-// 1. registerSubTask called so the outer session can abort the evaluation
-// 2. A task runner sourced from (in priority order):
-//    a. the per-call runTask in the second sandbox argument
-//    b. the realm's configured runTaskSync
-//    c. a time-bound fallback (with a warning logged)
-registerOverride("StaticJsRealm", "evaluateScriptSync", function* (hostThis, sandboxArgs, ctx) {
-  const { spawnOpts } = ctx;
-  const realmInstance = hostThis as ReturnType<typeof StaticJsRealm>;
+// // evaluateScriptSync cannot be auto-generated because it needs:
+// // 1. registerSubTask called so the outer session can abort the evaluation
+// // 2. A task runner sourced from (in priority order):
+// //    a. the per-call runTask in the second sandbox argument
+// //    b. the realm's configured runTaskSync
+// //    c. a time-bound fallback (with a warning logged)
+// registerOverride("StaticJsRealm", "evaluateScriptSync", function* (hostThis, sandboxArgs, ctx) {
+//   const { spawnOpts } = ctx;
+//   const realmInstance = hostThis as ReturnType<typeof StaticJsRealm>;
 
-  const codeArg = sandboxArgs[0];
-  if (!codeArg || !isStaticJsScalar(codeArg)) {
-    return spawnOpts.realm.types.undefined;
-  }
-  const code = String(codeArg.value);
+//   const codeArg = sandboxArgs[0];
+//   if (!codeArg || !isStaticJsScalar(codeArg)) {
+//     return spawnOpts.realm.types.undefined;
+//   }
+//   const code = String(codeArg.value);
 
-  let callRunTask: StaticJsTaskRunner | undefined;
-  const callOptsArg = sandboxArgs[1];
-  if (callOptsArg && isStaticJsObject(callOptsArg)) {
-    const runTaskProp = callOptsArg.getSync("runTask");
-    if (runTaskProp) {
-      callRunTask = hookRunner(runTaskProp, ctx);
-    }
-  }
+//   let callRunTask: StaticJsTaskRunner | undefined;
+//   const callOptsArg = sandboxArgs[1];
+//   if (callOptsArg && isStaticJsObject(callOptsArg)) {
+//     const runTaskProp = callOptsArg.getSync("runTask");
+//     if (runTaskProp) {
+//       callRunTask = hookRunner(runTaskProp, ctx);
+//     }
+//   }
 
-  const stored = realmRunners.get(hostThis);
-  const effectiveRunner = callRunTask ?? stored?.runTaskSync;
+//   const stored = realmRunners.get(hostThis);
+//   const effectiveRunner = callRunTask ?? stored?.runTaskSync;
 
-  if (!effectiveRunner) {
-    spawnOpts.addLog({
-      kind: "warning",
-      text: "Detected an evaluateScriptSync call without a runTaskSync provided. Using a default. The StaticJs engine does NOT do this natively!",
-    });
-  }
+//   if (!effectiveRunner) {
+//     spawnOpts.addLog({
+//       kind: "warning",
+//       text: "Detected an evaluateScriptSync call without a runTaskSync provided. Using a default. The StaticJs engine does NOT do this natively!",
+//     });
+//   }
 
-  const runner = effectiveRunner ?? createTimeBoundTaskRunner({ maxRunTime: 5_000 });
+//   const runner = effectiveRunner ?? createTimeBoundTaskRunner({ maxRunTime: 5_000 });
 
-  const result = realmInstance.evaluateScriptSync(code, {
-    runTask: (task) => {
-      spawnOpts.registerSubTask(task);
-      runner(task);
-    },
-  });
-  // Always wrap as a class-backed object so the outer sandbox sees a StaticJsValue
-  // wrapper (not an unwrapped primitive). Type guards like isStaticJsNumber rely on
-  // getHostObject returning the inner-realm value.
-  return wrapValue(result, ctx);
-});
+//   const result = realmInstance.evaluateScriptSync(code, {
+//     runTask: (task) => {
+//       spawnOpts.registerSubTask(task);
+//       runner(task);
+//     },
+//   });
+//   // Always wrap as a class-backed object so the outer sandbox sees a StaticJsValue
+//   // wrapper (not an unwrapped primitive). Type guards like isStaticJsNumber rely on
+//   // getHostObject returning the inner-realm value.
+//   return wrapValue(result, ctx);
+// });
 
 export function createStaticJsRealmApi(
   spawnOpts: CodeRuntimeSpawnOptions,
@@ -165,6 +161,8 @@ export function createStaticJsRealmApi(
     includeNonEnumerable: true,
     walkPrototype: true,
     useSandboxThis: true,
+    writable: "transparent",
+    extendable: "transparent",
     childPolicy: "inherit",
   };
   return {

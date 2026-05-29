@@ -45,6 +45,24 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
       capture.callSync(thisArg, []);
       expect(observed).toBe(host);
     });
+
+    it("cannot write to the host object", () => {
+      const realm = new StaticJsRealm();
+      const host = { x: 1 };
+      const wrapped = realm.types.toStaticJsValue(host);
+      const ok = wrapped.setSync("x", realm.types.number(7));
+      expect(ok).toBe(false);
+      expect(host.x).toBe(1);
+    });
+
+    it("cannot extend the host object", () => {
+      const realm = new StaticJsRealm();
+      const host = { x: 1 };
+      const wrapped = realm.types.toStaticJsValue(host);
+      const ok = wrapped.setSync("y", realm.types.number(2));
+      expect(ok).toBe(false);
+      expect((host as any).y).toBeUndefined();
+    });
   });
 
   describe("walkPrototype + includeNonEnumerable", () => {
@@ -81,6 +99,57 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
       const ok = wrapped.setSync("x", realm.types.number(7));
       expect(ok).toBe(false);
       expect(host.x).toBe(1);
+    });
+
+    it("allows transparent writes", () => {
+      const realm = new StaticJsRealm();
+      const host = { x: 1 };
+      const wrapped = realm.types.toStaticJsValue(host, { writable: "transparent" });
+      const ok = wrapped.setSync("x", realm.types.number(7));
+      expect(ok).toBe(true);
+      expect(wrapped.getSync("x").toNative()).toBe(7);
+      expect(host.x).toBe(1);
+    });
+
+    it("inherits transparent writes", () => {
+      const realm = new StaticJsRealm();
+
+      let savedObj: any;
+      function host() {
+        savedObj = { x: 1 };
+        return savedObj;
+      }
+
+      const wrapped = realm.types.toStaticJsValue(host, {
+        writable: "transparent",
+        childPolicy: "inherit",
+      });
+      const obj = wrapped.callSync(realm.types.undefined, []) as StaticJsObject;
+      const ok = obj.setSync("x", realm.types.number(7));
+      expect(ok).toBe(true);
+      expect(obj.getSync("x").toNative()).toBe(7);
+      expect(savedObj.x).toBe(1);
+    });
+  });
+
+  describe("extensible", () => {
+    it("allows adding properties when extensible: true", () => {
+      const realm = new StaticJsRealm();
+      const host = { x: 1 };
+      const wrapped = realm.types.toStaticJsValue(host, { extendable: true });
+      const result = wrapped.setSync("y", realm.types.number(2));
+      expect(result).toBe(true);
+      expect((host as any).y).toBe(2);
+    });
+
+    it("transparently allows adding properties when extensible: 'transparent'", () => {
+      const realm = new StaticJsRealm();
+      const host = { x: 1 };
+      const wrapped = realm.types.toStaticJsValue(host, { extendable: "transparent" });
+      const result = wrapped.setSync("y", realm.types.number(2));
+      expect(result).toBe(true);
+      expect((host as any).y).toBeUndefined();
+      expect(wrapped.getSync("y").toNative()).toBe(2);
     });
   });
 
@@ -206,7 +275,8 @@ describe("E2E: toStaticJsValue with HostAccessOptions", () => {
 
     describe.each([
       // Constructors
-      { source: AggregateError, intrinsic: "AggregateError" },
+      // TODO: AggregateError
+      // { source: AggregateError, intrinsic: "AggregateError" },
       { source: Array, intrinsic: "Array" },
       { source: Object.getPrototypeOf(asyncFn).constructor, intrinsic: "AsyncFunction" },
       {

@@ -9,12 +9,16 @@ import {
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
+import { isStaticJsSymbol, StaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { StaticJsValue } from "../../StaticJsValue.js";
 import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 
 export class StaticJsExternalObject extends StaticJsAbstractObject {
+  private readonly _extends = new Map<string | StaticJsSymbol, StaticJsPropertyDescriptor>();
+  private readonly _writes = new Map<string | StaticJsSymbol, StaticJsValue>();
+
   constructor(
     realm: StaticJsRealm,
     private readonly _obj: object,
@@ -43,6 +47,11 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   *getOwnPropertyEvaluator(
     name: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
+    const extended = this._extends.get(name);
+    if (extended) {
+      return extended;
+    }
+
     const property: PropertyKey = isStaticJsSymbol(name) ? name.toNative() : (name as string);
 
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
@@ -73,15 +82,15 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     }
 
     if (!isAccessor && hasValue) {
-      staticJsDescr.value = this._policy.wrapChild(value, true);
-      staticJsDescr.writable = writable;
+      staticJsDescr.value = this._writes.get(name) ?? this._policy.wrapChild(value, true);
+      staticJsDescr.writable = Boolean(writable);
     }
 
     return staticJsDescr as StaticJsPropertyDescriptor;
   }
 
   override *isExtensibleEvaluator(): EvaluationGenerator<boolean> {
-    return false;
+    return Boolean(this._policy.options.extendable);
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
@@ -121,21 +130,43 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     key: StaticJsPropertyKey,
     setDescr: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
-    if (!this._policy.options.writable) return false;
     if (!isStaticJsDataPropertyDescriptor(setDescr)) return false;
 
     const property = isStaticJsSymbol(key) ? key.toNative() : key;
     const propertyDescr = Object.getOwnPropertyDescriptor(this._obj, property);
-    if (!propertyDescr || !propertyDescr.writable || !("value" in propertyDescr)) {
-      return false;
-    }
 
-    if (setDescr.value === propertyDescr.value) {
+    if (propertyDescr) {
+      if (!propertyDescr.writable || !("value" in propertyDescr)) {
+        return false;
+      }
+
+      if (setDescr.value === propertyDescr.value) {
+        return true;
+      }
+
+      if (this._policy.options.writable === "transparent") {
+        this._writes.set(key, setDescr.value);
+        return true;
+      }
+
+      Object.defineProperty(this._obj, property, { value: setDescr.value.toNative() });
       return true;
     }
 
-    Object.defineProperty(this._obj, property, { value: setDescr.value.toNative() });
-    return true;
+    if (this._policy.options.extendable) {
+      if (this._policy.options.extendable === "transparent") {
+        this._extends.set(key, setDescr);
+        return true;
+      }
+
+      Object.defineProperty(this._obj, property, {
+        ...setDescr,
+        value: setDescr.value.toNative(),
+      });
+      return true;
+    }
+
+    return false;
   }
 
   protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {
