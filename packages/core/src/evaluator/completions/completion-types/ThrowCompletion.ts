@@ -2,8 +2,8 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { createError } from "../../../runtime/algorithms/create-error.js";
 import { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
-import { ErrorTypeName } from "../../../runtime/types/StaticJsTypeFactory.js";
 import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import { WellKnownErrorName } from "../../../runtime/types/WellKnownErrors.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { nameCompletionLike } from "../name-completion-like.js";
 
@@ -20,7 +20,7 @@ export function ThrowCompletion(value: StaticJsValue): ThrowCompletion {
 }
 
 ThrowCompletion.create = function* throwCompletionCreate(
-  type: ErrorTypeName,
+  type: WellKnownErrorName,
   message: string,
   realm?: StaticJsRealm,
 ): EvaluationGenerator<ThrowCompletion> {

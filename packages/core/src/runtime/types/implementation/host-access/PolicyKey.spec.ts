@@ -4,7 +4,7 @@ import { PolicyKeyInterner } from "./PolicyKey.js";
 import { SAFE_DEFAULTS, type ResolvedHostAccessOptions } from "./resolve-host-access-options.js";
 
 function safe(over: Partial<ResolvedHostAccessOptions> = {}): ResolvedHostAccessOptions {
-  return { ...SAFE_DEFAULTS, childPolicy: undefined, ...over };
+  return { ...SAFE_DEFAULTS, ...over };
 }
 
 describe("PolicyKeyInterner", () => {

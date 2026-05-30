@@ -55,7 +55,13 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
         arg instanceof StaticJsAbstractFunction
           ? // ResolvedHostAccessOptions is a structural HostAccessOptions; the
             // cast only sheds the resolved type's explicit-undefined childPolicy.
-            arg.toNative({ access: applyChildPolicy(this._policy.options, arg) as HostAccessArg })
+            arg.toNative({
+              access: applyChildPolicy(
+                this._policy.options,
+                arg,
+                this.realm.config.hostAccessDefaults,
+              ) as HostAccessArg,
+            })
           : arg.toNative(),
       );
     }

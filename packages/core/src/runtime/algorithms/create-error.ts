@@ -3,10 +3,10 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
-import { ErrorTypeName } from "../types/StaticJsTypeFactory.js";
+import { WellKnownErrorName } from "../types/WellKnownErrors.js";
 
 export function* createError(
-  type: ErrorTypeName,
+  type: WellKnownErrorName,
   message: string,
   realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {

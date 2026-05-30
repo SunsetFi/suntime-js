@@ -4,15 +4,16 @@ import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 export interface IntrinsicSymbols {
-  asyncDispose: StaticJsSymbol;
+  // asyncDispose: StaticJsSymbol;
   asyncIterator: StaticJsSymbol;
-  dispose: StaticJsSymbol;
+  // dispose: StaticJsSymbol;
   hasInstance: StaticJsSymbol;
   isConcatSpreadable: StaticJsSymbol;
   iterator: StaticJsSymbol;
   match: StaticJsSymbol;
   matchAll: StaticJsSymbol;
-  // observable: StaticJsSymbol;
+  // metadata: StaticJsSymbol;
+  observable: StaticJsSymbol;
   replace: StaticJsSymbol;
   search: StaticJsSymbol;
   species: StaticJsSymbol;

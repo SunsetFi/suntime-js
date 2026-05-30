@@ -1,19 +1,17 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsFunction } from "../StaticJsFunction.js";
-import { StaticJsObject } from "../StaticJsObject.js";
-import { isErrorTypeName } from "../StaticJsTypeFactory.js";
-import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
+import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { StaticJsFunction } from "../../StaticJsFunction.js";
+import { StaticJsObject } from "../../StaticJsObject.js";
+import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
+import { isWellKnownError, isWellKnownErrorName } from "../../WellKnownErrors.js";
+import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
+import { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
+import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
 
-import { StaticJsExternalFunction } from "./functions/StaticJsExternalFunction.js";
-import { HostAccessPolicy } from "./host-access/HostAccessPolicy.js";
-import { buildHostBuiltinMap, HostBuiltinMap } from "./host-access/HostBuiltinMap.js";
-import { PolicyKey, PolicyKeyInterner } from "./host-access/PolicyKey.js";
-import {
-  applyChildPolicy,
-  ResolvedHostAccessOptions,
-} from "./host-access/resolve-host-access-options.js";
-import { StaticJsExternalObject } from "./objects/StaticJsExternalObject.js";
+import { buildHostBuiltinMap, HostBuiltinMap } from "./HostBuiltinMap.js";
+import { PolicyKey, PolicyKeyInterner } from "./PolicyKey.js";
+import { applyChildPolicy, ResolvedHostAccessOptions } from "./resolve-host-access-options.js";
 
 export class StaticJsHostProxyFactory {
   private _hostBuiltinMapCache: HostBuiltinMap | undefined;
@@ -41,7 +39,7 @@ export class StaticJsHostProxyFactory {
     }
 
     if (typeof value === "object") {
-      if (value instanceof Error && isErrorTypeName(value.name)) {
+      if (value instanceof Error && isWellKnownErrorName(value.name)) {
         return this._realm.types.error(value.name, value.message);
       }
 
@@ -84,7 +82,15 @@ export class StaticJsHostProxyFactory {
           return this._realm.types.toStaticJsValue(childHostValue);
         }
 
-        const childResolved = applyChildPolicy(resolved, childHostValue);
+        const childResolved = applyChildPolicy(
+          resolved,
+          childHostValue,
+          this._realm.config.hostAccessDefaults,
+        );
+        if (childResolved === false) {
+          return this._realm.types.undefined;
+        }
+
         const policy = this._policyFor(childResolved, childHostValue);
 
         if (typeof childHostValue === "function") {
@@ -108,7 +114,22 @@ export class StaticJsHostProxyFactory {
       return cached as StaticJsObject;
     }
 
-    if (!policy.options.rawPrototypes) {
+    const { rawPrototypes, stubWellKnownTypes } = policy.options;
+
+    if (Array.isArray(host) && stubWellKnownTypes.includes("array")) {
+      // Technically these are members, but don't treat them that way for arrays.
+      // This means functions invoked from the array won't have the array as 'this', which
+      // is what we want.
+      const values = host.map((v) => policy.wrapChild(v, false));
+      // Safe: creates data properties on a new array instance.
+      return this._realm.invokeEvaluatorSync(createArrayFromList(values));
+    }
+
+    if (isWellKnownError(host) && stubWellKnownTypes.includes("error")) {
+      return this._realm.types.error(host.name, host.message);
+    }
+
+    if (!rawPrototypes) {
       const builtin = this._hostBuiltinMap.get(host);
       if (builtin) {
         return builtin;

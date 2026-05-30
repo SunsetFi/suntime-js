@@ -14,6 +14,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsValue } from "../../StaticJsValue.js";
 import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
+import { isWellKnownSymbol } from "../well-known-symbols.js";
 
 export class StaticJsExternalObject extends StaticJsAbstractObject {
   private readonly _extends = new Map<string | StaticJsSymbol, StaticJsPropertyDescriptor>();
@@ -47,6 +48,11 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   *getOwnPropertyEvaluator(
     name: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
+    const isExposed = this._isExposed(isStaticJsSymbol(name) ? name.toNative() : name);
+    if (!isExposed) {
+      return undefined;
+    }
+
     const extended = this._extends.get(name);
     if (extended) {
       return extended;
@@ -57,13 +63,9 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
     if (!objDescr) return undefined;
 
-    const { includeNonEnumerable, writable } = this._policy.options;
+    const { writable } = this._policy.options;
     const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
     const hasValue = "value" in objDescr;
-
-    if (!enumerable && !includeNonEnumerable) {
-      return undefined;
-    }
 
     const staticJsDescr: StaticJsPropertyDescriptorRecord = {
       enumerable: enumerable ?? false,
@@ -94,14 +96,14 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
-    const { includeNonEnumerable } = this._policy.options;
     const obj = this._obj;
+
     const allKeys: (string | symbol)[] = Reflect.ownKeys(obj);
-    const keys = includeNonEnumerable
-      ? allKeys
-      : allKeys.filter((k) => Object.getOwnPropertyDescriptor(obj, k)?.enumerable);
-    return keys.map((k) =>
-      typeof k === "symbol" ? this.realm.types.toStaticJsValue(k) : (k as string),
+
+    const exposedKeys = allKeys.filter((key) => this._isExposed(key));
+
+    return exposedKeys.map((k) =>
+      typeof k === "symbol" ? this.realm.types.toStaticJsValue(k) : String(k),
     );
   }
 
@@ -171,5 +173,29 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
   protected *_deleteConfigurablePropertyEvaluator(): EvaluationGenerator<boolean> {
     return false;
+  }
+
+  private _isExposed(key: PropertyKey): boolean {
+    const { extensible, includeNonEnumerable, includeWellKnownSymbols } = this._policy.options;
+    if (
+      extensible === "transparent" &&
+      this._extends.has(
+        typeof key === "symbol" ? this.realm.types.toStaticJsValue(key) : String(key),
+      )
+    ) {
+      return true;
+    }
+
+    if (typeof key === "symbol") {
+      if (isWellKnownSymbol(key)) {
+        return includeWellKnownSymbols;
+      }
+    }
+
+    if (!includeNonEnumerable && !Object.getOwnPropertyDescriptor(this._obj, key)?.enumerable) {
+      return false;
+    }
+
+    return true;
   }
 }

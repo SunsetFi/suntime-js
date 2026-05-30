@@ -14,6 +14,10 @@ export interface HostAccessOptions {
    * When turning this off, expect native arrays to be treated as plain objects with no array behavior, including lacking an iterator.  Usually, this should only be turned off
    * if you intend to enable walkPrototype.
    *
+   * Possible values:
+   * - "array": Stub arrays into sandboxed arrays, invoking childPolicy for array items.
+   * - "error": Stub Errors into sandboxed Errors, with message and name properties but no stack traces.
+   *
    * Note that all stubs are read-only, regardless of the writable/extensible options.  The exception is functions, which will still invoke, but will invoke childPolicy for return values.
    * @default true
    */
@@ -25,17 +29,34 @@ export interface HostAccessOptions {
    * When false, the sandbox-visible [[Prototype]] is always the realm's
    * Object.prototype, regardless of the host object's actual prototype
    * (including null).
+   * @default false
    */
   walkPrototype?: boolean;
 
-  /** Expose non-enumerable own properties (e.g. ES class methods). */
+  /**
+   * Expose non-enumerable own properties (e.g. ES class methods).
+   *
+   * Note: This applies to enumerable non-well-known symbols as well.
+   *
+   * @default false
+   */
   includeNonEnumerable?: boolean;
+
+  /**
+   * Expose well-known symbols (e.g. Symbol.iterator) as property keys on host objects.
+   * This defaults to true, to allow arrays and other items to iterate.  However, it typically
+   * will not engage for most builtins without walkPrototype.
+   *
+   * @default true
+   */
+  includeWellKnownSymbols?: boolean;
 
   /**
    * Allow sandbox writes to mutate the host object.
    * If true, the sandbox can modify data properties on the host.
    * If false, the sandbox cannot modify data properties.
    * If "transparent", the sandbox can modify data properties, but those modifications are not reflected back to the host (i.e. the wrapper stores its own copy of the data property value once it's written to).
+   * @default false
    * */
   writable?: boolean | "transparent";
 
@@ -44,6 +65,7 @@ export interface HostAccessOptions {
    * If true, the sandbox can add properties to the host object, and those properties are reflected back to the host.
    * If false, the sandbox cannot add properties to the host object.
    * If "transparent", the sandbox can add properties to the host object, but those properties are not reflected back to the host (i.e. the wrapper stores its own copy of the added property and value).
+   * @default false
    */
   extensible?: boolean | "transparent";
 
@@ -51,6 +73,7 @@ export interface HostAccessOptions {
    * When a host method is invoked from the sandbox, pass the sandbox-side
    * `this` (round-tripped to its backing host value) instead of the
    * captured backing object.
+   * @default false
    */
   useSandboxThis?: boolean;
 
@@ -59,6 +82,7 @@ export interface HostAccessOptions {
    * intrinsic equivalents. Default false; host builtin prototypes are
    * mapped to the matching sandbox intrinsic so host builtin identities
    * are never reachable from inside the sandbox.
+   * @default false
    */
   rawPrototypes?: boolean;
 
@@ -67,8 +91,9 @@ export interface HostAccessOptions {
    * values, function return values, prototype-chain entries that are
    * themselves host objects).
    *
-   * If "inherit", it will reuse the parent's resolved policy (sticky)
-   * If false, safe / immutable defaults will be used.
+   * If "inherit", it will reuse the parent's resolved policy (sticky).
+   * If "default", the realm default policy is used.
+   * If false, the child is not exposed — it resolves to `undefined`.
    * If an object, the returned HostAccessOptions will be used for that child object and its descendants, unless overridden by a closer ancestor.
    * If a function, it will be invoked with the child host object to determine the policy. Decide on a per-object basis.
    *
@@ -76,30 +101,60 @@ export interface HostAccessOptions {
    * function, host class instance, host prototype.
    *
    * Not consulted for the root object itself.
+   * @default "default"
    */
   childPolicy?: HostAccessChildOptions;
 }
 
-export type HostAccessStubType = "array" | "function";
-export const AllHostAccessStubTypes = ["array", "function"] as const;
+export const HostAccessOptionKeys: readonly (keyof HostAccessOptions)[] = Object.freeze([
+  "stubWellKnownTypes",
+  "walkPrototype",
+  "includeNonEnumerable",
+  "includeWellKnownSymbols",
+  "writable",
+  "extensible",
+  "useSandboxThis",
+  "rawPrototypes",
+  "childPolicy",
+] as const);
+
+export type HostAccessStubType = "array" | "error";
+export const AllHostAccessStubTypes = ["array", "error"] as const;
+
+/*
+ * Policy for host objects.
+ * If "inherit", the child uses the same policy as the parent (sticky).
+ * If "default", the child uses the realm default policy.
+ * If "false", the child instead resolves to undefined.
+ */
+export type HostAccessQueryResult = "inherit" | "default" | false | HostAccessOptions;
 
 /**
- * Query function to check whether the given host object should be exposed and at what level.
- * If "inherit", the host object is exposed at the level of its parent, or the realm default if no parent is involved.
- * If false, the host object is wrapped with safe defaults.
+ * Query function to check whether the given child of a host object should be exposed and at what level.
+ * If "inherit", the child uses the same policy as the parent (sticky).
+ * If "default", the child uses the realm default policy.
+ * If false, the child is not exposed — it resolves to `undefined`.
  * If an object, that child becomes a new sub-root governed by these options.
  */
-export type HostAccessQueryFunction = (
-  childHostObj: object,
-) => "inherit" | false | HostAccessOptions;
+export type HostAccessQueryFunction = (childHostObj: object) => HostAccessQueryResult;
 
 /**
  * Policy for child host objects reached from a parent host object. See HostAccessOptions.childPolicy.
- * If inherit, the child uses the same policy as the parent (sticky).
+ * If "inherit", the child uses the same policy as the parent (sticky).
+ * If "default", the child uses the realm default policy.
+ * If "false", the child instead resolves to undefined.
+ * If a function, it will be invoked with the child host object to determine the policy. Decide on a per-object basis.
  */
-export type HostAccessChildOptions = "inherit" | false | HostAccessQueryFunction;
+export type HostAccessChildOptions = HostAccessQueryResult | HostAccessQueryFunction;
+
+/**
+ * Query function to check whether the given host object should be exposed and at what level.
+ * If "default", the realm's defaults are used.
+ * If an object, that host object becomes a new root governed by these options.
+ */
+export type HostAccessRootQueryFunction = (childHostObj: object) => "default" | HostAccessOptions;
 
 /**
  * Argument option for specifying host access level to a host object in the sandbox.
  */
-export type HostAccessArg = HostAccessOptions | HostAccessQueryFunction;
+export type HostAccessArg = HostAccessOptions | HostAccessRootQueryFunction;

@@ -16,22 +16,7 @@ import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
-
-export const ErrorTypeNames = [
-  "AggregateError",
-  "Error",
-  "EvalError",
-  "RangeError",
-  "ReferenceError",
-  "SyntaxError",
-  "TypeError",
-  "URIError",
-] as const;
-export type ErrorTypeName = (typeof ErrorTypeNames)[number];
-
-export function isErrorTypeName(name: string): name is ErrorTypeName {
-  return ErrorTypeNames.includes(name as ErrorTypeName);
-}
+import { WellKnownErrorName } from "./WellKnownErrors.js";
 
 export type StaticJsTypeCreationPrototype = StaticJsObject | StaticJsNull | null;
 
@@ -79,7 +64,7 @@ export interface StaticJsTypeFactory {
     opts?: StaticJsFunctionTypeCreationOptions,
   ): StaticJsFunction;
 
-  error(errorType: ErrorTypeName, message: string): StaticJsObject;
+  error(errorType: WellKnownErrorName, message: string): StaticJsObject;
   error(message: string): StaticJsObject;
 
   proxy(target: StaticJsProxyTarget, handlers: StaticJsProxyHandlers): StaticJsProxy;

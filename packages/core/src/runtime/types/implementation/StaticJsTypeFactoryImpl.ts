@@ -23,16 +23,18 @@ import { StaticJsProxy, StaticJsProxyHandlers, StaticJsProxyTarget } from "../St
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
-import type { ErrorTypeName, StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
+import type { StaticJsFunctionTypeCreationOptions } from "../StaticJsTypeFactory.js";
 import type { StaticJsTypeFactory } from "../StaticJsTypeFactory.js";
 import type { StaticJsUndefined } from "../StaticJsUndefined.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
+import type { WellKnownErrorName } from "../WellKnownErrors.js";
 
 import { createHostDefinedProxy } from "./create-host-defined-proxy.js";
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
 import { resolveRootLevelHostAccessArg } from "./host-access/resolve-host-access-options.js";
+import { StaticJsHostProxyFactory } from "./host-access/StaticJsHostProxyFactory.js";
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsErrorImpl } from "./objects/StaticJsErrorImpl.js";
@@ -43,7 +45,7 @@ import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
 import { StaticJsStringImpl } from "./primitives/StaticJsStringImpl.js";
 import { StaticJsSymbolImpl, getSymbolProxyOwner } from "./primitives/StaticJsSymbolImpl.js";
 import { StaticJsUndefinedImpl } from "./primitives/StaticJsUndefinedImpl.js";
-import { StaticJsHostProxyFactory } from "./StaticJsHostProxyFactory.js";
+import { buildIntrinsicSymbolRecord, getWellKnownSymbol } from "./well-known-symbols.js";
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _symbols: IntrinsicSymbols;
@@ -79,56 +81,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     const intrinsics = _realm.intrinsics;
 
-    this._symbols = Object.freeze({
-      get asyncDispose() {
-        return intrinsics["Symbol.asyncDispose"];
-      },
-      get asyncIterator() {
-        return intrinsics["Symbol.asyncIterator"];
-      },
-      get dispose() {
-        return intrinsics["Symbol.dispose"];
-      },
-      get hasInstance() {
-        return intrinsics["Symbol.hasInstance"];
-      },
-      get isConcatSpreadable() {
-        return intrinsics["Symbol.isConcatSpreadable"];
-      },
-      get iterator() {
-        return intrinsics["Symbol.iterator"];
-      },
-      get match() {
-        return intrinsics["Symbol.match"];
-      },
-      get matchAll() {
-        return intrinsics["Symbol.matchAll"];
-      },
-      // get observable() {
-      //   return _intrinsics["Symbol.observable"];
-      // },
-      get replace() {
-        return intrinsics["Symbol.replace"];
-      },
-      get search() {
-        return intrinsics["Symbol.search"];
-      },
-      get species() {
-        return intrinsics["Symbol.species"];
-      },
-      get split() {
-        return intrinsics["Symbol.split"];
-      },
-      get toPrimitive() {
-        return intrinsics["Symbol.toPrimitive"];
-      },
-      get toStringTag() {
-        return intrinsics["Symbol.toStringTag"];
-      },
-      get unscopables() {
-        return intrinsics["Symbol.unscopables"];
-      },
-    } satisfies IntrinsicSymbols);
+    this._symbols = Object.freeze(buildIntrinsicSymbolRecord(intrinsics));
 
     this._hostProxyFactory = new StaticJsHostProxyFactory(this._realm);
   }
@@ -261,7 +214,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   error(message: string): StaticJsObject;
-  error(name: ErrorTypeName, message: string): StaticJsObject;
+  error(name: WellKnownErrorName, message: string): StaticJsObject;
   error(nameOrMessage: string, message?: string): StaticJsObject {
     let name = "Error";
     if (message !== undefined) {
@@ -354,13 +307,8 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     if (valueType === "string") return this.string(value as string);
     if (valueType === "symbol") return this._toStaticJsValueSymbol(value as symbol);
 
-    const access = resolveRootLevelHostAccessArg(opts, this._hostAccessDefaults, value);
-
-    if (Array.isArray(value) && access.stubWellKnownTypes.includes("array")) {
-      return this._toStaticJsValueArray(value);
-    }
-
     if (valueType === "object" || valueType === "function") {
+      const access = resolveRootLevelHostAccessArg(opts, this._hostAccessDefaults, value);
       return this._hostProxyFactory.getWrapperFor(value, access);
     }
 
@@ -388,55 +336,12 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   private _toStaticJsValueSymbol(value: symbol): StaticJsSymbol {
-    // Spec says these symbols are consistent across realms, so convert them
-    // to the appropriate intrinsic symbol.
-    // This saves us having to care about unwrapping them in equality checks elsewhere.
-    switch (value) {
-      case Symbol.asyncIterator:
-        return this._symbols.asyncIterator;
-      case Symbol.dispose:
-        return this._symbols.dispose;
-      case Symbol.isConcatSpreadable:
-        return this._symbols.isConcatSpreadable;
-      case Symbol.iterator:
-        return this._symbols.iterator;
-      case Symbol.match:
-        return this._symbols.match;
-      case Symbol.matchAll:
-        return this._symbols.matchAll;
-      // case Symbol.observable:
-      // return this._symbols.observable;
-      case Symbol.replace:
-        return this._symbols.replace;
-      case Symbol.search:
-        return this._symbols.search;
-      case Symbol.species:
-        return this._symbols.species;
-      case Symbol.split:
-        return this._symbols.split;
-      case Symbol.toPrimitive:
-        return this._symbols.toPrimitive;
-      case Symbol.toStringTag:
-        return this._symbols.toStringTag;
-      case Symbol.unscopables:
-        return this._symbols.unscopables;
-    }
-
-    if ("dispose" in Symbol) {
-      switch (value) {
-        case Symbol.asyncDispose:
-          return this._symbols.asyncDispose;
-        case Symbol.dispose:
-          return this._symbols.dispose;
-      }
+    const wellKnown = getWellKnownSymbol(value, this._realm.intrinsics);
+    if (wellKnown) {
+      return wellKnown;
     }
 
     return new StaticJsSymbolImpl(this._realm, value);
-  }
-
-  private _toStaticJsValueArray(value: unknown[]): StaticJsArray {
-    const values = value.map((v) => this.toStaticJsValue(v));
-    return this._realm.invokeEvaluatorSync(createArrayFromList(values));
   }
 
   private _toStaticJsValueNull(): StaticJsNull {

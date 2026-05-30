@@ -1,10 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRealm, StaticJsTaskIterator } from "../../../src/index.js";
 import {
+  StaticJsRealm,
+  StaticJsTaskIterator,
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
-} from "../../../src/runtime/types/StaticJsPropertyDescriptor.js";
+} from "../../../src/index.js";
 
 function drainTask(task: StaticJsTaskIterator) {
   while (!task.done) {

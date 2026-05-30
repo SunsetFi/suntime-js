@@ -1,6 +1,7 @@
 import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { getWellKnownSymbols } from "../../../types/implementation/well-known-symbols.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import {
@@ -51,9 +52,9 @@ export function* createSymbolConstructor(realm: StaticJsRealm, symbolProto: Stat
     configurable: true,
   });
 
-  for (const [key, symbol] of Object.entries(realm.types.symbols)) {
+  for (const [, key] of getWellKnownSymbols()) {
     yield* ctor.defineOwnPropertyEvaluator(key, {
-      value: symbol,
+      value: realm.intrinsics[`Symbol.${key}`],
       writable: false,
       enumerable: false,
       configurable: false,
