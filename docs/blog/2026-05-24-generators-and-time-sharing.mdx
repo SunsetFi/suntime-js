@@ -250,11 +250,9 @@ function* numeric() {
 
 function* sequence() {
   yield "First";
-  // highlight-next-line
   yield* alpha();
 
   yield "Second";
-  // highlight-next-line
   yield* numeric();
 }
 

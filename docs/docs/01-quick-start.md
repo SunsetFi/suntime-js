@@ -141,7 +141,7 @@ const realm = StaticJsRealm({
   }),
 });
 
-// Hangs for 5 seconds, then aborts with a thrown StaticJsTaskAbortedError
+// Hangs for 3 seconds, then aborts with a thrown StaticJsTaskAbortedError
 const result = realm.evaluateScriptSync(`while(true) {} `);
 ```
 

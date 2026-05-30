@@ -29,7 +29,7 @@
     --ifm-color-primary-light: hsl(289.88, 87.76%, 58%);
     --ifm-color-primary-lighter: hsl(289.88, 87.76%, 63%);
     --ifm-color-primary-lightest: hsl(289.88, 87.76%, 66%);
-    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+    --docusaurus-highlighted-code-line-bg: rgba(255, 162, 0, 0.335);
   }
 
   .hero--primary {
