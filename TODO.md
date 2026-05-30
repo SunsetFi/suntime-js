@@ -30,6 +30,11 @@
 - [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
 - [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
 
+### Performance lookthrough
+
+- realm.types.symbols are all getters, could be turned into data properties
+- realm host access defaults are constantly re-applied to the safe defaults through resolveHostAccessOptions. Should cache.
+
 ### Implement More
 
 - [ ] AggregateError
