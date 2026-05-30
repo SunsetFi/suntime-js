@@ -77,6 +77,8 @@ export function* createParseInt(realm: StaticJsRealm, intrinsics: IntrinsicsReco
 
 export const globalObjectParseIntDeclaration: IntrinsicPropertyDeclaration = {
   key: "parseInt",
+  writable: true,
+  configurable: true,
   value: (realm) => realm.intrinsics.parseInt,
 };
 

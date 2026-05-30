@@ -46,5 +46,7 @@ export function* createReflect(realm: StaticJsRealm, intrinsics: IntrinsicsRecor
 
 export const globalObjectReflectDeclaration: IntrinsicPropertyDeclaration = {
   key: "Reflect",
+  writable: true,
+  configurable: true,
   value: (realm) => realm.intrinsics.Reflect,
 };

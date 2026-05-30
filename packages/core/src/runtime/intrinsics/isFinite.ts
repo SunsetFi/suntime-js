@@ -28,5 +28,7 @@ export function* createIsFinite(
 
 export const globalObjectIsFiniteDeclaration: IntrinsicPropertyDeclaration = {
   key: "isFinite",
+  writable: true,
+  configurable: true,
   value: (realm) => realm.intrinsics.isFinite,
 };

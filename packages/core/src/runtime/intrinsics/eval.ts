@@ -40,5 +40,7 @@ export function* createEval(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) 
 
 export const globalObjectEvalDeclaration: IntrinsicPropertyDeclaration = {
   key: "eval",
+  writable: true,
+  configurable: true,
   value: (realm) => realm.intrinsics.eval,
 };

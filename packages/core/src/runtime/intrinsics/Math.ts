@@ -246,5 +246,7 @@ export function* createMath(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) 
 
 export const globalObjectMathDeclaration: IntrinsicPropertyDeclaration = {
   key: "Math",
+  writable: true,
+  configurable: true,
   value: (realm) => realm.intrinsics.Math,
 };

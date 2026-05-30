@@ -32,5 +32,7 @@ export function* createIsNaN(
 
 export const globalObjectIsNaNDeclaration: IntrinsicPropertyDeclaration = {
   key: "isNaN",
+  writable: true,
+  configurable: true,
   value: (realm) => realm.intrinsics.isNaN,
 };
