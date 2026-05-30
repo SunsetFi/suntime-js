@@ -3,7 +3,6 @@ import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import typedKeys from "../../../utils/typed-keys.js";
-import { WeakValueMap } from "../../../utils/WeakValueMap.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
 import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
 import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
@@ -70,9 +69,23 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
 
   private readonly _policyInterner = new PolicyKeyInterner();
+  // Host object -> (policy key -> wrapper). The outer WeakMap keys on the host,
+  // so the whole entry is collected once the host (and the wrappers, which
+  // strong-reference it) become unreachable. The inner map holds wrappers
+  // STRONGLY: a WeakRef-based cache would route every set/get through
+  // AddToKeptObjects, pinning every wrapper in V8's "kept objects" list until
+  // the next event-loop turn (ClearKeptObjects). Because evaluation runs
+  // synchronously (invokeEvaluatorSync), that list never drains mid-run and the
+  // wrappers accumulate as GC roots. Strong values also keep a wrapper's
+  // transparent-write state (StaticJsExternalObject._writes) stable for the
+  // lifetime of the host instead of being silently dropped on eviction.
+  // Note: We used to use WeakValueMap for the objects, but WeakRefs will NOT GC
+  // until the macrotask ticks over.
+  // This causes vitest to fall over, as it NEVER ticks the macrotask and simply loops
+  // over microtasks the entire time.
   private readonly _externalObjectCache = new WeakMap<
     object,
-    WeakValueMap<PolicyKey, StaticJsExternalObject | StaticJsExternalFunction>
+    Map<PolicyKey, StaticJsExternalObject | StaticJsExternalFunction>
   >();
 
   private _hostBuiltinMapCache: HostBuiltinMap | undefined;
@@ -635,7 +648,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   ) {
     let inner = this._externalObjectCache.get(host);
     if (!inner) {
-      inner = new WeakValueMap();
+      inner = new Map();
       this._externalObjectCache.set(host, inner);
     }
     inner.set(this._policyInterner.keyFor(policy.options), wrapper);
