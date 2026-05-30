@@ -8,6 +8,18 @@
  */
 export interface HostAccessOptions {
   /**
+   * Whether to stub well-known host types (e.g. Array, Function) with sandbox-local equivalents that have the same identity as the realm intrinsics, so instanceof and prototype checks work as expected.
+   * This defaults to true, as .toNative() on functions can appear non-functional without it.
+   *
+   * When turning this off, expect native arrays to be treated as plain objects with no array behavior, including lacking an iterator.  Usually, this should only be turned off
+   * if you intend to enable walkPrototype.
+   *
+   * Note that all stubs are read-only, regardless of the writable/extensible options.  The exception is functions, which will still invoke, but will invoke childPolicy for return values.
+   * @default true
+   */
+  stubWellKnownTypes?: boolean | HostAccessStubType[];
+
+  /**
    * Walk the host object's prototype chain when answering property lookups.
    *
    * When false, the sandbox-visible [[Prototype]] is always the realm's
@@ -67,6 +79,9 @@ export interface HostAccessOptions {
    */
   childPolicy?: HostAccessChildOptions;
 }
+
+export type HostAccessStubType = "array" | "function";
+export const AllHostAccessStubTypes = ["array", "function"] as const;
 
 /**
  * Query function to check whether the given host object should be exposed and at what level.

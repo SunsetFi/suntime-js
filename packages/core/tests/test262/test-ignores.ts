@@ -36,6 +36,9 @@ const ignoredPaths = [
   ["built-ins", "JSON"],
   // Takes forever and tests 65535 comment variations, none of which will confuse babel.
   ["language", "comments", "S7.4_A5.js"],
+  ["language", "comments", "S7.4_A6.js"],
+  ["built-ins", "parseInt", "S15.1.2.2_A8.js"],
+  ["built-ins", "parseFloat", "S15.1.2.3_A6.js"],
 ];
 
 export function isTestIgnored(test: Test262File): boolean {

@@ -17,7 +17,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 import { PolicyKeyInterner, type PolicyKey } from "../host-access/PolicyKey.js";
-import { RESOLVED_SAFE_DEFAULTS } from "../host-access/resolve-host-access-options.js";
+import { resolveHostAccessOptions } from "../host-access/resolve-host-access-options.js";
 import {
   createStaticJsObjectProxy,
   StaticJsObjectProxyTarget,
@@ -197,7 +197,9 @@ export abstract class StaticJsAbstractFunction
       return super.toNative() as Function;
     }
 
-    const key = this._accessNativeInterner.keyFor({ ...RESOLVED_SAFE_DEFAULTS, ...access });
+    const key = this._accessNativeInterner.keyFor(
+      typeof access === "function" ? access : resolveHostAccessOptions(access),
+    );
     let cached = this._accessNativeCache.get(key);
     if (!cached) {
       const proxyHandler: ProxyHandler<object> = {};

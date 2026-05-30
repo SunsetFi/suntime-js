@@ -1,57 +1,82 @@
-import type {
-  HostAccessArg,
-  HostAccessChildOptions,
-  HostAccessOptions,
+import {
+  AllHostAccessStubTypes,
+  HostAccessStubType,
+  type HostAccessArg,
+  type HostAccessChildOptions,
+  type HostAccessOptions,
 } from "../../HostAccessOptions.js";
 
-export type ResolvedHostAccessOptions = Omit<Required<HostAccessOptions>, "childPolicy"> & {
+export type ResolvedHostAccessOptions = Omit<
+  Required<HostAccessOptions>,
+  "childPolicy" | "stubWellKnownTypes"
+> & {
   childPolicy: HostAccessChildOptions | undefined;
+  stubWellKnownTypes: readonly HostAccessStubType[];
 };
 
-export const SAFE_DEFAULTS: Omit<ResolvedHostAccessOptions, "childPolicy"> = {
+export const SAFE_DEFAULTS: ResolvedHostAccessOptions = {
   walkPrototype: false,
   includeNonEnumerable: false,
   writable: false,
   extensible: false,
   useSandboxThis: false,
   rawPrototypes: false,
-};
-
-export const RESOLVED_SAFE_DEFAULTS: ResolvedHostAccessOptions = {
-  ...SAFE_DEFAULTS,
   childPolicy: undefined,
+  stubWellKnownTypes: AllHostAccessStubTypes,
 };
 
-function mergeOver(base: typeof SAFE_DEFAULTS, opts: HostAccessOptions): ResolvedHostAccessOptions {
+export function resolveHostAccessOptions(
+  opts: HostAccessOptions | undefined,
+): ResolvedHostAccessOptions {
+  if (!opts) {
+    return SAFE_DEFAULTS;
+  }
+
+  const { stubWellKnownTypes: optsStubWellKnownTypes, ...restOpts } = opts;
+
+  let stubWellKnownTypes: readonly HostAccessStubType[] = SAFE_DEFAULTS.stubWellKnownTypes;
+  if (optsStubWellKnownTypes === true) {
+    // Default
+  } else if (optsStubWellKnownTypes === false) {
+    stubWellKnownTypes = [];
+  } else if (Array.isArray(optsStubWellKnownTypes)) {
+    stubWellKnownTypes = optsStubWellKnownTypes;
+  } else if (optsStubWellKnownTypes !== undefined) {
+    throw new TypeError(
+      `Invalid value for stubWellKnownTypes: ${optsStubWellKnownTypes}. Expected boolean or array of HostAccessStubType.`,
+    );
+  }
+
   return {
-    ...base,
-    ...opts,
+    ...SAFE_DEFAULTS,
+    ...restOpts,
     childPolicy: opts.childPolicy,
+    stubWellKnownTypes,
   };
 }
 
-export function resolveHostAccessOptions(
+export function resolveRootLevelHostAccessArg(
   opts: HostAccessArg | undefined,
   realmDefault: HostAccessOptions | undefined,
   rootHostObj: object,
 ): ResolvedHostAccessOptions {
   if (opts === undefined) {
-    return realmDefault ? mergeOver(SAFE_DEFAULTS, realmDefault) : RESOLVED_SAFE_DEFAULTS;
+    return resolveHostAccessOptions(realmDefault);
   }
 
   if (typeof opts === "function") {
     const result = opts(rootHostObj);
 
     if (result === "inherit") {
-      return realmDefault ? mergeOver(SAFE_DEFAULTS, realmDefault) : RESOLVED_SAFE_DEFAULTS;
+      return resolveHostAccessOptions(realmDefault);
     } else if (result === false) {
-      return RESOLVED_SAFE_DEFAULTS;
+      return SAFE_DEFAULTS;
     }
 
-    return mergeOver(SAFE_DEFAULTS, result);
+    return resolveHostAccessOptions(result);
   }
 
-  return mergeOver(SAFE_DEFAULTS, opts);
+  return resolveHostAccessOptions(opts);
 }
 
 export function applyChildPolicy(
@@ -59,7 +84,7 @@ export function applyChildPolicy(
   childHostObj: object,
 ): ResolvedHostAccessOptions {
   if (!parent.childPolicy) {
-    return RESOLVED_SAFE_DEFAULTS;
+    return SAFE_DEFAULTS;
   }
 
   if (parent.childPolicy === "inherit") {
@@ -71,8 +96,8 @@ export function applyChildPolicy(
     return parent;
   }
   if (result === false || result == null) {
-    return RESOLVED_SAFE_DEFAULTS;
+    return SAFE_DEFAULTS;
   }
 
-  return mergeOver(SAFE_DEFAULTS, result);
+  return resolveHostAccessOptions(result);
 }

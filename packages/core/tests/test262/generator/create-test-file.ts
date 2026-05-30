@@ -2,8 +2,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { format } from "oxfmt";
 
-import { isTestIgnored } from "../ignores.js";
 import { isTestBaseline } from "../is-test-baseline.js";
+import { isTestIgnored } from "../test-ignores.js";
 import Test262File from "../Test262File.js";
 import getTest262Path from "../utils/get-test262-path.js";
 

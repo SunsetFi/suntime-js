@@ -5,7 +5,7 @@ import type { HostAccessOptions, HostAccessArg } from "../../HostAccessOptions.j
 import {
   SAFE_DEFAULTS,
   type ResolvedHostAccessOptions,
-  resolveHostAccessOptions,
+  resolveRootLevelHostAccessArg,
   applyChildPolicy,
 } from "./resolve-host-access-options.js";
 
@@ -13,27 +13,27 @@ describe("resolveHostAccessOptions", () => {
   const hostRoot = {};
 
   it("returns SAFE_DEFAULTS when opts is undefined and no realm default", () => {
-    const r = resolveHostAccessOptions(undefined, undefined, hostRoot);
+    const r = resolveRootLevelHostAccessArg(undefined, undefined, hostRoot);
     expect(r).toEqual({ ...SAFE_DEFAULTS, childPolicy: undefined });
   });
 
   it("uses realm default when opts is undefined", () => {
     const realmDefault: HostAccessOptions = { walkPrototype: true };
-    const r = resolveHostAccessOptions(undefined, realmDefault, hostRoot);
+    const r = resolveRootLevelHostAccessArg(undefined, realmDefault, hostRoot);
     expect(r.walkPrototype).toBe(true);
     expect(r.includeNonEnumerable).toBe(false);
   });
 
   it("does NOT layer realm default under caller opts", () => {
     const realmDefault: HostAccessOptions = { walkPrototype: true, writable: true };
-    const r = resolveHostAccessOptions({ includeNonEnumerable: true }, realmDefault, hostRoot);
+    const r = resolveRootLevelHostAccessArg({ includeNonEnumerable: true }, realmDefault, hostRoot);
     expect(r.walkPrototype).toBe(false);
     expect(r.writable).toBe(false);
     expect(r.includeNonEnumerable).toBe(true);
   });
 
   it("merges object opts over SAFE_DEFAULTS", () => {
-    const r = resolveHostAccessOptions(
+    const r = resolveRootLevelHostAccessArg(
       { walkPrototype: true, useSandboxThis: true },
       undefined,
       hostRoot,
@@ -48,20 +48,20 @@ describe("resolveHostAccessOptions", () => {
   it("function opts returning true uses baseline (= realm default or SAFE)", () => {
     const realmDefault: HostAccessOptions = { walkPrototype: true };
     const fn: HostAccessArg = () => "inherit";
-    const r = resolveHostAccessOptions(fn, realmDefault, hostRoot);
+    const r = resolveRootLevelHostAccessArg(fn, realmDefault, hostRoot);
     expect(r.walkPrototype).toBe(true);
   });
 
   it("function opts returning false uses SAFE_DEFAULTS even with realm default", () => {
     const realmDefault: HostAccessOptions = { walkPrototype: true };
     const fn: HostAccessArg = () => false;
-    const r = resolveHostAccessOptions(fn, realmDefault, hostRoot);
+    const r = resolveRootLevelHostAccessArg(fn, realmDefault, hostRoot);
     expect(r.walkPrototype).toBe(false);
   });
 
   it("function opts returning an object merges that object over SAFE_DEFAULTS", () => {
     const fn: HostAccessArg = () => ({ walkPrototype: true });
-    const r = resolveHostAccessOptions(fn, undefined, hostRoot);
+    const r = resolveRootLevelHostAccessArg(fn, undefined, hostRoot);
     expect(r.walkPrototype).toBe(true);
     expect(r.writable).toBe(false);
   });
@@ -72,13 +72,13 @@ describe("resolveHostAccessOptions", () => {
       seen = o;
       return false;
     };
-    resolveHostAccessOptions(fn, undefined, hostRoot);
+    resolveRootLevelHostAccessArg(fn, undefined, hostRoot);
     expect(seen).toBe(hostRoot);
   });
 
   it("preserves the childPolicy reference", () => {
     const grant = () => false as const;
-    const r = resolveHostAccessOptions({ childPolicy: grant }, undefined, hostRoot);
+    const r = resolveRootLevelHostAccessArg({ childPolicy: grant }, undefined, hostRoot);
     expect(r.childPolicy).toBe(grant);
   });
 });

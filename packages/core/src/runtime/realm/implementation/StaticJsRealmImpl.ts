@@ -46,7 +46,7 @@ import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import { StaticJsExternalFunction } from "../../types/implementation/functions/StaticJsExternalFunction.js";
 import type { HostAccessPolicy } from "../../types/implementation/host-access/HostAccessPolicy.js";
-import { resolveHostAccessOptions } from "../../types/implementation/host-access/resolve-host-access-options.js";
+import { resolveRootLevelHostAccessArg } from "../../types/implementation/host-access/resolve-host-access-options.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
@@ -723,7 +723,11 @@ function makeRealmStubPolicy(realm: StaticJsRealm): HostAccessPolicy {
   // Engine-internal wrapping mirrors the realm's `hostAccessDefaults`, so a
   // consumer can configure once and have all realm-side wrapping (including
   // global decl accessors) behave the same as a bare `toStaticJsValue(v)`.
-  const options = resolveHostAccessOptions(undefined, realm.config.hostAccessDefaults, EMPTY_ROOT);
+  const options = resolveRootLevelHostAccessArg(
+    undefined,
+    realm.config.hostAccessDefaults,
+    EMPTY_ROOT,
+  );
   return {
     options,
     wrapChild: (v) => realm.types.toStaticJsValue(v),
