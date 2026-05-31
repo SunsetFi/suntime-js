@@ -1,51 +1,51 @@
-import { describe, it, expect } from "vitest";
+import { Constructor } from "type-fest";
+import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRealm, type StaticJsObject, type StaticJsCallable } from "../../../src/index.js";
+import { StaticJsRealm, type StaticJsCallable } from "../../../src/index.js";
 import { IntrinsicsRecord } from "../../../src/runtime/intrinsics/intrinsics.js";
-import { isStaticJsUndefined } from "../../../src/runtime/types/StaticJsUndefined.js";
-import { expectStaticJsObject } from "../utils/staticjs-expect.js";
+import { isStaticJsArray } from "../../../src/runtime/types/StaticJsArray.js";
+import {
+  expectStaticJsArray,
+  expectStaticJsCallable,
+  expectStaticJsObject,
+} from "../utils/expect-staticjs.js";
 
 describe("E2E: Type Coercion / HostAccessOptions", () => {
   describe("default (no opts) — preserves locked-down behavior", () => {
-    it("exposes only own enumerable properties", () => {
+    it("stubs arrays", () => {
+      const realm = new StaticJsRealm();
+      const host = [1, 2];
+      const wrapped = realm.types.toStaticJsValue(host);
+      expectStaticJsArray(wrapped);
+    });
+
+    it("stubs errors", () => {
+      const realm = new StaticJsRealm();
+      const host = new TypeError("bad");
+      const wrapped = realm.types.toStaticJsValue(host);
+      expect(wrapped.getPrototypeOfSync()).toBe(realm.intrinsics["TypeError.prototype"]);
+    });
+
+    it("exposes enumerable properties", () => {
       const realm = new StaticJsRealm();
       const host = { a: 1 };
-      Object.defineProperty(host, "secret", { value: 42, enumerable: false });
       const wrapped = realm.types.toStaticJsValue(host);
       expect(wrapped.getSync("a").toNative()).toBe(1);
+    });
+
+    it("does not expose non-enumerable properties", () => {
+      const realm = new StaticJsRealm();
+      const host = {};
+      Object.defineProperty(host, "secret", { value: 42, enumerable: false });
+      const wrapped = realm.types.toStaticJsValue(host);
       expect(wrapped.getSync("secret").toNative()).toBe(undefined);
     });
 
-    it("does not walk the prototype chain", () => {
-      class Greeter {
-        greet() {
-          return "hi";
-        }
-      }
+    it("exposes well-known symbols", () => {
       const realm = new StaticJsRealm();
-      const wrapped = realm.types.toStaticJsValue(new Greeter());
-      expect(wrapped.getSync("greet").toNative()).toBe(undefined);
-    });
-
-    it("preserves the host-side this", () => {
-      let observed: any;
-      class Holder {
-        capture(this: Holder) {
-          // oxlint-disable-next-line typescript/no-this-alias
-          observed = this;
-          return this;
-        }
-      }
-      const realm = new StaticJsRealm();
-      const host = new Holder();
-      const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
-        includeNonEnumerable: true,
-      });
-      const capture = wrapped.getSync("capture") as StaticJsCallable;
-      const thisArg = realm.types.object();
-      capture.callSync(thisArg, []);
-      expect(observed).toBe(host);
+      const host = { [Symbol.iterator]: true };
+      const wrapped = realm.types.toStaticJsValue(host);
+      expect(wrapped.getSync(realm.types.toStaticJsValue(Symbol.iterator)).toNative()).toBe(true);
     });
 
     it("cannot write to the host object", () => {
@@ -66,6 +66,40 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       expect((host as any).y).toBeUndefined();
     });
 
+    it("preserves the host-side this", () => {
+      let observed: any;
+      const realm = new StaticJsRealm();
+      const host = {
+        capture(this: any) {
+          // oxlint-disable-next-line typescript/no-this-alias
+          observed = this;
+        },
+      };
+      const wrapped = realm.types.toStaticJsValue(host);
+      const capture = wrapped.getSync("capture") as StaticJsCallable;
+      const thisArg = realm.types.object();
+      capture.callSync(thisArg, []);
+      expect(observed).toBe(host);
+    });
+
+    it("does not expose host intrinsics", () => {
+      const realm = new StaticJsRealm();
+      const host = { value: Function };
+      const wrapped = realm.types.toStaticJsValue(host);
+      expect(wrapped.getSync("value")).toBe(realm.intrinsics.Function);
+    });
+
+    it("does not walk the prototype chain", () => {
+      const proto = {
+        isProto: true,
+      };
+      const host = Object.create(proto);
+      const realm = new StaticJsRealm();
+      const wrapped = realm.types.toStaticJsValue(host);
+      expectStaticJsObject(wrapped);
+      expect(wrapped.getSync("isProto").toNative()).toBe(undefined);
+    });
+
     it("walks child objects", () => {
       const realm = new StaticJsRealm();
       const host = { child: { x: 1 } };
@@ -74,53 +108,108 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       expectStaticJsObject(child);
       expect(child.getSync("x").toNative()).toBe(1);
     });
+  });
 
-    it("exposes well-known symbols", () => {
-      const realm = new StaticJsRealm();
-      const host = { [Symbol.iterator]: true };
-      const wrapped = realm.types.toStaticJsValue(host);
-      expect(wrapped.getSync(realm.types.toStaticJsValue(Symbol.iterator)).toNative()).toBe(true);
+  describe("stubWellKnownTypes", () => {
+    describe("array", () => {
+      it("allows array proxies when ommitted", () => {
+        const realm = new StaticJsRealm();
+        const host = [1, 2];
+        const wrapped = realm.types.toStaticJsValue(host, { stubWellKnownTypes: [] });
+        expectStaticJsObject(wrapped);
+        expect(isStaticJsArray(wrapped)).toBe(false);
+      });
+
+      it("stubs arrays when included", () => {
+        const realm = new StaticJsRealm();
+        const host = [1, 2];
+        const wrapped = realm.types.toStaticJsValue(host, { stubWellKnownTypes: ["array"] });
+        expectStaticJsArray(wrapped);
+      });
+    });
+
+    describe("error", () => {
+      describe.each([
+        // FIXME: Not implemented
+        // { type: AggregateError, intrinsic: "AggregateError" },
+        { type: Error, intrinsic: "Error" },
+        { type: EvalError, intrinsic: "EvalError" },
+        { type: RangeError, intrinsic: "RangeError" },
+        { type: ReferenceError, intrinsic: "ReferenceError" },
+        { type: SyntaxError, intrinsic: "SyntaxError" },
+        { type: TypeError, intrinsic: "TypeError" },
+        { type: URIError, intrinsic: "URIError" },
+      ] satisfies {
+        type: Constructor<Error>;
+        intrinsic: keyof IntrinsicsRecord;
+      }[])("$intrinsic", ({ type, intrinsic }) => {
+        it("allows error proxies when omitted", () => {
+          const realm = new StaticJsRealm();
+          const host = new type("bad");
+          const wrapped = realm.types.toStaticJsValue(host, { stubWellKnownTypes: [] });
+          expectStaticJsObject(wrapped);
+          expect(wrapped.getPrototypeOfSync()).not.toBe(realm.intrinsics[intrinsic]);
+        });
+        it("stubs errors when included", () => {
+          const realm = new StaticJsRealm();
+          const host = new type("bad");
+          const wrapped = realm.types.toStaticJsValue(host, { stubWellKnownTypes: ["error"] });
+          expectStaticJsObject(wrapped);
+          expect(wrapped.getPrototypeOfSync()).toBe(
+            realm.intrinsics[intrinsic].getSync("prototype"),
+          );
+        });
+      });
     });
   });
 
-  describe("walkPrototype + includeNonEnumerable", () => {
-    it("exposes class methods", () => {
-      class Greeter {
-        greet() {
-          return "hi";
-        }
-      }
+  describe("members", () => {
+    it("includes non enumerable keys when includeNonEnumerable is true", () => {
       const realm = new StaticJsRealm();
-      const wrapped = realm.types.toStaticJsValue(new Greeter(), {
-        walkPrototype: true,
-        includeNonEnumerable: true,
-      });
-      const greet = wrapped.getSync("greet") as StaticJsCallable;
-      const result = greet.callSync(wrapped, []);
-      expect(result.toNative()).toBe("hi");
+      const host = {};
+      Object.defineProperty(host, "secret", { value: 42, enumerable: false });
+      const wrapped = realm.types.toStaticJsValue(host, { includeNonEnumerable: true });
+      expect(wrapped.hasOwnPropertySync("secret")).toBe(true);
+      expect(wrapped.getSync("secret").toNative()).toBe(42);
     });
 
-    it("inherits walkPrototype + includeNonEnumerable", () => {
-      class Greeter {
-        greet() {
-          return "hi";
-        }
-      }
+    it("does not include well-known symbols when includeWellKnownSymbols is false", () => {
       const realm = new StaticJsRealm();
-      const host = {
-        value: new Greeter(),
-      };
-      const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
-        includeNonEnumerable: true,
-        childPolicy: "inherit",
-      });
+      const host = {};
+      Object.defineProperty(host, "secret", { value: 42, enumerable: false });
+      const wrapped = realm.types.toStaticJsValue(host, { includeNonEnumerable: false });
+      expect(wrapped.hasOwnPropertySync("secret")).toBe(false);
+      expect(wrapped.getSync("secret").toNative()).toBe(undefined);
+    });
 
-      const value = wrapped.getSync("value");
-      expectStaticJsObject(value);
-      const greet = value.getSync("greet") as StaticJsCallable;
-      const result = greet.callSync(value, []);
-      expect(result.toNative()).toBe("hi");
+    it("includes well-known symbols when includeWellKnownSymbols is true", () => {
+      const realm = new StaticJsRealm();
+      const host = { [Symbol.iterator]: 42 };
+      const wrapped = realm.types.toStaticJsValue(host, { includeWellKnownSymbols: true });
+      expect(wrapped.hasOwnPropertySync(realm.types.toStaticJsValue(Symbol.iterator))).toBe(true);
+      expect(wrapped.getSync(realm.types.toStaticJsValue(Symbol.iterator)).toNative()).toBe(42);
+    });
+
+    it("does not include well-known symbols when includeWellKnownSymbols is false", () => {
+      const realm = new StaticJsRealm();
+      const host = { [Symbol.iterator]: 42 };
+      const wrapped = realm.types.toStaticJsValue(host, { includeWellKnownSymbols: false });
+      expect(wrapped.hasOwnPropertySync(realm.types.toStaticJsValue(Symbol.iterator))).toBe(false);
+      expect(wrapped.getSync(realm.types.toStaticJsValue(Symbol.iterator)).toNative()).toBe(
+        undefined,
+      );
+    });
+
+    it("includes non-enumerable well known symbols when includeWellKnownSymbols is true and includeNonEnumerable is false", () => {
+      const realm = new StaticJsRealm();
+      const host = {};
+      Object.defineProperty(host, Symbol.iterator, { value: 42, enumerable: false });
+      const wrapped = realm.types.toStaticJsValue(host, {
+        includeWellKnownSymbols: true,
+        includeNonEnumerable: false,
+      });
+      expect(wrapped.hasOwnPropertySync(realm.types.toStaticJsValue(Symbol.iterator))).toBe(true);
+      expect(wrapped.getSync(realm.types.toStaticJsValue(Symbol.iterator)).toNative()).toBe(42);
     });
   });
 
@@ -164,10 +253,9 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
     it("inherits transparent writes", () => {
       const realm = new StaticJsRealm();
 
-      let savedObj: any;
+      let result = { x: 1 };
       function host() {
-        savedObj = { x: 1 };
-        return savedObj;
+        return result;
       }
 
       const wrapped = realm.types.toStaticJsValue(host, {
@@ -179,7 +267,7 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       const ok = obj.setSync("x", realm.types.number(7));
       expect(ok).toBe(true);
       expect(obj.getSync("x").toNative()).toBe(7);
-      expect(savedObj.x).toBe(1);
+      expect(result.x).toBe(1);
     });
   });
 
@@ -207,38 +295,28 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
   describe("useSandboxThis", () => {
     it("passes the sandbox-side this to host methods", () => {
       let observed: any;
-      class Holder {
-        capture(this: Holder) {
+      const host = {
+        capture(this: any) {
           // oxlint-disable-next-line typescript/no-this-alias
           observed = this;
-          return this;
-        }
-      }
+        },
+      };
       const realm = new StaticJsRealm();
-      const host = new Holder();
       const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
-        includeNonEnumerable: true,
         useSandboxThis: true,
-        childPolicy: "inherit",
       });
-      const capture = wrapped.getSync("capture") as StaticJsCallable;
+      const capture = wrapped.getSync("capture");
+      expectStaticJsCallable(capture);
+
       const thisArg = realm.types.object();
       capture.callSync(thisArg, []);
 
       // Value is called as a native proxy, so get the original back.
-      expect(realm.types.toStaticJsValue(observed)).toBe(thisArg);
+      expect(observed).toBe(host);
     });
   });
 
   describe("childPolicy", () => {
-    it("resolves a child to undefined when childPolicy returns false", () => {
-      const realm = new StaticJsRealm();
-      const host = { nested: { a: 1 } };
-      const wrapped = realm.types.toStaticJsValue(host, { childPolicy: false });
-      expect(wrapped.getSync("nested").toNative()).toBe(undefined);
-    });
-
     it("exposes children by default when childPolicy is omitted", () => {
       const realm = new StaticJsRealm();
       const host = { nested: { a: 1 } };
@@ -246,99 +324,174 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       expect(wrapped.getSync("nested").toNative()).toEqual({ a: 1 });
     });
 
-    it("re-roots policy when childPolicy returns an object", () => {
-      class Child {
-        secret() {
-          return "ok";
-        }
-      }
+    it("resolves a child to undefined when childPolicy returns false", () => {
       const realm = new StaticJsRealm();
-      const host = { child: new Child() };
+      const host = { nested: { a: 1 } };
+      const wrapped = realm.types.toStaticJsValue(host, { childPolicy: false });
+      expect(wrapped.getSync("nested").toNative()).toBe(undefined);
+    });
+
+    it("calls a function childPolicy with the host object", () => {
+      const realm = new StaticJsRealm();
+      const host = { nested: { a: 1 } };
+      const childPolicy = vi.fn(() => false);
+      const wrapped = realm.types.toStaticJsValue(host, { childPolicy });
+      wrapped.getSync("nested");
+      expect(childPolicy).toHaveBeenCalledWith(host.nested);
+    });
+
+    it("resolves a child to a StaticJsValue when returned by callback", () => {
+      const realm = new StaticJsRealm();
+      const host = { nested: { a: 1 } };
       const wrapped = realm.types.toStaticJsValue(host, {
-        // The re-rooted object needs its own childPolicy for the method (a
-        // grandchild reached through the prototype) to remain reachable.
+        childPolicy: () => realm.types.object({ target: { value: realm.types.true } }),
+      });
+      const nested = wrapped.getSync("nested");
+      expectStaticJsObject(nested);
+      expect(nested.getSync("target").toNative()).toBe(true);
+    });
+
+    describe("caching", () => {
+      it("does not call childPolicy twice if the host object value descriptor has not changed", () => {
+        const realm = new StaticJsRealm();
+        const host = { nested: { a: 1 } };
+        const childPolicy = vi.fn(() =>
+          realm.types.object({ target: { value: realm.types.true } }),
+        );
+        const wrapped = realm.types.toStaticJsValue(host, {
+          childPolicy,
+        });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(1);
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(1);
+      });
+
+      it("calls childPolicy again if the host object value descriptor has changed", () => {
+        const realm = new StaticJsRealm();
+        const host = { nested: { a: 1 } };
+        const childPolicy = vi.fn(() =>
+          realm.types.object({ target: { value: realm.types.true } }),
+        );
+        const wrapped = realm.types.toStaticJsValue(host, {
+          childPolicy,
+        });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(1);
+        Object.defineProperty(host, "nested", { value: { a: 2 } });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(2);
+      });
+
+      it("calls childPolicy again if the host object writable descriptor has changed", () => {
+        const realm = new StaticJsRealm();
+        const host = { nested: { a: 1 } };
+        const childPolicy = vi.fn(() =>
+          realm.types.object({ target: { value: realm.types.true } }),
+        );
+        const wrapped = realm.types.toStaticJsValue(host, {
+          childPolicy,
+        });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(1);
+        Object.defineProperty(host, "nested", { writable: false });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(2);
+      });
+
+      it("calls childPolicy again if the host object enumerable descriptor has changed", () => {
+        const realm = new StaticJsRealm({});
+        const host = { nested: { a: 1 } };
+        const childPolicy = vi.fn(() =>
+          realm.types.object({ target: { value: realm.types.true } }),
+        );
+        const wrapped = realm.types.toStaticJsValue(host, {
+          includeNonEnumerable: true,
+          childPolicy,
+        });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(1);
+        Object.defineProperty(host, "nested", { enumerable: false });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(2);
+      });
+
+      it("calls childPolicy again if the host object configurable descriptor has changed", () => {
+        const realm = new StaticJsRealm();
+        const host = { nested: { a: 1 } };
+        const childPolicy = vi.fn(() =>
+          realm.types.object({ target: { value: realm.types.true } }),
+        );
+        const wrapped = realm.types.toStaticJsValue(host, {
+          childPolicy,
+        });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(1);
+        Object.defineProperty(host, "nested", { configurable: false });
+        wrapped.getSync("nested");
+        expect(childPolicy).toHaveBeenCalledTimes(2);
+      });
+    });
+
+    it("re-roots policy when childPolicy is HostOptions", () => {
+      const child = {};
+      Object.defineProperty(child, "secret", { value: true, enumerable: false });
+      const realm = new StaticJsRealm();
+      const host = { child };
+      const wrapped = realm.types.toStaticJsValue(host, {
+        includeNonEnumerable: false,
+        childPolicy: {
+          includeNonEnumerable: true,
+        },
+      });
+      const wrappedChild = wrapped.getSync("child");
+      expectStaticJsObject(wrappedChild);
+      expect(wrappedChild.getSync("secret").toNative()).toBe(true);
+    });
+
+    it("re-roots policy when childPolicy returns an object", () => {
+      const child = {};
+      Object.defineProperty(child, "secret", { value: true, enumerable: false });
+      const realm = new StaticJsRealm();
+      const host = { child };
+      const wrapped = realm.types.toStaticJsValue(host, {
+        includeNonEnumerable: false,
         childPolicy: () => ({
-          walkPrototype: true,
           includeNonEnumerable: true,
         }),
       });
       const wrappedChild = wrapped.getSync("child");
       expectStaticJsObject(wrappedChild);
-      const secret = wrappedChild.getSync("secret") as StaticJsCallable;
-      expect(secret.callSync(wrappedChild, []).toNative()).toBe("ok");
+      expect(wrappedChild.getSync("secret").toNative()).toBe(true);
     });
 
     it("reuses the parent policy when childPolicy is 'inherit'", () => {
-      class Child {
-        m() {
-          return "y";
-        }
-      }
+      const child = {};
+      Object.defineProperty(child, "secret", { value: true, enumerable: false });
       const realm = new StaticJsRealm();
-      const host = { child: new Child() };
+      const host = { child };
       const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
         includeNonEnumerable: true,
         childPolicy: "inherit",
       });
       const wrappedChild = wrapped.getSync("child");
       expectStaticJsObject(wrappedChild);
-      expect(
-        (wrappedChild.getSync("m") as StaticJsCallable).callSync(wrappedChild, []).toNative(),
-      ).toBe("y");
+      expect(wrappedChild.getSync("secret").toNative()).toBe(true);
     });
 
     it("sends children to the realm default policy when childPolicy is 'default'", () => {
-      class Child {
-        greet() {
-          return "hi";
-        }
-      }
-      const realm = new StaticJsRealm({
-        hostAccessDefaults: {
-          walkPrototype: true,
-          includeNonEnumerable: true,
-          childPolicy: "inherit",
-        },
-      });
-      const host = { child: new Child() };
-      // Root opts are otherwise restrictive; "default" routes the child to the
-      // realm defaults, which expose the method.
-      const wrapped = realm.types.toStaticJsValue(host, { childPolicy: "default" });
-      const child = wrapped.getSync("child");
-      expectStaticJsObject(child);
-      const greet = child.getSync("greet") as StaticJsCallable;
-      expect(greet.callSync(child, []).toNative()).toBe("hi");
-    });
-
-    it("lets a childPolicy function choose 'default' or false per object", () => {
-      class Allowed {
-        m() {
-          return "yes";
-        }
-      }
-      class Denied {
-        m() {
-          return "no";
-        }
-      }
-      const realm = new StaticJsRealm({
-        hostAccessDefaults: {
-          walkPrototype: true,
-          includeNonEnumerable: true,
-          childPolicy: "inherit",
-        },
-      });
-      const host = { allowed: new Allowed(), denied: new Denied() };
+      const child = {};
+      Object.defineProperty(child, "secret", { value: true, enumerable: false });
+      const realm = new StaticJsRealm();
+      const host = { child };
       const wrapped = realm.types.toStaticJsValue(host, {
-        childPolicy: (c) => (c instanceof Allowed ? "default" : false),
+        includeNonEnumerable: true,
+        childPolicy: "default",
       });
-      const allowed = wrapped.getSync("allowed");
-      expectStaticJsObject(allowed);
-      expect((allowed.getSync("m") as StaticJsCallable).callSync(allowed, []).toNative()).toBe(
-        "yes",
-      );
-      expect(wrapped.getSync("denied").toNative()).toBe(undefined);
+      const wrappedChild = wrapped.getSync("child");
+      expectStaticJsObject(wrappedChild);
+      expect(wrappedChild.hasOwnPropertySync("secret")).toBe(false);
+      expect(wrappedChild.getSync("secret").toNative()).toBe(undefined);
     });
   });
 
@@ -346,16 +499,16 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
     it("returns === wrapper for same (host, policy)", () => {
       const realm = new StaticJsRealm();
       const host = { a: 1 };
-      const a = realm.types.toStaticJsValue(host, { walkPrototype: true });
-      const b = realm.types.toStaticJsValue(host, { walkPrototype: true });
+      const a = realm.types.toStaticJsValue(host, { includeNonEnumerable: true });
+      const b = realm.types.toStaticJsValue(host, { includeNonEnumerable: true });
       expect(a).toBe(b);
     });
 
     it("returns !== wrappers for same host with different policies", () => {
       const realm = new StaticJsRealm();
       const host = { a: 1 };
-      const a = realm.types.toStaticJsValue(host, { walkPrototype: true });
-      const b = realm.types.toStaticJsValue(host, { walkPrototype: false });
+      const a = realm.types.toStaticJsValue(host, { includeNonEnumerable: true });
+      const b = realm.types.toStaticJsValue(host, { includeNonEnumerable: false });
       expect(a).not.toBe(b);
     });
 
@@ -365,6 +518,15 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       const g = () => false as const;
       const a = realm.types.toStaticJsValue(host, { childPolicy: g });
       const b = realm.types.toStaticJsValue(host, { childPolicy: g });
+      expect(a).toBe(b);
+    });
+
+    it("shares the cache slot for the same prototypePolicy reference", () => {
+      const realm = new StaticJsRealm();
+      const host = { a: 1 };
+      const g = () => false as const;
+      const a = realm.types.toStaticJsValue(host, { prototypePolicy: g });
+      const b = realm.types.toStaticJsValue(host, { prototypePolicy: g });
       expect(a).toBe(b);
     });
   });
@@ -527,8 +689,8 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       class Custom {}
       const host = new Custom();
       const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
         rawPrototypes: true,
+        prototypePolicy: "inherit",
         childPolicy: "inherit",
       });
       const proto = wrapped.getPrototypeOfSync();
@@ -548,11 +710,12 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       };
       const realm = new StaticJsRealm();
       const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
         includeNonEnumerable: true,
+        prototypePolicy: "inherit",
         childPolicy: "inherit",
       });
-      const make = wrapped.getSync("make") as StaticJsCallable;
+      const make = wrapped.getSync("make");
+      expectStaticJsCallable(make);
       const child = make.callSync(wrapped, []);
       expectStaticJsObject(child);
       const m = child.getSync("m") as StaticJsCallable;
@@ -563,7 +726,7 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
   describe("realm hostAccessDefaults", () => {
     it("uses the realm default when toStaticJsValue is called without opts", () => {
       const realm = new StaticJsRealm({
-        hostAccessDefaults: { walkPrototype: true, includeNonEnumerable: true },
+        hostAccessDefaults: { prototypePolicy: "inherit", includeNonEnumerable: true },
       });
       class Greeter {
         hi() {
@@ -578,7 +741,7 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
 
     it("explicit opts fully replace the realm default (no merging)", () => {
       const realm = new StaticJsRealm({
-        hostAccessDefaults: { walkPrototype: true, includeNonEnumerable: true },
+        hostAccessDefaults: { prototypePolicy: "inherit", includeNonEnumerable: true },
       });
       class Greeter {
         hi() {
@@ -606,7 +769,7 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       // Permissive realm default; childPolicy:false on the wrap must still take
       // precedence for the array's elements.
       const realm = new StaticJsRealm({
-        hostAccessDefaults: { walkPrototype: true, includeNonEnumerable: true },
+        hostAccessDefaults: { prototypePolicy: "inherit", includeNonEnumerable: true },
       });
       const arr = [new Secret()];
       const wrapped = realm.types.toStaticJsValue(arr, {
@@ -626,8 +789,8 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       const realm = new StaticJsRealm();
       const arr = [new Secret()];
       const wrapped = realm.types.toStaticJsValue(arr, {
-        walkPrototype: true,
         includeNonEnumerable: true,
+        prototypePolicy: "inherit",
         childPolicy: "inherit",
       });
       const first = wrapped.getSync("0");
@@ -689,143 +852,14 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
         },
       });
       const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
         includeNonEnumerable: true,
+        prototypePolicy: "inherit",
         childPolicy: "inherit",
       });
       const child = wrapped.getSync("child");
       expectStaticJsObject(child);
       const reveal = child.getSync("reveal") as StaticJsCallable;
       expect(reveal.callSync(child, []).toNative()).toBe("leak");
-    });
-  });
-
-  describe("stubWellKnownTypes", () => {
-    it("array stub off exposes a host array as a plain object", () => {
-      const realm = new StaticJsRealm();
-      const wrapped = realm.types.toStaticJsValue([10, 20], { stubWellKnownTypes: [] });
-      expect(wrapped.runtimeTypeOf).toBe("object");
-      expect(wrapped.getSync("0").toNative()).toBe(10);
-    });
-  });
-
-  describe("symbol-keyed host properties", () => {
-    it("reads a host property keyed by a well-known symbol", () => {
-      const realm = new StaticJsRealm();
-      const host = { [Symbol.toPrimitive]: () => 7 };
-      const wrapped = realm.types.toStaticJsValue(host);
-      const key = realm.types.toStaticJsValue(Symbol.toPrimitive);
-      const fn = wrapped.getSync(key) as StaticJsCallable;
-      expect(fn.callSync(wrapped, []).toNative()).toBe(7);
-    });
-  });
-
-  describe("walkPrototype with a null-prototype host", () => {
-    it("exposes a null prototype when walkPrototype is set", () => {
-      const realm = new StaticJsRealm();
-      const host: Record<string, unknown> = Object.create(null);
-      host["a"] = 1;
-      const wrapped = realm.types.toStaticJsValue(host, {
-        walkPrototype: true,
-        includeNonEnumerable: true,
-      });
-      expect(wrapped.getPrototypeOfSync()).toBe(null);
-    });
-  });
-
-  describe("object key exposure", () => {
-    // Helpers ----------------------------------------------------------------
-    const nativeKeys = (wrapped: StaticJsObject) =>
-      wrapped
-        .ownPropertyKeysSync()
-        .map((k) => (typeof k === "string" ? k : (k as { toNative(): symbol }).toNative()));
-
-    // A non-enumerable well-known symbol (the common case: defineProperty /
-    // class method / native protocol slot).
-    const nonEnumerableSymbolHost = (symbol: symbol) => {
-      const host: Record<PropertyKey, unknown> = { plain: 1 };
-      Object.defineProperty(host, symbol, {
-        value: function* () {
-          yield 1;
-        },
-        enumerable: false,
-        configurable: true,
-      });
-      return host;
-    };
-
-    it("includes a non-enumerable well-known symbol when only includeWellKnownSymbols is set", () => {
-      const realm = new StaticJsRealm();
-      const wrapped = realm.types.toStaticJsValue(nonEnumerableSymbolHost(Symbol.iterator), {
-        includeWellKnownSymbols: true,
-        includeNonEnumerable: false,
-      });
-      const key = realm.types.toStaticJsValue(Symbol.iterator);
-      // Symbol gate passes, but the enumerability gate still blocks it.
-      expect(wrapped.hasOwnPropertySync(key)).toBe(true);
-      expect(nativeKeys(wrapped)).toContain(Symbol.iterator);
-    });
-
-    it("hides a non-enumerable well-known symbol when includeNonEnumerable is on but includeWellKnownSymbols is off", () => {
-      const realm = new StaticJsRealm();
-      const wrapped = realm.types.toStaticJsValue(nonEnumerableSymbolHost(Symbol.iterator), {
-        includeWellKnownSymbols: false,
-        includeNonEnumerable: true,
-      });
-      const key = realm.types.toStaticJsValue(Symbol.iterator);
-      // Enumerability gate passes, but the symbol gate must block it on BOTH
-      // the access and enumeration paths.
-      expect(wrapped.hasOwnPropertySync(key)).toBe(false);
-      expect(nativeKeys(wrapped)).not.toContain(Symbol.iterator);
-    });
-
-    it("exposes a non-enumerable non-well-known symbol when includeNonEnumerable is on", () => {
-      const realm = new StaticJsRealm();
-      const symbol = Symbol("symbol");
-      const wrapped = realm.types.toStaticJsValue(nonEnumerableSymbolHost(symbol), {
-        includeNonEnumerable: true,
-      });
-      const key = realm.types.toStaticJsValue(symbol);
-      expect(wrapped.hasOwnPropertySync(key)).toBe(true);
-      const fn = wrapped.getSync(key) as StaticJsCallable;
-      expect(typeof fn.toNative()).toBe("function");
-      expect(nativeKeys(wrapped)).toContain(symbol);
-    });
-
-    it("hides a non-enumerable non-well-known symbol when includeNonEnumerable is off", () => {
-      const realm = new StaticJsRealm();
-      const symbol = Symbol("symbol");
-      const wrapped = realm.types.toStaticJsValue(nonEnumerableSymbolHost(symbol), {
-        includeNonEnumerable: false,
-      });
-      const key = realm.types.toStaticJsValue(symbol);
-      expect(wrapped.hasOwnPropertySync(key)).toBe(false);
-      expect(isStaticJsUndefined(wrapped.getSync(key))).toBe(true);
-    });
-
-    it("includes an enumerable string key when includeNonEnumerable is off", () => {
-      const realm = new StaticJsRealm();
-      const host = { visible: 1 };
-      const wrapped = realm.types.toStaticJsValue(host, {
-        includeNonEnumerable: false,
-      });
-      expect(wrapped.hasOwnPropertySync("visible")).toBe(true);
-      expect(wrapped.getSync("visible").toNative()).toBe(1);
-    });
-
-    it("hides a non-enumerable string key when includeNonEnumerable is off", () => {
-      const realm = new StaticJsRealm();
-      const host = { hidden: 1 };
-      Object.defineProperty(host, "hidden", {
-        value: 1,
-        enumerable: false,
-        configurable: true,
-      });
-      const wrapped = realm.types.toStaticJsValue(host, {
-        includeNonEnumerable: false,
-      });
-      expect(wrapped.hasOwnPropertySync("hidden")).toBe(false);
-      expect(isStaticJsUndefined(wrapped.getSync("hidden"))).toBe(true);
     });
   });
 });

@@ -5,7 +5,7 @@ import { createArrayFromList } from "../../algorithms/create-array-from-list.js"
 import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
 import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { HostAccessArg, HostAccessOptions } from "../HostAccessOptions.js";
+import type { HostAccessArg } from "../HostAccessOptions.js";
 import { type StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
@@ -33,7 +33,6 @@ import type { WellKnownErrorName } from "../WellKnownErrors.js";
 
 import { createHostDefinedProxy } from "./create-host-defined-proxy.js";
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
-import { resolveRootLevelHostAccessArg } from "./host-access/resolve-host-access-options.js";
 import { StaticJsHostProxyFactory } from "./host-access/StaticJsHostProxyFactory.js";
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
@@ -65,10 +64,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   private readonly _hostProxyFactory: StaticJsHostProxyFactory;
 
-  constructor(
-    private readonly _realm: StaticJsRealm,
-    private readonly _hostAccessDefaults?: HostAccessOptions,
-  ) {
+  constructor(private readonly _realm: StaticJsRealm) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
     this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
@@ -244,6 +240,9 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       case "EvalError":
         proto = this._realm.intrinsics["EvalError.prototype"];
         break;
+      case "URIError":
+        proto = this._realm.intrinsics["URIError.prototype"];
+        break;
     }
 
     const error = new StaticJsErrorImpl(this._realm, proto);
@@ -308,8 +307,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     if (valueType === "symbol") return this._toStaticJsValueSymbol(value as symbol);
 
     if (valueType === "object" || valueType === "function") {
-      const access = resolveRootLevelHostAccessArg(opts, this._hostAccessDefaults, value);
-      return this._hostProxyFactory.getWrapperFor(value, access);
+      return this._hostProxyFactory.getWrapperFor(value, opts);
     }
 
     throw new Error(`Cannot convert ${value} to StaticJsValue: Unknown type.`);

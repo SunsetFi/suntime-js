@@ -92,10 +92,6 @@ describe("E2E: Type Coercion / Functions", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
-  // GAP COVERAGE (red phase) — audited but previously untested behaviors.
-  // ---------------------------------------------------------------------------
-
   describe("Host invoking a sandbox callback", () => {
     it("re-wraps host values handed to a sandbox callback under the active policy", async () => {
       class Secret {
@@ -106,8 +102,8 @@ describe("E2E: Type Coercion / Functions", () => {
       const secret = new Secret();
       const realm = StaticJsRealm({
         hostAccessDefaults: {
-          walkPrototype: true,
           includeNonEnumerable: true,
+          prototypePolicy: "inherit",
           childPolicy: "inherit",
         },
         global: { value: { callWith: (cb: (x: unknown) => void) => cb(secret) } },

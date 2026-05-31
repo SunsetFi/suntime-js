@@ -10,13 +10,15 @@ function safe(over: Partial<ResolvedHostAccessOptions> = {}): ResolvedHostAccess
 describe("PolicyKeyInterner", () => {
   it("returns the same key for two structurally identical no-grant policies", () => {
     const i = new PolicyKeyInterner();
-    expect(i.keyFor(safe({ walkPrototype: true }))).toBe(i.keyFor(safe({ walkPrototype: true })));
+    expect(i.keyFor(safe({ includeNonEnumerable: true }))).toBe(
+      i.keyFor(safe({ includeNonEnumerable: true })),
+    );
   });
 
   it("returns different keys for differing booleans", () => {
     const i = new PolicyKeyInterner();
-    expect(i.keyFor(safe({ walkPrototype: true }))).not.toBe(
-      i.keyFor(safe({ walkPrototype: false })),
+    expect(i.keyFor(safe({ includeNonEnumerable: true }))).not.toBe(
+      i.keyFor(safe({ includeNonEnumerable: false })),
     );
   });
 

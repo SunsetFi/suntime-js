@@ -1,27 +1,29 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import {
   AllHostAccessStubTypes,
+  HostAccessChildOptions,
   HostAccessOptionKeys,
   HostAccessQueryResult,
   HostAccessStubType,
   type HostAccessArg,
   type HostAccessOptions,
 } from "../../HostAccessOptions.js";
+import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 
 export type ResolvedHostAccessOptions = Omit<Required<HostAccessOptions>, "stubWellKnownTypes"> & {
   stubWellKnownTypes: readonly HostAccessStubType[];
 };
 
 export const SAFE_DEFAULTS: ResolvedHostAccessOptions = {
-  walkPrototype: false,
+  stubWellKnownTypes: AllHostAccessStubTypes,
   includeNonEnumerable: false,
   includeWellKnownSymbols: true,
   writable: false,
   extensible: false,
   useSandboxThis: false,
   rawPrototypes: false,
+  prototypePolicy: false,
   childPolicy: "default",
-  stubWellKnownTypes: AllHostAccessStubTypes,
 };
 
 const allowedHostAccessOptionKeys = new Set(HostAccessOptionKeys);
@@ -72,7 +74,7 @@ export function resolveRootLevelHostAccessArg(
   opts: HostAccessArg | undefined,
   realmDefault: HostAccessOptions | undefined,
   rootHostObj: object,
-): ResolvedHostAccessOptions {
+): ResolvedHostAccessOptions | StaticJsValue {
   if (opts === undefined) {
     return resolveHostAccessOptions(realmDefault);
   }
@@ -83,45 +85,52 @@ export function resolveRootLevelHostAccessArg(
     if (result === "default") {
       return realmDefaultResolved;
     }
+    if (isStaticJsValue(result)) {
+      return result;
+    }
 
     return resolveHostAccessOptions(result);
   }
   return resolveHostAccessOptions(opts);
 }
 
-export function applyChildPolicy(
+export function applyChildPolicyQuery(
   parent: ResolvedHostAccessOptions,
-  childHostObj: object,
+  child: HostAccessChildOptions,
+  hostObj: object,
   realmDefaults: HostAccessOptions | undefined,
-): ResolvedHostAccessOptions | false {
-  const { childPolicy } = parent;
-  if (typeof childPolicy === "function") {
-    const result = childPolicy(childHostObj);
-    return applyPolicyResult(parent, result, realmDefaults);
+): ResolvedHostAccessOptions | StaticJsValue | false {
+  if (typeof child === "function") {
+    const result = child(hostObj);
+    return applyQueryResult(parent, result, realmDefaults);
   }
 
-  return applyPolicyResult(parent, childPolicy ?? false, realmDefaults);
+  return applyQueryResult(parent, child ?? "inherit", realmDefaults);
 }
 
-function applyPolicyResult(
+function applyQueryResult(
   parent: ResolvedHostAccessOptions,
   result: HostAccessQueryResult,
   realmDefaults: HostAccessOptions | undefined,
-): ResolvedHostAccessOptions | false {
+): ResolvedHostAccessOptions | StaticJsValue | false {
   if (result === false) {
     return false;
   }
 
-  if (result === "inherit") {
+  if (result === true || result === "inherit") {
     return parent;
+  }
+
+  if (result === "default") {
+    return resolveHostAccessOptions(realmDefaults);
+  }
+
+  if (isStaticJsValue(result)) {
+    return result;
   }
 
   if (result && typeof result === "object") {
     return resolveHostAccessOptions(result);
-  }
-
-  if (result === "default" || result === undefined) {
-    return resolveHostAccessOptions(realmDefaults);
   }
 
   throw new StaticJsEngineError(`Invalid HostAccessQueryResult: ${result}`);

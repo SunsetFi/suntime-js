@@ -21,5 +21,5 @@ export interface HostAccessPolicy {
    * Wrap a host prototype reached via the structural [[Prototype]] chain,
    * using THIS policy verbatim (no grantAccess consultation).
    */
-  wrapPrototype(hostProto: object): StaticJsObject;
+  wrapPrototype(hostProto: object | null): StaticJsObject | null;
 }

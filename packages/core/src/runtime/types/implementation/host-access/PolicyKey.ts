@@ -13,15 +13,18 @@ export class PolicyKeyInterner {
       return `query:${this._idForChildPolicy(policy)}`;
     }
 
-    const grantId = policy.childPolicy ? this._idForChildPolicy(policy.childPolicy) : 0;
+    const protoGrantId = policy.prototypePolicy
+      ? this._idForChildPolicy(policy.prototypePolicy)
+      : 0;
+    const childGrantId = policy.childPolicy ? this._idForChildPolicy(policy.childPolicy) : 0;
     return [
-      policy.walkPrototype ? "1" : "0",
+      policy.stubWellKnownTypes.toSorted().join(",") || "none",
       policy.includeNonEnumerable ? "1" : "0",
       policy.writable ? "1" : "0",
       policy.useSandboxThis ? "1" : "0",
       policy.rawPrototypes ? "1" : "0",
-      policy.stubWellKnownTypes.toSorted().join(",") || "none",
-      grantId,
+      protoGrantId,
+      childGrantId,
     ].join(":");
   }
 

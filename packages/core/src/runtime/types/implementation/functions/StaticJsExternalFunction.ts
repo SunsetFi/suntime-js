@@ -6,11 +6,11 @@ import {
 } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
+import { isStaticJsCallable } from "../../StaticJsCallable.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
-import { applyChildPolicy } from "../host-access/resolve-host-access-options.js";
+import { applyChildPolicyQuery } from "../host-access/resolve-host-access-options.js";
 
-import { StaticJsAbstractFunction } from "./StaticJsAbstractFunction.js";
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
 export interface StaticJsExternalFunctionOpts {
@@ -51,19 +51,27 @@ export class StaticJsExternalFunction extends StaticJsNativeFunctionImpl {
       // the argument). That access is carried into the bridge so it is honored
       // when the function is later called back with foreign-realm values. Other
       // values keep the plain native conversion.
-      valueArgsResolved = args.map((arg) =>
-        arg instanceof StaticJsAbstractFunction
-          ? // ResolvedHostAccessOptions is a structural HostAccessOptions; the
-            // cast only sheds the resolved type's explicit-undefined childPolicy.
-            arg.toNative({
-              access: applyChildPolicy(
-                this._policy.options,
-                arg,
-                this.realm.config.hostAccessDefaults,
-              ) as HostAccessArg,
-            })
-          : arg.toNative(),
-      );
+      valueArgsResolved = args.map((arg) => {
+        if (isStaticJsCallable(arg)) {
+          const access: HostAccessArg = (obj) => {
+            const policy = applyChildPolicyQuery(
+              this._policy.options,
+              this._policy.options.childPolicy,
+              obj,
+              this.realm.config.hostAccessDefaults,
+            );
+            if (!policy) {
+              return this.realm.types.undefined;
+            }
+            if (isStaticJsValue(policy)) {
+              return obj;
+            }
+            return policy;
+          };
+          return arg.toNative({ access });
+        }
+        return arg.toNative();
+      });
     }
 
     try {

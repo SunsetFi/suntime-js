@@ -28,26 +28,6 @@ describe("E2E: Globals", () => {
     expect(globalObjectValue.x).toBe(42);
   });
 
-  // This was explicitly allowed at one point, but I think I need to offer more control over what properties can be interacted with.
-  // Mostly considering use cases like "Expose an array's iterator and let the prototype .next() actually function".
-  it.skip("Can modify a global setter value", async () => {
-    const globalObjectValue = {
-      set x(value: number) {
-        globalObjectValue._x = value;
-      },
-      _x: 42,
-    };
-
-    const realm = StaticJsRealm({
-      global: {
-        value: globalObjectValue,
-      },
-    });
-
-    await evaluateScript("x = 43", { realm });
-    expect(globalObjectValue._x).toBe(43);
-  });
-
   it("Can call a global function", async () => {
     const globalObjectValue = {
       fn: function () {

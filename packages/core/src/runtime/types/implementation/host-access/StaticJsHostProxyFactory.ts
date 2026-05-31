@@ -1,17 +1,23 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { HostAccessArg } from "../../HostAccessOptions.js";
 import { StaticJsFunction } from "../../StaticJsFunction.js";
-import { StaticJsObject } from "../../StaticJsObject.js";
+import { isStaticJsNull } from "../../StaticJsNull.js";
+import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
-import { isWellKnownError, isWellKnownErrorName } from "../../WellKnownErrors.js";
+import { isWellKnownError } from "../../WellKnownErrors.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
 import { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
 
 import { buildHostBuiltinMap, HostBuiltinMap } from "./HostBuiltinMap.js";
 import { PolicyKey, PolicyKeyInterner } from "./PolicyKey.js";
-import { applyChildPolicy, ResolvedHostAccessOptions } from "./resolve-host-access-options.js";
+import {
+  applyChildPolicyQuery,
+  ResolvedHostAccessOptions,
+  resolveRootLevelHostAccessArg,
+} from "./resolve-host-access-options.js";
 
 export class StaticJsHostProxyFactory {
   private _hostBuiltinMapCache: HostBuiltinMap | undefined;
@@ -32,18 +38,28 @@ export class StaticJsHostProxyFactory {
 
   constructor(private readonly _realm: StaticJsRealm) {}
 
-  getWrapperFor(value: object | Function, hostAccess: ResolvedHostAccessOptions): StaticJsValue {
+  getWrapperFor(value: object | Function, opts: HostAccessArg | undefined): StaticJsValue {
+    const access = resolveRootLevelHostAccessArg(
+      opts,
+      this._realm.config.hostAccessDefaults,
+      value,
+    );
+
+    if (isStaticJsValue(access)) {
+      return access;
+    }
+
     if (isFunction(value)) {
-      const policy = this._policyFor(hostAccess, value);
+      const policy = this._policyFor(access, value);
       return this._wrapHostFunction(value, policy, undefined);
     }
 
     if (typeof value === "object") {
-      if (value instanceof Error && isWellKnownErrorName(value.name)) {
+      if (isWellKnownError(value) && access.stubWellKnownTypes.includes("error")) {
         return this._realm.types.error(value.name, value.message);
       }
 
-      const policy = this._policyFor(hostAccess, value);
+      const policy = this._policyFor(access, value);
       return this._wrapHostObject(value, policy);
     }
     throw new Error(`Cannot convert ${value} to StaticJsValue: Unknown type.`);
@@ -82,13 +98,17 @@ export class StaticJsHostProxyFactory {
           return this._realm.types.toStaticJsValue(childHostValue);
         }
 
-        const childResolved = applyChildPolicy(
+        const childResolved = applyChildPolicyQuery(
           resolved,
+          resolved.childPolicy,
           childHostValue,
           this._realm.config.hostAccessDefaults,
         );
         if (childResolved === false) {
           return this._realm.types.undefined;
+        }
+        if (isStaticJsValue(childResolved)) {
+          return childResolved;
         }
 
         const policy = this._policyFor(childResolved, childHostValue);
@@ -99,9 +119,31 @@ export class StaticJsHostProxyFactory {
 
         return this._wrapHostObject(childHostValue, policy);
       },
-      wrapPrototype: (hostProto: object): StaticJsObject => {
-        if (!resolved.walkPrototype) {
+      wrapPrototype: (hostProto: object | null): StaticJsObject | null => {
+        if (hostProto === null) {
+          return null;
+        }
+
+        const resolvedProto = applyChildPolicyQuery(
+          resolved,
+          resolved.prototypePolicy,
+          hostProto,
+          this._realm.config.hostAccessDefaults,
+        );
+        if (resolvedProto === false) {
           return this._realm.intrinsics["Object.prototype"];
+        }
+        if (isStaticJsValue(resolvedProto)) {
+          if (isStaticJsNull(resolvedProto) || resolvedProto === null) {
+            return null;
+          }
+          if (isStaticJsObject(resolvedProto)) {
+            return resolvedProto;
+          }
+
+          throw new TypeError(
+            `Invalid prototype policy result: ${resolvedProto.runtimeTypeOf}. Expected StaticJsObject or StaticJsNull.`,
+          );
         }
         return this._wrapHostObject(hostProto, this._policyFor(resolved, target));
       },

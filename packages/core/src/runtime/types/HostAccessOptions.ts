@@ -1,3 +1,5 @@
+import { StaticJsValue } from "./StaticJsValue.js";
+
 /**
  * Policy controlling how a host JavaScript object is exposed to a
  * StaticJsRealm sandbox via `StaticJsTypeFactory.toStaticJsValue`.
@@ -12,7 +14,7 @@ export interface HostAccessOptions {
    * This defaults to true, as .toNative() on functions can appear non-functional without it.
    *
    * When turning this off, expect native arrays to be treated as plain objects with no array behavior, including lacking an iterator.  Usually, this should only be turned off
-   * if you intend to enable walkPrototype.
+   * if you intend to enable prototypePolicy.
    *
    * Possible values:
    * - "array": Stub arrays into sandboxed arrays, invoking childPolicy for array items.
@@ -22,16 +24,6 @@ export interface HostAccessOptions {
    * @default true
    */
   stubWellKnownTypes?: boolean | HostAccessStubType[];
-
-  /**
-   * Walk the host object's prototype chain when answering property lookups.
-   *
-   * When false, the sandbox-visible [[Prototype]] is always the realm's
-   * Object.prototype, regardless of the host object's actual prototype
-   * (including null).
-   * @default false
-   */
-  walkPrototype?: boolean;
 
   /**
    * Expose non-enumerable own properties (e.g. ES class methods).
@@ -45,7 +37,7 @@ export interface HostAccessOptions {
   /**
    * Expose well-known symbols (e.g. Symbol.iterator) as property keys on host objects.
    * This defaults to true, to allow arrays and other items to iterate.  However, it typically
-   * will not engage for most builtins without walkPrototype.
+   * will not engage for most builtins without prototypePolicy.
    *
    * @default true
    */
@@ -87,11 +79,25 @@ export interface HostAccessOptions {
   rawPrototypes?: boolean;
 
   /**
+   * Policy for the prototype of the host object.
+   *
+   * If "inherit", it will reuse the parent's resolved policy.
+   * If "default", the realm default policy is used.
+   * If false, the sandbox-visible [[Prototype]] is always the realm's default prototype for the type (Object.prototype for objects, Function.prototype for functions, etc.),
+   * regardless of the host object's actual prototype (including null).
+   * If a StaticJsValue, the returned value will be used as the sandbox-visible [[Prototype]] for the host object, and the host object's actual prototype will not be visible in the sandbox.
+   * If an object, the returned HostAccessOptions will be used for prototypes as well as own properties, and for their descendants, unless overridden by a closer ancestor.
+   * If a function, it will be invoked with each prototype object to determine the policy. Decide on a per-object basis.
+   * @default false
+   */
+  prototypePolicy?: HostAccessChildOptions;
+
+  /**
    * Policy for objects reached transitively from this one (property
    * values, function return values, prototype-chain entries that are
    * themselves host objects).
    *
-   * If "inherit", it will reuse the parent's resolved policy (sticky).
+   * If "inherit", it will reuse the parent's resolved policy.
    * If "default", the realm default policy is used.
    * If false, the child is not exposed — it resolves to `undefined`.
    * If an object, the returned HostAccessOptions will be used for that child object and its descendants, unless overridden by a closer ancestor.
@@ -108,13 +114,13 @@ export interface HostAccessOptions {
 
 export const HostAccessOptionKeys: readonly (keyof HostAccessOptions)[] = Object.freeze([
   "stubWellKnownTypes",
-  "walkPrototype",
   "includeNonEnumerable",
   "includeWellKnownSymbols",
   "writable",
   "extensible",
   "useSandboxThis",
   "rawPrototypes",
+  "prototypePolicy",
   "childPolicy",
 ] as const);
 
@@ -126,8 +132,15 @@ export const AllHostAccessStubTypes = ["array", "error"] as const;
  * If "inherit", the child uses the same policy as the parent (sticky).
  * If "default", the child uses the realm default policy.
  * If "false", the child instead resolves to undefined.
+ * If a StaticJsValue, the returned value will be used for the host object.
+ * If an object, the returned HostAccessOptions will be used for that child object and its descendants, unless overridden by a closer ancestor.
  */
-export type HostAccessQueryResult = "inherit" | "default" | false | HostAccessOptions;
+export type HostAccessQueryResult =
+  | "inherit"
+  | "default"
+  | boolean
+  | HostAccessOptions
+  | StaticJsValue;
 
 /**
  * Query function to check whether the given child of a host object should be exposed and at what level.
@@ -150,9 +163,12 @@ export type HostAccessChildOptions = HostAccessQueryResult | HostAccessQueryFunc
 /**
  * Query function to check whether the given host object should be exposed and at what level.
  * If "default", the realm's defaults are used.
+ * If a StaticJsValue, the returned value will be used for the host object.
  * If an object, that host object becomes a new root governed by these options.
  */
-export type HostAccessRootQueryFunction = (childHostObj: object) => "default" | HostAccessOptions;
+export type HostAccessRootQueryFunction = (
+  childHostObj: object,
+) => "default" | HostAccessOptions | StaticJsValue;
 
 /**
  * Argument option for specifying host access level to a host object in the sandbox.

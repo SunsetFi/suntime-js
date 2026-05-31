@@ -2,9 +2,11 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
+import { isStaticJsNull } from "../../StaticJsNull.js";
 import { StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
+  StaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
@@ -19,6 +21,10 @@ import { isWellKnownSymbol } from "../well-known-symbols.js";
 export class StaticJsExternalObject extends StaticJsAbstractObject {
   private readonly _extends = new Map<string | StaticJsSymbol, StaticJsPropertyDescriptor>();
   private readonly _writes = new Map<string | StaticJsSymbol, StaticJsValue>();
+  private readonly _propertyCache = new Map<
+    PropertyKey,
+    [PropertyDescriptor, StaticJsPropertyDescriptor]
+  >();
 
   constructor(
     realm: StaticJsRealm,
@@ -48,20 +54,31 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   *getOwnPropertyEvaluator(
     name: StaticJsPropertyKey,
   ): EvaluationGenerator<StaticJsPropertyDescriptor | undefined> {
-    const isExposed = this._isExposed(isStaticJsSymbol(name) ? name.toNative() : name);
-    if (!isExposed) {
-      return undefined;
-    }
-
     const extended = this._extends.get(name);
     if (extended) {
       return extended;
     }
 
+    const isExposed = this._isExposed(isStaticJsSymbol(name) ? name.toNative() : name);
+    if (!isExposed) {
+      return undefined;
+    }
+
     const property: PropertyKey = isStaticJsSymbol(name) ? name.toNative() : (name as string);
 
     const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
-    if (!objDescr) return undefined;
+    if (!objDescr) {
+      this._propertyCache.delete(property);
+      return undefined;
+    }
+
+    const [cachedDescr, cachedStaticDescr] = this._propertyCache.get(property) ?? [];
+    if (cachedDescr && propertyDescriptorsMatch(cachedDescr, objDescr)) {
+      if (this._writes.has(name) && isStaticJsDataPropertyDescriptor(cachedStaticDescr)) {
+        cachedStaticDescr.value = this._writes.get(name)!;
+      }
+      return cachedStaticDescr!;
+    }
 
     const { writable } = this._policy.options;
     const { enumerable, value, get: descrGet, set: descrSet } = objDescr;
@@ -88,7 +105,9 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       staticJsDescr.writable = Boolean(writable);
     }
 
-    return staticJsDescr as StaticJsPropertyDescriptor;
+    const result = staticJsDescr as StaticJsPropertyDescriptor;
+    this._propertyCache.set(property, [objDescr, result]);
+    return result;
   }
 
   override *isExtensibleEvaluator(): EvaluationGenerator<boolean> {
@@ -108,17 +127,12 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
-    const { walkPrototype } = this._policy.options;
-    if (!walkPrototype) {
-      return this.realm.intrinsics["Object.prototype"];
-    }
-
     const hostProto = Object.getPrototypeOf(this._obj) as object | null;
-    if (hostProto === null) {
+    const proto = this._policy.wrapPrototype(hostProto);
+    if (isStaticJsNull(proto)) {
       return null;
     }
-
-    return this._policy.wrapPrototype(hostProto);
+    return proto;
   }
 
   override *privateElementAddEvaluator(): EvaluationGenerator<void> {
@@ -198,4 +212,22 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
     return true;
   }
+}
+
+function propertyDescriptorsMatch(a: PropertyDescriptor, b: PropertyDescriptor): boolean {
+  if (a.configurable !== b.configurable || a.enumerable !== b.enumerable) {
+    return false;
+  }
+
+  const aIsData = "value" in a || "writable" in a;
+  const bIsData = "value" in b || "writable" in b;
+  if (aIsData !== bIsData) {
+    return false;
+  }
+
+  if (aIsData && bIsData) {
+    return a.writable === (b as StaticJsDataPropertyDescriptor).writable && a.value === b.value;
+  }
+
+  return a.get === b.get && a.set === b.set;
 }

@@ -15,15 +15,16 @@ export function isWellKnownErrorName(name: string): name is WellKnownErrorName {
 }
 
 export function isWellKnownError(value: unknown): value is Error & { name: WellKnownErrorName } {
-  // This does let users override [Symbol.hasInstance]
-  return (
-    value instanceof AggregateError ||
-    value instanceof Error ||
-    value instanceof EvalError ||
-    value instanceof RangeError ||
-    value instanceof ReferenceError ||
-    value instanceof SyntaxError ||
-    value instanceof TypeError ||
-    value instanceof URIError
-  );
+  return value instanceof Error && isWellKnownErrorName(value.name);
+  // // This does let users override [Symbol.hasInstance]
+  // return (
+  //   value instanceof AggregateError ||
+  //   value instanceof Error ||
+  //   value instanceof EvalError ||
+  //   value instanceof RangeError ||
+  //   value instanceof ReferenceError ||
+  //   value instanceof SyntaxError ||
+  //   value instanceof TypeError ||
+  //   value instanceof URIError
+  // );
 }

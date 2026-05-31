@@ -212,27 +212,6 @@ describe("E2E: Object", () => {
       expect(sandboxProto).not.toBe(proto);
       expect(protoIsSandboxed).toBe(true);
     });
-
-    // TODO: I want to allow this somehow.  Probably opt-in with second argument to toStaticJsValue.
-    it.skip("Should support external iterators", async () => {
-      const code = `
-        const iterator = globalThis.externalObj[Symbol.iterator]();
-        [iterator.next().value, iterator.next().value];
-      `;
-      const realm = StaticJsRealm({
-        global: {
-          value: {
-            externalObj: {
-              [Symbol.iterator]: () => {
-                return [1, 2][Symbol.iterator]();
-              },
-            },
-          },
-        },
-      });
-      const result = await evaluateScript(code, { realm });
-      expect(result).toEqual([1, 2]);
-    });
   });
 
   describe("Properties", () => {
