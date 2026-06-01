@@ -29,7 +29,7 @@ import type { StaticJsUndefined } from "../StaticJsUndefined.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
-import type { WellKnownErrorName } from "../WellKnownErrors.js";
+import type { WellKnownErrorName } from "../well-known-errors.js";
 
 import { createHostDefinedProxy } from "./create-host-defined-proxy.js";
 import { StaticJsNativeFunctionImpl } from "./functions/StaticJsNativeFunctionImpl.js";
@@ -147,7 +147,14 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return obj;
   }
 
-  symbol(description?: string | undefined): StaticJsSymbol {
+  symbol(description?: string | symbol | undefined): StaticJsSymbol {
+    if (typeof description === "symbol") {
+      const wellKnown = getWellKnownSymbol(description, this._realm.intrinsics);
+      if (wellKnown) {
+        return wellKnown;
+      }
+    }
+
     return new StaticJsSymbolImpl(this._realm, description);
   }
 

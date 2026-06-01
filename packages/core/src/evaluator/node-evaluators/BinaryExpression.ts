@@ -146,7 +146,7 @@ function* binaryExpressionAdd(node: BinaryExpression): EvaluationGenerator {
 }
 
 function* numericComputation(
-  func: (left: number, right: number) => unknown,
+  func: (left: number, right: number) => number,
   node: BinaryExpression,
 ): EvaluationGenerator {
   const { realm } = EvaluationContext.current;
@@ -156,7 +156,7 @@ function* numericComputation(
   left = yield* toNumber(left);
   right = yield* toNumber(right);
 
-  return realm.types.toStaticJsValue(func(left.value, right.value));
+  return realm.types.number(func(left.value, right.value));
 }
 
 function* inExpression(node: BinaryExpression): EvaluationGenerator {

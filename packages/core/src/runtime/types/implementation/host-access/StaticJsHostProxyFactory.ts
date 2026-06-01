@@ -6,7 +6,7 @@ import { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
-import { isWellKnownError } from "../../WellKnownErrors.js";
+import { isWellKnownError, WellKnownErrorName } from "../../well-known-errors.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
 import { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
@@ -55,10 +55,6 @@ export class StaticJsHostProxyFactory {
     }
 
     if (typeof value === "object") {
-      if (isWellKnownError(value) && access.stubWellKnownTypes.includes("error")) {
-        return this._realm.types.error(value.name, value.message);
-      }
-
       const policy = this._policyFor(access, value);
       return this._wrapHostObject(value, policy);
     }
@@ -168,7 +164,7 @@ export class StaticJsHostProxyFactory {
     }
 
     if (isWellKnownError(host) && stubWellKnownTypes.includes("error")) {
-      return this._realm.types.error(host.name, host.message);
+      return this._stubError(host, policy);
     }
 
     if (!rawPrototypes) {
@@ -207,6 +203,42 @@ export class StaticJsHostProxyFactory {
     });
     this._putCached(host, policy, wrapper);
     return wrapper;
+  }
+
+  private _stubError(
+    host: Error & { name: WellKnownErrorName },
+    policy: HostAccessPolicy,
+  ): StaticJsObject {
+    if (host instanceof AggregateError) {
+      const errors = host.errors.map((err) => policy.wrapChild(err, false));
+
+      // Safe: Creates a new array from intrinsics.
+      const list = this._realm.invokeEvaluatorSync(createArrayFromList(errors));
+
+      let options: StaticJsValue;
+      if (host.cause) {
+        const cause = policy.wrapChild(host.cause, false);
+        options = this._realm.types.object({
+          cause: {
+            value: cause,
+          },
+        });
+      } else {
+        options = this._realm.types.undefined;
+      }
+
+      // Safe: Runs our own constructor
+      const stub = this._realm.invokeEvaluatorSync(
+        this._realm.intrinsics["AggregateError"].constructEvaluator([
+          list,
+          this._realm.types.string(host.message),
+          options,
+        ]),
+      );
+      return stub;
+    }
+
+    return this._realm.types.error(host.name, host.message);
   }
 
   private _getCached(host: object, policy: HostAccessPolicy) {

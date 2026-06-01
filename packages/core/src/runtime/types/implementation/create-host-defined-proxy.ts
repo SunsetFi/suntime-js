@@ -48,7 +48,6 @@ export function createHostDefinedProxy(
   for (const key of handlerKeys) {
     const converter = proxyHandlerConverters[key];
     const handlerValue = handlers[key]!;
-    // FIXME: Support actually doing async evaluation in these
     const handlerFunc = new StaticJsNativeFunctionImpl(
       realm,
       key,
@@ -61,6 +60,7 @@ export function createHostDefinedProxy(
         }
         const result = (handlerValue as any).apply(undefined, invokeArgs);
         const evaluated = yield* EvaluationGenerator(result);
+        // Should only ever be StaticJsValue, arrays, nulls, or booleans
         return realm.types.toStaticJsValue(evaluated);
       },
     );

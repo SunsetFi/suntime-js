@@ -3,7 +3,7 @@ import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { createError } from "../../../runtime/algorithms/create-error.js";
 import { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
-import { WellKnownErrorName } from "../../../runtime/types/WellKnownErrors.js";
+import { WellKnownErrorName } from "../../../runtime/types/well-known-errors.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { nameCompletionLike } from "../name-completion-like.js";
 

@@ -80,12 +80,12 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   // TODO: with
 ];
 
-export function* populateArrayPrototype(realm: StaticJsRealm, arrayProto: StaticJsObject) {
-  yield* applyIntrinsicProperties(realm, arrayProto, declarations);
+export function* populateArrayPrototype(realm: StaticJsRealm, proto: StaticJsObject) {
+  yield* applyIntrinsicProperties(realm, proto, declarations);
 
   // Manual because these references need to match.
-  const valuesFn = arrayProto.getSync("values");
-  yield* definePropertyOrThrow(arrayProto, realm.types.symbols.iterator, {
+  const valuesFn = proto.getSync("values");
+  yield* definePropertyOrThrow(proto, realm.types.symbols.iterator, {
     value: valuesFn,
     writable: true,
     enumerable: false,

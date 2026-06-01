@@ -25,6 +25,7 @@ export interface IntrinsicSymbols {
 
 export interface IntrinsicsRecord {
   AggregateError: StaticJsFunction;
+  ["AggregateError.prototype"]: StaticJsObject;
 
   Array: StaticJsFunction;
   ["Array.prototype"]: StaticJsObject;
@@ -210,6 +211,7 @@ export type NativeErrors = Pick<
 
 export type Prototypes = Pick<
   Intrinsics,
+  | "AggregateError.prototype"
   | "Array.prototype"
   | "ArrayIteratorPrototype"
   | "AsyncFromSyncIteratorPrototype"

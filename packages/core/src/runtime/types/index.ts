@@ -27,4 +27,4 @@ export * from "./StaticJsTypeCode.js";
 export * from "./StaticJsTypeFactory.js";
 export * from "./StaticJsUndefined.js";
 export * from "./StaticJsValue.js";
-export type { WellKnownErrorName } from "./WellKnownErrors.js";
+export type { WellKnownErrorName } from "./well-known-errors.js";

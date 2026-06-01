@@ -14,5 +14,6 @@ export default defineProject({
     isolate: false,
     testTimeout: ScriptTimeout,
     tags: test262Tags,
+    // execArgv: ["--cpu-prof"],
   },
 });

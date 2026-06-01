@@ -121,9 +121,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
     const exposedKeys = allKeys.filter((key) => this._isExposed(key));
 
-    return exposedKeys.map((k) =>
-      typeof k === "symbol" ? this.realm.types.toStaticJsValue(k) : String(k),
-    );
+    return exposedKeys.map((k) => (typeof k === "symbol" ? this.realm.types.symbol(k) : String(k)));
   }
 
   override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
@@ -193,9 +191,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     const { extensible, includeNonEnumerable, includeWellKnownSymbols } = this._policy.options;
     if (
       extensible === "transparent" &&
-      this._extends.has(
-        typeof key === "symbol" ? this.realm.types.toStaticJsValue(key) : String(key),
-      )
+      this._extends.has(typeof key === "symbol" ? this.realm.types.symbol(key) : String(key))
     ) {
       return true;
     }

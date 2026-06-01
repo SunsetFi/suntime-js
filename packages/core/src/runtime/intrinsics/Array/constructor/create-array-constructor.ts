@@ -22,7 +22,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   arrayCtorSymbolSpeciesDeclaration,
 ];
 
-export function* createArrayConstructor(realm: StaticJsRealm, arrayProto: StaticJsObject) {
+export function* createArrayConstructor(realm: StaticJsRealm, proto: StaticJsObject) {
   const ctor = new StaticJsNativeFunctionImpl(
     realm,
     "Array",
@@ -41,12 +41,12 @@ export function* createArrayConstructor(realm: StaticJsRealm, arrayProto: Static
   );
 
   yield* ctor.defineOwnPropertyEvaluator("prototype", {
-    value: arrayProto,
+    value: proto,
     writable: false,
     enumerable: false,
     configurable: false,
   });
-  yield* arrayProto.defineOwnPropertyEvaluator("constructor", {
+  yield* proto.defineOwnPropertyEvaluator("constructor", {
     value: ctor,
     writable: true,
     enumerable: false,

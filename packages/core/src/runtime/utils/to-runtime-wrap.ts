@@ -19,7 +19,7 @@ export function toRuntimeWrap(value: unknown, realm: StaticJsRealm): StaticJsVal
     case "string":
       return realm.types.string(value);
     case "symbol":
-      return realm.types.toStaticJsValue(value);
+      return realm.types.symbol(value);
   }
 
   if (isStaticJsObject(value)) {

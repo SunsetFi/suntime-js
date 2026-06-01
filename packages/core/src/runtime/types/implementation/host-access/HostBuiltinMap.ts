@@ -30,7 +30,7 @@ export function buildHostBuiltinMap(realm: StaticJsRealm): HostBuiltinMap {
   }
 
   // Constructors
-  // setEntry(AggregateError, "AggregateError");
+  setEntry(AggregateError, "AggregateError");
   setEntry(Array, "Array");
   setEntry(AsyncFunction, "AsyncFunction");
   setEntry(AsyncGeneratorFunction, "AsyncGeneratorFunction");
@@ -67,6 +67,7 @@ export function buildHostBuiltinMap(realm: StaticJsRealm): HostBuiltinMap {
 
   // Prototypes — error hierarchy
   setEntry(Error.prototype, "Error.prototype");
+  setEntry(AggregateError.prototype, "AggregateError.prototype");
   setEntry(EvalError.prototype, "EvalError.prototype");
   setEntry(RangeError.prototype, "RangeError.prototype");
   setEntry(ReferenceError.prototype, "ReferenceError.prototype");

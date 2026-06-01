@@ -2,6 +2,7 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsPlainObjectImpl } from "../types/implementation/objects/StaticJsPlainObjectImpl.js";
 
+import { populateAggregateErrorIntrinsics } from "./AggregateError/populate-aggregateerror-intrinsics.js";
 import { populateArrayIntrinsics } from "./Array/populate-array-intrinsics.js";
 import { populateArrayIteratorIntrinsics } from "./ArrayIterator/populate-array-iterator-intrinsics.js";
 import { populateAsyncFromSyncIteratorPrototypeIntrinsics } from "./AsyncFromSyncIteratorPrototype/populate-async-from-sync-iterator-prototype-intrinsics.js";
@@ -91,6 +92,7 @@ export function* populateIntrinsics(
 
   const errorProto = new StaticJsPlainObjectImpl(realm, objectProto);
   intrinsics["Error.prototype"] = errorProto;
+  intrinsics["AggregateError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
   intrinsics["EvalError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
   intrinsics["RangeError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
   intrinsics["ReferenceError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
@@ -143,6 +145,7 @@ export function* populateIntrinsics(
 
   yield* populateErrorIntrinsics(realm, intrinsics);
 
+  yield* populateAggregateErrorIntrinsics(realm, intrinsics);
   yield* populateNativeErrorIntrinsics(realm, intrinsics, "EvalError");
   yield* populateNativeErrorIntrinsics(realm, intrinsics, "RangeError");
   yield* populateNativeErrorIntrinsics(realm, intrinsics, "ReferenceError");

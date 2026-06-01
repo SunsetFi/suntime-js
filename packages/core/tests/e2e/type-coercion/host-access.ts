@@ -130,8 +130,6 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
 
     describe("error", () => {
       describe.each([
-        // FIXME: Not implemented
-        // { type: AggregateError, intrinsic: "AggregateError" },
         { type: Error, intrinsic: "Error" },
         { type: EvalError, intrinsic: "EvalError" },
         { type: RangeError, intrinsic: "RangeError" },
@@ -158,6 +156,29 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
           expect(wrapped.getPrototypeOfSync()).toBe(
             realm.intrinsics[intrinsic].getSync("prototype"),
           );
+          expect(wrapped.getSync("name").toNative()).toBe(intrinsic);
+          expect(wrapped.getSync("message").toNative()).toBe("bad");
+        });
+      });
+
+      describe("AggregateError", () => {
+        it("allows error proxies when omitted", () => {
+          const realm = new StaticJsRealm();
+          const host = new AggregateError([new Error("err")], "bad");
+          const wrapped = realm.types.toStaticJsValue(host, { stubWellKnownTypes: [] });
+          expectStaticJsObject(wrapped);
+          expect(wrapped.getPrototypeOfSync()).not.toBe(realm.intrinsics["AggregateError"]);
+        });
+        it("stubs errors when included", () => {
+          const realm = new StaticJsRealm();
+          const host = new AggregateError([new Error("err")], "bad");
+          const wrapped = realm.types.toStaticJsValue(host, { stubWellKnownTypes: ["error"] });
+          expectStaticJsObject(wrapped);
+          expect(wrapped.getPrototypeOfSync()).toBe(
+            realm.intrinsics["AggregateError"].getSync("prototype"),
+          );
+          expect(wrapped.getSync("name").toNative()).toBe("AggregateError");
+          expect(wrapped.getSync("message").toNative()).toBe("bad");
         });
       });
     });
@@ -544,8 +565,7 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
 
     describe.each([
       // Constructors
-      // TODO: AggregateError
-      // { source: AggregateError, intrinsic: "AggregateError" },
+      { source: AggregateError, intrinsic: "AggregateError" },
       { source: Array, intrinsic: "Array" },
       { source: Object.getPrototypeOf(asyncFn).constructor, intrinsic: "AsyncFunction" },
       {
@@ -573,6 +593,7 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
       { source: URIError, intrinsic: "URIError" },
 
       // Prototypes
+      { source: AggregateError.prototype, intrinsic: "AggregateError.prototype" },
       { source: Array.prototype, intrinsic: "Array.prototype" },
       {
         source: Object.getPrototypeOf([][Symbol.iterator]()),

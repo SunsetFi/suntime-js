@@ -16,7 +16,7 @@ import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
-import { WellKnownErrorName } from "./WellKnownErrors.js";
+import { WellKnownErrorName } from "./well-known-errors.js";
 
 export type StaticJsTypeCreationPrototype = StaticJsObject | StaticJsNull | null;
 
@@ -44,7 +44,7 @@ export interface StaticJsTypeFactory {
   number(value: number): StaticJsNumber;
   string(value: string): StaticJsString;
 
-  symbol(description?: string): StaticJsSymbol;
+  symbol(description?: string | symbol): StaticJsSymbol;
 
   object(
     properties?:

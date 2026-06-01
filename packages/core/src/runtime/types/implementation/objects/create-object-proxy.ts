@@ -1,7 +1,7 @@
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
-  propertyDescriptortoNative,
+  propertyDescriptorToNative,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
@@ -34,7 +34,7 @@ export function createStaticJsObjectProxy(
   const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
     let staticJsPropertyKey: StaticJsPropertyKey;
     if (typeof propertyName === "symbol") {
-      staticJsPropertyKey = obj.realm.types.toStaticJsValue(propertyName);
+      staticJsPropertyKey = obj.realm.types.symbol(propertyName);
     } else {
       staticJsPropertyKey = propertyName;
     }
@@ -54,7 +54,7 @@ export function createStaticJsObjectProxy(
       return existingDef;
     }
 
-    const jsDescriptor = propertyDescriptortoNative(descriptor, obj.realm);
+    const jsDescriptor = propertyDescriptorToNative(descriptor, obj.realm);
 
     Object.defineProperty(target, propertyName, jsDescriptor);
 
@@ -128,7 +128,7 @@ export function createStaticJsObjectProxy(
     defineProperty(_target, p, descriptor) {
       let staticJsPropertyKey: StaticJsPropertyKey;
       if (typeof p === "symbol") {
-        staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
+        staticJsPropertyKey = obj.realm.types.symbol(p);
       } else {
         staticJsPropertyKey = p;
       }
@@ -156,7 +156,7 @@ export function createStaticJsObjectProxy(
     deleteProperty(_target, p) {
       let staticJsPropertyKey: StaticJsPropertyKey;
       if (typeof p === "symbol") {
-        staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
+        staticJsPropertyKey = obj.realm.types.symbol(p);
       } else {
         staticJsPropertyKey = p;
       }
@@ -173,7 +173,7 @@ export function createStaticJsObjectProxy(
     set(_target, p, value) {
       let staticJsPropertyKey: StaticJsPropertyKey;
       if (typeof p === "symbol") {
-        staticJsPropertyKey = obj.realm.types.toStaticJsValue(p);
+        staticJsPropertyKey = obj.realm.types.symbol(p);
       } else {
         staticJsPropertyKey = p;
       }

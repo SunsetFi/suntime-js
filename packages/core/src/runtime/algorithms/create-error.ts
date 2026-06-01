@@ -3,7 +3,7 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
-import { WellKnownErrorName } from "../types/WellKnownErrors.js";
+import { WellKnownErrorName } from "../types/well-known-errors.js";
 
 export function* createError(
   type: WellKnownErrorName,

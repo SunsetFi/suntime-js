@@ -199,7 +199,7 @@ export function* propertyDescriptorToStaticJsObject(
   return realm.types.object(properties);
 }
 
-export function propertyDescriptortoNative(
+export function propertyDescriptorToNative(
   descriptor: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
 ): PropertyDescriptor {

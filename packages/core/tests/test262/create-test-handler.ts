@@ -8,6 +8,8 @@ import {
   StaticJsRuntimeError,
   StaticJsSyntaxError,
 } from "../../src/index.js";
+import { isStaticJsString } from "../../src/runtime/types/StaticJsString.js";
+import { StaticJsValue } from "../../src/runtime/types/StaticJsValue.js";
 import isDebuggerActive from "../env/is-debugger-active.js";
 
 import addTestHarness from "./add-test-harness.js";
@@ -160,26 +162,27 @@ async function bootstrapAsync(realm: StaticJsRealm): Promise<BootstrapCleanup> {
   // This may complete after the timeout, so squelch it.
   promise.catch(() => {});
 
-  function print(message: string) {
-    if (message.startsWith(asyncFailHeader)) {
-      const errorMessage = message.slice(asyncFailHeader.length);
-      reject(new Error(errorMessage));
-      return;
-    }
-
-    if (message.startsWith(asyncCompleteHeader)) {
-      resolve();
-      return;
-    }
-
-    console.log(message);
-  }
-
   await realm.global.defineOwnPropertyAsync("print", {
     writable: true,
     configurable: true,
     enumerable: false,
-    value: realm.types.toStaticJsValue(print),
+    value: realm.types.function("print", function* (arg: StaticJsValue) {
+      if (!isStaticJsString(arg)) {
+        throw realm.types.error("TypeError", "print function only accepts string messages");
+      }
+      const message = arg.value;
+
+      if (message.startsWith(asyncFailHeader)) {
+        const errorMessage = message.slice(asyncFailHeader.length);
+        reject(new Error(errorMessage));
+      } else if (message.startsWith(asyncCompleteHeader)) {
+        resolve();
+      } else {
+        console.log(message);
+      }
+
+      return realm.types.undefined;
+    }),
   });
 
   await addTestHarness(realm, "doneprintHandle.js");
