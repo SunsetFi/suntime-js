@@ -153,8 +153,14 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       if (wellKnown) {
         return wellKnown;
       }
+
+      const owner = getSymbolProxyOwner(description);
+      if (owner) {
+        return owner;
+      }
     }
 
+    // FIXME: We should cache the symbols ourselves, not rely on this and getSymbolProxyOwner to do it for us.
     return new StaticJsSymbolImpl(this._realm, description);
   }
 
