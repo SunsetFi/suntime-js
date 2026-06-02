@@ -57,8 +57,6 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
 
   const log = useObservation(runtime.log$) ?? [];
   const status = useObservation(runtime.status$) ?? "idle";
-  const pausedLocation = useObservation(runtime.pausedLocation$);
-  const pausedLine = pausedLocation?.line ?? null;
 
   useEffect(() => {
     return () => {
@@ -93,7 +91,9 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
 
   const viewRef = useRef<EditorView | null>(null);
 
-  const highlightConfig = useHighlightLine(viewRef, pausedLine);
+  const pausedLocation = useObservation(runtime.pausedLocation$);
+  const pausedLine = pausedLocation?.line ?? null;
+  const pausedLineConfig = useHighlightLine(viewRef, pausedLine);
 
   const breakpoints = useObservation(runtime.breakpoints$) ?? [];
   const breakpointConfig = useBreakpoints(viewRef, {
@@ -139,7 +139,7 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
             value={code}
             onChange={setCode}
             extensions={extensions}
-            compartments={[highlightConfig, breakpointConfig]}
+            compartments={[pausedLineConfig, breakpointConfig]}
           />
           <button
             className={styles.resetButton}
