@@ -77,18 +77,21 @@ const defaultOptions = {
   }),
 };
 
+const SourceName = "live-code.js";
+
 export class CodeRuntime {
   private _disposed = false;
   private _status$ = new BehaviorSubject<CodeRuntimeStatus>("idle");
   private _log$ = new BehaviorSubject<CodeRuntimeLog[]>([]);
 
   private _debugSession: StaticJsDebugSession | null = null;
-
+  private _breakpoints$ = new BehaviorSubject<number[]>([]);
   private _pauseLocation$ = new BehaviorSubject<Readonly<CodeRuntimeSourceLocation> | null>(null);
 
   private _subTasks: StaticJsTaskIterator[] = [];
 
   private _options: Required<CodeRuntimeOptions>;
+
   constructor(options: CodeRuntimeOptions = {}) {
     this._options = { ...defaultOptions, ...options };
   }
@@ -103,6 +106,10 @@ export class CodeRuntime {
 
   get pausedLocation$() {
     return this._pauseLocation$;
+  }
+
+  get breakpoints$() {
+    return this._breakpoints$;
   }
 
   dispose() {
@@ -126,11 +133,16 @@ export class CodeRuntime {
     const debugSession = (this._debugSession = dbg.createSession({
       launch: {
         sourceKind,
-        sourceName: "live-code",
+        sourceName: SourceName,
         sourceText: code,
         stopOnEntry,
       },
     }));
+
+    const breakpoints = this._breakpoints$.getValue();
+    if (breakpoints.length > 0) {
+      breakpoints.forEach((line) => debugSession.addBreakpoint({ line, sourceName: SourceName }));
+    }
 
     this._debugSession.onDidTerminate((event) => {
       if (debugSession !== this._debugSession) return;
@@ -169,6 +181,42 @@ export class CodeRuntime {
     });
 
     debugSession.start();
+  }
+
+  addBreakpoint(line: number) {
+    const breakpoints = this._breakpoints$.getValue();
+    if (breakpoints.includes(line)) {
+      return;
+    }
+
+    this._verifyNotDisposed();
+    this._debugSession?.addBreakpoint({ line, sourceName: SourceName });
+    this._breakpoints$.next([...this._breakpoints$.getValue(), line]);
+  }
+
+  removeBreakpoint(line: number) {
+    this._verifyNotDisposed();
+
+    const breakpoints = this._breakpoints$.getValue();
+    const idx = breakpoints.findIndex((bp) => bp === line);
+    if (idx === -1) {
+      return;
+    }
+
+    this._breakpoints$.next([...breakpoints.slice(0, idx), ...breakpoints.slice(idx + 1)]);
+
+    const breakpoint = this._debugSession?.breakpoints.find(
+      (bp) => bp.line === line && bp.sourceName === SourceName,
+    );
+    if (breakpoint) {
+      this._debugSession?.removeBreakpoint(breakpoint.id);
+    }
+  }
+
+  clearBreakpoints() {
+    this._verifyNotDisposed();
+    this._debugSession?.clearBreakpoints();
+    this._breakpoints$.next([]);
   }
 
   pause() {

@@ -14,7 +14,9 @@ import { EditorView, keymap, lineNumbers } from "@codemirror/view";
 import { CodeRuntime, CodeRuntimeSpawnOptions } from "@site/src/code-runtime/CodeRuntime";
 import { createStaticJsRealmApi } from "@site/src/code-runtime/staticjs-api";
 import { CodeMirrorEditor } from "@site/src/components/CodeMirrorEditor";
+import { useBreakpoints } from "@site/src/components/CodeMirrorEditor/useBreakpoints";
 import { useDocusaurusTheme } from "@site/src/components/CodeMirrorEditor/useDocusaurusTheme";
+import { useHighlightLine } from "@site/src/components/CodeMirrorEditor/useHighlightLine";
 import useObservation from "@site/src/hooks/use-observation";
 import { StaticJsModuleResolution } from "@suntime-js/core";
 import React, { useMemo, useRef, useState, useEffect, type ReactNode } from "react";
@@ -89,6 +91,21 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
     [theme],
   );
 
+  const viewRef = useRef<EditorView | null>(null);
+
+  const highlightConfig = useHighlightLine(viewRef, pausedLine);
+
+  const breakpoints = useObservation(runtime.breakpoints$) ?? [];
+  const breakpointConfig = useBreakpoints(viewRef, {
+    onBreakpointAdded(line) {
+      runtime.addBreakpoint(line);
+    },
+    onBreakpointRemoved(line) {
+      runtime.removeBreakpoint(line);
+    },
+    breakpoints,
+  });
+
   function handleRun() {
     runtime.run({ sourceKind: exposeStaticJs ? "module" : "script", code });
   }
@@ -118,10 +135,11 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
       <div className={styles.panes}>
         <div className={styles.codePanel}>
           <CodeMirrorEditor
+            ref={viewRef}
             value={code}
             onChange={setCode}
             extensions={extensions}
-            highlightLine={pausedLine}
+            compartments={[highlightConfig, breakpointConfig]}
           />
           <button
             className={styles.resetButton}

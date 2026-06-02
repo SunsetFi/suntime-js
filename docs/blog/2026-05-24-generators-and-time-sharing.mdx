@@ -297,6 +297,8 @@ function* addEvaluator(leftNode, rightNode) {
 }
 ```
 
+## Invoking
+
 So let's take stock of what we have here. We have an `evaluateAstNode` function that will essentially 'ask permission' to continue every time it tries to evaluate. Any call stack built on these generators inherits that pausability, so long as two rules hold:
 
 - Each function in the stack is a generator.

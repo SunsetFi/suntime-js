@@ -164,10 +164,10 @@ export function createStaticJsRealmApi(
   const access: HostAccessOptions = {
     includeWellKnownSymbols: true,
     includeNonEnumerable: true,
-    walkPrototype: true,
     useSandboxThis: true,
     writable: "transparent",
     extensible: "transparent",
+    prototypePolicy: "inherit",
     childPolicy: "inherit",
   };
   return {

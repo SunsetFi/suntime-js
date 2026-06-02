@@ -5,12 +5,15 @@
 - [ ] Realm hostAccessDefaults should be able to be a function called with the object to test.
 - [ ] Look really closely at realm's global object initializer and stub policy.
 - [ ] Tests for host wrapped function thrown value wrap policies.
-- [+] Try to launder all external object values through wrapChild, including functions
 - [-] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
   - [ ] Update documentation
+- [ ] Thread policy into propertyDescriptorToNative and other create-object-proxy toStaticJsNative calls from .toNative of object.
+- [ ] Eliminate toStaticJsValue from realm.types.proxy handlers.
 
 ## Immediate
 
+- [ ] Move proxy symbol owner of StaticJsSymbol to StaticJsTypeFactory
+  - [ ] Symbols that are in .for() can't be in a WeakMap, and can be referenced in the future anyway, so store them in symbolRegistry
 - [ ] Figure out why oxclint is complaining about clearly reachable code being unreachable.
       Doesn't do it for commits, only for manual lint run.
 - [ ] introspect / spy function for objects - Analyze properties without invoking sandbox code.
@@ -24,11 +27,6 @@
 - [-] InitialName for functions.
   - [+] Expose it in the stack as a non-invoking getter.
     Exposed under frame.function.initialName
-
-## Less imediate
-
-- [-] Wire up OrdinaryCreateFromConstructor to the intrinsic type constructors.
-- [-] checkEarlyErrors could be improved to be more performant by precomputing strict and similar.
 
 ### Performance lookthrough
 
@@ -86,13 +84,6 @@
   - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
 - [-] toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
   - Test against engine-native iterators
-- [ ] Only call runTask once per evaluate call, and transparently use the same task iterator for all microtasks.
-  - Do we even want this?
-  - It makes task timekeepers easier to reason about, and lets one timekeeper be reused if we can make this assumption
-  - Currently cannot reuse them due to this.
-  - Now that we expose macrotask/microtask, we can actually reset the timer on a new macrotask.
-- Get api-extractor working. The only holdup right now is the combine and re-export of the interface and factory function of StaticJsRealm
-  - Combine these into one file to make this work?
 - Object.defineProperties/y used to give more helpful errors for if object was not extensible or cannot redefine property.
   They got removed for "spec compliance". Put them back!
 

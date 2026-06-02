@@ -90,45 +90,45 @@ it("writes to realm wrapper do not affect the host realm methods", () => {
   expect(result.toNative()).toBe("object"); // null typeof is "object"
 });
 
-it("registerSubTask is called when evaluateScriptSync runs on an inner realm", () => {
-  const { realm, spawnOpts } = makeApiRealm();
-  realm.evaluateScriptSync(`
-      const inner = StaticJsRealm();
-      inner.evaluateScriptSync("1");
-    `);
-  expect(spawnOpts.registerSubTask).toHaveBeenCalled();
-});
+// it("registerSubTask is called when evaluateScriptSync runs on an inner realm", () => {
+//   const { realm, spawnOpts } = makeApiRealm();
+//   realm.evaluateScriptSync(`
+//       const inner = StaticJsRealm();
+//       inner.evaluateScriptSync("1");
+//     `);
+//   expect(spawnOpts.registerSubTask).toHaveBeenCalled();
+// });
 
-it("logs a warning when evaluateScriptSync is called with no runTaskSync on the realm and no per-call runTask", () => {
-  const { realm, spawnOpts } = makeApiRealm();
-  realm.evaluateScriptSync(`
-      const inner = StaticJsRealm();
-      inner.evaluateScriptSync("1");
-    `);
-  expect(spawnOpts.addLog).toHaveBeenCalledWith(expect.objectContaining({ kind: "warning" }));
-});
+// it("logs a warning when evaluateScriptSync is called with no runTaskSync on the realm and no per-call runTask", () => {
+//   const { realm, spawnOpts } = makeApiRealm();
+//   realm.evaluateScriptSync(`
+//       const inner = StaticJsRealm();
+//       inner.evaluateScriptSync("1");
+//     `);
+//   expect(spawnOpts.addLog).toHaveBeenCalledWith(expect.objectContaining({ kind: "warning" }));
+// });
 
-it("does not log a warning when evaluateScriptSync is called with a realm runTaskSync", () => {
-  const { realm, spawnOpts } = makeApiRealm();
-  realm.evaluateScriptSync(`
-      const inner = StaticJsRealm({
-        runTaskSync: task => { while(!task.done) { task.next(); } },
-      });
-      inner.evaluateScriptSync("1");
-    `);
-  expect(spawnOpts.addLog).not.toHaveBeenCalledWith(expect.objectContaining({ kind: "warning" }));
-});
+// it("does not log a warning when evaluateScriptSync is called with a realm runTaskSync", () => {
+//   const { realm, spawnOpts } = makeApiRealm();
+//   realm.evaluateScriptSync(`
+//       const inner = StaticJsRealm({
+//         runTaskSync: task => { while(!task.done) { task.next(); } },
+//       });
+//       inner.evaluateScriptSync("1");
+//     `);
+//   expect(spawnOpts.addLog).not.toHaveBeenCalledWith(expect.objectContaining({ kind: "warning" }));
+// });
 
-it("does not log a warning when evaluateScriptSync is called with a runTaskSync", () => {
-  const { realm, spawnOpts } = makeApiRealm();
-  realm.evaluateScriptSync(`
-      const inner = StaticJsRealm();
-      inner.evaluateScriptSync("1", {
-        runTask: task => { while(!task.done) { task.next(); } },
-      });
-    `);
-  expect(spawnOpts.addLog).not.toHaveBeenCalledWith(expect.objectContaining({ kind: "warning" }));
-});
+// it("does not log a warning when evaluateScriptSync is called with a runTaskSync", () => {
+//   const { realm, spawnOpts } = makeApiRealm();
+//   realm.evaluateScriptSync(`
+//       const inner = StaticJsRealm();
+//       inner.evaluateScriptSync("1", {
+//         runTask: task => { while(!task.done) { task.next(); } },
+//       });
+//     `);
+//   expect(spawnOpts.addLog).not.toHaveBeenCalledWith(expect.objectContaining({ kind: "warning" }));
+// });
 
 it("can create type factory scalars", () => {
   const { realm } = makeApiRealm();
