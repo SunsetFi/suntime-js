@@ -9,9 +9,22 @@ const SuntimeCodeBlock = lazy(() => import("./SuntimeCodeBlock"));
 
 type Props = WrapperProps<typeof CodeBlockType>;
 
+/**
+ * MDX passes the fenced-code language as a `language-<lang>` className rather
+ * than the `language` prop, so fall back to parsing the className.
+ */
+function getLanguage(props: Props): string | undefined {
+  if (props.language) return props.language;
+  return props.className
+    ?.split(/\s+/)
+    .map((cls) => /^language-(.+)$/.exec(cls)?.[1])
+    .find(Boolean);
+}
+
 export default function CodeBlockWrapper(props: Props): ReactNode {
   const tags = props.metastring?.split(" ") ?? [];
   if (tags.includes("live-staticjs")) {
+    const language = getLanguage(props);
     return (
       <BrowserOnly fallback={<CodeBlock {...props} />}>
         {() => (
@@ -19,7 +32,7 @@ export default function CodeBlockWrapper(props: Props): ReactNode {
             <SuntimeCodeBlock
               {...props}
               exposeStaticJs={tags.includes("include-runtime")}
-              typescript={tags.includes("typescript")}
+              typescript={language === "tsx" || language === "ts"}
             />
           </Suspense>
         )}

@@ -54,7 +54,7 @@ function HomepageCodeSnippet() {
           Or try it in the <Link href="/playground">interactive playground</Link> complete with
           breakpoints!
         </p>
-        <CodeBlock language="ts" metastring="live-staticjs typescript">
+        <CodeBlock language="ts" metastring="live-staticjs">
           {quickStartCode}
         </CodeBlock>
       </div>

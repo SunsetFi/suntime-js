@@ -100,6 +100,10 @@ export class CodeRuntime {
     return this._status$;
   }
 
+  get status() {
+    return this._status$.getValue();
+  }
+
   get log$() {
     return this._log$;
   }

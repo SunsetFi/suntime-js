@@ -63,9 +63,14 @@ export default function OutputPanel({
           </>
         )}
         {(status === "idle" || status === "completed" || status === "errored") && (
-          <button className={styles.runButton} onClick={onRun}>
-            Run
-          </button>
+          <>
+            <button className={styles.runButton} onClick={onRun}>
+              Run
+            </button>
+            <button className={styles.stepButton} onClick={onStep}>
+              Step
+            </button>
+          </>
         )}
       </div>
       <div className={styles.output} ref={outputRef}>

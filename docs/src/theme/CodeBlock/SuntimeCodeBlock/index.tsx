@@ -21,6 +21,7 @@ import { usePortals } from "@site/src/components/portals";
 import useObservation from "@site/src/hooks/use-observation";
 import { StaticJsModuleResolution } from "@suntime-js/core";
 import React, { useCallback, useMemo, useRef, useState, useEffect, type ReactNode } from "react";
+import ts from "typescript";
 
 import OutputPanel from "./OutputPanel";
 import styles from "./styles.module.css";
@@ -123,6 +124,9 @@ export default function SuntimeCodeBlock({
 
   const typescriptConfig = useTypeScriptLanguageService(viewRef, {
     syntax: typescript ? "ts" : "js",
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext,
+    },
     typingsLoader: exposeStaticJs ? typingsLoader : undefined,
     mountTooltip,
   });
@@ -151,7 +155,15 @@ export default function SuntimeCodeBlock({
   }
 
   function handleStep() {
-    runtime.step();
+    if (runtime.status === "idle") {
+      runtime.run({
+        sourceKind: exposeStaticJs ? "module" : "script",
+        code: typescript ? stripTypes(code) : code,
+        stopOnEntry: true,
+      });
+    } else {
+      runtime.step();
+    }
   }
 
   return (

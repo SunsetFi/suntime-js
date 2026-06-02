@@ -129,6 +129,9 @@ importers:
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
+      ts-blank-space:
+        specifier: ^0.9.0
+        version: 0.9.0
     devDependencies:
       '@docusaurus/module-type-aliases':
         specifier: 3.10.1
@@ -7001,6 +7004,10 @@ packages:
 
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
+
+  ts-blank-space@0.9.0:
+    resolution: {integrity: sha512-TU6coIZm6RxGgAjroRKmi6aCQ7Pq7cT+1I+bTKBepD6joOuWqUCOptVlz+eurqTnatnQOimlR8XB5sQZ6ULwbw==}
+    engines: {node: '>=18.0.0'}
 
   ts-dedent@2.2.0:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
@@ -15812,6 +15819,10 @@ snapshots:
   trim-lines@3.0.1: {}
 
   trough@2.2.0: {}
+
+  ts-blank-space@0.9.0:
+    dependencies:
+      typescript: 6.0.3
 
   ts-dedent@2.2.0: {}
 

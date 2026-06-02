@@ -106,14 +106,6 @@ export declare class StaticJsTaskError extends Error {
 export declare class StaticJsUnhandledRejectionError extends StaticJsRuntimeError {
 	constructor(thrown: StaticJsValue);
 }
-export declare class StubEvaluationGenerator<T> extends Iterator<EvaluatorCommandBase, T, CompletionValue> implements EvaluationGenerator<T> {
-	private _returnValue;
-	[Symbol.iterator](): this;
-	constructor(_returnValue: T);
-	next(): IteratorResult<EvaluatorCommandBase, T>;
-	return(): IteratorResult<EvaluatorCommandBase, T>;
-	throw(): IteratorResult<EvaluatorCommandBase, T>;
-}
 export declare const AllHostAccessStubTypes: readonly [
 	"array",
 	"error"
@@ -186,7 +178,6 @@ export declare function evaluateModule(code: string, opts?: EvaluationOptions): 
  */
 export declare function evaluateScript(script: string, opts?: EvaluateScriptOptions, callback?: (value: unknown, error?: unknown) => Promise<unknown> | void): Promise<unknown>;
 export declare function evaluateScriptSync(script: string, opts?: EvaluationOptions): unknown;
-export declare function isEvaluationGenerator(value: unknown): value is EvaluationGenerator<unknown>;
 export declare function isStaticJsAccessorPropertyDescriptor(value: StaticJsPropertyDescriptor): value is StaticJsAccessorPropertyDescriptor;
 export declare function isStaticJsAccessorPropertyDescriptor(value: unknown): value is StaticJsPropertyDescriptorRecord & (Required<Pick<StaticJsPropertyDescriptorRecord, "get">> | Required<Pick<StaticJsPropertyDescriptorRecord, "set">>);
 export declare function isStaticJsArray(value: unknown): value is StaticJsArray;
@@ -218,11 +209,21 @@ export declare function isStaticJsPromise(value: unknown): value is StaticJsProm
 export declare function isStaticJsPropertyKey(value: unknown): value is StaticJsPropertyKey;
 export declare function isStaticJsProxy(value: unknown): value is StaticJsProxy;
 export declare function isStaticJsRealm(value: unknown): value is StaticJsRealm;
+/**
+ * Type guard to check if a value is a StaticJsScalar.
+ * @param value The value to check.
+ * @returns True if the value is a StaticJsScalar, false otherwise.
+ */
 export declare function isStaticJsScalar(value: unknown): value is StaticJsScalar;
 export declare function isStaticJsSet(value: unknown): value is StaticJsSet;
 export declare function isStaticJsString(value: unknown): value is StaticJsString;
 export declare function isStaticJsSymbol(value: unknown): value is StaticJsSymbol;
 export declare function isStaticJsUndefined(value: unknown): value is StaticJsUndefined;
+/**
+ * Type guard to check if a value is a StaticJsValue.
+ * @param value The value to check.
+ * @returns True if the value is a StaticJsValue, false otherwise.
+ */
 export declare function isStaticJsValue(value: unknown): value is StaticJsValue;
 export declare function propertyDescriptorToNative(descriptor: StaticJsPropertyDescriptor, realm: StaticJsRealm): PropertyDescriptor;
 export declare function propertyDescriptorToStaticJsObject(descriptor: StaticJsPropertyDescriptorRecord | undefined, realm: StaticJsRealm): EvaluationGenerator<StaticJsPlainObject | StaticJsUndefined>;
@@ -1071,35 +1072,220 @@ export interface StaticJsTaskSourceLocation {
 	character: number;
 }
 export interface StaticJsTypeFactory {
+	/**
+	 * Well-defined symbols.
+	 */
 	readonly symbols: IntrinsicSymbols;
+	/**
+	 * The symbol registry for `Symbol.for` and `Symbol.keyFor`.
+	 */
 	readonly symbolRegistry: Map<string, StaticJsSymbol>;
+	/**
+	 * JavaScript primitive `undefined`.
+	 */
 	readonly undefined: StaticJsUndefined;
+	/**
+	 * JavaScript primitive `null`.
+	 */
 	readonly null: StaticJsNull;
+	/**
+	 * JavaScript boolean `true`.
+	 */
 	readonly true: StaticJsBoolean;
+	/**
+	 * JavaScript boolean `false`.
+	 */
 	readonly false: StaticJsBoolean;
+	/**
+	 * JavaScript number `0`.
+	 */
 	readonly zero: StaticJsNumber;
+	/**
+	 * JavaScript number `NaN`.
+	 */
 	readonly NaN: StaticJsNumber;
+	/**
+	 * JavaScript number `Infinity`.
+	 */
 	readonly Infinity: StaticJsNumber;
+	/**
+	 * Gets the sandboxed JavaScript value for the given boolean.
+	 *
+	 * The returned instances will be consistent for both true and false, and
+	 * will be the same as the {@link StaticJsTypeFactory.true} and {@link StaticJsTypeFactory.false} properties.
+	 * @returns Either {@link StaticJsTypeFactory.true} or {@link StaticJsTypeFactory.false} depending on the input value.
+	 * @param value The boolean value to convert.
+	 */
 	boolean(value: boolean): StaticJsBoolean;
+	/**
+	 * Gets the sandboxed JavaScript value for the given number.
+	 *
+	 * Note that the returned references are not consistent for the same numbers.
+	 * To compare two StaticJsNumber values, use their {@link StaticJsNumber["value"]} property.
+	 * @returns The StaticJsNumber representing the given number.
+	 * @param value The number value to convert.
+	 */
 	number(value: number): StaticJsNumber;
+	/**
+	 * Gets the sandboxed JavaScript value for the given string.
+	 *
+	 * Note that the returned references are not consistent for the same strings.
+	 * To compare two StaticJsString values, use their {@link StaticJsString["value"]} property.
+	 * @returns The StaticJsString representing the given string.
+	 * @param value The string value to convert.
+	 */
 	string(value: string): StaticJsString;
+	/**
+	 * Gets the sandboxed JavaScript symbol for the given description.
+	 *
+	 * This will return consistent references for the same symbol input, but will
+	 * create new symbols for string descriptions.
+	 *
+	 * For well-known symbols, this will return the same references as the {@link StaticJsTypeFactory.symbols} property.
+	 * @param description The symbol or string description to convert.
+	 * @returns The corresponding StaticJsSymbol.
+	 * @see StaticJsTypeFactory.symbols
+	 */
 	symbol(description?: string | symbol): StaticJsSymbol;
+	/**
+	 * Create a plain sandboxed object.
+	 * @param properties The property descriptors to define on the object.
+	 * @param prototype The prototype to set for the object.
+	 */
 	object(properties?: Record<string, StaticJsPropertyDescriptorRecord> | Map<StaticJsPropertyKey, StaticJsPropertyDescriptorRecord>, prototype?: StaticJsTypeCreationPrototype): StaticJsPlainObject;
+	/**
+	 * Create a plain sandbox array with the given items or length.
+	 * @param itemsOrLength The items to include in the array, or the length of the array to create.
+	 */
 	array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray;
+	/**
+	 * Create a sandboxed function with the given name, implementation, and options.
+	 *
+	 * Important: If you are going to call into other StaticJs methods from your function,
+	 * you SHOULD use a generator function implementation and yield *Evaluator calls.
+	 * Doing so will allow your function to properly participate in the task system, and avoid potential issues with long-running or unbounded computations.
+	 * @param name The name of the function.
+	 * @param func The implementation of the function, which will be called with the sandboxed `this` value and arguments, and can return either a StaticJsValue directly, or an EvaluationGenerator for functions that participate in tasks.
+	 * @param opts The options for creating the function.
+	 * @see EvaluationGenerator
+	 */
 	function(name: string, func: (this: StaticJsValue, ...args: StaticJsValue[]) => MaybeEvaluationGenerator<StaticJsValue>, opts?: StaticJsFunctionTypeCreationOptions): StaticJsFunction;
+	/**
+	 * Create a well-known error object with the given message.
+	 * @param errorType The type of the well-known error.
+	 * @param message The error message.
+	 * @returns A StaticJsObject representing the error, with the appropriate prototype and properties for the given error type.
+	 */
 	error(errorType: WellKnownErrorName, message: string): StaticJsObject;
+	/**
+	 * Create a generic error object with the given message.
+	 * @param message The error message.
+	 * @returns A StaticJsObject representing the error, with the appropriate prototype and properties for a generic Error.
+	 */
 	error(message: string): StaticJsObject;
+	/**
+	 * Create a sandbox Proxy object.
+	 * @param target The proxy target, which can be a StaticJsObject, a StaticJsFunction, or "object" or "function" to target a basic object or no-op function.
+	 * @param handlers The proxy handlers, which define the behavior of the proxy.
+	 * @returns A StaticJsProxy object that behaves according to the given target and handlers.
+	 */
 	proxy(target: StaticJsProxyTarget, handlers: StaticJsProxyHandlers): StaticJsProxy;
+	/**
+	 * Convert a host-native function to a StaticJsFunction, with the given options.
+	 *
+	 * Warning: Host coercion is considered unsafe, and can lead to unexpectedly leaking host concerns if not careful.
+	 * @param value The function to convert.
+	 * @param opts Options for host access.  If unset, the default host access of the {@link StaticJsRealm} is used.
+	 * @returns A StaticJsFunction that wraps the given host function according to the provided options.
+	 * @see StaticJsRealmOptions.hostAccessDefaults
+	 */
 	toStaticJsValue(value: (...args: unknown[]) => unknown, opts?: HostAccessArg): StaticJsFunction;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 * The returned value is stable, and will be either {@link StaticJsTypeFactory.true} or {@link StaticJsTypeFactory.false}.
+	 * Generally, {@link StaticJsTypeFactory.boolean} should be used for boolean conversions instead of this method.
+	 * @param value The value to convert.
+	 * @returns A StaticJsBoolean representing the given boolean value.
+	 * @see StaticJsTypeFactory.true
+	 * @see StaticJsTypeFactory.true
+	 * @see StaticJsTypeFactory.boolean
+	 */
 	toStaticJsValue(value: boolean): StaticJsBoolean;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 * Generally, {@link StaticJsTypeFactory.number} should be used for number conversions instead of this method.
+	 * @param value The value to convert.
+	 * @returns A StaticJsNumber representing the given number value.
+	 * @see StaticJsTypeFactory.number
+	 */
 	toStaticJsValue(value: number): StaticJsNumber;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 * Generally, {@link StaticJsTypeFactory.string} should be used for string conversions instead of this method.
+	 * @param value The value to convert.
+	 * @returns A StaticJsString representing the given string value.
+	 * @see StaticJsTypeFactory.string
+	 */
 	toStaticJsValue(value: string): StaticJsString;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 *
+	 * Warning: Host coercion is considered unsafe, and can lead to unexpectedly leaking host concerns if not careful.
+	 * @param value The value to convert.
+	 * @param opts Options for host access.  If unset, the default host access of the {@link StaticJsRealm} is used.
+	 */
 	toStaticJsValue(value: unknown[], opts?: HostAccessArg): StaticJsArray;
-	toStaticJsValue(value: object, opts?: HostAccessArg): StaticJsPlainObject;
+	/**
+	 * Convert a host-native object to a StaticJsObject, with the given options.
+	 *
+	 * Warning: Host coercion is considered unsafe, and can lead to unexpectedly leaking host concerns if not careful.
+	 * @param value The object to convert.
+	 * @param opts Options for host access.  If unset, the default host access of the {@link StaticJsRealm} is used.
+	 */
+	toStaticJsValue(value: object, opts?: HostAccessArg): StaticJsObject;
+	/**
+	 * Convert a host-native function to a StaticJsFunction, with the given options.
+	 *
+	 * Warning: Host coercion is considered unsafe, and can lead to unexpectedly leaking host concerns if not careful.
+	 * @param value The function to convert.
+	 * @param opts Options for host access.  If unset, the default host access of the {@link StaticJsRealm} is used.
+	 * @returns A StaticJsFunction that wraps the given host function according to the provided options.
+	 * @see StaticJsRealmOptions.hostAccessDefaults
+	 */
 	toStaticJsValue(value: Function, opts?: HostAccessArg): StaticJsFunction;
+	/**
+	 * Convert a host-native symbol to a StaticJsSymbol, with the given options.
+	 * Generally, {@link StaticJsTypeFactory.symbol} should be used for symbol conversions instead of this method.
+	 * @param value The symbol to convert.
+	 * @returns A StaticJsSymbol representing the given symbol value.
+	 * @see StaticJsTypeFactory.symbol
+	 */
 	toStaticJsValue(value: symbol): StaticJsSymbol;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 * Generally, {@link StaticJsTypeFactory.null} should be used over this method.
+	 * @param value The value to convert.
+	 * @return A StaticJsNull representing the given null value.
+	 * @see StaticJsTypeFactory.null
+	 */
 	toStaticJsValue(value: null): StaticJsNull;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 * Generally, {@link StaticJsTypeFactory.undefined} should be used over this method.
+	 * @param value The value to convert.
+	 * @return A StaticJsUndefined representing the given undefined value.
+	 * @see StaticJsTypeFactory.undefined
+	 */
 	toStaticJsValue(value: undefined): StaticJsUndefined;
+	/**
+	 * Convert a host-native value to a StaticJsValue, with the given options.
+	 *
+	 * Warning: Host coercion is considered unsafe, and can lead to unexpectedly leaking host concerns if not careful.
+	 * @param value The value to convert.
+	 * @param opts Options for host access.  If unset, the default host access of the {@link StaticJsRealm} is used.
+	 * @returns A StaticJsValue representing the given value, converted according to the provided options.
+	 * @see StaticJsRealmOptions.hostAccessDefaults
+	 */
 	toStaticJsValue(value: unknown, opts?: HostAccessArg): StaticJsValue;
 }
 export interface StaticJsUndefined extends StaticJsPrimitive {
@@ -1180,7 +1366,6 @@ export type HostAccessQueryResult = "inherit" | "default" | boolean | HostAccess
 export type HostAccessRootQueryFunction = (childHostObj: object) => "default" | HostAccessOptions | StaticJsValue;
 export type HostAccessStubType = "array" | "error";
 export type Intrinsics = Readonly<IntrinsicsRecord>;
-export type MaybeEvaluationGenerator<T> = T | EvaluationGenerator<T>;
 export type NativeErrors = Pick<Intrinsics, "EvalError" | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError" | "URIError">;
 export type Prototypes = Pick<Intrinsics, "AggregateError.prototype" | "Array.prototype" | "ArrayIteratorPrototype" | "AsyncFromSyncIteratorPrototype" | "AsyncFunction.prototype" | "AsyncGeneratorFunction.prototype" | "AsyncGeneratorPrototype" | "AsyncIteratorPrototype" | "Boolean.prototype" | "Error.prototype" | "EvalError.prototype" | "ForInIteratorPrototype" | "Function.prototype" | "GeneratorFunction.prototype" | "GeneratorPrototype" | "Iterator.prototype" | "IteratorHelperPrototype" | "Map.prototype" | "Number.prototype" | "Object.prototype" | "Promise.prototype" | "RangeError.prototype" | "ReferenceError.prototype" | "Set.prototype" | "SetIteratorPrototype" | "String.prototype" | "StringIteratorPrototype" | "Symbol.prototype" | "SyntaxError.prototype" | "TypeError.prototype" | "URIError.prototype">;
 export type StaticJsEvaluator<T = unknown> = EvaluationGenerator<T> | (() => EvaluationGenerator<T>);
@@ -1200,6 +1385,11 @@ export type StaticJsProxyTarget = StaticJsObject | StaticJsCallable | "object" |
 export type StaticJsRealmGlobalDeclProperty = StaticJsRealmGlobalDataPropertyDecl | StaticJsRealmGlobalAccessorPropertyDecl;
 export type StaticJsRealmGlobalOption = StaticJsRealmGlobalDecl | StaticJsRealmGlobalValue | StaticJsRealmGlobalFactory;
 export type StaticJsRealmHookOptions = PartialDeep<RealmHooks>;
+/**
+ * A non-object value in the StaticJs runtime, which can be null, string, number, boolean, symbol, or undefined.
+ *
+ * All scalars have a `value` property that holds the actual JavaScript value which can be accessed directly.
+ */
 export type StaticJsScalar = StaticJsNull | StaticJsString | StaticJsNumber | StaticJsBoolean | StaticJsSymbol | StaticJsUndefined;
 /**
  * A function to run a task in the realm.
@@ -1220,6 +1410,11 @@ export type StaticJsTaskScopeFrameType = "block" | "function" | "module" | "glob
  */
 export type StaticJsTaskType = "macrotask" | "microtask";
 export type StaticJsTypeCreationPrototype = StaticJsObject | StaticJsNull | null;
+/**
+ * A value in the StaticJs runtime, which can be a scalar, plain object, object, array, or function.
+ *
+ * Each value is unique to the realm that created it, and cannot be crossed to other realms.
+ */
 export type StaticJsValue = StaticJsScalar | StaticJsPlainObject | StaticJsObject | StaticJsArray | StaticJsFunction;
 export type WellKnownErrorName = (typeof WellKnownErrorNames)[number];
 interface BreakCompletion {
@@ -1492,6 +1687,7 @@ type MathSinhHook = (this: undefined, realm: StaticJsRealm, value: number) => nu
 type MathSqrtHook = (this: undefined, realm: StaticJsRealm, value: number) => number;
 type MathTanHook = (this: undefined, realm: StaticJsRealm, value: number) => number;
 type MathTanhHook = (this: undefined, realm: StaticJsRealm, value: number) => number;
+type MaybeEvaluationGenerator<T> = T | EvaluationGenerator<T>;
 type NormalCompletion = CompletionValue;
 type PartialDeep<T> = T extends Function ? T : T extends object ? {
 	[K in keyof T]?: PartialDeep<T[K]>;
