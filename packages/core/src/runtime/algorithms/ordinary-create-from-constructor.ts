@@ -1,7 +1,6 @@
-import { Constructor } from "type-fest";
-
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { Constructor } from "../../ts-types/Constructor.js";
 import { Prototypes } from "../intrinsics/intrinsics.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../types/StaticJsCallable.js";

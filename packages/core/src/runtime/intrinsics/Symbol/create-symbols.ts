@@ -34,7 +34,7 @@ const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol | undefined> = {
 
   // TODO: Implement in engine.
   // Note: native symbol may not exist in older engines.
-  observable: Symbol.observable,
+  // observable: Symbol.observable,
 
   // TODO: Implement in engine.
   replace: Symbol.replace,

@@ -1,9 +1,14 @@
-import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
+import type EvaluatorCommandBase from "./commands/EvaluatorCommandBase.js";
 import type { Completion } from "./completions/Completion.js";
 import { CompletionValue } from "./completions/CompletionValue.js";
 
+// The yielded command is engine-internal machinery: consumers never construct
+// or inspect it, only the task runner does. We expose the opaque base type
+// (`{ command: string }`) rather than the concrete `EvaluatorCommand` union so
+// the union and its transitive payloads (SuspendContext, EvaluationContext,
+// script/module records, Babel AST nodes) stay off the public API surface.
 export type EvaluationGenerator<TReturn = Completion.Normal> = Generator<
-  EvaluatorCommand,
+  EvaluatorCommandBase,
   TReturn,
   Completion.Normal
 >;
@@ -24,7 +29,7 @@ export function isEvaluationGenerator(value: unknown): value is EvaluationGenera
 }
 
 export class StubEvaluationGenerator<T>
-  extends Iterator<EvaluatorCommand, T, CompletionValue>
+  extends Iterator<EvaluatorCommandBase, T, CompletionValue>
   implements EvaluationGenerator<T>
 {
   override [Symbol.iterator]() {
@@ -35,15 +40,15 @@ export class StubEvaluationGenerator<T>
     super();
   }
 
-  override next(): IteratorResult<EvaluatorCommand, T> {
+  override next(): IteratorResult<EvaluatorCommandBase, T> {
     return { done: true, value: this._returnValue };
   }
 
-  override return(): IteratorResult<EvaluatorCommand, T> {
+  override return(): IteratorResult<EvaluatorCommandBase, T> {
     return { done: true, value: this._returnValue };
   }
 
-  override throw(): IteratorResult<EvaluatorCommand, T> {
+  override throw(): IteratorResult<EvaluatorCommandBase, T> {
     return { done: true, value: this._returnValue };
   }
 }

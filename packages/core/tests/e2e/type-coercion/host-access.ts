@@ -1,4 +1,3 @@
-import { Constructor } from "type-fest";
 import { describe, it, expect, vi } from "vitest";
 
 import { StaticJsRealm, type StaticJsCallable } from "../../../src/index.js";
@@ -9,6 +8,10 @@ import {
   expectStaticJsCallable,
   expectStaticJsObject,
 } from "../utils/expect-staticjs.js";
+
+export type Constructor<T, Arguments extends unknown[] = any[]> = new (
+  ...arguments_: Arguments
+) => T;
 
 describe("E2E: Type Coercion / HostAccessOptions", () => {
   describe("default (no opts) — preserves locked-down behavior", () => {

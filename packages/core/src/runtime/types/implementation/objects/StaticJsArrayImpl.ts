@@ -1,8 +1,7 @@
-import type { Writable } from "type-fest";
-
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { Writable } from "../../../../ts-types/Writable.js";
 import { toNumber } from "../../../algorithms/to-number.js";
 import { toUInt32 } from "../../../algorithms/to-uint-32.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";

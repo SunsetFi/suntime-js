@@ -10,8 +10,9 @@ export interface NodeEnterCommand extends EvaluatorCommandBase {
 }
 
 export function* NodeEnterCommand(node: Node): EvaluationGenerator<void> {
-  yield {
+  const command: NodeEnterCommand = {
     command: "enter-node",
     node,
   };
+  yield command;
 }

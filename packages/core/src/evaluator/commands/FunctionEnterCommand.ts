@@ -9,8 +9,9 @@ export interface FunctionEnterCommand extends EvaluatorCommandBase {
 }
 
 export function* FunctionEnterCommand(func: StaticJsFunction): EvaluationGenerator<void> {
-  yield {
+  const command: FunctionEnterCommand = {
     command: "function-enter",
     func,
   };
+  yield command;
 }

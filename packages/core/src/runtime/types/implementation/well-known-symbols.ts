@@ -20,9 +20,9 @@ const wellKnownSymbols = new Map<symbol, keyof IntrinsicSymbols>([
   [Symbol.unscopables, "unscopables"],
 ]);
 
-if (Symbol.observable) {
-  wellKnownSymbols.set(Symbol.observable, "observable");
-}
+// if (Symbol.observable) {
+//   wellKnownSymbols.set(Symbol.observable, "observable");
+// }
 // if (Symbol.dispose) {
 //   wellKnownSymbols.set(Symbol.dispose, "dispose");
 // }

@@ -57,11 +57,12 @@ export function* SuspendCommand<TCallerResumptionValue>(
 ): EvaluationGenerator<Completion> {
   let result: Completion;
   try {
-    result = yield {
+    const command: SuspendCommand = {
       command: "suspend",
       context,
       callerResumptionValue: callerResumptionValue,
     };
+    result = yield command;
   } catch (e) {
     if (Completion.Abrupt.is(e)) {
       return e;
@@ -147,7 +148,7 @@ SuspendCommand.run = function* <T>(
 function generatorNextCaptureCompletion<T>(
   generator: EvaluationGenerator<T>,
   completion: Completion,
-): IteratorResult<EvaluatorCommand, T> {
+): IteratorResult<EvaluatorCommandBase, T> {
   // In practice, this SHOULD be a SuspendCommand, which doesn't actually want
   // throwing.
   // However, EvaluationGenerator says we return NormalCompletions as our iteration output,

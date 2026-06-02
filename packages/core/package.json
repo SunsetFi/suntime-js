@@ -44,8 +44,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.29.3",
-    "@babel/traverse": "^7.29.0",
-    "type-fest": "^4.37.0"
+    "@babel/traverse": "^7.29.0"
   },
   "devDependencies": {
     "@babel/types": "catalog:",

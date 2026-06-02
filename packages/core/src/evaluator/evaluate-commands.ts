@@ -4,6 +4,7 @@ import { StaticJsRuntimeError } from "../errors/StaticJsRuntimeError.js";
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 
 import { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
+import type EvaluatorCommandBase from "./commands/EvaluatorCommandBase.js";
 import { Completion } from "./completions/Completion.js";
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
 
@@ -51,7 +52,7 @@ export function* evaluateCommands<TReturn>(
   }
 
   while (true) {
-    let result: IteratorResult<EvaluatorCommand, TReturn>;
+    let result: IteratorResult<EvaluatorCommandBase, TReturn>;
     if (insertCompletion) {
       // Note: This only works because our old system was designed around throwing abrupt completions.
       // In practice, we want to transition to use .next() here, as EvaluateNodeCommand wants to return completions, not have them thrown.
@@ -62,7 +63,10 @@ export function* evaluateCommands<TReturn>(
       result = generator.next();
     }
 
-    const { value, done } = result;
+    // EvaluationGenerator yields the opaque `EvaluatorCommandBase` publicly;
+    // internally we narrow to the concrete `EvaluatorCommand` union to
+    // discriminate on `command` and read each command's payload.
+    const { value, done } = result as IteratorResult<EvaluatorCommand, TReturn>;
 
     // The above generator invocation will have invoked the node we were queued on.
     if (currentNode) {

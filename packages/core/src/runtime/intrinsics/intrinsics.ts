@@ -13,7 +13,7 @@ export interface IntrinsicSymbols {
   match: StaticJsSymbol;
   matchAll: StaticJsSymbol;
   // metadata: StaticJsSymbol;
-  observable: StaticJsSymbol;
+  // observable: StaticJsSymbol;
   replace: StaticJsSymbol;
   search: StaticJsSymbol;
   species: StaticJsSymbol;
@@ -167,7 +167,7 @@ export interface IntrinsicsRecord {
   ["Symbol.iterator"]: StaticJsSymbol;
   ["Symbol.match"]: StaticJsSymbol;
   ["Symbol.matchAll"]: StaticJsSymbol;
-  ["Symbol.observable"]: StaticJsSymbol;
+  // ["Symbol.observable"]: StaticJsSymbol;
   ["Symbol.replace"]: StaticJsSymbol;
   ["Symbol.search"]: StaticJsSymbol;
   ["Symbol.species"]: StaticJsSymbol;
