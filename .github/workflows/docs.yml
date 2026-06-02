@@ -20,15 +20,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       # Build the Vite sandbox app (also builds its workspace dep @suntime-js/core).
-      - name: Build playground-embed
-        run: pnpm run --filter @suntime-js/playground... build
+      - name: Sync Playground
+        run: pnpm run --filter @suntime-js/docs sync:playground
 
-      # Copy the Vite output into Docusaurus's static/ directory so it gets
-      # bundled into the docs site as /playground-embed/.
-      - name: Copy playground-embed into Docusaurus static
-        run: |
-          rm -rf docs/static/playground-embed
-          cp -r playground/dist docs/static/playground-embed
+      - name: Sync @suntime-js/core types
+        run: pnpm run --filter @suntime-js/docs sync:suntime
 
       # Build the Docusaurus site. @suntime-js/core was already built above.
       - name: Build Docusaurus

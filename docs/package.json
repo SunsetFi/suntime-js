@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "docusaurus start",
-    "sync-playground": "pnpm --filter @suntime-js/playground... build && rm -rf static/playground-embed && cp -r ../playground/dist static/playground-embed",
-    "sync-suntime": "dts-bundle-generator --config suntime-dts.config.cjs",
+    "sync:playground": "pnpm --filter @suntime-js/playground... build && rm -rf static/playground-embed && cp -r ../playground/dist static/playground-embed",
+    "sync:suntime": "dts-bundle-generator --config suntime-dts.config.cjs",
     "build": "docusaurus build",
     "serve": "docusaurus serve",
     "clean": "docusaurus clear",
