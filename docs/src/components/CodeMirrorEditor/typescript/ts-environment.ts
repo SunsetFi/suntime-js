@@ -2,7 +2,7 @@ import { createDefaultMapFromCDN } from "@typescript/vfs";
 import ts from "typescript";
 
 /** Compiler target used for both the CDN lib fetch and per-block envs. */
-export const TS_TARGET = ts.ScriptTarget.ES2020;
+export const TS_TARGET = ts.ScriptTarget.ES2022;
 
 export type LibMapLoader = () => Promise<Map<string, string>>;
 

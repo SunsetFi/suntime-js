@@ -17,6 +17,7 @@ export interface TypeScriptCompartmentConfig {
 export interface UseTypeScriptOptions {
   /** Default true. When false, the LS is never built and no extensions attach. */
   enabled?: boolean;
+  syntax?: "ts" | "js";
   /**
    * External `.d.ts` (and package.json) files injected into this block's env.
    * Async because typings may be fetched at runtime (see suntime-core-typings).
@@ -35,11 +36,17 @@ function sanitize(id: string): string {
 
 export function useTypeScriptLanguageService(
   viewRef: RefObject<EditorView | null>,
-  { enabled = true, typingsLoader, compilerOptions, mountTooltip }: UseTypeScriptOptions = {},
+  {
+    enabled = true,
+    syntax = "js",
+    typingsLoader,
+    compilerOptions,
+    mountTooltip,
+  }: UseTypeScriptOptions = {},
 ): TypeScriptCompartmentConfig {
   const compartmentRef = useRef(new Compartment());
   const rawId = useId();
-  const filePathRef = useRef(`/block-${sanitize(rawId)}.ts`);
+  const filePathRef = useRef(`/block-${sanitize(rawId)}.${syntax}`);
 
   // Keep the latest values without re-running the async init effect.
   const typingsLoaderRef = useLatest(typingsLoader);

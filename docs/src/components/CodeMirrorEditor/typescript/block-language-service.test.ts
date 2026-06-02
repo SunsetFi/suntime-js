@@ -6,7 +6,7 @@ import { createBlockLanguageService } from "./block-language-service";
 
 // Built once (reads ~108 lib files from the installed typescript package).
 // createBlockLanguageService clones the map internally, so sharing is safe.
-const LIB_MAP = createDefaultMapFromNodeModules({ target: ts.ScriptTarget.ES2020 }, ts);
+const LIB_MAP = createDefaultMapFromNodeModules({ target: ts.ScriptTarget.ES2022 }, ts);
 
 describe("createBlockLanguageService", () => {
   it("builds an env over the buffer file and reports no errors for valid code", () => {

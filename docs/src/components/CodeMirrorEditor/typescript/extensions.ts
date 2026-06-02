@@ -68,31 +68,33 @@ export function buildTypeScriptExtensions(
     },
   });
 
+  const quickInfoTooltip = hoverTooltip((_view, pos) => {
+    const info = quickInfoAt(svc.languageService, svc.filePath, pos);
+    if (!info) return null;
+    return {
+      pos: info.from,
+      end: info.to,
+      create() {
+        const dom = document.createElement("div");
+        dom.className = "cm-ts-quickinfo";
+        if (mountTooltip) {
+          const destroy = mountTooltip(dom, info.signature, info.documentation);
+          return { dom, destroy };
+        } else {
+          dom.textContent = info.signature + "\n\n" + info.documentation;
+          return { dom, destroy: () => {} };
+        }
+      },
+    };
+  });
+
   const extensions: Extension[] = [
     autocompletion({ override: [completionSource] }),
     tsLinter,
     defKeymap,
     clickToDefine,
+    quickInfoTooltip,
   ];
-
-  if (mountTooltip) {
-    extensions.push(
-      hoverTooltip((_view, pos) => {
-        const info = quickInfoAt(svc.languageService, svc.filePath, pos);
-        if (!info) return null;
-        return {
-          pos: info.from,
-          end: info.to,
-          create() {
-            const dom = document.createElement("div");
-            dom.className = "cm-ts-quickinfo";
-            const destroy = mountTooltip(dom, info.signature, info.documentation);
-            return { dom, destroy };
-          },
-        };
-      }),
-    );
-  }
 
   return extensions;
 }

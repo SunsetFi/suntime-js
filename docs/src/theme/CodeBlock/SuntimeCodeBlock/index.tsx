@@ -11,6 +11,7 @@ import { CodeRuntime, CodeRuntimeSpawnOptions } from "@site/src/code-runtime/Cod
 import { createStaticJsRealmApi } from "@site/src/code-runtime/staticjs-api";
 import { CodeMirrorEditor } from "@site/src/components/CodeMirrorEditor";
 import { mountQuickInfoTooltip } from "@site/src/components/CodeMirrorEditor/typescript/QuickInfoTooltip";
+import { stripTypes } from "@site/src/components/CodeMirrorEditor/typescript/strip-types";
 import { loadSuntimeCoreTypings } from "@site/src/components/CodeMirrorEditor/typescript/suntime-core-typings";
 import { useBreakpoints } from "@site/src/components/CodeMirrorEditor/useBreakpoints";
 import { useDocusaurusTheme } from "@site/src/components/CodeMirrorEditor/useDocusaurusTheme";
@@ -26,9 +27,14 @@ import styles from "./styles.module.css";
 
 type Props = WrapperProps<typeof CodeBlockType> & {
   exposeStaticJs?: boolean;
+  typescript?: boolean;
 };
 
-export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): ReactNode {
+export default function SuntimeCodeBlock({
+  exposeStaticJs,
+  typescript,
+  children,
+}: Props): ReactNode {
   const originalCodeRef = useRef(String(children ?? ""));
   const originalCode = originalCodeRef.current;
 
@@ -68,7 +74,7 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
 
   const extensions = useMemo(
     () => [
-      javascript({ typescript: false }),
+      javascript({ typescript: Boolean(typescript) }),
       lineNumbers(),
       bracketMatching(),
       closeBrackets(),
@@ -85,7 +91,7 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
       }),
       theme,
     ],
-    [theme],
+    [theme, typescript],
   );
 
   const viewRef = useRef<EditorView | null>(null);
@@ -116,12 +122,16 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
   );
 
   const typescriptConfig = useTypeScriptLanguageService(viewRef, {
+    syntax: typescript ? "ts" : "js",
     typingsLoader: exposeStaticJs ? typingsLoader : undefined,
     mountTooltip,
   });
 
   function handleRun() {
-    runtime.run({ sourceKind: exposeStaticJs ? "module" : "script", code });
+    runtime.run({
+      sourceKind: exposeStaticJs ? "module" : "script",
+      code: typescript ? stripTypes(code) : code,
+    });
   }
 
   function handleStop() {

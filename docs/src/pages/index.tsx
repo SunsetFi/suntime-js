@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import quickStartCode from "!!raw-loader!./_quick-start-code.js";
+import quickStartCode from "!!raw-loader!./_quick-start-code.ts";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
@@ -54,7 +54,7 @@ function HomepageCodeSnippet() {
           Or try it in the <Link href="/playground">interactive playground</Link> complete with
           breakpoints!
         </p>
-        <CodeBlock language="ts" metastring="live-staticjs">
+        <CodeBlock language="ts" metastring="live-staticjs typescript">
           {quickStartCode}
         </CodeBlock>
       </div>

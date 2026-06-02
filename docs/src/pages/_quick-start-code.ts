@@ -1,5 +1,5 @@
-function* getPrimes(limit) {
-  const primes = [];
+function* getPrimes(limit: number) {
+  const primes: number[] = [];
   let candidate = 2;
   while (primes.length < limit) {
     if (primes.every((p) => candidate % p !== 0)) {
@@ -16,7 +16,7 @@ for (const prime of getPrimes(Infinity)) {
   n++;
 }
 
-function st(x) {
+function st(x: number) {
   const test = Number(String(x).at(-1));
   switch (test) {
     case 1:

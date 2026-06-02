@@ -10,7 +10,7 @@ import {
   toCmDiagnostics,
 } from "./cm-adapters";
 
-const LIB_MAP = createDefaultMapFromNodeModules({ target: ts.ScriptTarget.ES2020 }, ts);
+const LIB_MAP = createDefaultMapFromNodeModules({ target: ts.ScriptTarget.ES2022 }, ts);
 const FILE = "/block-test.ts";
 
 function svcWith(doc: string, typings: TypingsFile[] = []) {
