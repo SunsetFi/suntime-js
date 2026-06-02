@@ -45,6 +45,7 @@
     "@docusaurus/tsconfig": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
     "dts-bundle-generator": "^9.5.1",
     "raw-loader": "^4.0.2",
     "typescript": "~6.0.2",

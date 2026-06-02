@@ -1,0 +1,20 @@
+.tooltip {
+  max-width: 480px;
+  padding: 6px 8px;
+}
+
+.code {
+  overflow-x: auto;
+}
+
+.docs {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--ifm-color-content-secondary);
+  white-space: pre-wrap;
+  max-height: 200px;
+  overflow-y: auto;
+}

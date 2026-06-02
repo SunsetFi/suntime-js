@@ -16,11 +16,25 @@ import {
 } from "./cm-adapters";
 
 /**
- * All CodeMirror extensions backed by `svc`'s language service: completion
- * source, async linter, hover quick-info, and in-buffer go-to-definition
- * (F12 and Cmd/Ctrl-click). The caller keeps `svc`'s buffer in sync.
+ * Renders quick-info content into `dom` and returns a disposer. Supplied by the
+ * caller (it owns the React/portal machinery); when omitted, hover is disabled.
  */
-export function buildTypeScriptExtensions(svc: BlockLanguageService): Extension {
+export type TooltipMounter = (
+  dom: HTMLElement,
+  signature: string,
+  documentation: string,
+) => () => void;
+
+/**
+ * All CodeMirror extensions backed by `svc`'s language service: completion
+ * source, async linter, in-buffer go-to-definition (F12 and Cmd/Ctrl-click),
+ * and—when `mountTooltip` is provided—hover quick-info. The caller keeps `svc`'s
+ * buffer in sync.
+ */
+export function buildTypeScriptExtensions(
+  svc: BlockLanguageService,
+  mountTooltip?: TooltipMounter,
+): Extension {
   const completionSource = (context: CompletionContext): CompletionResult | null => {
     const word = context.matchBefore(/[\w$]*/);
     // Trigger on an explicit request, after a member dot, or while typing a word.
@@ -33,22 +47,6 @@ export function buildTypeScriptExtensions(svc: BlockLanguageService): Extension 
   };
 
   const tsLinter = linter(() => toCmDiagnostics(svc.languageService, svc.filePath));
-
-  const tsHover = hoverTooltip((_view, pos) => {
-    const info = quickInfoAt(svc.languageService, svc.filePath, pos);
-    if (!info) return null;
-    return {
-      pos: info.from,
-      end: info.to,
-      create() {
-        const dom = document.createElement("div");
-        dom.className = "cm-ts-quickinfo";
-        console.log("quickInfo", info.text);
-        dom.textContent = info.text;
-        return { dom };
-      },
-    };
-  });
 
   function gotoDefinition(view: EditorView, pos: number): boolean {
     const range = inBufferDefinitionRange(svc.languageService, svc.filePath, pos);
@@ -70,11 +68,31 @@ export function buildTypeScriptExtensions(svc: BlockLanguageService): Extension 
     },
   });
 
-  return [
+  const extensions: Extension[] = [
     autocompletion({ override: [completionSource] }),
     tsLinter,
-    tsHover,
     defKeymap,
     clickToDefine,
   ];
+
+  if (mountTooltip) {
+    extensions.push(
+      hoverTooltip((_view, pos) => {
+        const info = quickInfoAt(svc.languageService, svc.filePath, pos);
+        if (!info) return null;
+        return {
+          pos: info.from,
+          end: info.to,
+          create() {
+            const dom = document.createElement("div");
+            dom.className = "cm-ts-quickinfo";
+            const destroy = mountTooltip(dom, info.signature, info.documentation);
+            return { dom, destroy };
+          },
+        };
+      }),
+    );
+  }
+
+  return extensions;
 }

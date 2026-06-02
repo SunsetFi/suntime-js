@@ -6,7 +6,7 @@ import useLatest from "@site/src/hooks/use-latest";
 import { useEffect, useId, useRef, type RefObject } from "react";
 
 import { createBlockLanguageService, type TypingsFile } from "./typescript/block-language-service";
-import { buildTypeScriptExtensions } from "./typescript/extensions";
+import { buildTypeScriptExtensions, type TooltipMounter } from "./typescript/extensions";
 import { getDefaultLibMap } from "./typescript/ts-environment";
 
 export interface TypeScriptCompartmentConfig {
@@ -25,6 +25,8 @@ export interface UseTypeScriptOptions {
   typingsLoader?: () => Promise<TypingsFile[]>;
   /** Compiler-option overrides merged over the block defaults. */
   compilerOptions?: ts.CompilerOptions;
+  /** Renders hover quick-info into a DOM node. Omit to disable hover. */
+  mountTooltip?: TooltipMounter;
 }
 
 function sanitize(id: string): string {
@@ -33,7 +35,7 @@ function sanitize(id: string): string {
 
 export function useTypeScriptLanguageService(
   viewRef: RefObject<EditorView | null>,
-  { enabled = true, typingsLoader, compilerOptions }: UseTypeScriptOptions = {},
+  { enabled = true, typingsLoader, compilerOptions, mountTooltip }: UseTypeScriptOptions = {},
 ): TypeScriptCompartmentConfig {
   const compartmentRef = useRef(new Compartment());
   const rawId = useId();
@@ -42,6 +44,7 @@ export function useTypeScriptLanguageService(
   // Keep the latest values without re-running the async init effect.
   const typingsLoaderRef = useLatest(typingsLoader);
   const compilerOptionsRef = useLatest(compilerOptions);
+  const mountTooltipRef = useLatest(mountTooltip);
 
   // Async init: load shared libs + typings, build the per-block LS, attach.
   useEffect(() => {
@@ -70,7 +73,10 @@ export function useTypeScriptLanguageService(
       });
 
       view.dispatch({
-        effects: compartmentRef.current.reconfigure([sync, buildTypeScriptExtensions(svc)]),
+        effects: compartmentRef.current.reconfigure([
+          sync,
+          buildTypeScriptExtensions(svc, mountTooltipRef.current),
+        ]),
       });
     })();
 

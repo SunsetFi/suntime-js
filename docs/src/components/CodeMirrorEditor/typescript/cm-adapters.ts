@@ -72,10 +72,13 @@ export function toCmDiagnostics(ls: ts.LanguageService, fileName: string): Diagn
 export interface QuickInfo {
   from: number;
   to: number;
-  text: string;
+  /** The type/signature, as code (e.g. `const x: number`). */
+  signature: string;
+  /** JSDoc documentation prose, or "" when none. */
+  documentation: string;
 }
 
-/** Hover quick-info (type/signature) at `pos`, or null. */
+/** Hover quick-info (type/signature + docs) at `pos`, or null. */
 export function quickInfoAt(
   ls: ts.LanguageService,
   fileName: string,
@@ -83,9 +86,15 @@ export function quickInfoAt(
 ): QuickInfo | null {
   const info = ls.getQuickInfoAtPosition(fileName, pos);
   if (!info) return null;
-  const text = ts.displayPartsToString(info.displayParts);
-  if (!text) return null;
-  return { from: info.textSpan.start, to: info.textSpan.start + info.textSpan.length, text };
+  const signature = ts.displayPartsToString(info.displayParts);
+  if (!signature) return null;
+  const documentation = ts.displayPartsToString(info.documentation ?? []);
+  return {
+    from: info.textSpan.start,
+    to: info.textSpan.start + info.textSpan.length,
+    signature,
+    documentation,
+  };
 }
 
 export interface DefinitionRange {

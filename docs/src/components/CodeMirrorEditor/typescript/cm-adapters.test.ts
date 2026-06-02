@@ -47,14 +47,24 @@ describe("toCmDiagnostics", () => {
 });
 
 describe("quickInfoAt", () => {
-  it("returns the type text and span for an identifier", () => {
+  it("returns the signature and span for an identifier", () => {
     const doc = "const count: number = 1;\ncount;";
     const svc = svcWith(doc);
     const pos = doc.lastIndexOf("count") + 1;
     const info = quickInfoAt(svc.languageService, FILE, pos);
     expect(info).not.toBeNull();
-    expect(info!.text).toContain("number");
+    expect(info!.signature).toContain("number");
     expect(info!.to).toBeGreaterThan(info!.from);
+    expect(info!.documentation).toBe("");
+  });
+
+  it("returns JSDoc documentation when present", () => {
+    const doc = "/** Doc for foo. */\nconst foo = 1;\nfoo;";
+    const svc = svcWith(doc);
+    const pos = doc.lastIndexOf("foo") + 1;
+    const info = quickInfoAt(svc.languageService, FILE, pos);
+    expect(info).not.toBeNull();
+    expect(info!.documentation).toContain("Doc for foo.");
   });
 });
 

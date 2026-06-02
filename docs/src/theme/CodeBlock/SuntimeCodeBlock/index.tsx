@@ -10,11 +10,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import { CodeRuntime, CodeRuntimeSpawnOptions } from "@site/src/code-runtime/CodeRuntime";
 import { createStaticJsRealmApi } from "@site/src/code-runtime/staticjs-api";
 import { CodeMirrorEditor } from "@site/src/components/CodeMirrorEditor";
+import { mountQuickInfoTooltip } from "@site/src/components/CodeMirrorEditor/typescript/QuickInfoTooltip";
 import { loadSuntimeCoreTypings } from "@site/src/components/CodeMirrorEditor/typescript/suntime-core-typings";
 import { useBreakpoints } from "@site/src/components/CodeMirrorEditor/useBreakpoints";
 import { useDocusaurusTheme } from "@site/src/components/CodeMirrorEditor/useDocusaurusTheme";
 import { useHighlightLine } from "@site/src/components/CodeMirrorEditor/useHighlightLine";
 import { useTypeScriptLanguageService } from "@site/src/components/CodeMirrorEditor/useTypeScriptLanguageService";
+import { usePortals } from "@site/src/components/portals";
 import useObservation from "@site/src/hooks/use-observation";
 import { StaticJsModuleResolution } from "@suntime-js/core";
 import React, { useCallback, useMemo, useRef, useState, useEffect, type ReactNode } from "react";
@@ -105,8 +107,17 @@ export default function SuntimeCodeBlock({ exposeStaticJs, children }: Props): R
 
   const coreDtsUrl = useBaseUrl("/suntime-core.d.ts");
   const typingsLoader = useCallback(() => loadSuntimeCoreTypings(coreDtsUrl), [coreDtsUrl]);
+
+  const portals = usePortals();
+  const mountTooltip = useCallback(
+    (dom: HTMLElement, signature: string, documentation: string) =>
+      mountQuickInfoTooltip(portals, dom, signature, documentation),
+    [portals],
+  );
+
   const typescriptConfig = useTypeScriptLanguageService(viewRef, {
     typingsLoader: exposeStaticJs ? typingsLoader : undefined,
+    mountTooltip,
   });
 
   function handleRun() {
