@@ -4,6 +4,6 @@ const run = lintStagedWorkspaceRunner("@suntime-js/docs");
 
 const tsLint = [run("format"), run("lint"), () => "pnpm run --filter @suntime-js/docs typecheck"];
 export default {
-  "**/*.ts": tsLint,
-  "!(src/static/playground-embed/**)": run("format"),
+  "!(src/static/)**/*.ts": tsLint,
+  "!(src/static/)": run("format"),
 };

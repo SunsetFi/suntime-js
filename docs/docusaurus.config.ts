@@ -35,7 +35,7 @@ const config: Config = {
     locales: ["en"],
   },
 
-  plugins: [processEnvDefinePlugin],
+  plugins: [suntimeJsDocsPlugin],
 
   presets: [
     [
@@ -136,13 +136,23 @@ const config: Config = {
 
 export default config;
 
-function processEnvDefinePlugin() {
+function suntimeJsDocsPlugin() {
   return {
-    name: "process-env-define",
+    name: "suntime-js-docs",
     configureWebpack(_config: unknown, _isServer: boolean, utils: any) {
       const { DefinePlugin } = utils.currentBundler.instance;
       return {
+        // Needed by @babel/parser
         plugins: [new DefinePlugin({ "process.env": JSON.stringify({}) })],
+        ignoreWarnings: [
+          {
+            // @typescript/vfs pulls in typescript, which has some node refs that
+            // go unused.  Allow this.
+            module: /[\\/]@typescript[\\/]vfs[\\/]|[\\/]typescript[\\/]lib[\\/]typescript\.js$/,
+            message:
+              /Critical dependency: the request of a dependency is an expression|has been mocked/,
+          },
+        ],
         resolve: {
           // When workspace packages are resolved via their "development" export
           // condition (./src/index.ts), their internal imports use .js extensions
@@ -155,18 +165,3 @@ function processEnvDefinePlugin() {
     },
   };
 }
-
-// function pathAliasPlugin() {
-//   return {
-//     name: "path-alias",
-//     configureWebpack() {
-//       return {
-//         resolve: {
-//           alias: {
-//             "@site": path.resolve(__dirname, "src"),
-//           },
-//         },
-//       };
-//     },
-//   };
-// }

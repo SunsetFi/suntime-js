@@ -2,7 +2,7 @@
 // Cannot use .ts as docusaurus forbids using "type": "module"
 // Cannt use .mts as oxfmt ignores this.
 {
-  "ignorePatterns": ["/static/playground-embed"],
+  "ignorePatterns": ["/static"],
   "rules": {
     // Most of our runtime uses generators.  We need these functions to return iterators, even if
     // they don't actually yield anything.
