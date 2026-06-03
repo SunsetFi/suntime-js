@@ -45,7 +45,7 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
     return StaticJsTypeCode.Array;
   }
 
-  protected override _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
+  protected override _createToNativeProxyTarget(): StaticJsObjectProxyTarget {
     return [] as StaticJsObjectProxyTarget;
   }
 

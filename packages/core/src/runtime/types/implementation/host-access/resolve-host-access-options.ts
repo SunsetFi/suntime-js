@@ -97,11 +97,11 @@ export function resolveRootLevelHostAccessArg(
 export function applyChildPolicyQuery(
   parent: ResolvedHostAccessOptions,
   child: HostAccessChildOptions,
-  hostObj: object,
+  hostValue: unknown,
   realmDefaults: HostAccessOptions | undefined,
 ): ResolvedHostAccessOptions | StaticJsValue | false {
   if (typeof child === "function") {
-    const result = child(hostObj);
+    const result = child(hostValue);
     return applyQueryResult(parent, result, realmDefaults);
   }
 

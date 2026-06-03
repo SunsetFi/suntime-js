@@ -67,10 +67,6 @@ export class StaticJsNativeFunctionImpl
     return !!this._construct;
   }
 
-  get intitialName() {
-    return this._name;
-  }
-
   *callEvaluator(
     thisArg: StaticJsValue,
     args: StaticJsValue[] = [],

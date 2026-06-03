@@ -156,7 +156,6 @@ export abstract class StaticJsAbstractFunction
     }, opts);
   }
 
-  // TODO: newTarget
   abstract constructEvaluator(
     args: StaticJsValue[],
     newTarget?: StaticJsCallable,
@@ -204,14 +203,14 @@ export abstract class StaticJsAbstractFunction
     if (!cached) {
       const proxyHandler: ProxyHandler<object> = {};
       this._configureToNativeProxy(proxyHandler);
-      const target = this._createtoNativeProxyTarget(access);
+      const target = this._createToNativeProxyTarget(access);
       cached = createStaticJsObjectProxy(this, target, proxyHandler) as Function;
       this._accessNativeCache.set(key, cached);
     }
     return cached;
   }
 
-  protected override _createtoNativeProxyTarget(access?: HostAccessArg): StaticJsObjectProxyTarget {
+  protected override _createToNativeProxyTarget(access?: HostAccessArg): StaticJsObjectProxyTarget {
     // oxlint-disable-next-line typescript/no-this-alias
     const self = this;
     // Each value handed back to the function is wrapped under `access` (the

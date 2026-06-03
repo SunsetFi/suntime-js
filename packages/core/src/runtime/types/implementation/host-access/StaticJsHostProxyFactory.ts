@@ -1,5 +1,6 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { Intrinsics } from "../../../intrinsics/intrinsics.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { HostAccessArg } from "../../HostAccessOptions.js";
 import { StaticJsFunction } from "../../StaticJsFunction.js";
@@ -73,25 +74,13 @@ export class StaticJsHostProxyFactory {
     return this._hostBuiltinMapCache;
   }
 
-  private _policyFor(
-    resolved: ResolvedHostAccessOptions,
-    target: object | Function | undefined,
-  ): HostAccessPolicy {
+  private _policyFor(resolved: ResolvedHostAccessOptions, target: unknown): HostAccessPolicy {
     return {
       options: resolved,
       wrapChild: (childHostValue: unknown, member: boolean): StaticJsValue => {
         // If it's already a StaticJsValue from this realm, return it directly.
         if (isStaticJsValue(childHostValue) && childHostValue.realm === this._realm) {
           return childHostValue;
-        }
-
-        if (
-          childHostValue === null ||
-          childHostValue === undefined ||
-          (typeof childHostValue !== "object" && typeof childHostValue !== "function")
-        ) {
-          // Risk of infinite loops here, if for some reason this isn't actually a scalar.
-          return this._realm.types.toStaticJsValue(childHostValue);
         }
 
         const childResolved = applyChildPolicyQuery(
@@ -109,13 +98,29 @@ export class StaticJsHostProxyFactory {
 
         const policy = this._policyFor(childResolved, childHostValue);
 
+        if (
+          childHostValue === null ||
+          childHostValue === undefined ||
+          (typeof childHostValue !== "object" && typeof childHostValue !== "function")
+        ) {
+          // Risk of infinite loops here, if for some reason this isn't actually a scalar.
+          return this._realm.types.toStaticJsValue(childHostValue);
+        }
+
         if (typeof childHostValue === "function") {
-          return this._wrapHostFunction(childHostValue, policy, member ? target : undefined);
+          return this._wrapHostFunction(
+            childHostValue,
+            policy,
+            member ? (target as object | Function | undefined) : undefined,
+          );
         }
 
         return this._wrapHostObject(childHostValue, policy);
       },
-      wrapPrototype: (hostProto: object | null): StaticJsObject | null => {
+      wrapPrototype: (
+        hostProto: object | null,
+        intrinsic: keyof Intrinsics,
+      ): StaticJsObject | null => {
         if (hostProto === null) {
           return null;
         }
@@ -127,7 +132,7 @@ export class StaticJsHostProxyFactory {
           this._realm.config.hostAccessDefaults,
         );
         if (resolvedProto === false) {
-          return this._realm.intrinsics["Object.prototype"];
+          return this._realm.intrinsics[intrinsic];
         }
         if (isStaticJsValue(resolvedProto)) {
           if (isStaticJsNull(resolvedProto) || resolvedProto === null) {
@@ -198,9 +203,12 @@ export class StaticJsHostProxyFactory {
       }
     }
 
-    const wrapper = new StaticJsExternalFunction(this._realm, host.name, host, policy, {
-      getThisArg: (v) => (useSandboxThis ? v.toNative() : homeObject),
-    });
+    const wrapper = new StaticJsExternalFunction(
+      this._realm,
+      host,
+      useSandboxThis ? undefined : homeObject,
+      policy,
+    );
     this._putCached(host, policy, wrapper);
     return wrapper;
   }

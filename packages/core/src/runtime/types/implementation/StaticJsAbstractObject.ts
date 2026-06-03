@@ -468,7 +468,7 @@ export abstract class StaticJsAbstractObject
     if (!this._cachedJsObject) {
       const proxyHandler: ProxyHandler<object> = {};
       this._configureToNativeProxy(proxyHandler);
-      const target = this._createtoNativeProxyTarget();
+      const target = this._createToNativeProxyTarget();
       this._cachedJsObject = createStaticJsObjectProxy(this, target, proxyHandler);
     }
 
@@ -487,7 +487,7 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(toStringEval(this), opts);
   }
 
-  protected _createtoNativeProxyTarget(): StaticJsObjectProxyTarget {
+  protected _createToNativeProxyTarget(): StaticJsObjectProxyTarget {
     return {};
   }
 

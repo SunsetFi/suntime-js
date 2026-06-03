@@ -1,5 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { Intrinsics } from "../../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
@@ -28,11 +29,12 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
   constructor(
     realm: StaticJsRealm,
-    private readonly _obj: object,
+    private readonly _target: object,
     private readonly _policy: HostAccessPolicy,
-    prototype?: StaticJsObject | null,
+    private readonly _fallbackPrototype: keyof Intrinsics = "Object.prototype",
   ) {
-    super(realm, prototype ?? realm.intrinsics["Object.prototype"]);
+    super(realm, null);
+    this._policy = Object.freeze({ ...this._policy });
   }
 
   override get [Symbol.toStringTag](): string {
@@ -40,15 +42,23 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   get runtimeTypeOf() {
-    return "object" as const;
+    return "object";
   }
 
   get runtimeTypeCode() {
     return StaticJsTypeCode.PlainObject;
   }
 
+  get policy() {
+    return this._policy;
+  }
+
+  get target() {
+    return this._target;
+  }
+
   override toNative() {
-    return this._obj;
+    return this._target;
   }
 
   *getOwnPropertyEvaluator(
@@ -66,7 +76,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
 
     const property: PropertyKey = isStaticJsSymbol(name) ? name.toNative() : (name as string);
 
-    const objDescr = Object.getOwnPropertyDescriptor(this._obj, property);
+    const objDescr = Object.getOwnPropertyDescriptor(this._target, property);
     if (!objDescr) {
       this._propertyCache.delete(property);
       return undefined;
@@ -115,7 +125,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
-    const obj = this._obj;
+    const obj = this._target;
 
     const allKeys: (string | symbol)[] = Reflect.ownKeys(obj);
 
@@ -125,8 +135,8 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
   }
 
   override *getPrototypeOfEvaluator(): EvaluationGenerator<StaticJsObject | null> {
-    const hostProto = Object.getPrototypeOf(this._obj) as object | null;
-    const proto = this._policy.wrapPrototype(hostProto);
+    const hostProto = Object.getPrototypeOf(this._target) as object | null;
+    const proto = this._policy.wrapPrototype(hostProto, this._fallbackPrototype);
     if (isStaticJsNull(proto)) {
       return null;
     }
@@ -147,7 +157,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     if (!isStaticJsDataPropertyDescriptor(setDescr)) return false;
 
     const property = isStaticJsSymbol(key) ? key.toNative() : key;
-    const propertyDescr = Object.getOwnPropertyDescriptor(this._obj, property);
+    const propertyDescr = Object.getOwnPropertyDescriptor(this._target, property);
 
     if (propertyDescr) {
       if (!propertyDescr.writable || !("value" in propertyDescr)) {
@@ -163,7 +173,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
         return true;
       }
 
-      Object.defineProperty(this._obj, property, { value: setDescr.value.toNative() });
+      Object.defineProperty(this._target, property, { value: setDescr.value.toNative() });
       return true;
     }
 
@@ -173,7 +183,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
         return true;
       }
 
-      Object.defineProperty(this._obj, property, {
+      Object.defineProperty(this._target, property, {
         ...setDescr,
         value: setDescr.value.toNative(),
       });
@@ -202,7 +212,7 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
       }
     }
 
-    if (!includeNonEnumerable && !Object.getOwnPropertyDescriptor(this._obj, key)?.enumerable) {
+    if (!includeNonEnumerable && !Object.getOwnPropertyDescriptor(this._target, key)?.enumerable) {
       return false;
     }
 

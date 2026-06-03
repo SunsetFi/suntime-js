@@ -23,7 +23,7 @@ export interface HostAccessOptions {
    * Note that all stubs are read-only, regardless of the writable/extensible options.  The exception is functions, which will still invoke, but will invoke childPolicy for return values.
    * @default true
    */
-  stubWellKnownTypes?: boolean | HostAccessStubType[];
+  stubWellKnownTypes?: boolean | readonly HostAccessStubType[];
 
   /**
    * Expose non-enumerable own properties (e.g. ES class methods).
@@ -87,7 +87,7 @@ export interface HostAccessOptions {
    * regardless of the host object's actual prototype (including null).
    * If a StaticJsValue, the returned value will be used as the sandbox-visible [[Prototype]] for the host object, and the host object's actual prototype will not be visible in the sandbox.
    * If an object, the returned HostAccessOptions will be used for prototypes as well as own properties, and for their descendants, unless overridden by a closer ancestor.
-   * If a function, it will be invoked with each prototype object to determine the policy. Decide on a per-object basis.
+   * If a function, it will be invoked with each prototype object to determine the policy.
    * @default false
    */
   prototypePolicy?: HostAccessChildOptions;
@@ -103,8 +103,8 @@ export interface HostAccessOptions {
    * If an object, the returned HostAccessOptions will be used for that child object and its descendants, unless overridden by a closer ancestor.
    * If a function, it will be invoked with the child host object to determine the policy. Decide on a per-object basis.
    *
-   * childHostObj may be any non-primitive host value — plain object, host
-   * function, host class instance, host prototype.
+   * childHostValue may be any value reached from the parent host object, including property values and function return values.  Primitive values are included.
+   * Note that returning false for a property will NOT hide it from the sandbox, but will instead resolve to undefined.
    *
    * Not consulted for the root object itself.
    * @default "default"
@@ -149,7 +149,7 @@ export type HostAccessQueryResult =
  * If false, the child is not exposed — it resolves to `undefined`.
  * If an object, that child becomes a new sub-root governed by these options.
  */
-export type HostAccessQueryFunction = (childHostObj: object) => HostAccessQueryResult;
+export type HostAccessQueryFunction = (childHostValue: unknown) => HostAccessQueryResult;
 
 /**
  * Policy for child host objects reached from a parent host object. See HostAccessOptions.childPolicy.
@@ -167,7 +167,7 @@ export type HostAccessChildOptions = HostAccessQueryResult | HostAccessQueryFunc
  * If an object, that host object becomes a new root governed by these options.
  */
 export type HostAccessRootQueryFunction = (
-  childHostObj: object,
+  childHostObj: unknown,
 ) => "default" | HostAccessOptions | StaticJsValue;
 
 /**

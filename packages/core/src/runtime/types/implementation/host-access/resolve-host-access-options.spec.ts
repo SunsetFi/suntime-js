@@ -70,7 +70,7 @@ describe("resolveHostAccessOptions", () => {
   });
 
   it("passes the root host object to the function form", () => {
-    let seen: object | undefined;
+    let seen: unknown;
     const fn: HostAccessArg = (o) => {
       seen = o;
       return "default";
@@ -202,7 +202,7 @@ describe("applyChildPolicy", () => {
   });
 
   it("passes the child host object to childPolicy", () => {
-    let seen: object | undefined;
+    let seen: unknown;
     const parent: ResolvedHostAccessOptions = {
       ...SAFE_DEFAULTS,
       childPolicy: (o) => {

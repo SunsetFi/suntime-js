@@ -1,3 +1,4 @@
+import { Intrinsics } from "../../../intrinsics/intrinsics.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 
@@ -21,5 +22,5 @@ export interface HostAccessPolicy {
    * Wrap a host prototype reached via the structural [[Prototype]] chain,
    * using THIS policy verbatim (no grantAccess consultation).
    */
-  wrapPrototype(hostProto: object | null): StaticJsObject | null;
+  wrapPrototype(hostProto: object | null, intrinsic: keyof Intrinsics): StaticJsObject | null;
 }

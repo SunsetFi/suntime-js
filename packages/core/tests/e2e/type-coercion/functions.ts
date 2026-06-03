@@ -6,22 +6,58 @@ describe("E2E: Type Coercion / Functions", () => {
   describe("Host to Sandbox", () => {
     it("Is callable in the sandbox", async () => {
       const realm = StaticJsRealm({
-        global: { value: { hostFn: () => 42 } },
+        global: {
+          properties: {
+            hostFn: {
+              value: () => 42,
+            },
+          },
+        },
       });
 
       const result = await realm.evaluateScript("hostFn();");
       expect(result.toNative()).toBe(42);
     });
 
-    it("Does not carry additional properties into the sandbox", async () => {
+    it("Exposes properties when childPolicy is set", async () => {
       const hostFn = () => undefined;
-      (hostFn as unknown as Record<string, unknown>)["extra"] = "should-not-appear";
+      (hostFn as unknown as Record<string, unknown>)["secret"] = "value";
 
       const realm = StaticJsRealm({
-        global: { value: { hostFn } },
+        hostAccessDefaults: {
+          childPolicy: "inherit",
+        },
+        global: {
+          properties: {
+            hostFn: {
+              value: hostFn,
+            },
+          },
+        },
       });
 
-      const result = await realm.evaluateScript("hostFn.extra;");
+      const result = await realm.evaluateScript("hostFn.secret;");
+      expect(result.toNative()).toBe("value");
+    });
+
+    it("Does not expose properties when childPolicy is not set", async () => {
+      const hostFn = () => undefined;
+      (hostFn as unknown as Record<string, unknown>)["secret"] = "value";
+
+      const realm = StaticJsRealm({
+        hostAccessDefaults: {
+          childPolicy: false,
+        },
+        global: {
+          properties: {
+            hostFn: {
+              value: hostFn,
+            },
+          },
+        },
+      });
+
+      const result = await realm.evaluateScript("hostFn.secret;");
       expect(result.toNative()).toBeUndefined();
     });
 
@@ -29,9 +65,11 @@ describe("E2E: Type Coercion / Functions", () => {
       let receivedArg: unknown;
       const realm = StaticJsRealm({
         global: {
-          value: {
-            captureArg: (x: unknown) => {
-              receivedArg = x;
+          properties: {
+            captureArg: {
+              value: (x: unknown) => {
+                receivedArg = x;
+              },
             },
           },
         },
@@ -43,7 +81,13 @@ describe("E2E: Type Coercion / Functions", () => {
 
     it("Coerces the host function return value into the sandbox", async () => {
       const realm = StaticJsRealm({
-        global: { value: { hostFn: () => ({ answer: 42 }) } },
+        global: {
+          properties: {
+            hostFn: {
+              value: () => ({ answer: 42 }),
+            },
+          },
+        },
       });
 
       const result = await realm.evaluateScript("hostFn().answer;");
@@ -106,7 +150,13 @@ describe("E2E: Type Coercion / Functions", () => {
           prototypePolicy: "inherit",
           childPolicy: "inherit",
         },
-        global: { value: { callWith: (cb: (x: unknown) => void) => cb(secret) } },
+        global: {
+          properties: {
+            callWith: {
+              value: (cb: (x: unknown) => void) => cb(secret),
+            },
+          },
+        },
       });
 
       const result = await realm.evaluateScript(`
@@ -122,9 +172,11 @@ describe("E2E: Type Coercion / Functions", () => {
     it("masks a thrown host error as the matching realm error type", async () => {
       const realm = StaticJsRealm({
         global: {
-          value: {
-            boom: () => {
-              throw new TypeError("host boom");
+          properties: {
+            boom: {
+              value: () => {
+                throw new TypeError("host boom");
+              },
             },
           },
         },
@@ -154,9 +206,11 @@ describe("E2E: Type Coercion / Functions", () => {
     it("returns a native-code stub and does not leak host source", async () => {
       const realm = StaticJsRealm({
         global: {
-          value: {
-            secretFn: function topSecret() {
-              return "do-not-leak-me";
+          properties: {
+            secretFn: {
+              value: function topSecret() {
+                return "do-not-leak-me";
+              },
             },
           },
         },

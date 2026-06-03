@@ -1,7 +1,7 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { StaticJsAstFunction } from "../../../types/implementation/functions/StaticJsAstFunction.js";
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
@@ -11,10 +11,9 @@ export const functionProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
       return realm.types.string(thisArg.sourceText);
     }
 
-    // Also includes StaticJsExternalFunction
-    if (thisArg instanceof StaticJsNativeFunctionImpl) {
+    if (isStaticJsFunction(thisArg)) {
       // The spec has some other weirdness here around native accessors...
-      return realm.types.string(`function ${thisArg.intitialName}() { [ native code ] }`);
+      return realm.types.string(`function ${thisArg.initialName}() { [ native code ] }`);
     }
 
     if (isStaticJsCallable(thisArg)) {
