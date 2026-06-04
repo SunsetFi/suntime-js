@@ -12,7 +12,7 @@ import { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModu
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
-import { isStaticJsCallable, StaticJsCallable } from "../../StaticJsCallable.js";
+import { StaticJsCallable } from "../../StaticJsCallable.js";
 import { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -199,29 +199,25 @@ export class StaticJsExternalFunction extends StaticJsExternalObject implements 
       thisArgResolved = this._homeObject;
     }
 
-    // A sandbox function passed as an argument is bridged with this wrapper's
-    // per-argument child access (the parent function's childPolicy applied to
-    // the argument). That access is carried into the bridge so it is honored
-    // when the function is later called back with foreign-realm values. Other
-    // values keep the plain native conversion.
-    const valueArgsResolved = args.map((arg) => {
-      if (isStaticJsCallable(arg)) {
-        const access: HostAccessArg = (obj) => {
-          const policy = applyChildPolicyQuery(
-            this.policy.options,
-            this.policy.options.childPolicy,
-            obj,
-            this.realm.config.hostAccessDefaults,
-          );
-          if (!policy) {
-            return this.realm.types.undefined;
-          }
-          return policy;
-        };
-        return arg.toNative({ access });
+    // Sandbox arguments are bridged with this wrapper's child access (the parent
+    // function's childPolicy applied per value). That access is carried into the
+    // native bridge so it is honored when foreign-realm values later cross the
+    // boundary — both arguments handed to a callback and values reached through
+    // an object argument (e.g. a callback nested in an options object). Scalars
+    // ignore the access; the conversion is otherwise unchanged.
+    const access: HostAccessArg = (obj) => {
+      const policy = applyChildPolicyQuery(
+        this.policy.options,
+        this.policy.options.childPolicy,
+        obj,
+        this.realm.config.hostAccessDefaults,
+      );
+      if (!policy) {
+        return this.realm.types.undefined;
       }
-      return arg.toNative();
-    });
+      return policy;
+    };
+    const valueArgsResolved = args.map((arg) => arg.toNative({ access }));
 
     const func = this.target as (...args: unknown[]) => unknown;
     try {

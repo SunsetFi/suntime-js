@@ -1,5 +1,6 @@
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import type { StaticJsToNativeOpts } from "./StaticJsToNativeOpts.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 
 export interface StaticJsPrimitive {
@@ -9,6 +10,6 @@ export interface StaticJsPrimitive {
   readonly runtimeTypeOf: string;
   readonly runtimeTypeCode: StaticJsTypeCode;
 
-  toNative(): unknown;
+  toNative(opts?: StaticJsToNativeOpts): unknown;
   toStringSync(): string;
 }

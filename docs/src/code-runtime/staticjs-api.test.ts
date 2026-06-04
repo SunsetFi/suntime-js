@@ -195,7 +195,7 @@ it("can intercept task abort errors", () => {
         },
       });
       try {
-        inner.evaluateScriptSync("while(true) {}", { runTask: task => { while(!task.done) { task.next(); } } });
+        inner.evaluateScriptSync("while(true) {}");
         "no error";
       } catch (e) {
         e instanceof StaticJsTaskAbortedError;

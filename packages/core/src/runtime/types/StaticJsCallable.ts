@@ -1,26 +1,22 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
-import type { HostAccessArg } from "./HostAccessOptions.js";
 import { StaticJsObject } from "./StaticJsObject.js";
+import type { StaticJsToNativeOpts } from "./StaticJsToNativeOpts.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
 
 /**
  * Options for converting a callable to its native (host) function bridge via
  * {@link StaticJsCallable.toNative}.
+ *
+ * For callables, {@link StaticJsToNativeOpts.access} additionally governs the
+ * `this` and arguments handed back to the function when the native bridge is
+ * invoked, so a sandbox function passed into host code can keep an inherited
+ * access level on its callback boundary instead of collapsing to the realm
+ * defaults.
  */
-export interface StaticJsCallableToNativeOpts {
-  /**
-   * Host access to apply to the `this` and arguments handed back to the
-   * function when the native bridge is invoked. This is passed verbatim as the
-   * `opts` argument of `StaticJsTypeFactory.toStaticJsValue` for each value, so
-   * a sandbox function passed into host code can keep an inherited access level
-   * on its callback boundary instead of collapsing to the realm defaults. When
-   * omitted, values use the realm's default `toStaticJsValue` behavior.
-   */
-  access?: HostAccessArg;
-}
+export type StaticJsCallableToNativeOpts = StaticJsToNativeOpts;
 
 export interface StaticJsCallable extends StaticJsObject {
   get isConstructor(): boolean;

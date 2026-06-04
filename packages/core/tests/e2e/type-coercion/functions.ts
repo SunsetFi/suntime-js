@@ -134,6 +134,32 @@ describe("E2E: Type Coercion / Functions", () => {
       const obj = makeObj();
       expect(obj["x"]).toBe(1);
     });
+
+    it("Surfaces a thrown sandbox error to the host", async () => {
+      const realm = StaticJsRealm();
+
+      const vmFn = await realm.evaluateScript(`
+        function boom() { throw new TypeError("sandbox boom"); }
+        boom;
+      `);
+
+      const boom = vmFn.toNative() as () => void;
+
+      let caught: unknown;
+      try {
+        boom();
+        throw new Error("Expected the bridged sandbox function to throw");
+      } catch (error) {
+        caught = error;
+      }
+
+      expect(caught).not.toHaveProperty("type");
+      expect(caught).not.toHaveProperty("value");
+      expect(caught).toMatchObject({
+        name: "TypeError",
+        message: "sandbox boom",
+      });
+    });
   });
 
   describe("Host invoking a sandbox callback", () => {
@@ -162,6 +188,37 @@ describe("E2E: Type Coercion / Functions", () => {
       const result = await realm.evaluateScript(`
         let leaked;
         callWith((x) => { leaked = typeof x.reveal === "function" ? x.reveal() : undefined; });
+        leaked;
+      `);
+      expect(result.toNative()).toBe("leak");
+    });
+
+    it("re-wraps host values handed to a sandbox callback nested in an object argument", async () => {
+      class Secret {
+        reveal() {
+          return "leak";
+        }
+      }
+      const secret = new Secret();
+
+      // Realm defaults are restrictive (prototype methods hidden), so the only
+      // way the callback can see secret.reveal is by inheriting the host
+      // function's permissive childPolicy. A callback reached through an object
+      // argument must inherit it the same way a directly-passed callback does.
+      const realm = StaticJsRealm();
+      const callWith = realm.types.toStaticJsValue(
+        (opts: { cb: (x: unknown) => void }) => opts.cb(secret),
+        {
+          includeNonEnumerable: true,
+          prototypePolicy: "inherit",
+          childPolicy: "inherit",
+        },
+      );
+      realm.global.setSync("callWith", callWith);
+
+      const result = await realm.evaluateScript(`
+        let leaked;
+        callWith({ cb: (x) => { leaked = typeof x.reveal === "function" ? x.reveal() : undefined; } });
         leaked;
       `);
       expect(result.toNative()).toBe("leak");

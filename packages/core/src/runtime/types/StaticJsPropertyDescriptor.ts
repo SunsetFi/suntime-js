@@ -3,6 +3,7 @@ import { dropUndefined } from "../../utils/drop-undefined.js";
 import { hasOwnProperty } from "../../utils/has-own-property.js";
 import { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
+import type { HostAccessArg } from "./HostAccessOptions.js";
 import { isStaticJsCallable, type StaticJsCallable } from "./StaticJsCallable.js";
 import { StaticJsPlainObject } from "./StaticJsPlainObject.js";
 import { StaticJsUndefined } from "./StaticJsUndefined.js";
@@ -202,6 +203,7 @@ export function* propertyDescriptorToStaticJsObject(
 export function propertyDescriptorToNative(
   descriptor: StaticJsPropertyDescriptor,
   realm: StaticJsRealm,
+  access?: HostAccessArg,
 ): PropertyDescriptor {
   const objDescriptor: PropertyDescriptor = dropUndefined({
     enumerable: descriptor.enumerable,
@@ -212,15 +214,15 @@ export function propertyDescriptorToNative(
     const { get, set } = descriptor;
     if (get) {
       objDescriptor.get = function () {
-        const thisArg = realm.types.toStaticJsValue(this);
+        const thisArg = realm.types.toStaticJsValue(this, access);
         const result = get.callSync(thisArg);
-        return result.toNative();
+        return result.toNative({ access });
       };
     }
     if (set) {
       objDescriptor.set = function (value: unknown) {
-        const thisArg = realm.types.toStaticJsValue(this);
-        const staticJsValue = realm.types.toStaticJsValue(value);
+        const thisArg = realm.types.toStaticJsValue(this, access);
+        const staticJsValue = realm.types.toStaticJsValue(value, access);
         set.callSync(thisArg, [staticJsValue]);
       };
     }
@@ -231,7 +233,7 @@ export function propertyDescriptorToNative(
     }
 
     if (value !== undefined) {
-      objDescriptor.value = value.toNative();
+      objDescriptor.value = value.toNative({ access });
     }
   }
 

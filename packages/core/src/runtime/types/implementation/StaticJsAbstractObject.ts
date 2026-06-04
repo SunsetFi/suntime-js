@@ -6,6 +6,7 @@ import { toString } from "../../algorithms/to-string.js";
 import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import {
@@ -28,10 +29,13 @@ import {
 } from "../StaticJsPropertyDescriptor.js";
 import { type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
+import type { StaticJsToNativeOpts } from "../StaticJsToNativeOpts.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 
+import { PolicyKey, PolicyKeyInterner } from "./host-access/PolicyKey.js";
+import { resolveHostAccessOptions } from "./host-access/resolve-host-access-options.js";
 import {
   createStaticJsObjectProxy,
   StaticJsObjectProxyTarget,
@@ -47,7 +51,8 @@ export abstract class StaticJsAbstractObject
   private _prototype: StaticJsObject | null = null;
   private _extensible: boolean = true;
 
-  private _cachedJsObject: object | null = null;
+  private readonly _accessNativeInterner = new PolicyKeyInterner();
+  private readonly _accessNativeCache = new Map<PolicyKey, object>();
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
     super(realm);
@@ -464,15 +469,33 @@ export abstract class StaticJsAbstractObject
     this._privateElements.push(element);
   }
 
-  toNative(): unknown {
-    if (!this._cachedJsObject) {
+  /**
+   * Convert this function to a native (host) callable.
+   *
+   * When `opts.access` is provided, the bridge re-wraps the `this` and
+   * arguments it is later called with by passing that access as the `opts`
+   * argument of `toStaticJsValue` for each value, rather than using the realm's
+   * default behavior. This is how a sandbox function passed into host code
+   * keeps an inherited host-access level on its callback boundary instead of
+   * collapsing to the realm defaults.
+   *
+   * Bridges are cached per resolved access (keyed via {@link PolicyKeyInterner});
+   * the access-less bridge uses the shared cache on the base class.
+   */
+  override toNative({ access }: StaticJsToNativeOpts = {}): unknown {
+    const key = this._accessNativeInterner.keyFor(
+      typeof access === "function" ? access : resolveHostAccessOptions(access),
+    );
+
+    let cached = this._accessNativeCache.get(key);
+    if (!cached) {
       const proxyHandler: ProxyHandler<object> = {};
       this._configureToNativeProxy(proxyHandler);
-      const target = this._createToNativeProxyTarget();
-      this._cachedJsObject = createStaticJsObjectProxy(this, target, proxyHandler);
+      const target = this._createToNativeProxyTarget(access);
+      cached = createStaticJsObjectProxy(this, target, proxyHandler, access);
+      this._accessNativeCache.set(key, cached);
     }
-
-    return this._cachedJsObject;
+    return cached;
   }
 
   toStringSync(opts?: StaticJsRunTaskOptions): string {
@@ -487,7 +510,7 @@ export abstract class StaticJsAbstractObject
     return this.realm.invokeEvaluatorSync(toStringEval(this), opts);
   }
 
-  protected _createToNativeProxyTarget(): StaticJsObjectProxyTarget {
+  protected _createToNativeProxyTarget(_access?: HostAccessArg): StaticJsObjectProxyTarget {
     return {};
   }
 

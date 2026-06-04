@@ -22,7 +22,7 @@ export class StaticJsSymbolBoxed extends StaticJsPlainObjectImpl {
     return `Symbol(${this._value.description})`;
   }
 
-  override toNative(): unknown {
+  override toNative() {
     return new Object(this._value.toNative());
   }
 }

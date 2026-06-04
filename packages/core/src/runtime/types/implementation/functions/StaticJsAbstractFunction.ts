@@ -1,6 +1,7 @@
 import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
@@ -8,7 +9,7 @@ import { get } from "../../../algorithms/get.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
-import { StaticJsCallable, type StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
+import { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull, StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -16,21 +17,13 @@ import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { PolicyKeyInterner, type PolicyKey } from "../host-access/PolicyKey.js";
-import { resolveHostAccessOptions } from "../host-access/resolve-host-access-options.js";
-import {
-  createStaticJsObjectProxy,
-  StaticJsObjectProxyTarget,
-} from "../objects/create-object-proxy.js";
+import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export abstract class StaticJsAbstractFunction
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsFunction
 {
-  private readonly _accessNativeInterner = new PolicyKeyInterner();
-  private readonly _accessNativeCache = new Map<PolicyKey, Function>();
-
   private _initialName: string | null = null;
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
@@ -177,37 +170,8 @@ export abstract class StaticJsAbstractFunction
     return this.realm.invokeEvaluatorSync(this.constructEvaluator(args, newTarget), opts);
   }
 
-  /**
-   * Convert this function to a native (host) callable.
-   *
-   * When `opts.access` is provided, the bridge re-wraps the `this` and
-   * arguments it is later called with by passing that access as the `opts`
-   * argument of `toStaticJsValue` for each value, rather than using the realm's
-   * default behavior. This is how a sandbox function passed into host code
-   * keeps an inherited host-access level on its callback boundary instead of
-   * collapsing to the realm defaults.
-   *
-   * Bridges are cached per resolved access (keyed via {@link PolicyKeyInterner});
-   * the access-less bridge uses the shared cache on the base class.
-   */
   override toNative(opts?: StaticJsCallableToNativeOpts): Function {
-    const access = opts?.access;
-    if (access === undefined) {
-      return super.toNative() as Function;
-    }
-
-    const key = this._accessNativeInterner.keyFor(
-      typeof access === "function" ? access : resolveHostAccessOptions(access),
-    );
-    let cached = this._accessNativeCache.get(key);
-    if (!cached) {
-      const proxyHandler: ProxyHandler<object> = {};
-      this._configureToNativeProxy(proxyHandler);
-      const target = this._createToNativeProxyTarget(access);
-      cached = createStaticJsObjectProxy(this, target, proxyHandler) as Function;
-      this._accessNativeCache.set(key, cached);
-    }
-    return cached;
+    return super.toNative(opts) as Function;
   }
 
   protected override _createToNativeProxyTarget(access?: HostAccessArg): StaticJsObjectProxyTarget {
@@ -222,9 +186,20 @@ export abstract class StaticJsAbstractFunction
       const argValues = args.map(toValue);
       const thisArgValue = toValue(this);
 
-      const result = self.realm.invokeEvaluatorSync(self.callEvaluator(thisArgValue, argValues));
+      const result = self.realm.invokeEvaluatorSync(
+        captureThrownCompletion(self.callEvaluator(thisArgValue, argValues)),
+      );
 
-      return result.toNative();
+      if (Completion.Throw.is(result)) {
+        throw result.value.toNative({ access });
+      }
+
+      if (Completion.Normal.is(result)) {
+        return result.toNative({ access });
+      }
+
+      Completion.handleRuntime(result);
+      return undefined;
     } as StaticJsObjectProxyTarget;
   }
 }

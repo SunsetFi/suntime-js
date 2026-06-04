@@ -1,3 +1,4 @@
+import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
@@ -30,6 +31,7 @@ export function createStaticJsObjectProxy(
   obj: StaticJsObject,
   target: StaticJsObjectProxyTarget = {},
   additionalTraps: ProxyHandler<StaticJsObjectProxyTarget> = {},
+  access?: HostAccessArg,
 ): object {
   const getOwnPropertyDescriptor = (propertyName: string | symbol) => {
     let staticJsPropertyKey: StaticJsPropertyKey;
@@ -48,13 +50,13 @@ export function createStaticJsObjectProxy(
     const existingDef = Object.getOwnPropertyDescriptor(target, propertyName);
     if (existingDef && !existingDef.configurable) {
       if (isStaticJsDataPropertyDescriptor(descriptor) && descriptor.writable) {
-        target[propertyName] = obj.getSync(staticJsPropertyKey).toNative();
+        target[propertyName] = obj.getSync(staticJsPropertyKey).toNative({ access });
         return Object.getOwnPropertyDescriptor(target, propertyName);
       }
       return existingDef;
     }
 
-    const jsDescriptor = propertyDescriptorToNative(descriptor, obj.realm);
+    const jsDescriptor = propertyDescriptorToNative(descriptor, obj.realm, access);
 
     Object.defineProperty(target, propertyName, jsDescriptor);
 
@@ -96,7 +98,7 @@ export function createStaticJsObjectProxy(
       }
 
       // Delegate to the prototype proxy.
-      const proto = obj.getPrototypeOfSync()?.toNative();
+      const proto = obj.getPrototypeOfSync()?.toNative({ access });
       if (proto) {
         return Reflect.get(proto, p);
       }
@@ -118,7 +120,7 @@ export function createStaticJsObjectProxy(
       }
 
       // Delegate to the prototype proxy.
-      const proto = obj.getPrototypeOfSync()?.toNative();
+      const proto = obj.getPrototypeOfSync()?.toNative({ access });
       if (proto) {
         return Reflect.has(proto, p);
       }
@@ -188,7 +190,7 @@ export function createStaticJsObjectProxy(
       if (!proto) {
         return null;
       }
-      return proto.toNative() as object;
+      return proto.toNative({ access }) as object;
     },
     ...additionalTraps,
   });

@@ -21,7 +21,7 @@ export class StaticJsBooleanBoxed extends StaticJsPlainObjectImpl {
     return String(this._value);
   }
 
-  override toNative(): unknown {
+  override toNative() {
     return new Object(this._value);
   }
 }
