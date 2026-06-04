@@ -184,6 +184,25 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
           expect(wrapped.getSync("message").toNative()).toBe("bad");
         });
       });
+
+      it("Does not stub non well known errors", async () => {
+        const realm = new StaticJsRealm();
+        class MyError extends Error {
+          constructor(message: string) {
+            super(message);
+            this.name = "MyError";
+          }
+          isMyError = true;
+        }
+        const host = new MyError("bad");
+        const wrapped = realm.types.toStaticJsValue(host, {
+          stubWellKnownTypes: ["error"],
+          includeNonEnumerable: true,
+        });
+        expect(wrapped.getSync("name").toNative()).toBe("MyError");
+        expect(wrapped.getSync("message").toNative()).toBe("bad");
+        expect(wrapped.getSync("isMyError").toNative()).toBe(true);
+      });
     });
   });
 

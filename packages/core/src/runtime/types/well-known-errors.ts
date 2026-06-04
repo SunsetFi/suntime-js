@@ -14,17 +14,26 @@ export function isWellKnownErrorName(name: string): name is WellKnownErrorName {
   return WellKnownErrorNames.includes(name as WellKnownErrorName);
 }
 
-export function isWellKnownError(value: unknown): value is Error & { name: WellKnownErrorName } {
-  return value instanceof Error && isWellKnownErrorName(value.name);
-  // // This does let users override [Symbol.hasInstance]
-  // return (
-  //   value instanceof AggregateError ||
-  //   value instanceof Error ||
-  //   value instanceof EvalError ||
-  //   value instanceof RangeError ||
-  //   value instanceof ReferenceError ||
-  //   value instanceof SyntaxError ||
-  //   value instanceof TypeError ||
-  //   value instanceof URIError
-  // );
+const wellKnownErrorConstructors = new Map<new (...args: any[]) => Error, WellKnownErrorName>([
+  [AggregateError, "AggregateError"],
+  [Error, "Error"],
+  [EvalError, "EvalError"],
+  [RangeError, "RangeError"],
+  [ReferenceError, "ReferenceError"],
+  [SyntaxError, "SyntaxError"],
+  [TypeError, "TypeError"],
+  [URIError, "URIError"],
+]);
+
+export function getWellKnownErrorName(value: unknown): WellKnownErrorName | undefined {
+  if (value instanceof Error === false) {
+    return undefined;
+  }
+
+  const constructor = value.constructor;
+  if (typeof constructor !== "function") {
+    return undefined;
+  }
+
+  return wellKnownErrorConstructors.get(constructor as any);
 }

@@ -7,7 +7,7 @@ import { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
-import { isWellKnownError, WellKnownErrorName } from "../../well-known-errors.js";
+import { getWellKnownErrorName, WellKnownErrorName } from "../../well-known-errors.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
 import { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
@@ -168,8 +168,11 @@ export class StaticJsHostProxyFactory {
       return this._realm.invokeEvaluatorSync(createArrayFromList(values));
     }
 
-    if (isWellKnownError(host) && stubWellKnownTypes.includes("error")) {
-      return this._stubError(host, policy);
+    if (stubWellKnownTypes.includes("error")) {
+      const wellKnownName = getWellKnownErrorName(host);
+      if (wellKnownName) {
+        return this._stubError(host as Error, wellKnownName, policy);
+      }
     }
 
     if (!rawPrototypes) {
@@ -214,7 +217,8 @@ export class StaticJsHostProxyFactory {
   }
 
   private _stubError(
-    host: Error & { name: WellKnownErrorName },
+    host: Error,
+    type: WellKnownErrorName,
     policy: HostAccessPolicy,
   ): StaticJsObject {
     if (host instanceof AggregateError) {
@@ -246,7 +250,7 @@ export class StaticJsHostProxyFactory {
       return stub;
     }
 
-    return this._realm.types.error(host.name, host.message);
+    return this._realm.types.error(type, host.message);
   }
 
   private _getCached(host: object, policy: HostAccessPolicy) {
