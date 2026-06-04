@@ -52,7 +52,7 @@ function HomepageCodeSnippet() {
         <Heading as="h2">Try it out!</Heading>
         <p>
           Or try it in the <Link href="/playground">interactive playground</Link> complete with
-          breakpoints!
+          variable inspection and breakpoints!
         </p>
         <CodeBlock language="ts" metastring="live-staticjs">
           {quickStartCode}

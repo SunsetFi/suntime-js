@@ -42,10 +42,12 @@ export function createTestHandler(testRelativePath: string) {
     //   }
     // }
 
+    const runner = isDebuggerActive
+      ? undefined
+      : createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout });
     const realm = StaticJsRealm({
-      runTask: isDebuggerActive
-        ? undefined
-        : createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
+      runTask: runner,
+      runTaskSync: runner,
       // resolveImportedModule,
     });
 

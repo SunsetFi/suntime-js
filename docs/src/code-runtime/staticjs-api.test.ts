@@ -185,3 +185,21 @@ it("can create function objects", () => {
     `);
   expect(result.toNative()).toEqual([true, "hello world"]);
 });
+
+it("can intercept task abort errors", () => {
+  const { realm } = makeApiRealm();
+  const result = realm.evaluateScriptSync(`
+      const inner = StaticJsRealm({
+        runTaskSync: task => {
+          task.abort();
+        },
+      });
+      try {
+        inner.evaluateScriptSync("while(true) {}", { runTask: task => { while(!task.done) { task.next(); } } });
+        "no error";
+      } catch (e) {
+        e instanceof StaticJsTaskAbortedError;
+      }
+    `);
+  expect(result.toNative()).toBe(true);
+});

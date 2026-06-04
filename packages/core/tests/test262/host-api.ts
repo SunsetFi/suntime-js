@@ -30,10 +30,12 @@ export default function createHostApi(
     createRealm: {
       ...hostDefinedProperty,
       value: realm.types.function("createRealm", function* () {
+        const runner = createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout });
         const newrealm = StaticJsRealm({
           // This timeout is a little weird, as we are a sub-realm from the main
           // test
-          runTask: createTimeBoundTaskRunner({ maxRunTime: ScriptTimeout }),
+          runTask: runner,
+          runTaskSync: runner,
         });
         return createHostApi(newrealm, accessRealm);
       }),

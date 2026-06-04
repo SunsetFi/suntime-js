@@ -194,8 +194,8 @@ export class CodeRuntime {
     }
 
     this._verifyNotDisposed();
-    this._debugSession?.addBreakpoint({ line, sourceName: SourceName });
     this._breakpoints$.next([...this._breakpoints$.getValue(), line]);
+    this._debugSession?.addBreakpoint({ line, sourceName: SourceName });
   }
 
   removeBreakpoint(line: number) {
@@ -259,8 +259,10 @@ export class CodeRuntime {
   private _terminate() {
     this._debugSession?.terminate();
     this._debugSession = null;
+
     this._subTasks.filter((x) => !x.done).forEach((task) => task.abort());
     this._subTasks = [];
+
     this._pauseLocation$.next(null);
     this._status$.next("idle");
   }

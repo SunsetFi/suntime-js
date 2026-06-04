@@ -12,6 +12,7 @@ import {
   HostAccessOptions,
   createTimeBoundTaskRunner,
   createTimeSharingTaskRunner,
+  StaticJsTaskAbortedError,
 } from "@suntime-js/core";
 
 import { CodeRuntimeSpawnOptions } from "./CodeRuntime";
@@ -182,5 +183,6 @@ export function createStaticJsRealmApi(
     isStaticJsFunction: realm.types.toStaticJsValue(isStaticJsFunction, access),
     createTimeBoundTaskRunner: realm.types.toStaticJsValue(createTimeBoundTaskRunner, access),
     createTimeSharingTaskRunner: realm.types.toStaticJsValue(createTimeSharingTaskRunner, access),
+    StaticJsTaskAbortedError: realm.types.toStaticJsValue(StaticJsTaskAbortedError, access),
   };
 }

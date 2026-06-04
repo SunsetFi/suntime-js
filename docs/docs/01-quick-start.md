@@ -133,7 +133,11 @@ For more information, see [Working with Types](./07-types.md)
 Time limits can be enforced on synchronous and asynchronous code
 
 ```ts live-staticjs include-runtime
-import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
+import {
+  StaticJsRealm,
+  createTimeBoundTaskRunner,
+  StaticJsTaskAbortedError,
+} from "@suntime-js/core";
 
 const realm = StaticJsRealm({
   runTaskSync: createTimeBoundTaskRunner({
@@ -141,8 +145,16 @@ const realm = StaticJsRealm({
   }),
 });
 
-// Hangs for 3 seconds, then aborts with a thrown StaticJsTaskAbortedError
-const result = realm.evaluateScriptSync(`while(true) {} `);
+// Hangs for 3 seconds, then aborts
+try {
+  const result = realm.evaluateScriptSync(`while(true) {} `);
+} catch (e) {
+  if (e instanceof StaticJsTaskAbortedError) {
+    console.log("Task was aborted:", e.message);
+  }
+
+  throw e;
+}
 ```
 
 ## Running asynchronous code
