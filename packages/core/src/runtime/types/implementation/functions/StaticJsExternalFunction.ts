@@ -61,7 +61,9 @@ export class StaticJsExternalFunction extends StaticJsExternalObject implements 
   }
 
   get isConstructor() {
-    return false;
+    // We do not know if our host function is constructable or not, so we assume it is.
+    // If it is not, the call to Reflect.construct will throw, which is what we want.
+    return true;
   }
 
   get strict(): boolean {

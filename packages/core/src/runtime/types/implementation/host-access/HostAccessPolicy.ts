@@ -12,7 +12,7 @@ export interface HostAccessPolicy {
   readonly options: ResolvedHostAccessOptions;
 
   /**
-   * Wrap a host child according to this policy's `grantAccess` (or safe
+   * Wrap a host child according to this policy's `childAccess` (or safe
    * defaults if none). Caller is responsible for short-circuiting primitives
    * if desired; this implementation must handle primitives correctly too.
    */
@@ -20,7 +20,7 @@ export interface HostAccessPolicy {
 
   /**
    * Wrap a host prototype reached via the structural [[Prototype]] chain,
-   * using THIS policy verbatim (no grantAccess consultation).
+   * using prototypeAccess.
    */
   wrapPrototype(hostProto: object | null, intrinsic: keyof Intrinsics): StaticJsObject | null;
 }

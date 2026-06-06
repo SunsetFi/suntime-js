@@ -59,7 +59,7 @@ export function resolveHostAccessOptions(
         .filter(
           (key) => !allowedHostAccessOptionKeys.has(key as (typeof HostAccessOptionKeys)[number]),
         )
-        .join(", ")}. Allowed keys are: ${AllHostAccessStubTypes.join(", ")}`,
+        .join(", ")}. Allowed keys are: ${HostAccessOptionKeys.join(", ")}`,
     );
   }
 

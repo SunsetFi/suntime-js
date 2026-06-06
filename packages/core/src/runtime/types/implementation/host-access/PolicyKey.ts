@@ -5,7 +5,7 @@ import type { ResolvedHostAccessOptions } from "./resolve-host-access-options.js
 export type PolicyKey = string;
 
 export class PolicyKeyInterner {
-  private readonly _grantIds = new WeakMap<Function, number>();
+  private readonly _grantIds = new WeakMap<object, number>();
   private _nextGrantId = 1;
 
   keyFor(policy: ResolvedHostAccessOptions | HostAccessQueryFunction): PolicyKey {
@@ -19,17 +19,19 @@ export class PolicyKeyInterner {
     const childGrantId = policy.childPolicy ? this._idForChildPolicy(policy.childPolicy) : 0;
     return [
       policy.stubWellKnownTypes.toSorted().join(",") || "none",
-      policy.includeNonEnumerable ? "1" : "0",
-      policy.writable ? "1" : "0",
-      policy.useSandboxThis ? "1" : "0",
-      policy.rawPrototypes ? "1" : "0",
+      String(policy.includeNonEnumerable),
+      String(policy.includeWellKnownSymbols),
+      String(policy.writable),
+      String(policy.extensible),
+      String(policy.useSandboxThis),
+      String(policy.rawPrototypes),
       protoGrantId,
       childGrantId,
     ].join(":");
   }
 
   private _idForChildPolicy(policy: HostAccessChildOptions): string {
-    if (typeof policy === "function") {
+    if (policy && (typeof policy === "function" || typeof policy === "object")) {
       let id = this._grantIds.get(policy);
       if (id === undefined) {
         id = this._nextGrantId++;

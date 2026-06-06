@@ -32,10 +32,7 @@ export class StaticJsHostProxyFactory {
   // not only NOT GC, but KEEP THE OBJECT PERMENANTLY ALIVE until the macrotask ticks over.
   // This causes vitest to fall over, as it NEVER ticks the macrotask and simply loops
   // over microtasks the entire time.
-  private readonly _externalObjectCache = new WeakMap<
-    object,
-    Map<PolicyKey, StaticJsExternalObject | StaticJsExternalFunction>
-  >();
+  private readonly _externalObjectCache = new WeakMap<object, Map<PolicyKey, StaticJsObject>>();
 
   constructor(private readonly _realm: StaticJsRealm) {}
 
@@ -165,13 +162,17 @@ export class StaticJsHostProxyFactory {
       // is what we want.
       const values = host.map((v) => policy.wrapChild(v, false));
       // Safe: creates data properties on a new array instance.
-      return this._realm.invokeEvaluatorSync(createArrayFromList(values));
+      const result = this._realm.invokeEvaluatorSync(createArrayFromList(values));
+      this._putCached(host, policy, result);
+      return result;
     }
 
     if (stubWellKnownTypes.includes("error")) {
       const wellKnownName = getWellKnownErrorName(host);
       if (wellKnownName) {
-        return this._stubError(host as Error, wellKnownName, policy);
+        const result = this._stubError(host as Error, wellKnownName, policy);
+        this._putCached(host, policy, result);
+        return result;
       }
     }
 
@@ -259,11 +260,7 @@ export class StaticJsHostProxyFactory {
     return inner.get(this._policyInterner.keyFor(policy.options));
   }
 
-  private _putCached(
-    host: object,
-    policy: HostAccessPolicy,
-    wrapper: StaticJsExternalObject | StaticJsExternalFunction,
-  ) {
+  private _putCached(host: object, policy: HostAccessPolicy, wrapper: StaticJsObject) {
     let inner = this._externalObjectCache.get(host);
     if (!inner) {
       inner = new Map();
