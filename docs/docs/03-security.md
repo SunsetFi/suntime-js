@@ -160,7 +160,7 @@ const func = realm.types.function("myFunc", function* (a, b) {
 });
 ```
 
-For a complete guide to writing host functions including the generator pattern, see [Defining Function](./02-detailed-walkthrough.md#defining-functions).
+For a complete guide to writing host functions including the generator pattern, see [Creating Functions](./07-types.md#creating-functions).
 
 ### Invoking Functions
 
@@ -232,8 +232,6 @@ if (!isStaticJsNumber(returnValue)) {
 // Get the value safely, without invoking sandbox code.
 const result = returnValue.value;
 ```
-
-For worked examples of safely invoking sandbox functions, see [Invoking Functions](./02-detailed-walkthrough.md#invoking-functions).
 
 ## Traditionally problematic code
 

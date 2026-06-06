@@ -42,7 +42,7 @@ if (isStaticJsString(result)) {
 }
 ```
 
-:::hint[Scalar values]
+:::tip[Scalar values]
 All scalar types in StaticJs have a 'value' property containing the host-native javascript value of the scalar.
 :::
 

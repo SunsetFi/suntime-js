@@ -126,7 +126,7 @@ realm.global.setSync("console", consoleMock);
 realm.evaluateScriptSync(`console.log("Hello from sandbox!")`);
 ```
 
-:::hint
+:::tip
 Host-provided functions can participate in time-sharing and time limits when implemented as [Evaluators](./09-evaluators.md).
 :::
 
@@ -193,7 +193,6 @@ const resultPromise = realm.evaluateScript(`
 
 For a complete tour of the type system, task runners, modules, and writing host functions, see the following sections:
 
-- [Detailed Walkthrough](./02-detailed-walkthrough.md) - Conceptual guide with worked examples
 - [Security](./03-security.md) - What is safe to expose to sandboxed code and how to avoid escapes
 - [Realms](./05-realms.md) - Full realm options and method reference
 - [Runtime Types](./07-types.md) - All type factories and APIs
