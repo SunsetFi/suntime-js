@@ -12,38 +12,23 @@ In order to allow script runtime functions to pause and resume at key checkpoint
 The primary place evaluators are used is in the [Function Type Factory](./api/type-factory.md#functionname-func-opts).
 :::
 
-## EvaluationGenerator
-
-The common return type of all Evaluators is `EvaluationGenerator<TReturn>`:
-
-```ts
-export type EvaluationGenerator<TReturn = Completion.Normal> = Generator<
-  EvaluatorCommand,
-  TReturn,
-  Completion.Normal
->;
-```
-
-The generic parameter of EvaluationGenerator contains the final return type of the generator. The core EvaluationGenerator type will default this to a `Completion`, but for users of the library, this is almost always overridden and simplified.
-
-:::info
-`EvaluatorCommand` and `Completion` are internal details of the evaluator, and typically you do not need to interact with them.
-
-The EvaluationGenerator type defaults its return type to a Completion. However, in practice, all of your evaluators should explicitly indicate a return type, typically StaticJsValue.
-:::
-
 ## Implementing Evaluators
 
 Evaluator functions most often take the form of generator functions, which are denotated by an asterisk (`*`) on the function keyword. Evaluator functions also delegate (using `yield *`) to other evaluator generators when interacting with StaticJsValue objects. By keeping the chain of generators, the [Task Iterator](./api/tasks.md) is able to halt evaluation at any operation node, to either yield time to the engine, to pause evaluation during debugging, or to abort the operation entirely.
 
 ```ts
-function* setIfNotExists(obj: StaticJsObject, property: StaticJsPropertyKey, value: StaticJsValue) {
+function* setIfNotExists(
+  obj: StaticJsObject,
+  property: StaticJsPropertyKey,
+  value: StaticJsValue,
+): EvaluationGenerator {
   const hasProperty = yield* obj.hasPropertyEvaluator(property);
   if (hasProperty) {
     return;
   }
 
   yield* obj.setEvaluator(property, value);
+  return realm.types.undefined;
 }
 ```
 
@@ -54,7 +39,11 @@ The error itself takes a single parameter — the thrown [StaticJsValue](./api/t
 By throwing this error, you can emit an error that is catchable by sandboxed code:
 
 ```ts
-function* setOrError(obj: StaticJsObject, property: StaticJsPropertyKey, value: StaticJsValue) {
+function* setOrError(
+  obj: StaticJsObject,
+  property: StaticJsPropertyKey,
+  value: StaticJsValue,
+): EvaluationGenerator {
   const hasProperty = yield* obj.hasPropertyEvaluator(property);
   if (hasProperty) {
     const err = realm.types.error("Error", "Property is already set");
@@ -62,6 +51,7 @@ function* setOrError(obj: StaticJsObject, property: StaticJsPropertyKey, value: 
   }
 
   yield* obj.setEvaluator(property, value);
+  return realm.types.undefined;
 }
 ```
 
@@ -83,4 +73,21 @@ Always ensure you `yield*` the results of all `*Evaluator` functions. Failing to
 
 ## Usage
 
-Generally, evaluators are used by the [Type Factory](./api/type-factory.md#functionname-func-opts) when declaring functions for the sandbox. However, you can make your own individual evaluator functions, so long as the initial entrypoint of the call stack is within one such function factory.
+Evaluators begin at the [Type Factory](./api/type-factory.md#functionname-func-opts). Defining a host function optionally allows you to define it as a generator:
+
+```ts
+const realm = StaticJsRealm();
+
+const func = realm.types.function("ownKeys", function* (_thisArg, obj) {
+  const keys = yield* obj.ownPropertyKeysEvaluator();
+  const values = keys.map((key) => {
+    if (isStaticJsSymbol(key)) {
+      return key;
+    }
+    return realm.types.string(key);
+  });
+  return realm.types.array(values);
+});
+```
+
+Once you define an evaluator function, you may call any number of them from within that function. So long as you `yield *` each evaluator up the chain, these functions will be asynchronous and time-shared according to the specified [task runner](./08-tasks.md).

@@ -42,7 +42,9 @@ if (isStaticJsString(result)) {
 }
 ```
 
-Scalar types (`string`, `number`, `boolean`, `null`, `undefined`, `symbol`) all expose a `.value` property holding the native equivalent. Object-like types do not.
+:::hint[Scalar values]
+All scalar types in StaticJs have a 'value' property containing the host-native javascript value of the scalar.
+:::
 
 See the [type reference table](./api/types/index.md#type-reference) for all guards.
 
@@ -51,7 +53,7 @@ See the [type reference table](./api/types/index.md#type-reference) for all guar
 Pass a property descriptor map to `realm.types.object()`. Every `value` in the descriptor must be a `StaticJsValue`; use the factory (or `toStaticJsValue`) to produce them:
 
 ```ts
-const obj = realm.types.object({
+const proto = realm.types.object({
   foo: {
     value: realm.types.number(42),
     enumerable: true,
@@ -60,8 +62,7 @@ const obj = realm.types.object({
   },
 });
 
-// Then expose it to the sandbox:
-realm.global.setSync("myObj", obj);
+const obj = realm.types.object({}, proto);
 ```
 
 An optional second argument sets the sandbox prototype. If omitted, `Object.prototype` from the realm's intrinsics is used.
@@ -109,7 +110,7 @@ Generator functions that are used in the service of evaluating sandboxed code ar
 
 ## Coercing native values
 
-`realm.types.toStaticJsValue(nativeValue)` converts a host value to a sandbox value following the [coercion rules](./04-type-coercion.md). This is a convenience shortcut for passing existing host objects or functions into the sandbox:
+[`realm.types.toStaticJsValue(nativeValue)`](./api/type-factory.md#tostaticjsvaluevalue) converts a host value to a sandbox value following the [coercion rules](./04-type-coercion.md) and the realm's default host access policy. This is a convenience shortcut for passing existing host objects or functions into the sandbox:
 
 ```ts
 const wrapped = realm.types.toStaticJsValue({
@@ -122,7 +123,9 @@ realm.global.setSync("host", wrapped);
 ```
 
 :::caution
-Native objects converted this way are **not mutable** from the sandbox. Property setters are not invoked and properties appear non-configurable. Getters and function calls still work, including the risk of synchronous deadlocks. See [Using synchronous functions](#using-synchronous-functions) below.
+By default. Native objects converted this way are **partially immutable** and **restricted** from the sandbox. Only enumerable properties will be revealed, properties will not be configurable, and data properties will not be writable. Property setters, however, **will** still be invoked, although their this-arg are pinned to the host object. Functions passing through this barrier (such as sandboxed functions passed as a callback argument to a host function) will be invoked synchonously, which opens the risk for deadlocks.
+
+See [Type Coercion](./04-type-coercion.md) for more details, including how to customize this behavior, and [Using synchronous functions](#using-synchronous-functions) below for how to handle deadlocks.
 :::
 
 ## Reading object properties
@@ -152,3 +155,30 @@ const name = func.getNameSync({
 For synchronous task runners, the runner **must** fully drain the iterator or call `.abort()` / `.throw()`. Failing to do so throws a [StaticJsSynchronousTaskIncompleteError](./api/errors/synchronous-task-incomplete-error.md).
 
 See [Tasks](./08-tasks.md) for more on task runners.
+
+## Coercing sandbox values to native
+
+All StaticJs values have a [`toNative()`](./api/types/primitive.md#tonative) method that produces a host-proxied representation.
+
+```ts
+const funcSrc = realm.evaluateScriptSync(`
+  function add(a, b) {
+    return a + b;
+  }
+  add;
+`);
+
+const func = funcSrc.toNative();
+
+const result = func(1, 2);
+```
+
+:::danger[toNative() and objects]
+While toNative is safe for scalar values, it returns live proxies for objects. Such proxies carry risks, as accessing any property on it may synchronously invoke sandboxed code. Avoid [`toNative()`](./api/types/primitive.md#tonative) on objects unless you have a time-bounded [StaticJsRealm.runTaskSync](./api/realm.md#runtasksync) configured.
+
+Additionally, toNative is by nature bidirectional, and will coerce native values to sandboxed ones through function arguments. This carries the same risks as [Coercing native values](#coercing-native-values) above.
+
+Prefer `.value` on scalars (accessible after an [`isStaticJsScalar`](./api/types/scalar.md#isstaticjsscalarvalue) check) and direct [`StaticJsObject`](./api/types/object.md) API methods on objects.
+:::
+
+See [Type Coercion](./04-type-coercion.md) for full coercion rules.

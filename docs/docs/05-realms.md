@@ -44,6 +44,31 @@ realm.global.setSync(
 
 See the [global option](./api/realm.md#global) and [globalThis option](./api/realm.md#globalthis) for construction-time variants.
 
+### Specifying a custom global object
+
+The global object is created at realm creation time, but you can customize it by providing a factory function:
+
+```ts
+const realm = StaticJsRealm({
+  global: (types) =>
+    types.object({
+      foo: {
+        value: types.number(42),
+        enumerable: true,
+        configurable: false,
+      },
+    }),
+});
+```
+
+:::warning
+Whatever global object you define, StaticJs will try to initialize it with the standard JavaScript API globals. If the object returned is not extensible, issues may occur.
+:::
+
+:::danger
+Never use coerced objects for a global value, as writes to them are a no-op, and the sandboxed environment will be left in a non-functional state.
+:::
+
 ## Providing modules
 
 Static modules can be registered at construction time using the `modules` option:
