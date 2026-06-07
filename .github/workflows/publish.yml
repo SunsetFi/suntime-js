@@ -1,0 +1,59 @@
+name: Publish Package to npmjs
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  test-262-language:
+    name: Run Test262 language regression tests
+    uses: ./.github/workflows/tests-262-baseline-language.yml
+    with:
+      ref: ${{ github.sha }}
+
+  test-262-builtins:
+    name: Run Test262 builtins regression tests
+    uses: ./.github/workflows/tests-262-baseline-builtins.yml
+    with:
+      ref: ${{ github.sha }}
+
+  test-e2e:
+    name: Run end to end tests
+    uses: ./.github/workflows/tests-e2e.yml
+    with:
+      ref: ${{ github.sha }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          node-version: "24.x"
+          registry-url: "https://registry.npmjs.org"
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build package
+        run: pnpm --filter @suntime-js/core build
+
+  publish:
+    # only run on main, don't trigger in forks
+    if: github.repository == 'vitest-dev/vitest'
+    needs: [test-262-language, test-262-builtins, test-e2e, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          node-version: "24.x"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish package to npmjs
+        run: pnpm publish --access public --filter @suntime-js/core --tag "${GITHUB_REF_NAME}"
