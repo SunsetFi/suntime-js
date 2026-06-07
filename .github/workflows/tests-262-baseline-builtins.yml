@@ -13,8 +13,8 @@ on:
 
 jobs:
   test:
+    name: Run Test262 builtins regression tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

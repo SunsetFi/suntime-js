@@ -69,4 +69,4 @@ jobs:
           name: dist
           path: packages/core/dist/
       - name: Publish package to npmjs
-        run: pnpm publish --access public --filter @suntime-js/core --tag "${GITHUB_REF_NAME}"
+        run: pnpm publish --access public --filter @suntime-js/core --no-git-checks --tag "${GITHUB_REF_NAME}"
