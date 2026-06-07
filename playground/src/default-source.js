@@ -18,12 +18,6 @@
 // Hit F5 or use the debugger pane to run.
 // Breakpoints and stack traces are supported, but variable and scope inspection is a work in progress.
 
-/*
-while(true) {
-  console.log("Look Around You")
-}
-*/
-
 function* getPrimes(limit) {
   const primes = [];
   let candidate = 2;

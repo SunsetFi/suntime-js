@@ -20,7 +20,7 @@ When interoping with sandbox code, it is **strongly encouraged** that you always
 
 There are a few rules to keeping sandboxed code from misbehaving:
 
-- Always specify a [runTask](./api/realm.md#runtask) and [runTaskSync](./api/realm.md#runtasksync) [Task Scheduler](./08-tasks.md). These are critical to prevent infinite loops and runaway code.
+- Always specify a realm-default [runTask](./api/realm.md#runtask) and [runTaskSync](./api/realm.md#runtasksync) [Task Scheduler](./08-tasks.md). These are critical to prevent infinite loops and runaway code.
 - Always use the [Type Factory](./07-types.md) and StaticJs type objects, to ensure you know where you are potentially evaluating sandboxed code.
 - Avoid [toNative](./api/types/primitive.md#tonative) and [Type Coercion](./04-type-coercion.md), to avoid accidentally invoking sandboxed code unexpectedly.
 
@@ -40,9 +40,11 @@ const value = evaluateScript(`
   obj;
 `);
 
+const obj = value.toNative();
+
 // Invoking sandboxed code here may be unexpected.
 // This will cause a deadlock, as runTaskSync was never specified.
-const keys = Object.keys(value);
+const keys = Object.keys(obj);
 ```
 
 Use [StaticJs Types](./07-types.md) instead:
@@ -63,12 +65,16 @@ const value = await realm.evaluateScript(`
   obj;
 `);
 
+// Keeping the value as a StaticJs value provides more visibility
+// into where sandboxed code can evaluate.
+// const obj = value.toNative();
+
 // Will await the 500 millisecond response time,
 // then abort the task.
-// You can optionally supply a custom runTask
-// to ownEnumerableKeysAsyc directly
 const keys = await value.ownEnumerableKeysAsync();
 ```
+
+Additionally, you may pass a custom `runTask` option to any Sync or Async function of StaticJs, through [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
 
 #### With Coercion
 
@@ -81,6 +87,8 @@ const targetObj = {
     return this._value;
   },
 };
+
+Object.defineProperty(targetObj, "secret", { enumerable: false, value: 42 });
 
 const myOtherObject = {
   _value: "other-object",
@@ -103,13 +111,19 @@ const realm = StaticJsRealm({
 
 realm.evaluateScript(`
   // Properties can NOT be modified; will no-op
-  myObject._value = "my-sandbox";
+  targetObj._value = "my-sandbox";
   
   // Alternative 'this' invokes for property getters
   // will NOT be honored:
-  const descr = Object.getOwnPropertyDescriptor(myObj, "foo");
+  const descr = Object.getOwnPropertyDescriptor(targetObj, "foo");
   // Still stays "target":
   const value = descr.get.call(myOtherObject); 
+
+  // Enumerable properties are NOT accessible
+  // Returns 'false'
+  Object.hasOwnProperty(taretObj, "secret");
+  // Resolves to 'undefined'
+  const secret = targetObj.secret;
 `);
 ```
 
@@ -131,8 +145,8 @@ const add = realm.types.function("myFunc", (a, b) => {
   if (!isStaticJsNumber(aValue) || !isStaticJsNumber(bValue)) {
     // Potentially incorrect: Native errors
     // will not be captured by try / catch in
-    // the sandbox, and instead immediately
-    // bubble up to the host.
+    // the sandbox, and instead will bubble up
+    // to the host.
     throw new TypeError("value must be a number");
   }
 
@@ -150,9 +164,8 @@ const func = realm.types.function("myFunc", function* (a, b) {
   const bValue = yield* b.getEvaluator("value");
 
   if (!isStaticJsNumber(aValue) || !isStaticJsNumber(bValue)) {
-    // Correct: Throwing a sandbox object will get captured by try/catch
-    // within the sandbox.
-    // This works with or without a wrapping StaticJsRuntimeError()
+    // Correct: Throwing a sandbox object will get
+    // captured by try/catch within the sandbox.
     throw realm.types.error("TypeError", "value must be a number");
   }
 

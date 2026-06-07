@@ -78,7 +78,10 @@ realm.global.setSync(
   "add",
   realm.types.function("add", (a, b) => {
     // Arguments arrive as StaticJsValues.
-    return realm.types.number(a.value + b.value);
+    const sum = a.value + b.value;
+
+    // Return value must be a StaticJsValue
+    return realm.types.number(sum);
   }),
 );
 ```
@@ -90,14 +93,18 @@ import { isStaticJsObject, isStaticJsNumber, StaticJsRuntimeError } from "@sunti
 
 const compare = realm.types.function("compare", function* (a, b) {
   if (!isStaticJsObject(a) || !isStaticJsObject(b)) {
-    throw new StaticJsRuntimeError(realm.types.error("TypeError", "Arguments must be objects"));
+    // Thrown StaticJsValue objects will be capturable by the sandbox
+    // code through try / catch.
+    throw realm.types.error("TypeError", "Arguments must be objects");
   }
 
+  // Use evaluator functions so the get operations share the same
+  // task runner and time slicing as the caller.
   const va = yield* a.getEvaluator("value");
   const vb = yield* b.getEvaluator("value");
 
   if (!isStaticJsNumber(va) || !isStaticJsNumber(vb)) {
-    throw new StaticJsRuntimeError(realm.types.error("TypeError", "Object values must be numbers"));
+    throw realm.types.error("TypeError", "Object values must be numbers");
   }
 
   return realm.types.number(va.value - vb.value);
