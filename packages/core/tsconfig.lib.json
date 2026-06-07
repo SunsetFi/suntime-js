@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "types": ["node"],
-    "outDir": "./lib",
+    "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "rootDir": "./src",

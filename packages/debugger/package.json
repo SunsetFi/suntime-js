@@ -6,28 +6,28 @@
   "license": "ISC",
   "author": "SunsetFi",
   "files": [
-    "lib"
+    "dist"
   ],
   "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
       "development": "./src/index.ts",
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "publishConfig": {
     "exports": {
       ".": {
-        "types": "./lib/index.d.ts",
-        "import": "./lib/index.js"
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
       }
     }
   },
   "scripts": {
     "prepublish": "pnpm run clean && pnpm run build",
-    "clean": "rimraf lib tsconfig.lib.tsbuildinfo tsconfig.tests.tsbuildinfo",
+    "clean": "rimraf dist tsconfig.lib.tsbuildinfo tsconfig.tests.tsbuildinfo",
     "lint": "oxlint",
     "build": "tsc -p tsconfig.lib.json",
     "typecheck": "tsgo -p tsconfig.lib.json --noEmit && tsgo -p tsconfig.tests.json --noEmit",
