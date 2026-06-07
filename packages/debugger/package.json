@@ -26,7 +26,6 @@
     }
   },
   "scripts": {
-    "prepublish": "pnpm run clean && pnpm run build",
     "clean": "rimraf dist tsconfig.lib.tsbuildinfo tsconfig.tests.tsbuildinfo",
     "lint": "oxlint",
     "build": "tsc -p tsconfig.lib.json",
@@ -53,5 +52,5 @@
   "peerDependencies": {
     "@suntime-js/core": "workspace:*"
   },
-  "packageManager": "pnpm@10.30.2"
+  "packageManager": "pnpm@11.5.2"
 }
