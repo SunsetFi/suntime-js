@@ -44,6 +44,7 @@ jobs:
         with:
           name: dist
           path: packages/core/dist/
+          if-no-files-found: error
 
   publish:
     name: Publish @suntime-js/core to npmjs
