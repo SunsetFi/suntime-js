@@ -12,7 +12,7 @@
  * Try running an infinite loop, and see how the interpreter handles it!
  *
  * This site is configured to run the sandbox at a conservative rate of 2000 AST nodes per 10ms,
- * which allows the site to remain somewhat responsive.
+ * which allows the site to remain responsive.
  */
 
 // Hit F5 or use the debugger pane to run.
