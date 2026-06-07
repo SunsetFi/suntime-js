@@ -199,8 +199,8 @@ export default function SuntimeCodeBlock({
       </div>
       {exposeStaticJs && (
         <span className={styles.noSandboxDisclaimer}>
-          Note: This instance exposes the @suntime-js/core module, and therefore this editor is not
-          a secure sandbox.
+          Note: This suntime-js instance exposes raw primitives from the @suntime-js/core module,
+          and is not a secure sandbox.
         </span>
       )}
     </div>
