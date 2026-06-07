@@ -41,7 +41,7 @@ jobs:
 
   publish:
     # only run on main, don't trigger in forks
-    if: github.repository == 'sunsetfi/suntime-js'
+    if: github.repository == 'SunsetFi/suntime-js'
     needs: [test-262-language, test-262-builtins, test-e2e, build]
     runs-on: ubuntu-latest
     permissions:
