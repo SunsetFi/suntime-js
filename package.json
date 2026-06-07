@@ -1,5 +1,5 @@
 {
-  "name": "@static-js/workspace",
+  "name": "@suntime-js/workspace",
   "private": true,
   "packageManager": "pnpm@11.5.2",
   "scripts": {

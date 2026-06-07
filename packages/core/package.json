@@ -7,7 +7,7 @@
   "license": "ISC",
   "author": "SunsetFi",
   "repository": {
-    "url": "https://github.com/SunsetFi/static-js"
+    "url": "https://github.com/SunsetFi/suntime-js"
   },
   "engines": {
     "node": ">= 22"
