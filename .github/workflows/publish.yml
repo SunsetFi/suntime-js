@@ -25,6 +25,7 @@ jobs:
       ref: ${{ github.sha }}
 
   build:
+    name: Build @suntime-js/core
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -39,12 +40,13 @@ jobs:
       - name: Build package
         run: pnpm --filter @suntime-js/core build
       - name: Upload build artifact
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: dist
-          path: dist/
+          path: packages/core/dist/
 
   publish:
+    name: Publish @suntime-js/core to npmjs
     # only run on main, don't trigger in forks
     if: github.repository == 'SunsetFi/suntime-js'
     needs: [test-262-language, test-262-builtins, test-e2e, build]
@@ -56,14 +58,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           node-version: "24.x"
           registry-url: "https://registry.npmjs.org"
       - name: Download build artifact
-        uses: actions/download-artifact@v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: dist
-          path: dist/
+          path: packages/core/dist/
       - name: Publish package to npmjs
         run: pnpm publish --access public --filter @suntime-js/core --tag "${GITHUB_REF_NAME}"
