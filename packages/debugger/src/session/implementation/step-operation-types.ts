@@ -2,7 +2,14 @@ const visibleStepOperationPostfixes = ["Statement", "Declaration", "Expression"]
 
 // FIXME: We want to show expressions that are in flow control tests (for, while, and so on),
 // but don't want to show them for individual lines?
-const invisibleOperations = new Set<string>(["BlockStatement", "ExpressionStatement"]);
+const invisibleOperations = new Set<string>([
+  "BlockStatement",
+  "ExpressionStatement",
+  "NullLiteral",
+  "NumericLiteral",
+  "BooleanLiteral",
+  "StringLiteral",
+]);
 
 export function isVisibleStepOperationType(operationType: string): boolean {
   if (invisibleOperations.has(operationType)) {

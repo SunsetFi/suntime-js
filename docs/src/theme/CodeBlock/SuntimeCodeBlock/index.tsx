@@ -99,7 +99,8 @@ export default function SuntimeCodeBlock({
 
   const pausedLocation = useObservation(runtime.pausedLocation$);
   const pausedLine = pausedLocation?.line ?? null;
-  const pausedLineConfig = useHighlightLine(viewRef, pausedLine);
+  const pausedColumn = pausedLocation?.column ?? null;
+  const pausedLineConfig = useHighlightLine(viewRef, pausedLine, pausedColumn);
 
   const breakpoints = useObservation(runtime.breakpoints$) ?? [];
   const breakpointConfig = useBreakpoints(viewRef, {
