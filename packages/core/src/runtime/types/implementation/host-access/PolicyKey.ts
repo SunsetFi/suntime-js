@@ -18,7 +18,10 @@ export class PolicyKeyInterner {
       : 0;
     const childGrantId = policy.childPolicy ? this._idForChildPolicy(policy.childPolicy) : 0;
     return [
-      policy.stubWellKnownTypes.toSorted().join(",") || "none",
+      Object.entries(policy.stubWellKnownTypes)
+        .toSorted((a, b) => a[0].localeCompare(b[0]))
+        .map(([key, value]) => `${key}:${value}`)
+        .join(",") || "none",
       String(policy.includeNonEnumerable),
       String(policy.includeWellKnownSymbols),
       String(policy.writable),

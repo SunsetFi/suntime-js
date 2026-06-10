@@ -217,6 +217,7 @@ export class StaticJsExternalFunction extends StaticJsExternalObject implements 
       if (!policy) {
         return this.realm.types.undefined;
       }
+
       return policy;
     };
     const valueArgsResolved = args.map((arg) => arg.toNative({ access }));

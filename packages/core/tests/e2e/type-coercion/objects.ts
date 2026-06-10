@@ -1,9 +1,20 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 import { StaticJsRealm } from "../../../src/index.js";
 
 describe("E2E: Type Coercion / Objects", () => {
   describe("Host to Sandbox", () => {
+    it("Uses the sandbox Object.prototype, not the host prototype", async () => {
+      const realm = StaticJsRealm({
+        global: { value: { hostObj: {} } },
+      });
+
+      const result = await realm.evaluateScript(
+        "Object.getPrototypeOf(hostObj) === Object.prototype;",
+      );
+      expect(result.toNative()).toBe(true);
+    });
+
     describe("Only own enumerable properties are exposed", () => {
       it("Does not expose non-enumerable own properties", async () => {
         const hostObj: Record<string, unknown> = {};
@@ -36,15 +47,34 @@ describe("E2E: Type Coercion / Objects", () => {
         expect(inheritedResult.toNative()).toBeUndefined();
       });
 
-      it("Uses the sandbox Object.prototype, not the host prototype", async () => {
+      it("Exposes enumerable properties", async () => {
+        const getter = vi.fn(() => "getter");
+        const setter = vi.fn();
+        const host = {
+          foo: true,
+          get bar() {
+            return getter();
+          },
+          set baz(value: string) {
+            setter(value);
+          },
+        };
+
         const realm = StaticJsRealm({
-          global: { value: { hostObj: {} } },
+          global: { value: { host } },
         });
 
-        const result = await realm.evaluateScript(
-          "Object.getPrototypeOf(hostObj) === Object.prototype;",
-        );
+        const result = await realm.evaluateScript("host.foo;");
         expect(result.toNative()).toBe(true);
+
+        const barResult = await realm.evaluateScript("host.bar;");
+        expect(barResult.toNative()).toBe("getter");
+        expect(getter).toHaveBeenCalledTimes(1);
+
+        await realm.evaluateScript("host.baz = 'setter';");
+        const bazResult = await realm.evaluateScript("host.baz;");
+        expect(bazResult.toNative()).toBeUndefined();
+        expect(setter).toHaveBeenCalledWith("setter");
       });
     });
 

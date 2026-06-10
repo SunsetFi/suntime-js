@@ -1,11 +1,19 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
+import { Completion } from "../../../../evaluator/completions/Completion.js";
+import { call } from "../../../algorithms/call.js";
 import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
+import { createNonEnumerableDataPropertyOrThrow } from "../../../algorithms/create-non-enumerable-data-property-or-throw.js";
+import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
+import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
+import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
+import { toString } from "../../../algorithms/to-string.js";
 import { Intrinsics } from "../../../intrinsics/intrinsics.js";
 import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { HostAccessArg } from "../../HostAccessOptions.js";
 import { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
+import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
 import { getWellKnownErrorName, WellKnownErrorName } from "../../well-known-errors.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
@@ -157,12 +165,7 @@ export class StaticJsHostProxyFactory {
     const { rawPrototypes, stubWellKnownTypes } = policy.options;
 
     if (Array.isArray(host) && stubWellKnownTypes.includes("array")) {
-      // Technically these are members, but don't treat them that way for arrays.
-      // This means functions invoked from the array won't have the array as 'this', which
-      // is what we want.
-      const values = host.map((v) => policy.wrapChild(v, false));
-      // Safe: creates data properties on a new array instance.
-      const result = this._realm.invokeEvaluatorSync(createArrayFromList(values));
+      const result = this._stubArray(host, policy);
       this._putCached(host, policy, result);
       return result;
     }
@@ -174,6 +177,12 @@ export class StaticJsHostProxyFactory {
         this._putCached(host, policy, result);
         return result;
       }
+    }
+
+    if (stubWellKnownTypes.includes("promise") && host instanceof Promise) {
+      const result = this._stubPromise(host, policy);
+      this._putCached(host, policy, result);
+      return result;
     }
 
     if (!rawPrototypes) {
@@ -217,6 +226,16 @@ export class StaticJsHostProxyFactory {
     return wrapper;
   }
 
+  private _stubArray(host: Array<unknown>, policy: HostAccessPolicy): StaticJsObject {
+    // Technically these are members, but don't treat them that way for arrays.
+    // This means functions invoked from the array won't have the array as 'this', which
+    // is what we want.
+    const values = host.map((v) => policy.wrapChild(v, false));
+    // Safe: creates data properties on a new array instance.
+    const result = this._realm.invokeEvaluatorSync(createArrayFromList(values));
+    return result;
+  }
+
   private _stubError(
     host: Error,
     type: WellKnownErrorName,
@@ -224,34 +243,71 @@ export class StaticJsHostProxyFactory {
   ): StaticJsObject {
     if (host instanceof AggregateError) {
       const errors = host.errors.map((err) => policy.wrapChild(err, false));
-
-      // Safe: Creates a new array from intrinsics.
-      const list = this._realm.invokeEvaluatorSync(createArrayFromList(errors));
-
-      let options: StaticJsValue;
+      let cause: StaticJsValue | undefined;
       if (host.cause) {
-        const cause = policy.wrapChild(host.cause, false);
-        options = this._realm.types.object({
-          cause: {
-            value: cause,
-          },
-        });
-      } else {
-        options = this._realm.types.undefined;
+        cause = policy.wrapChild(host.cause, false);
       }
 
-      // Safe: Runs our own constructor
+      // Use a restricted version of the constructor that won't trigger arbitrary code.
+      // We cannot use AggregateError's constructor as that will invoke Array.prototype[Symbol.iterator], which
+      // could be replaced by sandboxed code.
       const stub = this._realm.invokeEvaluatorSync(
-        this._realm.intrinsics["AggregateError"].constructEvaluator([
-          list,
+        safeAggregateErrorConstruct(
+          this._realm,
+          errors,
           this._realm.types.string(host.message),
-          options,
-        ]),
+          cause,
+        ),
       );
       return stub;
     }
 
     return this._realm.types.error(type, host.message);
+  }
+
+  private _stubPromise(host: Promise<unknown>, policy: HostAccessPolicy): StaticJsObject {
+    // Safe: Promise constructor.
+    const capability = this._realm.invokeEvaluatorSync(
+      newPromiseCapability(this._realm.intrinsics.Promise, this._realm),
+    );
+
+    let resolved = false;
+    host.then(
+      (value) => {
+        if (resolved) {
+          return;
+        }
+        resolved = true;
+
+        const result = policy.wrapChild(value, false);
+        try {
+          this._realm.invokeEvaluatorSync(
+            call(capability.resolve, this._realm.types.undefined, [result]),
+          );
+        } catch (e) {
+          Completion.handleRuntime(e);
+          throw e;
+        }
+      },
+      (err) => {
+        if (resolved) {
+          return;
+        }
+        resolved = true;
+
+        const reason = policy.wrapChild(err, false);
+        try {
+          this._realm.invokeEvaluatorSync(
+            call(capability.reject, this._realm.types.undefined, [reason]),
+          );
+        } catch (e) {
+          Completion.handleRuntime(e);
+          throw e;
+        }
+      },
+    );
+
+    return capability.promise;
   }
 
   private _getCached(host: object, policy: HostAccessPolicy) {
@@ -274,4 +330,35 @@ export class StaticJsHostProxyFactory {
 // There is nothing wrong with this, but the linter gets angry, and so this appeases it.
 function isFunction(f: unknown): f is (...args: unknown[]) => unknown {
   return typeof f === "function";
+}
+
+function* safeAggregateErrorConstruct(
+  realm: StaticJsRealm,
+  errors: StaticJsValue[],
+  message: StaticJsValue,
+  cause: StaticJsValue | undefined,
+) {
+  const obj = yield* ordinaryCreateFromConstructor(
+    realm.intrinsics.AggregateError,
+    "AggregateError.prototype",
+  );
+
+  if (!isStaticJsUndefined(message)) {
+    const msg = yield* toString(message);
+    yield* createNonEnumerableDataPropertyOrThrow(obj, "message", msg);
+  }
+
+  if (cause) {
+    yield* createNonEnumerableDataPropertyOrThrow(obj, "cause", cause);
+  }
+
+  const errorsValue = yield* createArrayFromList(errors);
+  yield* definePropertyOrThrow(obj, "errors", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: errorsValue,
+  });
+
+  return obj;
 }

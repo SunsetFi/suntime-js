@@ -418,14 +418,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): TReturn {
     if (this._boostrapping) {
       return drainIterator(invokeEvaluator(evaluator));
-      // return this._invokeEvaluatorSyncNow(evaluator, "macrotask", "host", drainIterator);
     }
-
-    // FIXME: If we are already in a task, inject it into the current iterator IFF
-    // it is synchronous.
-    //  else if (this._currentTask && this._currentTask.entered) {
-    //   return this._invokeEvaluatorSyncNow(evaluator, "macrotask", calleeType, runTask);
-    // }
 
     // oxlint-disable-next-line typescript/no-this-alias
     const realm = this;

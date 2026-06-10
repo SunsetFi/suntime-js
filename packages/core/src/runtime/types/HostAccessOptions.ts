@@ -124,8 +124,8 @@ export const HostAccessOptionKeys: readonly (keyof HostAccessOptions)[] = Object
   "childPolicy",
 ] as const);
 
-export type HostAccessStubType = "array" | "error";
-export const AllHostAccessStubTypes = ["array", "error"] as const;
+export type HostAccessStubType = "array" | "error" | "promise";
+export const AllHostAccessStubTypes = ["array", "error", "promise"] as const;
 
 /*
  * Policy for host objects.

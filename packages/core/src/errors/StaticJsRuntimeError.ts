@@ -15,12 +15,29 @@ export class StaticJsRuntimeError extends Error {
     // Make the message lazy, because it's heavy, and we generate it in the weird deadzone while
     // a task is completed but not entered.
     // See EvaluationTask.ts _accept unhandledExceptions
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const err = this;
     Object.defineProperty(this, "message", {
       get: () => {
         if (this._message === null) {
-          this._message = this._prefix + getMessage(this._thrown);
+          this._message = err._prefix + getMessage(err._thrown);
         }
-        return this._message;
+        Object.defineProperty(err, "message", {
+          value: err._message,
+          writable: true,
+          configurable: true,
+          enumerable: false,
+        });
+        return err._message;
+      },
+      set: () => {
+        Object.defineProperty(err, "message", {
+          value: err._message,
+          writable: true,
+          configurable: true,
+          enumerable: false,
+        });
       },
     });
   }
