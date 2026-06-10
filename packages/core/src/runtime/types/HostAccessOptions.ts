@@ -70,15 +70,6 @@ export interface HostAccessOptions {
   useSandboxThis?: boolean;
 
   /**
-   * Opt out of substituting host builtin prototypes with the realm's
-   * intrinsic equivalents. Default false; host builtin prototypes are
-   * mapped to the matching sandbox intrinsic so host builtin identities
-   * are never reachable from inside the sandbox.
-   * @default false
-   */
-  rawPrototypes?: boolean;
-
-  /**
    * Policy for the prototype of the host object.
    *
    * If "inherit", it will reuse the parent's resolved policy.
@@ -119,7 +110,6 @@ export const HostAccessOptionKeys: readonly (keyof HostAccessOptions)[] = Object
   "writable",
   "extensible",
   "useSandboxThis",
-  "rawPrototypes",
   "prototypePolicy",
   "childPolicy",
 ] as const);

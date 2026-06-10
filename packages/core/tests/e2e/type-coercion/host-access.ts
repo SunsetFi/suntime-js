@@ -726,19 +726,6 @@ describe("E2E: Type Coercion / HostAccessOptions", () => {
         });
       }
     });
-
-    it("rawPrototypes: true exposes the host prototype as a wrapper", () => {
-      const realm = new StaticJsRealm();
-      class Custom {}
-      const host = new Custom();
-      const wrapped = realm.types.toStaticJsValue(host, {
-        rawPrototypes: true,
-        prototypePolicy: "inherit",
-        childPolicy: "inherit",
-      });
-      const proto = wrapped.getPrototypeOfSync();
-      expect(proto).not.toBe(realm.intrinsics["Object.prototype"]);
-    });
   });
 
   describe("function return values", () => {

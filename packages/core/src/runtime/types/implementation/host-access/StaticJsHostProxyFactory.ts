@@ -162,7 +162,7 @@ export class StaticJsHostProxyFactory {
       return cached as StaticJsObject;
     }
 
-    const { rawPrototypes, stubWellKnownTypes } = policy.options;
+    const { stubWellKnownTypes } = policy.options;
 
     if (Array.isArray(host) && stubWellKnownTypes.includes("array")) {
       const result = this._stubArray(host, policy);
@@ -185,11 +185,10 @@ export class StaticJsHostProxyFactory {
       return result;
     }
 
-    if (!rawPrototypes) {
-      const builtin = this._hostBuiltinMap.get(host);
-      if (builtin) {
-        return builtin;
-      }
+    // Swap out any host builtins with their realm equivalents.
+    const builtin = this._hostBuiltinMap.get(host);
+    if (builtin) {
+      return builtin;
     }
 
     const wrapper = new StaticJsExternalObject(this._realm, host, policy);
@@ -207,13 +206,11 @@ export class StaticJsHostProxyFactory {
       return cached as unknown as StaticJsFunction;
     }
 
-    const { rawPrototypes, useSandboxThis } = policy.options;
+    const { useSandboxThis } = policy.options;
 
-    if (!rawPrototypes) {
-      const builtin = this._hostBuiltinMap.get(host);
-      if (builtin) {
-        return builtin as StaticJsFunction;
-      }
+    const builtin = this._hostBuiltinMap.get(host);
+    if (builtin) {
+      return builtin as StaticJsFunction;
     }
 
     const wrapper = new StaticJsExternalFunction(

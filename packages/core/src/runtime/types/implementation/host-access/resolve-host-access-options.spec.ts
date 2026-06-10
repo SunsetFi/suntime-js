@@ -48,7 +48,6 @@ describe("resolveHostAccessOptions", () => {
     expect(r.useSandboxThis).toBe(true);
     expect(r.includeNonEnumerable).toBe(false);
     expect(r.writable).toBe(false);
-    expect(r.rawPrototypes).toBe(false);
   });
 
   it("function opts returning default uses baseline (= realm default or SAFE)", () => {

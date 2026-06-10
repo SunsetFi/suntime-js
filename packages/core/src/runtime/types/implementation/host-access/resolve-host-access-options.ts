@@ -21,7 +21,6 @@ export const SAFE_DEFAULTS: ResolvedHostAccessOptions = {
   writable: false,
   extensible: false,
   useSandboxThis: false,
-  rawPrototypes: false,
   prototypePolicy: false,
   childPolicy: "default",
 };

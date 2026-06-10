@@ -27,7 +27,6 @@ export class PolicyKeyInterner {
       String(policy.writable),
       String(policy.extensible),
       String(policy.useSandboxThis),
-      String(policy.rawPrototypes),
       protoGrantId,
       childGrantId,
     ].join(":");
