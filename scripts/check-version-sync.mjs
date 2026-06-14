@@ -6,9 +6,11 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
+import { getPackages } from "./get-packages.mjs";
+
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const PACKAGES = ["packages/core", "packages/debugger", "packages/dap"];
+const PACKAGES = getPackages("packages/*").map((pkg) => pkg.name);
 
 function readVersion(pkgDir) {
   const pkgPath = join(root, pkgDir, "package.json");

@@ -12,13 +12,15 @@
     "update:test262": "git subtree pull --prefix=packages/core/tests/test262/repo test262 main --squash",
     "changeset": "changeset",
     "changeset:version": "changeset version && node scripts/check-version-sync.mjs",
-    "release:publish": "node scripts/check-version-sync.mjs && pnpm -r --filter \"./packages/*\" publish --access public --no-git-checks && changeset tag"
+    "release:publish": "node scripts/check-version-sync.mjs && node scripts/publish-with-tags.mjs && changeset tag"
   },
   "devDependencies": {
+    "@changesets/changelog-git": "^0.2.1",
     "@changesets/cli": "^2.31.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "oxfmt": "~0.51.0",
-    "oxlint": "^1.66.0"
+    "oxlint": "^1.66.0",
+    "semver": "^7.8.4"
   }
 }

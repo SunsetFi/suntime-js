@@ -1,17 +1,9 @@
-import { execSync } from "node:child_process";
 import { relative } from "node:path";
+import { getPackages } from "./scripts/get-packages.mjs";
 
-let packages;
-function getPackages() {
-  if (!packages) {
-    const output = execSync("pnpm list -r --depth -1 --json").toString();
-    packages = JSON.parse(output);
-  }
-  return packages;
-}
+const packages = getPackages();
 
 export function lintStagedWorkspaceRunner(packageName) {
-  const packages = getPackages();
   const packageInfo = packages.find((pkg) => pkg.name === packageName);
   if (!packageInfo) {
     throw new Error(`Package ${packageName} not found`);
