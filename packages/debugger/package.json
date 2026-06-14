@@ -1,6 +1,6 @@
 {
   "name": "@suntime-js/debugger",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "private": false,
   "description": "Runtime-agnostic debugger orchestration for Suntime-JS.",
   "license": "ISC",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@babel/types": "catalog:",
-    "@suntime-js/core": "workspace:*",
+    "@suntime-js/core": "workspace:^0.8.0",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
     "@typescript/native-preview": "catalog:",
