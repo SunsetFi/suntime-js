@@ -8,5 +8,8 @@
   "baseBranch": "main",
   "updateInternalDependencies": "minor",
   "ignore": ["@suntime-js/docs", "@suntime-js/playground"],
-  "changedFilePatterns": ["packages/*/src/package.json", "packages/*/src/**"]
+  "changedFilePatterns": ["packages/*/src/package.json", "packages/*/src/**"],
+  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true
+  }
 }
