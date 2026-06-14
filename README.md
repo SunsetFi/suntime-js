@@ -30,7 +30,7 @@ Core engine and javascript evaluator
 import { StaticJsRealm, createTimeSharingTaskRunner } from "@suntime-js/core";
 
 let myModuleResolveAwait;
-const realm = StaticJsRealm({
+const realm = new StaticJsRealm({
   runTask: createTimeSharingTaskRunner({
     yieldTime: 100,
     operationsPerIteration: 1000,
@@ -77,6 +77,36 @@ See the [documentation](./docs) or [readme](./packages/core/README.md) for more 
 ### @suntime-js/debugger
 
 A stepping debugger for @suntime-js/core, providing breakpoint support and stack inspection.
+
+```js
+const realm = new StaticJsRealm();
+const dbg = new StaticJsDebugger({ realm });
+
+const session = dbg.createSession({
+  launch: {
+    sourceKind: "script",
+    sourceName: "code.mjs",
+    sourceText: `
+      function add(x, y) {
+        return x + y;
+      }
+
+      add(1, 2);
+    `,
+  },
+});
+
+session.setBreakpint({
+  sourceName: "code.mjs",
+  line: 2,
+});
+
+await session.startAndWait();
+
+const { line, column } = session.getSnapshot();
+
+console.log("Stopped at", line, column);
+```
 
 ### @suntime-js/dap
 
