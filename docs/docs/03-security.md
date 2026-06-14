@@ -49,13 +49,14 @@ const keys = Object.keys(obj);
 
 Use [StaticJs Types](./07-types.md) instead:
 
-```ts
+```ts live-staticjs include-runtime
 import { StaticJsRealm, createTimeBoundTaskRunner } from "@suntime-js/core";
+import type { StaticJsObject } from "@suntime-js/core";
 
 const realm = StaticJsRealm({
   runTask: createTimeBoundTaskRunner({ maxRunTime: 500 }),
 });
-const value = await realm.evaluateScript(`
+const value = (await realm.evaluateScript(`
   const obj = new Proxy({}, {
     ownKeys: () => {
       // Deadlock
@@ -63,7 +64,7 @@ const value = await realm.evaluateScript(`
     }
   });
   obj;
-`);
+`)) as StaticJsObject;
 
 // Keeping the value as a StaticJs value provides more visibility
 // into where sandboxed code can evaluate.
@@ -80,7 +81,9 @@ Additionally, you may pass a custom `runTask` option to any Sync or Async functi
 
 While it is strongly advised to avoid type coercion, the type coercion system does attempt to provide some degree of security when passing in native objects:
 
-```js
+```js live-staticjs include-runtime
+import { StaticJsRealm } from "@suntime-js/core";
+
 const targetObj = {
   _value: "target",
   get foo() {
@@ -99,7 +102,7 @@ const realm = StaticJsRealm({
     properties: {
       targetObj: {
         // Direct usage of a native object performs type coercion.
-        value: nativeObj,
+        value: targetObj,
       },
       myOtherObject: {
         // Direct usage of a native object performs type coercion.
@@ -109,22 +112,26 @@ const realm = StaticJsRealm({
   },
 });
 
-realm.evaluateScript(`
-  // Properties can NOT be modified; will no-op
-  targetObj._value = "my-sandbox";
-  
-  // Alternative 'this' invokes for property getters
-  // will NOT be honored:
+// Properties can NOT be modified; will no-op
+realm.evaluateScriptSync(`targetObj._value = "my-sandbox";`);
+console.log("TargObj value after write is", targetObj._value);
+
+// Alternative 'this' invokes for property getters
+// will NOT be honored:
+const fooGetValue = realm.evaluateScriptSync(`
   const descr = Object.getOwnPropertyDescriptor(targetObj, "foo");
   // Still stays "target":
-  const value = descr.get.call(myOtherObject); 
-
-  // Enumerable properties are NOT accessible
-  // Returns 'false'
-  Object.hasOwnProperty(taretObj, "secret");
-  // Resolves to 'undefined'
-  const secret = targetObj.secret;
+  descr.get.call(myOtherObject); 
 `);
+console.log("foo getter value", fooGetValue.toNative());
+
+// Enumerable properties are NOT accessible
+const [hasSecret, secret] = realm.evaluateScriptSync(`
+  const hasSecret = Object.hasOwnProperty(taretObj, "secret");
+  const secret = targetObj.secret;
+  [hasSecret, secret];
+`);
+console.log("has secret", hasSecret, "value", secret);
 ```
 
 ### Writing Functions

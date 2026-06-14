@@ -19,9 +19,20 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "development": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      }
+    },
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "clean": "rimraf dist tsconfig.lib.tsbuildinfo",

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+  "changelog": "@changesets/changelog-git",
+  "commit": false,
+  "fixed": [],
+  "linked": [["@suntime-js/core", "@suntime-js/debugger", "@suntime-js/dap"]],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "minor",
+  "ignore": ["@suntime-js/docs", "@suntime-js/playground"],
+  "changedFilePatterns": ["packages/*/src/package.json", "packages/*/src/**"]
+}

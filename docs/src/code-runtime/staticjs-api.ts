@@ -23,7 +23,7 @@ export function createStaticJsRealmApi(
   const { realm } = spawnOpts;
 
   const access: HostAccessOptions = {
-    stubWellKnownTypes: false,
+    stubWellKnownTypes: ["promise"],
     includeWellKnownSymbols: true,
     includeNonEnumerable: true,
     useSandboxThis: true,

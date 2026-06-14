@@ -12,13 +12,29 @@
   "type": "module",
   "exports": {
     ".": {
+      "development": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
     "./web": {
+      "development": "./src/web/index.ts",
       "types": "./dist/web/index.d.ts",
       "import": "./dist/web/index.js"
     }
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./web": {
+        "types": "./dist/web/index.d.ts",
+        "import": "./dist/web/index.js"
+      }
+    },
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "clean": "rimraf dist tsconfig.lib.tsbuildinfo tsconfig.tests.tsbuildinfo",
