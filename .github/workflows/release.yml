@@ -36,9 +36,11 @@ jobs:
     needs: [test-262-language, test-262-builtins, test-e2e]
     if: github.repository == 'SunsetFi/suntime-js'
     runs-on: ubuntu-latest
-    # Gated environment: publish pauses for required-reviewer approval
-    # before the OIDC credential is mintable.
-    environment: npm-publish
+    # Required approval.  Currently annoying to use as we can't differentiate
+    # between a changeset compilation and a release.
+    # We would need to add main to this env anyway... Currently it's orphaned
+    # at only allowing tags.
+    # environment: npm-publish
     permissions:
       contents: write # create the Version Packages PR / tags
       pull-requests: write # open/update the Version Packages PR
