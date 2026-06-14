@@ -85,7 +85,7 @@ const dbg = new StaticJsDebugger({ realm });
 const session = dbg.createSession({
   launch: {
     sourceKind: "script",
-    sourceName: "code.mjs",
+    sourceName: "code.js",
     sourceText: `
       function add(x, y) {
         return x + y;
@@ -97,7 +97,7 @@ const session = dbg.createSession({
 });
 
 session.setBreakpint({
-  sourceName: "code.mjs",
+  sourceName: "code.js",
   line: 2,
 });
 
