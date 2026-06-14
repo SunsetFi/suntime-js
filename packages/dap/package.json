@@ -1,6 +1,6 @@
 {
   "name": "@suntime-js/dap",
-  "version": "0.8.0",
+  "version": "1.0.0-dev.0",
   "private": false,
   "description": "Debug Adapter Protocol bootstrap for StaticJs.",
   "keywords": [],
@@ -46,8 +46,8 @@
     "lint": "oxlint"
   },
   "dependencies": {
-    "@suntime-js/core": "workspace:^0.8.0",
-    "@suntime-js/debugger": "workspace:^0.8.0",
+    "@suntime-js/core": "workspace:^1.0.0-dev.0",
+    "@suntime-js/debugger": "workspace:^1.0.0-dev.0",
     "@vscode/debugadapter": "^1.68.0",
     "@vscode/debugprotocol": "^1.68.0"
   },
