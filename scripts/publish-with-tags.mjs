@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { execFileSync } from "node:child_process";
 
+import { getPackages } from "./get-packages.mjs";
+
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const root = join(scriptDir, "..");
 const DRY = process.argv.includes("--dry-run");
