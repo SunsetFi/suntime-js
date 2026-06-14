@@ -15,6 +15,8 @@ import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export type StaticJsProxyTarget = StaticJsObject | StaticJsCallable | "object" | "function";
 
+// Note: This is consumed and relied on with types/implementation/create-host-defined-proxy.ts.
+// We might want to glue that closer to StaticJsProxyImpl, but this really is type factory dependent.
 export interface StaticJsProxyHandlers {
   getPrototypeOf?(target: StaticJsObject): MaybeEvaluationGenerator<StaticJsObject | null>;
   setPrototypeOf?(

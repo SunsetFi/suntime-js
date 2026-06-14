@@ -5,10 +5,9 @@
 - [ ] Realm hostAccessDefaults should be able to be a function called with the object to test.
 - [ ] Look really closely at realm's global object initializer and stub policy.
 - [ ] Tests for host wrapped function thrown value wrap policies.
-- [-] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
+- [x] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
   - [ ] Update documentation
 - [ ] Thread policy into propertyDescriptorToNative and other create-object-proxy toStaticJsNative calls from .toNative of object.
-- [ ] Eliminate toStaticJsValue from realm.types.proxy handlers.
 
 ## Immediate
 
@@ -24,9 +23,6 @@
         as StaticJsExternalObject does
     - [ ] Don't allow mutations to other properties (based on policy)
   - [ ] Update type coercion docs.
-- [-] InitialName for functions.
-  - [+] Expose it in the stack as a non-invoking getter.
-    Exposed under frame.function.initialName
 
 ### Performance lookthrough
 
@@ -35,7 +31,6 @@
 
 ### Implement More
 
-- [ ] AggregateError
 - [ ] Date
 - [ ] Regex
       No hope but to do this ourselves. No way we can pass this through to the engine with catastrophic backtracking.
@@ -82,8 +77,6 @@
 - [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - [x] Add builtins tests
   - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
-- [-] toStaticJsValue option to convert objects deeply so that their prototypes still function; but still mask the Object and Function prototypes.
-  - Test against engine-native iterators
 - Object.defineProperties/y used to give more helpful errors for if object was not extensible or cannot redefine property.
   They got removed for "spec compliance". Put them back!
 

@@ -27,18 +27,6 @@ export function toStaticJsPropertyKey(value: CompletionValue): StaticJsPropertyK
   throw new StaticJsEngineError("Value cannot be converted to a property key");
 }
 
-export function staticJsValueToPropertyKey(value: StaticJsValue): StaticJsPropertyKey {
-  if (isStaticJsSymbol(value)) {
-    return value;
-  }
-
-  if (isStaticJsString(value)) {
-    return value.value;
-  }
-
-  throw new StaticJsEngineError("Cannot convert value to property key.");
-}
-
 export function staticJsPropertyKeyToValue(
   key: StaticJsPropertyKey,
   realm: StaticJsRealm,
