@@ -5,7 +5,7 @@
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 
 import { getPackages } from "./get-packages.mjs";
@@ -14,7 +14,13 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const root = join(scriptDir, "..");
 const DRY = process.argv.includes("--dry-run");
 
-const PACKAGES = getPackages("packages/*").map((pkg) => pkg.name);
+const PACKAGES = getPackages()
+  .filter((x) => !x.private)
+  .map((pkg) => pkg.path);
+
+console.log(
+  `Publishing ${PACKAGES.length} packages${DRY ? " (dry run)" : ""}...`,
+);
 
 function resolveTag(pkgDir) {
   return execFileSync(
@@ -37,7 +43,7 @@ function alreadyPublished(name, version) {
 
 for (const pkgDir of PACKAGES) {
   const { name, version } = JSON.parse(
-    readFileSync(join(root, pkgDir, "package.json"), "utf8"),
+    readFileSync(resolve(root, pkgDir, "package.json"), "utf8"),
   );
 
   if (alreadyPublished(name, version)) {

@@ -4,16 +4,18 @@
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 import { getPackages } from "./get-packages.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const PACKAGES = getPackages("packages/*").map((pkg) => pkg.name);
+const PACKAGES = getPackages()
+  .filter((x) => !x.private)
+  .map((pkg) => pkg.path);
 
 function readVersion(pkgDir) {
-  const pkgPath = join(root, pkgDir, "package.json");
+  const pkgPath = resolve(root, pkgDir, "package.json");
   const { name, version } = JSON.parse(readFileSync(pkgPath, "utf8"));
   const m = /^(\d+)\.(\d+)\.(\d+)/.exec(version);
   if (!m) {
