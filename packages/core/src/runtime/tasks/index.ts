@@ -6,3 +6,5 @@ export * from "./StaticJsTaskRunner.js";
 export * from "./StaticJsTaskScopeFrame.js";
 export * from "./StaticJsTaskSourceLocation.js";
 export * from "./StaticJsTaskType.js";
+
+export * from "./create-task-iterator-proxy.js";

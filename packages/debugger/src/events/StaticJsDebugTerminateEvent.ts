@@ -1,4 +1,4 @@
-import { StaticJsModule, StaticJsValue } from "@suntime-js/core";
+import type { StaticJsModule, StaticJsValue } from "@suntime-js/core";
 
 export type StaticJsDebugTerminateEvent =
   | StaticJsDebugTerminateCompleteEvent

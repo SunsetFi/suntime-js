@@ -1,5 +1,5 @@
-import { StaticJsTaskSourceLocation } from "@suntime-js/core";
-import {
+import type { StaticJsTaskSourceLocation } from "@suntime-js/core";
+import type {
   StaticJsDebugBreakpoint,
   StaticJsDebugBreakpointInput,
 } from "../../breakpoints/StaticJsDebugBreakpoint.js";

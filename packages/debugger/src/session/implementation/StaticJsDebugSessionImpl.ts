@@ -1,51 +1,51 @@
 import { v4 as uuidv4 } from "uuid";
 
 import {
-  StaticJsRealm,
-  StaticJsRunTaskOptions,
-  StaticJsTaskAbortedError,
-  StaticJsTaskIterator,
-  StaticJsTaskRunner,
-  StaticJsTaskIteratorStackFrame,
-  StaticJsTaskScopeFrame,
-  StaticJsValue,
-  StaticJsObject,
-  StaticJsModule,
+  type StaticJsRealm,
+  type StaticJsRunTaskOptions,
+  type StaticJsTaskIterator,
+  type StaticJsTaskRunner,
+  type StaticJsTaskIteratorStackFrame,
+  type StaticJsTaskScopeFrame,
+  type StaticJsValue,
+  type StaticJsObject,
+  type StaticJsModule,
+  createTaskIteratorProxy,
   isStaticJsScalar,
   isStaticJsObject,
   isStaticJsFunction,
 } from "@suntime-js/core";
 
-import createDeferred, { Deferred } from "../../utils/create-deferred.js";
+import createDeferred, { type Deferred } from "../../utils/create-deferred.js";
 
-import {
+import type {
   StaticJsDebugBreakpoint,
   StaticJsDebugBreakpointInput,
 } from "../../breakpoints/StaticJsDebugBreakpoint.js";
 
-import { StaticJsDebugChangeEvent } from "../../events/StaticJsDebugChangeEvent.js";
-import { StaticJsDebugStartEvent } from "../../events/StaticJsDebugStartEvent.js";
-import { StaticJsDebugStopEvent } from "../../events/StaticJsDebugStopEvent.js";
-import { StaticJsDebugTerminateEvent } from "../../events/StaticJsDebugTerminateEvent.js";
+import type { StaticJsDebugChangeEvent } from "../../events/StaticJsDebugChangeEvent.js";
+import type { StaticJsDebugStartEvent } from "../../events/StaticJsDebugStartEvent.js";
+import type { StaticJsDebugStopEvent } from "../../events/StaticJsDebugStopEvent.js";
+import type { StaticJsDebugTerminateEvent } from "../../events/StaticJsDebugTerminateEvent.js";
 
-import { StaticJsDebugFrame } from "../../stack/StaticJsDebugFrame.js";
-import { StaticJsDebugScope } from "../../stack/StaticJsDebugScope.js";
-import { StaticJsDebugSnapshot } from "../../stack/StaticJsDebugSnapshot.js";
-import { StaticJsDebugVariable } from "../../stack/StaticJsDebugVariable.js";
+import type { StaticJsDebugFrame } from "../../stack/StaticJsDebugFrame.js";
+import type { StaticJsDebugScope } from "../../stack/StaticJsDebugScope.js";
+import type { StaticJsDebugSnapshot } from "../../stack/StaticJsDebugSnapshot.js";
+import type { StaticJsDebugVariable } from "../../stack/StaticJsDebugVariable.js";
 
-import { StaticJsDebugSession } from "../StaticJsDebugSession.js";
-import {
+import type { StaticJsDebugSession } from "../StaticJsDebugSession.js";
+import type {
   StaticJsDebugSessionOptions,
   StaticJsDebugSourceKind,
 } from "../StaticJsDebugSessionOptions.js";
 import {
   isStaticJsDebugSessionStateTerminal,
-  StaticJsDebugSessionState,
+  type StaticJsDebugSessionState,
 } from "../StaticJsDebugSessionState.js";
 
 import { StaticJsDebugSessionEventManager } from "./StaticJsDebugSessionEventManager.js";
 import { StaticJsDebugSessionBreakpointManager } from "./StaticJsDebugSessionBreakpointManager.js";
-import {
+import type {
   StaticJsDebugStopReason,
   StaticJsDebugStopReasonTerminal,
 } from "../StaticJsDebugStopReason.js";
@@ -437,10 +437,12 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     let stopped = false;
 
     const stop = (reason: StaticJsDebugStopReason): IteratorResult<void, void> => {
-      if (!stopped) {
-        stopped = true;
-        this._pauseWithReason(reason);
+      if (stopped) {
+        return { done: true, value: undefined };
       }
+
+      stopped = true;
+      this._pauseWithReason(reason);
       return { done: true, value: undefined };
     };
 
@@ -469,41 +471,11 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       };
     };
 
-    const outerTask: StaticJsTaskIterator = {
-      get calleeType() {
-        return task.calleeType;
-      },
-      get async() {
-        return task.async;
-      },
-      get currentTaskType() {
-        return task.currentTaskType;
-      },
-      get currentTaskId() {
-        return task.currentTaskId;
-      },
-      get done() {
-        return stopped || task.done;
-      },
-      get aborted() {
-        return task.aborted;
-      },
-      get operation() {
-        return task.operation;
-      },
-      get location() {
-        return task.location;
-      },
-      get stack() {
-        return task.stack;
-      },
-      get scopes() {
-        return task.scopes;
-      },
-      next: () => {
+    const outerTask = createTaskIteratorProxy(task, {
+      next() {
         return iterate(task.next());
       },
-      throw: (error: unknown) => {
+      throw(error: unknown) {
         return iterate(task.throw(error));
       },
       abort: () => {
@@ -511,8 +483,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
         task.abort();
         this._activeTask = null;
       },
-    };
-
+    });
     this._runTask(outerTask);
   }
 
@@ -539,8 +510,12 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   }
 
   private _onSessionError(error: unknown) {
-    if (this._state === "terminated" || error instanceof StaticJsTaskAbortedError) {
+    if (
+      this._state === "terminated" ||
+      (error as { name?: string }).name === "StaticJsTaskAbortedError"
+    ) {
       this._finishTerminal("terminate", null);
+      return;
     }
 
     this._finishTerminal("error", error);
@@ -791,7 +766,7 @@ function debugTaskIterator(task: StaticJsTaskIterator) {
     // Yield to the event loop every DebugTaskIteratorOpts iterations to allow for pause/terminate requests to be processed.
     // This is a bit of a band-aid until we have proper pausing support in the core task runner.
     if (--ops <= 0) {
-      task.throw(new StaticJsTaskAbortedError("Unable to determine function name."));
+      task.abort("Unable to determine function name.");
     }
   }
 }
