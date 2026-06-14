@@ -1,6 +1,6 @@
 import { StaticJsRealm, type StaticJsTaskRunner } from "@suntime-js/core";
 import {
-  createStaticJsDebugger,
+  StaticJsDebugger,
   type StaticJsDebugSession,
   type StaticJsDebuggerOptions,
   type StaticJsDebugStopEvent,
@@ -25,7 +25,7 @@ export interface CreateAdapterSessionOptions {
 
 export function createAdapterSession(options: CreateAdapterSessionOptions): CreatedAdapterSession {
   const realm = options.realm ?? options.createRealm?.() ?? StaticJsRealm();
-  const debuggerInstance = createStaticJsDebugger({
+  const debuggerInstance = new StaticJsDebugger({
     realm,
     runTask: options.runTask,
   });

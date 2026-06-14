@@ -1,4 +1,4 @@
-import type { StaticJsRealm, StaticJsTaskIterator, StaticJsTaskRunner } from "@suntime-js/core";
+import type { StaticJsRealm, StaticJsTaskRunner } from "@suntime-js/core";
 
 import type { StaticJsDebugSession } from "./session/StaticJsDebugSession.js";
 import type { StaticJsDebugSessionOptions } from "./session/StaticJsDebugSessionOptions.js";
@@ -24,13 +24,29 @@ class StaticJsDebuggerImpl implements StaticJsDebugger {
   }
 }
 
-export function createStaticJsDebugger(options: StaticJsDebuggerOptions): StaticJsDebugger {
+/**
+ * Creates a StaticJsRealm
+ * @param opts - Options for creating the realm.
+ * @returns The created realm.
+ * @public
+ */
+function fStaticJsDebugger(options: StaticJsDebuggerOptions): StaticJsDebugger {
   return new StaticJsDebuggerImpl(options.realm, options.runTask);
 }
 
-export default function defaultTaskRunner(task: StaticJsTaskIterator): void {
-  let result = task.next();
-  while (!result.done) {
-    result = task.next();
-  }
+// Let the function be used in instanceof checks.
+// Delegate to StaticJsDebuggerImpl since it is the actual implementation of the debugger.
+const fStaticJsDebuggerProto = {
+  [Symbol.hasInstance](instance: unknown) {
+    return instance instanceof StaticJsDebuggerImpl;
+  },
+};
+Object.setPrototypeOf(fStaticJsDebuggerProto, Function.prototype);
+Object.setPrototypeOf(fStaticJsDebugger, fStaticJsDebuggerProto);
+
+interface fStaticJsDebugger {
+  (options: StaticJsDebuggerOptions): StaticJsDebugger;
+  new (options: StaticJsDebuggerOptions): StaticJsDebugger;
 }
+
+export const StaticJsDebugger: fStaticJsDebugger = fStaticJsDebugger as fStaticJsDebugger;

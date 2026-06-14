@@ -5,12 +5,12 @@ import {
   type StaticJsTaskIteratorOperation,
 } from "@suntime-js/core";
 
-import { createStaticJsDebugger } from "../../src/index.js";
+import { StaticJsDebugger } from "../../src/index.js";
 
 const createDeferredStartSession = () => {
   const capturedTasks: StaticJsTaskIterator[] = [];
 
-  const debuggerInstance = createStaticJsDebugger({
+  const debuggerInstance = StaticJsDebugger({
     realm: StaticJsRealm(),
     runTask(task) {
       capturedTasks.push(task);
@@ -52,7 +52,7 @@ const createDeferredStartSession = () => {
 describe("StaticJsDebugSession", () => {
   describe("entry behavior", () => {
     it("pauses on entry", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -72,7 +72,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("captures the entry source in the snapshot", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -91,7 +91,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("exposes a single-frame stack on entry", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -113,7 +113,7 @@ describe("StaticJsDebugSession", () => {
 
   describe("breakpoint behavior", () => {
     it("stops on a configured line breakpoint", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -137,7 +137,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("captures the paused source location for a breakpoint stop", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -162,7 +162,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("continues past a breakpoint instead of stopping on the same line again", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -192,7 +192,7 @@ describe("StaticJsDebugSession", () => {
 
   describe("stepping behavior", () => {
     it("pauses again after stepping from an entry stop", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -213,7 +213,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("captures a snapshot after stepping", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -233,7 +233,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("advances to the next statement on each step in a straight-line script", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -273,7 +273,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("skips expression nodes when stepping", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -306,7 +306,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("does not skip call expressions expression nodes when stepping", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -346,7 +346,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("steps over a function call without pausing in the callee", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -393,7 +393,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("steps into the first visible statement inside a called function", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -429,7 +429,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("falls back to the next visible statement when stepInto stays in the same frame", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -456,7 +456,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("steping behaves correctly in for loops", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm({
           global: {
             value: {
@@ -544,7 +544,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("steps out to the next visible statement in the caller", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -618,7 +618,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("honors a cooperative pause request while running", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
         runTask(task) {
           const pump = () => {
@@ -655,7 +655,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("marks breakpoint stops in promise callbacks as microtasks", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -681,7 +681,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("runs to completion without stopping when no stop conditions are configured", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -700,7 +700,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("does not remain in starting after launch validation fails", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -765,7 +765,7 @@ describe("StaticJsDebugSession", () => {
         resolveEvaluation = resolve;
       });
 
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: {
           evaluateScript(
             _sourceText: string,
@@ -808,7 +808,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("emits a complete termination reason after finishing", async () => {
-      const debuggerInstance = createStaticJsDebugger({
+      const debuggerInstance = StaticJsDebugger({
         realm: StaticJsRealm(),
       });
 
@@ -833,7 +833,7 @@ describe("StaticJsDebugSession", () => {
 
   describe("scopes and variables", () => {
     it("returns at least one scope frame when paused", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -849,7 +849,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("returns empty scopes for a nonexistent frame id", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -865,7 +865,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("includes a global scope for script execution", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -882,7 +882,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("includes a function scope when paused inside a function", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -905,7 +905,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("returns variables for a scope via variablesReference", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -928,7 +928,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("expands a function to show name and length properties", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -953,7 +953,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("gives scalar variables a variablesReference of 0", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -974,7 +974,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("gives object variables a non-zero variablesReference", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -995,7 +995,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("expands object properties via the object's variablesReference", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -1018,7 +1018,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("expands array elements via the array's variablesReference", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -1042,7 +1042,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("invalidates variablesReferences after resuming", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -1064,7 +1064,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("returns empty variables for an unknown variablesReference", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",
@@ -1080,7 +1080,7 @@ describe("StaticJsDebugSession", () => {
     });
 
     it("shows function-scoped parameters when paused inside a function", async () => {
-      const debuggerInstance = createStaticJsDebugger({ realm: StaticJsRealm() });
+      const debuggerInstance = StaticJsDebugger({ realm: StaticJsRealm() });
       const session = debuggerInstance.createSession({
         launch: {
           sourceKind: "script",

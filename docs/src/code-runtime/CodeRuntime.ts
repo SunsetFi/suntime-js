@@ -10,7 +10,7 @@ import {
   StaticJsTypeFactory,
 } from "@suntime-js/core";
 import {
-  createStaticJsDebugger,
+  StaticJsDebugger,
   StaticJsDebugSession,
   StaticJsDebugSourceKind,
 } from "@suntime-js/debugger";
@@ -130,7 +130,7 @@ export class CodeRuntime {
     this._reset();
 
     const realm = this._createRealm();
-    const dbg = createStaticJsDebugger({ realm });
+    const dbg = new StaticJsDebugger({ realm });
 
     // The debugger will inherit the realm's runTask, so
     // we don't need to set it here.

@@ -25,10 +25,6 @@ import type { StaticJsRealm as IStaticJsRealm } from "./StaticJsRealm.js";
 const StaticJsRealm = fStaticJsRealm;
 type StaticJsRealm = IStaticJsRealm;
 
-/**
- * @typedef StaticJsRealm {fStaticJsRealm & IStaticJsRealm}
- */
-
 export { StaticJsRealm };
 
 export type { isStaticJsRealm } from "./StaticJsRealm.js";
