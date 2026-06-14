@@ -84,15 +84,6 @@
 
 - Need a way to enforce memory limits. Infinite loops are gated, but memory-bombing can still crash the host.
 
-## API for host implementation of functions using evaluators
-
-Figure out public API for invoking and implementing evaluators.
-
-- [ ] Export needed constructs
-  - [ ] Completion
-  - [ ] EvaluationGenerator
-- [x] Rework TypeFactory.function to require a generator function. Only use native functions in toStaticJsValue
-
 ## API cleanup
 
 - [x] Async methods for host api core types
