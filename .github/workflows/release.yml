@@ -71,7 +71,7 @@ jobs:
     if: github.repository == 'SunsetFi/suntime-js' && needs.version.outputs.hasChangesets == 'false'
     needs: version
     runs-on: ubuntu-latest
-    environment: npm
+    environment: npm-publish
     timeout-minutes: 20
     permissions:
       contents: write # to create release (changesets/action)
