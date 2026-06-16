@@ -8,5 +8,5 @@
     "@suntime-js/debugger": "0.8.0",
     "@suntime-js/playground": "1.0.0"
   },
-  "changesets": ["dark-eels-try", "kind-pigs-travel", "three-places-love"]
+  "changesets": []
 }
