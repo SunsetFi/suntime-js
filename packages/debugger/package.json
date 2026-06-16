@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@babel/types": "catalog:",
-    "@suntime-js/core": "workspace:^0.8.0",
+    "@suntime-js/core": "workspace:*",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
     "@typescript/native-preview": "catalog:",

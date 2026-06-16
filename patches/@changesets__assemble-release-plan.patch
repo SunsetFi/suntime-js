@@ -1,0 +1,38 @@
+diff --git a/dist/changesets-assemble-release-plan.cjs.js b/dist/changesets-assemble-release-plan.cjs.js
+index a91112a7ddf4b6f242965e0bf99ba2f60f988ede..67e1d56e7064acd6f851094c5b8cff653d7a05a7 100644
+--- a/dist/changesets-assemble-release-plan.cjs.js
++++ b/dist/changesets-assemble-release-plan.cjs.js
+@@ -224,7 +224,13 @@ function determineDependents({
+             preInfo,
+             onlyUpdatePeerDependentsWhenOutOfRange: config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.onlyUpdatePeerDependentsWhenOutOfRange
+           })) {
+-            type = "major";
++            // For 0.x versions, peer dependency major bump should be minor
++            // since semver allows breaking changes in minor versions for 0.x
++            if (dependentPackage.packageJson.version.startsWith("0.")) {
++              type = "minor";
++            } else {
++              type = "major";
++            }
+           } else if ((!releases.has(dependent) || releases.get(dependent).type === "none") && (config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.updateInternalDependents === "always" || !semverSatisfies__default["default"](incrementVersion(nextRelease, preInfo), versionRange))) {
+             switch (depType) {
+               case "dependencies":
+diff --git a/dist/changesets-assemble-release-plan.esm.js b/dist/changesets-assemble-release-plan.esm.js
+index f169d0a18a4acfc6672d52337fc757a21050ae72..c4fda89855178987b02ca7cc2e06f1a4a732a1f9 100644
+--- a/dist/changesets-assemble-release-plan.esm.js
++++ b/dist/changesets-assemble-release-plan.esm.js
+@@ -218,7 +218,13 @@ function determineDependents({
+               case "optionalDependencies":
+               case "peerDependencies":
+                 if (type !== "major" && type !== "minor") {
+-                  type = "patch";
++                  // For 0.x versions, peer dependency major bump should be minor
++                  // since semver allows breaking changes in minor versions for 0.x
++                  if (dependentPackage.packageJson.version.startsWith("0.")) {
++                    type = "minor";
++                  } else {
++                    type = "major";
++                  }
+                 }
+                 break;
+               case "devDependencies":

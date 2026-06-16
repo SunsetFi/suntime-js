@@ -44,6 +44,9 @@ catalogs:
       specifier: 5.9.3
       version: 5.9.3
 
+patchedDependencies:
+  '@changesets/assemble-release-plan': 6bfb307d25853de3df4b76c71c8486fe6f369ab5cf1f113c54d2fca5c2b5da3c
+
 importers:
 
   .:
@@ -275,7 +278,7 @@ importers:
         specifier: 'catalog:'
         version: 7.29.0
       '@suntime-js/core':
-        specifier: workspace:^0.8.0
+        specifier: workspace:*
         version: link:../core
       '@types/babel__traverse':
         specifier: 'catalog:'
@@ -8632,7 +8635,7 @@ snapshots:
       resolve-from: 5.0.0
       semver: 7.7.4
 
-  '@changesets/assemble-release-plan@6.0.10':
+  '@changesets/assemble-release-plan@6.0.10(patch_hash=6bfb307d25853de3df4b76c71c8486fe6f369ab5cf1f113c54d2fca5c2b5da3c)':
     dependencies:
       '@changesets/errors': 0.2.0
       '@changesets/get-dependents-graph': 2.1.4
@@ -8648,7 +8651,7 @@ snapshots:
   '@changesets/cli@2.31.0(@types/node@25.5.0)':
     dependencies:
       '@changesets/apply-release-plan': 7.1.1
-      '@changesets/assemble-release-plan': 6.0.10
+      '@changesets/assemble-release-plan': 6.0.10(patch_hash=6bfb307d25853de3df4b76c71c8486fe6f369ab5cf1f113c54d2fca5c2b5da3c)
       '@changesets/changelog-git': 0.2.1
       '@changesets/config': 3.1.4
       '@changesets/errors': 0.2.0
@@ -8700,7 +8703,7 @@ snapshots:
 
   '@changesets/get-release-plan@4.0.16':
     dependencies:
-      '@changesets/assemble-release-plan': 6.0.10
+      '@changesets/assemble-release-plan': 6.0.10(patch_hash=6bfb307d25853de3df4b76c71c8486fe6f369ab5cf1f113c54d2fca5c2b5da3c)
       '@changesets/config': 3.1.4
       '@changesets/pre': 2.0.2
       '@changesets/read': 0.6.7
