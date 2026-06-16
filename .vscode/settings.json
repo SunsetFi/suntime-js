@@ -13,7 +13,9 @@
   ],
   "search.exclude": {
     "**/dist": true,
-    "**/lib": true
+    "**/lib": true,
+    "pnpm-lock.yaml": true,
+    "packages/core/tests/test262/repo": true
   },
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "editor.defaultFormatter": "oxc.oxc-vscode",
