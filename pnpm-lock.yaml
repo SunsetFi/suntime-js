@@ -222,10 +222,10 @@ importers:
   packages/dap:
     dependencies:
       '@suntime-js/core':
-        specifier: workspace:^0.8.0
+        specifier: workspace:^0.9.0
         version: link:../core
       '@suntime-js/debugger':
-        specifier: workspace:^0.8.0
+        specifier: workspace:^0.9.0
         version: link:../debugger
       '@vscode/debugadapter':
         specifier: ^1.68.0
