@@ -25,7 +25,7 @@ console.log(
 function resolveTag(pkgDir) {
   return execFileSync(
     "node",
-    [join(scriptDir, "resolve-dist-tag.mjs"), join(root, pkgDir)],
+    [join(scriptDir, "resolve-dist-tag.mjs"), resolve(root, pkgDir)],
     { encoding: "utf8" },
   ).trim();
 }
