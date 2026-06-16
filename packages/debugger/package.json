@@ -39,7 +39,7 @@
   "dependencies": {
     "@babel/parser": "catalog:",
     "@babel/traverse": "catalog:",
-    "uuid": "^13.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@babel/types": "catalog:",
