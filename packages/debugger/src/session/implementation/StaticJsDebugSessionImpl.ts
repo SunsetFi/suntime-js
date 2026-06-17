@@ -35,6 +35,7 @@ import type { StaticJsDebugVariable } from "../../stack/StaticJsDebugVariable.js
 
 import type { StaticJsDebugSession } from "../StaticJsDebugSession.js";
 import type {
+  StaticJsDebugLaunchOptions,
   StaticJsDebugSessionOptions,
   StaticJsDebugSourceKind,
 } from "../StaticJsDebugSessionOptions.js";
@@ -84,12 +85,15 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   private _activeStepMode: StepMode | null = null;
   private _activeStepFrame: StaticJsTaskIteratorStackFrame | null = null;
 
+  private readonly _launchOptions: StaticJsDebugLaunchOptions;
+
   constructor(
     private readonly _realm: StaticJsRealm,
-    private readonly _options: StaticJsDebugSessionOptions,
+    { launch }: StaticJsDebugSessionOptions,
     private readonly _runTask: StaticJsTaskRunner,
   ) {
-    for (const breakpoint of this._options.launch.breakpoints ?? []) {
+    this._launchOptions = Object.assign({}, launch);
+    for (const breakpoint of launch.breakpoints ?? []) {
       this.addBreakpoint(breakpoint);
     }
 
@@ -207,9 +211,11 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
     const { operationType } = operation;
 
+    const { sourceName, sourceKind } = this._launchOptions;
+
     return {
-      sourceName: location.sourceName ?? this._options.launch.sourceName ?? "unknown",
-      sourceKind: this._options.launch.sourceKind,
+      sourceName: location.sourceName ?? sourceName ?? "unknown",
+      sourceKind: sourceKind,
       operationType,
       line: location.line ?? 0,
       column: location.column ?? 0,
@@ -345,7 +351,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       throw new Error("Debug session has already started.");
     }
 
-    const { sourceKind, sourceName, sourceText, stopOnEntry } = this._options.launch;
+    const { sourceKind, sourceName, sourceText, stopOnEntry } = this._launchOptions;
     if (!sourceText) {
       const err = new Error("Phase 2 minimal debugger sessions require launch.sourceText.");
       this._finishTerminal("error", err);
@@ -731,7 +737,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return {
       id: `${this.id}:${frame.depth}`,
       functionName,
-      sourceName: frame.sourceLocation?.sourceName ?? this._options.launch.sourceName ?? "unknown",
+      sourceName: frame.sourceLocation?.sourceName ?? this._launchOptions.sourceName ?? "unknown",
       line: frame.sourceLocation?.line ?? 0,
       column: frame.sourceLocation?.column ?? 0,
     };

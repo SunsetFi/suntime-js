@@ -17,6 +17,7 @@ import classDeclarationNodeEvaluator from "./Classes/ClassDeclaration.js";
 import classExpressionNodeEvaluator from "./Classes/ClassExpression.js";
 import conditionalExpressionNodeEvaluator from "./ConditionalExpression.js";
 import continueStatementNodeEvaluator from "./ContinueStatement.js";
+import debuggerStatementNodeEvaluator from "./DebuggerStatement.js";
 import doWhileStatementNodeEvaluator from "./DoWhileStatement.js";
 import emptyStatementNodeEvaluator from "./EmptyStatement.js";
 import exportAllDeclarationNodeEvaluator from "./ExportAllDeclaration.js";
@@ -73,6 +74,7 @@ const nodeEvaluators: NodeEvaluators = {
   BooleanLiteral: booleanLiteralNodeEvaluator,
   BreakStatement: breakStatementNodeEvaluator,
   CallExpression: callExpressionNodeEvaluator,
+  DebuggerStatement: debuggerStatementNodeEvaluator,
   OptionalCallExpression: optionalCallExpressionNodeEvaluator,
   MemberExpression: memberExpressionNodeEvaluator,
   OptionalMemberExpression: optionalMemberExpressionNodeEvaluator,
