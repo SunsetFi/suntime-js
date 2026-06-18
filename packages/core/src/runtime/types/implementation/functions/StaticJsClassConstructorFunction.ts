@@ -1,7 +1,7 @@
 import {
   blockStatement,
-  Expression,
-  Function,
+  type Expression,
+  type Function,
   functionDeclaration,
   identifier,
 } from "@babel/types";
@@ -14,20 +14,20 @@ import { Q } from "../../../../evaluator/completions/Q.js";
 import { rethrowCompletion } from "../../../../evaluator/completions/rethrow-completion.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { StaticJsClassFieldDefinitionRecord } from "../../../../evaluator/node-evaluators/Classes/ClassFieldDefinitionRecord.js";
+import { type StaticJsClassFieldDefinitionRecord } from "../../../../evaluator/node-evaluators/Classes/ClassFieldDefinitionRecord.js";
 import { initializeInstanceElements } from "../../../../evaluator/node-evaluators/Classes/evaluation/initialize-instance-elements.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsCallable } from "../../StaticJsCallable.js";
-import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
+import { type StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsCallable } from "../../StaticJsCallable.js";
+import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import {
-  StaticJsPrivateElementAccessor,
-  StaticJsPrivateElementMethod,
+  type StaticJsPrivateElementAccessor,
+  type StaticJsPrivateElementMethod,
 } from "../../StaticJsPrivateElement.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
-import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsMethodFunction } from "./StaticJsMethodFunction.js";
 

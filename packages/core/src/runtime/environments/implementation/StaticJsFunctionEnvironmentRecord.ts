@@ -3,7 +3,7 @@ import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
-import { StaticJsObject } from "../../types/StaticJsObject.js";
+import { type StaticJsObject } from "../../types/StaticJsObject.js";
 import { type StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 

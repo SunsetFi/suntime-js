@@ -7,13 +7,13 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 import { setFunctionLength } from "../../../algorithms/set-function-length.js";
 import { setFunctionName } from "../../../algorithms/set-function-name.js";
 import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsBoundFunction } from "../../../types/implementation/functions/StaticJsBoundFunctionImpl.js";
-import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { StaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { type StaticJsFunction } from "../../../types/StaticJsFunction.js";
 import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
 import { isStaticJsString } from "../../../types/StaticJsString.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { type StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {

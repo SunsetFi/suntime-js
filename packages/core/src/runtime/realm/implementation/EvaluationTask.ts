@@ -3,14 +3,14 @@ import { StaticJsSynchronousTaskIncompleteError } from "../../../errors/StaticJs
 import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
 import {
   EvaluationContext,
-  EvaluationContextStackProvider,
+  type EvaluationContextStackProvider,
 } from "../../../evaluator/EvaluationContext.js";
 import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
 import {
-  StaticJsIteratedTask,
+  type StaticJsIteratedTask,
   StaticJsTaskIteratorImpl,
 } from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
-import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
+import { type StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 

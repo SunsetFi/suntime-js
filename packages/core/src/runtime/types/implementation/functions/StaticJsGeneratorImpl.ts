@@ -1,8 +1,11 @@
-import { isNode, Node } from "@babel/types";
+import { isNode, type Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
-import { SuspendCommand, SuspendContext } from "../../../../evaluator/commands/SuspendCommand.js";
+import {
+  SuspendCommand,
+  type SuspendContext,
+} from "../../../../evaluator/commands/SuspendCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
@@ -11,13 +14,13 @@ import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.j
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { iteratorComplete } from "../../../iterators/iterator-complete.js";
 import { iteratorValue } from "../../../iterators/iterator-value.js";
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsGenerator } from "../../StaticJsGenerator.js";
-import { StaticJsIteratorResult } from "../../StaticJsIterator.js";
-import { StaticJsObject } from "../../StaticJsObject.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsGenerator } from "../../StaticJsGenerator.js";
+import { type StaticJsIteratorResult } from "../../StaticJsIterator.js";
+import { type StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsValue } from "../../StaticJsValue.js";
+import { type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export type GeneratorState = "suspended-start" | "suspended-yield" | "executing" | "completed";

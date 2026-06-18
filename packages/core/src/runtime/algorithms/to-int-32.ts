@@ -1,7 +1,7 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsNumber } from "../types/StaticJsNumber.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { type StaticJsNumber } from "../types/StaticJsNumber.js";
+import { type StaticJsValue } from "../types/StaticJsValue.js";
 
 import { toIntegerOrInfinity } from "./to-integer-or-infinity.js";
 

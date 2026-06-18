@@ -3,7 +3,7 @@ import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
-import { EvaluatorCommand } from "./EvaluatorCommand.js";
+import { type EvaluatorCommand } from "./EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
 export interface SuspendContextResumptionValue<TCallerResumptionValue = unknown> {

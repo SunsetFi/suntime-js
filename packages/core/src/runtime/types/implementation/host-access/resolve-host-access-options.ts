@@ -1,14 +1,14 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import {
   AllHostAccessStubTypes,
-  HostAccessChildOptions,
+  type HostAccessChildOptions,
   HostAccessOptionKeys,
-  HostAccessQueryResult,
-  HostAccessStubType,
+  type HostAccessQueryResult,
+  type HostAccessStubType,
   type HostAccessArg,
   type HostAccessOptions,
 } from "../../HostAccessOptions.js";
-import { isStaticJsValue, StaticJsValue } from "../../StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 
 export type ResolvedHostAccessOptions = Omit<Required<HostAccessOptions>, "stubWellKnownTypes"> & {
   stubWellKnownTypes: readonly HostAccessStubType[];

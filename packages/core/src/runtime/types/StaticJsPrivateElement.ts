@@ -1,6 +1,6 @@
-import { StaticJsFunction } from "./StaticJsFunction.js";
-import { StaticJsPrivateName } from "./StaticJsPrivateName.js";
-import { StaticJsValue } from "./StaticJsValue.js";
+import { type StaticJsFunction } from "./StaticJsFunction.js";
+import { type StaticJsPrivateName } from "./StaticJsPrivateName.js";
+import { type StaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsPrivateElementBase {
   type: "private-element";

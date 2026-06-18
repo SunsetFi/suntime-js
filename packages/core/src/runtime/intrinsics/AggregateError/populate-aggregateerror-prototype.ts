@@ -1,5 +1,5 @@
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsObject } from "../../types/StaticJsObject.js";
+import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { type StaticJsObject } from "../../types/StaticJsObject.js";
 import { applyIntrinsicProperties } from "../apply-intrinsic-properties.js";
 
 import { aggregateErrorProtoMessageDeclaration } from "./prototype/message.js";

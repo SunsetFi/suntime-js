@@ -1,20 +1,20 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { Intrinsics } from "../../../intrinsics/intrinsics.js";
+import { type Intrinsics } from "../../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsCallable } from "../../StaticJsCallable.js";
+import { type StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
-import { StaticJsObject } from "../../StaticJsObject.js";
+import { type StaticJsObject } from "../../StaticJsObject.js";
 import {
   isStaticJsDataPropertyDescriptor,
-  StaticJsDataPropertyDescriptor,
+  type StaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-import { isStaticJsSymbol, StaticJsSymbol } from "../../StaticJsSymbol.js";
+import { isStaticJsSymbol, type StaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsValue } from "../../StaticJsValue.js";
+import { type StaticJsValue } from "../../StaticJsValue.js";
 import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
 import { isWellKnownSymbol } from "../well-known-symbols.js";

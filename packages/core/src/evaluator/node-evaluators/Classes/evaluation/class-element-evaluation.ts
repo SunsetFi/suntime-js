@@ -1,23 +1,23 @@
 import {
-  ClassMethod,
-  ClassPrivateMethod,
-  ClassPrivateProperty,
-  ClassProperty,
-  StaticBlock,
+  type ClassMethod,
+  type ClassPrivateMethod,
+  type ClassPrivateProperty,
+  type ClassProperty,
+  type StaticBlock,
   parenthesizedExpression,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
-import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
+import { type StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { type StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
 import { Completion } from "../../../completions/Completion.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
-import { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
-import { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
+import { type StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
+import { type StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
 
 import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
 

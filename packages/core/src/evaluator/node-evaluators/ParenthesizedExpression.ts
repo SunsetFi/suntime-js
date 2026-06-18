@@ -1,4 +1,4 @@
-import { ParenthesizedExpression } from "@babel/types";
+import { type ParenthesizedExpression } from "@babel/types";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";

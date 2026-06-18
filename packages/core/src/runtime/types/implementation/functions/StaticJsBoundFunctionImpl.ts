@@ -5,9 +5,12 @@ import { get } from "../../../algorithms/get.js";
 import { sameValue } from "../../../algorithms/same-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsCallable, type StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
+import {
+  type StaticJsCallable,
+  type StaticJsCallableToNativeOpts,
+} from "../../StaticJsCallable.js";
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
-import { StaticJsNull } from "../../StaticJsNull.js";
+import { type StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";

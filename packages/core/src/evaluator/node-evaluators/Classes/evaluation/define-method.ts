@@ -1,4 +1,4 @@
-import { ClassMethod, ClassPrivateMethod, ObjectMethod } from "@babel/types";
+import { type ClassMethod, type ClassPrivateMethod, type ObjectMethod } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { verifyNoTsParameterProperties } from "../../../../grammar/verify-no-ts-parameter-properties.js";
@@ -6,10 +6,10 @@ import { expectedArgumentCount } from "../../../../runtime/algorithms/expected-a
 import { setFunctionLength } from "../../../../runtime/algorithms/set-function-length.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
-import { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
-import { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
+import { type StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
+import { type StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { type StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
+import { type StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

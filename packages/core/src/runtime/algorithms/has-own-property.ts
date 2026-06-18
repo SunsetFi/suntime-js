@@ -1,7 +1,7 @@
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
+import { type StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 export function* hasOwnProperty(
   o: StaticJsObject,

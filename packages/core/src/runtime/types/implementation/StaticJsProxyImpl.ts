@@ -15,30 +15,30 @@ import { sameValue } from "../../algorithms/same-value.js";
 import { toBoolean } from "../../algorithms/to-boolean.js";
 import { toPropertyDescriptor } from "../../algorithms/to-property-descriptor.js";
 import { toString } from "../../algorithms/to-string.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import { isStaticJsCallable, StaticJsCallable } from "../StaticJsCallable.js";
+import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { type StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import { isStaticJsCallable, type StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import {
   isStaticJsObject,
-  StaticJsObject,
-  StaticJsObjectPropertyAccessOptions,
-  StaticJsObjectPropertyAccessRunTaskOptions,
+  type StaticJsObject,
+  type StaticJsObjectPropertyAccessOptions,
+  type StaticJsObjectPropertyAccessRunTaskOptions,
 } from "../StaticJsObject.js";
-import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import { type StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   propertyDescriptorToStaticJsObject,
-  StaticJsPropertyDescriptor,
-  StaticJsPropertyDescriptorRecord,
+  type StaticJsPropertyDescriptor,
+  type StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
-import { StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
-import { StaticJsProxy } from "../StaticJsProxy.js";
+import { type StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
+import { type StaticJsProxy } from "../StaticJsProxy.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
-import { isStaticJsValue, StaticJsValue } from "../StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
 
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 

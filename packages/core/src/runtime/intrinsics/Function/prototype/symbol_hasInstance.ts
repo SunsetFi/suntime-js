@@ -1,5 +1,5 @@
 import { ordinaryHasInstance } from "../../../algorithms/ordinary-has-instance.js";
-import { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+import { type IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoSymbolHasInstanceDeclaration: IntrinsicPropertyDeclaration = {
   key: (realm) => realm.types.symbols.hasInstance,

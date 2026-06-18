@@ -1,8 +1,8 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { isStaticJsNull } from "../../types/StaticJsNull.js";
-import { isStaticJsObject, StaticJsObject } from "../../types/StaticJsObject.js";
-import { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
+import { isStaticJsObject, type StaticJsObject } from "../../types/StaticJsObject.js";
+import { type IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 export const reflectSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
   key: "setPrototypeOf",

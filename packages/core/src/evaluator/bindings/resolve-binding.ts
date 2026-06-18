@@ -1,4 +1,4 @@
-import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 

@@ -1,10 +1,10 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
-import { StaticJsObject } from "./StaticJsObject.js";
+import { type StaticJsObject } from "./StaticJsObject.js";
 import type { StaticJsToNativeOpts } from "./StaticJsToNativeOpts.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
-import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 /**
  * Options for converting a callable to its native (host) function bridge via

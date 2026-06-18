@@ -1,4 +1,4 @@
-import { MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { type MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import type { IntrinsicSymbols } from "../intrinsics/intrinsics.js";
 
 import type { HostAccessArg } from "./HostAccessOptions.js";
@@ -11,12 +11,16 @@ import type { StaticJsObject } from "./StaticJsObject.js";
 import type { StaticJsPlainObject } from "./StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
-import { StaticJsProxy, StaticJsProxyHandlers, StaticJsProxyTarget } from "./StaticJsProxy.js";
+import {
+  type StaticJsProxy,
+  type StaticJsProxyHandlers,
+  type StaticJsProxyTarget,
+} from "./StaticJsProxy.js";
 import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
-import { WellKnownErrorName } from "./well-known-errors.js";
+import { type WellKnownErrorName } from "./well-known-errors.js";
 
 export type StaticJsTypeCreationPrototype = StaticJsObject | StaticJsNull | null;
 

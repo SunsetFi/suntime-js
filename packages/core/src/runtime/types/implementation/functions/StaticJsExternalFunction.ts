@@ -1,4 +1,4 @@
-import { Node } from "@babel/types";
+import { type Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
@@ -6,15 +6,15 @@ import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import {
   EvaluationGenerator,
-  MaybeEvaluationGenerator,
+  type MaybeEvaluationGenerator,
 } from "../../../../evaluator/EvaluationGenerator.js";
-import { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import { type StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
-import { StaticJsCallable } from "../../StaticJsCallable.js";
-import { StaticJsFunction } from "../../StaticJsFunction.js";
-import { isStaticJsObject, StaticJsObject } from "../../StaticJsObject.js";
+import { type StaticJsCallable } from "../../StaticJsCallable.js";
+import { type StaticJsFunction } from "../../StaticJsFunction.js";
+import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { type StaticJsValue } from "../../StaticJsValue.js";
 import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";

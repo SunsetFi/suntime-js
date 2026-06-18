@@ -1,8 +1,8 @@
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { type StaticJsValue } from "../types/StaticJsValue.js";
 
 import {
-  StaticJsPropertyReferenceRecord,
-  StaticJsReferenceRecord,
+  type StaticJsPropertyReferenceRecord,
+  type StaticJsReferenceRecord,
 } from "./StaticJsReferenceRecord.js";
 
 export function isSuperReference(

@@ -4,10 +4,10 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { getSuperBase } from "../../../runtime/algorithms/get-super-base.js";
 import { getThisEnvironment } from "../../../runtime/algorithms/get-this-environment.js";
 import {
-  StaticJsPropertyReferenceRecord,
+  type StaticJsPropertyReferenceRecord,
   staticJsPropertyReferenceRecord,
 } from "../../../runtime/references/StaticJsReferenceRecord.js";
-import { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
+import { type StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";

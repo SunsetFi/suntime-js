@@ -1,6 +1,6 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 
 export function* getThisEnvironment(): EvaluationGenerator<StaticJsEnvironmentRecord> {
   let env = EvaluationContext.current.lexicalEnv;

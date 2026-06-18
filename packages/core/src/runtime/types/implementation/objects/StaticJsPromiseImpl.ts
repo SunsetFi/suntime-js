@@ -8,8 +8,8 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { speciesConstructor } from "../../../algorithms/species-constructor.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsCallable } from "../../StaticJsCallable.js";
+import { type StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import {
   type StaticJsPromiseCapabilityRecord,

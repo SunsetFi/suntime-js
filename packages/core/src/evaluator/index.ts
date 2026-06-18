@@ -3,4 +3,4 @@ export * from "./evaluation/index.js";
 export * from "./task-runners/index.js";
 
 export { EvaluationGenerator } from "./EvaluationGenerator.js";
-export { StaticJsEvaluator } from "./StaticJsEvaluator.js";
+export { type StaticJsEvaluator } from "./StaticJsEvaluator.js";

@@ -1,10 +1,10 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { toNumber } from "../algorithms/to-number.js";
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
-import { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
-import { IntrinsicsRecord } from "./intrinsics.js";
+import { type IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
+import { type IntrinsicsRecord } from "./intrinsics.js";
 
 export function* createIsFinite(
   realm: StaticJsRealm,

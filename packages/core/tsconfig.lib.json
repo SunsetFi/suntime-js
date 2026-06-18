@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "verbatimModuleSyntax": true,
     "types": ["node"],
     "outDir": "./dist",
     "declaration": true,
