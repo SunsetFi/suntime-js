@@ -18,7 +18,7 @@
     "@codingame/monaco-vscode-extensions-service-override": "^30.0.0",
     "@codingame/monaco-vscode-files-service-override": "^30.0.0",
     "@codingame/monaco-vscode-javascript-default-extension": "^30.0.0",
-    "@codingame/monaco-vscode-json-default-extension": "^30.0.0",
+    "@codingame/monaco-vscode-json-default-extension": "^34.0.2",
     "@codingame/monaco-vscode-keybindings-service-override": "^30.0.0",
     "@codingame/monaco-vscode-languages-service-override": "^30.0.0",
     "@codingame/monaco-vscode-markers-service-override": "^30.0.0",
