@@ -72,7 +72,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "^4.1.5",
-    "yaml": "^2.8.2"
+    "yaml": "^2.9.0"
   },
   "packageManager": "pnpm@11.5.2"
 }
