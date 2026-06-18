@@ -9,7 +9,6 @@ import {
   type StaticJsTaskScopeFrame,
   type StaticJsValue,
   type StaticJsObject,
-  type StaticJsModule,
   createTaskIteratorProxy,
   isStaticJsScalar,
   isStaticJsObject,
@@ -35,8 +34,7 @@ import type { StaticJsDebugVariable } from "../../stack/StaticJsDebugVariable.js
 
 import type { StaticJsDebugSession } from "../StaticJsDebugSession.js";
 import type {
-  StaticJsDebugLaunchOptions,
-  StaticJsDebugSessionOptions,
+  StaticJsDebugSessionCommonOptions,
   StaticJsDebugSourceKind,
 } from "../StaticJsDebugSessionOptions.js";
 import {
@@ -58,13 +56,15 @@ import {
 type StepMode = "stepInto" | "stepOut" | "stepOver";
 type ResumeMode = "continue" | StepMode;
 
-export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
+export abstract class StaticJsDebugSessionBase implements StaticJsDebugSession {
   readonly id: string = uuidv4();
 
   private _events = new StaticJsDebugSessionEventManager();
   private _breakpoints = new StaticJsDebugSessionBreakpointManager(this.id);
 
-  private _state: StaticJsDebugSessionState = "idle";
+  private readonly _stopOnEntry: boolean;
+
+  protected _state: StaticJsDebugSessionState = "idle";
 
   private readonly _waitForStopRequests: Deferred<StaticJsDebugStopEvent>[] = [];
 
@@ -73,7 +73,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   private _pauseRequested = false;
   private _skipBreakpointIdForLine: string | null = null;
 
-  private _activeTask: StaticJsTaskIterator | null = null;
+  protected _activeTask: StaticJsTaskIterator | null = null;
   private _lastStopEvent: StaticJsDebugStopEvent | null = null;
 
   private _variablesRefMap = new Map<
@@ -85,15 +85,18 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   private _activeStepMode: StepMode | null = null;
   private _activeStepFrame: StaticJsTaskIteratorStackFrame | null = null;
 
-  private readonly _launchOptions: StaticJsDebugLaunchOptions;
+  /** Display source metadata used as a fallback for snapshots/frames. Set by the subclass constructor before `_begin()` runs. */
+  protected _sourceName: string | undefined;
+  /** @see _sourceName */
+  protected _sourceKind: StaticJsDebugSourceKind = "script";
 
   constructor(
-    private readonly _realm: StaticJsRealm,
-    { launch }: StaticJsDebugSessionOptions,
-    private readonly _runTask: StaticJsTaskRunner,
+    protected readonly _realm: StaticJsRealm,
+    options: StaticJsDebugSessionCommonOptions,
+    protected readonly _runTask: StaticJsTaskRunner,
   ) {
-    this._launchOptions = Object.assign({}, launch);
-    for (const breakpoint of launch.breakpoints ?? []) {
+    this._stopOnEntry = options.stopOnEntry === true;
+    for (const breakpoint of options.breakpoints ?? []) {
       this.addBreakpoint(breakpoint);
     }
 
@@ -102,7 +105,6 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
         this._waitForStopRequests.shift()!.resolve(event);
       }
     });
-
     this._events.onDidTerminate(() => {
       while (this._waitForStopRequests.length > 0) {
         this._waitForStopRequests
@@ -126,6 +128,36 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
   startAndWait(): Promise<StaticJsDebugStopEvent | null> {
     return this._startExecution(true);
+  }
+
+  protected abstract _begin(): void;
+
+  protected _validateStart(): void {
+    // Default: nothing to validate.
+  }
+
+  private _startExecution(waitForCompletion: false): Promise<void>;
+  private _startExecution(waitForCompletion: true): Promise<StaticJsDebugStopEvent | null>;
+  private async _startExecution(
+    waitForCompletion: boolean,
+  ): Promise<void | StaticJsDebugStopEvent | null> {
+    if (this._state !== "idle") {
+      throw new Error("Debug session has already started.");
+    }
+
+    this._validateStart();
+
+    this._setState("starting");
+    this._events.didStart({ sessionId: this.id, state: "starting" });
+
+    const controlRequest = waitForCompletion ? this._beginControlRequest() : null;
+    this._stopOnEntryPending = this._stopOnEntry;
+
+    this._begin();
+
+    if (controlRequest) {
+      return controlRequest.promise;
+    }
   }
 
   continue(): Promise<void> {
@@ -161,7 +193,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   }
 
   pause(): void {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
+    if (this._isTerminal()) {
       return;
     }
 
@@ -169,7 +201,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
   }
 
   terminate(): void {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
+    if (this._isTerminal()) {
       return;
     }
 
@@ -211,7 +243,8 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
 
     const { operationType } = operation;
 
-    const { sourceName, sourceKind } = this._launchOptions;
+    const sourceName = this._sourceName;
+    const sourceKind = this._sourceKind;
 
     return {
       sourceName: location.sourceName ?? sourceName ?? "unknown",
@@ -297,7 +330,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
       return Promise.resolve(this._lastStopEvent);
     }
 
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
+    if (this._isTerminal()) {
       return Promise.reject(new Error("Debug session has already terminated."));
     }
 
@@ -322,55 +355,8 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return this._events.onDidChange(listener);
   }
 
-  private async _launch(
-    sourceKind: StaticJsDebugSourceKind,
-    sourceName: string | undefined,
-    sourceText: string,
-  ): Promise<StaticJsValue | StaticJsModule> {
-    const runTaskOptions: StaticJsRunTaskOptions = {
-      runTask: this._handleTask.bind(this),
-      ...(sourceName ? { sourceName } : {}),
-    };
-
-    switch (sourceKind) {
-      case "expression":
-        return await this._realm.evaluateExpression(sourceText, runTaskOptions);
-      case "module":
-        return await this._realm.evaluateModule(sourceText, runTaskOptions);
-      case "script":
-        return await this._realm.evaluateScript(sourceText, runTaskOptions);
-    }
-  }
-
-  private _startExecution(waitForCompletion: false): Promise<void>;
-  private _startExecution(waitForCompletion: true): Promise<StaticJsDebugStopEvent>;
-  private async _startExecution(
-    waitForCompletion: boolean,
-  ): Promise<void | StaticJsDebugStopEvent | null> {
-    if (this._state !== "idle") {
-      throw new Error("Debug session has already started.");
-    }
-
-    const { sourceKind, sourceName, sourceText, stopOnEntry } = this._launchOptions;
-    if (!sourceText) {
-      const err = new Error("Phase 2 minimal debugger sessions require launch.sourceText.");
-      this._finishTerminal("error", err);
-      throw err;
-    }
-
-    this._setState("starting");
-    this._events.didStart({ sessionId: this.id, state: "starting" });
-
-    const controlRequest = waitForCompletion ? this._beginControlRequest() : null;
-    this._stopOnEntryPending = stopOnEntry === true;
-
-    this._launch(sourceKind, sourceName, sourceText)
-      .then(this._onSessionComplete.bind(this))
-      .catch(this._onSessionError.bind(this));
-
-    if (controlRequest) {
-      return controlRequest.promise;
-    }
+  protected _isTerminal(): boolean {
+    return isStaticJsDebugSessionStateTerminal(this._state);
   }
 
   private async _resumeExecution(waitMode: ResumeMode, waitForCompletion: false): Promise<void>;
@@ -382,7 +368,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     waitMode: ResumeMode,
     waitForCompletion: boolean,
   ): Promise<void | StaticJsDebugStopEvent | null> {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
+    if (this._isTerminal()) {
       return waitForCompletion ? null : undefined;
     }
 
@@ -409,19 +395,8 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     }
   }
 
-  private _handleTask(task: StaticJsTaskIterator): void {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
-      task.abort();
-      return;
-    }
-
-    this._activeTask = task;
-
-    this._resumeActiveTask();
-  }
-
-  private _resumeActiveTask(): void {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
+  protected _resumeActiveTask(): void {
+    if (this._isTerminal()) {
       return;
     }
 
@@ -455,6 +430,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     const iterate = (result: IteratorResult<void, void>): IteratorResult<void, void> => {
       if (result.done) {
         this._activeTask = null;
+        this._onTaskSettled(task);
         return result;
       }
 
@@ -493,8 +469,14 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     this._runTask(outerTask);
   }
 
+  protected _onTaskSettled(_task: StaticJsTaskIterator): void {
+    // Default no-op: a subclass whose execution is backed by an awaited promise (e.g. launch mode)
+    // reports terminal state through that promise instead. Subclasses that pump a task directly
+    // override this to finalize on settle.
+  }
+
   private _pauseWithReason(reason: StaticJsDebugStopReason): void {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
+    if (this._isTerminal()) {
       return;
     }
 
@@ -511,20 +493,75 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     this._acceptControlRequest(event);
   }
 
-  private _onSessionComplete(value: StaticJsValue | StaticJsModule) {
-    this._finishTerminal("complete", value);
-  }
-
-  private _onSessionError(error: unknown) {
-    if (
-      this._state === "terminated" ||
-      (error as { name?: string }).name === "StaticJsTaskAbortedError"
-    ) {
-      this._finishTerminal("terminate", null);
+  protected _finishTerminal(
+    reason: StaticJsDebugStopReasonTerminal,
+    result: StaticJsValue | unknown,
+  ): void {
+    if (this._isTerminal()) {
       return;
     }
 
-    this._finishTerminal("error", error);
+    this._pauseRequested = false;
+    this._activeTask = null;
+    this._stopOnEntryPending = false;
+    this._lastStopEvent = null;
+
+    if (reason === "complete") {
+      this._setState("completed");
+      this._events.didTerminate({
+        sessionId: this.id,
+        state: "completed",
+        reason: "complete",
+        result: result as StaticJsValue,
+      });
+    } else {
+      this._setState("terminated");
+      this._events.didTerminate({
+        sessionId: this.id,
+        state: "terminated",
+        reason: "error",
+        error: result,
+      });
+    }
+
+    this._acceptControlRequest(null);
+  }
+
+  private _beginControlRequest(): Deferred<StaticJsDebugStopEvent | null> {
+    if (this._controlRequest) {
+      throw new Error("A debug control request is already in flight.");
+    }
+
+    this._controlRequest = createDeferred<StaticJsDebugStopEvent | null>();
+    return this._controlRequest;
+  }
+
+  private _acceptControlRequest(event: StaticJsDebugStopEvent | null): void {
+    if (!this._controlRequest) {
+      return;
+    }
+
+    this._controlRequest.resolve(event);
+    this._controlRequest = null;
+  }
+
+  private _rejectControlRequest(error: unknown): void {
+    if (!this._controlRequest) {
+      return;
+    }
+
+    const resolvedError = error instanceof Error ? error : new Error(String(error));
+    this._controlRequest.reject(resolvedError);
+    this._controlRequest = null;
+  }
+
+  private _setState(state: StaticJsDebugSessionState): void {
+    if (this._state === state) {
+      return;
+    }
+
+    this._state = state;
+    this._events.didChange({ sessionId: this.id, state });
   }
 
   private _getStopReason(): StaticJsDebugStopReason | null {
@@ -646,77 +683,6 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return false;
   }
 
-  private _finishTerminal(
-    reason: StaticJsDebugStopReasonTerminal,
-    result: StaticJsValue | StaticJsModule | unknown,
-  ): void {
-    if (isStaticJsDebugSessionStateTerminal(this._state)) {
-      return;
-    }
-
-    this._pauseRequested = false;
-    this._activeTask = null;
-    this._stopOnEntryPending = false;
-    this._lastStopEvent = null;
-
-    if (reason === "complete") {
-      this._setState("completed");
-      this._events.didTerminate({
-        sessionId: this.id,
-        state: "completed",
-        reason: "complete",
-        result: result as StaticJsValue | StaticJsModule,
-      });
-    } else {
-      this._setState("terminated");
-      this._events.didTerminate({
-        sessionId: this.id,
-        state: "terminated",
-        reason: "error",
-        error: result,
-      });
-    }
-
-    this._acceptControlRequest(null);
-  }
-
-  private _beginControlRequest(): Deferred<StaticJsDebugStopEvent | null> {
-    if (this._controlRequest) {
-      throw new Error("A debug control request is already in flight.");
-    }
-
-    this._controlRequest = createDeferred<StaticJsDebugStopEvent | null>();
-    return this._controlRequest;
-  }
-
-  private _acceptControlRequest(event: StaticJsDebugStopEvent | null): void {
-    if (!this._controlRequest) {
-      return;
-    }
-
-    this._controlRequest.resolve(event);
-    this._controlRequest = null;
-  }
-
-  private _rejectControlRequest(error: unknown): void {
-    if (!this._controlRequest) {
-      return;
-    }
-
-    const resolvedError = error instanceof Error ? error : new Error(String(error));
-    this._controlRequest.reject(resolvedError);
-    this._controlRequest = null;
-  }
-
-  private _setState(state: StaticJsDebugSessionState): void {
-    if (this._state === state) {
-      return;
-    }
-
-    this._state = state;
-    this._events.didChange({ sessionId: this.id, state });
-  }
-
   private _taskFrameToDebugFrame(frame: StaticJsTaskIteratorStackFrame): StaticJsDebugFrame {
     let functionName: string | null = null;
 
@@ -737,7 +703,7 @@ export class StaticJsDebugSessionImpl implements StaticJsDebugSession {
     return {
       id: `${this.id}:${frame.depth}`,
       functionName,
-      sourceName: frame.sourceLocation?.sourceName ?? this._launchOptions.sourceName ?? "unknown",
+      sourceName: frame.sourceLocation?.sourceName ?? this._sourceName ?? "unknown",
       line: frame.sourceLocation?.line ?? 0,
       column: frame.sourceLocation?.column ?? 0,
     };

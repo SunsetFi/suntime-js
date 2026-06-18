@@ -706,12 +706,13 @@ describe("StaticJsDebugSession", () => {
 
       const session = debuggerInstance.createSession({
         launch: {
+          sourceText: undefined as any,
           sourceKind: "script",
         },
       });
 
       await expect(session.start()).rejects.toThrow(
-        "Phase 2 minimal debugger sessions require launch.sourceText.",
+        "Launch options requires sourceText to be set.",
       );
       expect(session.state).toBe("terminated");
     });
