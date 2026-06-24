@@ -1,5 +1,11 @@
 # @suntime-js/core
 
+## 0.10.1
+
+### Patch Changes
+
+- 0bd2116: Re-publish due to broken deploy
+
 ## 0.10.0
 
 ### Minor Changes

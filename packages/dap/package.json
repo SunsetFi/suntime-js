@@ -1,6 +1,6 @@
 {
   "name": "@suntime-js/dap",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "private": false,
   "description": "Debug Adapter Protocol bootstrap for StaticJs.",
   "keywords": [],
