@@ -1,23 +1,23 @@
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { call } from "../../algorithms/call.js";
 import { toString } from "../../algorithms/to-string.js";
 import { validateAndApplyPropertyDescriptor } from "../../algorithms/validate-and-apply-property-descriptor.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import {
   isStaticJsObject,
-  StaticJsObjectPropertyAccessOptions,
-  StaticJsObjectPropertyAccessRunTaskOptions,
+  type StaticJsObjectPropertyAccessOptions,
+  type StaticJsObjectPropertyAccessRunTaskOptions,
   type StaticJsObject,
 } from "../StaticJsObject.js";
 import { type StaticJsPlainObject } from "../StaticJsPlainObject.js";
-import { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
-import { StaticJsPrivateName } from "../StaticJsPrivateName.js";
+import { type StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import { type StaticJsPrivateName } from "../StaticJsPrivateName.js";
 import type {
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
@@ -34,11 +34,11 @@ import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../StaticJsValue.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 
-import { PolicyKey, PolicyKeyInterner } from "./host-access/PolicyKey.js";
+import { type PolicyKey, PolicyKeyInterner } from "./host-access/PolicyKey.js";
 import { resolveHostAccessOptions } from "./host-access/resolve-host-access-options.js";
 import {
   createStaticJsObjectProxy,
-  StaticJsObjectProxyTarget,
+  type StaticJsObjectProxyTarget,
 } from "./objects/create-object-proxy.js";
 import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 

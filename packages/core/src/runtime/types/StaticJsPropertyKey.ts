@@ -1,11 +1,11 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { CompletionValue } from "../../evaluator/completions/CompletionValue.js";
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { type CompletionValue } from "../../evaluator/completions/CompletionValue.js";
+import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { isStaticJsString } from "./StaticJsString.js";
 import { isStaticJsSymbol, type StaticJsSymbol } from "./StaticJsSymbol.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
-import { isStaticJsValue, StaticJsValue } from "./StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
 export type StaticJsPropertyKey = string | StaticJsSymbol;
 

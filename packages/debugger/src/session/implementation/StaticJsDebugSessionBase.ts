@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
 import {
-  type StaticJsRealm,
   type StaticJsRunTaskOptions,
   type StaticJsTaskIterator,
   type StaticJsTaskRunner,
@@ -91,7 +90,6 @@ export abstract class StaticJsDebugSessionBase implements StaticJsDebugSession {
   protected _sourceKind: StaticJsDebugSourceKind = "script";
 
   constructor(
-    protected readonly _realm: StaticJsRealm,
     options: StaticJsDebugSessionCommonOptions,
     protected readonly _runTask: StaticJsTaskRunner,
   ) {

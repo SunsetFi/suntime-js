@@ -1,4 +1,4 @@
-import { isNode, Node } from "@babel/types";
+import { isNode, type Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
@@ -7,7 +7,7 @@ import { captureThrownCompletion } from "../../evaluator/completions/capture-thr
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
+import { type StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 
 import { call } from "./call.js";
 

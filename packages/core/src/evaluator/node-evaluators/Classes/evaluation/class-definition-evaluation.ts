@@ -1,4 +1,4 @@
-import { ClassDeclaration, ClassExpression } from "@babel/types";
+import { type ClassDeclaration, type ClassExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
@@ -13,17 +13,17 @@ import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/enviro
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
-import { isStaticJsNull, StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
-import { isStaticJsObject, StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { isStaticJsNull, type StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import {
   isStaticJsPrivateElement,
-  StaticJsPrivateElement,
-  StaticJsPrivateElementAccessor,
-  StaticJsPrivateElementMethod,
+  type StaticJsPrivateElement,
+  type StaticJsPrivateElementAccessor,
+  type StaticJsPrivateElementMethod,
 } from "../../../../runtime/types/StaticJsPrivateElement.js";
-import { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
-import { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import { type StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
+import { type StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
+import { type StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
 import { Completion } from "../../../completions/Completion.js";
@@ -32,16 +32,16 @@ import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import {
   isStaticJsClassFieldDefinitionRecord,
-  StaticJsClassFieldDefinitionRecord,
+  type StaticJsClassFieldDefinitionRecord,
 } from "../ClassFieldDefinitionRecord.js";
 import {
   isStaticJsClassStaticBlockDefinitionRecord,
-  StaticJsClassStaticBlockDefinitionRecord,
+  type StaticJsClassStaticBlockDefinitionRecord,
 } from "../ClassStaticBlockDefinitionRecord.js";
 
 import {
   classElementEvaluation,
-  ClassElementEvaluationResult,
+  type ClassElementEvaluationResult,
 } from "./class-element-evaluation.js";
 import { constructorMethod } from "./constructor-method.js";
 import { defineField } from "./define-field.js";

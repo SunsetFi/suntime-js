@@ -7,9 +7,9 @@ import {
   StaticJsUnhandledRejectionError,
   StaticJsRuntimeError,
   StaticJsSyntaxError,
+  isStaticJsString,
+  type StaticJsValue,
 } from "../../src/index.js";
-import { isStaticJsString } from "../../src/runtime/types/StaticJsString.js";
-import { StaticJsValue } from "../../src/runtime/types/StaticJsValue.js";
 import isDebuggerActive from "../env/is-debugger-active.js";
 
 import addTestHarness from "./add-test-harness.js";

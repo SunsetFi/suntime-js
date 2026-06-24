@@ -40,8 +40,8 @@ export interface StaticJsDebugger {
  * @returns The created debugger.
  * @public
  */
-function fStaticJsDebugger(options: StaticJsDebuggerOptions): StaticJsDebugger {
-  return new StaticJsDebuggerImpl(options.realm, options.runTask);
+function fStaticJsDebugger(options?: StaticJsDebuggerOptions): StaticJsDebugger {
+  return new StaticJsDebuggerImpl(options?.runTask);
 }
 
 // Let the function be used in instanceof checks.
@@ -55,8 +55,8 @@ Object.setPrototypeOf(fStaticJsDebuggerProto, Function.prototype);
 Object.setPrototypeOf(fStaticJsDebugger, fStaticJsDebuggerProto);
 
 interface fStaticJsDebugger {
-  (options: StaticJsDebuggerOptions): StaticJsDebugger;
-  new (options: StaticJsDebuggerOptions): StaticJsDebugger;
+  (options?: StaticJsDebuggerOptions): StaticJsDebugger;
+  new (options?: StaticJsDebuggerOptions): StaticJsDebugger;
 }
 
 export const StaticJsDebugger: fStaticJsDebugger = fStaticJsDebugger as fStaticJsDebugger;

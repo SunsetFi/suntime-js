@@ -1,9 +1,9 @@
-import { isStaticJsPrivateName, StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
+import { isStaticJsPrivateName, type StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
 
 import { isPropertyReference } from "./is-property-reference.js";
 import {
-  StaticJsPropertyReferenceRecord,
-  StaticJsReferenceRecord,
+  type StaticJsPropertyReferenceRecord,
+  type StaticJsReferenceRecord,
 } from "./StaticJsReferenceRecord.js";
 
 export function isPrivateReference(

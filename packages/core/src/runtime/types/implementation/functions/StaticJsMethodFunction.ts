@@ -1,12 +1,12 @@
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
-import { StaticJsSymbol } from "../../StaticJsSymbol.js";
+import { type StaticJsObject } from "../../StaticJsObject.js";
+import { type StaticJsPrivateName } from "../../StaticJsPrivateName.js";
+import { type StaticJsSymbol } from "../../StaticJsSymbol.js";
 
-import { StaticJsAstFunction, StaticJsAstFunctionNode } from "./StaticJsAstFunction.js";
+import { StaticJsAstFunction, type StaticJsAstFunctionNode } from "./StaticJsAstFunction.js";
 
 export class StaticJsMethodFunction extends StaticJsAstFunction {
   private _homeObject: StaticJsObject;

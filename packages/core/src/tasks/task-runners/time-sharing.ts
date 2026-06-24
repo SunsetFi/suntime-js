@@ -1,5 +1,5 @@
 import { StaticJsTaskAbortedError } from "../../errors/StaticJsTaskAbortedError.js";
-import type { StaticJsTaskRunner } from "../../runtime/tasks/StaticJsTaskRunner.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 
 export interface TimeSharingTaskRunnerOptions {
   /**

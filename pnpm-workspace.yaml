@@ -9,9 +9,9 @@ allowBuilds:
   esbuild: false
 
 catalog:
-  "@babel/parser": ^7.28.4
-  "@babel/traverse": ^7.28.4
-  "@babel/types": ^7.28.4
+  "@babel/parser": ^7.29.3
+  "@babel/traverse": ^7.29.0
+  "@babel/types": ^7.29.0
   "@types/babel__traverse": ^7.28.0
   "@types/node": "^25.5.0"
   "@typescript/native-preview": "7.0.0-dev.20260421.2"
@@ -23,6 +23,66 @@ catalog:
 catalogs:
   tsLegacy:
     typescript: 5.9.3
+
+minimumReleaseAgeExclude:
+  - '@codingame/monaco-vscode-api@34.0.3'
+  - '@codingame/monaco-vscode-base-service-override@34.0.3'
+  - '@codingame/monaco-vscode-bulk-edit-service-override@34.0.3'
+  - '@codingame/monaco-vscode-configuration-service-override@34.0.3'
+  - '@codingame/monaco-vscode-debug-service-override@34.0.3'
+  - '@codingame/monaco-vscode-editor-api@34.0.3'
+  - '@codingame/monaco-vscode-environment-service-override@34.0.3'
+  - '@codingame/monaco-vscode-extension-api@34.0.3'
+  - '@codingame/monaco-vscode-extensions-service-override@34.0.3'
+  - '@codingame/monaco-vscode-files-service-override@34.0.3'
+  - '@codingame/monaco-vscode-host-service-override@34.0.3'
+  - '@codingame/monaco-vscode-javascript-default-extension@34.0.3'
+  - '@codingame/monaco-vscode-json-default-extension@34.0.3'
+  - '@codingame/monaco-vscode-keybindings-service-override@34.0.3'
+  - '@codingame/monaco-vscode-languages-service-override@34.0.3'
+  - '@codingame/monaco-vscode-layout-service-override@34.0.3'
+  - '@codingame/monaco-vscode-log-service-override@34.0.3'
+  - '@codingame/monaco-vscode-markers-service-override@34.0.3'
+  - '@codingame/monaco-vscode-model-service-override@34.0.3'
+  - '@codingame/monaco-vscode-output-service-override@34.0.3'
+  - '@codingame/monaco-vscode-preferences-service-override@34.0.3'
+  - '@codingame/monaco-vscode-quickaccess-service-override@34.0.3'
+  - '@codingame/monaco-vscode-storage-service-override@34.0.3'
+  - '@codingame/monaco-vscode-textmate-service-override@34.0.3'
+  - '@codingame/monaco-vscode-theme-defaults-default-extension@34.0.3'
+  - '@codingame/monaco-vscode-theme-service-override@34.0.3'
+  - '@codingame/monaco-vscode-view-banner-service-override@34.0.3'
+  - '@codingame/monaco-vscode-view-common-service-override@34.0.3'
+  - '@codingame/monaco-vscode-view-status-bar-service-override@34.0.3'
+  - '@codingame/monaco-vscode-view-title-bar-service-override@34.0.3'
+  - '@codingame/monaco-vscode-workbench-service-override@34.0.3'
+  - glob@11.1.0
+  - minimatch@10.2.1
+  - minimatch@10.2.3
+  - serialize-javascript@7.0.3
+  - brace-expansion@5.0.5
+  - picomatch@2.3.2
+  - yaml@2.8.3
+  - dompurify@3.3.4
+  - postcss@8.5.10
+  - dompurify@3.4.0
+  - serialize-javascript@7.0.5
+  - uuid@11.1.1
+  - brace-expansion@5.0.6
+  - shell-quote@1.8.4
+  - joi@17.13.4
+  - esbuild@0.28.1
+  - ws@8.21.0
+  - ws@7.5.11
+  - launch-editor@2.14.1
+  - js-yaml@4.1.2
+  - '@babel/core@7.29.1'
+  - dompurify@3.4.7
+  - dompurify@3.4.6
+  - dompurify@3.4.9
+  - dompurify@3.4.8
+  - webpack-dev-server@5.2.5
+  - http-proxy-middleware@3.0.6
 
 patchedDependencies:
   "@changesets/assemble-release-plan": patches/@changesets__assemble-release-plan.patch

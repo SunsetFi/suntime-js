@@ -1,5 +1,5 @@
-import { ParseError } from "@babel/parser";
-import { Node } from "@babel/types";
+import { type ParseError } from "@babel/parser";
+import { type Node } from "@babel/types";
 
 export function parseError(message: string, node: Node): ParseError {
   const err = new SyntaxError(message) as ParseError;

@@ -5,19 +5,22 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
 import { get } from "../../../algorithms/get.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
-import { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
+import {
+  type StaticJsCallable,
+  type StaticJsCallableToNativeOpts,
+} from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
-import { isStaticJsNull, StaticJsNull } from "../../StaticJsNull.js";
+import { isStaticJsNull, type StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
+import { type StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export abstract class StaticJsAbstractFunction

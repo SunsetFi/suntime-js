@@ -1,4 +1,4 @@
-import type { StaticJsTaskRunner, StaticJsRealm } from "@suntime-js/core";
+import type { StaticJsRealm, StaticJsTaskRunner } from "@suntime-js/core";
 
 import type { StaticJsWebDebugAdapter } from "./types/StaticJsWebDebugAdapter.js";
 import { StaticJsWebDebugAdapterImpl } from "./StaticJsWebDebugAdapterImpl.js";
@@ -6,9 +6,8 @@ import { StaticJsWebDebugAdapterImpl } from "./StaticJsWebDebugAdapterImpl.js";
 export const STATIC_JS_DEBUGGER_TYPE = "staticjs";
 
 export interface StaticJsWebDebugAdapterOptions {
-  readonly realm?: StaticJsRealm;
-  readonly createRealm?: () => StaticJsRealm;
-  readonly runTask?: StaticJsTaskRunner;
+  realm?: StaticJsRealm;
+  runTask?: StaticJsTaskRunner;
 }
 
 export function createStaticJsWebDebugAdapter(

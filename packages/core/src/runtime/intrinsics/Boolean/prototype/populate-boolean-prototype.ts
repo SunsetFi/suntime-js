@@ -1,8 +1,8 @@
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsObject } from "../../../types/StaticJsObject.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsObject } from "../../../types/StaticJsObject.js";
 import {
   applyIntrinsicProperties,
-  IntrinsicPropertyDeclaration,
+  type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
 
 import { booleanProtoToStringDeclaration } from "./toString.js";

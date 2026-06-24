@@ -1,4 +1,4 @@
-import { Node } from "@babel/types";
+import { type Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
@@ -17,11 +17,11 @@ import { parseScript } from "../../parser/parse-script.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsFunctionEnvironmentRecord } from "../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsClassConstructorFunction } from "../types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { StaticJsMethodFunction } from "../types/implementation/functions/StaticJsMethodFunction.js";
 import { isStaticJsString } from "../types/StaticJsString.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { type StaticJsValue } from "../types/StaticJsValue.js";
 
 import { getThisEnvironment } from "./get-this-environment.js";
 

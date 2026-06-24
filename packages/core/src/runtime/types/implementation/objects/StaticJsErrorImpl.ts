@@ -1,6 +1,6 @@
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsError } from "../../StaticJsError.js";
-import { StaticJsObject } from "../../StaticJsObject.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsError } from "../../StaticJsError.js";
+import { type StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";

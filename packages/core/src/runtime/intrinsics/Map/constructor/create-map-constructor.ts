@@ -10,11 +10,11 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
-import { isStaticJsCallable, StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { isStaticJsCallable, type StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { type StaticJsValue } from "../../../types/StaticJsValue.js";
 import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,

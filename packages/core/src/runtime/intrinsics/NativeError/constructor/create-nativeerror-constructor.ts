@@ -8,15 +8,15 @@ import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsErrorImpl } from "../../../types/implementation/objects/StaticJsErrorImpl.js";
-import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { type StaticJsValue } from "../../../types/StaticJsValue.js";
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-import { Prototypes } from "../../intrinsics.js";
+import { type Prototypes } from "../../intrinsics.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [];
 

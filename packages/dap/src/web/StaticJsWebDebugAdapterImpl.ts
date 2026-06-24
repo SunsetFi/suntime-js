@@ -1,3 +1,5 @@
+import { StaticJsRealm } from "@suntime-js/core";
+
 import type { DebugProtocol } from "@vscode/debugprotocol";
 
 import { normalizeLaunchRequestArguments } from "../adapter/StaticJsLaunchRequestArguments.js";
@@ -479,8 +481,10 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
     this._sessionState.launched = false;
     this._sessionState.terminated = false;
 
+    const realm = this._options.realm ?? StaticJsRealm();
     try {
       const adapterSession = createAdapterSession({
+        realm,
         launchArgs,
         onDidStop: (event) => {
           const stoppedEvent = toDapStoppedEvent(event, MAIN_THREAD_ID);
@@ -496,9 +500,7 @@ export class StaticJsWebDebugAdapterImpl implements StaticJsWebDebugAdapter {
 
           this._finishSession(event.reason === "error" ? 1 : 0);
         },
-        realm: this._options.realm,
-        createRealm: this._options.createRealm,
-        runTask: this._options.runTask,
+        runTask: this._options.runTask ?? this._options.realm?.config.runTask,
       });
 
       this._setAdapterSession(adapterSession);

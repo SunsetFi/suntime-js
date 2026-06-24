@@ -207,9 +207,7 @@ export async function registerDebugExtension(
 
           const adapter = createStaticJsWebDebugAdapter({
             ...adapterOptions,
-            createRealm:
-              adapterOptions.createRealm ??
-              (() => createSandboxRealm((text) => sendOutputEvent(text))),
+            realm: adapterOptions.realm ?? createSandboxRealm((text) => sendOutputEvent(text)),
           });
 
           const inlineAdapter = createInlineAdapter(api, adapter, session.id);

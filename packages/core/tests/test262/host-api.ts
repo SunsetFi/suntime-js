@@ -1,8 +1,8 @@
 import {
   createTimeBoundTaskRunner,
   StaticJsRealm,
-  StaticJsObject,
-  StaticJsValue,
+  type StaticJsObject,
+  type StaticJsValue,
 } from "../../src/index.js";
 import { isStaticJsString } from "../../src/runtime/types/StaticJsString.js";
 

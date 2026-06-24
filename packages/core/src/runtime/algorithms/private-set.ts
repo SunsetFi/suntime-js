@@ -1,8 +1,8 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
+import { type StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
+import { type StaticJsValue } from "../types/StaticJsValue.js";
 
 import { call } from "./call.js";
 

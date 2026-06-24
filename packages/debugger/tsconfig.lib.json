@@ -4,7 +4,6 @@
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
-    "verbatimModuleSyntax": true,
     "rootDir": "./src",
     "composite": true
   },

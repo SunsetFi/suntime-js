@@ -1,5 +1,5 @@
-import { parse as parseAst, ParseResult } from "@babel/parser";
-import { File } from "@babel/types";
+import { parse as parseAst, type ParseResult } from "@babel/parser";
+import { type File } from "@babel/types";
 
 import { babelParserOptions } from "./babel-parser-options.js";
 import { checkEarlyErrors } from "./early-errors.js";

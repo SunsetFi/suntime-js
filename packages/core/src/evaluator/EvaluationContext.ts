@@ -2,10 +2,10 @@ import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import { StaticJsAsyncGenerator } from "../runtime/types/StaticJsAsyncGenerator.js";
-import { StaticJsCallable } from "../runtime/types/StaticJsCallable.js";
-import { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
-import { StaticJsGenerator } from "../runtime/types/StaticJsGenerator.js";
+import { type StaticJsAsyncGenerator } from "../runtime/types/StaticJsAsyncGenerator.js";
+import { type StaticJsCallable } from "../runtime/types/StaticJsCallable.js";
+import { type StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
+import { type StaticJsGenerator } from "../runtime/types/StaticJsGenerator.js";
 import { dropUndefined } from "../utils/drop-undefined.js";
 import { typedEntries } from "../utils/typed-entries.js";
 
