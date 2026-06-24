@@ -1,6 +1,6 @@
 {
   "name": "@suntime-js/debugger",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": false,
   "description": "Runtime-agnostic debugger orchestration for Suntime-JS.",
   "license": "ISC",
