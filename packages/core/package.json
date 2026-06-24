@@ -1,6 +1,6 @@
 {
   "name": "@suntime-js/core",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "private": false,
   "description": "Evaluate javascript in a sandboxed environment.",
   "keywords": [],

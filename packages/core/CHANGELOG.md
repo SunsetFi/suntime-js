@@ -1,5 +1,11 @@
 # @suntime-js/core
 
+## 0.10.2
+
+### Patch Changes
+
+- b8f88dd: Fix @babel/types empty import leaking into build
+
 ## 0.10.1
 
 ### Patch Changes
