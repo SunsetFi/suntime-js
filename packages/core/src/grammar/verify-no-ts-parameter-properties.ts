@@ -1,4 +1,4 @@
-import { type FunctionParameter, type TSParameterProperty } from "@babel/types";
+import type { FunctionParameter, TSParameterProperty } from "@babel/types";
 
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 

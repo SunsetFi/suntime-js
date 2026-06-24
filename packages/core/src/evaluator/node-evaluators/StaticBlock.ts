@@ -1,4 +1,4 @@
-import { type StaticBlock } from "@babel/types";
+import type { StaticBlock } from "@babel/types";
 
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Q } from "../completions/Q.js";

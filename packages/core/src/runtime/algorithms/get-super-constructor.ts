@@ -1,7 +1,7 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsFunctionEnvironmentRecord } from "../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
-import { type StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 import { getThisEnvironment } from "./get-this-environment.js";
 

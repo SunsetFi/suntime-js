@@ -8,13 +8,13 @@ import { ordinaryCreateFromConstructor } from "../../algorithms/ordinary-create-
 import { toString } from "../../algorithms/to-string.js";
 import { getIterator } from "../../iterators/get-iterator.js";
 import { iteratorToList } from "../../iterators/iterator-to-list.js";
-import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { type StaticJsCallable } from "../../types/StaticJsCallable.js";
-import { type StaticJsFunction } from "../../types/StaticJsFunction.js";
-import { type StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsCallable } from "../../types/StaticJsCallable.js";
+import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
-import { type StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 export function* createAggregateErrorConstructor(
   realm: StaticJsRealm,

@@ -6,7 +6,7 @@ import { isCallable } from "../../../algorithms/is-callable.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
-import { type StaticJsCallable } from "../../StaticJsCallable.js";
+import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import type { StaticJsMap } from "../../StaticJsMap.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";

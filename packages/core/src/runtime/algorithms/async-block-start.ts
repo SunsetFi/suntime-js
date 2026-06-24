@@ -7,7 +7,7 @@ import { captureThrownCompletion } from "../../evaluator/completions/capture-thr
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { type StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
+import type { StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 
 import { call } from "./call.js";
 

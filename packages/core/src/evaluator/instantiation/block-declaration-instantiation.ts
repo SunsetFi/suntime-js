@@ -1,4 +1,4 @@
-import { type BlockStatement, type SwitchStatement } from "@babel/types";
+import type { BlockStatement, SwitchStatement } from "@babel/types";
 
 import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";

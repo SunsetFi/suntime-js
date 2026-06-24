@@ -4,7 +4,7 @@ import { get } from "../../../runtime/algorithms/get.js";
 import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
-import { type StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
 import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";

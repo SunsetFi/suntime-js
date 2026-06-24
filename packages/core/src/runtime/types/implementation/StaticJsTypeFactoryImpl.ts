@@ -6,7 +6,7 @@ import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-
 import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { HostAccessArg } from "../HostAccessOptions.js";
-import { type StaticJsArray } from "../StaticJsArray.js";
+import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
@@ -18,11 +18,11 @@ import {
   validateStaticJsPropertyDescriptorRecord,
   type StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
-import { type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
-import {
-  type StaticJsProxy,
-  type StaticJsProxyHandlers,
-  type StaticJsProxyTarget,
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
+import type {
+  StaticJsProxy,
+  StaticJsProxyHandlers,
+  StaticJsProxyTarget,
 } from "../StaticJsProxy.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";

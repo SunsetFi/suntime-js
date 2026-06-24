@@ -2,8 +2,8 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsArrayImpl } from "../types/implementation/objects/StaticJsArrayImpl.js";
-import { type StaticJsArray } from "../types/StaticJsArray.js";
-import { type StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsArray } from "../types/StaticJsArray.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function* arrayCreate(
   length: number,

@@ -18,7 +18,7 @@ import { parseExpression } from "../../../parser/parse-expression.js";
 import { parseModule } from "../../../parser/parse-module.js";
 import { parseScript } from "../../../parser/parse-script.js";
 import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { type StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../../tasks/StaticJsTaskRunner.js";
 import { synchronousDefaultTaskRunner } from "../../../tasks/task-runners/synchronous-default.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
@@ -33,7 +33,7 @@ import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementati
 import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import type { RealmHooks } from "../../hooks/hooks.js";
 import { populateIntrinsics } from "../../intrinsics/create-intrinsics.js";
-import { type Intrinsics, type IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
+import type { Intrinsics, IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
 import { populateGlobal } from "../../intrinsics/populate-global.js";
 import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "../../modules/implementation/StaticJsExternalModuleImpl.js";
@@ -46,20 +46,20 @@ import {
 } from "../../modules/StaticJsModuleImplementation.js";
 import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import { type StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import {
   type StaticJsPropertyDescriptorRecord,
   validateStaticJsPropertyDescriptorRecord,
 } from "../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
-import { type StaticJsValue } from "../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type {
   StaticJsRealmGlobalDeclProperty,
   StaticJsRealmGlobalOption,
 } from "../factories/StaticJsRealmGlobalOptions.js";
-import { type StaticJsConfig } from "../StaticJsConfig.js";
+import type { StaticJsConfig } from "../StaticJsConfig.js";
 import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
 import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 import type { StaticJsRealm } from "../StaticJsRealm.js";
@@ -67,7 +67,7 @@ import type {
   StaticJsRealmEvaluateScriptOptions,
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "../StaticJsRealmEvaluateScriptOptions.js";
-import { type StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSourceOptions.js";
+import type { StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSourceOptions.js";
 
 import { EvaluationTask } from "./EvaluationTask.js";
 

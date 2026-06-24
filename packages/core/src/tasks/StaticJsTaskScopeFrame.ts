@@ -1,6 +1,6 @@
-import { type StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
 
-import { type StaticJsRunTaskOptions } from "./StaticJsRunTaskOptions.js";
+import type { StaticJsRunTaskOptions } from "./StaticJsRunTaskOptions.js";
 
 /**
  * Information on a variable scope frame for a static JavaScript task.

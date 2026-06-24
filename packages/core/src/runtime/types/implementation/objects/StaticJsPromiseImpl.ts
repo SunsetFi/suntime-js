@@ -3,18 +3,15 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { type StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
 import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { speciesConstructor } from "../../../algorithms/species-constructor.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { type StaticJsCallable } from "../../StaticJsCallable.js";
+import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import {
-  type StaticJsPromiseCapabilityRecord,
-  type StaticJsPromise,
-} from "../../StaticJsPromise.js";
+import type { StaticJsPromiseCapabilityRecord, StaticJsPromise } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 

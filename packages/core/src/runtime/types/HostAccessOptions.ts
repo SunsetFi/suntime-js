@@ -1,4 +1,4 @@
-import { type StaticJsValue } from "./StaticJsValue.js";
+import type { StaticJsValue } from "./StaticJsValue.js";
 
 /**
  * Policy controlling how a host JavaScript object is exposed to a

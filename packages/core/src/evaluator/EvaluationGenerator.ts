@@ -1,6 +1,6 @@
 import type EvaluatorCommandBase from "./commands/EvaluatorCommandBase.js";
 import type { Completion } from "./completions/Completion.js";
-import { type CompletionValue } from "./completions/CompletionValue.js";
+import type { CompletionValue } from "./completions/CompletionValue.js";
 
 // The yielded command is engine-internal machinery: consumers never construct
 // or inspect it, only the task runner does. We expose the opaque base type

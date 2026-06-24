@@ -7,17 +7,17 @@ import { definePropertyOrThrow } from "../../../algorithms/define-property-or-th
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
 import { toString } from "../../../algorithms/to-string.js";
-import { type Intrinsics } from "../../../intrinsics/intrinsics.js";
-import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { type HostAccessArg } from "../../HostAccessOptions.js";
-import { type StaticJsFunction } from "../../StaticJsFunction.js";
+import type { Intrinsics } from "../../../intrinsics/intrinsics.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { HostAccessArg } from "../../HostAccessOptions.js";
+import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { getWellKnownErrorName, type WellKnownErrorName } from "../../well-known-errors.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
-import { type HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
+import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
 
 import { buildHostBuiltinMap, type HostBuiltinMap } from "./HostBuiltinMap.js";

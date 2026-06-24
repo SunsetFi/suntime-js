@@ -9,10 +9,7 @@ import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOp
 import { get } from "../../../algorithms/get.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
-import {
-  type StaticJsCallable,
-  type StaticJsCallableToNativeOpts,
-} from "../../StaticJsCallable.js";
+import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull, type StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -20,7 +17,7 @@ import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { type StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
+import type { StaticJsObjectProxyTarget } from "../objects/create-object-proxy.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export abstract class StaticJsAbstractFunction

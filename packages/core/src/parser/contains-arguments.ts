@@ -1,4 +1,4 @@
-import { type Node } from "@babel/types";
+import type { Node } from "@babel/types";
 
 import { traverse } from "./traverse.js";
 export function containsArguments(node: Node): boolean {

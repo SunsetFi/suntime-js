@@ -1,11 +1,11 @@
-import {
-  type ClassAccessorProperty,
-  type ClassBody,
-  type ClassMethod,
-  type ClassPrivateMethod,
-  type ClassPrivateProperty,
-  type ClassProperty,
-  type StaticBlock,
+import type {
+  ClassAccessorProperty,
+  ClassBody,
+  ClassMethod,
+  ClassPrivateMethod,
+  ClassPrivateProperty,
+  ClassProperty,
+  StaticBlock,
 } from "@babel/types";
 
 export type NonConstructorElement =

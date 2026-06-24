@@ -2,8 +2,8 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { getMethod } from "../algorithms/get-method.js";
-import { type StaticJsCallable } from "../types/StaticJsCallable.js";
-import { type StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsCallable } from "../types/StaticJsCallable.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { createAsyncFromSyncIterator } from "./create-async-from-sync-iterator.js";

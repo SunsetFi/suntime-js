@@ -1,12 +1,12 @@
 import { call } from "../../../../runtime/algorithms/call.js";
 import { createDataPropertyOrThrow } from "../../../../runtime/algorithms/create-data-property-or-throw.js";
-import { type StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import type { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
 import { isStaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import { type StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
-import { type StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
+import type { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 
 import { privateFieldAdd } from "./private-field-add.js";
 

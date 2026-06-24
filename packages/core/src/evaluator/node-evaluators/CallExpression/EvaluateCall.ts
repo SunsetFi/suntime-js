@@ -1,4 +1,4 @@
-import { type CallExpression, type OptionalCallExpression } from "@babel/types";
+import type { CallExpression, OptionalCallExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { call } from "../../../runtime/algorithms/call.js";
@@ -9,7 +9,7 @@ import {
   type StaticJsReferenceRecord,
 } from "../../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsCallable } from "../../../runtime/types/StaticJsCallable.js";
-import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import { Completion } from "../../completions/Completion.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";

@@ -10,12 +10,12 @@ import { invoke } from "../../../algorithms/invoke.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-import { type StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
+import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { type StaticJsPromiseCapabilityRecord } from "../../../types/StaticJsPromise.js";
-import { type StaticJsValue } from "../../../types/StaticJsValue.js";
-import { type IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import type { StaticJsPromiseCapabilityRecord } from "../../../types/StaticJsPromise.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const promiseCtorAllSettledDeclaration: IntrinsicPropertyDeclaration = {
   key: "allSettled",

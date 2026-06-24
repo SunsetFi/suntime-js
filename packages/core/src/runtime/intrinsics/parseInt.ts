@@ -1,11 +1,11 @@
 import { Q } from "../../evaluator/completions/Q.js";
 import { toInt32 } from "../algorithms/to-int-32.js";
 import { toString } from "../algorithms/to-string.js";
-import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
-import { type IntrinsicsRecord } from "./intrinsics.js";
+import type { IntrinsicsRecord } from "./intrinsics.js";
 
 export function* createParseInt(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
   const func = new StaticJsNativeFunctionImpl(

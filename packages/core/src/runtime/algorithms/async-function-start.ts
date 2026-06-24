@@ -1,9 +1,9 @@
-import { type Node } from "@babel/types";
+import type { Node } from "@babel/types";
 
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { type StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
+import type { StaticJsPromiseCapabilityRecord } from "../types/StaticJsPromise.js";
 
 import { asyncBlockStart } from "./async-block-start.js";
 

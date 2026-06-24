@@ -1,4 +1,4 @@
-import { type FunctionParameter } from "@babel/types";
+import type { FunctionParameter } from "@babel/types";
 
 export function expectedArgumentCount(args: FunctionParameter[]): number {
   let length = 0;

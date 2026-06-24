@@ -40,7 +40,7 @@ import { StaticJsFunctionEnvironmentRecord } from "../../../environments/impleme
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { type StaticJsCallable } from "../../StaticJsCallable.js";
+import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";

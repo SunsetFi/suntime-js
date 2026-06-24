@@ -2,7 +2,7 @@ import { toNumeric } from "../../../algorithms/to-numeric.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsNumberBoxed } from "../../../types/implementation/primitives/StaticJsNumberBoxed.js";
-import { type StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import {
   applyIntrinsicProperties,

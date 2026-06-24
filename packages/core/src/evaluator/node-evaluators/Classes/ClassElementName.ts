@@ -1,16 +1,16 @@
-import {
-  type ClassMethod,
-  type ClassPrivateMethod,
-  type ClassPrivateProperty,
-  type ClassProperty,
-  type Expression,
-  type ObjectMethod,
+import type {
+  ClassMethod,
+  ClassPrivateMethod,
+  ClassPrivateProperty,
+  ClassProperty,
+  Expression,
+  ObjectMethod,
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { toPropertyKey } from "../../../runtime/algorithms/to-property-key.js";
-import { type StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
-import { type StaticJsPropertyKey } from "../../../runtime/types/StaticJsPropertyKey.js";
+import type { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "../../../runtime/types/StaticJsPropertyKey.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

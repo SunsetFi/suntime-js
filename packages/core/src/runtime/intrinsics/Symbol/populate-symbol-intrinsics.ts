@@ -1,8 +1,8 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsSymbolImpl } from "../../types/implementation/primitives/StaticJsSymbolImpl.js";
 import { getWellKnownSymbols } from "../../types/implementation/well-known-symbols.js";
-import { type IntrinsicsRecord } from "../intrinsics.js";
+import type { IntrinsicsRecord } from "../intrinsics.js";
 
 import { createSymbolConstructor } from "./constructor/create-symbol-constructor.js";
 import { populateSymbolPrototype } from "./prototype/populate-symbol-prototype.js";

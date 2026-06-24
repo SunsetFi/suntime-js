@@ -1,4 +1,4 @@
-import { type StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourceOptions.js";
+import type { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluateSourceOptions.js";
 
 export interface StaticJsRealmEvaluateScriptOptions extends StaticJsRealmEvaluateSourceOptions {
   /**

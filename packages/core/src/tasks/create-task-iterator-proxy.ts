@@ -1,4 +1,4 @@
-import { type StaticJsTaskIterator } from "./StaticJsTaskIterator.js";
+import type { StaticJsTaskIterator } from "./StaticJsTaskIterator.js";
 
 export interface StaticJsTaskIteratorProxyOptions {
   next?: (inner: StaticJsTaskIterator) => IteratorResult<void, void>;

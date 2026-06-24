@@ -1,4 +1,4 @@
-import { type OptionalCallExpression } from "@babel/types";
+import type { OptionalCallExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { getValue } from "../../../runtime/algorithms/get-value.js";

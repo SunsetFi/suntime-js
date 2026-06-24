@@ -1,6 +1,6 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { type StaticJsNumber } from "../types/StaticJsNumber.js";
+import type { StaticJsNumber } from "../types/StaticJsNumber.js";
 import { isStaticJsString, type StaticJsString } from "../types/StaticJsString.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 

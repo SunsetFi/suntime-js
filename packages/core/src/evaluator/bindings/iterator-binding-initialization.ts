@@ -1,4 +1,4 @@
-import { type Expression, type LVal, type ArrayPattern, type VoidPattern } from "@babel/types";
+import type { Expression, LVal, ArrayPattern, VoidPattern } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";

@@ -1,4 +1,4 @@
-import { type StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
+import type { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
 
 export interface StaticJsClassStaticBlockDefinitionRecord {
   type: "class-static-block-definition";

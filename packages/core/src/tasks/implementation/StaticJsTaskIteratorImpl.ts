@@ -14,21 +14,21 @@ import { StaticJsFunctionEnvironmentRecord } from "../../runtime/environments/im
 import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsModuleEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
-import { type StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsAbstractFunction } from "../../runtime/types/implementation/functions/StaticJsAbstractFunction.js";
-import { type StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
-import { type StaticJsRunTaskOptions } from "../StaticJsRunTaskOptions.js";
-import { type StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
-import { type StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
-import { type StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";
-import { type StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
-import {
-  type StaticJsTaskScopeFrame,
-  type StaticJsTaskScopeFrameType,
-  type StaticJsTaskScopeVariable,
+import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+import type { StaticJsRunTaskOptions } from "../StaticJsRunTaskOptions.js";
+import type { StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
+import type { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
+import type { StaticJsTaskIteratorOperation } from "../StaticJsTaskIteratorOperation.js";
+import type { StaticJsTaskIteratorStackFrame } from "../StaticJsTaskIteratorStackFrame.js";
+import type {
+  StaticJsTaskScopeFrame,
+  StaticJsTaskScopeFrameType,
+  StaticJsTaskScopeVariable,
 } from "../StaticJsTaskScopeFrame.js";
-import { type StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
-import { type StaticJsTaskType } from "../StaticJsTaskType.js";
+import type { StaticJsTaskSourceLocation } from "../StaticJsTaskSourceLocation.js";
+import type { StaticJsTaskType } from "../StaticJsTaskType.js";
 
 export interface StaticJsIteratedTask {
   type: StaticJsTaskType;

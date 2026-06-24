@@ -1,4 +1,4 @@
-import { type FunctionDeclaration } from "@babel/types";
+import type { FunctionDeclaration } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";

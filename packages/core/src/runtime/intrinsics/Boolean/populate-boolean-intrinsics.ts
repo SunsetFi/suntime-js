@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { type IntrinsicsRecord } from "../intrinsics.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { IntrinsicsRecord } from "../intrinsics.js";
 
 import { createBooleanConstructor } from "./constructor/create-boolean-constructor.js";
 import { populateBooleanPrototype } from "./prototype/populate-boolean-prototype.js";

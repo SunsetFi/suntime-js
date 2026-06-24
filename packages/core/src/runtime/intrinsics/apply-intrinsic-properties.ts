@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
-import { type StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyDescriptorRecord } from "../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";

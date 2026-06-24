@@ -1,4 +1,4 @@
-import { type ClassBody, type Node } from "@babel/types";
+import type { ClassBody, Node } from "@babel/types";
 
 export function privateBoundIdentifiers(node: ClassBody): string[] {
   return privateBoundIdentifiersOfNode(node);

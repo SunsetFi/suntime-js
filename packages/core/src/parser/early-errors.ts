@@ -1,4 +1,5 @@
-import { type VisitNodeObject } from "@babel/traverse";
+import type { VisitNodeObject } from "@babel/traverse";
+
 import {
   type Block,
   type Class,

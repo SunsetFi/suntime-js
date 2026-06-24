@@ -1,11 +1,11 @@
-import { type FunctionExpression } from "@babel/types";
+import type { FunctionExpression } from "@babel/types";
 
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { verifyNoTsParameterProperties } from "../../grammar/verify-no-ts-parameter-properties.js";
-import { type StaticJsFunction } from "../types/StaticJsFunction.js";
-import { type StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
-import { type StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+import type { StaticJsFunction } from "../types/StaticJsFunction.js";
+import type { StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 import { ordinaryFunctionCreate } from "./ordinary-function-create.js";

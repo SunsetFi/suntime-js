@@ -18,15 +18,12 @@ import { newPromiseCapability } from "../../../algorithms/new-promise-capability
 import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
 import { promiseResolve } from "../../../algorithms/promise-resolve.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
-import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { type StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
-import { type StaticJsObject } from "../../StaticJsObject.js";
-import {
-  type StaticJsPromise,
-  type StaticJsPromiseCapabilityRecord,
-} from "../../StaticJsPromise.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
+import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { type StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";

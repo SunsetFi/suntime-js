@@ -6,7 +6,7 @@ import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import { StaticJsAsyncGeneratorImpl } from "../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
-import { type StaticJsValue } from "../types/StaticJsValue.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { Await } from "./await.js";
 import { getGeneratorKind } from "./get-generator-kind.js";

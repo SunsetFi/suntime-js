@@ -11,9 +11,9 @@ import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { parseFunctionBody } from "../../parser/parse-function-body.js";
 import { parseParameters } from "../../parser/parse-parameters.js";
-import { type Prototypes } from "../intrinsics/intrinsics.js";
-import { type StaticJsCallable } from "../types/StaticJsCallable.js";
-import { type StaticJsValue } from "../types/StaticJsValue.js";
+import type { Prototypes } from "../intrinsics/intrinsics.js";
+import type { StaticJsCallable } from "../types/StaticJsCallable.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 import { getPrototypeFromConstructor } from "./get-prototype-from-constructor.js";

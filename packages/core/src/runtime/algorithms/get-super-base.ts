@@ -2,11 +2,11 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsFunctionEnvironmentRecord } from "../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
-import { type StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsMethodFunction } from "../types/implementation/functions/StaticJsMethodFunction.js";
-import { type StaticJsNull } from "../types/StaticJsNull.js";
+import type { StaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
-import { type StaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 export function* getSuperBase(
   envRec: StaticJsEnvironmentRecord,

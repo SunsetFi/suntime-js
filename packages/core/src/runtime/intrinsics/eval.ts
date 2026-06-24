@@ -1,11 +1,11 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { definePropertyOrThrow } from "../algorithms/define-property-or-throw.js";
 import { performEval } from "../algorithms/perform-eval.js";
-import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
-import { type IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
-import { type IntrinsicsRecord } from "./intrinsics.js";
+import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
+import type { IntrinsicsRecord } from "./intrinsics.js";
 
 export function* createEval(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
   const evalFunc = new StaticJsNativeFunctionImpl(

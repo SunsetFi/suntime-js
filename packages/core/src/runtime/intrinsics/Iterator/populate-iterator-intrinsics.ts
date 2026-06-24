@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { type IntrinsicsRecord } from "../intrinsics.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { IntrinsicsRecord } from "../intrinsics.js";
 
 import { createIteratorConstructor } from "./constructor/create-iterator-constructor.js";
 import { populateIteratorPrototype } from "./prototype/populate-iterator-prototype.js";

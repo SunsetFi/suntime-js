@@ -1,4 +1,4 @@
-import { type YieldExpression } from "@babel/types";
+import type { YieldExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { Await } from "../../runtime/algorithms/await.js";

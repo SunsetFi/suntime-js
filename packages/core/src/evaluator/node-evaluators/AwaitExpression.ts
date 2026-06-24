@@ -1,4 +1,4 @@
-import { type AwaitExpression } from "@babel/types";
+import type { AwaitExpression } from "@babel/types";
 
 import { Await } from "../../runtime/algorithms/await.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

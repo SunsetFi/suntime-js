@@ -1,12 +1,12 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { dropUndefined } from "../../utils/drop-undefined.js";
 import { hasOwnProperty } from "../../utils/has-own-property.js";
-import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import type { HostAccessArg } from "./HostAccessOptions.js";
 import { isStaticJsCallable, type StaticJsCallable } from "./StaticJsCallable.js";
-import { type StaticJsPlainObject } from "./StaticJsPlainObject.js";
-import { type StaticJsUndefined } from "./StaticJsUndefined.js";
+import type { StaticJsPlainObject } from "./StaticJsPlainObject.js";
+import type { StaticJsUndefined } from "./StaticJsUndefined.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 

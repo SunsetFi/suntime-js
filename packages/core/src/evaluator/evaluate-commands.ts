@@ -3,7 +3,7 @@ import type { Node } from "@babel/types";
 import { StaticJsRuntimeError } from "../errors/StaticJsRuntimeError.js";
 import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
 
-import { type EvaluatorCommand } from "./commands/EvaluatorCommand.js";
+import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./commands/EvaluatorCommandBase.js";
 import { Completion } from "./completions/Completion.js";
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";

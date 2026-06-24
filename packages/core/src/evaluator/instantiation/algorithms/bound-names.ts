@@ -1,4 +1,4 @@
-import { type FunctionParameter, type Node } from "@babel/types";
+import type { FunctionParameter, Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 

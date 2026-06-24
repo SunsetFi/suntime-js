@@ -15,9 +15,9 @@ import {
   type StaticJsObjectPropertyAccessRunTaskOptions,
   type StaticJsObject,
 } from "../StaticJsObject.js";
-import { type StaticJsPlainObject } from "../StaticJsPlainObject.js";
-import { type StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
-import { type StaticJsPrivateName } from "../StaticJsPrivateName.js";
+import type { StaticJsPlainObject } from "../StaticJsPlainObject.js";
+import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import type { StaticJsPrivateName } from "../StaticJsPrivateName.js";
 import type {
   StaticJsPropertyDescriptor,
   StaticJsPropertyDescriptorRecord,
@@ -27,7 +27,7 @@ import {
   isStaticJsDataPropertyDescriptor,
   validateStaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
-import { type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
+import type { StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import type { StaticJsToNativeOpts } from "../StaticJsToNativeOpts.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";

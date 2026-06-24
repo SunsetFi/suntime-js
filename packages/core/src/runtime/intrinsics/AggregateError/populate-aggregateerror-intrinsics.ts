@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { type IntrinsicsRecord } from "../intrinsics.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { IntrinsicsRecord } from "../intrinsics.js";
 
 import { createAggregateErrorConstructor } from "./create-aggregateerror-constructor.js";
 import { populateAggregateErrorPrototype } from "./populate-aggregateerror-prototype.js";

@@ -1,8 +1,8 @@
-import { type StaticJsTaskCalleeType } from "./StaticJsTaskCalleeType.js";
+import type { StaticJsTaskCalleeType } from "./StaticJsTaskCalleeType.js";
 import type { StaticJsTaskIteratorOperation } from "./StaticJsTaskIteratorOperation.js";
 import type { StaticJsTaskIteratorStackFrame } from "./StaticJsTaskIteratorStackFrame.js";
-import { type StaticJsTaskScopeFrame } from "./StaticJsTaskScopeFrame.js";
-import { type StaticJsTaskSourceLocation } from "./StaticJsTaskSourceLocation.js";
+import type { StaticJsTaskScopeFrame } from "./StaticJsTaskScopeFrame.js";
+import type { StaticJsTaskSourceLocation } from "./StaticJsTaskSourceLocation.js";
 import type { StaticJsTaskType } from "./StaticJsTaskType.js";
 
 /**

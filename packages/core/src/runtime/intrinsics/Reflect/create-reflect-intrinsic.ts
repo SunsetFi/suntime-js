@@ -1,10 +1,10 @@
-import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../apply-intrinsic-properties.js";
-import { type IntrinsicsRecord } from "../intrinsics.js";
+import type { IntrinsicsRecord } from "../intrinsics.js";
 
 import { reflectApplyDeclaration } from "./apply.js";
 import { reflectConstructDeclaration } from "./construct.js";

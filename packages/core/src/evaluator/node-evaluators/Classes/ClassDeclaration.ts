@@ -1,6 +1,6 @@
-import { type ClassDeclaration } from "@babel/types";
+import type { ClassDeclaration } from "@babel/types";
 
-import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import initializeBoundName from "../../bindings/initialize-bound-name.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

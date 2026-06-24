@@ -1,4 +1,4 @@
-import { type ExportDefaultDeclaration } from "@babel/types";
+import type { ExportDefaultDeclaration } from "@babel/types";
 
 import isAssignmentGrammar from "../../grammar/is-assignment-grammar.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

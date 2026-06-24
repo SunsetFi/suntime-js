@@ -1,4 +1,4 @@
-import { type ClassDeclaration, type ClassExpression } from "@babel/types";
+import type { ClassDeclaration, ClassExpression } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
@@ -21,9 +21,9 @@ import {
   type StaticJsPrivateElementAccessor,
   type StaticJsPrivateElementMethod,
 } from "../../../../runtime/types/StaticJsPrivateElement.js";
-import { type StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import { type StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
-import { type StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import type { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
 import { Completion } from "../../../completions/Completion.js";

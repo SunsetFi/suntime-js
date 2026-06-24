@@ -1,10 +1,10 @@
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { type StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { type StaticJsObject } from "../../StaticJsObject.js";
-import { type StaticJsPrivateName } from "../../StaticJsPrivateName.js";
-import { type StaticJsSymbol } from "../../StaticJsSymbol.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
+import type { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
+import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 
 import { StaticJsAstFunction, type StaticJsAstFunctionNode } from "./StaticJsAstFunction.js";
 

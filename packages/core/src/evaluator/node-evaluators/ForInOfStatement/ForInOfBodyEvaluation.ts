@@ -23,7 +23,7 @@ import {
   type StaticJsReferenceRecord,
 } from "../../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsObject } from "../../../runtime/types/StaticJsObject.js";
-import { type StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";

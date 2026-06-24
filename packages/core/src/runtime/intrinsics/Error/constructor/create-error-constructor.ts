@@ -8,10 +8,10 @@ import { toString } from "../../../algorithms/to-string.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsErrorImpl } from "../../../types/implementation/objects/StaticJsErrorImpl.js";
-import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import { type StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,

@@ -11,7 +11,7 @@ import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { toNativeUnwrap } from "../../../utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "../../../utils/to-runtime-wrap.js";
-import { type StaticJsCallable } from "../../StaticJsCallable.js";
+import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";

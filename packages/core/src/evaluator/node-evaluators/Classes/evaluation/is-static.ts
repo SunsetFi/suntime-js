@@ -1,4 +1,4 @@
-import { type NonConstructorElement } from "./non-constructor-elements.js";
+import type { NonConstructorElement } from "./non-constructor-elements.js";
 
 export function isStatic(element: NonConstructorElement): boolean {
   switch (element.type) {
