@@ -1,5 +1,13 @@
 # @suntime-js/debugger
 
+## 0.10.1
+
+### Patch Changes
+
+- 0bd2116: Re-publish due to broken deploy
+- Updated dependencies [0bd2116]
+  - @suntime-js/core@0.10.1
+
 ## 0.10.0
 
 ### Minor Changes
