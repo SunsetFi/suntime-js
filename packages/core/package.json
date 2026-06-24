@@ -54,7 +54,7 @@
     "test:view": "vite serve html",
     "format": "oxfmt",
     "lint": "oxlint",
-    "prepublishOnly": "node ../../verify-build.mjs"
+    "prepublishOnly": "node ../../scripts/verify-build.mjs"
   },
   "dependencies": {
     "@babel/parser": "^7.29.3",

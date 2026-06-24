@@ -37,7 +37,8 @@
     "typecheck": "tsgo -p tsconfig.lib.json --noEmit && tsgo -p tsconfig.tests.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "prepublishOnly": "node ../../scripts/verify-build.mjs"
   },
   "dependencies": {
     "@babel/parser": "catalog:",

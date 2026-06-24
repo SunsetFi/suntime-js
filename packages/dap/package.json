@@ -46,7 +46,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "oxfmt",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "prepublishOnly": "node ../../scripts/verify-build.mjs"
   },
   "dependencies": {
     "@suntime-js/core": "workspace:^",
