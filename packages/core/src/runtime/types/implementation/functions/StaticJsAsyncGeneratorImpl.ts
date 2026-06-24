@@ -1,26 +1,32 @@
-import { isNode, Node } from "@babel/types";
+import { isNode, type Node } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
-import { SuspendCommand, SuspendContext } from "../../../../evaluator/commands/SuspendCommand.js";
+import {
+  SuspendCommand,
+  type SuspendContext,
+} from "../../../../evaluator/commands/SuspendCommand.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { X } from "../../../../evaluator/completions/X.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
 import { Await } from "../../../algorithms/await.js";
 import { call } from "../../../algorithms/call.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
 import { promiseResolve } from "../../../algorithms/promise-resolve.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
-import { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
+import { type StaticJsObject } from "../../StaticJsObject.js";
+import {
+  type StaticJsPromise,
+  type StaticJsPromiseCapabilityRecord,
+} from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsValue } from "../../StaticJsValue.js";
+import { type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";

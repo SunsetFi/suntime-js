@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import { StaticJsFunctionNameable } from "../../runtime/algorithms/set-function-name.js";
+import { type StaticJsFunctionNameable } from "../../runtime/algorithms/set-function-name.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

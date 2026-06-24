@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsString } from "../types/StaticJsString.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { type StaticJsString } from "../types/StaticJsString.js";
+import { type StaticJsValue } from "../types/StaticJsValue.js";
 
 import { requireObjectCoercible } from "./require-object-coercible.js";
 import { toString } from "./to-string.js";

@@ -6,6 +6,8 @@
     "module": "node20",
     "moduleResolution": "node16",
     "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
     "exactOptionalPropertyTypes": true,

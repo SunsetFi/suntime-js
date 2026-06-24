@@ -1,10 +1,10 @@
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { Constructor } from "../../ts-types/Constructor.js";
-import { Prototypes } from "../intrinsics/intrinsics.js";
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import { StaticJsCallable } from "../types/StaticJsCallable.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
+import { type Constructor } from "../../ts-types/Constructor.js";
+import { type Prototypes } from "../intrinsics/intrinsics.js";
+import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { type StaticJsCallable } from "../types/StaticJsCallable.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
 
 import { getPrototypeFromConstructor } from "./get-prototype-from-constructor.js";
 

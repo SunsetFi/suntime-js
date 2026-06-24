@@ -1,8 +1,8 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { type StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsBoundFunction } from "../types/implementation/functions/StaticJsBoundFunctionImpl.js";
 import { StaticJsProxyImpl } from "../types/implementation/StaticJsProxyImpl.js";
-import { StaticJsCallable } from "../types/StaticJsCallable.js";
+import { type StaticJsCallable } from "../types/StaticJsCallable.js";
 
 export function* getFunctionRealm(func: StaticJsCallable): EvaluationGenerator<StaticJsRealm> {
   // We always have a realm on every function, but the spec

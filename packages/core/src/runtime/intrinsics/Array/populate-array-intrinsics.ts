@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { IntrinsicsRecord } from "../intrinsics.js";
+import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { type IntrinsicsRecord } from "../intrinsics.js";
 
 import { createArrayConstructor } from "./constructor/create-array-constructor.js";
 import { populateArrayPrototype } from "./prototype/populate-array-prototype.js";

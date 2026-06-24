@@ -1,18 +1,18 @@
 import {
-  ClassMethod,
-  ClassPrivateMethod,
-  Function,
-  FunctionParameter,
+  type ClassMethod,
+  type ClassPrivateMethod,
+  type Function,
+  type FunctionParameter,
   isBlockStatement,
-  ObjectMethod,
+  type ObjectMethod,
 } from "@babel/types";
 
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
 
 import { expectedArgumentCount } from "./expected-argument-count.js";
 import { setFunctionLength } from "./set-function-length.js";

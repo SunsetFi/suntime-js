@@ -1,10 +1,10 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import { StaticJsAbstractFunction } from "../../../types/implementation/functions/StaticJsAbstractFunction.js";
-import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { StaticJsObject } from "../../../types/StaticJsObject.js";
+import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { type StaticJsObject } from "../../../types/StaticJsObject.js";
 import { StaticJsTypeCode } from "../../../types/StaticJsTypeCode.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { type StaticJsValue } from "../../../types/StaticJsValue.js";
 
 export class StaticJsFunctionPrototypeImpl extends StaticJsAbstractFunction {
   override get typeOf(): "function" {

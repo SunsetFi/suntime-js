@@ -5,7 +5,7 @@ import {
   isStaticJsPromise,
   type StaticJsPromise,
   StaticJsRealm,
-  StaticJsObject,
+  type StaticJsObject,
   evaluateScript,
 } from "../../../../src/index.js";
 

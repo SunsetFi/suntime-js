@@ -14,7 +14,7 @@ import { iteratorValue } from "../../runtime/iterators/iterator-value.js";
 import { StaticJsAsyncGeneratorImpl } from "../../runtime/types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
 import { StaticJsGeneratorImpl } from "../../runtime/types/implementation/functions/StaticJsGeneratorImpl.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import { isStaticJsValue, StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

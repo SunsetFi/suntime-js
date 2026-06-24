@@ -1,4 +1,4 @@
-import { DebuggerStatement } from "@babel/types";
+import { type DebuggerStatement } from "@babel/types";
 
 import { EvaluationGenerator } from "../EvaluationGenerator.js";
 

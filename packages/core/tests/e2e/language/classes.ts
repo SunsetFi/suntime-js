@@ -1,9 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRealm } from "../../../src/index.js";
-import { isStaticJsFunction } from "../../../src/runtime/types/StaticJsFunction.js";
-import { isStaticJsObject } from "../../../src/runtime/types/StaticJsObject.js";
-import { StaticJsValue } from "../../../src/runtime/types/StaticJsValue.js";
+import {
+  StaticJsRealm,
+  isStaticJsFunction,
+  isStaticJsObject,
+  type StaticJsValue,
+} from "../../../src/index.js";
 
 describe("E2E: Classes", () => {
   describe("Class Declarations", () => {

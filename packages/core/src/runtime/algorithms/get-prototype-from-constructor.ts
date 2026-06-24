@@ -1,8 +1,8 @@
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { Prototypes } from "../intrinsics/intrinsics.js";
-import { StaticJsCallable } from "../types/StaticJsCallable.js";
-import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
+import { type Prototypes } from "../intrinsics/intrinsics.js";
+import { type StaticJsCallable } from "../types/StaticJsCallable.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 
 import { getFunctionRealm } from "./get-function-realm.js";
 import { get } from "./get.js";

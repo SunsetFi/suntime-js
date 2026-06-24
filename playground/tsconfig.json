@@ -6,6 +6,8 @@
     "module": "es2022",
     "moduleResolution": "bundler",
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
 
     "lib": ["dom", "es2024"],
 

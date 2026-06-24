@@ -8,12 +8,12 @@ import { asyncFromSyncIteratorContinuation } from "../../../iterators/async-from
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorNext } from "../../../iterators/iterator-next.js";
-import { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { type StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
+import { type StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { isStaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsPromise } from "../../StaticJsPromise.js";
+import { type StaticJsPromise } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsValue } from "../../StaticJsValue.js";
+import { type StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 

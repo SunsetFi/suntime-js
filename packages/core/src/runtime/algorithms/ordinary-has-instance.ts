@@ -2,7 +2,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { isStaticJsBoundFunction } from "../types/StaticJsFunction.js";
-import { isStaticJsObject, StaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { get } from "./get.js";

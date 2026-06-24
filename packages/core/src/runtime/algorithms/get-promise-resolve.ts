@@ -1,6 +1,6 @@
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { isStaticJsCallable, StaticJsCallable } from "../types/StaticJsCallable.js";
+import { isStaticJsCallable, type StaticJsCallable } from "../types/StaticJsCallable.js";
 
 import { get } from "./get.js";
 

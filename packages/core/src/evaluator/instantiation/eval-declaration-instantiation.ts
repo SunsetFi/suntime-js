@@ -5,7 +5,7 @@ import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-
 import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";

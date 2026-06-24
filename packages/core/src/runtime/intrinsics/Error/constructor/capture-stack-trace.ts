@@ -1,6 +1,6 @@
 import { captureStackTrace } from "../../../algorithms/capture-stack-trace.js";
 import { toObject } from "../../../algorithms/to-object.js";
-import { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+import { type IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const errorCtorCaptureStackTraceDeclaration: IntrinsicPropertyDeclaration = {
   key: "captureStackTrace",

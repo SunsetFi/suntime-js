@@ -1,4 +1,4 @@
-import type { StaticJsTaskIterator } from "@suntime-js/core";
+import type { StaticJsRealm, StaticJsTaskIterator } from "@suntime-js/core";
 
 import type { StaticJsDebugBreakpointInput } from "../breakpoints/StaticJsDebugBreakpoint.js";
 
@@ -10,6 +10,7 @@ export interface StaticJsDebugSessionCommonOptions {
 }
 
 export interface StaticJsDebugLaunchOptions extends StaticJsDebugSessionCommonOptions {
+  realm?: StaticJsRealm;
   sourceText: string;
   sourceName?: string;
   sourceKind: StaticJsDebugSourceKind;

@@ -7,10 +7,10 @@ import {
   StaticJsRealm,
   StaticJsSynchronousTaskIncompleteError,
   StaticJsTaskAbortedError,
-  StaticJsTaskIterator,
-  StaticJsTaskIteratorStackFrame,
+  type StaticJsTaskIterator,
+  type StaticJsTaskIteratorStackFrame,
   StaticJsTypeCode,
-  StaticJsNumber,
+  type StaticJsNumber,
 } from "../../src/index.js";
 
 describe("E2E: Tasks", () => {

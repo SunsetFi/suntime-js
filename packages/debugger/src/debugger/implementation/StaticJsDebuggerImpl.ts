@@ -1,7 +1,7 @@
 import {
-  StaticJsRealm,
   type StaticJsTaskIterator,
   type StaticJsTaskRunner,
+  synchronousDefaultTaskRunner,
 } from "@suntime-js/core";
 
 import { StaticJsAttachDebugSession } from "../../session/implementation/StaticJsAttachDebugSession.js";
@@ -13,10 +13,7 @@ import type { StaticJsDebugger } from "../StaticJsDebugger.js";
 export class StaticJsDebuggerImpl implements StaticJsDebugger {
   private _driving = false;
 
-  constructor(
-    private readonly _realm: StaticJsRealm,
-    private readonly _runTask: StaticJsTaskRunner = _realm.config.runTask,
-  ) {}
+  constructor(private readonly _runTask: StaticJsTaskRunner = synchronousDefaultTaskRunner) {}
 
   createSession(options: StaticJsDebugSessionOptions): StaticJsDebugSession {
     if (this._driving) {
@@ -32,10 +29,10 @@ export class StaticJsDebuggerImpl implements StaticJsDebugger {
     }
 
     if ("attach" in options && options.attach) {
-      return new StaticJsAttachDebugSession(this._realm, options.attach, this._drive);
+      return new StaticJsAttachDebugSession(options.attach, this._drive);
     }
 
-    return new StaticJsLaunchDebugSession(this._realm, options.launch, this._drive);
+    return new StaticJsLaunchDebugSession(options.launch, this._drive);
   }
 
   private readonly _drive: StaticJsTaskRunner = (task: StaticJsTaskIterator) => {

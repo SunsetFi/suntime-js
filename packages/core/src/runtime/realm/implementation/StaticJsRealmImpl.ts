@@ -8,7 +8,7 @@ import { Q } from "../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import {
   EvaluationGenerator,
-  MaybeEvaluationGenerator,
+  type MaybeEvaluationGenerator,
 } from "../../../evaluator/EvaluationGenerator.js";
 import { globalDeclarationInstantiation } from "../../../evaluator/instantiation/global-declaration-instantiation.js";
 import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
@@ -17,6 +17,10 @@ import { findTopLevelAwait } from "../../../parser/find-top-level-await.js";
 import { parseExpression } from "../../../parser/parse-expression.js";
 import { parseModule } from "../../../parser/parse-module.js";
 import { parseScript } from "../../../parser/parse-script.js";
+import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskRunner } from "../../../tasks/StaticJsTaskRunner.js";
+import { synchronousDefaultTaskRunner } from "../../../tasks/task-runners/synchronous-default.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 import { drainIterator } from "../../../utils/drain-iterator.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
@@ -29,7 +33,7 @@ import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementati
 import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import type { RealmHooks } from "../../hooks/hooks.js";
 import { populateIntrinsics } from "../../intrinsics/create-intrinsics.js";
-import { Intrinsics, IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
+import { type Intrinsics, type IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
 import { populateGlobal } from "../../intrinsics/populate-global.js";
 import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "../../modules/implementation/StaticJsExternalModuleImpl.js";
@@ -40,12 +44,9 @@ import {
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
 } from "../../modules/StaticJsModuleImplementation.js";
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import { StaticJsObject } from "../../types/StaticJsObject.js";
+import { type StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
 import {
   type StaticJsPropertyDescriptorRecord,
@@ -58,7 +59,7 @@ import type {
   StaticJsRealmGlobalDeclProperty,
   StaticJsRealmGlobalOption,
 } from "../factories/StaticJsRealmGlobalOptions.js";
-import { StaticJsConfig } from "../StaticJsConfig.js";
+import { type StaticJsConfig } from "../StaticJsConfig.js";
 import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
 import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 import type { StaticJsRealm } from "../StaticJsRealm.js";
@@ -66,7 +67,7 @@ import type {
   StaticJsRealmEvaluateScriptOptions,
   StaticJsRealmEvaluateScriptSyncOptions,
 } from "../StaticJsRealmEvaluateScriptOptions.js";
-import { StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSourceOptions.js";
+import { type StaticJsRealmEvaluateSourceOptions } from "../StaticJsRealmEvaluateSourceOptions.js";
 
 import { EvaluationTask } from "./EvaluationTask.js";
 
@@ -111,8 +112,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     private readonly _hooks: RealmHooks,
   ) {
     this._externalResolveModule = resolveModule;
-    this._defaultRunTask = runTask ?? drainIterator;
-    this._defaultRunTaskSync = runTaskSync ?? drainIterator;
+    this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
+    this._defaultRunTaskSync = runTaskSync ?? synchronousDefaultTaskRunner;
     const configObj: {
       runTask: StaticJsTaskRunner;
       runTaskSync: StaticJsTaskRunner;

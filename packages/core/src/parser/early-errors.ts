@@ -1,17 +1,17 @@
-import { VisitNodeObject } from "@babel/traverse";
+import { type VisitNodeObject } from "@babel/traverse";
 import {
-  Block,
-  Class,
-  Function,
-  File,
-  Node,
+  type Block,
+  type Class,
+  type Function,
+  type File,
+  type Node,
   isFunction,
-  WhileStatement,
-  DoWhileStatement,
-  ForOfStatement,
-  ForInStatement,
-  ForStatement,
-  SwitchStatement,
+  type WhileStatement,
+  type DoWhileStatement,
+  type ForOfStatement,
+  type ForInStatement,
+  type ForStatement,
+  type SwitchStatement,
 } from "@babel/types";
 
 import boundNames from "../evaluator/instantiation/algorithms/bound-names.js";

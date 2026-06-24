@@ -6,9 +6,9 @@ import { copyDataProperties } from "../../runtime/algorithms/copy-data-propertie
 import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
 import { toPropertyKey } from "../../runtime/algorithms/to-property-key.js";
 import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
-import { isStaticJsObject, StaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsObject, type StaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { type StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
-import { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

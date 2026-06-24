@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { IntrinsicsRecord, NativeErrors } from "../intrinsics.js";
+import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { type IntrinsicsRecord, type NativeErrors } from "../intrinsics.js";
 
 import { createNativeErrorConstructor } from "./constructor/create-nativeerror-constructor.js";
 import { populateNativeErrorPrototype } from "./prototype/populate-nativeerror-prototype.js";

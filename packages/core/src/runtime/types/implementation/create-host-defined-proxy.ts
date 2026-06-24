@@ -1,10 +1,10 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import typedKeys from "../../../utils/typed-keys.js";
 import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
-import { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsCallable } from "../StaticJsCallable.js";
-import { StaticJsFunction } from "../StaticJsFunction.js";
-import { isStaticJsObject, StaticJsObject } from "../StaticJsObject.js";
+import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { type StaticJsCallable } from "../StaticJsCallable.js";
+import { type StaticJsFunction } from "../StaticJsFunction.js";
+import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";
 import {
   propertyDescriptorToStaticJsObject,
   validateStaticJsPropertyDescriptorRecord,
@@ -15,10 +15,10 @@ import {
   toStaticJsPropertyKey,
 } from "../StaticJsPropertyKey.js";
 import {
-  StaticJsProxy,
+  type StaticJsProxy,
   StaticJsProxyHandlerKeys,
-  StaticJsProxyHandlers,
-  StaticJsProxyTarget,
+  type StaticJsProxyHandlers,
+  type StaticJsProxyTarget,
 } from "../StaticJsProxy.js";
 import { isStaticJsValue } from "../StaticJsValue.js";
 

@@ -1,4 +1,7 @@
-import { HostAccessChildOptions, HostAccessQueryFunction } from "../../HostAccessOptions.js";
+import {
+  type HostAccessChildOptions,
+  type HostAccessQueryFunction,
+} from "../../HostAccessOptions.js";
 
 import type { ResolvedHostAccessOptions } from "./resolve-host-access-options.js";
 

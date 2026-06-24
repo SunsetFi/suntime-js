@@ -1,7 +1,7 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsCallable } from "../types/StaticJsCallable.js";
-import { StaticJsObject } from "../types/StaticJsObject.js";
-import { StaticJsValue } from "../types/StaticJsValue.js";
+import { type StaticJsCallable } from "../types/StaticJsCallable.js";
+import { type StaticJsObject } from "../types/StaticJsObject.js";
+import { type StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* construct(
   F: StaticJsCallable,

@@ -19,7 +19,11 @@ import {
   type StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import { type StaticJsPropertyKey } from "../StaticJsPropertyKey.js";
-import { StaticJsProxy, StaticJsProxyHandlers, StaticJsProxyTarget } from "../StaticJsProxy.js";
+import {
+  type StaticJsProxy,
+  type StaticJsProxyHandlers,
+  type StaticJsProxyTarget,
+} from "../StaticJsProxy.js";
 import type { StaticJsString } from "../StaticJsString.js";
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";

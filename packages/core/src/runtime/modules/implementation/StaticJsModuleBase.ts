@@ -1,8 +1,8 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { type StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { StaticJsNamespaceExoticObject } from "../../types/implementation/StaticJsNamespaceExoticObject.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";

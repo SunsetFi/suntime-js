@@ -9,7 +9,7 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "./apply-intrinsic-properties.js";
-import { IntrinsicsRecord } from "./intrinsics.js";
+import { type IntrinsicsRecord } from "./intrinsics.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 

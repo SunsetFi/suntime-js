@@ -2,7 +2,6 @@ import { StaticJsRealm, type StaticJsTaskRunner } from "@suntime-js/core";
 import {
   StaticJsDebugger,
   type StaticJsDebugSession,
-  type StaticJsDebuggerOptions,
   type StaticJsDebugStopEvent,
   type StaticJsDebugTerminateEvent,
 } from "@suntime-js/debugger";
@@ -15,22 +14,23 @@ export interface CreatedAdapterSession {
 }
 
 export interface CreateAdapterSessionOptions {
-  readonly launchArgs: NormalizedStaticJsLaunchRequestArguments;
-  readonly onDidStop: (event: StaticJsDebugStopEvent) => void;
-  readonly onDidTerminate: (event: StaticJsDebugTerminateEvent) => void;
-  readonly realm?: StaticJsDebuggerOptions["realm"] | undefined;
-  readonly createRealm?: (() => StaticJsDebuggerOptions["realm"]) | undefined;
-  readonly runTask?: StaticJsTaskRunner | undefined;
+  realm?: StaticJsRealm;
+  launchArgs: NormalizedStaticJsLaunchRequestArguments;
+  onDidStop: (event: StaticJsDebugStopEvent) => void;
+  onDidTerminate: (event: StaticJsDebugTerminateEvent) => void;
+  runTask?: StaticJsTaskRunner | undefined;
 }
 
 export function createAdapterSession(options: CreateAdapterSessionOptions): CreatedAdapterSession {
-  const realm = options.realm ?? options.createRealm?.() ?? StaticJsRealm();
   const debuggerInstance = new StaticJsDebugger({
-    realm,
     runTask: options.runTask,
   });
+  const realm = options.realm ?? StaticJsRealm();
   const debugSession = debuggerInstance.createSession({
-    launch: options.launchArgs,
+    launch: {
+      ...options.launchArgs,
+      realm,
+    },
   });
 
   return {

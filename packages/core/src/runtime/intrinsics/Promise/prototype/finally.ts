@@ -3,7 +3,7 @@ import { call } from "../../../algorithms/call.js";
 import { isCallable } from "../../../algorithms/is-callable.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsCallable } from "../../../types/StaticJsCallable.js";
+import { type StaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 

@@ -15,7 +15,8 @@ import { StaticJsDebugger } from "../../src/index.js";
  */
 const setupAttach = async (sourceText: string) => {
   const realm = StaticJsRealm();
-  const debuggerInstance = StaticJsDebugger({ realm });
+
+  const debuggerInstance = StaticJsDebugger();
 
   let captureResolve!: (task: StaticJsTaskIterator) => void;
   const capturedPromise = new Promise<StaticJsTaskIterator>((resolve) => {
@@ -143,9 +144,7 @@ describe("StaticJsAttachDebugSession", () => {
 
     // Create a new debugger whose runTask (driver) tries to createSession while driving.
     let reentrancyError: unknown;
-    const realm2 = StaticJsRealm();
     const dbg2 = StaticJsDebugger({
-      realm: realm2,
       runTask: (drivingTask) => {
         // This callback is called from _drive (which sets _driving = true before calling here).
         // Calling createSession here should therefore throw the reentrancy error.

@@ -9,7 +9,7 @@ import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import { set } from "../../../algorithms/set.js";
 import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
 import { toObject } from "../../../algorithms/to-object.js";
-import { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { type StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {

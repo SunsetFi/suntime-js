@@ -1,12 +1,15 @@
 import { expect } from "vitest";
 
-import { isStaticJsArray, StaticJsArray } from "../../../src/runtime/types/StaticJsArray.js";
 import {
+  isStaticJsArray,
+  type StaticJsArray,
   isStaticJsCallable,
-  StaticJsCallable,
-} from "../../../src/runtime/types/StaticJsCallable.js";
-import { isStaticJsObject, StaticJsObject } from "../../../src/runtime/types/StaticJsObject.js";
-import { isStaticJsString, StaticJsString } from "../../../src/runtime/types/StaticJsString.js";
+  type StaticJsCallable,
+  isStaticJsObject,
+  type StaticJsObject,
+  isStaticJsString,
+  type StaticJsString,
+} from "../../../src/index.js";
 
 export function expectStaticJsObject(value: unknown): asserts value is StaticJsObject {
   expect(isStaticJsObject(value)).toBe(true);
