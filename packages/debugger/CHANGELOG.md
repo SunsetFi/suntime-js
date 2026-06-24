@@ -1,5 +1,12 @@
 # @suntime-js/debugger
 
+## 0.10.2
+
+### Patch Changes
+
+- Updated dependencies [b8f88dd]
+  - @suntime-js/core@0.10.2
+
 ## 0.10.1
 
 ### Patch Changes
