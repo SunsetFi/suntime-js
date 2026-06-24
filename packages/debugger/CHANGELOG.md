@@ -1,5 +1,20 @@
 # @suntime-js/debugger
 
+## 0.10.0
+
+### Minor Changes
+
+- fa1b3f9: Remove required realm for debugger; only required for launch
+- 18fe6a0: Debugger attach mode through task iterators
+
+### Patch Changes
+
+- 5faf995: Clean up debugger API exports
+- Updated dependencies [18fe6a0]
+- Updated dependencies [bc30dc4]
+- Updated dependencies [6962a93]
+  - @suntime-js/core@0.10.0
+
 ## 0.9.0
 
 ### Minor Changes
