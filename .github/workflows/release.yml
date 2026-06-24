@@ -91,7 +91,9 @@ jobs:
           package-manager-cache: false
 
       - name: Build source
-        run: pnpm run -r build
+        run: pnpm run --filter @suntime-js/core build
+        run: pnpm run --filter @suntime-js/debugger build
+        run: pnpm run --filter @suntime-js/dap build
 
       - name: Publish to npm
         id: changesets
