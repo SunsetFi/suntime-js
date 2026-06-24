@@ -6,6 +6,9 @@
   "keywords": [],
   "license": "ISC",
   "author": "SunsetFi",
+  "repository": {
+    "url": "https://github.com/SunsetFi/suntime-js"
+  },
   "files": [
     "dist"
   ],
