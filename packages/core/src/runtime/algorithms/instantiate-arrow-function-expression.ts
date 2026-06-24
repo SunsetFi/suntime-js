@@ -1,10 +1,10 @@
-import { type ArrowFunctionExpression } from "@babel/types";
+import type { ArrowFunctionExpression } from "@babel/types";
 
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
 import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { type StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
-import { type StaticJsFunction } from "../types/StaticJsFunction.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
 import { ordinaryFunctionCreate } from "./ordinary-function-create.js";
 import { setFunctionName, type StaticJsFunctionNameable } from "./set-function-name.js";
