@@ -1,8 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRealm, type StaticJsCallable } from "../../../src/index.js";
-import { IntrinsicsRecord } from "../../../src/runtime/intrinsics/intrinsics.js";
-import { isStaticJsArray } from "../../../src/runtime/types/StaticJsArray.js";
+import {
+  StaticJsRealm,
+  type StaticJsCallable,
+  type IntrinsicsRecord,
+  isStaticJsArray,
+} from "../../../src/index.js";
 import {
   expectStaticJsArray,
   expectStaticJsCallable,

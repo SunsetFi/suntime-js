@@ -9,9 +9,9 @@ import { type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js"
 import {
   type StaticJsIteratedTask,
   StaticJsTaskIteratorImpl,
-} from "../../tasks/implementation/StaticJsTaskIteratorImpl.js";
-import { type StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+} from "../../../tasks/implementation/StaticJsTaskIteratorImpl.js";
+import { type StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskRunner } from "../../../tasks/StaticJsTaskRunner.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 type EvaluationTaskStatus = "pending" | "running" | "fulfilled" | "rejected";

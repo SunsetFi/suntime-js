@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import {
   StaticJsRealm,
-  StaticJsObject,
+  type StaticJsObject,
   StaticJsTaskAbortedError,
   createTimeBoundTaskRunner,
 } from "../../src/index.js";

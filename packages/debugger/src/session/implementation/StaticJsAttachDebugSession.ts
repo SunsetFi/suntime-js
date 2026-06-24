@@ -1,16 +1,12 @@
-import type { StaticJsRealm, StaticJsTaskIterator, StaticJsTaskRunner } from "@suntime-js/core";
+import type { StaticJsTaskIterator, StaticJsTaskRunner } from "@suntime-js/core";
 
 import type { StaticJsDebugAttachOptions } from "../StaticJsDebugSessionOptions.js";
 
 import { StaticJsDebugSessionBase } from "./StaticJsDebugSessionBase.js";
 
 export class StaticJsAttachDebugSession extends StaticJsDebugSessionBase {
-  constructor(
-    realm: StaticJsRealm,
-    attach: StaticJsDebugAttachOptions,
-    runTask: StaticJsTaskRunner,
-  ) {
-    super(realm, attach, runTask);
+  constructor(attach: StaticJsDebugAttachOptions, runTask: StaticJsTaskRunner) {
+    super(attach, runTask);
     this._sourceName = attach.sourceName;
     this._sourceKind = attach.sourceKind ?? "script";
     // The task already exists; adopt it so introspection works before start().

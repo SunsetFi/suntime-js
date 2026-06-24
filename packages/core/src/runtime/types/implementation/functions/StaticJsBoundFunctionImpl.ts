@@ -1,10 +1,10 @@
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
 import { construct } from "../../../algorithms/construct.js";
 import { get } from "../../../algorithms/get.js";
 import { sameValue } from "../../../algorithms/same-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import {
   type StaticJsCallable,
   type StaticJsCallableToNativeOpts,

@@ -87,18 +87,17 @@ describe("createStaticJsWebDebugAdapter", () => {
   it("uses a provided realm factory for host globals", async () => {
     const logs: string[] = [];
     const session = createSession({
-      createRealm: () =>
-        StaticJsRealm({
-          global: {
-            value: {
-              console: {
-                log: (...args: unknown[]) => {
-                  logs.push(args.join(" "));
-                },
+      realm: StaticJsRealm({
+        global: {
+          value: {
+            console: {
+              log: (...args: unknown[]) => {
+                logs.push(args.join(" "));
               },
             },
           },
-        }),
+        },
+      }),
     });
 
     await session.initialize();

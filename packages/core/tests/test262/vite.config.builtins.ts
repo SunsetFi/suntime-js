@@ -1,4 +1,4 @@
-import { defineProject, TestTagDefinition } from "vitest/config";
+import { defineProject, type TestTagDefinition } from "vitest/config";
 
 import { ScriptTimeout } from "./timeouts.js";
 

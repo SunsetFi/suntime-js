@@ -1,4 +1,4 @@
-import { type StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { type StaticJsObject } from "../types/StaticJsObject.js";
 import { type StaticJsValue } from "../types/StaticJsValue.js";
 

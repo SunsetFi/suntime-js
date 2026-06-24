@@ -1,22 +1,22 @@
 import type { Node } from "@babel/types";
 
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsTaskAbortedError } from "../../../errors/StaticJsTaskAbortedError.js";
-import { StaticJsTaskCompletedError } from "../../../errors/StaticJsTaskCompletedError.js";
-import { evaluateCommands } from "../../../evaluator/evaluate-commands.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { StaticJsTaskAbortedError } from "../../errors/StaticJsTaskAbortedError.js";
+import { StaticJsTaskCompletedError } from "../../errors/StaticJsTaskCompletedError.js";
+import { evaluateCommands } from "../../evaluator/evaluate-commands.js";
 import {
   EvaluationContext,
   type EvaluationContextStackProvider,
-} from "../../../evaluator/EvaluationContext.js";
-import { invokeEvaluator, type StaticJsEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsFunctionEnvironmentRecord } from "../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
-import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
-import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
-import { type StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
-import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
-import { type StaticJsFunction } from "../../types/StaticJsFunction.js";
+} from "../../evaluator/EvaluationContext.js";
+import { invokeEvaluator, type StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsFunctionEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
+import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsModuleEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsModuleEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { type StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { StaticJsAbstractFunction } from "../../runtime/types/implementation/functions/StaticJsAbstractFunction.js";
+import { type StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { type StaticJsRunTaskOptions } from "../StaticJsRunTaskOptions.js";
 import { type StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
 import { type StaticJsTaskIterator } from "../StaticJsTaskIterator.js";

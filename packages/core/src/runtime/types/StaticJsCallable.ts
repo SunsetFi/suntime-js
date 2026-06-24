@@ -1,5 +1,5 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { type StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 
 import { type StaticJsObject } from "./StaticJsObject.js";
 import type { StaticJsToNativeOpts } from "./StaticJsToNativeOpts.js";

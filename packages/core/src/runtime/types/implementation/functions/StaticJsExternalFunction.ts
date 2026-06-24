@@ -9,8 +9,8 @@ import {
   type MaybeEvaluationGenerator,
 } from "../../../../evaluator/EvaluationGenerator.js";
 import { type StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import { type StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { type StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import { type StaticJsCallable } from "../../StaticJsCallable.js";
 import { type StaticJsFunction } from "../../StaticJsFunction.js";

@@ -4,6 +4,7 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { type StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
 import { call } from "../../algorithms/call.js";
 import { completePropertyDescriptor } from "../../algorithms/complete-property-descriptor.js";
 import { construct } from "../../algorithms/construct.js";
@@ -16,7 +17,6 @@ import { toBoolean } from "../../algorithms/to-boolean.js";
 import { toPropertyDescriptor } from "../../algorithms/to-property-descriptor.js";
 import { toString } from "../../algorithms/to-string.js";
 import { type StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { type StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { isStaticJsCallable, type StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
 import {

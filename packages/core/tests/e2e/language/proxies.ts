@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { StaticJsRealm, StaticJsFunction } from "../../../src/index.js";
+import { StaticJsRealm, type StaticJsFunction } from "../../../src/index.js";
 
 describe("E2E: Proxies", () => {
   describe("Type Factory", () => {

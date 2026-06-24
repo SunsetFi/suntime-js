@@ -17,6 +17,10 @@ import { findTopLevelAwait } from "../../../parser/find-top-level-await.js";
 import { parseExpression } from "../../../parser/parse-expression.js";
 import { parseModule } from "../../../parser/parse-module.js";
 import { parseScript } from "../../../parser/parse-script.js";
+import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { type StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskRunner } from "../../../tasks/StaticJsTaskRunner.js";
+import { synchronousDefaultTaskRunner } from "../../../tasks/task-runners/synchronous-default.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 import { drainIterator } from "../../../utils/drain-iterator.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
@@ -40,9 +44,6 @@ import {
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
 } from "../../modules/StaticJsModuleImplementation.js";
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import { type StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
 import { type StaticJsObject } from "../../types/StaticJsObject.js";
@@ -111,8 +112,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     private readonly _hooks: RealmHooks,
   ) {
     this._externalResolveModule = resolveModule;
-    this._defaultRunTask = runTask ?? drainIterator;
-    this._defaultRunTaskSync = runTaskSync ?? drainIterator;
+    this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
+    this._defaultRunTaskSync = runTaskSync ?? synchronousDefaultTaskRunner;
     const configObj: {
       runTask: StaticJsTaskRunner;
       runTaskSync: StaticJsTaskRunner;

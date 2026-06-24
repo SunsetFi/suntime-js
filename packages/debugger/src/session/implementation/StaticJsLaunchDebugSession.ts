@@ -1,5 +1,5 @@
 import {
-  type StaticJsRealm,
+  StaticJsRealm,
   type StaticJsRunTaskOptions,
   type StaticJsTaskIterator,
   type StaticJsTaskRunner,
@@ -17,12 +17,8 @@ import { StaticJsDebugSessionBase } from "./StaticJsDebugSessionBase.js";
 export class StaticJsLaunchDebugSession extends StaticJsDebugSessionBase {
   private readonly _launchOptions: StaticJsDebugLaunchOptions;
 
-  constructor(
-    realm: StaticJsRealm,
-    launch: StaticJsDebugLaunchOptions,
-    runTask: StaticJsTaskRunner,
-  ) {
-    super(realm, launch, runTask);
+  constructor(launch: StaticJsDebugLaunchOptions, runTask: StaticJsTaskRunner) {
+    super(launch, runTask);
     this._launchOptions = Object.assign({}, launch);
     this._sourceName = launch.sourceName;
     this._sourceKind = launch.sourceKind;
@@ -37,13 +33,14 @@ export class StaticJsLaunchDebugSession extends StaticJsDebugSessionBase {
   }
 
   protected override _begin(): void {
-    const { sourceKind, sourceName, sourceText } = this._launchOptions;
-    this._launch(sourceKind, sourceName, sourceText)
+    const { realm = StaticJsRealm(), sourceKind, sourceName, sourceText } = this._launchOptions;
+    this._launch(realm, sourceKind, sourceName, sourceText)
       .then(this._onSessionComplete.bind(this))
       .catch(this._onSessionError.bind(this));
   }
 
   private async _launch(
+    realm: StaticJsRealm,
     sourceKind: StaticJsDebugSourceKind,
     sourceName: string | undefined,
     sourceText: string,
@@ -55,11 +52,11 @@ export class StaticJsLaunchDebugSession extends StaticJsDebugSessionBase {
 
     switch (sourceKind) {
       case "expression":
-        return await this._realm.evaluateExpression(sourceText, runTaskOptions);
+        return await realm.evaluateExpression(sourceText, runTaskOptions);
       case "module":
-        return await this._realm.evaluateModule(sourceText, runTaskOptions);
+        return await realm.evaluateModule(sourceText, runTaskOptions);
       case "script":
-        return await this._realm.evaluateScript(sourceText, runTaskOptions);
+        return await realm.evaluateScript(sourceText, runTaskOptions);
     }
   }
 

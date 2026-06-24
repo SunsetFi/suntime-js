@@ -1,5 +1,5 @@
 import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
-import type { StaticJsTaskRunner } from "../../runtime/tasks/StaticJsTaskRunner.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 
 export interface EvaluationOptions {
   realm?: StaticJsRealm;
