@@ -96,4 +96,8 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
 
     return this._realm.types.object(properties);
   }
+
+  mark(): void {
+    // No-op
+  }
 }

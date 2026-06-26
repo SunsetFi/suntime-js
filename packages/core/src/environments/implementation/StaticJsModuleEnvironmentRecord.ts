@@ -127,4 +127,10 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
   ): EvaluationGenerator<void> {
     this._moduleBindings.set(name, { module, bindingName });
   }
+
+  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+    for (const { module } of this._moduleBindings.values()) {
+      module.mark(marks, allocate);
+    }
+  }
 }

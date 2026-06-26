@@ -92,4 +92,9 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
 
     return true;
   }
+
+  override mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+    super.mark(marks, allocate);
+    this._thisValue?.mark(marks, allocate);
+  }
 }

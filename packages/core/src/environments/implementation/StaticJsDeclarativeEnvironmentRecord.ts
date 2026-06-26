@@ -5,6 +5,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { stringSizeBytes } from "#memory/implementation/string-size.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
@@ -172,6 +173,18 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._realm.types.undefined;
+  }
+
+  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+    for (const [name, binding] of this._bindings.entries()) {
+      if (allocate) {
+        this._realm.memory.allocate(stringSizeBytes(name));
+      }
+
+      if (binding.value) {
+        binding.value.mark(marks, allocate);
+      }
+    }
   }
 
   protected *_assertBindingNotDeclared(name: string) {

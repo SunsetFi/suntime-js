@@ -472,6 +472,31 @@ export abstract class StaticJsAbstractObject
     this._privateElements.push(element);
   }
 
+  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+    if (marks.has(this)) {
+      return;
+    }
+    super.mark(marks, allocate);
+    for (const pe of this._privateElements) {
+      switch (pe.kind) {
+        case "field":
+          pe.value.mark(marks, allocate);
+          break;
+        case "method":
+          pe.value.mark(marks, allocate);
+          break;
+        case "accessor":
+          if (pe.get) {
+            pe.get.mark(marks, allocate);
+          }
+          if (pe.set) {
+            pe.set.mark(marks, allocate);
+          }
+          break;
+      }
+    }
+  }
+
   /**
    * Convert this function to a native (host) callable.
    *

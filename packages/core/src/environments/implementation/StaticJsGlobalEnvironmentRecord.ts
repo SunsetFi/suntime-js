@@ -126,6 +126,12 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._realm.types.undefined;
   }
 
+  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+    this._declarativeRecord.mark(marks, allocate);
+    this._objectRecord.mark(marks, allocate);
+    this._globalThis.mark(marks, allocate);
+  }
+
   private *_ensureDeclarativeBindingNotDeclared(name: string): EvaluationGenerator<void> {
     if (yield* this.declarativeRecord.hasBindingEvaluator(name)) {
       throw yield* Completion.Throw.create(

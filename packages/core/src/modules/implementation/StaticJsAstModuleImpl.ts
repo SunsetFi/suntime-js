@@ -572,4 +572,13 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     });
   }
+
+  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+    if (this._moduleEnv) {
+      this._moduleEnv.mark(marks, allocate);
+    }
+    if (this._envRec) {
+      this._envRec.mark(marks, allocate);
+    }
+  }
 }

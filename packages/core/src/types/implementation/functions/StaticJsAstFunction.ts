@@ -338,6 +338,15 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
+  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+    if (marks.has(this)) {
+      return;
+    }
+    super.mark(marks, allocate);
+
+    this._environment.mark(marks, allocate);
+  }
+
   override toStringSync() {
     const name = this.getNameSync();
 

@@ -117,10 +117,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
-    this._memory = new StaticJsMemoryManagerImpl();
+    this._memory = new StaticJsMemoryManagerImpl(this);
+
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? synchronousDefaultTaskRunner;
+
     const configObj: {
       runTask: StaticJsTaskRunner;
       runTaskSync: StaticJsTaskRunner;

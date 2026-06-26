@@ -132,6 +132,8 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     return ns;
   }
 
+  abstract mark(marks: Set<StaticJsValue>, allocate?: boolean): void;
+
   private *_getExportEvaluator(exportName: string): EvaluationGenerator<StaticJsValue | null> {
     const resolution = yield* this.resolveExportEvaluator(exportName);
     if (resolution === null) {

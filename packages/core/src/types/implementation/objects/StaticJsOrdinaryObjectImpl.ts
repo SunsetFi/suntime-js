@@ -1,5 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
@@ -64,6 +65,44 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
       throw new StaticJsEngineError(
         `Unknown descriptor type in getOwnPropertyDescriptor for property ${name}.`,
       );
+    }
+  }
+
+  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    const memory = this.realm.memory;
+    marks.add(this);
+    if (allocate) {
+      memory.allocate(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);
+    }
+
+    for (const [key, descr] of this._contents.entries()) {
+      if (allocate) {
+        memory.allocate(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);
+      }
+
+      if (typeof key === "string") {
+        // Because we don't store these as StaticJsStrings, we can overcount and duplicate them here.
+        // We should accept StaticJsString values as property keys...
+        const str = this.realm.types.string(key);
+        str.mark(marks);
+      } else {
+        key.mark(marks);
+      }
+
+      if (isStaticJsDataPropertyDescriptor(descr)) {
+        descr.value.mark(marks);
+      } else if (isStaticJsAccessorPropertyDescriptor(descr)) {
+        if (descr.get) {
+          descr.get.mark(marks);
+        }
+        if (descr.set) {
+          descr.set.mark(marks);
+        }
+      }
     }
   }
 
