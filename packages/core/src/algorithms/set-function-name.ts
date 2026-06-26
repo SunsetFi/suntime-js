@@ -1,12 +1,9 @@
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
-import {
-  isStaticJsPrivateName,
-  type StaticJsPrivateName,
-} from "../runtime/types/StaticJsPrivateName.js";
-import type { StaticJsPropertyKey } from "../runtime/types/StaticJsPropertyKey.js";
-import { isStaticJsSymbol } from "../runtime/types/StaticJsSymbol.js";
+import type { StaticJsFunction } from "../types/StaticJsFunction.js";
+import { isStaticJsPrivateName, type StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 

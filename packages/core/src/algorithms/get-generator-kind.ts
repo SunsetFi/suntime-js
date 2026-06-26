@@ -1,7 +1,7 @@
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
-import { StaticJsAsyncGeneratorImpl } from "../runtime/types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
-import { StaticJsGeneratorImpl } from "../runtime/types/implementation/functions/StaticJsGeneratorImpl.js";
+import { StaticJsAsyncGeneratorImpl } from "../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
+import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 
 export function* getGeneratorKind() {
   const generator = EvaluationContext.current.generator;

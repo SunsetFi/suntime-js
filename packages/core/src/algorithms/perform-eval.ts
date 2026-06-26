@@ -18,10 +18,10 @@ import { StaticJsDeclarativeEnvironmentRecord } from "../runtime/environments/im
 import { StaticJsFunctionEnvironmentRecord } from "../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
-import { StaticJsClassConstructorFunction } from "../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { StaticJsMethodFunction } from "../runtime/types/implementation/functions/StaticJsMethodFunction.js";
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { StaticJsClassConstructorFunction } from "../types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsMethodFunction } from "../types/implementation/functions/StaticJsMethodFunction.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { getThisEnvironment } from "./get-this-environment.js";
 

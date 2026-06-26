@@ -1,6 +1,6 @@
 import { toNumber } from "../../../../algorithms/to-number.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 import isNumberLike from "../isNumberLike.js";
 

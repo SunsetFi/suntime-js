@@ -8,8 +8,8 @@ import {
   isStaticJsReferenceRecord,
   type StaticJsReferenceRecord,
 } from "../../../runtime/references/StaticJsReferenceRecord.js";
-import { isStaticJsCallable } from "../../../runtime/types/StaticJsCallable.js";
-import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { Completion } from "../../completions/Completion.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";

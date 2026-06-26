@@ -7,13 +7,13 @@ import { toIntegerOrInfinity } from "../../../../algorithms/to-integer-or-infini
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { StaticJsBoundFunction } from "../../../../types/implementation/functions/StaticJsBoundFunctionImpl.js";
+import type { StaticJsCallable } from "../../../../types/StaticJsCallable.js";
+import type { StaticJsFunction } from "../../../../types/StaticJsFunction.js";
+import { isStaticJsNumber } from "../../../../types/StaticJsNumber.js";
+import { isStaticJsString } from "../../../../types/StaticJsString.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsBoundFunction } from "../../../types/implementation/functions/StaticJsBoundFunctionImpl.js";
-import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
-import { isStaticJsNumber } from "../../../types/StaticJsNumber.js";
-import { isStaticJsString } from "../../../types/StaticJsString.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoBindDeclaration: IntrinsicPropertyDeclaration = {

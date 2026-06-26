@@ -1,10 +1,10 @@
 import {
   createTimeBoundTaskRunner,
   StaticJsRealm,
+  isStaticJsString,
   type StaticJsObject,
   type StaticJsValue,
 } from "../../src/index.js";
-import { isStaticJsString } from "../../src/runtime/types/StaticJsString.js";
 
 import { ScriptTimeout } from "./timeouts.js";
 

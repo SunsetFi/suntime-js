@@ -6,7 +6,7 @@ import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-d
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import bindingInitialization from "../bindings/binding-initialization.js";
 import initializeReferencedBinding from "../bindings/initialize-referenced-binding.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

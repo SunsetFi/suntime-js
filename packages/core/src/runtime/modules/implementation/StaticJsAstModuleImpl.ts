@@ -15,12 +15,12 @@ import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.
 import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,

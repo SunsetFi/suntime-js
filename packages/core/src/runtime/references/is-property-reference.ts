@@ -1,4 +1,4 @@
-import { isStaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsValue } from "../../types/StaticJsValue.js";
 
 import type {
   StaticJsPropertyReferenceRecord,

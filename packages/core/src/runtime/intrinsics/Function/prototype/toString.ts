@@ -1,7 +1,7 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { StaticJsAstFunction } from "../../../types/implementation/functions/StaticJsAstFunction.js";
-import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import { StaticJsAstFunction } from "../../../../types/implementation/functions/StaticJsAstFunction.js";
+import { isStaticJsCallable } from "../../../../types/StaticJsCallable.js";
+import { isStaticJsFunction } from "../../../../types/StaticJsFunction.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoToStringDeclaration: IntrinsicPropertyDeclaration = {

@@ -1,8 +1,8 @@
 import { get } from "../../algorithms/get.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import { createIteratorResultObject } from "./create-iterator-result-object.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";

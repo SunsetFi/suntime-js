@@ -1,4 +1,4 @@
-import type { StaticJsNumber } from "../runtime/types/StaticJsNumber.js";
+import type { StaticJsNumber } from "../types/StaticJsNumber.js";
 
 export function sameValueNumber(x: StaticJsNumber, y: StaticJsNumber): boolean {
   if (x.runtimeTypeCode !== y.runtimeTypeCode) {

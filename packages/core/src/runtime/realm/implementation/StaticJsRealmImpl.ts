@@ -24,6 +24,16 @@ import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptio
 import type { StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../../tasks/StaticJsTaskRunner.js";
 import { synchronousDefaultTaskRunner } from "../../../tasks/task-runners/synchronous-default.js";
+import type { HostAccessOptions } from "../../../types/HostAccessOptions.js";
+import { StaticJsTypeFactoryImpl } from "../../../types/implementation/StaticJsTypeFactoryImpl.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
+import {
+  type StaticJsPropertyDescriptorRecord,
+  validateStaticJsPropertyDescriptorRecord,
+} from "../../../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsTypeFactory } from "../../../types/StaticJsTypeFactory.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
 import { drainIterator } from "../../../utils/drain-iterator.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
@@ -44,16 +54,6 @@ import {
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
 } from "../../modules/StaticJsModuleImplementation.js";
-import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
-import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
-import {
-  type StaticJsPropertyDescriptorRecord,
-  validateStaticJsPropertyDescriptorRecord,
-} from "../../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type {
   StaticJsRealmGlobalDeclProperty,

@@ -1,9 +1,9 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import type { StaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
-import { isStaticJsNumber } from "../runtime/types/StaticJsNumber.js";
-import { isStaticJsScalar } from "../runtime/types/StaticJsScalar.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsBoolean } from "../types/StaticJsBoolean.js";
+import { isStaticJsNumber } from "../types/StaticJsNumber.js";
+import { isStaticJsScalar } from "../types/StaticJsScalar.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* sameValueZero(
   a: StaticJsValue,

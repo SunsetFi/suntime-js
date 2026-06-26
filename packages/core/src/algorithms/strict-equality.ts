@@ -1,10 +1,10 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import type { StaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
-import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
-import type { StaticJsScalar } from "../runtime/types/StaticJsScalar.js";
-import { isStaticJsSymbol } from "../runtime/types/StaticJsSymbol.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsBoolean } from "../types/StaticJsBoolean.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsScalar } from "../types/StaticJsScalar.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* strictEquality(
   a: StaticJsValue,

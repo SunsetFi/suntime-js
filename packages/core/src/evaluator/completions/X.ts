@@ -1,6 +1,6 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue } from "../../types/StaticJsValue.js";
 import { isEvaluationGenerator, type EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { captureThrownCompletion } from "./capture-thrown-completion.js";

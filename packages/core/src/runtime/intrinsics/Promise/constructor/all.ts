@@ -8,13 +8,13 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { StaticJsNativeFunctionImpl } from "../../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsCallable } from "../../../../types/StaticJsCallable.js";
+import type { StaticJsPromiseCapabilityRecord } from "../../../../types/StaticJsPromise.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import type { StaticJsPromiseCapabilityRecord } from "../../../types/StaticJsPromise.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {

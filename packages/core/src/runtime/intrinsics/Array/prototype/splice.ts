@@ -9,7 +9,7 @@ import { toIntegerOrInfinity } from "../../../../algorithms/to-integer-or-infini
 import { toObject } from "../../../../algorithms/to-object.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {

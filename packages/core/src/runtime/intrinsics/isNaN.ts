@@ -1,7 +1,7 @@
 import { toNumber } from "../../algorithms/to-number.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";
 import type { IntrinsicsRecord } from "./intrinsics.js";

@@ -8,9 +8,9 @@ import {
 } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
-import type { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import type { StaticJsPrivateElement } from "../../../../runtime/types/StaticJsPrivateElement.js";
+import { StaticJsMethodFunction } from "../../../../types/implementation/functions/StaticJsMethodFunction.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
+import type { StaticJsPrivateElement } from "../../../../types/StaticJsPrivateElement.js";
 import { Completion } from "../../../completions/Completion.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";

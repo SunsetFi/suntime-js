@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { StaticJsRealm } from "../../../src/runtime/realm/factories/StaticJsRealm.js";
-import { isStaticJsFunction } from "../../../src/runtime/types/StaticJsFunction.js";
-import { isStaticJsObject } from "../../../src/runtime/types/StaticJsObject.js";
+import { StaticJsRealm, isStaticJsFunction, isStaticJsObject } from "../../../src/index.js";
 import { expectStaticJsObject, expectStaticJsString } from "../utils/expect-staticjs.js";
 
 describe("E2E: Errors", () => {

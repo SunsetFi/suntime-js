@@ -1,11 +1,11 @@
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { isStaticJsBoolean, type StaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
-import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
-import { isStaticJsNumber } from "../runtime/types/StaticJsNumber.js";
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
-import { isStaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
+import { isStaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsNumber } from "../types/StaticJsNumber.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
+import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 function* toBooleanJs(value: StaticJsValue): EvaluationGenerator<boolean> {
   if (isStaticJsUndefined(value)) {

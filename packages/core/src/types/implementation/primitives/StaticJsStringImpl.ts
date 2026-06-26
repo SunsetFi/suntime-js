@@ -1,0 +1,45 @@
+import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsString } from "../../StaticJsString.js";
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
+
+export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements StaticJsString {
+  private readonly _value: string;
+
+  constructor(realm: StaticJsRealm, value: string) {
+    if (typeof value !== "string") {
+      throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
+    }
+
+    super(realm);
+    this._value = value;
+  }
+
+  override get [Symbol.toStringTag](): string {
+    return "StaticJsString";
+  }
+
+  get typeOf() {
+    return "string" as const;
+  }
+
+  get runtimeTypeOf() {
+    return "string" as const;
+  }
+
+  get runtimeTypeCode() {
+    return StaticJsTypeCode.String;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  toNative() {
+    return this._value;
+  }
+
+  toStringSync(): string {
+    return String(this._value);
+  }
+}

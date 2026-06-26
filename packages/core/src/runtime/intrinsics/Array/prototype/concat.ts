@@ -5,8 +5,8 @@ import { lengthOfArrayLike } from "../../../../algorithms/length-of-array-like.j
 import { set } from "../../../../algorithms/set.js";
 import { toObject } from "../../../../algorithms/to-object.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../../types/StaticJsArray.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {

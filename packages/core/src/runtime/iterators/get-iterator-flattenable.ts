@@ -4,8 +4,8 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { isStaticJsObject } from "../types/StaticJsObject.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 
 import { getIteratorDirect } from "./get-iterator-direct.js";
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";

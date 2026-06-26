@@ -1,5 +1,5 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { isStaticJsValue, type StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue, type StaticJsValue } from "../../types/StaticJsValue.js";
 
 import { AbruptCompletion } from "./completion-types/AbruptCompletion.js";
 import { BreakCompletion } from "./completion-types/BreakCompletion.js";

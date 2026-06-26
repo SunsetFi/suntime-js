@@ -3,12 +3,12 @@ import { definePropertyOrThrow } from "../../../algorithms/define-property-or-th
 import { get } from "../../../algorithms/get.js";
 import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
-import { StaticJsArgumentsExoticObject } from "../../../runtime/types/implementation/functions/StaticJsArgumentsExoticObject.js";
-import type { StaticJsAstFunctionArgument } from "../../../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import { StaticJsNativeFunctionImpl } from "../../../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
-import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";
-import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
+import type { StaticJsAstFunctionArgument } from "../../../types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 

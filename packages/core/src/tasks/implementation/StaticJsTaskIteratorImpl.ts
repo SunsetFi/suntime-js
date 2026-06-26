@@ -15,8 +15,8 @@ import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/impl
 import { StaticJsModuleEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
-import { StaticJsAbstractFunction } from "../../runtime/types/implementation/functions/StaticJsAbstractFunction.js";
-import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
+import { StaticJsAbstractFunction } from "../../types/implementation/functions/StaticJsAbstractFunction.js";
+import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import type { StaticJsRunTaskOptions } from "../StaticJsRunTaskOptions.js";
 import type { StaticJsTaskCalleeType } from "../StaticJsTaskCalleeType.js";
 import type { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";

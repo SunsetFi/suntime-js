@@ -1,7 +1,7 @@
 import { createDynamicFunction } from "../../../algorithms/create-dynamic-function.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
 
 export function* createFunctionConstructor(realm: StaticJsRealm, functionProto: StaticJsObject) {
   const ctor = new StaticJsNativeFunctionImpl(

@@ -3,10 +3,10 @@ import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import { StaticJsFunctionEnvironmentRecord } from "../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
-import { StaticJsMethodFunction } from "../runtime/types/implementation/functions/StaticJsMethodFunction.js";
-import type { StaticJsNull } from "../runtime/types/StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../runtime/types/StaticJsObject.js";
-import type { StaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
+import { StaticJsMethodFunction } from "../types/implementation/functions/StaticJsMethodFunction.js";
+import type { StaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsUndefined } from "../types/StaticJsUndefined.js";
 
 export function* getSuperBase(
   envRec: StaticJsEnvironmentRecord,

@@ -5,10 +5,10 @@ import { createDataPropertyOrThrow } from "../../algorithms/create-data-property
 import { toPropertyKey } from "../../algorithms/to-property-key.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import { isStaticJsNull } from "../../runtime/types/StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsNull } from "../../types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

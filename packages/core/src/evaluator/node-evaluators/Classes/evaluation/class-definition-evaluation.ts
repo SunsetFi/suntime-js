@@ -11,19 +11,19 @@ import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { isStaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";
-import { isStaticJsNull, type StaticJsNull } from "../../../../runtime/types/StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import { StaticJsClassConstructorFunction } from "../../../../types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { isStaticJsFunction } from "../../../../types/StaticJsFunction.js";
+import { isStaticJsNull, type StaticJsNull } from "../../../../types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../../types/StaticJsObject.js";
 import {
   isStaticJsPrivateElement,
   type StaticJsPrivateElement,
   type StaticJsPrivateElementAccessor,
   type StaticJsPrivateElementMethod,
-} from "../../../../runtime/types/StaticJsPrivateElement.js";
-import type { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import type { StaticJsPropertyKey } from "../../../../runtime/types/StaticJsPropertyKey.js";
-import type { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+} from "../../../../types/StaticJsPrivateElement.js";
+import type { StaticJsPrivateName } from "../../../../types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "../../../../types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
 import { Completion } from "../../../completions/Completion.js";

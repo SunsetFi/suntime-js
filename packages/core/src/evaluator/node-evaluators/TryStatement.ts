@@ -1,7 +1,7 @@
 import type { CatchClause, TryStatement } from "@babel/types";
 
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import bindingInitialization from "../bindings/binding-initialization.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";

@@ -1,5 +1,5 @@
+import { StaticJsPlainObjectImpl } from "../../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,

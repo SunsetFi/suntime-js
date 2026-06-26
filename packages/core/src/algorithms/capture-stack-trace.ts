@@ -2,12 +2,12 @@ import type { SourceLocation } from "@babel/types";
 
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsAstFunction } from "../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import { StaticJsNativeFunctionImpl } from "../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { isStaticJsFunction } from "../runtime/types/StaticJsFunction.js";
-import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsFunction } from "../types/StaticJsFunction.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 import { get } from "./get.js";

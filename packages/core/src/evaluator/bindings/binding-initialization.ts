@@ -19,9 +19,9 @@ import type { StaticJsEnvironmentRecord } from "../../runtime/environments/Stati
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
-import type { StaticJsPropertyKey } from "../../runtime/types/StaticJsPropertyKey.js";
-import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
+import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

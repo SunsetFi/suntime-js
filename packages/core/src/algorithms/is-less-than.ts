@@ -1,8 +1,8 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import type { StaticJsScalar } from "../runtime/types/StaticJsScalar.js";
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsScalar } from "../types/StaticJsScalar.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { toNumber } from "./to-number.js";
 import { toPrimitive } from "./to-primitive.js";

@@ -1,8 +1,8 @@
 import { Completion } from "../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsGeneratorImpl } from "../runtime/types/implementation/functions/StaticJsGeneratorImpl.js";
-import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* generatorResumeAbrupt(
   generator: StaticJsValue,

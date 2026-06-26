@@ -9,8 +9,8 @@ import type {
 
 import { toPropertyKey } from "../../../algorithms/to-property-key.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import type { StaticJsPrivateName } from "../../../runtime/types/StaticJsPrivateName.js";
-import type { StaticJsPropertyKey } from "../../../runtime/types/StaticJsPropertyKey.js";
+import type { StaticJsPrivateName } from "../../../types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "../../../types/StaticJsPropertyKey.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

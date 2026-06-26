@@ -2,8 +2,8 @@ import type { OptionalCallExpression } from "@babel/types";
 
 import { getValue } from "../../../algorithms/get-value.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
-import { isStaticJsUndefined } from "../../../runtime/types/StaticJsUndefined.js";
+import { isStaticJsNull } from "../../../types/StaticJsNull.js";
+import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

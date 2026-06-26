@@ -7,9 +7,9 @@ import { createListIteratorRecord } from "../../runtime/iterators/create-list-it
 import type {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,
-} from "../../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import type { StaticJsObject } from "../../runtime/types/StaticJsObject.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+} from "../../types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { iteratorBindingInitialization } from "../bindings/iterator-binding-initialization.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

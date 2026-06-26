@@ -1,9 +1,9 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "../runtime/iterators/create-iterator-result-object.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsSymbol } from "../runtime/types/StaticJsSymbol.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
 
 export function* enumerateObjectProperties(
   obj: StaticJsObject,

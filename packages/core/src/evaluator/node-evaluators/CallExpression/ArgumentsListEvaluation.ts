@@ -3,7 +3,7 @@ import type { CallExpression } from "@babel/types";
 import { getIterator } from "../../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../runtime/iterators/iterator-step-value.js";
-import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";

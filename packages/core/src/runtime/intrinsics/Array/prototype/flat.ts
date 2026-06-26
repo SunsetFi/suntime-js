@@ -4,10 +4,10 @@ import { lengthOfArrayLike } from "../../../../algorithms/length-of-array-like.j
 import { toInteger } from "../../../../algorithms/to-integer.js";
 import { toObject } from "../../../../algorithms/to-object.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { isStaticJsArray } from "../../../types/StaticJsArray.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { isStaticJsArray } from "../../../../types/StaticJsArray.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../../../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoFlatDeclaration: IntrinsicPropertyDeclaration = {

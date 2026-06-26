@@ -1,9 +1,9 @@
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { StaticJsModule } from "../StaticJsModule.js";
 
 import { StaticJsModuleBase } from "./StaticJsModuleBase.js";

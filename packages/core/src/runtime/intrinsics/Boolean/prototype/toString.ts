@@ -1,6 +1,6 @@
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { StaticJsBooleanBoxed } from "../../../types/implementation/primitives/StaticJsBooleanBoxed.js";
-import { isStaticJsBoolean } from "../../../types/StaticJsBoolean.js";
+import { StaticJsBooleanBoxed } from "../../../../types/implementation/primitives/StaticJsBooleanBoxed.js";
+import { isStaticJsBoolean } from "../../../../types/StaticJsBoolean.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const booleanProtoToStringDeclaration: IntrinsicPropertyDeclaration = {

@@ -2,10 +2,10 @@ import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { Completion } from "../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { arrayCreate } from "./array-create.js";
 import { construct } from "./construct.js";

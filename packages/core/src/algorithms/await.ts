@@ -4,8 +4,8 @@ import { Completion } from "../evaluator/completions/Completion.js";
 import { Q } from "../evaluator/completions/Q.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsNativeFunctionImpl } from "../runtime/types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { isStaticJsValue, type StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 
 import { promiseResolve } from "./promise-resolve.js";
 

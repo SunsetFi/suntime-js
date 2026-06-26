@@ -1,8 +1,8 @@
 import { toObject } from "../../../../algorithms/to-object.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsNull } from "../../../../types/StaticJsNull.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
+import { isStaticJsObject } from "../../../../types/StaticJsObject.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorSetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {

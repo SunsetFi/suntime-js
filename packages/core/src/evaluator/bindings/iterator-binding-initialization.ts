@@ -7,8 +7,8 @@ import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-d
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
-import { isStaticJsUndefined } from "../../runtime/types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

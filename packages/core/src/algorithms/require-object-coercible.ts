@@ -1,8 +1,8 @@
 import { Completion } from "../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { isStaticJsNull, type StaticJsNull } from "../runtime/types/StaticJsNull.js";
-import { isStaticJsUndefined, type StaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsNull, type StaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsUndefined, type StaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* requireObjectCoercible(argument: StaticJsValue): EvaluationGenerator<void> {
   if (isStaticJsUndefined(argument) || isStaticJsNull(argument)) {

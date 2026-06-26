@@ -9,7 +9,7 @@ import { toNumber } from "../../algorithms/to-number.js";
 import { toObject } from "../../algorithms/to-object.js";
 import { toPropertyKey } from "../../algorithms/to-property-key.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

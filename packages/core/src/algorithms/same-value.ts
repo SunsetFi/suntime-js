@@ -1,6 +1,6 @@
-import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
-import { isStaticJsNumber } from "../runtime/types/StaticJsNumber.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsNumber } from "../types/StaticJsNumber.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { sameValueNonNumber } from "./same-value-non-number.js";
 import { sameValueNumber } from "./same-value-number.js";

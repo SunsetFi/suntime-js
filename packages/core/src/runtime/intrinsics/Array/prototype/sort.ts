@@ -4,9 +4,9 @@ import { lengthOfArrayLike } from "../../../../algorithms/length-of-array-like.j
 import { set } from "../../../../algorithms/set.js";
 import { toObject } from "../../../../algorithms/to-object.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import type { StaticJsCallable } from "../../../../types/StaticJsCallable.js";
+import { isStaticJsUndefined } from "../../../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 import compareArrayElements from "../compare-array-elements.js";
 import sortIndexedProperties from "../sort-indexed-properties.js";

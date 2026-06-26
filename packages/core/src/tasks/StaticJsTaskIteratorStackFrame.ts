@@ -1,4 +1,4 @@
-import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
+import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
 import type { StaticJsTaskSourceLocation } from "./StaticJsTaskSourceLocation.js";
 

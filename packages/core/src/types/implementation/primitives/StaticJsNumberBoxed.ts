@@ -1,0 +1,27 @@
+import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import { StaticJsPlainObjectImpl } from "../objects/StaticJsPlainObjectImpl.js";
+
+export class StaticJsNumberBoxed extends StaticJsPlainObjectImpl {
+  constructor(
+    realm: StaticJsRealm,
+    private readonly _value: number,
+  ) {
+    super(realm, realm.intrinsics["Number.prototype"]);
+  }
+
+  override get [Symbol.toStringTag](): string {
+    return "StaticJsNumberBoxed";
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  override toStringSync(): string {
+    return String(this._value);
+  }
+
+  override toNative() {
+    return new Object(this._value);
+  }
+}

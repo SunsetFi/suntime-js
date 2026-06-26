@@ -7,8 +7,8 @@ import { isPrivateReference } from "../runtime/references/is-private-reference.j
 import { isPropertyReference } from "../runtime/references/is-property-reference.js";
 import { isUnresolvableReference } from "../runtime/references/is-unresolvable-reference.js";
 import type { StaticJsReferenceRecord } from "../runtime/references/StaticJsReferenceRecord.js";
-import { isStaticJsSymbol } from "../runtime/types/StaticJsSymbol.js";
-import { isStaticJsValue, type StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
 
 import { getThisValue } from "./get-this-value.js";
 import { privateSet } from "./private-set.js";

@@ -4,7 +4,7 @@ import {
   isStaticJsGenericPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
-} from "../runtime/types/StaticJsPropertyDescriptor.js";
+} from "../types/StaticJsPropertyDescriptor.js";
 
 export function completePropertyDescriptor(
   desc: StaticJsPropertyDescriptorRecord,

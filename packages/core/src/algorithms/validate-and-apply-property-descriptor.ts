@@ -7,8 +7,8 @@ import {
   isStaticJsGenericPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
-} from "../runtime/types/StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../runtime/types/StaticJsPropertyKey.js";
+} from "../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
 
 import { sameValue } from "./same-value.js";
 

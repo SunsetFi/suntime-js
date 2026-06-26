@@ -4,7 +4,7 @@ import { ThrowCompletion } from "../../evaluator/completions/completion-types/Th
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { isStaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsObject } from "../../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 

@@ -1,6 +1,6 @@
 import { isCallable } from "../../../../algorithms/is-callable.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
+import { isStaticJsPromise } from "../../../../types/StaticJsPromise.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const promiseProtoCatchDeclaration: IntrinsicPropertyDeclaration = {

@@ -11,8 +11,8 @@ import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
-import { StaticJsAstFunction } from "../runtime/types/implementation/functions/StaticJsAstFunction.js";
-import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
+import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 import { expectedArgumentCount } from "./expected-argument-count.js";
 import { setFunctionLength } from "./set-function-length.js";

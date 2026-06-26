@@ -1,4 +1,4 @@
-import { StaticJsPlainObjectImpl } from "../../../types/implementation/objects/StaticJsPlainObjectImpl.js";
+import { StaticJsPlainObjectImpl } from "../../../../types/implementation/objects/StaticJsPlainObjectImpl.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoSymbolUnscopables: IntrinsicPropertyDeclaration = {

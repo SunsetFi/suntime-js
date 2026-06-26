@@ -4,17 +4,17 @@ import { captureThrownCompletion } from "../../../../evaluator/completions/captu
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
+import { StaticJsNativeFunctionImpl } from "../../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsMapImpl } from "../../../../types/implementation/objects/StaticJsMapImpl.js";
+import { isStaticJsCallable, type StaticJsCallable } from "../../../../types/StaticJsCallable.js";
+import { isStaticJsNull } from "../../../../types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../../types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../../../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsMapImpl } from "../../../types/implementation/objects/StaticJsMapImpl.js";
-import { isStaticJsCallable, type StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import { isStaticJsNull } from "../../../types/StaticJsNull.js";
-import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,

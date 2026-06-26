@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import { StaticJsArrayIteratorImpl } from "../runtime/types/implementation/objects/StaticJsArrayIteratorImpl.js";
-import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
+import { StaticJsArrayIteratorImpl } from "../types/implementation/objects/StaticJsArrayIteratorImpl.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
 
 export function* createArrayIterator(
   array: StaticJsObject,

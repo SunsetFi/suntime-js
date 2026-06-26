@@ -12,14 +12,14 @@ import { toObject } from "../../../../algorithms/to-object.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
+import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../../types/StaticJsArray.js";
+import type { StaticJsCallable } from "../../../../types/StaticJsCallable.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../../../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import { getIteratorFromMethod } from "../../../iterators/get-iterator-from-method.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../../types/StaticJsArray.js";
-import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {

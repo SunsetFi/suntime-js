@@ -1,13 +1,13 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import { isStaticJsBoolean, type StaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
-import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
-import { isStaticJsNumber } from "../runtime/types/StaticJsNumber.js";
-import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsScalar } from "../runtime/types/StaticJsScalar.js";
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
-import { isStaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
+import { isStaticJsNull } from "../types/StaticJsNull.js";
+import { isStaticJsNumber } from "../types/StaticJsNumber.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsScalar } from "../types/StaticJsScalar.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
+import { isStaticJsUndefined } from "../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { strictEquality } from "./strict-equality.js";
 import { toNumber } from "./to-number.js";

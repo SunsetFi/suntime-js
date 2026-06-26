@@ -1,7 +1,7 @@
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import { StaticJsSymbolImpl } from "../../../types/implementation/primitives/StaticJsSymbolImpl.js";
 import { typedEntries } from "../../../utils/typed-entries.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { StaticJsSymbolImpl } from "../../types/implementation/primitives/StaticJsSymbolImpl.js";
 import type { IntrinsicsRecord, IntrinsicSymbols } from "../intrinsics.js";
 
 const intrinsicSymbols: Record<keyof IntrinsicSymbols, symbol | undefined> = {

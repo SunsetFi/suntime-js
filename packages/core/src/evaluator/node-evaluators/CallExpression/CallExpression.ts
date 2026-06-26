@@ -14,9 +14,9 @@ import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,
 } from "../../../runtime/references/StaticJsReferenceRecord.js";
-import { StaticJsClassConstructorFunction } from "../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { isStaticJsFunction } from "../../../runtime/types/StaticJsFunction.js";
-import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import { StaticJsClassConstructorFunction } from "../../../types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";

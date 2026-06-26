@@ -1,4 +1,4 @@
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { StaticJsRuntimeError } from "./StaticJsRuntimeError.js";
 

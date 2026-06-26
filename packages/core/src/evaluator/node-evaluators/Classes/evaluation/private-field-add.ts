@@ -1,7 +1,7 @@
-import type { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { staticJsPrivateElementField } from "../../../../runtime/types/StaticJsPrivateElement.js";
-import type { StaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import type { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
+import { staticJsPrivateElementField } from "../../../../types/StaticJsPrivateElement.js";
+import type { StaticJsPrivateName } from "../../../../types/StaticJsPrivateName.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 

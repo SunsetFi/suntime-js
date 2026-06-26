@@ -2,8 +2,8 @@ import { createArrayFromList } from "../../../algorithms/create-array-from-list.
 import { toPropertyKey } from "../../../algorithms/to-property-key.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { Q } from "../../../evaluator/completions/Q.js";
-import { isStaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import type { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 export const reflectOwnKeysDeclaration: IntrinsicPropertyDeclaration = {

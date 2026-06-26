@@ -1,8 +1,8 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { isStaticJsArray } from "../runtime/types/StaticJsArray.js";
-import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsProxy } from "../runtime/types/StaticJsProxy.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { isStaticJsArray } from "../types/StaticJsArray.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsProxy } from "../types/StaticJsProxy.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 export function* isArray(value: StaticJsValue): EvaluationGenerator<boolean> {
   if (!isStaticJsObject(value)) {

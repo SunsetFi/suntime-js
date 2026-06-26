@@ -2,17 +2,17 @@ import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import { StaticJsBooleanBoxed } from "../runtime/types/implementation/primitives/StaticJsBooleanBoxed.js";
-import { StaticJsNumberBoxed } from "../runtime/types/implementation/primitives/StaticJsNumberBoxed.js";
-import { StaticJsStringExoticObject } from "../runtime/types/implementation/primitives/StaticJsStringExoticObject.js";
-import { StaticJsSymbolBoxed } from "../runtime/types/implementation/primitives/StaticJsSymbolBoxed.js";
-import { isStaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
-import { isStaticJsNumber } from "../runtime/types/StaticJsNumber.js";
-import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
-import { isStaticJsString } from "../runtime/types/StaticJsString.js";
-import { isStaticJsSymbol } from "../runtime/types/StaticJsSymbol.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import { StaticJsBooleanBoxed } from "../types/implementation/primitives/StaticJsBooleanBoxed.js";
+import { StaticJsNumberBoxed } from "../types/implementation/primitives/StaticJsNumberBoxed.js";
+import { StaticJsStringExoticObject } from "../types/implementation/primitives/StaticJsStringExoticObject.js";
+import { StaticJsSymbolBoxed } from "../types/implementation/primitives/StaticJsSymbolBoxed.js";
+import { isStaticJsBoolean } from "../types/StaticJsBoolean.js";
+import { isStaticJsNumber } from "../types/StaticJsNumber.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsObject } from "../types/StaticJsObject.js";
+import { isStaticJsString } from "../types/StaticJsString.js";
+import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { requireObjectCoercible } from "./require-object-coercible.js";
 

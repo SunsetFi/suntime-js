@@ -1,7 +1,7 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
-import type { StaticJsPromise } from "../runtime/types/StaticJsPromise.js";
-import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+import type { StaticJsPromise } from "../types/StaticJsPromise.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import { call } from "./call.js";
 import { newPromiseCapability } from "./new-promise-capability.js";

@@ -6,7 +6,7 @@ import { lengthOfArrayLike } from "../../../../algorithms/length-of-array-like.j
 import { toObject } from "../../../../algorithms/to-object.js";
 import { toString } from "../../../../algorithms/to-string.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { isStaticJsArray } from "../../../types/StaticJsArray.js";
+import { isStaticJsArray } from "../../../../types/StaticJsArray.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoMapDeclaration: IntrinsicPropertyDeclaration = {

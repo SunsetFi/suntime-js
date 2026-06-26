@@ -1,8 +1,8 @@
 import { call } from "../../../../algorithms/call.js";
 import { createDataPropertyOrThrow } from "../../../../algorithms/create-data-property-or-throw.js";
-import type { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
-import { isStaticJsPrivateName } from "../../../../runtime/types/StaticJsPrivateName.js";
-import type { StaticJsValue } from "../../../../runtime/types/StaticJsValue.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
+import { isStaticJsPrivateName } from "../../../../types/StaticJsPrivateName.js";
+import type { StaticJsValue } from "../../../../types/StaticJsValue.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

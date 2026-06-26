@@ -2,7 +2,7 @@ import type { VariableDeclaration } from "@babel/types";
 
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
+import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 

@@ -1,8 +1,8 @@
-import type { StaticJsObject } from "../../../../runtime/types/StaticJsObject.js";
+import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
 import type {
   StaticJsPrivateElementAccessor,
   StaticJsPrivateElementMethod,
-} from "../../../../runtime/types/StaticJsPrivateElement.js";
+} from "../../../../types/StaticJsPrivateElement.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 
 export function* privateMethodOrAccessorAdd(

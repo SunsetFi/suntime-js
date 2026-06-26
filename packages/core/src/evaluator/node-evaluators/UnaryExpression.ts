@@ -11,7 +11,7 @@ import { isPropertyReference } from "../../runtime/references/is-property-refere
 import { isSuperReference } from "../../runtime/references/is-super-reference.js";
 import { isUnresolvableReference } from "../../runtime/references/is-unresolvable-reference.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
-import { isStaticJsValue } from "../../runtime/types/StaticJsValue.js";
+import { isStaticJsValue } from "../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
