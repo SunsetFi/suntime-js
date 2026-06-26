@@ -3,7 +3,10 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
+import {
+  STATICJS_OBJECT_OVERHEAD_BYTES,
+  STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES,
+} from "#memory/implementation/measurements.js";
 import { stringSizeBytes } from "#memory/implementation/string-size.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
@@ -76,7 +79,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     const memory = this.realm.memory;
     marks.add(this);
     if (allocate) {
-      memory.allocate(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);
+      memory.allocate(STATICJS_OBJECT_OVERHEAD_BYTES);
     }
 
     for (const [key, descr] of this._contents.entries()) {
@@ -85,22 +88,21 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
       }
 
       if (typeof key === "string") {
-        // Because we don't store these as StaticJsStrings, we can overcount and duplicate them here.
-        // We should accept StaticJsString values as property keys...
-        const str = this.realm.types.string(key);
-        str.mark(marks);
+        if (allocate) {
+          memory.allocate(stringSizeBytes(key));
+        }
       } else {
-        key.mark(marks);
+        key.mark(marks, allocate);
       }
 
       if (isStaticJsDataPropertyDescriptor(descr)) {
-        descr.value.mark(marks);
+        descr.value.mark(marks, allocate);
       } else if (isStaticJsAccessorPropertyDescriptor(descr)) {
         if (descr.get) {
-          descr.get.mark(marks);
+          descr.get.mark(marks, allocate);
         }
         if (descr.set) {
-          descr.set.mark(marks);
+          descr.set.mark(marks, allocate);
         }
       }
     }

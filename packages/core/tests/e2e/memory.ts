@@ -8,7 +8,7 @@ describe("E2E: Memory", () => {
     factory: (realm: StaticJsRealm) => StaticJsValue;
     script: string;
     size: number | { factory: number; script: number };
-    genOneSize?: number;
+    genOneSize?: number | null;
   }
 
   // Note: Testing hard values for overhead isn't ideal as this is engine dependent and we might change it.
@@ -29,6 +29,8 @@ describe("E2E: Memory", () => {
       script: `true;`,
       // Should use shared.
       size: 0,
+      // Can or cannot count as a single instance depending if anyone else has stored one.
+      genOneSize: null,
     },
     {
       name: "Boolean False",
@@ -36,6 +38,8 @@ describe("E2E: Memory", () => {
       script: `false;`,
       // Should use shared.
       size: 0,
+      // Can or cannot count as a single instance depending if anyone else has stored one.
+      genOneSize: null,
     },
     {
       name: "Number",
@@ -49,6 +53,8 @@ describe("E2E: Memory", () => {
       script: `null;`,
       // Should use shared.
       size: 0,
+      // Can or cannot count as a single instance depending if anyone else has stored one.
+      genOneSize: null,
     },
     {
       name: "Undefined",
@@ -211,18 +217,25 @@ describe("E2E: Memory", () => {
       });
     });
 
-    describe("Gen One", () => {
-      it("Retains the allocation after a sweep", () => {
-        const realm = new StaticJsRealm();
-        realm.memory.sweep();
-        const initialMemory = realm.memory.genOneSize;
+    if (genOneSize !== null) {
+      describe("Gen One", () => {
+        it("Retains the allocation after a sweep", () => {
+          const realm = new StaticJsRealm();
+          realm.memory.sweep();
+          const initialMemory = realm.memory.genOneSize;
 
-        realm.evaluateScriptSync(`globalThis._value = ${script};`);
-        realm.memory.sweep();
-
-        const allocated = realm.memory.genOneSize - initialMemory;
-        expect(allocated).toBe(genOneSize ?? size);
+          realm.evaluateScriptSync(`globalThis._value = ${script};`);
+          realm.memory.sweep();
+          // We are going to expect the allocation for the key
+          const keyAllocation =
+            // Property overhead
+            212 +
+            // Property key string
+            "_value".length * 2;
+          const allocated = realm.memory.genOneSize - initialMemory - keyAllocation;
+          expect(allocated).toBe(genOneSize ?? size);
+        });
       });
-    });
+    }
   });
 });

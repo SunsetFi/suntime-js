@@ -1,4 +1,5 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { stringSizeBytes } from "#memory/implementation/string-size.js";
 
@@ -69,6 +70,18 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
 
   get description(): string | undefined {
     return this._description;
+  }
+
+  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+    if (marks.has(this)) {
+      return;
+    }
+    super.mark(marks, allocate);
+    if (allocate) {
+      if (this._description) {
+        this.realm.memory.allocate(stringSizeBytes(this._description));
+      }
+    }
   }
 
   override toNative(): symbol {
