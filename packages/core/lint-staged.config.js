@@ -6,4 +6,5 @@ const tsLint = [run("format"), run("lint"), () => "pnpm run --filter @suntime-js
 export default {
   "src/**/*.ts": tsLint,
   "!(tests/test262/tests/**/*)tests/**/*.ts": tsLint,
+  "package.json": [run("format")],
 };

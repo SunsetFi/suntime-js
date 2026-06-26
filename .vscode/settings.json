@@ -5,9 +5,6 @@
   },
   "vitest.shellType": "child_process",
   "vitest.logLevel": "verbose",
-  "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
   "js/ts.preferences.autoImportFileExcludePatterns": [
     "**/packages/*/src/**/index.ts"
   ],
@@ -18,8 +15,21 @@
     "packages/core/tests/test262/repo": true
   },
   "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
+  },
+  "oxc.path.oxlint": "./node_modules/.bin/oxlint",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "[json]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   }
 }
