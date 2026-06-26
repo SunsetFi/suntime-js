@@ -17,10 +17,10 @@ import boundNames from "../../../evaluator/instantiation/algorithms/bound-names.
 import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,

@@ -12,16 +12,16 @@ import { loopContinues } from "../../../algorithms/loop-continues.js";
 import { putValue } from "../../../algorithms/put-value.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import getIdentifierReference from "../../../references/get-identifier-reference.js";
+import {
+  isStaticJsReferenceRecord,
+  type StaticJsReferenceRecord,
+} from "../../../references/StaticJsReferenceRecord.js";
 import { asyncIteratorClose } from "../../../runtime/iterators/async-iterator-close.js";
 import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";
 import { iteratorComplete } from "../../../runtime/iterators/iterator-complete.js";
 import { iteratorValue } from "../../../runtime/iterators/iterator-value.js";
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
-import getIdentifierReference from "../../../runtime/references/get-identifier-reference.js";
-import {
-  isStaticJsReferenceRecord,
-  type StaticJsReferenceRecord,
-} from "../../../runtime/references/StaticJsReferenceRecord.js";
 import { isStaticJsObject } from "../../../types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";

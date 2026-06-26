@@ -1,13 +1,13 @@
-import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsEvaluator } from "../../evaluator/StaticJsEvaluator.js";
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
-import type { RealmHooks } from "../hooks/index.js";
-import type { Intrinsics } from "../intrinsics/intrinsics.js";
-import type { StaticJsModule } from "../modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEvaluator } from "../evaluator/StaticJsEvaluator.js";
+import type { RealmHooks } from "../runtime/hooks/index.js";
+import type { Intrinsics } from "../runtime/intrinsics/intrinsics.js";
+import type { StaticJsModule } from "../runtime/modules/StaticJsModule.js";
+import type { StaticJsModuleImplementation } from "../runtime/modules/StaticJsModuleImplementation.js";
+import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsObject } from "../types/StaticJsObject.js";
+import type { StaticJsTypeFactory } from "../types/StaticJsTypeFactory.js";
+import type { StaticJsValue } from "../types/StaticJsValue.js";
 
 import type { StaticJsConfig } from "./StaticJsConfig.js";
 import type {

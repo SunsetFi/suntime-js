@@ -1,4 +1,4 @@
-import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
 
 /**
  * Options for running scripts in the StaticJs runtime.

@@ -13,7 +13,7 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,
-} from "../../../runtime/references/StaticJsReferenceRecord.js";
+} from "../../../references/StaticJsReferenceRecord.js";
 import { StaticJsClassConstructorFunction } from "../../../types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";

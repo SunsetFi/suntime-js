@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { isStaticJsBoolean, type StaticJsBoolean } from "../types/StaticJsBoolean.js";
 import { isStaticJsNull } from "../types/StaticJsNull.js";
 import { isStaticJsNumber } from "../types/StaticJsNumber.js";

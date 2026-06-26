@@ -1,7 +1,7 @@
 import { StaticJsRuntimeError } from "../errors/StaticJsRuntimeError.js";
 import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
-import { StaticJsRealm } from "../runtime/realm/factories/StaticJsRealm.js";
-import { isStaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import { StaticJsRealm } from "../realm/factories/StaticJsRealm.js";
+import { isStaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 import { dropUndefined } from "../utils/drop-undefined.js";
 

@@ -1,4 +1,4 @@
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 
 export type HostBuiltinMap = ReadonlyMap<object, StaticJsObject>;

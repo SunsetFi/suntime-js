@@ -39,7 +39,7 @@ import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator
 import functionDeclarationInstantiation from "../../../evaluator/instantiation/function-declaration-instantiation.js";
 import evaluateStatementList from "../../../evaluator/node-evaluators/StatementList.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";

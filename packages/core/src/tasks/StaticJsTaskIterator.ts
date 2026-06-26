@@ -89,8 +89,8 @@ export interface StaticJsTaskIterator {
    * Abort the evaluation of this task.
    *
    * The exception will be raised on the promise representating the evaluation.
-   * If no error is specified, a {@link import("../../errors/StaticJsTaskAbortedError.js").StaticJsTaskAbortedError} will be used.
-   * @param error The error to raise.  If this is a string, it will be wrapped in a {@link import("../../errors/StaticJsTaskAbortedError.js").StaticJsTaskAbortedError}.
+   * If no error is specified, a {@link import("../errors/StaticJsTaskAbortedError.js").StaticJsTaskAbortedError} will be used.
+   * @param error The error to raise.  If this is a string, it will be wrapped in a {@link import("../errors/StaticJsTaskAbortedError.js").StaticJsTaskAbortedError}.
    */
   abort(error?: unknown): void;
 }

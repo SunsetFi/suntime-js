@@ -1,5 +1,5 @@
-import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
-import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
+import type { StaticJsTaskRunner } from "../tasks/StaticJsTaskRunner.js";
+import type { HostAccessOptions } from "../types/HostAccessOptions.js";
 
 /**
  * Configuration options for a StaticJsRealm instance.

@@ -1,7 +1,7 @@
 import {
   isStaticJsReferenceRecord,
   type StaticJsReferenceRecord,
-} from "../../runtime/references/StaticJsReferenceRecord.js";
+} from "../../references/StaticJsReferenceRecord.js";
 import { isStaticJsValue, type StaticJsValue } from "../../types/StaticJsValue.js";
 
 export type CompletionValue = StaticJsValue | StaticJsReferenceRecord | null;

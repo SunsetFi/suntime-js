@@ -1,6 +1,6 @@
 import { validateAndApplyPropertyDescriptor } from "../../../algorithms/validate-and-apply-property-descriptor.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { drainIterator } from "../../../utils/drain-iterator.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";

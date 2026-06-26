@@ -1,4 +1,4 @@
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsBoolean } from "../../StaticJsBoolean.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";

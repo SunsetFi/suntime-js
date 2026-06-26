@@ -15,7 +15,7 @@ import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import { isStaticJsCallable, type StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";

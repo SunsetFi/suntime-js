@@ -1,7 +1,7 @@
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import type { Prototypes } from "../runtime/intrinsics/intrinsics.js";
-import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 import type { Constructor } from "../ts-types/Constructor.js";
 import type { StaticJsCallable } from "../types/StaticJsCallable.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";

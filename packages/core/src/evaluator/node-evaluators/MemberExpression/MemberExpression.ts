@@ -6,7 +6,7 @@ import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import {
   type StaticJsPropertyReferenceRecord,
   staticJsPropertyReferenceRecord,
-} from "../../../runtime/references/StaticJsReferenceRecord.js";
+} from "../../../references/StaticJsReferenceRecord.js";
 import type { StaticJsPrivateName } from "../../../types/StaticJsPrivateName.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";

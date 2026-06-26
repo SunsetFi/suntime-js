@@ -1,59 +1,59 @@
-import { asyncBlockStart } from "../../../algorithms/async-block-start.js";
-import { getValue } from "../../../algorithms/get-value.js";
-import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsGlobalEnvironmentRecord } from "../../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import { StaticJsObjectEnvironmentRecord } from "../../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
-import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
-import { StaticJsUnhandledRejectionError } from "../../../errors/StaticJsUnhandledRejectionError.js";
-import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { Q } from "../../../evaluator/completions/Q.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
+import { asyncBlockStart } from "../../algorithms/async-block-start.js";
+import { getValue } from "../../algorithms/get-value.js";
+import { newPromiseCapability } from "../../algorithms/new-promise-capability.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { StaticJsConcurrentEvaluationError } from "../../errors/StaticJsConcurrentEvaluationError.js";
+import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { StaticJsSyntaxError } from "../../errors/StaticJsSyntaxError.js";
+import { StaticJsUnhandledRejectionError } from "../../errors/StaticJsUnhandledRejectionError.js";
+import { EvaluateNodeCommand } from "../../evaluator/commands/EvaluateNodeCommand.js";
+import { Completion } from "../../evaluator/completions/Completion.js";
+import { Q } from "../../evaluator/completions/Q.js";
+import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import {
   EvaluationGenerator,
   type MaybeEvaluationGenerator,
-} from "../../../evaluator/EvaluationGenerator.js";
-import { globalDeclarationInstantiation } from "../../../evaluator/instantiation/global-declaration-instantiation.js";
-import { StaticJsScriptRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
-import { type StaticJsEvaluator, invokeEvaluator } from "../../../evaluator/StaticJsEvaluator.js";
-import { findTopLevelAwait } from "../../../parser/find-top-level-await.js";
-import { parseExpression } from "../../../parser/parse-expression.js";
-import { parseModule } from "../../../parser/parse-module.js";
-import { parseScript } from "../../../parser/parse-script.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
-import type { StaticJsTaskCalleeType } from "../../../tasks/StaticJsTaskCalleeType.js";
-import type { StaticJsTaskRunner } from "../../../tasks/StaticJsTaskRunner.js";
-import { synchronousDefaultTaskRunner } from "../../../tasks/task-runners/synchronous-default.js";
-import type { HostAccessOptions } from "../../../types/HostAccessOptions.js";
-import { StaticJsTypeFactoryImpl } from "../../../types/implementation/StaticJsTypeFactoryImpl.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
-import {
-  type StaticJsPropertyDescriptorRecord,
-  validateStaticJsPropertyDescriptorRecord,
-} from "../../../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsTypeFactory } from "../../../types/StaticJsTypeFactory.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import { createDeferred } from "../../../utils/create-deferred.js";
-import { drainIterator } from "../../../utils/drain-iterator.js";
-import { hasOwnProperty } from "../../../utils/has-own-property.js";
-import { symbolInspect } from "../../../utils/symbol-inspect.js";
-import type { RealmHooks } from "../../hooks/hooks.js";
-import { populateIntrinsics } from "../../intrinsics/create-intrinsics.js";
-import type { Intrinsics, IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
-import { populateGlobal } from "../../intrinsics/populate-global.js";
-import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
-import { StaticJsExternalModuleImpl } from "../../modules/implementation/StaticJsExternalModuleImpl.js";
-import type { StaticJsModule } from "../../modules/StaticJsModule.js";
-import { isStaticJsModule } from "../../modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
+} from "../../evaluator/EvaluationGenerator.js";
+import { globalDeclarationInstantiation } from "../../evaluator/instantiation/global-declaration-instantiation.js";
+import { StaticJsScriptRecord } from "../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
+import { type StaticJsEvaluator, invokeEvaluator } from "../../evaluator/StaticJsEvaluator.js";
+import { findTopLevelAwait } from "../../parser/find-top-level-await.js";
+import { parseExpression } from "../../parser/parse-expression.js";
+import { parseModule } from "../../parser/parse-module.js";
+import { parseScript } from "../../parser/parse-script.js";
+import type { RealmHooks } from "../../runtime/hooks/hooks.js";
+import { populateIntrinsics } from "../../runtime/intrinsics/create-intrinsics.js";
+import type { Intrinsics, IntrinsicsRecord } from "../../runtime/intrinsics/intrinsics.js";
+import { populateGlobal } from "../../runtime/intrinsics/populate-global.js";
+import { StaticJsAstModuleImpl } from "../../runtime/modules/implementation/StaticJsAstModuleImpl.js";
+import { StaticJsExternalModuleImpl } from "../../runtime/modules/implementation/StaticJsExternalModuleImpl.js";
+import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
+import { isStaticJsModule } from "../../runtime/modules/StaticJsModule.js";
+import type { StaticJsModuleImplementation } from "../../runtime/modules/StaticJsModuleImplementation.js";
 import {
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
-} from "../../modules/StaticJsModuleImplementation.js";
+} from "../../runtime/modules/StaticJsModuleImplementation.js";
+import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
+import { synchronousDefaultTaskRunner } from "../../tasks/task-runners/synchronous-default.js";
+import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
+import { StaticJsTypeFactoryImpl } from "../../types/implementation/StaticJsTypeFactoryImpl.js";
+import type { StaticJsObject } from "../../types/StaticJsObject.js";
+import type { StaticJsPropertyDescriptor } from "../../types/StaticJsPropertyDescriptor.js";
+import {
+  type StaticJsPropertyDescriptorRecord,
+  validateStaticJsPropertyDescriptorRecord,
+} from "../../types/StaticJsPropertyDescriptor.js";
+import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { createDeferred } from "../../utils/create-deferred.js";
+import { drainIterator } from "../../utils/drain-iterator.js";
+import { hasOwnProperty } from "../../utils/has-own-property.js";
+import { symbolInspect } from "../../utils/symbol-inspect.js";
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
 import type {
   StaticJsRealmGlobalDeclProperty,

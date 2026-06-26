@@ -19,7 +19,7 @@ import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsClassFieldDefinitionRecord } from "../../../evaluator/node-evaluators/Classes/ClassFieldDefinitionRecord.js";
 import { initializeInstanceElements } from "../../../evaluator/node-evaluators/Classes/evaluation/initialize-instance-elements.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import type {

@@ -1,6 +1,6 @@
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { isEnvironmentReference } from "../../runtime/references/is-environment-reference.js";
-import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
+import { isEnvironmentReference } from "../../references/is-environment-reference.js";
+import type { StaticJsReferenceRecord } from "../../references/StaticJsReferenceRecord.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

@@ -5,6 +5,7 @@ import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
 import type { StaticJsObject } from "../../types/StaticJsObject.js";
@@ -14,7 +15,6 @@ import type {
 } from "../../types/StaticJsPromise.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { iteratorClose } from "./iterator-close.js";
 import { iteratorComplete } from "./iterator-complete.js";

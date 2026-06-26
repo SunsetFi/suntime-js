@@ -7,7 +7,7 @@ import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,
   type StaticJsReferenceRecord,
-} from "../../../runtime/references/StaticJsReferenceRecord.js";
+} from "../../../references/StaticJsReferenceRecord.js";
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { Completion } from "../../completions/Completion.js";

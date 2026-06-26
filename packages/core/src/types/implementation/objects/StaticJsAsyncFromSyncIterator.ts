@@ -4,12 +4,12 @@ import { newPromiseCapability } from "../../../algorithms/new-promise-capability
 import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { asyncFromSyncIteratorContinuation } from "../../../runtime/iterators/async-from-sync-iterator-continuation.js";
 import { createIteratorResultObject } from "../../../runtime/iterators/create-iterator-result-object.js";
 import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";
 import { iteratorNext } from "../../../runtime/iterators/iterator-next.js";
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";

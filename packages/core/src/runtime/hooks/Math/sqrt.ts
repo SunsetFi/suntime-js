@@ -1,4 +1,4 @@
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 
 export type MathSqrtHook = (this: undefined, realm: StaticJsRealm, value: number) => number;
 export const mathSqrtHookDefault: MathSqrtHook = (_realm, value) => {

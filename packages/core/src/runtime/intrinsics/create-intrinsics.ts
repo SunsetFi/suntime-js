@@ -1,6 +1,6 @@
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import { StaticJsPlainObjectImpl } from "../../types/implementation/objects/StaticJsPlainObjectImpl.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 
 import { populateAggregateErrorIntrinsics } from "./AggregateError/populate-aggregateerror-intrinsics.js";
 import { populateArrayIntrinsics } from "./Array/populate-array-intrinsics.js";

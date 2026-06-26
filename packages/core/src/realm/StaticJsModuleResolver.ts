@@ -1,5 +1,5 @@
-import type { StaticJsModule } from "../modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "../modules/StaticJsModuleImplementation.js";
+import type { StaticJsModule } from "../runtime/modules/StaticJsModule.js";
+import type { StaticJsModuleImplementation } from "../runtime/modules/StaticJsModuleImplementation.js";
 
 /**
  * A factory function to resolve an imported ECMAScript Module.

@@ -1,7 +1,7 @@
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";

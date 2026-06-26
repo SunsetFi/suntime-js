@@ -1,7 +1,7 @@
 import { Completion } from "../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { Intrinsics } from "../../../runtime/intrinsics/intrinsics.js";
-import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
