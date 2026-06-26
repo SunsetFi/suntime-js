@@ -18,6 +18,7 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { STATICJS_PROXY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
 
 import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import type { StaticJsProxy } from "../StaticJsProxy.js";
@@ -56,6 +57,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
   ) {
+    _realm.memory.allocate(STATICJS_PROXY_OVERHEAD_BYTES);
     this._proxyTarget = proxyTarget;
     this._handler = handler;
     this._callable = isStaticJsCallable(proxyTarget)
@@ -939,6 +941,24 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
   *privateElementAddEvaluator(): EvaluationGenerator<void> {
     throw new StaticJsEngineError("Cannot currently add private methods to proxies.");
+  }
+
+  mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+    if (marks.has(this)) {
+      return;
+    }
+    marks.add(this);
+
+    if (allocate) {
+      this._realm.memory.allocate(STATICJS_PROXY_OVERHEAD_BYTES);
+    }
+
+    if (this._proxyTarget) {
+      this._proxyTarget.mark(marks, allocate);
+    }
+    if (this._handler) {
+      this._handler.mark(marks, allocate);
+    }
   }
 
   toNative(): unknown {

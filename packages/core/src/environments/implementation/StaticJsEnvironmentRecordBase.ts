@@ -1,9 +1,12 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-export abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironmentRecord {
+export abstract class StaticJsEnvironmentRecordBase
+  implements StaticJsEnvironmentRecord, StaticJsMarkable
+{
   constructor(private readonly _outerEnv: StaticJsEnvironmentRecord | null) {}
 
   get outerEnv(): StaticJsEnvironmentRecord | null {
@@ -52,4 +55,6 @@ export abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironme
   abstract withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   abstract getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
+
+  abstract mark(marks: Set<StaticJsValue>, allocate?: boolean): void;
 }

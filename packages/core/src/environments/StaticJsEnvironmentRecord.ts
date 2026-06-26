@@ -1,7 +1,8 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
-export interface StaticJsEnvironmentRecord {
+export interface StaticJsEnvironmentRecord extends StaticJsMarkable {
   get outerEnv(): StaticJsEnvironmentRecord | null;
 
   inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>>;

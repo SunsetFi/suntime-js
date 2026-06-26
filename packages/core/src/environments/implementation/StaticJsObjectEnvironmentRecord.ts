@@ -155,4 +155,8 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
     }
     return this._realm.types.undefined;
   }
+
+  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+    this._obj.mark(marks, allocate);
+  }
 }
