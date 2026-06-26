@@ -1,8 +1,8 @@
 import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
 import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import { createListIteratorRecord } from "../../runtime/iterators/create-list-iterator-record.js";
 import type {
   StaticJsAstFunction,

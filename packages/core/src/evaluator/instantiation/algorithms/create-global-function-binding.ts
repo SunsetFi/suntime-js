@@ -1,5 +1,5 @@
 import { set } from "../../../algorithms/set.js";
-import type { StaticJsGlobalEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import type { StaticJsGlobalEnvironmentRecord } from "../../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import type { StaticJsPropertyDescriptorRecord } from "../../../types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { Completion } from "../../completions/Completion.js";

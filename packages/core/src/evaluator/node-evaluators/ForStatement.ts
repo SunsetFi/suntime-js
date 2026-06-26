@@ -2,8 +2,8 @@ import type { Expression, ForStatement, Statement } from "@babel/types";
 
 import { loopContinues } from "../../algorithms/loop-continues.js";
 import { toBoolean } from "../../algorithms/to-boolean.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Completion } from "../completions/Completion.js";

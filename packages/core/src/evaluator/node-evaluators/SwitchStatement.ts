@@ -1,7 +1,7 @@
 import type { SwitchCase, SwitchStatement } from "@babel/types";
 
 import { isStrictlyEqual } from "../../algorithms/is-structly-equal.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";

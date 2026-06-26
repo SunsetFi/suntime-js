@@ -8,8 +8,8 @@ import { getValue } from "../../../algorithms/get-value.js";
 import { isConstructor } from "../../../algorithms/is-constructor.js";
 import { performEval } from "../../../algorithms/perform-eval.js";
 import { sameValue } from "../../../algorithms/same-value.js";
+import { StaticJsFunctionEnvironmentRecord } from "../../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsFunctionEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,

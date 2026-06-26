@@ -1,10 +1,10 @@
 import type { Function } from "@babel/types";
 
+import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
 import { verifyNoTsParameterProperties } from "../grammar/verify-no-ts-parameter-properties.js";
-import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsFunction } from "../types/StaticJsFunction.js";
 
 import { ordinaryFunctionCreate } from "./ordinary-function-create.js";

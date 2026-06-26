@@ -1,5 +1,9 @@
 import type { Node } from "@babel/types";
 
+import { StaticJsDeclarativeEnvironmentRecord } from "../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsFunctionEnvironmentRecord } from "../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
 import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
 import { EvaluateNodeCommand } from "../evaluator/commands/EvaluateNodeCommand.js";
@@ -14,10 +18,6 @@ import { containsNewTarget } from "../parser/contains-new-target.js";
 import { containsSuperCall } from "../parser/contains-super-call.js";
 import { containsSuperProperty } from "../parser/contains-super-property.js";
 import { parseScript } from "../parser/parse-script.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsFunctionEnvironmentRecord } from "../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
-import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsClassConstructorFunction } from "../types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { StaticJsMethodFunction } from "../types/implementation/functions/StaticJsMethodFunction.js";
 import { isStaticJsString } from "../types/StaticJsString.js";

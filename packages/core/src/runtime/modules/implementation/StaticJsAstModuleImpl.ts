@@ -4,6 +4,8 @@ import { asyncBlockStart } from "../../../algorithms/async-block-start.js";
 import { instantiateFunctionObject } from "../../../algorithms/instantiate-function-object.js";
 import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsModuleEnvironmentRecord } from "../../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -18,8 +20,6 @@ import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/St
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsValue } from "../../../types/StaticJsValue.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
 import type {
   StaticJsModuleStatus,

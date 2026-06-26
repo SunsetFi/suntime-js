@@ -1,7 +1,7 @@
 import { createDataPropertyOrThrow } from "../../../algorithms/create-data-property-or-throw.js";
 import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
 import { get } from "../../../algorithms/get.js";
-import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
 import type { StaticJsAstFunctionArgument } from "../../../types/implementation/functions/StaticJsAstFunction.js";

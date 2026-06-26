@@ -7,6 +7,8 @@ import {
 } from "@babel/types";
 
 import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
+import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { EvaluateFunctionBodyCommand } from "../../../evaluator/commands/EvaluateFunctionBodyCommand.js";
 import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
@@ -17,8 +19,6 @@ import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsClassFieldDefinitionRecord } from "../../../evaluator/node-evaluators/Classes/ClassFieldDefinitionRecord.js";
 import { initializeInstanceElements } from "../../../evaluator/node-evaluators/Classes/evaluation/initialize-instance-elements.js";
-import { StaticJsPrivateEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../../../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";

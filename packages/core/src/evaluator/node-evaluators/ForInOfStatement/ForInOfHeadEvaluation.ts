@@ -4,8 +4,8 @@ import { enumerateObjectProperties } from "../../../algorithms/enumerate-object-
 import { getValue } from "../../../algorithms/get-value.js";
 import { get } from "../../../algorithms/get.js";
 import { toObject } from "../../../algorithms/to-object.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "../../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { getIterator } from "../../../runtime/iterators/get-iterator.js";
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";

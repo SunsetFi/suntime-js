@@ -1,7 +1,7 @@
 import type { BlockStatement, SwitchStatement } from "@babel/types";
 
 import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

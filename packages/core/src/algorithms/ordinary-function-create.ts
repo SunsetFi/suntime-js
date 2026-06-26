@@ -7,10 +7,10 @@ import {
   type ObjectMethod,
 } from "@babel/types";
 
+import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 

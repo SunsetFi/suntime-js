@@ -1,6 +1,6 @@
+import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
-import { StaticJsPrivateEnvironmentRecord } from "../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
 import type { StaticJsAsyncGenerator } from "../types/StaticJsAsyncGenerator.js";
 import type { StaticJsCallable } from "../types/StaticJsCallable.js";

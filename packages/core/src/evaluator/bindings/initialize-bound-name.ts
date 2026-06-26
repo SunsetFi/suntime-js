@@ -1,5 +1,5 @@
 import { putValue } from "../../algorithms/put-value.js";
-import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
 import getIdentifierReference from "../../runtime/references/get-identifier-reference.js";
 import type { StaticJsValue } from "../../types/StaticJsValue.js";
 import { EvaluationContext } from "../EvaluationContext.js";

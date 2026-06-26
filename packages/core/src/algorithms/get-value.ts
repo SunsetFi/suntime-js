@@ -1,7 +1,7 @@
+import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
 import { Completion } from "../evaluator/completions/Completion.js";
 import { Q } from "../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsEnvironmentRecord } from "../runtime/environments/StaticJsEnvironmentRecord.js";
 import { isPrivateReference } from "../runtime/references/is-private-reference.js";
 import { isPropertyReference } from "../runtime/references/is-property-reference.js";
 import { isUnresolvableReference } from "../runtime/references/is-unresolvable-reference.js";
