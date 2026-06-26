@@ -1,6 +1,5 @@
 import type { RealmHooks } from "#hooks/hooks.js";
 import type { Intrinsics, IntrinsicsRecord } from "#intrinsics/intrinsics.js";
-import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
@@ -83,7 +82,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
   private readonly _globalEnv: StaticJsGlobalEnvironmentRecord;
 
-  private readonly _memory: StaticJsMemoryManager;
+  private readonly _memory: StaticJsMemoryManagerImpl;
   private readonly _typeFactory: StaticJsTypeFactory;
 
   private readonly _staticModules = new Map<string, StaticJsModuleImplementation | null>();
@@ -114,10 +113,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       runTask,
       runTaskSync,
       hostAccessDefaults,
+      maxMemorySize = Number.POSITIVE_INFINITY,
+      memoryHighWatermark = Number.NaN,
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
-    this._memory = new StaticJsMemoryManagerImpl(this);
+    this._memory = new StaticJsMemoryManagerImpl(this, maxMemorySize, memoryHighWatermark);
 
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
@@ -165,6 +166,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     drainIterator(populateGlobal(this, this._global));
 
+    this._memory.initialize();
     this._boostrapping = false;
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
