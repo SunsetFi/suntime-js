@@ -163,12 +163,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     drainIterator(populateGlobal(this, this._global));
 
+    this._boostrapping = false;
+
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
       const module = realmModuleToModule(this, name, moduleDef);
       this._staticModules.set(name, module);
     }
-
-    this._boostrapping = false;
   }
 
   [symbolInspect](): string {
@@ -562,8 +562,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     const nextTask = this._tasks.shift();
     if (nextTask) {
-      // Now that we are actually committed to doing something, try to sweep.
-      this._memory.sweepIfWatermark();
       this._invokeMacrotask(nextTask);
       return;
     } else {
@@ -594,6 +592,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       throw new Error("Cannot invoke a task while another task is running.");
     }
 
+    // Now that we are actually committed to doing something, try to sweep.
+    this._memory.sweepIfWatermark();
+
     this._currentTask = task;
 
     // Invoke on the microtask queue, so that
@@ -615,6 +616,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     { runTask = this._defaultRunTaskSync }: StaticJsRunTaskOptions = {},
   ): TReturn {
     const previousTask = this._currentTask;
+
+    if (!previousTask) {
+      // Only sweep if we weren't doing anything already.
+      this._memory.sweepIfWatermark();
+    }
 
     try {
       // oxlint-disable-next-line typescript/no-this-alias

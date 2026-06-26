@@ -1,6 +1,7 @@
 export const STATICJS_PRIMITIVE_BYTES = 40;
 export const STATICJS_STRING_OVERHEAD_BYTES = 56;
 export const STATICJS_OBJECT_OVERHEAD_BYTES = 655;
+export const STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES = 212;
 
 // TODO: What is the overhead of a map item?
 export const STATICJS_MAP_OVERHEAD_BYTES = 0;

@@ -2,6 +2,8 @@ import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
+import { stringSizeBytes } from "#memory/implementation/string-size.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -69,6 +71,15 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     key: StaticJsPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
+    // TODO: Accept StaticJsStrings as property keys too and use that as a sign we do not need to allocate
+    if (!this._contents.has(key)) {
+      let size = STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES;
+      if (typeof key === "string") {
+        size += stringSizeBytes(key);
+      }
+      this.realm.memory.allocate(size);
+    }
+
     // Note: At one point, we merged the descriptor with the existing one.
     // No longer; that's done in AbstractObject.definePropertyEvaluator according to the spec.
     this._contents.set(key, {
@@ -81,6 +92,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   protected *_deleteConfigurablePropertyEvaluator(
     name: StaticJsPropertyKey,
   ): EvaluationGenerator<boolean> {
+    // We don't track deletions in memory; rely on sweep instead.
     return this._contents.delete(name);
   }
 }
