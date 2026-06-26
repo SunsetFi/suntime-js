@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRuntimeError } from "../../src/errors/StaticJsRuntimeError.js";
 import {
+  StaticJsRuntimeError,
   isStaticJsFunction,
   StaticJsConcurrentEvaluationError,
   StaticJsRealm,
