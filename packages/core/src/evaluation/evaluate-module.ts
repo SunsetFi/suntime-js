@@ -1,9 +1,9 @@
-import { StaticJsRuntimeError } from "../errors/StaticJsRuntimeError.js";
-import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
-import type { StaticJsModule } from "../modules/StaticJsModule.js";
-import { StaticJsRealm } from "../realm/factories/StaticJsRealm.js";
-import { isStaticJsRealm } from "../realm/StaticJsRealm.js";
-import { dropUndefined } from "../utils/drop-undefined.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
+import type { StaticJsModule } from "#modules/StaticJsModule.js";
+import { StaticJsRealm } from "#realm/factories/StaticJsRealm.js";
+import { isStaticJsRealm } from "#realm/StaticJsRealm.js";
+import { dropUndefined } from "#utils/drop-undefined.js";
 
 import type { EvaluationOptions } from "./options.js";
 

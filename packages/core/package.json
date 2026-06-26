@@ -24,11 +24,23 @@
       "import": "./dist/index.js"
     }
   },
+  "imports": {
+    "#*": {
+      "development": "./src/*",
+      "import": "./dist/*"
+    }
+  },
   "publishConfig": {
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
         "import": "./dist/index.js"
+      }
+    },
+    "imports": {
+      "#*": {
+        "types": "./dist/*",
+        "import": "./dist/*"
       }
     },
     "access": "public",

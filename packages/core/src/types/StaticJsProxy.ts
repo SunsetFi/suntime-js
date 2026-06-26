@@ -1,7 +1,7 @@
 import type {
   EvaluationGenerator,
   MaybeEvaluationGenerator,
-} from "../evaluator/EvaluationGenerator.js";
+} from "#evaluator/EvaluationGenerator.js";
 
 import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "./StaticJsCallable.js";
 import type { StaticJsObject } from "./StaticJsObject.js";

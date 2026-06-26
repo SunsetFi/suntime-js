@@ -1,10 +1,11 @@
-import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
-import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-non-enumerable-data-property-or-throw.js";
-import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
-import { Completion } from "../../evaluator/completions/Completion.js";
-import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { createArrayFromList } from "#algorithms/create-array-from-list.js";
+import { createNonEnumerableDataPropertyOrThrow } from "#algorithms/create-non-enumerable-data-property-or-throw.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { IntrinsicSymbols } from "#intrinsics/intrinsics.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";

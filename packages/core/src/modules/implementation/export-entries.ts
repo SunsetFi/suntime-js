@@ -1,8 +1,8 @@
 import type { Identifier, Node, StringLiteral } from "@babel/types";
 
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import boundNames from "../../evaluator/instantiation/algorithms/bound-names.js";
-import isAssignmentGrammar from "../../grammar/is-assignment-grammar.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
+import isAssignmentGrammar from "#grammar/is-assignment-grammar.js";
 
 import { ImportAllButDefault, type StaticJsExportEntry } from "./StaticJsExportEntry.js";
 

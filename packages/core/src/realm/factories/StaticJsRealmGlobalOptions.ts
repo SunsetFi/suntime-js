@@ -1,6 +1,6 @@
-import type { MaybeEvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsTypeFactory } from "../../types/StaticJsTypeFactory.js";
+import type { MaybeEvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
 
 export interface StaticJsRealmGlobalDataPropertyDecl {
   readonly configurable?: boolean;

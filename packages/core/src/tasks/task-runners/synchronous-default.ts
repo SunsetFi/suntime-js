@@ -1,4 +1,5 @@
-import { drainIterator } from "../../utils/drain-iterator.js";
+import { drainIterator } from "#utils/drain-iterator.js";
+
 import type { StaticJsTaskIterator } from "../StaticJsTaskIterator.js";
 import type { StaticJsTaskRunner } from "../StaticJsTaskRunner.js";
 

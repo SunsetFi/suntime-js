@@ -1,7 +1,7 @@
-import { get } from "../../algorithms/get.js";
-import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { get } from "#algorithms/get.js";
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 export type SortCompare = (a: StaticJsValue, b: StaticJsValue) => EvaluationGenerator<number>;
 

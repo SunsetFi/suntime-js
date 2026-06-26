@@ -1,15 +1,16 @@
 import type { ClassMethod, ClassPrivateMethod, ObjectMethod } from "@babel/types";
 
-import { definePropertyOrThrow } from "../../../../algorithms/define-property-or-throw.js";
-import { expectedArgumentCount } from "../../../../algorithms/expected-argument-count.js";
-import { setFunctionLength } from "../../../../algorithms/set-function-length.js";
-import { setFunctionName } from "../../../../algorithms/set-function-name.js";
-import { verifyNoTsParameterProperties } from "../../../../grammar/verify-no-ts-parameter-properties.js";
-import { StaticJsMethodFunction } from "../../../../types/implementation/functions/StaticJsMethodFunction.js";
-import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
-import type { StaticJsPrivateElement } from "../../../../types/StaticJsPrivateElement.js";
-import { isStaticJsPrivateName } from "../../../../types/StaticJsPrivateName.js";
-import type { StaticJsPropertyDescriptorRecord } from "../../../../types/StaticJsPropertyDescriptor.js";
+import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
+import { expectedArgumentCount } from "#algorithms/expected-argument-count.js";
+import { setFunctionLength } from "#algorithms/set-function-length.js";
+import { setFunctionName } from "#algorithms/set-function-name.js";
+import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
+import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPrivateElement } from "#types/StaticJsPrivateElement.js";
+import { isStaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsPropertyDescriptorRecord } from "#types/StaticJsPropertyDescriptor.js";
+
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

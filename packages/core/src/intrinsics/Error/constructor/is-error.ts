@@ -1,5 +1,6 @@
-import { isStaticJsError } from "../../../types/StaticJsError.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import { isStaticJsError } from "#types/StaticJsError.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const errorCtorIsErrorDeclaration: IntrinsicPropertyDeclaration = {

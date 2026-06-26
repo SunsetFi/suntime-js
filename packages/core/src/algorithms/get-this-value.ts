@@ -1,6 +1,6 @@
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsPropertyReferenceRecord } from "../references/StaticJsReferenceRecord.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsPropertyReferenceRecord } from "#references/StaticJsReferenceRecord.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 export function* getThisValue(
   v: StaticJsPropertyReferenceRecord,

@@ -1,9 +1,10 @@
-import { arrayCreate } from "../../../algorithms/array-create.js";
-import { construct } from "../../../algorithms/construct.js";
-import { isConstructor } from "../../../algorithms/is-constructor.js";
-import { set } from "../../../algorithms/set.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
+import { arrayCreate } from "#algorithms/array-create.js";
+import { construct } from "#algorithms/construct.js";
+import { isConstructor } from "#algorithms/is-constructor.js";
+import { set } from "#algorithms/set.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {

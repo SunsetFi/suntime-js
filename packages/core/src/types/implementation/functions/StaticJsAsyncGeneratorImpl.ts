@@ -1,21 +1,22 @@
 import { isNode, type Node } from "@babel/types";
 
-import { Await } from "../../../algorithms/await.js";
-import { call } from "../../../algorithms/call.js";
-import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
-import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
-import { promiseResolve } from "../../../algorithms/promise-resolve.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
-import { SuspendCommand, type SuspendContext } from "../../../evaluator/commands/SuspendCommand.js";
-import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { X } from "../../../evaluator/completions/X.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { Await } from "#algorithms/await.js";
+import { call } from "#algorithms/call.js";
+import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
+import { performPromiseThen } from "#algorithms/perform-promise-then.js";
+import { promiseResolve } from "#algorithms/promise-resolve.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js";
+import { SuspendCommand, type SuspendContext } from "#evaluator/commands/SuspendCommand.js";
+import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { X } from "#evaluator/completions/X.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";

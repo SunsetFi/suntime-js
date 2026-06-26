@@ -1,7 +1,8 @@
 import type { MetaProperty } from "@babel/types";
 
-import { getNewTarget } from "../../algorithms/get-new-target.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { getNewTarget } from "#algorithms/get-new-target.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* metaPropertyNodeEvaluator(node: MetaProperty): EvaluationGenerator {

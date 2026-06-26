@@ -1,11 +1,12 @@
-import { call } from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
-import { toObject } from "../../../algorithms/to-object.js";
-import { toString } from "../../../algorithms/to-string.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { call } from "#algorithms/call.js";
+import { get } from "#algorithms/get.js";
+import { isCallable } from "#algorithms/is-callable.js";
+import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
+import { toObject } from "#algorithms/to-object.js";
+import { toString } from "#algorithms/to-string.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoReduceRightDeclaration: IntrinsicPropertyDeclaration = {

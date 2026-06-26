@@ -1,6 +1,7 @@
 import type { Identifier } from "@babel/types";
 
-import getIdentifierReference from "../../references/get-identifier-reference.js";
+import getIdentifierReference from "#references/get-identifier-reference.js";
+
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

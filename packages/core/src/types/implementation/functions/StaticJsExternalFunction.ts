@@ -1,16 +1,17 @@
 import type { Node } from "@babel/types";
 
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import {
   EvaluationGenerator,
   type MaybeEvaluationGenerator,
-} from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsScriptOrModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+} from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";

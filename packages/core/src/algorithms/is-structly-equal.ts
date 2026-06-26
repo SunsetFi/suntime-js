@@ -1,5 +1,5 @@
-import { isStaticJsNumber } from "../types/StaticJsNumber.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { isStaticJsNumber } from "#types/StaticJsNumber.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { sameValueNonNumber } from "./same-value-non-number.js";
 

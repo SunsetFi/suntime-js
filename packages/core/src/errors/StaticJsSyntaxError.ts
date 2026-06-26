@@ -1,4 +1,4 @@
-import { symbolInspect } from "../utils/symbol-inspect.js";
+import { symbolInspect } from "#utils/symbol-inspect.js";
 
 export interface SyntaxErrorLocation {
   line: number;

@@ -1,4 +1,5 @@
-import { ordinaryHasInstance } from "../../../algorithms/ordinary-has-instance.js";
+import { ordinaryHasInstance } from "#algorithms/ordinary-has-instance.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const functionProtoSymbolHasInstanceDeclaration: IntrinsicPropertyDeclaration = {

@@ -1,4 +1,5 @@
-import type { StaticJsGlobalEnvironmentRecord } from "../../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import type { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* hasRestrictedGlobalProperty(

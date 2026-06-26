@@ -5,15 +5,15 @@ import {
   type Program,
 } from "@babel/types";
 
-import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
-import { Completion } from "../evaluator/completions/Completion.js";
-import { EvaluationContext } from "../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { Prototypes } from "../intrinsics/intrinsics.js";
-import { parseFunctionBody } from "../parser/parse-function-body.js";
-import { parseParameters } from "../parser/parse-parameters.js";
-import type { StaticJsCallable } from "../types/StaticJsCallable.js";
-import type { StaticJsValue } from "../types/StaticJsValue.js";
+import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { Prototypes } from "#intrinsics/intrinsics.js";
+import { parseFunctionBody } from "#parser/parse-function-body.js";
+import { parseParameters } from "#parser/parse-parameters.js";
+import type { StaticJsCallable } from "#types/StaticJsCallable.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 import { getPrototypeFromConstructor } from "./get-prototype-from-constructor.js";

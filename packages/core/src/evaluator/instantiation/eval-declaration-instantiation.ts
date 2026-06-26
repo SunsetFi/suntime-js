@@ -1,11 +1,12 @@
 import type { FunctionDeclaration, Node } from "@babel/types";
 
-import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
-import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";
-import { StaticJsPrivateEnvironmentRecord } from "../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { instantiateFunctionObject } from "#algorithms/instantiate-function-object.js";
+import { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+import { StaticJsObjectEnvironmentRecord } from "#environments/implementation/StaticJsObjectEnvironmentRecord.js";
+import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";

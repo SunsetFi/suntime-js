@@ -1,7 +1,8 @@
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { toRuntimeWrap } from "../../../types/utils/to-runtime-wrap.js";
+import { createArrayFromList } from "#algorithms/create-array-from-list.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
+
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 

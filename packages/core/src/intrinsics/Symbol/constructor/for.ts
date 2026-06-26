@@ -1,4 +1,5 @@
-import { toString } from "../../../algorithms/to-string.js";
+import { toString } from "#algorithms/to-string.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const symbolCtorForDeclaration: IntrinsicPropertyDeclaration = {

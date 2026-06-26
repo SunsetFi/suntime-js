@@ -6,24 +6,25 @@ import type {
   VariableDeclaration,
 } from "@babel/types";
 
-import { Await } from "../../../algorithms/await.js";
-import { call } from "../../../algorithms/call.js";
-import { loopContinues } from "../../../algorithms/loop-continues.js";
-import { putValue } from "../../../algorithms/put-value.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { asyncIteratorClose } from "../../../iterators/async-iterator-close.js";
-import { iteratorClose } from "../../../iterators/iterator-close.js";
-import { iteratorComplete } from "../../../iterators/iterator-complete.js";
-import { iteratorValue } from "../../../iterators/iterator-value.js";
-import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import getIdentifierReference from "../../../references/get-identifier-reference.js";
+import { Await } from "#algorithms/await.js";
+import { call } from "#algorithms/call.js";
+import { loopContinues } from "#algorithms/loop-continues.js";
+import { putValue } from "#algorithms/put-value.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { asyncIteratorClose } from "#iterators/async-iterator-close.js";
+import { iteratorClose } from "#iterators/iterator-close.js";
+import { iteratorComplete } from "#iterators/iterator-complete.js";
+import { iteratorValue } from "#iterators/iterator-value.js";
+import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
+import getIdentifierReference from "#references/get-identifier-reference.js";
 import {
   isStaticJsReferenceRecord,
   type StaticJsReferenceRecord,
-} from "../../../references/StaticJsReferenceRecord.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+} from "#references/StaticJsReferenceRecord.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";

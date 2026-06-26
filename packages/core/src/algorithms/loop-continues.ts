@@ -1,4 +1,4 @@
-import { Completion } from "../evaluator/completions/Completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
 
 export function loopContinues(completion: Completion, labelSet: string[]): boolean {
   if (Completion.Normal.is(completion)) {

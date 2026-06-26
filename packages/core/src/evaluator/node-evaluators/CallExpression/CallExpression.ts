@@ -1,22 +1,23 @@
 import type { CallExpression } from "@babel/types";
 
-import { construct } from "../../../algorithms/construct.js";
-import { getNewTarget } from "../../../algorithms/get-new-target.js";
-import { getSuperConstructor } from "../../../algorithms/get-super-constructor.js";
-import { getThisEnvironment } from "../../../algorithms/get-this-environment.js";
-import { getValue } from "../../../algorithms/get-value.js";
-import { isConstructor } from "../../../algorithms/is-constructor.js";
-import { performEval } from "../../../algorithms/perform-eval.js";
-import { sameValue } from "../../../algorithms/same-value.js";
-import { StaticJsFunctionEnvironmentRecord } from "../../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { construct } from "#algorithms/construct.js";
+import { getNewTarget } from "#algorithms/get-new-target.js";
+import { getSuperConstructor } from "#algorithms/get-super-constructor.js";
+import { getThisEnvironment } from "#algorithms/get-this-environment.js";
+import { getValue } from "#algorithms/get-value.js";
+import { isConstructor } from "#algorithms/is-constructor.js";
+import { performEval } from "#algorithms/perform-eval.js";
+import { sameValue } from "#algorithms/same-value.js";
+import { StaticJsFunctionEnvironmentRecord } from "#environments/implementation/StaticJsFunctionEnvironmentRecord.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,
-} from "../../../references/StaticJsReferenceRecord.js";
-import { StaticJsClassConstructorFunction } from "../../../types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { isStaticJsFunction } from "../../../types/StaticJsFunction.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+} from "#references/StaticJsReferenceRecord.js";
+import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { isStaticJsFunction } from "#types/StaticJsFunction.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";

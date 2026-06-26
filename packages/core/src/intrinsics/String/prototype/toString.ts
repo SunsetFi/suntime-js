@@ -1,5 +1,6 @@
-import { toString } from "../../../algorithms/to-string.js";
-import { StaticJsStringExoticObject } from "../../../types/implementation/primitives/StaticJsStringExoticObject.js";
+import { toString } from "#algorithms/to-string.js";
+import { StaticJsStringExoticObject } from "#types/implementation/primitives/StaticJsStringExoticObject.js";
+
 import type { FunctionIntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const stringProtoToStringDeclaration: FunctionIntrinsicPropertyDeclaration = {

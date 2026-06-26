@@ -1,9 +1,10 @@
-import { createError } from "../../../algorithms/create-error.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
-import type { WellKnownErrorName } from "../../../types/well-known-errors.js";
+import { createError } from "#algorithms/create-error.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+import type { WellKnownErrorName } from "#types/well-known-errors.js";
+
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { nameCompletionLike } from "../name-completion-like.js";
 

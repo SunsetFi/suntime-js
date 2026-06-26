@@ -1,5 +1,5 @@
-import type { MaybeEvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { IntrinsicSymbols } from "../intrinsics/intrinsics.js";
+import type { MaybeEvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { IntrinsicSymbols } from "#intrinsics/intrinsics.js";
 
 import type { HostAccessArg } from "./HostAccessOptions.js";
 import type { StaticJsArray } from "./StaticJsArray.js";

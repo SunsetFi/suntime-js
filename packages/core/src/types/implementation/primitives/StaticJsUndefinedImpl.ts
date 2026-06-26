@@ -1,4 +1,5 @@
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsUndefined } from "../../StaticJsUndefined.js";
 

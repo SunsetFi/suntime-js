@@ -1,14 +1,15 @@
 import type { Node, PatternLike } from "@babel/types";
 
-import { arrayCreate } from "../../algorithms/array-create.js";
-import { createDataPropertyOrThrow } from "../../algorithms/create-data-property-or-throw.js";
-import { putValue } from "../../algorithms/put-value.js";
-import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import { iteratorStepValue } from "../../iterators/iterator-step-value.js";
-import type { StaticJsIteratorRecord } from "../../iterators/StaticJsIteratorRecord.js";
-import type { StaticJsReferenceRecord } from "../../references/StaticJsReferenceRecord.js";
-import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { arrayCreate } from "#algorithms/array-create.js";
+import { createDataPropertyOrThrow } from "#algorithms/create-data-property-or-throw.js";
+import { putValue } from "#algorithms/put-value.js";
+import isAnonymousFunctionDefinition from "#grammar/is-anonymous-function-definition.js";
+import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
+import type { StaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
+import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

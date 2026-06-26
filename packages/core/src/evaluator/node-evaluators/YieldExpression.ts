@@ -1,20 +1,21 @@
 import type { YieldExpression } from "@babel/types";
 
-import { Await } from "../../algorithms/await.js";
-import { call } from "../../algorithms/call.js";
-import { getGeneratorKind } from "../../algorithms/get-generator-kind.js";
-import { getMethod } from "../../algorithms/get-method.js";
-import { Yield } from "../../algorithms/yield.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { asyncIteratorClose } from "../../iterators/async-iterator-close.js";
-import { getIterator } from "../../iterators/get-iterator.js";
-import { iteratorClose } from "../../iterators/iterator-close.js";
-import { iteratorComplete } from "../../iterators/iterator-complete.js";
-import { iteratorValue } from "../../iterators/iterator-value.js";
-import { StaticJsAsyncGeneratorImpl } from "../../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
-import { StaticJsGeneratorImpl } from "../../types/implementation/functions/StaticJsGeneratorImpl.js";
-import { isStaticJsObject } from "../../types/StaticJsObject.js";
-import { isStaticJsValue, type StaticJsValue } from "../../types/StaticJsValue.js";
+import { Await } from "#algorithms/await.js";
+import { call } from "#algorithms/call.js";
+import { getGeneratorKind } from "#algorithms/get-generator-kind.js";
+import { getMethod } from "#algorithms/get-method.js";
+import { Yield } from "#algorithms/yield.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { asyncIteratorClose } from "#iterators/async-iterator-close.js";
+import { getIterator } from "#iterators/get-iterator.js";
+import { iteratorClose } from "#iterators/iterator-close.js";
+import { iteratorComplete } from "#iterators/iterator-complete.js";
+import { iteratorValue } from "#iterators/iterator-value.js";
+import { StaticJsAsyncGeneratorImpl } from "#types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
+import { StaticJsGeneratorImpl } from "#types/implementation/functions/StaticJsGeneratorImpl.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+import { isStaticJsValue, type StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

@@ -1,7 +1,8 @@
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import { get } from "../../../algorithms/get.js";
-import { toObject } from "../../../algorithms/to-object.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { createArrayFromList } from "#algorithms/create-array-from-list.js";
+import { get } from "#algorithms/get.js";
+import { toObject } from "#algorithms/to-object.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorValuesDeclaration: IntrinsicPropertyDeclaration = {

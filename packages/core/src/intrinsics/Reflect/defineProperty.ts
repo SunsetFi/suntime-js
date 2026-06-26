@@ -1,8 +1,9 @@
-import { toPropertyDescriptor } from "../../algorithms/to-property-descriptor.js";
-import { toPropertyKey } from "../../algorithms/to-property-key.js";
-import { Completion } from "../../evaluator/completions/Completion.js";
-import { Q } from "../../evaluator/completions/Q.js";
-import { isStaticJsObject } from "../../types/StaticJsObject.js";
+import { toPropertyDescriptor } from "#algorithms/to-property-descriptor.js";
+import { toPropertyKey } from "#algorithms/to-property-key.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+
 import type { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 export const reflectDefinePropertyDeclaration: IntrinsicPropertyDeclaration = {

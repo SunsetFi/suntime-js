@@ -1,5 +1,6 @@
-import { generatorResumeAbrupt } from "../../algorithms/generator-resume-abrupt.js";
-import { Completion } from "../../evaluator/completions/Completion.js";
+import { generatorResumeAbrupt } from "#algorithms/generator-resume-abrupt.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+
 import type { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 const generatorProtoThrowDeclaration: IntrinsicPropertyDeclaration = {

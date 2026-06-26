@@ -1,15 +1,16 @@
 import type { ClassMethod, ClassPrivateMethod, ObjectMethod } from "@babel/types";
 
-import { expectedArgumentCount } from "../../../../algorithms/expected-argument-count.js";
-import { setFunctionLength } from "../../../../algorithms/set-function-length.js";
-import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
-import { verifyNoTsParameterProperties } from "../../../../grammar/verify-no-ts-parameter-properties.js";
-import { StaticJsClassConstructorFunction } from "../../../../types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { StaticJsMethodFunction } from "../../../../types/implementation/functions/StaticJsMethodFunction.js";
-import type { StaticJsFunction } from "../../../../types/StaticJsFunction.js";
-import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
-import type { StaticJsPrivateName } from "../../../../types/StaticJsPrivateName.js";
-import type { StaticJsPropertyKey } from "../../../../types/StaticJsPropertyKey.js";
+import { expectedArgumentCount } from "#algorithms/expected-argument-count.js";
+import { setFunctionLength } from "#algorithms/set-function-length.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
+import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

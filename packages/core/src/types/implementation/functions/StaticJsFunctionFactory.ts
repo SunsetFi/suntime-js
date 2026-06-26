@@ -1,6 +1,7 @@
 import type { FunctionDeclaration } from "@babel/types";
 
-import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 
 export type StaticJsFunctionFactory = (

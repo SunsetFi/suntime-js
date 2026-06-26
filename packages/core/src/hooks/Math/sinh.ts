@@ -1,4 +1,4 @@
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 export type MathSinhHook = (this: undefined, realm: StaticJsRealm, value: number) => number;
 export const mathSinhHookDefault: MathSinhHook = (_realm, value) => {

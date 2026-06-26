@@ -1,6 +1,7 @@
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import type { StaticJsIterator, StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";

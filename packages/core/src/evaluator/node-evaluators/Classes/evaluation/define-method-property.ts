@@ -1,13 +1,11 @@
-import { definePropertyOrThrow } from "../../../../algorithms/define-property-or-throw.js";
-import type { StaticJsFunction } from "../../../../types/StaticJsFunction.js";
-import type { StaticJsObject } from "../../../../types/StaticJsObject.js";
-import type { StaticJsPrivateElement } from "../../../../types/StaticJsPrivateElement.js";
-import {
-  isStaticJsPrivateName,
-  type StaticJsPrivateName,
-} from "../../../../types/StaticJsPrivateName.js";
-import type { StaticJsPropertyDescriptorRecord } from "../../../../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../../../../types/StaticJsPropertyKey.js";
+import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPrivateElement } from "#types/StaticJsPrivateElement.js";
+import { isStaticJsPrivateName, type StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsPropertyDescriptorRecord } from "#types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 
 export function* defineMethodProperty(

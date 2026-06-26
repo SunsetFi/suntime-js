@@ -1,4 +1,4 @@
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 export function* canonicalNumericStringIndex(
   argument: string,

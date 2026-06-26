@@ -1,15 +1,16 @@
-import { call } from "../../../algorithms/call.js";
-import { getMethod } from "../../../algorithms/get-method.js";
-import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
-import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { asyncFromSyncIteratorContinuation } from "../../../iterators/async-from-sync-iterator-continuation.js";
-import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
-import { iteratorClose } from "../../../iterators/iterator-close.js";
-import { iteratorNext } from "../../../iterators/iterator-next.js";
-import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { call } from "#algorithms/call.js";
+import { getMethod } from "#algorithms/get-method.js";
+import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
+import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { asyncFromSyncIteratorContinuation } from "#iterators/async-from-sync-iterator-continuation.js";
+import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
+import { iteratorClose } from "#iterators/iterator-close.js";
+import { iteratorNext } from "#iterators/iterator-next.js";
+import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise } from "../../StaticJsPromise.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";

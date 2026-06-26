@@ -1,15 +1,16 @@
 import type { BinaryExpression } from "@babel/types";
 
-import { addition } from "../../algorithms/addition.js";
-import { instanceOfOperator } from "../../algorithms/instance-of-operator.js";
-import { isLessThan } from "../../algorithms/is-less-than.js";
-import { isLooselyEqual } from "../../algorithms/is-loosely-equal.js";
-import { strictEquality } from "../../algorithms/strict-equality.js";
-import { toNumber } from "../../algorithms/to-number.js";
-import { toObject } from "../../algorithms/to-object.js";
-import { toPropertyKey } from "../../algorithms/to-property-key.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { isStaticJsObject } from "../../types/StaticJsObject.js";
+import { addition } from "#algorithms/addition.js";
+import { instanceOfOperator } from "#algorithms/instance-of-operator.js";
+import { isLessThan } from "#algorithms/is-less-than.js";
+import { isLooselyEqual } from "#algorithms/is-loosely-equal.js";
+import { strictEquality } from "#algorithms/strict-equality.js";
+import { toNumber } from "#algorithms/to-number.js";
+import { toObject } from "#algorithms/to-object.js";
+import { toPropertyKey } from "#algorithms/to-property-key.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

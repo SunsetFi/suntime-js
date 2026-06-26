@@ -1,6 +1,7 @@
 import type { ArrowFunctionExpression } from "@babel/types";
 
-import { instantiateArrowFunctionExpression } from "../../algorithms/instantiate-arrow-function-expression.js";
+import { instantiateArrowFunctionExpression } from "#algorithms/instantiate-arrow-function-expression.js";
+
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

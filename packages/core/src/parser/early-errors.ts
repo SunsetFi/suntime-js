@@ -15,7 +15,7 @@ import {
   type SwitchStatement,
 } from "@babel/types";
 
-import boundNames from "../evaluator/instantiation/algorithms/bound-names.js";
+import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
 
 import { parseError } from "./parse-error.js";
 import { traverse } from "./traverse.js";

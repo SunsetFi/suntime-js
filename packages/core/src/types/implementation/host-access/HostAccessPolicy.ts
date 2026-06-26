@@ -1,4 +1,5 @@
-import type { Intrinsics } from "../../../intrinsics/intrinsics.js";
+import type { Intrinsics } from "#intrinsics/intrinsics.js";
+
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
 

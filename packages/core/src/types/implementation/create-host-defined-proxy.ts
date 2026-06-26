@@ -1,7 +1,8 @@
-import { createArrayFromList } from "../../algorithms/create-array-from-list.js";
-import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import typedKeys from "../../utils/typed-keys.js";
+import { createArrayFromList } from "#algorithms/create-array-from-list.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import typedKeys from "#utils/typed-keys.js";
+
 import type { StaticJsCallable } from "../StaticJsCallable.js";
 import type { StaticJsFunction } from "../StaticJsFunction.js";
 import { isStaticJsObject, type StaticJsObject } from "../StaticJsObject.js";

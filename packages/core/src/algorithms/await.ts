@@ -1,11 +1,11 @@
-import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
-import { SuspendCommand } from "../evaluator/commands/SuspendCommand.js";
-import { Completion } from "../evaluator/completions/Completion.js";
-import { Q } from "../evaluator/completions/Q.js";
-import { EvaluationContext } from "../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { SuspendCommand } from "#evaluator/commands/SuspendCommand.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsValue, type StaticJsValue } from "#types/StaticJsValue.js";
 
 import { promiseResolve } from "./promise-resolve.js";
 

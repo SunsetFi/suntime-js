@@ -1,7 +1,8 @@
 import type { FunctionDeclaration } from "@babel/types";
 
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import type { StaticJsFunction } from "../../types/StaticJsFunction.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
+
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

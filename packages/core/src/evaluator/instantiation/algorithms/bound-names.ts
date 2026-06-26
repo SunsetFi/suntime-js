@@ -1,6 +1,6 @@
 import type { FunctionParameter, Node } from "@babel/types";
 
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 export default function boundNames(node: Node | Node[]): string[] {
   if (Array.isArray(node)) {

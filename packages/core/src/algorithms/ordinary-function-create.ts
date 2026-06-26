@@ -7,12 +7,12 @@ import {
   type ObjectMethod,
 } from "@babel/types";
 
-import { StaticJsPrivateEnvironmentRecord } from "../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
-import { EvaluationContext } from "../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsAstFunction } from "../types/implementation/functions/StaticJsAstFunction.js";
-import type { StaticJsObject } from "../types/StaticJsObject.js";
+import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { StaticJsAstFunction } from "#types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
 
 import { expectedArgumentCount } from "./expected-argument-count.js";
 import { setFunctionLength } from "./set-function-length.js";

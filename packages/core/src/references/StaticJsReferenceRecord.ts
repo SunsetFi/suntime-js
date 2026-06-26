@@ -1,6 +1,6 @@
-import type { StaticJsEnvironmentRecord } from "../environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsPrivateName } from "../types/StaticJsPrivateName.js";
-import { isStaticJsValue, type StaticJsValue } from "../types/StaticJsValue.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import { isStaticJsValue, type StaticJsValue } from "#types/StaticJsValue.js";
 
 export interface StaticJsUnresolvedReferenceRecord {
   referencedName: string;

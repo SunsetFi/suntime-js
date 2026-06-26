@@ -1,4 +1,5 @@
-import { toObject } from "../../../algorithms/to-object.js";
+import { toObject } from "#algorithms/to-object.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorIsExtensibleDeclaration: IntrinsicPropertyDeclaration = {

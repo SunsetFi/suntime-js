@@ -1,5 +1,6 @@
-import { promiseReject } from "../../algorithms/promise-reject.js";
-import { StaticJsAsyncGeneratorImpl } from "../../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
+import { promiseReject } from "#algorithms/promise-reject.js";
+import { StaticJsAsyncGeneratorImpl } from "#types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
+
 import type { IntrinsicPropertyDeclaration } from "../apply-intrinsic-properties.js";
 
 const asyncGeneratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {

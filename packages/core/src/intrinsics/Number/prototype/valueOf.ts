@@ -1,4 +1,5 @@
-import { Completion } from "../../../evaluator/completions/Completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+
 import type { FunctionIntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 import isNumberLike from "../isNumberLike.js";
 

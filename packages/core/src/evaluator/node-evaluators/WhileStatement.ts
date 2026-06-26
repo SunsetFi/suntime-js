@@ -1,7 +1,8 @@
 import type { WhileStatement } from "@babel/types";
 
-import { loopContinues } from "../../algorithms/loop-continues.js";
-import { toBoolean } from "../../algorithms/to-boolean.js";
+import { loopContinues } from "#algorithms/loop-continues.js";
+import { toBoolean } from "#algorithms/to-boolean.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

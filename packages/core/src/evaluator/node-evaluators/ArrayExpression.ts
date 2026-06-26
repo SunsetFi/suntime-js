@@ -1,11 +1,12 @@
 import type { ArrayExpression } from "@babel/types";
 
-import { arrayCreate } from "../../algorithms/array-create.js";
-import { createDataPropertyOrThrow } from "../../algorithms/create-data-property-or-throw.js";
-import { set } from "../../algorithms/set.js";
-import { getIterator } from "../../iterators/get-iterator.js";
-import { iteratorClose } from "../../iterators/iterator-close.js";
-import { iteratorStepValue } from "../../iterators/iterator-step-value.js";
+import { arrayCreate } from "#algorithms/array-create.js";
+import { createDataPropertyOrThrow } from "#algorithms/create-data-property-or-throw.js";
+import { set } from "#algorithms/set.js";
+import { getIterator } from "#iterators/get-iterator.js";
+import { iteratorClose } from "#iterators/iterator-close.js";
+import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

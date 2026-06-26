@@ -1,7 +1,8 @@
 import type { ReturnStatement } from "@babel/types";
 
-import { Await } from "../../algorithms/await.js";
-import { getGeneratorKind } from "../../algorithms/get-generator-kind.js";
+import { Await } from "#algorithms/await.js";
+import { getGeneratorKind } from "#algorithms/get-generator-kind.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

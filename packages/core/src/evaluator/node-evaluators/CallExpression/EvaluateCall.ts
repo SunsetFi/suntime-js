@@ -1,15 +1,16 @@
 import type { CallExpression, OptionalCallExpression } from "@babel/types";
 
-import { call } from "../../../algorithms/call.js";
-import { getThisValue } from "../../../algorithms/get-this-value.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { call } from "#algorithms/call.js";
+import { getThisValue } from "#algorithms/get-this-value.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,
   type StaticJsReferenceRecord,
-} from "../../../references/StaticJsReferenceRecord.js";
-import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+} from "#references/StaticJsReferenceRecord.js";
+import { isStaticJsCallable } from "#types/StaticJsCallable.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { Completion } from "../../completions/Completion.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";

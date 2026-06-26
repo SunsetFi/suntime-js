@@ -1,15 +1,16 @@
-import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
-import { toNumber } from "../../../algorithms/to-number.js";
-import { Yield } from "../../../algorithms/yield.js";
-import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { Q } from "../../../evaluator/completions/Q.js";
-import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
-import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
-import { iteratorClose } from "../../../iterators/iterator-close.js";
-import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
+import { toNumber } from "#algorithms/to-number.js";
+import { Yield } from "#algorithms/yield.js";
+import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
+import { createIteratorFromClosure } from "#iterators/create-iterator-from-closure.js";
+import { getIteratorDirect } from "#iterators/get-iterator-direct.js";
+import { iteratorClose } from "#iterators/iterator-close.js";
+import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const iteratorProtoTakeDeclaration: IntrinsicPropertyDeclaration = {

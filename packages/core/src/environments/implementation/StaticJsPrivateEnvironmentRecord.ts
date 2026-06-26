@@ -1,5 +1,5 @@
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { staticJsPrivateName, type StaticJsPrivateName } from "../../types/StaticJsPrivateName.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { staticJsPrivateName, type StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
 
 export class StaticJsPrivateEnvironmentRecord {
   private readonly _names: StaticJsPrivateName[] = [];

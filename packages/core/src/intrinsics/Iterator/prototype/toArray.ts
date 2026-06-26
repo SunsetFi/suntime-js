@@ -1,10 +1,11 @@
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { Q } from "../../../evaluator/completions/Q.js";
-import { getIteratorDirect } from "../../../iterators/get-iterator-direct.js";
-import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { createArrayFromList } from "#algorithms/create-array-from-list.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
+import { getIteratorDirect } from "#iterators/get-iterator-direct.js";
+import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const iteratorProtoToArrayDeclaration: IntrinsicPropertyDeclaration = {

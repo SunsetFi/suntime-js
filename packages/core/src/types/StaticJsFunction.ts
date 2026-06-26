@@ -1,4 +1,4 @@
-import type { StaticJsRunTaskOptions } from "../tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "./StaticJsCallable.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";

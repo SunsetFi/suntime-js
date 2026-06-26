@@ -1,14 +1,15 @@
 import type { MemberExpression } from "@babel/types";
 
-import { getSuperBase } from "../../../algorithms/get-super-base.js";
-import { getThisEnvironment } from "../../../algorithms/get-this-environment.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { getSuperBase } from "#algorithms/get-super-base.js";
+import { getThisEnvironment } from "#algorithms/get-this-environment.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import {
   type StaticJsPropertyReferenceRecord,
   staticJsPropertyReferenceRecord,
-} from "../../../references/StaticJsReferenceRecord.js";
-import type { StaticJsPrivateName } from "../../../types/StaticJsPrivateName.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+} from "#references/StaticJsReferenceRecord.js";
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

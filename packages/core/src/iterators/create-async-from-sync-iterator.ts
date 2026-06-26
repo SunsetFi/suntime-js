@@ -1,7 +1,7 @@
-import { get } from "../algorithms/get.js";
-import { EvaluationContext } from "../evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { StaticJsAsyncFromSyncIterator } from "../types/implementation/objects/StaticJsAsyncFromSyncIterator.js";
+import { get } from "#algorithms/get.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { StaticJsAsyncFromSyncIterator } from "#types/implementation/objects/StaticJsAsyncFromSyncIterator.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 

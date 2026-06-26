@@ -1,7 +1,8 @@
-import { get } from "../../../algorithms/get.js";
-import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
-import { strictEquality } from "../../../algorithms/strict-equality.js";
-import { toObject } from "../../../algorithms/to-object.js";
+import { get } from "#algorithms/get.js";
+import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
+import { strictEquality } from "#algorithms/strict-equality.js";
+import { toObject } from "#algorithms/to-object.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const arrayProtoIndexOfDeclaration: IntrinsicPropertyDeclaration = {

@@ -1,14 +1,14 @@
-import { EvaluationContext } from "../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   isStaticJsGenericPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
-} from "../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../types/StaticJsPropertyKey.js";
+} from "#types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 
 import { sameValue } from "./same-value.js";
 

@@ -1,4 +1,5 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import {
   AllHostAccessStubTypes,
   type HostAccessChildOptions,

@@ -1,17 +1,18 @@
 import type { UnaryExpression } from "@babel/types";
 
-import { getValue } from "../../algorithms/get-value.js";
-import { toBoolean } from "../../algorithms/to-boolean.js";
-import { toNumber } from "../../algorithms/to-number.js";
-import { toObject } from "../../algorithms/to-object.js";
-import { toPropertyKey } from "../../algorithms/to-property-key.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { isPrivateReference } from "../../references/is-private-reference.js";
-import { isPropertyReference } from "../../references/is-property-reference.js";
-import { isSuperReference } from "../../references/is-super-reference.js";
-import { isUnresolvableReference } from "../../references/is-unresolvable-reference.js";
-import { isStaticJsReferenceRecord } from "../../references/StaticJsReferenceRecord.js";
-import { isStaticJsValue } from "../../types/StaticJsValue.js";
+import { getValue } from "#algorithms/get-value.js";
+import { toBoolean } from "#algorithms/to-boolean.js";
+import { toNumber } from "#algorithms/to-number.js";
+import { toObject } from "#algorithms/to-object.js";
+import { toPropertyKey } from "#algorithms/to-property-key.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { isPrivateReference } from "#references/is-private-reference.js";
+import { isPropertyReference } from "#references/is-property-reference.js";
+import { isSuperReference } from "#references/is-super-reference.js";
+import { isUnresolvableReference } from "#references/is-unresolvable-reference.js";
+import { isStaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
+import { isStaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

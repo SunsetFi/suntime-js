@@ -1,7 +1,7 @@
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import { dropUndefined } from "../utils/drop-undefined.js";
-import { hasOwnProperty } from "../utils/has-own-property.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import { dropUndefined } from "#utils/drop-undefined.js";
+import { hasOwnProperty } from "#utils/has-own-property.js";
 
 import type { HostAccessArg } from "./HostAccessOptions.js";
 import { isStaticJsCallable, type StaticJsCallable } from "./StaticJsCallable.js";

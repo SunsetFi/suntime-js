@@ -1,8 +1,8 @@
-import { Completion } from "../evaluator/completions/Completion.js";
-import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsFunction } from "../types/StaticJsFunction.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 
 export function* createThrowTypeError(realm: StaticJsRealm): EvaluationGenerator<StaticJsFunction> {
   const thrower = new StaticJsNativeFunctionImpl(realm, null, function* () {

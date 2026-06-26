@@ -1,7 +1,7 @@
 import type { Node } from "@babel/types";
 
-import { StaticJsRuntimeError } from "../errors/StaticJsRuntimeError.js";
-import type { StaticJsFunction } from "../types/StaticJsFunction.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./commands/EvaluatorCommandBase.js";

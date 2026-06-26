@@ -1,12 +1,13 @@
 import type { VariableDeclaration, VariableDeclarator } from "@babel/types";
 
-import { putValue } from "../../algorithms/put-value.js";
-import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import getIdentifierReference from "../../references/get-identifier-reference.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { putValue } from "#algorithms/put-value.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import isAnonymousFunctionDefinition from "#grammar/is-anonymous-function-definition.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import getIdentifierReference from "#references/get-identifier-reference.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import bindingInitialization from "../bindings/binding-initialization.js";
 import initializeReferencedBinding from "../bindings/initialize-referenced-binding.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";

@@ -1,6 +1,7 @@
 import type { ThisExpression } from "@babel/types";
 
-import getThisBinding from "../../algorithms/get-this-binding.js";
+import getThisBinding from "#algorithms/get-this-binding.js";
+
 import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

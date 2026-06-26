@@ -1,4 +1,4 @@
-import { symbolInspect } from "../utils/symbol-inspect.js";
+import { symbolInspect } from "#utils/symbol-inspect.js";
 
 export class StaticJsConcurrentEvaluationError extends Error {
   constructor(message?: string) {

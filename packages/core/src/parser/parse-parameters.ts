@@ -1,7 +1,7 @@
 import { parse, type ParseResult } from "@babel/parser";
 import { isFunctionDeclaration, type FunctionParameter, type File } from "@babel/types";
 
-import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
+import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
 
 import { babelParserOptions } from "./babel-parser-options.js";
 import { handleParseError } from "./handle-parse-error.js";

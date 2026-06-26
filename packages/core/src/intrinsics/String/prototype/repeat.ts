@@ -1,5 +1,6 @@
-import { toNumber } from "../../../algorithms/to-number.js";
-import { toString } from "../../../algorithms/to-string.js";
+import { toNumber } from "#algorithms/to-number.js";
+import { toString } from "#algorithms/to-string.js";
+
 import type { FunctionIntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const stringProtoRepeatDeclaration: FunctionIntrinsicPropertyDeclaration = {

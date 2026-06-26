@@ -1,18 +1,19 @@
 import { isNode, type Node } from "@babel/types";
 
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
-import { SuspendCommand, type SuspendContext } from "../../../evaluator/commands/SuspendCommand.js";
-import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { Q } from "../../../evaluator/completions/Q.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
-import { iteratorComplete } from "../../../iterators/iterator-complete.js";
-import { iteratorValue } from "../../../iterators/iterator-value.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "../../../tasks/StaticJsRunTaskOptions.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js";
+import { SuspendCommand, type SuspendContext } from "#evaluator/commands/SuspendCommand.js";
+import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
+import { iteratorComplete } from "#iterators/iterator-complete.js";
+import { iteratorValue } from "#iterators/iterator-value.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";

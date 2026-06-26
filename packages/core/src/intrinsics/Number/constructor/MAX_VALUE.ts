@@ -1,4 +1,5 @@
-import { StaticJsNumberImpl } from "../../../types/implementation/primitives/StaticJsNumberImpl.js";
+import { StaticJsNumberImpl } from "#types/implementation/primitives/StaticJsNumberImpl.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const numberCtorMaxValueDeclaration: IntrinsicPropertyDeclaration = {

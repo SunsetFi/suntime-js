@@ -1,5 +1,6 @@
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { isStaticJsMap } from "../../../types/StaticJsMap.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { isStaticJsMap } from "#types/StaticJsMap.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const mapProtoGetDeclaration: IntrinsicPropertyDeclaration = {

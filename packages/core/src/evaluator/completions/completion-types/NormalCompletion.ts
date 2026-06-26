@@ -1,4 +1,5 @@
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import { isCompletionValue, type CompletionValue } from "../CompletionValue.js";
 import { nameCompletionLike } from "../name-completion-like.js";
 

@@ -1,17 +1,18 @@
-import { call } from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { captureThrownCompletion } from "../../../evaluator/completions/capture-thrown-completion.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsPromiseImpl } from "../../../types/implementation/objects/StaticJsPromiseImpl.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsPromise } from "../../../types/StaticJsPromise.js";
-import { isStaticJsValue } from "../../../types/StaticJsValue.js";
+import { call } from "#algorithms/call.js";
+import { get } from "#algorithms/get.js";
+import { isCallable } from "#algorithms/is-callable.js";
+import { ordinaryCreateFromConstructor } from "#algorithms/ordinary-create-from-constructor.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsPromiseImpl } from "#types/implementation/objects/StaticJsPromiseImpl.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import { isStaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPromise } from "#types/StaticJsPromise.js";
+import { isStaticJsValue } from "#types/StaticJsValue.js";
+
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,

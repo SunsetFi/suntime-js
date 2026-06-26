@@ -1,9 +1,10 @@
-import { toObject } from "../../../algorithms/to-object.js";
+import { toObject } from "#algorithms/to-object.js";
 import {
   propertyDescriptorToStaticJsObject,
   type StaticJsPropertyDescriptor,
-} from "../../../types/StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../../../types/StaticJsPropertyKey.js";
+} from "#types/StaticJsPropertyDescriptor.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const objectCtorGetOwnPropertyDescriptorsDeclaration: IntrinsicPropertyDeclaration = {

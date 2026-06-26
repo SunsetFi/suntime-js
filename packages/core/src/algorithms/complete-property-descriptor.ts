@@ -1,10 +1,10 @@
-import { EvaluationContext } from "../evaluator/EvaluationContext.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import {
   isStaticJsDataPropertyDescriptor,
   isStaticJsGenericPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
-} from "../types/StaticJsPropertyDescriptor.js";
+} from "#types/StaticJsPropertyDescriptor.js";
 
 export function completePropertyDescriptor(
   desc: StaticJsPropertyDescriptorRecord,

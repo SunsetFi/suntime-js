@@ -1,5 +1,6 @@
-import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import type { IntrinsicsRecord } from "../intrinsics.js";
 
 import { createNumberConstructor } from "./constructor/create-number-constructor.js";

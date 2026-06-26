@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
+import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 
 export interface StaticJsModuleRecord {
   type: "module";

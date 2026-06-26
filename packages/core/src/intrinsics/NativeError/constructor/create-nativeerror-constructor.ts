@@ -1,17 +1,18 @@
-import { captureStackTrace } from "../../../algorithms/capture-stack-trace.js";
-import { createNonEnumerableDataPropertyOrThrow } from "../../../algorithms/create-non-enumerable-data-property-or-throw.js";
-import { installErrorCause } from "../../../algorithms/install-error-cause.js";
-import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
-import { toString } from "../../../algorithms/to-string.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsErrorImpl } from "../../../types/implementation/objects/StaticJsErrorImpl.js";
-import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { captureStackTrace } from "#algorithms/capture-stack-trace.js";
+import { createNonEnumerableDataPropertyOrThrow } from "#algorithms/create-non-enumerable-data-property-or-throw.js";
+import { installErrorCause } from "#algorithms/install-error-cause.js";
+import { ordinaryCreateFromConstructor } from "#algorithms/ordinary-create-from-constructor.js";
+import { toString } from "#algorithms/to-string.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsErrorImpl } from "#types/implementation/objects/StaticJsErrorImpl.js";
+import type { StaticJsCallable } from "#types/StaticJsCallable.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,

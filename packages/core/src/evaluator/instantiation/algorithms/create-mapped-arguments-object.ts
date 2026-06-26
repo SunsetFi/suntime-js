@@ -1,14 +1,15 @@
-import { createDataPropertyOrThrow } from "../../../algorithms/create-data-property-or-throw.js";
-import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
-import { get } from "../../../algorithms/get.js";
-import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
-import type { StaticJsAstFunctionArgument } from "../../../types/implementation/functions/StaticJsAstFunction.js";
-import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsFunction } from "../../../types/StaticJsFunction.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../../types/StaticJsValue.js";
+import { createDataPropertyOrThrow } from "#algorithms/create-data-property-or-throw.js";
+import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
+import { get } from "#algorithms/get.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import { StaticJsArgumentsExoticObject } from "#types/implementation/functions/StaticJsArgumentsExoticObject.js";
+import type { StaticJsAstFunctionArgument } from "#types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluationContext } from "../../EvaluationContext.js";
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 

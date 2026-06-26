@@ -1,5 +1,6 @@
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+
 import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,

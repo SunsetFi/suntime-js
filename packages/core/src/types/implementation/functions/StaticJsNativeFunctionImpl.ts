@@ -1,10 +1,11 @@
-import { setFunctionLength } from "../../../algorithms/set-function-length.js";
-import { setFunctionName } from "../../../algorithms/set-function-name.js";
-import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { Completion } from "../../../evaluator/completions/Completion.js";
-import { EvaluationContext } from "../../../evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "../../../evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
+import { setFunctionLength } from "#algorithms/set-function-length.js";
+import { setFunctionName } from "#algorithms/set-function-name.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";

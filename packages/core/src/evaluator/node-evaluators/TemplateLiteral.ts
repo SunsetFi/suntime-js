@@ -1,6 +1,7 @@
 import type { TemplateLiteral } from "@babel/types";
 
-import { toString } from "../../algorithms/to-string.js";
+import { toString } from "#algorithms/to-string.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";

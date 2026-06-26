@@ -6,21 +6,22 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
-import { copyDataProperties } from "../../algorithms/copy-data-properties.js";
-import { get } from "../../algorithms/get.js";
-import { putValue } from "../../algorithms/put-value.js";
-import { toObject } from "../../algorithms/to-object.js";
-import { toPropertyKey } from "../../algorithms/to-property-key.js";
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import { getIterator } from "../../iterators/get-iterator.js";
-import { iteratorClose } from "../../iterators/iterator-close.js";
-import getIdentifierReference from "../../references/get-identifier-reference.js";
-import type { StaticJsReferenceRecord } from "../../references/StaticJsReferenceRecord.js";
-import { isStaticJsNull } from "../../types/StaticJsNull.js";
-import type { StaticJsPropertyKey } from "../../types/StaticJsPropertyKey.js";
-import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+import { copyDataProperties } from "#algorithms/copy-data-properties.js";
+import { get } from "#algorithms/get.js";
+import { putValue } from "#algorithms/put-value.js";
+import { toObject } from "#algorithms/to-object.js";
+import { toPropertyKey } from "#algorithms/to-property-key.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import isAnonymousFunctionDefinition from "#grammar/is-anonymous-function-definition.js";
+import { getIterator } from "#iterators/get-iterator.js";
+import { iteratorClose } from "#iterators/iterator-close.js";
+import getIdentifierReference from "#references/get-identifier-reference.js";
+import type { StaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
+import { isStaticJsNull } from "#types/StaticJsNull.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";

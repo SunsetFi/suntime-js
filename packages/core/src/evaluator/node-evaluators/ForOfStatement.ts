@@ -1,6 +1,7 @@
 import type { ForOfStatement, LVal, VariableDeclaration } from "@babel/types";
 
-import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import { Q } from "../completions/Q.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";

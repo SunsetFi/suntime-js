@@ -1,15 +1,16 @@
 import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
-import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
-import type { StaticJsEnvironmentRecord } from "../../environments/StaticJsEnvironmentRecord.js";
-import { createListIteratorRecord } from "../../iterators/create-list-iterator-record.js";
+import { instantiateFunctionObject } from "#algorithms/instantiate-function-object.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import { createListIteratorRecord } from "#iterators/create-list-iterator-record.js";
 import type {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,
-} from "../../types/implementation/functions/StaticJsAstFunction.js";
-import type { StaticJsObject } from "../../types/StaticJsObject.js";
-import type { StaticJsValue } from "../../types/StaticJsValue.js";
+} from "#types/implementation/functions/StaticJsAstFunction.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { iteratorBindingInitialization } from "../bindings/iterator-binding-initialization.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
