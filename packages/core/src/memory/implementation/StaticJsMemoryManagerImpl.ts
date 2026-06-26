@@ -5,19 +5,35 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { StaticJsOutOfMemoryError } from "#errors/StaticJsOutOfMemoryError.js";
 
 export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
+  private _isInitializing: boolean = true;
   private _maxSize: number = Infinity;
+  private _genInitialSize: number = 0;
   private _genZeroSize: number = 0;
-  private _genOneSize: number = 0;
+  private _genOneSize: number = NaN;
   private _highWatermark: number = NaN;
   private _isMarking: boolean = false;
 
-  constructor(private readonly _realm: StaticJsRealm) {}
+  constructor(
+    private readonly _realm: StaticJsRealm,
+    maxMemorySize: number,
+    memoryHighWatermark: number,
+  ) {
+    this._maxSize = maxMemorySize;
+    this._highWatermark = memoryHighWatermark;
+  }
+
+  initialize() {
+    this.sweep();
+    this._isInitializing = false;
+  }
 
   allocate(size: number): void {
-    if (this.allocatedSize + size > this._maxSize) {
-      throw new StaticJsOutOfMemoryError(
-        `Memory allocation of ${size} bytes exceeds max size of ${this._maxSize} bytes`,
-      );
+    if (!this._isInitializing) {
+      if (this.allocatedSize + size > this._maxSize) {
+        throw new StaticJsOutOfMemoryError(
+          `Memory allocation of ${size} bytes exceeds max size of ${this._maxSize} bytes`,
+        );
+      }
     }
 
     if (this._isMarking) {
@@ -39,6 +55,10 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       const marks = new Set<StaticJsValue>();
       this._realm.globalEnv.mark(marks, true);
     } finally {
+      if (this._isInitializing) {
+        this._genInitialSize = this._genOneSize;
+        this._genOneSize = NaN;
+      }
       this._isMarking = false;
     }
   }
@@ -56,7 +76,11 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   }
 
   get genOneSize(): number {
-    return this._genOneSize;
+    if (Number.isNaN(this._genOneSize)) {
+      return 0;
+    }
+
+    return this._genOneSize - this._genInitialSize;
   }
 
   get allocatedSize(): number {

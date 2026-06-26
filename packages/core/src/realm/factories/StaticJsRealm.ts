@@ -75,6 +75,23 @@ export interface StaticJsRealmOptions {
    * replace this default (no field-level merging).
    */
   hostAccessDefaults?: HostAccessOptions;
+
+  /**
+   * The maximum amount of memory (in bytes) that the realm is allowed to allocate.
+   * If the realm exceeds this limit, it will throw a {@link import("#errors/StaticJsOutOfMemoryError.ts").StaticJsOutOfMemoryError}.
+   * If not specified, the realm will have no memory limit.
+   *
+   * Note that this is best-effort, and the actual memory usage may vary depending on the underlying JavaScript engine.
+   *
+   * This will not include the initial memory used by the realm to create the global object and other internal structures.
+   */
+  maxMemorySize?: number;
+
+  /**
+   * The high watermark of memory (in bytes) that the realm will allocate before performing a garbage collection sweep.
+   * Note that this is best-effort, and the actual memory usage may vary depending on the underlying JavaScript engine.
+   */
+  memoryHighWatermark?: number;
 }
 
 /**

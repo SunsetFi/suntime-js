@@ -1,5 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 
+import { StaticJsOutOfMemoryError } from "#errors/StaticJsOutOfMemoryError.js";
+
 import { StaticJsRealm, type StaticJsValue } from "../../src/index.js";
 
 describe("E2E: Memory", () => {
@@ -97,16 +99,17 @@ describe("E2E: Memory", () => {
     },
     {
       name: "Object with string property key",
-      factory: (realm) => realm.types.object({ key: { value: realm.types.true } }),
-      script: `({ key: true });`,
-      // We do not invoke a string constructor for property keys, so this isn't double counted.
+      factory: (realm) => realm.types.object({ key: { value: realm.types.number(1) } }),
+      script: `({ key: 1 });`,
       size:
         // object overhead
         655 +
         // Property overhead
         212 +
         // Property key string
-        "key".length * 2,
+        "key".length * 2 +
+        // Property value number
+        40,
     },
     {
       name: "Object with symbol property key",
@@ -226,16 +229,51 @@ describe("E2E: Memory", () => {
 
           realm.evaluateScriptSync(`globalThis._value = ${script};`);
           realm.memory.sweep();
-          // We are going to expect the allocation for the key
+
+          // The key also counts as an allocation
           const keyAllocation =
             // Property overhead
             212 +
             // Property key string
             "_value".length * 2;
+
           const allocated = realm.memory.genOneSize - initialMemory - keyAllocation;
           expect(allocated).toBe(genOneSize ?? size);
         });
       });
     }
+  });
+
+  it("Throws an out of memory error when memory is exhausted", () => {
+    const realm = new StaticJsRealm({
+      maxMemorySize: 10_000,
+    });
+
+    realm.evaluateScriptSync(`globalThis.value = [];`);
+    realm.evaluateScriptSync(`globalThis.value.push("Hello, World!");`);
+
+    const overallocate = () => {
+      for (let i = 0; i < 1000; i++) {
+        realm.evaluateScriptSync(`globalThis.value.push("Hello, World!");`);
+      }
+    };
+
+    expect(overallocate).toThrow(StaticJsOutOfMemoryError);
+  });
+
+  it("Sweeps when the high watermark is exceeded", () => {
+    const realm = new StaticJsRealm({
+      memoryHighWatermark: 10_000,
+    });
+
+    realm.evaluateScriptSync(`globalThis.value = [];`);
+    realm.evaluateScriptSync(`globalThis.value.push("Hello, World!");`);
+    expect(realm.memory.genOneSize).toBe(0);
+
+    for (let i = 0; i < 1000; i++) {
+      realm.evaluateScriptSync(`globalThis.value.push("Hello, World!");`);
+    }
+
+    expect(realm.memory.genOneSize).not.toBe(0);
   });
 });
