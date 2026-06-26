@@ -7,6 +7,7 @@ import { toString } from "#algorithms/to-string.js";
 import { validateAndApplyPropertyDescriptor } from "#algorithms/validate-and-apply-property-descriptor.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { STATICJS_OBJECT_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
 
 import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
@@ -57,7 +58,7 @@ export abstract class StaticJsAbstractObject
   private readonly _accessNativeCache = new Map<PolicyKey, object>();
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
-    super(realm);
+    super(realm, STATICJS_OBJECT_OVERHEAD_BYTES);
     if (isStaticJsNull(prototype)) {
       this._prototype = null;
     } else {

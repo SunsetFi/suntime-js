@@ -1,5 +1,7 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { STATICJS_PRIMITIVE_BYTES } from "#memory/implementation/measurements.js";
+
 import type { StaticJsNumber } from "../../StaticJsNumber.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -13,7 +15,7 @@ export class StaticJsNumberImpl extends StaticJsAbstractPrimitive implements Sta
       throw new TypeError(`StaticJsNumberImpl constructor expects a number, got ${typeof value}`);
     }
 
-    super(realm);
+    super(realm, STATICJS_PRIMITIVE_BYTES);
     this._value = value;
   }
 

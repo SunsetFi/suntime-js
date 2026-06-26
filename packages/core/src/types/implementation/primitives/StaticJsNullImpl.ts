@@ -1,11 +1,15 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { STATICJS_PRIMITIVE_BYTES } from "#memory/implementation/measurements.js";
+
 import type { StaticJsNull } from "../../StaticJsNull.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 export class StaticJsNullImpl implements StaticJsNull {
-  constructor(private readonly _realm: StaticJsRealm) {}
+  constructor(private readonly _realm: StaticJsRealm) {
+    _realm.memory.allocate(STATICJS_PRIMITIVE_BYTES);
+  }
 
   [Symbol.toStringTag](): string {
     return "StaticJsNull";
