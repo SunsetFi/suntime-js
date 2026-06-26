@@ -1,4 +1,4 @@
-import { realmDefaultHooks } from "../../runtime/hooks/index.js";
+import { realmDefaultHooks } from "../../hooks/index.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "../../types/HostAccessOptions.js";
 import { mergeDeep } from "../../utils/merge-deep.js";

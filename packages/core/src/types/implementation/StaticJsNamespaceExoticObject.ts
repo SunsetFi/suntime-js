@@ -2,9 +2,9 @@ import { sameValue } from "../../algorithms/same-value.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import { BindingNameNamespace } from "../../modules/implementation/StaticJsResolvedBinding.js";
+import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import { BindingNameNamespace } from "../../runtime/modules/implementation/StaticJsResolvedBinding.js";
-import type { StaticJsModuleImplementation } from "../../runtime/modules/StaticJsModuleImplementation.js";
 import type { StaticJsObject } from "../StaticJsObject.js";
 import {
   isStaticJsAccessorPropertyDescriptor,

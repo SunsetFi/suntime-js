@@ -1,0 +1,14 @@
+import { createArrayIterator } from "../../../algorithms/create-array-iterator.js";
+import { toObject } from "../../../algorithms/to-object.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+
+const arrayProtoValuesDeclaration: IntrinsicPropertyDeclaration = {
+  key: "values",
+  length: 0,
+  *func(realm, thisArg) {
+    thisArg = yield* toObject(thisArg);
+    return yield* createArrayIterator(thisArg, "value", realm);
+  },
+};
+
+export default arrayProtoValuesDeclaration;

@@ -3,8 +3,8 @@ import { createNonEnumerableDataPropertyOrThrow } from "../../algorithms/create-
 import { StaticJsRuntimeError } from "../../errors/StaticJsRuntimeError.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { IntrinsicSymbols } from "../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
-import type { IntrinsicSymbols } from "../../runtime/intrinsics/intrinsics.js";
 import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsArray } from "../StaticJsArray.js";
 import type { StaticJsBoolean } from "../StaticJsBoolean.js";

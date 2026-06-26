@@ -7,8 +7,8 @@ import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-crea
 import { toString } from "../../../algorithms/to-string.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { Completion } from "../../../evaluator/completions/Completion.js";
+import type { Intrinsics } from "../../../intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
-import type { Intrinsics } from "../../../runtime/intrinsics/intrinsics.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsNull } from "../../StaticJsNull.js";

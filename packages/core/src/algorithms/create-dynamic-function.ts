@@ -9,9 +9,9 @@ import { StaticJsSyntaxError } from "../errors/StaticJsSyntaxError.js";
 import { Completion } from "../evaluator/completions/Completion.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import type { Prototypes } from "../intrinsics/intrinsics.js";
 import { parseFunctionBody } from "../parser/parse-function-body.js";
 import { parseParameters } from "../parser/parse-parameters.js";
-import type { Prototypes } from "../runtime/intrinsics/intrinsics.js";
 import type { StaticJsCallable } from "../types/StaticJsCallable.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 

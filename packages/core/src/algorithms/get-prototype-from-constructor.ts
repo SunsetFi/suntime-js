@@ -1,6 +1,6 @@
 import { Q } from "../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import type { Prototypes } from "../runtime/intrinsics/intrinsics.js";
+import type { Prototypes } from "../intrinsics/intrinsics.js";
 import type { StaticJsCallable } from "../types/StaticJsCallable.js";
 import { isStaticJsObject, type StaticJsObject } from "../types/StaticJsObject.js";
 

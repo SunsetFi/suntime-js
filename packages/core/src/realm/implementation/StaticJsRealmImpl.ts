@@ -19,23 +19,23 @@ import {
 import { globalDeclarationInstantiation } from "../../evaluator/instantiation/global-declaration-instantiation.js";
 import { StaticJsScriptRecord } from "../../evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 import { type StaticJsEvaluator, invokeEvaluator } from "../../evaluator/StaticJsEvaluator.js";
+import type { RealmHooks } from "../../hooks/hooks.js";
+import { populateIntrinsics } from "../../intrinsics/create-intrinsics.js";
+import type { Intrinsics, IntrinsicsRecord } from "../../intrinsics/intrinsics.js";
+import { populateGlobal } from "../../intrinsics/populate-global.js";
+import { StaticJsAstModuleImpl } from "../../modules/implementation/StaticJsAstModuleImpl.js";
+import { StaticJsExternalModuleImpl } from "../../modules/implementation/StaticJsExternalModuleImpl.js";
+import type { StaticJsModule } from "../../modules/StaticJsModule.js";
+import { isStaticJsModule } from "../../modules/StaticJsModule.js";
+import type { StaticJsModuleImplementation } from "../../modules/StaticJsModuleImplementation.js";
+import {
+  isStaticJsModuleImplementation,
+  staticJsModuleToImplementation,
+} from "../../modules/StaticJsModuleImplementation.js";
 import { findTopLevelAwait } from "../../parser/find-top-level-await.js";
 import { parseExpression } from "../../parser/parse-expression.js";
 import { parseModule } from "../../parser/parse-module.js";
 import { parseScript } from "../../parser/parse-script.js";
-import type { RealmHooks } from "../../runtime/hooks/hooks.js";
-import { populateIntrinsics } from "../../runtime/intrinsics/create-intrinsics.js";
-import type { Intrinsics, IntrinsicsRecord } from "../../runtime/intrinsics/intrinsics.js";
-import { populateGlobal } from "../../runtime/intrinsics/populate-global.js";
-import { StaticJsAstModuleImpl } from "../../runtime/modules/implementation/StaticJsAstModuleImpl.js";
-import { StaticJsExternalModuleImpl } from "../../runtime/modules/implementation/StaticJsExternalModuleImpl.js";
-import type { StaticJsModule } from "../../runtime/modules/StaticJsModule.js";
-import { isStaticJsModule } from "../../runtime/modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "../../runtime/modules/StaticJsModuleImplementation.js";
-import {
-  isStaticJsModuleImplementation,
-  staticJsModuleToImplementation,
-} from "../../runtime/modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "../../tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsTaskCalleeType } from "../../tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "../../tasks/StaticJsTaskRunner.js";

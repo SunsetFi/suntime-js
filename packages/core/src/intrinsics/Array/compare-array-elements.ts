@@ -1,0 +1,56 @@
+import { call } from "../../algorithms/call.js";
+import { isLessThan } from "../../algorithms/is-less-than.js";
+import { toNumber } from "../../algorithms/to-number.js";
+import { toString } from "../../algorithms/to-string.js";
+import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";
+import type { StaticJsCallable } from "../../types/StaticJsCallable.js";
+import { isStaticJsUndefined } from "../../types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../../types/StaticJsValue.js";
+
+export default function* compareArrayElements(
+  x: StaticJsValue,
+  y: StaticJsValue,
+  compareFn: StaticJsCallable | null,
+  realm: StaticJsRealm,
+): EvaluationGenerator<number> {
+  const xUndef = isStaticJsUndefined(x);
+  const yUndef = isStaticJsUndefined(y);
+
+  if (xUndef && yUndef) {
+    return 0;
+  }
+
+  if (xUndef) {
+    return 1;
+  }
+
+  if (yUndef) {
+    return -1;
+  }
+
+  if (compareFn) {
+    const result = yield* call(compareFn, realm.types.undefined, [x, y]);
+    const n = yield* toNumber.js(result);
+    if (Number.isNaN(n)) {
+      return 0;
+    }
+
+    return n;
+  }
+
+  const xString = yield* toString(x);
+  const yString = yield* toString(y);
+
+  const xSmaller = yield* isLessThan(xString, yString, true, realm);
+  if (xSmaller === true) {
+    return -1;
+  }
+
+  const ySmaller = yield* isLessThan(yString, xString, true, realm);
+  if (ySmaller === true) {
+    return 1;
+  }
+
+  return 0;
+}

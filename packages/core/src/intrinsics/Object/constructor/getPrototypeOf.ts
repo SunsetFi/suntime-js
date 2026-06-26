@@ -1,0 +1,19 @@
+import { toObject } from "../../../algorithms/to-object.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+
+const objectCtorGetPrototypeOfDeclaration: IntrinsicPropertyDeclaration = {
+  key: "getPrototypeOf",
+  length: 1,
+  *func(realm, _thisArg, targetValue = realm.types.undefined) {
+    const obj = yield* toObject(targetValue);
+
+    const proto = yield* obj.getPrototypeOfEvaluator();
+    if (proto == null) {
+      return realm.types.null;
+    }
+
+    return proto;
+  },
+};
+
+export default objectCtorGetPrototypeOfDeclaration;

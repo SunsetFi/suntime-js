@@ -1,0 +1,21 @@
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+import objectDefineProperties from "../object-define-properties.js";
+
+const objectCtorDefinePropertiesDeclaration: IntrinsicPropertyDeclaration = {
+  key: "defineProperties",
+  length: 1,
+  *func(realm, _thisArg, O, properties = realm.types.undefined) {
+    if (!isStaticJsObject(O)) {
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Object.defineProperties called on non-object",
+      );
+    }
+
+    return yield* objectDefineProperties(O, properties);
+  },
+};
+
+export default objectCtorDefinePropertiesDeclaration;

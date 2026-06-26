@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
-import { createIteratorResultObject } from "../runtime/iterators/create-iterator-result-object.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../types/StaticJsObject.js";
 import { isStaticJsSymbol } from "../types/StaticJsSymbol.js";

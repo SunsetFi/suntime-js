@@ -3,7 +3,7 @@ import { Completion } from "../evaluator/completions/Completion.js";
 import { Q } from "../evaluator/completions/Q.js";
 import { EvaluationContext } from "../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
-import { createIteratorResultObject } from "../runtime/iterators/create-iterator-result-object.js";
+import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import { StaticJsAsyncGeneratorImpl } from "../types/implementation/functions/StaticJsAsyncGeneratorImpl.js";
 import { StaticJsGeneratorImpl } from "../types/implementation/functions/StaticJsGeneratorImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";

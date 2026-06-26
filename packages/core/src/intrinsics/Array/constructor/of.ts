@@ -1,0 +1,48 @@
+import { arrayCreate } from "../../../algorithms/array-create.js";
+import { construct } from "../../../algorithms/construct.js";
+import { isConstructor } from "../../../algorithms/is-constructor.js";
+import { set } from "../../../algorithms/set.js";
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import { isStaticJsObject, type StaticJsObject } from "../../../types/StaticJsObject.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+
+const arrayCtorIsArrayDeclarationOfDeclaration: IntrinsicPropertyDeclaration = {
+  key: "of",
+  length: 0,
+  *func(realm, thisArg, ...items) {
+    const len = realm.types.number(items.length);
+    let A: StaticJsObject;
+    if (isConstructor(thisArg)) {
+      const constructed = yield* construct(thisArg, [len]);
+      // FIXME: Not spec complaint.  The spec should throw trying to define the property, not ahead of time
+      if (!isStaticJsObject(constructed)) {
+        throw yield* Completion.Throw.create("TypeError", "Constructor did not produce an object");
+      }
+
+      A = constructed;
+    } else {
+      A = yield* arrayCreate(len.value);
+    }
+
+    let k = 0;
+
+    while (k < items.length) {
+      // Per spec, must be defineProperty
+      yield* A.defineOwnPropertyEvaluator(String(k), {
+        value: items[k]!,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+      k++;
+    }
+
+    // Per spec, must be set
+    // Does not invoke setters; array ctor uses define to create length.
+    yield* set(A, "length", len, true);
+
+    return A;
+  },
+};
+
+export default arrayCtorIsArrayDeclarationOfDeclaration;

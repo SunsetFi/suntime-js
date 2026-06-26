@@ -1,0 +1,31 @@
+import { Completion } from "../../../evaluator/completions/Completion.js";
+import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
+import { StaticJsArrayIteratorImpl } from "../../../types/implementation/objects/StaticJsArrayIteratorImpl.js";
+import { isStaticJsObject } from "../../../types/StaticJsObject.js";
+import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+
+const arrayIteratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
+  key: "next",
+  *func(realm, thisArg) {
+    const O = thisArg;
+    if (!isStaticJsObject(O)) {
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Array Iterator.prototype.next called on non-object",
+      );
+    }
+
+    // FIXME: Won't work if this is in the prototype chain.
+    if (O instanceof StaticJsArrayIteratorImpl === false) {
+      throw yield* Completion.Throw.create(
+        "TypeError",
+        "Array Iterator.prototype.next called on incompatible receiver",
+      );
+    }
+
+    const result = yield* O.nextEvaluator();
+    return yield* createIteratorResultObject(result.value, result.done, realm);
+  },
+};
+
+export default arrayIteratorProtoNextDeclaration;
