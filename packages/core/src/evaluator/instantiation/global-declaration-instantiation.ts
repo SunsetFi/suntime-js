@@ -3,10 +3,10 @@ import { type FunctionDeclaration, type Node, isVariableDeclaration } from "@bab
 import { instantiateFunctionObject } from "#algorithms/instantiate-function-object.js";
 import { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 
-import { Completion } from "../completions/Completion.js";
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { Completion } from "../completions/Completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 import boundNames from "./algorithms/bound-names.js";
 import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";
 import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";

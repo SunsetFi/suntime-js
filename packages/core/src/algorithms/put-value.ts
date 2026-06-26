@@ -1,12 +1,13 @@
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
+
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { isPrivateReference } from "#references/is-private-reference.js";
 import { isPropertyReference } from "#references/is-property-reference.js";
 import { isUnresolvableReference } from "#references/is-unresolvable-reference.js";
-import type { StaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsSymbol } from "#types/StaticJsSymbol.js";
 import { isStaticJsValue, type StaticJsValue } from "#types/StaticJsValue.js";
 

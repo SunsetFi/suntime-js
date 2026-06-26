@@ -5,10 +5,11 @@ import { putValue } from "#algorithms/put-value.js";
 import { toNumber } from "#algorithms/to-number.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* updateExpressionNodeEvaluator(
   node: UpdateExpression,

@@ -1,8 +1,9 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "#types/StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 

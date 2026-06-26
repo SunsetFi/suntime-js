@@ -5,7 +5,6 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { makeModule, makeTest } from "../spec-utils/vitest-mocks.js";
-
 import VitestBadgeReporter from "./VitestBadgeReporter.js";
 
 let tmpDir: string;

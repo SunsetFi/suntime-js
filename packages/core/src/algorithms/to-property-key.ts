@@ -1,5 +1,6 @@
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { isStaticJsPropertyKey, type StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "#types/StaticJsSymbol.js";
 import { isStaticJsValue, type StaticJsValue } from "#types/StaticJsValue.js";

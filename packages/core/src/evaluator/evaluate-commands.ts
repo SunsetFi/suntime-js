@@ -1,12 +1,14 @@
 import type { Node } from "@babel/types";
 
-import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
+
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 
 import type { EvaluatorCommand } from "./commands/EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./commands/EvaluatorCommandBase.js";
-import { Completion } from "./completions/Completion.js";
 import type { EvaluationGenerator } from "./EvaluationGenerator.js";
+
+import { Completion } from "./completions/Completion.js";
 
 export interface EvaluateCommandsOptions {
   onBeforeNode?(node: Node): void;

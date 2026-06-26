@@ -4,7 +4,6 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { makeTest262Module, makeTest262Test } from "../spec-utils/vitest-mocks.js";
-
 import BaselineReporter from "./BaselineReporter.js";
 
 const FAKE_ROOT = "/fake/repo/test262/tests/";

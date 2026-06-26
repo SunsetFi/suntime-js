@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import iteratorProtoDropDeclaration from "./drop.js";
 import iteratorProtoEveryDeclaration from "./every.js";
 import iteratorProtoFilterDeclaration from "./filter.js";

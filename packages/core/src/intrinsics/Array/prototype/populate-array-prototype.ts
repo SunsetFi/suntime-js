@@ -1,12 +1,12 @@
-import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
+
+import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import arrayProtoAtDeclaration from "./at.js";
 import arrayProtoConcatDeclaration from "./concat.js";
 import arrayProtoEntriesDeclaration from "./entries.js";

@@ -1,12 +1,12 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../apply-intrinsic-properties.js";
-
 import asyncGeneratorProtoNextDeclaration from "./next.js";
 import asyncGeneratorProtoReturnDeclaration from "./return.js";
 import asyncGeneratorProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";

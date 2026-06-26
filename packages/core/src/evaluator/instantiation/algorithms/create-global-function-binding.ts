@@ -1,10 +1,12 @@
-import { set } from "#algorithms/set.js";
 import type { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import type { StaticJsPropertyDescriptorRecord } from "#types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
-import { Completion } from "../../completions/Completion.js";
+import { set } from "#algorithms/set.js";
+
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
+import { Completion } from "../../completions/Completion.js";
 
 export default function* createGlobalFunctionBinding(
   name: string,

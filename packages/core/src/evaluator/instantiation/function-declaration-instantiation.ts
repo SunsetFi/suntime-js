@@ -1,9 +1,6 @@
 import { isIdentifier, type FunctionDeclaration, type Node } from "@babel/types";
 
-import { instantiateFunctionObject } from "#algorithms/instantiate-function-object.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
-import { createListIteratorRecord } from "#iterators/create-list-iterator-record.js";
 import type {
   StaticJsAstFunction,
   StaticJsAstFunctionArgument,
@@ -11,11 +8,15 @@ import type {
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { instantiateFunctionObject } from "#algorithms/instantiate-function-object.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+import { createListIteratorRecord } from "#iterators/create-list-iterator-record.js";
+
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { iteratorBindingInitialization } from "../bindings/iterator-binding-initialization.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import boundNames from "./algorithms/bound-names.js";
 import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
 import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-object.js";

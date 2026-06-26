@@ -1,15 +1,17 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { toNumber } from "#algorithms/to-number.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { mathDefaultHooks } from "#hooks/Math/index.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { StaticJsPlainObjectImpl } from "#types/implementation/objects/StaticJsPlainObjectImpl.js";
 import { StaticJsNumberImpl } from "#types/implementation/primitives/StaticJsNumberImpl.js";
+
+import type { IntrinsicsRecord } from "./intrinsics.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "./apply-intrinsic-properties.js";
-import type { IntrinsicsRecord } from "./intrinsics.js";
 
 // Since math is quite predictable in its inputs and outputs, we can do this programatically.
 

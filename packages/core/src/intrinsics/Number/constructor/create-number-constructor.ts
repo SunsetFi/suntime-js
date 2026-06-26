@@ -1,15 +1,15 @@
-import { toNumeric } from "#algorithms/to-numeric.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import { StaticJsNumberBoxed } from "#types/implementation/primitives/StaticJsNumberBoxed.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { toNumeric } from "#algorithms/to-numeric.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { StaticJsNumberBoxed } from "#types/implementation/primitives/StaticJsNumberBoxed.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import numberCtorEpsilonDeclaration from "./EPSILON.js";
 import numberCtorMaxSafeIntegerDeclaration from "./MAX_SAFE_INTEGER.js";
 import numberCtorMaxValueDeclaration from "./MAX_VALUE.js";

@@ -1,5 +1,6 @@
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { Intrinsics, IntrinsicSymbols } from "#intrinsics/intrinsics.js";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import type { StaticJsSymbol } from "../StaticJsSymbol.js";
 

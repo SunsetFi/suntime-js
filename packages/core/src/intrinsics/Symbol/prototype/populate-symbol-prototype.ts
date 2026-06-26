@@ -5,7 +5,6 @@ import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,
 } from "../../apply-intrinsic-properties.js";
-
 import symbolProtoToStringDeclaration from "./toString.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [symbolProtoToStringDeclaration];

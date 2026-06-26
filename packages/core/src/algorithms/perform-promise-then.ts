@@ -1,6 +1,7 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsCallable } from "#types/StaticJsCallable.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 export function* performPromiseThen(
   promise: StaticJsPromise,

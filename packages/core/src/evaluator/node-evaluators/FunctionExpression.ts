@@ -1,12 +1,13 @@
 import type { FunctionExpression } from "@babel/types";
 
-import { instantiateFunctionExpression } from "#algorithms/instantiate-function-expression.js";
-import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 
-import { EvaluationContext } from "../EvaluationContext.js";
+import { instantiateFunctionExpression } from "#algorithms/instantiate-function-expression.js";
+import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { EvaluationContext } from "../EvaluationContext.js";
 import { getNamedEvaluationParameter } from "./NamedEvaluation.js";
 
 function* functionExpressionNodeEvaluator(node: FunctionExpression): EvaluationGenerator {

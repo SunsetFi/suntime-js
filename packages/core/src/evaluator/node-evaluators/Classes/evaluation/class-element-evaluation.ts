@@ -7,19 +7,20 @@ import {
   parenthesizedExpression,
 } from "@babel/types";
 
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPrivateElement } from "#types/StaticJsPrivateElement.js";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+
+import type { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
+import type { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
 
 import { Completion } from "../../../completions/Completion.js";
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";
 import { classElementNameNodeEvaluator } from "../ClassElementName.js";
-import type { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
-import type { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
-
 import { methodDefinitionEvaluation } from "./method-definition-evaluation.js";
 
 export type ClassElementEvaluationResult =

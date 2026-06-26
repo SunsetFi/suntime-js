@@ -1,11 +1,12 @@
-import { Completion } from "#evaluator/completions/Completion.js";
-import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsCallable } from "#types/StaticJsCallable.js";
-import { isStaticJsPromise, type StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
+import { isStaticJsPromise, type StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
 import { construct } from "./construct.js";
 import { isCallable } from "./is-callable.js";

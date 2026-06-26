@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import objectProtoHasOwnPropertyDeclaration from "./hasOwnProperty.js";
 import objectProtoIsPrototypeOfDeclaration from "./isPrototypeOf.js";
 import propertyIsEnumerableDeclaration from "./propertyIsEnumerable.js";

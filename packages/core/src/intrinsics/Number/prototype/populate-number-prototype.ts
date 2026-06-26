@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import numberProtoToExponentialDeclaration from "./toExponential.js";
 import numberProtoToFixedDeclaration from "./toFixed.js";
 import numberProtoToLocaleStringDeclaration from "./toLocaleString.js";

@@ -1,14 +1,15 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { validateAndApplyPropertyDescriptor } from "#algorithms/validate-and-apply-property-descriptor.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { drainIterator } from "#utils/drain-iterator.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsPlainObjectImpl extends StaticJsOrdinaryObjectImpl {

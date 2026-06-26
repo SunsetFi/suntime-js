@@ -1,17 +1,19 @@
-import { get } from "#algorithms/get.js";
-import { sameValue } from "#algorithms/same-value.js";
-import { set } from "#algorithms/set.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { get } from "#algorithms/get.js";
+import { sameValue } from "#algorithms/same-value.js";
+import { set } from "#algorithms/set.js";
+
 import type { StaticJsObject, StaticJsObjectPropertyAccessOptions } from "../../StaticJsObject.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
   type StaticJsPropertyDescriptor,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";

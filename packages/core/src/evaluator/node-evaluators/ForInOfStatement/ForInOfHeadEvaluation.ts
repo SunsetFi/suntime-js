@@ -1,5 +1,7 @@
 import type { Expression } from "@babel/types";
 
+import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
+
 import { enumerateObjectProperties } from "#algorithms/enumerate-object-properties.js";
 import { getValue } from "#algorithms/get-value.js";
 import { get } from "#algorithms/get.js";
@@ -7,15 +9,15 @@ import { toObject } from "#algorithms/to-object.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { getIterator } from "#iterators/get-iterator.js";
-import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
 import { isStaticJsNull } from "#types/StaticJsNull.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
+
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* forInOfHeadEvaluation(
   uninitializedBoundNames: string[],

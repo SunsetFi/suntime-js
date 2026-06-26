@@ -1,7 +1,10 @@
 import type { CatchClause, TryStatement } from "@babel/types";
 
-import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
+
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import bindingInitialization from "../bindings/binding-initialization.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
@@ -9,7 +12,6 @@ import { captureThrownCompletion } from "../completions/capture-thrown-completio
 import { Completion } from "../completions/Completion.js";
 import { rethrowCompletion } from "../completions/rethrow-completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";
 
 function* tryStatementNodeEvaluator(node: TryStatement): EvaluationGenerator {

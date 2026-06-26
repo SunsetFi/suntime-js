@@ -1,13 +1,15 @@
 import type { NewExpression } from "@babel/types";
 
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { construct } from "#algorithms/construct.js";
 import { isCallable } from "#algorithms/is-callable.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* newExpressionNodeEvaluator(node: NewExpression): EvaluationGenerator {
   const callee = yield* Q.val(EvaluateNodeCommand(node.callee));

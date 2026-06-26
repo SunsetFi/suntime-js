@@ -1,4 +1,5 @@
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 

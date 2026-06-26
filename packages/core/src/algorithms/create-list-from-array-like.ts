@@ -1,9 +1,10 @@
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { Completion } from "#evaluator/completions/Completion.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
 import { type StaticJsPropertyKey, isStaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 import { isStaticJsString } from "#types/StaticJsString.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { get } from "./get.js";
 import { lengthOfArrayLike } from "./length-of-array-like.js";

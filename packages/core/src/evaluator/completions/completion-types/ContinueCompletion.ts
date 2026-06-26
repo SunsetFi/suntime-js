@@ -1,7 +1,9 @@
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import type { CompletionValue } from "../CompletionValue.js";
+
 import { nameCompletionLike } from "../name-completion-like.js";
 
 export interface ContinueCompletion {

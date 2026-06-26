@@ -1,11 +1,11 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
+import type { StaticJsObject } from "./index.js";
 import type { StaticJsIteratorResult } from "./StaticJsIterator.js";
+
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
-
-import type { StaticJsObject } from "./index.js";
 
 export interface StaticJsGenerator extends StaticJsObject {
   readonly runtimeTypeOf: "generator";

@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import arrayIteratorProtoNextDeclaration from "./next.js";
 import arrayProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";
 

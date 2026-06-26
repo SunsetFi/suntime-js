@@ -1,8 +1,8 @@
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 
-import { Q } from "../completions/Q.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { Q } from "../completions/Q.js";
 import { FunctionEnterCommand } from "./FunctionEnterCommand.js";
 import { FunctionExitCommand } from "./FunctionExitCommand.js";
 

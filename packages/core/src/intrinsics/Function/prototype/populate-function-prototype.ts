@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import { functionProtoApplyDeclaration } from "./apply.js";
 import { functionProtoBindDeclaration } from "./bind.js";
 import { functionProtoCallDeclaration } from "./call.js";

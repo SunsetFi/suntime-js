@@ -5,7 +5,6 @@ import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,
 } from "../../apply-intrinsic-properties.js";
-
 import promiseProtoCatchDeclaration from "./catch.js";
 import promiseProtoFinallyDeclaration from "./finally.js";
 import promiseProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";

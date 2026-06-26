@@ -1,7 +1,8 @@
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 export default function* getThisBinding(
   env: StaticJsEnvironmentRecord,

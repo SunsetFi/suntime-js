@@ -1,3 +1,6 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { call } from "#algorithms/call.js";
 import { get } from "#algorithms/get.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
@@ -7,20 +10,17 @@ import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsMapImpl } from "#types/implementation/objects/StaticJsMapImpl.js";
 import { isStaticJsCallable, type StaticJsCallable } from "#types/StaticJsCallable.js";
 import { isStaticJsNull } from "#types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,
 } from "../../apply-intrinsic-properties.js";
-
 import mapCtorGroupByDeclaration from "./groupBy.js";
 import mapCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 

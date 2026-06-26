@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import { booleanProtoToStringDeclaration } from "./toString.js";
 import { booleanProtoValueOfDeclaration } from "./valueOf.js";
 

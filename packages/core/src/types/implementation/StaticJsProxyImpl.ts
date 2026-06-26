@@ -1,5 +1,8 @@
 // TODO REMOVE
 
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import { call } from "#algorithms/call.js";
 import { completePropertyDescriptor } from "#algorithms/complete-property-descriptor.js";
 import { construct } from "#algorithms/construct.js";
@@ -15,8 +18,9 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
+import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
+import type { StaticJsProxy } from "../StaticJsProxy.js";
 
 import { isStaticJsCallable, type StaticJsCallable } from "../StaticJsCallable.js";
 import { isStaticJsNull } from "../StaticJsNull.js";
@@ -26,7 +30,6 @@ import {
   type StaticJsObjectPropertyAccessOptions,
   type StaticJsObjectPropertyAccessRunTaskOptions,
 } from "../StaticJsObject.js";
-import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import {
   isStaticJsAccessorPropertyDescriptor,
   isStaticJsDataPropertyDescriptor,
@@ -35,12 +38,10 @@ import {
   type StaticJsPropertyDescriptorRecord,
 } from "../StaticJsPropertyDescriptor.js";
 import { type StaticJsPropertyKey, staticJsPropertyKeyToValue } from "../StaticJsPropertyKey.js";
-import type { StaticJsProxy } from "../StaticJsProxy.js";
 import { isStaticJsSymbol } from "../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { isStaticJsUndefined } from "../StaticJsUndefined.js";
 import { isStaticJsValue, type StaticJsValue } from "../StaticJsValue.js";
-
 import { createStaticJsObjectProxy } from "./objects/create-object-proxy.js";
 
 export class StaticJsProxyImpl implements StaticJsProxy {

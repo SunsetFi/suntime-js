@@ -1,5 +1,8 @@
 import { isNode, type Node } from "@babel/types";
 
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import { Await } from "#algorithms/await.js";
 import { call } from "#algorithms/call.js";
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
@@ -14,16 +17,14 @@ import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
-import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
 interface AsyncGeneratorRequest {

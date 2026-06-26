@@ -9,14 +9,17 @@
   "repository": {
     "url": "https://github.com/SunsetFi/suntime-js"
   },
-  "engines": {
-    "node": ">= 22"
-  },
   "files": [
     "dist"
   ],
   "type": "module",
   "sideEffects": false,
+  "imports": {
+    "#*": {
+      "development": "./src/*",
+      "import": "./dist/*"
+    }
+  },
   "exports": {
     ".": {
       "development": "./src/index.ts",
@@ -24,23 +27,17 @@
       "import": "./dist/index.js"
     }
   },
-  "imports": {
-    "#*": {
-      "development": "./src/*",
-      "import": "./dist/*"
-    }
-  },
   "publishConfig": {
-    "exports": {
-      ".": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/index.js"
-      }
-    },
     "imports": {
       "#*": {
         "types": "./dist/*",
         "import": "./dist/*"
+      }
+    },
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
       }
     },
     "access": "public",
@@ -86,6 +83,9 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "yaml": "^2.9.0"
+  },
+  "engines": {
+    "node": ">= 22"
   },
   "packageManager": "pnpm@11.5.2"
 }

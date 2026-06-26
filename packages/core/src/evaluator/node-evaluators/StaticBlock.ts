@@ -3,7 +3,6 @@ import type { StaticBlock } from "@babel/types";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import evaluateStatementList from "./StatementList.js";
 
 export default function* staticBlockNodeEvaluator(node: StaticBlock): EvaluationGenerator {

@@ -7,10 +7,11 @@ import type {
   ObjectMethod,
 } from "@babel/types";
 
-import { toPropertyKey } from "#algorithms/to-property-key.js";
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
 import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+
+import { toPropertyKey } from "#algorithms/to-property-key.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";

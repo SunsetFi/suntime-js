@@ -1,11 +1,13 @@
 import type { VariableDeclaration } from "@babel/types";
 
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
-import bindingInitialization from "../../bindings/binding-initialization.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
+import bindingInitialization from "../../bindings/binding-initialization.js";
 
 export default function* forDeclarationBindingInitialization(
   node: VariableDeclaration,

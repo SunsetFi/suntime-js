@@ -1,16 +1,16 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+
 import { arrayCreate } from "#algorithms/array-create.js";
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { toInteger } from "#algorithms/to-integer.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsNumber } from "#types/StaticJsNumber.js";
-import type { StaticJsObject } from "#types/StaticJsObject.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import arrayCtorFromDeclaration from "./from.js";
 import arrayCtorIsArrayDeclaration from "./isArray.js";
 import arrayCtorOfDeclaration from "./of.js";

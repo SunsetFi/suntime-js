@@ -1,15 +1,15 @@
-import { toString } from "#algorithms/to-string.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+
+import { toString } from "#algorithms/to-string.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsStringExoticObject } from "#types/implementation/primitives/StaticJsStringExoticObject.js";
-import type { StaticJsObject } from "#types/StaticJsObject.js";
 import { isStaticJsSymbol } from "#types/StaticJsSymbol.js";
 
 import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import stringCtorFromCharCodeDeclaration from "./fromCharCode.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [stringCtorFromCharCodeDeclaration];

@@ -1,5 +1,7 @@
 import type { CallExpression, OptionalCallExpression } from "@babel/types";
 
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { call } from "#algorithms/call.js";
 import { getThisValue } from "#algorithms/get-this-value.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
@@ -9,13 +11,11 @@ import {
   type StaticJsReferenceRecord,
 } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsCallable } from "#types/StaticJsCallable.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { Completion } from "../../completions/Completion.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
 import { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import nameNode from "../name-node.js";
-
 import { argumentsListEvaluation } from "./ArgumentsListEvaluation.js";
 
 export function* evaluateCall(

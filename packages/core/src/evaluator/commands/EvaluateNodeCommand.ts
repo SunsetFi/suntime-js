@@ -1,9 +1,9 @@
 import type { Node } from "@babel/types";
 
-import { Completion } from "../completions/Completion.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-import evaluateNode from "../node-evaluators/evaluate-node.js";
 
+import { Completion } from "../completions/Completion.js";
+import evaluateNode from "../node-evaluators/evaluate-node.js";
 import { NodeEnterCommand } from "./NodeEnterCommand.js";
 import { NodeExitCommand } from "./NodeExitCommand.js";
 

@@ -1,8 +1,9 @@
-import { Completion } from "#evaluator/completions/Completion.js";
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { Completion } from "#evaluator/completions/Completion.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 import { toString } from "./to-string.js";
 

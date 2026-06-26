@@ -6,6 +6,9 @@ import type {
   VariableDeclaration,
 } from "@babel/types";
 
+import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { Await } from "#algorithms/await.js";
 import { call } from "#algorithms/call.js";
 import { loopContinues } from "#algorithms/loop-continues.js";
@@ -16,14 +19,14 @@ import { asyncIteratorClose } from "#iterators/async-iterator-close.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorComplete } from "#iterators/iterator-complete.js";
 import { iteratorValue } from "#iterators/iterator-value.js";
-import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
 import getIdentifierReference from "#references/get-identifier-reference.js";
 import {
   isStaticJsReferenceRecord,
   type StaticJsReferenceRecord,
 } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
@@ -34,9 +37,7 @@ import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
 import { X } from "../../completions/X.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import boundNames from "../../instantiation/algorithms/bound-names.js";
-
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";
 import isDestructuring from "./is-destructuring.js";

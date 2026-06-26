@@ -7,10 +7,11 @@ import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* arrayExpressionNodeEvaluator(node: ArrayExpression): EvaluationGenerator {
   const { realm } = EvaluationContext.current;

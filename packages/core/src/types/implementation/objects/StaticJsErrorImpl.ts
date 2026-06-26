@@ -2,8 +2,8 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import type { StaticJsError } from "../../StaticJsError.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsErrorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsError {

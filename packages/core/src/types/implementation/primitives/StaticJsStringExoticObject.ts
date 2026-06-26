@@ -1,10 +1,11 @@
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import { canonicalNumericStringIndex } from "#algorithms/canonical-numeric-string-index.js";
 import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import { isCompatiblePropertyDescriptor } from "#algorithms/is-compatible-property-descriptor.js";
 import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type {
@@ -12,6 +13,7 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isArrayIndex } from "../objects/is-array-index.js";

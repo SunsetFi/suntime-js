@@ -1,4 +1,5 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { symbolInspect } from "#utils/symbol-inspect.js";
 
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";

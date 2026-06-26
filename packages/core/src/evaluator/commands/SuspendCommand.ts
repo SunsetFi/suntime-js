@@ -1,11 +1,11 @@
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
-import { Completion } from "../completions/Completion.js";
-import { EvaluationContext } from "../EvaluationContext.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import type { EvaluatorCommand } from "./EvaluatorCommand.js";
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
+
+import { Completion } from "../completions/Completion.js";
+import { EvaluationContext } from "../EvaluationContext.js";
 
 export interface SuspendContextResumptionValue<TCallerResumptionValue = unknown> {
   __kind_resumption_value: TCallerResumptionValue;

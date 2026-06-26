@@ -1,3 +1,16 @@
+import type { RealmHooks } from "#hooks/hooks.js";
+import type { Intrinsics, IntrinsicsRecord } from "#intrinsics/intrinsics.js";
+import type { StaticJsModule } from "#modules/StaticJsModule.js";
+import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsTaskCalleeType } from "#tasks/StaticJsTaskCalleeType.js";
+import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
+import type { HostAccessOptions } from "#types/HostAccessOptions.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
+import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { asyncBlockStart } from "#algorithms/async-block-start.js";
 import { getValue } from "#algorithms/get-value.js";
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
@@ -19,15 +32,11 @@ import {
 import { globalDeclarationInstantiation } from "#evaluator/instantiation/global-declaration-instantiation.js";
 import { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 import { type StaticJsEvaluator, invokeEvaluator } from "#evaluator/StaticJsEvaluator.js";
-import type { RealmHooks } from "#hooks/hooks.js";
 import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
-import type { Intrinsics, IntrinsicsRecord } from "#intrinsics/intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
 import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "#modules/implementation/StaticJsExternalModuleImpl.js";
-import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import { isStaticJsModule } from "#modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import {
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
@@ -36,20 +45,12 @@ import { findTopLevelAwait } from "#parser/find-top-level-await.js";
 import { parseExpression } from "#parser/parse-expression.js";
 import { parseModule } from "#parser/parse-module.js";
 import { parseScript } from "#parser/parse-script.js";
-import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
-import type { StaticJsTaskCalleeType } from "#tasks/StaticJsTaskCalleeType.js";
-import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import { synchronousDefaultTaskRunner } from "#tasks/task-runners/synchronous-default.js";
-import type { HostAccessOptions } from "#types/HostAccessOptions.js";
 import { StaticJsTypeFactoryImpl } from "#types/implementation/StaticJsTypeFactoryImpl.js";
-import type { StaticJsObject } from "#types/StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
 import {
   type StaticJsPropertyDescriptorRecord,
   validateStaticJsPropertyDescriptorRecord,
 } from "#types/StaticJsPropertyDescriptor.js";
-import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { createDeferred } from "#utils/create-deferred.js";
 import { drainIterator } from "#utils/drain-iterator.js";
 import { hasOwnProperty } from "#utils/has-own-property.js";

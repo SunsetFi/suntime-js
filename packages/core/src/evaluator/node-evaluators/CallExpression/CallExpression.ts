@@ -1,5 +1,7 @@
 import type { CallExpression } from "@babel/types";
 
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { construct } from "#algorithms/construct.js";
 import { getNewTarget } from "#algorithms/get-new-target.js";
 import { getSuperConstructor } from "#algorithms/get-super-constructor.js";
@@ -16,15 +18,14 @@ import {
 } from "#references/StaticJsReferenceRecord.js";
 import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsFunction } from "#types/StaticJsFunction.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 import { initializeInstanceElements } from "../Classes/evaluation/initialize-instance-elements.js";
-
 import { argumentsListEvaluation } from "./ArgumentsListEvaluation.js";
 import { evaluateCall } from "./EvaluateCall.js";
 

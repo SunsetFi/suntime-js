@@ -11,11 +11,12 @@ import { toPropertyKey } from "#algorithms/to-property-key.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* binaryExpressionNodeEvaluator(
   node: BinaryExpression,

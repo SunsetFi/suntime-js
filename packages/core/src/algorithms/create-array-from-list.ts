@@ -1,6 +1,7 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsArray } from "#types/StaticJsArray.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 import { arrayCreate } from "./array-create.js";
 import { createDataPropertyOrThrow } from "./create-data-property-or-throw.js";

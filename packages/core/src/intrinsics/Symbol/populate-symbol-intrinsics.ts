@@ -1,5 +1,6 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { StaticJsSymbolImpl } from "#types/implementation/primitives/StaticJsSymbolImpl.js";
 import { getWellKnownSymbols } from "#types/implementation/well-known-symbols.js";
 

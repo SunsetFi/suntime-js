@@ -6,6 +6,10 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
+import type { StaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { copyDataProperties } from "#algorithms/copy-data-properties.js";
 import { get } from "#algorithms/get.js";
 import { putValue } from "#algorithms/put-value.js";
@@ -16,19 +20,16 @@ import isAnonymousFunctionDefinition from "#grammar/is-anonymous-function-defini
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import getIdentifierReference from "#references/get-identifier-reference.js";
-import type { StaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsNull } from "#types/StaticJsNull.js";
-import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 import NamedEvaluation from "../node-evaluators/NamedEvaluation.js";
-
 import iteratorDestructuringAssignmentEvaluation from "./iterator-destructuring-assignment-evaluation.js";
 
 export default function* destructuringAssignmentEvaluation(

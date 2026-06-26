@@ -1,3 +1,5 @@
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { arraySpeciesCreate } from "#algorithms/array-species-create.js";
 import { createDataPropertyOrThrow } from "#algorithms/create-data-property-or-throw.js";
 import { deletePropertyOrThrow } from "#algorithms/delete-property-or-throw.js";
@@ -9,7 +11,6 @@ import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
 import { toObject } from "#algorithms/to-object.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 

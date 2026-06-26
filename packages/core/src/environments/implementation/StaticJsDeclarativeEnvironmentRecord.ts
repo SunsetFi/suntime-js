@@ -1,9 +1,10 @@
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { Completion } from "#evaluator/completions/Completion.js";
 import type { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { Completion } from "#evaluator/completions/Completion.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 

@@ -1,6 +1,7 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 
 export function* hasProperty(
   obj: StaticJsObject,

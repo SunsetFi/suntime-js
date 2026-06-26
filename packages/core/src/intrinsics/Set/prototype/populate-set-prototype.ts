@@ -5,7 +5,6 @@ import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,
 } from "../../apply-intrinsic-properties.js";
-
 import setProtoAddDeclaration from "./add.js";
 import setProtoClearDeclaration from "./clear.js";
 import setProtoDeleteDeclaration from "./delete.js";

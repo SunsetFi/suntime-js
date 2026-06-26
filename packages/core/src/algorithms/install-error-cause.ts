@@ -1,6 +1,7 @@
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { createNonEnumerableDataPropertyOrThrow } from "./create-non-enumerable-data-property-or-throw.js";
 import { get } from "./get.js";

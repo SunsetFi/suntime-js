@@ -1,8 +1,9 @@
-import { createDynamicFunction } from "#algorithms/create-dynamic-function.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsCallable } from "#types/StaticJsCallable.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
+
+import { createDynamicFunction } from "#algorithms/create-dynamic-function.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function* createAsyncGeneratorFunctionConstructor(
   realm: StaticJsRealm,

@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 
 import { StaticJsRealm } from "../../../index.js";
-
 import { buildHostBuiltinMap } from "./HostBuiltinMap.js";
 
 describe("buildHostBuiltinMap", () => {

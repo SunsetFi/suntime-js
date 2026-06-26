@@ -1,24 +1,25 @@
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import { call } from "#algorithms/call.js";
 import { get } from "#algorithms/get.js";
 import { isCallable } from "#algorithms/is-callable.js";
 import { toBoolean } from "#algorithms/to-boolean.js";
 import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
-import { isStaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";
+
+import { isStaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
-
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 import { StaticJsSetIteratorImpl } from "./StaticJsSetIteratorImpl.js";
 

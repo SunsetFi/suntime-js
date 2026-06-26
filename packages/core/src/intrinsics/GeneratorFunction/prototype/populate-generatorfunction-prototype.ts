@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import generatorProtoPrototypeDeclaration from "./prototype.js";
 import generatorFunctionProtoSymbolToStringTagDeclaration from "./symbol_toStringTag.js";
 

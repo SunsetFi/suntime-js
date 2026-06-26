@@ -5,7 +5,6 @@ import {
   type StaticJsObject,
   type StaticJsValue,
 } from "../../src/index.js";
-
 import { ScriptTimeout } from "./timeouts.js";
 
 export default function createHostApi(

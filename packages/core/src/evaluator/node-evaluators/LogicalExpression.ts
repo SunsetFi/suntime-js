@@ -4,9 +4,10 @@ import { toBoolean } from "#algorithms/to-boolean.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { StaticJsTypeCode } from "#types/StaticJsTypeCode.js";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function logicalExpressionNodeEvaluator(
   node: LogicalExpression,

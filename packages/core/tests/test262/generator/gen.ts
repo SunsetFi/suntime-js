@@ -2,7 +2,6 @@ import { mkdirSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import getTest262Path from "../utils/get-test262-path.js";
-
 import { createTestFile } from "./create-test-file.js";
 import { getTestPaths } from "./get-test-paths.js";
 

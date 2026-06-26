@@ -1,5 +1,8 @@
 import type { MemberExpression } from "@babel/types";
 
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { getSuperBase } from "#algorithms/get-super-base.js";
 import { getThisEnvironment } from "#algorithms/get-this-environment.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
@@ -7,13 +10,12 @@ import {
   type StaticJsPropertyReferenceRecord,
   staticJsPropertyReferenceRecord,
 } from "#references/StaticJsReferenceRecord.js";
-import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
+
+import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
 export default function* memberExpressionNodeEvaluator(
   node: MemberExpression,

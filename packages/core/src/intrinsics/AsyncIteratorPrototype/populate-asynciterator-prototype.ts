@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../apply-intrinsic-properties.js";
-
 import { asyncIteratorProtoSymbolAsyncIteratorDeclaration } from "./symbol_asyncIterator.js";
 const declarations: IntrinsicPropertyDeclaration[] = [
   asyncIteratorProtoSymbolAsyncIteratorDeclaration,

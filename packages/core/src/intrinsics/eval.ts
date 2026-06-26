@@ -1,7 +1,8 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import { performEval } from "#algorithms/perform-eval.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.js";

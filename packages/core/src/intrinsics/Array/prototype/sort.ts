@@ -1,14 +1,16 @@
+import type { StaticJsCallable } from "#types/StaticJsCallable.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { deletePropertyOrThrow } from "#algorithms/delete-property-or-throw.js";
 import { isCallable } from "#algorithms/is-callable.js";
 import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
 import { set } from "#algorithms/set.js";
 import { toObject } from "#algorithms/to-object.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import type { StaticJsCallable } from "#types/StaticJsCallable.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
+
 import compareArrayElements from "../compare-array-elements.js";
 import sortIndexedProperties from "../sort-indexed-properties.js";
 

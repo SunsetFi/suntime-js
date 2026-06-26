@@ -1,6 +1,7 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { toString } from "#algorithms/to-string.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsNull } from "#types/StaticJsNull.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";

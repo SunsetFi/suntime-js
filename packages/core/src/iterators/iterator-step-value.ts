@@ -1,10 +1,12 @@
-import { Completion } from "#evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { Completion } from "#evaluator/completions/Completion.js";
+
+import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
+
 import { iteratorStep } from "./iterator-step.js";
 import { iteratorValue } from "./iterator-value.js";
-import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";
 
 export function* iteratorStepValue(
   iteratorRecord: StaticJsIteratorRecord,

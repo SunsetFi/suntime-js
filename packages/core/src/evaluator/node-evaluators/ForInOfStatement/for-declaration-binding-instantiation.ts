@@ -3,6 +3,7 @@ import type { VariableDeclaration } from "@babel/types";
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
+
 import boundNames from "../../instantiation/algorithms/bound-names.js";
 
 export default function* forDeclarationBindingInstantiation(

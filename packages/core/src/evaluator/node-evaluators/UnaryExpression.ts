@@ -13,11 +13,12 @@ import { isUnresolvableReference } from "#references/is-unresolvable-reference.j
 import { isStaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsValue } from "#types/StaticJsValue.js";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
 export default function* unaryExpressionNodeEvaluator(node: UnaryExpression): EvaluationGenerator {
   if (node.operator === "delete") {

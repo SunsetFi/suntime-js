@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import { asyncFunctionProtoToStringTagDeclaration } from "./symbol_toStringTag.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [asyncFunctionProtoToStringTagDeclaration];

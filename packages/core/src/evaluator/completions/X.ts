@@ -2,11 +2,11 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { isStaticJsReferenceRecord } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsValue } from "#types/StaticJsValue.js";
 
-import { isEvaluationGenerator, type EvaluationGenerator } from "../EvaluationGenerator.js";
+import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 
+import { isEvaluationGenerator, type EvaluationGenerator } from "../EvaluationGenerator.js";
 import { captureThrownCompletion } from "./capture-thrown-completion.js";
 import { Completion } from "./Completion.js";
-import type { CompletionEvaluator } from "./CompletionEvaluator.js";
 import { nameCompletionLike } from "./name-completion-like.js";
 
 export function* X<T = Completion.Normal>(value: CompletionEvaluator<T>): EvaluationGenerator<T> {

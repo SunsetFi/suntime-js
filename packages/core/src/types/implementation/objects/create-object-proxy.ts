@@ -1,13 +1,14 @@
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
+import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsValue } from "../../StaticJsValue.js";
+
 import {
   isStaticJsDataPropertyDescriptor,
   propertyDescriptorToNative,
   type StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
-import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
 
 const ProxyOwnerKey = Symbol.for("@suntime-js/core::StaticJsObjectProxyOwner");
 

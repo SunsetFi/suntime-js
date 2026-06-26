@@ -9,8 +9,9 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
-import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import type { StaticJsValue } from "./StaticJsValue.js";
+
+import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue } from "./StaticJsValue.js";
 
 export interface StaticJsObjectPropertyAccessOptions {

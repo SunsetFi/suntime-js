@@ -1,7 +1,8 @@
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { StaticJsNumberBoxed } from "#types/implementation/primitives/StaticJsNumberBoxed.js";
 import { isStaticJsBoolean } from "#types/StaticJsBoolean.js";
 import { isStaticJsNull } from "#types/StaticJsNull.js";

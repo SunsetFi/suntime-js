@@ -1,11 +1,12 @@
 import type { OptionalMemberExpression, PrivateName } from "@babel/types";
 
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { staticJsPropertyReferenceRecord } from "#references/StaticJsReferenceRecord.js";
 import { isStaticJsNull } from "#types/StaticJsNull.js";
-import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";
 import { Q } from "../../completions/Q.js";

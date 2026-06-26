@@ -1,9 +1,10 @@
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { isStaticJsBoundFunction } from "#types/StaticJsFunction.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { get } from "./get.js";
 import { instanceOfOperator } from "./instance-of-operator.js";

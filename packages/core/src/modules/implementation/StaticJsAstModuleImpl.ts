@@ -1,5 +1,9 @@
 import type { FunctionDeclaration, Program } from "@babel/types";
 
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { asyncBlockStart } from "#algorithms/async-block-start.js";
 import { instantiateFunctionObject } from "#algorithms/instantiate-function-object.js";
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
@@ -12,24 +16,21 @@ import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js"
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { createDeferred } from "#utils/create-deferred.js";
 
 import type {
   StaticJsModuleStatus,
   StaticJsModuleImplementation,
 } from "../StaticJsModuleImplementation.js";
+import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
 
 import exportEntries from "./export-entries.js";
 import parseImportEntries from "./parse-import-entries.js";
-import type { StaticJsExportEntry } from "./StaticJsExportEntry.js";
 import {
   isStaticJsLocalExportEntry,
   isStaticJsIndirectExportEntry,

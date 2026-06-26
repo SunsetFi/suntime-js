@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import { errorProtoMessageDeclaration } from "./message.js";
 import { errorProtoNameDeclaration } from "./name.js";
 import errorProtoToStringDeclaration from "./toString.js";

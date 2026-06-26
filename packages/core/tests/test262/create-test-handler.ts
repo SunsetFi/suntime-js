@@ -11,7 +11,6 @@ import {
   type StaticJsValue,
 } from "../../src/index.js";
 import isDebuggerActive from "../env/is-debugger-active.js";
-
 import addTestHarness from "./add-test-harness.js";
 import createHostApi from "./host-api.js";
 import Test262File from "./Test262File.js";

@@ -3,12 +3,12 @@ import type { WhileStatement } from "@babel/types";
 import { loopContinues } from "#algorithms/loop-continues.js";
 import { toBoolean } from "#algorithms/to-boolean.js";
 
+import type { EvaluationGenerator } from "../EvaluationGenerator.js";
+
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 

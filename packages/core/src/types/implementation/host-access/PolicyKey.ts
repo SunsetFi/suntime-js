@@ -1,5 +1,4 @@
 import type { HostAccessChildOptions, HostAccessQueryFunction } from "../../HostAccessOptions.js";
-
 import type { ResolvedHostAccessOptions } from "./resolve-host-access-options.js";
 
 export type PolicyKey = string;

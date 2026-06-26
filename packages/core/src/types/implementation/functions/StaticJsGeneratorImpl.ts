@@ -1,5 +1,8 @@
 import { isNode, type Node } from "@babel/types";
 
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js";
 import { SuspendCommand, type SuspendContext } from "#evaluator/commands/SuspendCommand.js";
@@ -11,14 +14,13 @@ import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
 import { iteratorComplete } from "#iterators/iterator-complete.js";
 import { iteratorValue } from "#iterators/iterator-value.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+
+import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export type GeneratorState = "suspended-start" | "suspended-yield" | "executing" | "completed";

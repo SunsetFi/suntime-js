@@ -1,7 +1,6 @@
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
-
 import type EvaluatorCommandBase from "./EvaluatorCommandBase.js";
 
 export interface FunctionEnterCommand extends EvaluatorCommandBase {

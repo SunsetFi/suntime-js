@@ -5,7 +5,6 @@ import {
   type IntrinsicPropertyDeclaration,
   applyIntrinsicProperties,
 } from "../../apply-intrinsic-properties.js";
-
 import mapProtoClearDeclaration from "./clear.js";
 import mapProtoDeleteDeclaration from "./delete.js";
 import mapProtoEntriesDeclaration from "./entries.js";

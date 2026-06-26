@@ -1,4 +1,5 @@
 import type { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
+
 import { isStaticJsDataPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";

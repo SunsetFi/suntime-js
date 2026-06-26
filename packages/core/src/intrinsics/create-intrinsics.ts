@@ -1,6 +1,9 @@
-import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { StaticJsPlainObjectImpl } from "#types/implementation/objects/StaticJsPlainObjectImpl.js";
+
+import type { IntrinsicsRecord } from "./intrinsics.js";
 
 import { populateAggregateErrorIntrinsics } from "./AggregateError/populate-aggregateerror-intrinsics.js";
 import { populateArrayIntrinsics } from "./Array/populate-array-intrinsics.js";
@@ -18,7 +21,6 @@ import { populateFunctionIntrinsics } from "./Function/populate-function-intrins
 import { StaticJsFunctionPrototypeImpl } from "./Function/prototype/StaticJsFunctionPrototypeImpl.js";
 import { populateGeneratorFunctionIntrinsics } from "./GeneratorFunction/populate-generator-function-intrinsics.js";
 import { populateGeneratorIntrinsics } from "./GeneratorPrototype/populate-generator-intrinsics.js";
-import type { IntrinsicsRecord } from "./intrinsics.js";
 import { createIsFinite } from "./isFinite.js";
 import { createIsNaN } from "./isNaN.js";
 import { populateIteratorIntrinsics } from "./Iterator/populate-iterator-intrinsics.js";

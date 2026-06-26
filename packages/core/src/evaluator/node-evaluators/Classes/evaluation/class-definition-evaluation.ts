@@ -1,5 +1,9 @@
 import type { ClassDeclaration, ClassExpression } from "@babel/types";
 
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
+
 import { call } from "#algorithms/call.js";
 import { construct } from "#algorithms/construct.js";
 import { get } from "#algorithms/get.js";
@@ -21,9 +25,6 @@ import {
   type StaticJsPrivateElementAccessor,
   type StaticJsPrivateElementMethod,
 } from "#types/StaticJsPrivateElement.js";
-import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
-import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { EvaluateNodeCommand } from "../../../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../../../completions/capture-thrown-completion.js";
@@ -39,7 +40,6 @@ import {
   isStaticJsClassStaticBlockDefinitionRecord,
   type StaticJsClassStaticBlockDefinitionRecord,
 } from "../ClassStaticBlockDefinitionRecord.js";
-
 import {
   classElementEvaluation,
   type ClassElementEvaluationResult,

@@ -1,6 +1,7 @@
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import type { CompletionValue } from "#evaluator/completions/CompletionValue.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import { isStaticJsString } from "./StaticJsString.js";
 import { isStaticJsSymbol, type StaticJsSymbol } from "./StaticJsSymbol.js";

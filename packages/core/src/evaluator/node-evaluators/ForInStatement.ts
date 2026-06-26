@@ -4,7 +4,6 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import { Q } from "../completions/Q.js";
 import boundNames from "../instantiation/algorithms/bound-names.js";
-
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 import { forInOfBodyEvaluation } from "./ForInOfStatement/ForInOfBodyEvaluation.js";
 import forInOfHeadEvaluation from "./ForInOfStatement/ForInOfHeadEvaluation.js";

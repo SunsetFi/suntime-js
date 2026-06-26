@@ -1,3 +1,6 @@
+import type { Intrinsics } from "#intrinsics/intrinsics.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
 import { call } from "#algorithms/call.js";
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { createNonEnumerableDataPropertyOrThrow } from "#algorithms/create-non-enumerable-data-property-or-throw.js";
@@ -7,20 +10,18 @@ import { ordinaryCreateFromConstructor } from "#algorithms/ordinary-create-from-
 import { toString } from "#algorithms/to-string.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import type { Intrinsics } from "#intrinsics/intrinsics.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
+import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
+
 import { isStaticJsNull } from "../../StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { getWellKnownErrorName, type WellKnownErrorName } from "../../well-known-errors.js";
 import { StaticJsExternalFunction } from "../functions/StaticJsExternalFunction.js";
-import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
-
 import { buildHostBuiltinMap, type HostBuiltinMap } from "./HostBuiltinMap.js";
 import { type PolicyKey, PolicyKeyInterner } from "./PolicyKey.js";
 import {

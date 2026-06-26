@@ -5,7 +5,6 @@ import {
   applyIntrinsicProperties,
   type IntrinsicPropertyDeclaration,
 } from "../../apply-intrinsic-properties.js";
-
 import { asyncFromSyncIteratorProtoNextDeclaration } from "./next.js";
 import { asyncFromSyncIteratorProtoReturnDeclaration } from "./return.js";
 import { asyncFromSyncIteratorProtoThrowDeclaration } from "./throw.js";
