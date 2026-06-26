@@ -1,5 +1,7 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { stringSizeBytes } from "#memory/implementation/string-size.js";
+
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 
@@ -30,6 +32,7 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     if (typeof descriptionOrSymbol === "string") {
       this._description = descriptionOrSymbol;
       this._nativeSymbol = Symbol(descriptionOrSymbol);
+      realm.memory.allocate(stringSizeBytes(descriptionOrSymbol));
     } else if (typeof descriptionOrSymbol === "symbol") {
       this._description = descriptionOrSymbol.description;
       this._nativeSymbol = descriptionOrSymbol;

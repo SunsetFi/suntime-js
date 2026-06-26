@@ -18,6 +18,9 @@ catalogs:
     '@types/babel__traverse':
       specifier: ^7.28.0
       version: 7.28.0
+    '@types/node':
+      specifier: ^25.9.3
+      version: 25.9.4
     '@typescript/native-preview':
       specifier: 7.0.0-dev.20260421.2
       version: 7.0.0-dev.20260421.2
@@ -11519,7 +11522,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 26.1.0
 
   '@types/send@0.17.6':
     dependencies:

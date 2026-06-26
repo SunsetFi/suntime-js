@@ -1,5 +1,8 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { STATICJS_STRING_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
+import { stringSizeBytes } from "#memory/implementation/string-size.js";
+
 import type { StaticJsString } from "../../StaticJsString.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -13,7 +16,7 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
       throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
 
-    super(realm);
+    super(realm, STATICJS_STRING_OVERHEAD_BYTES + stringSizeBytes(value));
     this._value = value;
   }
 

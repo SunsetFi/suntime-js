@@ -1,5 +1,6 @@
 import type { RealmHooks } from "#hooks/hooks.js";
 import type { Intrinsics, IntrinsicsRecord } from "#intrinsics/intrinsics.js";
+import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
@@ -34,6 +35,7 @@ import { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsSc
 import { type StaticJsEvaluator, invokeEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
+import { StaticJsMemoryManagerImpl } from "#memory/implementation/StaticJsMemoryManagerImpl.js";
 import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "#modules/implementation/StaticJsExternalModuleImpl.js";
 import { isStaticJsModule } from "#modules/StaticJsModule.js";
@@ -80,6 +82,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
   private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
   private readonly _globalEnv: StaticJsGlobalEnvironmentRecord;
+
+  private readonly _memory: StaticJsMemoryManager;
   private readonly _typeFactory: StaticJsTypeFactory;
 
   private readonly _staticModules = new Map<string, StaticJsModuleImplementation | null>();
@@ -113,6 +117,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
+    this._memory = new StaticJsMemoryManagerImpl();
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? synchronousDefaultTaskRunner;
@@ -204,6 +209,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get types() {
     return this._typeFactory;
+  }
+
+  get memory() {
+    return this._memory;
   }
 
   get hooks() {
@@ -553,6 +562,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     const nextTask = this._tasks.shift();
     if (nextTask) {
+      // Now that we are actually committed to doing something, try to sweep.
+      this._memory.sweepIfWatermark();
       this._invokeMacrotask(nextTask);
       return;
     } else {

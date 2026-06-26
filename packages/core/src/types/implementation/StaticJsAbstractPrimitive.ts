@@ -6,7 +6,12 @@ import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
-  constructor(private readonly _realm: StaticJsRealm) {}
+  constructor(
+    private readonly _realm: StaticJsRealm,
+    size: number,
+  ) {
+    _realm.memory.allocate(size);
+  }
 
   get realm(): StaticJsRealm {
     return this._realm;
