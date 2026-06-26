@@ -1,9 +1,9 @@
+import { call } from "../../algorithms/call.js";
+import { getMethod } from "../../algorithms/get-method.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { call } from "../algorithms/call.js";
-import { getMethod } from "../algorithms/get-method.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 

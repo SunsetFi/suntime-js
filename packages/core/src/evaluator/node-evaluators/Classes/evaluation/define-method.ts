@@ -1,9 +1,9 @@
 import type { ClassMethod, ClassPrivateMethod, ObjectMethod } from "@babel/types";
 
+import { expectedArgumentCount } from "../../../../algorithms/expected-argument-count.js";
+import { setFunctionLength } from "../../../../algorithms/set-function-length.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { verifyNoTsParameterProperties } from "../../../../grammar/verify-no-ts-parameter-properties.js";
-import { expectedArgumentCount } from "../../../../runtime/algorithms/expected-argument-count.js";
-import { setFunctionLength } from "../../../../runtime/algorithms/set-function-length.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { StaticJsMethodFunction } from "../../../../runtime/types/implementation/functions/StaticJsMethodFunction.js";
 import type { StaticJsFunction } from "../../../../runtime/types/StaticJsFunction.js";

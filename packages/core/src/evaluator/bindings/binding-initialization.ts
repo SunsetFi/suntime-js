@@ -8,13 +8,13 @@ import {
   isObjectProperty,
 } from "@babel/types";
 
+import { copyDataProperties } from "../../algorithms/copy-data-properties.js";
+import { get } from "../../algorithms/get.js";
+import { putValue } from "../../algorithms/put-value.js";
+import { toObject } from "../../algorithms/to-object.js";
+import { toPropertyKey } from "../../algorithms/to-property-key.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import { copyDataProperties } from "../../runtime/algorithms/copy-data-properties.js";
-import { get } from "../../runtime/algorithms/get.js";
-import { putValue } from "../../runtime/algorithms/put-value.js";
-import { toObject } from "../../runtime/algorithms/to-object.js";
-import { toPropertyKey } from "../../runtime/algorithms/to-property-key.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";

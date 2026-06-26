@@ -1,4 +1,4 @@
-import { promiseReject } from "../../../algorithms/promise-reject.js";
+import { promiseReject } from "../../../../algorithms/promise-reject.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const promiseCtorRejectDeclaration: IntrinsicPropertyDeclaration = {

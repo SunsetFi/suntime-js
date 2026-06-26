@@ -1,6 +1,6 @@
-import { requireObjectCoercible } from "../../../algorithms/require-object-coercible.js";
-import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
-import { toString } from "../../../algorithms/to-string.js";
+import { requireObjectCoercible } from "../../../../algorithms/require-object-coercible.js";
+import { toIntegerOrInfinity } from "../../../../algorithms/to-integer-or-infinity.js";
+import { toString } from "../../../../algorithms/to-string.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 export const stringProtoAtDeclaration: IntrinsicPropertyDeclaration = {

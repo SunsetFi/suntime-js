@@ -1,6 +1,6 @@
-import { createDataPropertyOrThrow } from "../../../runtime/algorithms/create-data-property-or-throw.js";
-import { definePropertyOrThrow } from "../../../runtime/algorithms/define-property-or-throw.js";
-import { get } from "../../../runtime/algorithms/get.js";
+import { createDataPropertyOrThrow } from "../../../algorithms/create-data-property-or-throw.js";
+import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
+import { get } from "../../../algorithms/get.js";
 import type { StaticJsObject } from "../../../runtime/types/StaticJsObject.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import { EvaluationContext } from "../../EvaluationContext.js";

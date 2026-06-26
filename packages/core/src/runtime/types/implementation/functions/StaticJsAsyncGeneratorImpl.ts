@@ -1,5 +1,10 @@
 import { isNode, type Node } from "@babel/types";
 
+import { Await } from "../../../../algorithms/await.js";
+import { call } from "../../../../algorithms/call.js";
+import { newPromiseCapability } from "../../../../algorithms/new-promise-capability.js";
+import { performPromiseThen } from "../../../../algorithms/perform-promise-then.js";
+import { promiseResolve } from "../../../../algorithms/promise-resolve.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
 import {
@@ -12,11 +17,6 @@ import { X } from "../../../../evaluator/completions/X.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
-import { Await } from "../../../algorithms/await.js";
-import { call } from "../../../algorithms/call.js";
-import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
-import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
-import { promiseResolve } from "../../../algorithms/promise-resolve.js";
 import { createIteratorResultObject } from "../../../iterators/create-iterator-result-object.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";

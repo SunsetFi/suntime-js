@@ -1,14 +1,14 @@
 import type { CallExpression } from "@babel/types";
 
+import { construct } from "../../../algorithms/construct.js";
+import { getNewTarget } from "../../../algorithms/get-new-target.js";
+import { getSuperConstructor } from "../../../algorithms/get-super-constructor.js";
+import { getThisEnvironment } from "../../../algorithms/get-this-environment.js";
+import { getValue } from "../../../algorithms/get-value.js";
+import { isConstructor } from "../../../algorithms/is-constructor.js";
+import { performEval } from "../../../algorithms/perform-eval.js";
+import { sameValue } from "../../../algorithms/same-value.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { construct } from "../../../runtime/algorithms/construct.js";
-import { getNewTarget } from "../../../runtime/algorithms/get-new-target.js";
-import { getSuperConstructor } from "../../../runtime/algorithms/get-super-constructor.js";
-import { getThisEnvironment } from "../../../runtime/algorithms/get-this-environment.js";
-import { getValue } from "../../../runtime/algorithms/get-value.js";
-import { isConstructor } from "../../../runtime/algorithms/is-constructor.js";
-import { performEval } from "../../../runtime/algorithms/perform-eval.js";
-import { sameValue } from "../../../runtime/algorithms/same-value.js";
 import { StaticJsFunctionEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import {
   isStaticJsPropertyReference,

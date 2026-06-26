@@ -1,6 +1,6 @@
 import type { AwaitExpression } from "@babel/types";
 
-import { Await } from "../../runtime/algorithms/await.js";
+import { Await } from "../../algorithms/await.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Q } from "../completions/Q.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";

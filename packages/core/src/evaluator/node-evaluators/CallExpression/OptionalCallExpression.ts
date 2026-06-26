@@ -1,7 +1,7 @@
 import type { OptionalCallExpression } from "@babel/types";
 
+import { getValue } from "../../../algorithms/get-value.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { getValue } from "../../../runtime/algorithms/get-value.js";
 import { isStaticJsNull } from "../../../runtime/types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../runtime/types/StaticJsUndefined.js";
 import { EvaluateNodeCommand } from "../../commands/EvaluateNodeCommand.js";

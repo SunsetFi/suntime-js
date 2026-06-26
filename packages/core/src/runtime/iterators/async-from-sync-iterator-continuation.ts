@@ -1,10 +1,10 @@
+import { call } from "../../algorithms/call.js";
+import { performPromiseThen } from "../../algorithms/perform-promise-then.js";
+import { promiseResolve } from "../../algorithms/promise-resolve.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import { Q } from "../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { call } from "../algorithms/call.js";
-import { performPromiseThen } from "../algorithms/perform-promise-then.js";
-import { promiseResolve } from "../algorithms/promise-resolve.js";
 import { createIteratorResultObject } from "../iterators/create-iterator-result-object.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";

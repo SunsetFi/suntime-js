@@ -1,8 +1,8 @@
 import type { ArrayExpression } from "@babel/types";
 
-import { arrayCreate } from "../../runtime/algorithms/array-create.js";
-import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
-import { set } from "../../runtime/algorithms/set.js";
+import { arrayCreate } from "../../algorithms/array-create.js";
+import { createDataPropertyOrThrow } from "../../algorithms/create-data-property-or-throw.js";
+import { set } from "../../algorithms/set.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";

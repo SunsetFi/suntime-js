@@ -1,4 +1,4 @@
-import { toBoolean } from "../../../algorithms/to-boolean.js";
+import { toBoolean } from "../../../../algorithms/to-boolean.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsBooleanBoxed } from "../../../types/implementation/primitives/StaticJsBooleanBoxed.js";

@@ -1,6 +1,6 @@
 import type { FunctionExpression } from "@babel/types";
 
-import { instantiateFunctionExpression } from "../../runtime/algorithms/instantiate-function-expression.js";
+import { instantiateFunctionExpression } from "../../algorithms/instantiate-function-expression.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsFunction } from "../../runtime/types/StaticJsFunction.js";
 import { EvaluationContext } from "../EvaluationContext.js";

@@ -1,5 +1,9 @@
 import type { FunctionDeclaration, Program } from "@babel/types";
 
+import { asyncBlockStart } from "../../../algorithms/async-block-start.js";
+import { instantiateFunctionObject } from "../../../algorithms/instantiate-function-object.js";
+import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
+import { performPromiseThen } from "../../../algorithms/perform-promise-then.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
 import { EvaluateNodeCommand } from "../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -12,10 +16,6 @@ import lexicallyScopedDeclarations from "../../../evaluator/instantiation/algori
 import varScopedDeclarations from "../../../evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "../../../evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
 import { createDeferred } from "../../../utils/create-deferred.js";
-import { asyncBlockStart } from "../../algorithms/async-block-start.js";
-import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
-import { newPromiseCapability } from "../../algorithms/new-promise-capability.js";
-import { performPromiseThen } from "../../algorithms/perform-promise-then.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsModuleEnvironmentRecord } from "../../environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import type { StaticJsRealm } from "../../realm/StaticJsRealm.js";

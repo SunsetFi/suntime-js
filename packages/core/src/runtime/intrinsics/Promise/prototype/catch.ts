@@ -1,5 +1,5 @@
+import { isCallable } from "../../../../algorithms/is-callable.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
 import { isStaticJsPromise } from "../../../types/StaticJsPromise.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 

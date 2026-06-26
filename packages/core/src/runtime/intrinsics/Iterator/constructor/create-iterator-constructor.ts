@@ -1,5 +1,5 @@
+import { setterThatIgnoresPrototypeProperties } from "../../../../algorithms/setter-that-ignores-prototype-properties.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { setterThatIgnoresPrototypeProperties } from "../../../algorithms/setter-that-ignores-prototype-properties.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";

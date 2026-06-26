@@ -1,14 +1,14 @@
 import type { ClassDeclaration, ClassExpression } from "@babel/types";
 
+import { call } from "../../../../algorithms/call.js";
+import { construct } from "../../../../algorithms/construct.js";
+import { get } from "../../../../algorithms/get.js";
+import { isConstructor } from "../../../../algorithms/is-constructor.js";
+import { ordinaryCreateFromConstructor } from "../../../../algorithms/ordinary-create-from-constructor.js";
+import { setFunctionLength } from "../../../../algorithms/set-function-length.js";
+import { setFunctionName } from "../../../../algorithms/set-function-name.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "../../../../grammar/private-bound-identifiers.js";
-import { call } from "../../../../runtime/algorithms/call.js";
-import { construct } from "../../../../runtime/algorithms/construct.js";
-import { get } from "../../../../runtime/algorithms/get.js";
-import { isConstructor } from "../../../../runtime/algorithms/is-constructor.js";
-import { ordinaryCreateFromConstructor } from "../../../../runtime/algorithms/ordinary-create-from-constructor.js";
-import { setFunctionLength } from "../../../../runtime/algorithms/set-function-length.js";
-import { setFunctionName } from "../../../../runtime/algorithms/set-function-name.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsClassConstructorFunction } from "../../../../runtime/types/implementation/functions/StaticJsClassConstructorFunction.js";

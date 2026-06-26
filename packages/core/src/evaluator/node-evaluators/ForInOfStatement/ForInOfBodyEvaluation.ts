@@ -6,11 +6,11 @@ import type {
   VariableDeclaration,
 } from "@babel/types";
 
+import { Await } from "../../../algorithms/await.js";
+import { call } from "../../../algorithms/call.js";
+import { loopContinues } from "../../../algorithms/loop-continues.js";
+import { putValue } from "../../../algorithms/put-value.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { Await } from "../../../runtime/algorithms/await.js";
-import { call } from "../../../runtime/algorithms/call.js";
-import { loopContinues } from "../../../runtime/algorithms/loop-continues.js";
-import { putValue } from "../../../runtime/algorithms/put-value.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { asyncIteratorClose } from "../../../runtime/iterators/async-iterator-close.js";
 import { iteratorClose } from "../../../runtime/iterators/iterator-close.js";

@@ -1,9 +1,9 @@
 import type { Expression, LVal, ArrayPattern, VoidPattern } from "@babel/types";
 
+import { arrayCreate } from "../../algorithms/array-create.js";
+import { putValue } from "../../algorithms/put-value.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import { arrayCreate } from "../../runtime/algorithms/array-create.js";
-import { putValue } from "../../runtime/algorithms/put-value.js";
 import type { StaticJsEnvironmentRecord } from "../../runtime/environments/StaticJsEnvironmentRecord.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";

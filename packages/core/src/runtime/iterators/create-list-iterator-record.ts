@@ -1,6 +1,6 @@
+import { get } from "../../algorithms/get.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { get } from "../algorithms/get.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsValue } from "../types/StaticJsValue.js";
 

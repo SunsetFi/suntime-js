@@ -1,5 +1,5 @@
+import { getValue } from "../../algorithms/get-value.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { getValue } from "../../runtime/algorithms/get-value.js";
 import { isStaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 

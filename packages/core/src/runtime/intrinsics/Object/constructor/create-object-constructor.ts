@@ -1,4 +1,4 @@
-import { toObject } from "../../../algorithms/to-object.js";
+import { toObject } from "../../../../algorithms/to-object.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";

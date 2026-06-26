@@ -1,9 +1,9 @@
+import { codePointAt } from "../../../../algorithms/code-point-at.js";
+import { toString } from "../../../../algorithms/to-string.js";
+import { Yield } from "../../../../algorithms/yield.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { codePointAt } from "../../../algorithms/code-point-at.js";
-import { toString } from "../../../algorithms/to-string.js";
-import { Yield } from "../../../algorithms/yield.js";
 import { createIteratorFromClosure } from "../../../iterators/create-iterator-from-closure.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";

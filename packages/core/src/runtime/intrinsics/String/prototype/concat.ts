@@ -1,4 +1,4 @@
-import { toString } from "../../../algorithms/to-string.js";
+import { toString } from "../../../../algorithms/to-string.js";
 import type { StaticJsString } from "../../../types/StaticJsString.js";
 import type { FunctionIntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 

@@ -1,5 +1,5 @@
-import { toObject } from "../../../algorithms/to-object.js";
-import { toPropertyKey } from "../../../algorithms/to-property-key.js";
+import { toObject } from "../../../../algorithms/to-object.js";
+import { toPropertyKey } from "../../../../algorithms/to-property-key.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { propertyDescriptorToStaticJsObject } from "../../../types/StaticJsPropertyDescriptor.js";
 import { isStaticJsScalar } from "../../../types/StaticJsScalar.js";

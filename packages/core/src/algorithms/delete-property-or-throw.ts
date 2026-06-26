@@ -1,0 +1,14 @@
+import { Completion } from "../evaluator/completions/Completion.js";
+import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import type { StaticJsObject } from "../runtime/types/StaticJsObject.js";
+import type { StaticJsPropertyKey } from "../runtime/types/StaticJsPropertyKey.js";
+
+export function* deletePropertyOrThrow(
+  obj: StaticJsObject,
+  p: StaticJsPropertyKey,
+): EvaluationGenerator<void> {
+  const success = yield* obj.deleteEvaluator(p);
+  if (!success) {
+    throw yield* Completion.Throw.create("TypeError", "Cannot delete property");
+  }
+}

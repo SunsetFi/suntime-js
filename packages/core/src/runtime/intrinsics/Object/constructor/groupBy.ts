@@ -1,8 +1,8 @@
+import { call } from "../../../../algorithms/call.js";
+import { createArrayFromList } from "../../../../algorithms/create-array-from-list.js";
+import { isCallable } from "../../../../algorithms/is-callable.js";
+import { toString } from "../../../../algorithms/to-string.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { call } from "../../../algorithms/call.js";
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { toString } from "../../../algorithms/to-string.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";

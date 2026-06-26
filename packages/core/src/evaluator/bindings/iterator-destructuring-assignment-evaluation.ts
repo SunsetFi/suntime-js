@@ -1,9 +1,9 @@
 import type { Node, PatternLike } from "@babel/types";
 
+import { arrayCreate } from "../../algorithms/array-create.js";
+import { createDataPropertyOrThrow } from "../../algorithms/create-data-property-or-throw.js";
+import { putValue } from "../../algorithms/put-value.js";
 import isAnonymousFunctionDefinition from "../../grammar/is-anonymous-function-definition.js";
-import { arrayCreate } from "../../runtime/algorithms/array-create.js";
-import { createDataPropertyOrThrow } from "../../runtime/algorithms/create-data-property-or-throw.js";
-import { putValue } from "../../runtime/algorithms/put-value.js";
 import { iteratorStepValue } from "../../runtime/iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../runtime/iterators/StaticJsIteratorRecord.js";
 import type { StaticJsReferenceRecord } from "../../runtime/references/StaticJsReferenceRecord.js";

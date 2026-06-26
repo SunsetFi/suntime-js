@@ -1,11 +1,11 @@
 import type { UnaryExpression } from "@babel/types";
 
+import { getValue } from "../../algorithms/get-value.js";
+import { toBoolean } from "../../algorithms/to-boolean.js";
+import { toNumber } from "../../algorithms/to-number.js";
+import { toObject } from "../../algorithms/to-object.js";
+import { toPropertyKey } from "../../algorithms/to-property-key.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { getValue } from "../../runtime/algorithms/get-value.js";
-import { toBoolean } from "../../runtime/algorithms/to-boolean.js";
-import { toNumber } from "../../runtime/algorithms/to-number.js";
-import { toObject } from "../../runtime/algorithms/to-object.js";
-import { toPropertyKey } from "../../runtime/algorithms/to-property-key.js";
 import { isPrivateReference } from "../../runtime/references/is-private-reference.js";
 import { isPropertyReference } from "../../runtime/references/is-property-reference.js";
 import { isSuperReference } from "../../runtime/references/is-super-reference.js";

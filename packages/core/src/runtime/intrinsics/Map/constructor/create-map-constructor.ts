@@ -1,9 +1,9 @@
+import { call } from "../../../../algorithms/call.js";
+import { get } from "../../../../algorithms/get.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { call } from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";

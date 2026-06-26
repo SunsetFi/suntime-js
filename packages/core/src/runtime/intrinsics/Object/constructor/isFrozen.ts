@@ -1,4 +1,4 @@
-import { toObject } from "../../../algorithms/to-object.js";
+import { toObject } from "../../../../algorithms/to-object.js";
 import { isStaticJsDataPropertyDescriptor } from "../../../types/StaticJsPropertyDescriptor.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 

@@ -1,0 +1,29 @@
+import { isStaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
+import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
+import { isStaticJsString } from "../runtime/types/StaticJsString.js";
+import { isStaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+
+export function sameValueNonNumber(x: StaticJsValue, y: StaticJsValue): boolean {
+  if (x.runtimeTypeCode !== y.runtimeTypeCode) {
+    return false;
+  }
+
+  if (isStaticJsString(x) && isStaticJsString(y)) {
+    return x.value === y.value;
+  }
+
+  if (isStaticJsBoolean(x) && isStaticJsBoolean(y)) {
+    return x.value === y.value;
+  }
+
+  if (isStaticJsNull(x) && isStaticJsNull(y)) {
+    return true;
+  }
+
+  if (isStaticJsUndefined(x) && isStaticJsUndefined(y)) {
+    return true;
+  }
+
+  return x === y;
+}

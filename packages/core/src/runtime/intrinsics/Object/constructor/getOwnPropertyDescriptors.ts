@@ -1,4 +1,4 @@
-import { toObject } from "../../../algorithms/to-object.js";
+import { toObject } from "../../../../algorithms/to-object.js";
 import {
   propertyDescriptorToStaticJsObject,
   type StaticJsPropertyDescriptor,

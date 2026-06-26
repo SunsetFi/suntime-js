@@ -1,0 +1,17 @@
+import type { Node } from "@babel/types";
+
+import { Completion } from "../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import type { StaticJsPromiseCapabilityRecord } from "../runtime/types/StaticJsPromise.js";
+
+import { asyncBlockStart } from "./async-block-start.js";
+
+export function* asyncFunctionStart(
+  promiseCapability: StaticJsPromiseCapabilityRecord,
+  asyncFunctionBody: Node | EvaluationGenerator<Completion>,
+): EvaluationGenerator<void> {
+  const runningContext = EvaluationContext.current;
+  const asyncContext = runningContext.clone();
+  yield* asyncBlockStart(promiseCapability, asyncFunctionBody, asyncContext);
+}

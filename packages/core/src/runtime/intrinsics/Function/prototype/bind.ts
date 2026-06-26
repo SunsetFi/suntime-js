@@ -1,12 +1,12 @@
+import { get } from "../../../../algorithms/get.js";
+import { hasOwnProperty } from "../../../../algorithms/has-own-property.js";
+import { isCallable } from "../../../../algorithms/is-callable.js";
+import { setFunctionLength } from "../../../../algorithms/set-function-length.js";
+import { setFunctionName } from "../../../../algorithms/set-function-name.js";
+import { toIntegerOrInfinity } from "../../../../algorithms/to-integer-or-infinity.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { get } from "../../../algorithms/get.js";
-import { hasOwnProperty } from "../../../algorithms/has-own-property.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { setFunctionLength } from "../../../algorithms/set-function-length.js";
-import { setFunctionName } from "../../../algorithms/set-function-name.js";
-import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsBoundFunction } from "../../../types/implementation/functions/StaticJsBoundFunctionImpl.js";
 import type { StaticJsCallable } from "../../../types/StaticJsCallable.js";

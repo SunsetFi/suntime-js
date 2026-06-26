@@ -1,6 +1,6 @@
+import { call } from "../../../../algorithms/call.js";
+import { createListFromArrayLike } from "../../../../algorithms/create-list-from-array-like.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { call } from "../../../algorithms/call.js";
-import { createListFromArrayLike } from "../../../algorithms/create-list-from-array-like.js";
 import { isStaticJsCallable } from "../../../types/StaticJsCallable.js";
 import { isStaticJsNull } from "../../../types/StaticJsNull.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";

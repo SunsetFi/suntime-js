@@ -1,4 +1,4 @@
-import { set } from "../../../runtime/algorithms/set.js";
+import { set } from "../../../algorithms/set.js";
 import type { StaticJsGlobalEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import type { StaticJsPropertyDescriptorRecord } from "../../../runtime/types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";

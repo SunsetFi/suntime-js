@@ -1,7 +1,7 @@
+import { createArrayFromList } from "../../../../algorithms/create-array-from-list.js";
+import { get } from "../../../../algorithms/get.js";
+import { lengthOfArrayLike } from "../../../../algorithms/length-of-array-like.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { createArrayFromList } from "../../../algorithms/create-array-from-list.js";
-import { get } from "../../../algorithms/get.js";
-import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";

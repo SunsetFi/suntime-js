@@ -1,6 +1,6 @@
+import { createError } from "../../../algorithms/create-error.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsRuntimeError } from "../../../errors/StaticJsRuntimeError.js";
-import { createError } from "../../../runtime/algorithms/create-error.js";
 import type { StaticJsRealm } from "../../../runtime/realm/StaticJsRealm.js";
 import type { StaticJsValue } from "../../../runtime/types/StaticJsValue.js";
 import type { WellKnownErrorName } from "../../../runtime/types/well-known-errors.js";

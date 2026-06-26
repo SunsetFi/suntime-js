@@ -1,4 +1,4 @@
-import { toString } from "../../../algorithms/to-string.js";
+import { toString } from "../../../../algorithms/to-string.js";
 import type { AccessorIntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
 const stringProtoLengthDeclaration: AccessorIntrinsicPropertyDeclaration = {

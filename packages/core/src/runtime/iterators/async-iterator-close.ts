@@ -1,9 +1,9 @@
+import { Await } from "../../algorithms/await.js";
+import { call } from "../../algorithms/call.js";
+import { getMethod } from "../../algorithms/get-method.js";
 import { ThrowCompletion } from "../../evaluator/completions/completion-types/ThrowCompletion.js";
 import { Completion } from "../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../evaluator/EvaluationGenerator.js";
-import { Await } from "../algorithms/await.js";
-import { call } from "../algorithms/call.js";
-import { getMethod } from "../algorithms/get-method.js";
 import { isStaticJsObject } from "../types/StaticJsObject.js";
 
 import type { StaticJsIteratorRecord } from "./StaticJsIteratorRecord.js";

@@ -1,10 +1,10 @@
+import { call } from "../../../../algorithms/call.js";
+import { get } from "../../../../algorithms/get.js";
+import { isCallable } from "../../../../algorithms/is-callable.js";
+import { toBoolean } from "../../../../algorithms/to-boolean.js";
 import { StaticJsRuntimeError } from "../../../../errors/StaticJsRuntimeError.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
-import { call } from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
-import { isCallable } from "../../../algorithms/is-callable.js";
-import { toBoolean } from "../../../algorithms/to-boolean.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";

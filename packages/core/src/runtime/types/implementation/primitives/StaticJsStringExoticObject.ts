@@ -1,9 +1,9 @@
+import { canonicalNumericStringIndex } from "../../../../algorithms/canonical-numeric-string-index.js";
+import { definePropertyOrThrow } from "../../../../algorithms/define-property-or-throw.js";
+import { isCompatiblePropertyDescriptor } from "../../../../algorithms/is-compatible-property-descriptor.js";
+import { toIntegerOrInfinity } from "../../../../algorithms/to-integer-or-infinity.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
-import { canonicalNumericStringIndex } from "../../../algorithms/canonical-numeric-string-index.js";
-import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
-import { isCompatiblePropertyDescriptor } from "../../../algorithms/is-compatible-property-descriptor.js";
-import { toIntegerOrInfinity } from "../../../algorithms/to-integer-or-infinity.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type {

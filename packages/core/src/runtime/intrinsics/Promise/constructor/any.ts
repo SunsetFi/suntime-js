@@ -1,13 +1,13 @@
+import { call } from "../../../../algorithms/call.js";
+import { definePropertyOrThrow } from "../../../../algorithms/define-property-or-throw.js";
+import { getPromiseResolve } from "../../../../algorithms/get-promise-resolve.js";
+import { invoke } from "../../../../algorithms/invoke.js";
+import { newPromiseCapability } from "../../../../algorithms/new-promise-capability.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { EvaluationContext } from "../../../../evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { call } from "../../../algorithms/call.js";
-import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
-import { getPromiseResolve } from "../../../algorithms/get-promise-resolve.js";
-import { invoke } from "../../../algorithms/invoke.js";
-import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";
 import type { StaticJsIteratorRecord } from "../../../iterators/StaticJsIteratorRecord.js";

@@ -1,7 +1,7 @@
-import { lengthOfArrayLike } from "../../../algorithms/length-of-array-like.js";
-import { set } from "../../../algorithms/set.js";
-import { toInteger } from "../../../algorithms/to-integer.js";
-import { toObject } from "../../../algorithms/to-object.js";
+import { lengthOfArrayLike } from "../../../../algorithms/length-of-array-like.js";
+import { set } from "../../../../algorithms/set.js";
+import { toInteger } from "../../../../algorithms/to-integer.js";
+import { toObject } from "../../../../algorithms/to-object.js";
 import { isStaticJsUndefined } from "../../../types/StaticJsUndefined.js";
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 

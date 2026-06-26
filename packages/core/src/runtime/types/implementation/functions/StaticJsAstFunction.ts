@@ -15,6 +15,14 @@ import {
   isBlockStatement,
 } from "@babel/types";
 
+import { asyncFunctionStart } from "../../../../algorithms/async-function-start.js";
+import { call } from "../../../../algorithms/call.js";
+import { definePropertyOrThrow } from "../../../../algorithms/define-property-or-throw.js";
+import { getPrototypeFromConstructor } from "../../../../algorithms/get-prototype-from-constructor.js";
+import { getValue } from "../../../../algorithms/get-value.js";
+import { newPromiseCapability } from "../../../../algorithms/new-promise-capability.js";
+import { ordinaryCreateFromConstructor } from "../../../../algorithms/ordinary-create-from-constructor.js";
+import { toObject } from "../../../../algorithms/to-object.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { EvaluateFunctionBodyCommand } from "../../../../evaluator/commands/EvaluateFunctionBodyCommand.js";
 import { EvaluateNodeCommand } from "../../../../evaluator/commands/EvaluateNodeCommand.js";
@@ -28,14 +36,6 @@ import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenera
 import functionDeclarationInstantiation from "../../../../evaluator/instantiation/function-declaration-instantiation.js";
 import evaluateStatementList from "../../../../evaluator/node-evaluators/StatementList.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import { asyncFunctionStart } from "../../../algorithms/async-function-start.js";
-import { call } from "../../../algorithms/call.js";
-import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
-import { getPrototypeFromConstructor } from "../../../algorithms/get-prototype-from-constructor.js";
-import { getValue } from "../../../algorithms/get-value.js";
-import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
-import { ordinaryCreateFromConstructor } from "../../../algorithms/ordinary-create-from-constructor.js";
-import { toObject } from "../../../algorithms/to-object.js";
 import { StaticJsFunctionEnvironmentRecord } from "../../../environments/implementation/StaticJsFunctionEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../../environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import type { StaticJsEnvironmentRecord } from "../../../environments/StaticJsEnvironmentRecord.js";

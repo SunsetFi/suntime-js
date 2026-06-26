@@ -1,7 +1,7 @@
 import type { FunctionDeclaration, Node } from "@babel/types";
 
+import { instantiateFunctionObject } from "../../algorithms/instantiate-function-object.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { instantiateFunctionObject } from "../../runtime/algorithms/instantiate-function-object.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { StaticJsPrivateEnvironmentRecord } from "../../runtime/environments/implementation/StaticJsPrivateEnvironmentRecord.js";

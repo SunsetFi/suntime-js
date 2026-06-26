@@ -1,7 +1,7 @@
+import { get } from "../../../../algorithms/get.js";
+import { toObject } from "../../../../algorithms/to-object.js";
 import { Q } from "../../../../evaluator/completions/Q.js";
 import { X } from "../../../../evaluator/completions/X.js";
-import { get } from "../../../algorithms/get.js";
-import { toObject } from "../../../algorithms/to-object.js";
 import { StaticJsArgumentsExoticObject } from "../../../types/implementation/functions/StaticJsArgumentsExoticObject.js";
 import { StaticJsBooleanBoxed } from "../../../types/implementation/primitives/StaticJsBooleanBoxed.js";
 import { StaticJsNumberBoxed } from "../../../types/implementation/primitives/StaticJsNumberBoxed.js";

@@ -1,0 +1,56 @@
+import { StaticJsEngineError } from "../errors/StaticJsEngineError.js";
+import { Completion } from "../evaluator/completions/Completion.js";
+import { EvaluationContext } from "../evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import { isStaticJsBoolean } from "../runtime/types/StaticJsBoolean.js";
+import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
+import { isStaticJsNumber } from "../runtime/types/StaticJsNumber.js";
+import { isStaticJsObject } from "../runtime/types/StaticJsObject.js";
+import { isStaticJsString, type StaticJsString } from "../runtime/types/StaticJsString.js";
+import { isStaticJsSymbol } from "../runtime/types/StaticJsSymbol.js";
+import { isStaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
+import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+
+import { toPrimitive } from "./to-primitive.js";
+
+export function* toString(value: StaticJsValue): EvaluationGenerator<StaticJsString> {
+  const { realm } = EvaluationContext.current;
+
+  if (isStaticJsString(value)) {
+    return value;
+  }
+  if (isStaticJsSymbol(value)) {
+    throw yield* Completion.Throw.create("TypeError", "Cannot convert a Symbol value to a string");
+  }
+
+  if (isStaticJsUndefined(value)) {
+    return realm.types.string("undefined");
+  }
+
+  if (isStaticJsNull(value)) {
+    return realm.types.string("null");
+  }
+
+  if (isStaticJsBoolean(value)) {
+    return realm.types.string(value.value ? "true" : "false");
+  }
+
+  if (isStaticJsNumber(value)) {
+    return realm.types.string(value.value.toString());
+  }
+
+  if (isStaticJsObject(value)) {
+    const primitive = yield* toPrimitive(value, "string");
+    return yield* toString(primitive);
+  }
+
+  throw new StaticJsEngineError(
+    // @ts-expect-error - Want to know when we get weird values.
+    "Unhandled internal value type in toString: " + value.runtimeTypeOf,
+  );
+}
+
+toString.js = function* js(value: StaticJsValue): EvaluationGenerator<string> {
+  const strVal = yield* toString(value);
+  return strVal.value;
+};

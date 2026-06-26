@@ -1,11 +1,11 @@
 import type { YieldExpression } from "@babel/types";
 
+import { Await } from "../../algorithms/await.js";
+import { call } from "../../algorithms/call.js";
+import { getGeneratorKind } from "../../algorithms/get-generator-kind.js";
+import { getMethod } from "../../algorithms/get-method.js";
+import { Yield } from "../../algorithms/yield.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { Await } from "../../runtime/algorithms/await.js";
-import { call } from "../../runtime/algorithms/call.js";
-import { getGeneratorKind } from "../../runtime/algorithms/get-generator-kind.js";
-import { getMethod } from "../../runtime/algorithms/get-method.js";
-import { Yield } from "../../runtime/algorithms/yield.js";
 import { asyncIteratorClose } from "../../runtime/iterators/async-iterator-close.js";
 import { getIterator } from "../../runtime/iterators/get-iterator.js";
 import { iteratorClose } from "../../runtime/iterators/iterator-close.js";

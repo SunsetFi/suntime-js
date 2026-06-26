@@ -1,4 +1,4 @@
-import { definePropertyOrThrow } from "../../../algorithms/define-property-or-throw.js";
+import { definePropertyOrThrow } from "../../../../algorithms/define-property-or-throw.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject } from "../../../types/StaticJsObject.js";
 import {

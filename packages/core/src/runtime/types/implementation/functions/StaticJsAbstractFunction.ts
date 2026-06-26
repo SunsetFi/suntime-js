@@ -1,12 +1,12 @@
 import type { Node } from "@babel/types";
 
+import { get } from "../../../../algorithms/get.js";
 import { StaticJsEngineError } from "../../../../errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "../../../../evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "../../../../evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import type { StaticJsRunTaskOptions } from "../../../../tasks/StaticJsRunTaskOptions.js";
-import { get } from "../../../algorithms/get.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";

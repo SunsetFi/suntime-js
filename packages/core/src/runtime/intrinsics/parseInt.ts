@@ -1,6 +1,6 @@
+import { toInt32 } from "../../algorithms/to-int-32.js";
+import { toString } from "../../algorithms/to-string.js";
 import { Q } from "../../evaluator/completions/Q.js";
-import { toInt32 } from "../algorithms/to-int-32.js";
-import { toString } from "../algorithms/to-string.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 

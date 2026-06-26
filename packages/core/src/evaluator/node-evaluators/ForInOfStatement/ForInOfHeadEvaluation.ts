@@ -1,10 +1,10 @@
 import type { Expression } from "@babel/types";
 
+import { enumerateObjectProperties } from "../../../algorithms/enumerate-object-properties.js";
+import { getValue } from "../../../algorithms/get-value.js";
+import { get } from "../../../algorithms/get.js";
+import { toObject } from "../../../algorithms/to-object.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { enumerateObjectProperties } from "../../../runtime/algorithms/enumerate-object-properties.js";
-import { getValue } from "../../../runtime/algorithms/get-value.js";
-import { get } from "../../../runtime/algorithms/get.js";
-import { toObject } from "../../../runtime/algorithms/to-object.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../../runtime/environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { getIterator } from "../../../runtime/iterators/get-iterator.js";
 import type { StaticJsIteratorRecord } from "../../../runtime/iterators/StaticJsIteratorRecord.js";

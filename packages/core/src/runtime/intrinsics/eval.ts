@@ -1,6 +1,6 @@
+import { definePropertyOrThrow } from "../../algorithms/define-property-or-throw.js";
+import { performEval } from "../../algorithms/perform-eval.js";
 import { EvaluationContext } from "../../evaluator/EvaluationContext.js";
-import { definePropertyOrThrow } from "../algorithms/define-property-or-throw.js";
-import { performEval } from "../algorithms/perform-eval.js";
 import type { StaticJsRealm } from "../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 

@@ -1,8 +1,8 @@
 import type { CallExpression, OptionalCallExpression } from "@babel/types";
 
+import { call } from "../../../algorithms/call.js";
+import { getThisValue } from "../../../algorithms/get-this-value.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { call } from "../../../runtime/algorithms/call.js";
-import { getThisValue } from "../../../runtime/algorithms/get-this-value.js";
 import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,

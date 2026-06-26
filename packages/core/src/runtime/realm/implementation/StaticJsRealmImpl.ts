@@ -1,3 +1,6 @@
+import { asyncBlockStart } from "../../../algorithms/async-block-start.js";
+import { getValue } from "../../../algorithms/get-value.js";
+import { newPromiseCapability } from "../../../algorithms/new-promise-capability.js";
 import { StaticJsConcurrentEvaluationError } from "../../../errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
 import { StaticJsSyntaxError } from "../../../errors/StaticJsSyntaxError.js";
@@ -25,9 +28,6 @@ import { createDeferred } from "../../../utils/create-deferred.js";
 import { drainIterator } from "../../../utils/drain-iterator.js";
 import { hasOwnProperty } from "../../../utils/has-own-property.js";
 import { symbolInspect } from "../../../utils/symbol-inspect.js";
-import { asyncBlockStart } from "../../algorithms/async-block-start.js";
-import { getValue } from "../../algorithms/get-value.js";
-import { newPromiseCapability } from "../../algorithms/new-promise-capability.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "../../environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsGlobalEnvironmentRecord } from "../../environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "../../environments/implementation/StaticJsObjectEnvironmentRecord.js";

@@ -1,4 +1,4 @@
-import { toNumeric } from "../../../algorithms/to-numeric.js";
+import { toNumeric } from "../../../../algorithms/to-numeric.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import { StaticJsNativeFunctionImpl } from "../../../types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsNumberBoxed } from "../../../types/implementation/primitives/StaticJsNumberBoxed.js";

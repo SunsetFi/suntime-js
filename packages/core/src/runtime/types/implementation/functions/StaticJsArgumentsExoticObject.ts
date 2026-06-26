@@ -1,7 +1,7 @@
+import { get } from "../../../../algorithms/get.js";
+import { sameValue } from "../../../../algorithms/same-value.js";
+import { set } from "../../../../algorithms/set.js";
 import type { EvaluationGenerator } from "../../../../evaluator/EvaluationGenerator.js";
-import { get } from "../../../algorithms/get.js";
-import { sameValue } from "../../../algorithms/same-value.js";
-import { set } from "../../../algorithms/set.js";
 import type { StaticJsRealm } from "../../../realm/StaticJsRealm.js";
 import type { StaticJsObject, StaticJsObjectPropertyAccessOptions } from "../../StaticJsObject.js";
 import {

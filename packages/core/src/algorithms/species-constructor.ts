@@ -1,0 +1,41 @@
+import { Completion } from "../evaluator/completions/Completion.js";
+import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import type { StaticJsRealm } from "../runtime/realm/StaticJsRealm.js";
+import type { StaticJsFunction } from "../runtime/types/StaticJsFunction.js";
+import { isStaticJsNull } from "../runtime/types/StaticJsNull.js";
+import { isStaticJsObject, type StaticJsObject } from "../runtime/types/StaticJsObject.js";
+import { isStaticJsUndefined } from "../runtime/types/StaticJsUndefined.js";
+
+import { get } from "./get.js";
+import { isConstructor } from "./is-constructor.js";
+
+export function* speciesConstructor(
+  O: StaticJsObject,
+  defaultConstructor: StaticJsFunction,
+  realm: StaticJsRealm,
+): EvaluationGenerator<StaticJsFunction> {
+  const C = yield* get(O, "constructor");
+
+  if (isStaticJsUndefined(C)) {
+    return defaultConstructor;
+  }
+
+  if (isStaticJsNull(C) || isStaticJsUndefined(C)) {
+    return defaultConstructor;
+  }
+
+  if (!isStaticJsObject(C)) {
+    throw yield* Completion.Throw.create("TypeError", "Constructor is not an object");
+  }
+
+  const S = yield* get(C, realm.types.symbols.species);
+  if (isStaticJsNull(S) || isStaticJsUndefined(S)) {
+    return defaultConstructor;
+  }
+
+  if (!isConstructor(S)) {
+    throw yield* Completion.Throw.create("TypeError", "Species is not a constructor");
+  }
+
+  return S as StaticJsFunction;
+}

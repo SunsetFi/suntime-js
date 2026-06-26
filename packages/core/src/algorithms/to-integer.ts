@@ -1,0 +1,17 @@
+import { EvaluationContext } from "../evaluator/EvaluationContext.js";
+import type { EvaluationGenerator } from "../evaluator/EvaluationGenerator.js";
+import type { StaticJsNumber } from "../runtime/types/StaticJsNumber.js";
+import type { StaticJsValue } from "../runtime/types/StaticJsValue.js";
+
+import { toNumber } from "./to-number.js";
+
+export function* toInteger(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
+  const { realm } = EvaluationContext.current;
+  value = yield* toNumber(value);
+  return realm.types.number(Math.trunc(value.value));
+}
+
+toInteger.js = function* js(value: StaticJsValue) {
+  const number = yield* toNumber(value);
+  return number.value;
+};

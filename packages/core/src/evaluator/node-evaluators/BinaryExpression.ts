@@ -1,14 +1,14 @@
 import type { BinaryExpression } from "@babel/types";
 
+import { addition } from "../../algorithms/addition.js";
+import { instanceOfOperator } from "../../algorithms/instance-of-operator.js";
+import { isLessThan } from "../../algorithms/is-less-than.js";
+import { isLooselyEqual } from "../../algorithms/is-loosely-equal.js";
+import { strictEquality } from "../../algorithms/strict-equality.js";
+import { toNumber } from "../../algorithms/to-number.js";
+import { toObject } from "../../algorithms/to-object.js";
+import { toPropertyKey } from "../../algorithms/to-property-key.js";
 import { StaticJsEngineError } from "../../errors/StaticJsEngineError.js";
-import { addition } from "../../runtime/algorithms/addition.js";
-import { instanceOfOperator } from "../../runtime/algorithms/instance-of-operator.js";
-import { isLessThan } from "../../runtime/algorithms/is-less-than.js";
-import { isLooselyEqual } from "../../runtime/algorithms/is-loosely-equal.js";
-import { strictEquality } from "../../runtime/algorithms/strict-equality.js";
-import { toNumber } from "../../runtime/algorithms/to-number.js";
-import { toObject } from "../../runtime/algorithms/to-object.js";
-import { toPropertyKey } from "../../runtime/algorithms/to-property-key.js";
 import { isStaticJsObject } from "../../runtime/types/StaticJsObject.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";

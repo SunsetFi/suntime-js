@@ -1,6 +1,6 @@
+import { call } from "../../../../algorithms/call.js";
+import { get } from "../../../../algorithms/get.js";
 import { Completion } from "../../../../evaluator/completions/Completion.js";
-import { call } from "../../../algorithms/call.js";
-import { get } from "../../../algorithms/get.js";
 import { getIterator } from "../../../iterators/get-iterator.js";
 import { iteratorClose } from "../../../iterators/iterator-close.js";
 import { iteratorStepValue } from "../../../iterators/iterator-step-value.js";

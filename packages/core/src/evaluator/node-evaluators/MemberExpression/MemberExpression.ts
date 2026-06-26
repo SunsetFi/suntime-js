@@ -1,8 +1,8 @@
 import type { MemberExpression } from "@babel/types";
 
+import { getSuperBase } from "../../../algorithms/get-super-base.js";
+import { getThisEnvironment } from "../../../algorithms/get-this-environment.js";
 import { StaticJsEngineError } from "../../../errors/StaticJsEngineError.js";
-import { getSuperBase } from "../../../runtime/algorithms/get-super-base.js";
-import { getThisEnvironment } from "../../../runtime/algorithms/get-this-environment.js";
 import {
   type StaticJsPropertyReferenceRecord,
   staticJsPropertyReferenceRecord,

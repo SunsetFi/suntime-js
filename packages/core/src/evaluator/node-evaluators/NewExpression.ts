@@ -1,7 +1,7 @@
 import type { NewExpression } from "@babel/types";
 
-import { construct } from "../../runtime/algorithms/construct.js";
-import { isCallable } from "../../runtime/algorithms/is-callable.js";
+import { construct } from "../../algorithms/construct.js";
+import { isCallable } from "../../algorithms/is-callable.js";
 import type { StaticJsValue } from "../../runtime/types/StaticJsValue.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { Completion } from "../completions/Completion.js";
