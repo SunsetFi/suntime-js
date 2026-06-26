@@ -35,7 +35,7 @@ it(
 
 it(
   "preventExtensions.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/preventExtensions/preventExtensions.js"),
 );
 

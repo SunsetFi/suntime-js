@@ -43,7 +43,7 @@ it(
   createTestHandler("built-ins/Math/atan2/S15.8.2.5_A9.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Math/atan2/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/atan2/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/atan2/name.js"));
 

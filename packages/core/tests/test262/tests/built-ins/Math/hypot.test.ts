@@ -27,7 +27,7 @@ it(
 
 it(
   "Math.hypot_NoArgs.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Math/hypot/Math.hypot_NoArgs.js"),
 );
 
@@ -49,7 +49,7 @@ it(
   createTestHandler("built-ins/Math/hypot/Math.hypot_Zero_2.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Math/hypot/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/hypot/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/hypot/name.js"));
 

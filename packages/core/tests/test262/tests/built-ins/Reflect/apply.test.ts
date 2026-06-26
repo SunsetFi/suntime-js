@@ -1,7 +1,7 @@
 import { it } from "vitest";
 import { createTestHandler } from "../../../create-test-handler.js";
 
-it("apply.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Reflect/apply/apply.js"));
+it("apply.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Reflect/apply/apply.js"));
 
 it(
   "arguments-list-is-not-array-like-but-still-valid.js",

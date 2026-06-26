@@ -195,7 +195,7 @@ it(
 
 it(
   "eval-realm-indirect.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/call/eval-realm-indirect.js"),
 );
 

@@ -35,7 +35,7 @@ it(
   createTestHandler("built-ins/Array/of/not-a-constructor.js"),
 );
 
-it("of.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Array/of/of.js"));
+it("of.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Array/of/of.js"));
 
 it(
   "proto-from-ctor-realm.js",

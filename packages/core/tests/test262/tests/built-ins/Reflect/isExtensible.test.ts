@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "isExtensible.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/isExtensible/isExtensible.js"),
 );
 

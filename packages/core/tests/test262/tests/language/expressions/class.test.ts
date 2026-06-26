@@ -26336,7 +26336,7 @@ it(
 
 it(
   "private-getter-brand-check-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-getter-brand-check-multiple-evaluations-of-class-realm.js",
   ),
@@ -26384,7 +26384,7 @@ it(
 
 it(
   "private-method-brand-check-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-method-brand-check-multiple-evaluations-of-class-realm.js",
   ),
@@ -26432,7 +26432,7 @@ it(
 
 it(
   "private-setter-brand-check-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-setter-brand-check-multiple-evaluations-of-class-realm.js",
   ),
@@ -26472,7 +26472,7 @@ it(
 
 it(
   "private-static-field-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-static-field-multiple-evaluations-of-class-realm.js",
   ),
@@ -26512,7 +26512,7 @@ it(
 
 it(
   "private-static-getter-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-static-getter-multiple-evaluations-of-class-realm.js",
   ),
@@ -26552,7 +26552,7 @@ it(
 
 it(
   "private-static-method-brand-check-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-static-method-brand-check-multiple-evaluations-of-class-realm.js",
   ),
@@ -26592,7 +26592,7 @@ it(
 
 it(
   "private-static-setter-multiple-evaluations-of-class-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "language/expressions/class/private-static-setter-multiple-evaluations-of-class-realm.js",
   ),

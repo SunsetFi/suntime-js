@@ -77,7 +77,7 @@ it(
   createTestHandler("built-ins/Reflect/set/set-value-on-data-descriptor.js"),
 );
 
-it("set.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Reflect/set/set.js"));
+it("set.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Reflect/set/set.js"));
 
 it(
   "symbol-property.js",

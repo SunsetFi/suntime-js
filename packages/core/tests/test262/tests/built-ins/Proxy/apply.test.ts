@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "arguments-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/apply/arguments-realm.js"),
 );
 
@@ -21,7 +21,7 @@ it(
 
 it(
   "null-handler-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/apply/null-handler-realm.js"),
 );
 
@@ -45,7 +45,7 @@ it(
 
 it(
   "trap-is-not-callable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/apply/trap-is-not-callable-realm.js"),
 );
 

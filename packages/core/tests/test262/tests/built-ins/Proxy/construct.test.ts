@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "arguments-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/arguments-realm.js"),
 );
 
@@ -27,7 +27,7 @@ it(
 
 it(
   "null-handler-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/null-handler-realm.js"),
 );
 
@@ -45,7 +45,7 @@ it(
 
 it(
   "return-not-object-throws-boolean-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/return-not-object-throws-boolean-realm.js"),
 );
 
@@ -57,7 +57,7 @@ it(
 
 it(
   "return-not-object-throws-null-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/return-not-object-throws-null-realm.js"),
 );
 
@@ -69,7 +69,7 @@ it(
 
 it(
   "return-not-object-throws-number-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/return-not-object-throws-number-realm.js"),
 );
 
@@ -81,7 +81,7 @@ it(
 
 it(
   "return-not-object-throws-string-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/return-not-object-throws-string-realm.js"),
 );
 
@@ -93,7 +93,7 @@ it(
 
 it(
   "return-not-object-throws-symbol-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/return-not-object-throws-symbol-realm.js"),
 );
 
@@ -105,7 +105,7 @@ it(
 
 it(
   "return-not-object-throws-undefined-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/return-not-object-throws-undefined-realm.js"),
 );
 
@@ -123,7 +123,7 @@ it(
 
 it(
   "trap-is-not-callable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/construct/trap-is-not-callable-realm.js"),
 );
 
@@ -153,7 +153,7 @@ it(
 
 it(
   "trap-is-undefined-proto-from-cross-realm-newtarget.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/Proxy/construct/trap-is-undefined-proto-from-cross-realm-newtarget.js",
   ),

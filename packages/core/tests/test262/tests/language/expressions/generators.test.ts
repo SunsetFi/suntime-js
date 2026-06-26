@@ -1072,7 +1072,7 @@ describe("dstr", () => {
 
 it(
   "eval-body-proto-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/generators/eval-body-proto-realm.js"),
 );
 

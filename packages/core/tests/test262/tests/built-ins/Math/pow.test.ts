@@ -145,7 +145,7 @@ it(
   createTestHandler("built-ins/Math/pow/int32_min-exponent.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Math/pow/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/pow/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/pow/name.js"));
 

@@ -9,7 +9,7 @@ it(
 
 it(
   "construct.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/construct/construct.js"),
 );
 

@@ -45,7 +45,7 @@ it(
 
 it(
   "result-type-is-not-object-nor-undefined-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/Proxy/getOwnPropertyDescriptor/result-type-is-not-object-nor-undefined-realm.js",
   ),
@@ -117,7 +117,7 @@ it(
 
 it(
   "trap-is-not-callable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/getOwnPropertyDescriptor/trap-is-not-callable-realm.js"),
 );
 

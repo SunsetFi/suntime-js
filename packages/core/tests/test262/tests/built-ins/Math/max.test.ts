@@ -27,11 +27,11 @@ it(
 
 it(
   "S15.8.2.11_A4.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Math/max/S15.8.2.11_A4.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Math/max/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/max/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/max/name.js"));
 

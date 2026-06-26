@@ -83,7 +83,7 @@ it(
 
 it(
   "return-not-list-object-throws-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/ownKeys/return-not-list-object-throws-realm.js"),
 );
 
@@ -137,7 +137,7 @@ it(
 
 it(
   "trap-is-not-callable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/ownKeys/trap-is-not-callable-realm.js"),
 );
 

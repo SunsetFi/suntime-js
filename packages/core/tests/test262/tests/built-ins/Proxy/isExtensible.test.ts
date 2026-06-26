@@ -45,7 +45,7 @@ it(
 
 it(
   "trap-is-not-callable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/isExtensible/trap-is-not-callable-realm.js"),
 );
 

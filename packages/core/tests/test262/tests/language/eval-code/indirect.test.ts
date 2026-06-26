@@ -243,7 +243,7 @@ it(
 
 it(
   "realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/eval-code/indirect/realm.js"),
 );
 

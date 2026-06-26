@@ -153,7 +153,7 @@ it(
 
 it(
   "get-value-prop-base-primitive-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/types/reference/get-value-prop-base-primitive-realm.js"),
 );
 
@@ -165,7 +165,7 @@ it(
 
 it(
   "put-value-prop-base-primitive-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/types/reference/put-value-prop-base-primitive-realm.js"),
 );
 

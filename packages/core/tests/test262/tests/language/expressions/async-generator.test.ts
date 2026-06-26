@@ -2606,7 +2606,7 @@ it(
 
 it(
   "eval-body-proto-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("language/expressions/async-generator/eval-body-proto-realm.js"),
 );
 

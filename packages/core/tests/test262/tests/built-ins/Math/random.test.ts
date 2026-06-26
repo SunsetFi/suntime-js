@@ -7,7 +7,7 @@ it(
   createTestHandler("built-ins/Math/random/S15.8.2.14_A1.js"),
 );
 
-it("length.js", { tags: ["known-failing"] }, createTestHandler("built-ins/Math/random/length.js"));
+it("length.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/random/length.js"));
 
 it("name.js", { tags: ["known-passing"] }, createTestHandler("built-ins/Math/random/name.js"));
 

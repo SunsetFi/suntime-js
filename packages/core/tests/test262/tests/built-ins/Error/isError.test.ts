@@ -15,7 +15,7 @@ it(
 
 it(
   "errors-other-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Error/isError/errors-other-realm.js"),
 );
 

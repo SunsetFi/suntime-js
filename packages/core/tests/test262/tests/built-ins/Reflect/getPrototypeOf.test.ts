@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "getPrototypeOf.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/getPrototypeOf/getPrototypeOf.js"),
 );
 

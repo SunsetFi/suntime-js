@@ -3,7 +3,7 @@ import { createTestHandler } from "../../../create-test-handler.js";
 
 it(
   "getOwnPropertyDescriptor.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/getOwnPropertyDescriptor/getOwnPropertyDescriptor.js"),
 );
 

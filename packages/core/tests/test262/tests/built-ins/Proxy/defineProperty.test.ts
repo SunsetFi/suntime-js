@@ -15,7 +15,7 @@ it(
 
 it(
   "null-handler-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/defineProperty/null-handler-realm.js"),
 );
 
@@ -39,7 +39,7 @@ it(
 
 it(
   "targetdesc-configurable-desc-not-configurable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/Proxy/defineProperty/targetdesc-configurable-desc-not-configurable-realm.js",
   ),
@@ -55,7 +55,7 @@ it(
 
 it(
   "targetdesc-not-compatible-descriptor-not-configurable-target-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/Proxy/defineProperty/targetdesc-not-compatible-descriptor-not-configurable-target-realm.js",
   ),
@@ -71,7 +71,7 @@ it(
 
 it(
   "targetdesc-not-compatible-descriptor-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/defineProperty/targetdesc-not-compatible-descriptor-realm.js"),
 );
 
@@ -91,7 +91,7 @@ it(
 
 it(
   "targetdesc-undefined-not-configurable-descriptor-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/Proxy/defineProperty/targetdesc-undefined-not-configurable-descriptor-realm.js",
   ),
@@ -107,7 +107,7 @@ it(
 
 it(
   "targetdesc-undefined-target-is-not-extensible-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler(
     "built-ins/Proxy/defineProperty/targetdesc-undefined-target-is-not-extensible-realm.js",
   ),
@@ -129,7 +129,7 @@ it(
 
 it(
   "trap-is-not-callable-realm.js",
-  { tags: ["known-failing"] },
+  { tags: ["known-passing"] },
   createTestHandler("built-ins/Proxy/defineProperty/trap-is-not-callable-realm.js"),
 );
 

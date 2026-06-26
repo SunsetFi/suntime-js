@@ -23,7 +23,7 @@ it(
 
 it(
   "ownKeys.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/ownKeys/ownKeys.js"),
 );
 

@@ -17,7 +17,7 @@ describe("Call", () => {
 describe("Construct", () => {
   it(
     "base-ctor-revoked-proxy-realm.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/internals/Construct/base-ctor-revoked-proxy-realm.js"),
   );
   it(
@@ -27,7 +27,7 @@ describe("Construct", () => {
   );
   it(
     "derived-return-val-realm.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/internals/Construct/derived-return-val-realm.js"),
   );
   it(
@@ -37,7 +37,7 @@ describe("Construct", () => {
   );
   it(
     "derived-this-uninitialized-realm.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/Function/internals/Construct/derived-this-uninitialized-realm.js"),
   );
   it(

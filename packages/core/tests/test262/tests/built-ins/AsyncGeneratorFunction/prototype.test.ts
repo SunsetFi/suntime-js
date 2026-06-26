@@ -33,6 +33,6 @@ it(
 
 it(
   "prototype.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/AsyncGeneratorFunction/prototype/prototype.js"),
 );

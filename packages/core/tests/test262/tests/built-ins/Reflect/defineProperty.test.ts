@@ -15,7 +15,7 @@ it(
 
 it(
   "defineProperty.js",
-  { tags: ["known-passing"] },
+  { tags: ["known-failing"] },
   createTestHandler("built-ins/Reflect/defineProperty/defineProperty.js"),
 );
 

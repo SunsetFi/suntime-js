@@ -79,59 +79,59 @@ describe("Symbol.iterator", () => {
 describe("at", () => {
   it(
     "index-argument-tointeger.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/index-argument-tointeger.js"),
   );
   it(
     "index-non-numeric-argument-tointeger-invalid.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler(
       "built-ins/String/prototype/at/index-non-numeric-argument-tointeger-invalid.js",
     ),
   );
   it(
     "index-non-numeric-argument-tointeger.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/index-non-numeric-argument-tointeger.js"),
   );
   it(
     "length.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/length.js"),
   );
   it(
     "name.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/name.js"),
   );
   it(
     "prop-desc.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/prop-desc.js"),
   );
   it(
     "return-abrupt-from-this.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/return-abrupt-from-this.js"),
   );
   it(
     "returns-code-unit.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/returns-code-unit.js"),
   );
   it(
     "returns-item-relative-index.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/returns-item-relative-index.js"),
   );
   it(
     "returns-item.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/returns-item.js"),
   );
   it(
     "returns-undefined-for-out-of-range-index.js",
-    { tags: ["known-failing"] },
+    { tags: ["known-passing"] },
     createTestHandler("built-ins/String/prototype/at/returns-undefined-for-out-of-range-index.js"),
   );
 });
