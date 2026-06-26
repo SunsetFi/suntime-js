@@ -6,7 +6,7 @@ export type StaticJsDebugSourceKind = "script" | "expression" | "module";
 
 export interface StaticJsDebugSessionCommonOptions {
   stopOnEntry?: boolean;
-  breakpoints?: StaticJsDebugBreakpointInput[];
+  breakpoints?: readonly StaticJsDebugBreakpointInput[];
 }
 
 export interface StaticJsDebugLaunchOptions extends StaticJsDebugSessionCommonOptions {
