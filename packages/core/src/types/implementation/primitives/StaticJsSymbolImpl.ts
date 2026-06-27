@@ -1,7 +1,7 @@
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
@@ -33,7 +33,6 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     if (typeof descriptionOrSymbol === "string") {
       this._description = descriptionOrSymbol;
       this._nativeSymbol = Symbol(descriptionOrSymbol);
-      realm.memory.allocate(stringSizeBytes(descriptionOrSymbol));
     } else if (typeof descriptionOrSymbol === "symbol") {
       this._description = descriptionOrSymbol.description;
       this._nativeSymbol = descriptionOrSymbol;
@@ -45,6 +44,15 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     if (!Symbol.keyFor(this._nativeSymbol)) {
       // ...But we have to do shennanigans for typescript to accept that.
       proxySymbolOwners.set(this._nativeSymbol as unknown as object, this);
+    }
+
+    // TODO: If we created our own symbol, we should track that allocation.
+
+    if (this._description) {
+      realm.memory.allocate(
+        StaticJsMemoryAllocationTag.RawStringCharacter,
+        this._description.length,
+      );
     }
   }
 
@@ -72,13 +80,13 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     return this._description;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
     super.mark(marks, allocate);
     if (this._description) {
-      allocate?.(stringSizeBytes(this._description));
+      allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, this._description.length);
     }
   }
 

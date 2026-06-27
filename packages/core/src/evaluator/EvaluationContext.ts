@@ -94,6 +94,10 @@ export const EvaluationContext = {
   },
 
   entered(realm?: StaticJsRealm): boolean {
+    if (!_currentStackProvider) {
+      return false;
+    }
+
     if (this.stack.length === 0) {
       return false;
     }

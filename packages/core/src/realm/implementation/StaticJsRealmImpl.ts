@@ -36,6 +36,7 @@ import { type StaticJsEvaluator, invokeEvaluator } from "#evaluator/StaticJsEval
 import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
 import { StaticJsMemoryManagerImpl } from "#memory/implementation/StaticJsMemoryManagerImpl.js";
+import { defaultV8StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
 import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "#modules/implementation/StaticJsExternalModuleImpl.js";
 import { isStaticJsModule } from "#modules/StaticJsModule.js";
@@ -116,6 +117,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       hostAccessDefaults,
       maxMemorySize = Number.POSITIVE_INFINITY,
       memoryHighWatermark = Number.NaN,
+      memoryWeights = defaultV8StaticJsMemoryWeights,
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
@@ -123,12 +125,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // we want to make StaticJsTypeFactory a markable.
     const symbolRegistry = new Map<string, StaticJsSymbol>();
 
-    this._memory = new StaticJsMemoryManagerImpl(
-      this,
-      symbolRegistry,
-      maxMemorySize,
-      memoryHighWatermark,
-    );
+    this._memory = new StaticJsMemoryManagerImpl(maxMemorySize, memoryHighWatermark, memoryWeights);
 
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
@@ -176,7 +173,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     drainIterator(populateGlobal(this, this._global));
 
-    this._memory.initialize();
+    this._memory.initialize(this._globalEnv, symbolRegistry);
     this._boostrapping = false;
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {

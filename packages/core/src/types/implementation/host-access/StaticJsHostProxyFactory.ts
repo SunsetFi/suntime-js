@@ -231,7 +231,7 @@ export class StaticJsHostProxyFactory {
     // is what we want.
     const values = host.map((v) => policy.wrapChild(v, false));
     // Safe: creates data properties on a new array instance.
-    const result = createArrayFromList.safe(values);
+    const result = createArrayFromList.safe(values, this._realm);
     return result;
   }
 

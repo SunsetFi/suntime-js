@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -11,12 +11,7 @@ import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
-import {
-  STATICJS_PRIMITIVE_BYTES,
-  STATICJS_SET_ENTRY_OVERHEAD_BYTES,
-  STATICJS_SET_OVERHEAD_BYTES,
-} from "#memory/implementation/measurements.js";
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
@@ -36,7 +31,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   private _backingStore = new Set<unknown>();
 
   constructor(realm: StaticJsRealm) {
-    super(realm, realm.intrinsics["Set.prototype"], STATICJS_SET_OVERHEAD_BYTES);
+    super(realm, realm.intrinsics["Set.prototype"], StaticJsMemoryAllocationTag.StaticJsSet);
   }
 
   override get [Symbol.toStringTag](): string {
@@ -123,7 +118,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   *addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
     const unwrapped = toNativeUnwrap(value);
     if (!this._backingStore.has(unwrapped)) {
-      this.realm.memory.allocate(STATICJS_SET_ENTRY_OVERHEAD_BYTES);
+      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead);
       this._backingStore.add(unwrapped);
     }
   }
@@ -447,7 +442,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return result;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
@@ -455,17 +450,17 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     super.mark(marks, allocate);
 
     for (const value of this._backingStore) {
-      allocate?.(STATICJS_SET_ENTRY_OVERHEAD_BYTES);
+      allocate?.(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead);
 
       if (isStaticJsValue(value)) {
         value.mark(marks, allocate);
       } else {
         switch (typeof value) {
           case "string":
-            allocate?.(stringSizeBytes(value));
+            allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, value.length);
             break;
           case "number":
-            allocate?.(STATICJS_PRIMITIVE_BYTES);
+            allocate?.(StaticJsMemoryAllocationTag.StaticJsNumber);
             break;
         }
       }

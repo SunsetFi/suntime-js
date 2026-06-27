@@ -1,6 +1,6 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
-import { STATICJS_PRIMITIVE_BYTES } from "#memory/implementation/measurements.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsBoolean } from "../../StaticJsBoolean.js";
 
@@ -11,7 +11,7 @@ export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements St
   private readonly _value: boolean;
 
   constructor(realm: StaticJsRealm, value: boolean) {
-    super(realm, STATICJS_PRIMITIVE_BYTES);
+    super(realm, StaticJsMemoryAllocationTag.StaticJsBoolean);
     this._value = value;
   }
 

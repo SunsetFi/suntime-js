@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -8,7 +8,7 @@ import { toString } from "#algorithms/to-string.js";
 import { validateAndApplyPropertyDescriptor } from "#algorithms/validate-and-apply-property-descriptor.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { STATICJS_OBJECT_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
@@ -61,9 +61,9 @@ export abstract class StaticJsAbstractObject
   constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null,
-    size?: number,
+    tag?: StaticJsMemoryAllocationTag,
   ) {
-    super(realm, size ?? STATICJS_OBJECT_OVERHEAD_BYTES);
+    super(realm, tag ?? StaticJsMemoryAllocationTag.StaticJsObject);
     if (isStaticJsNull(prototype)) {
       this._prototype = null;
     } else {
@@ -481,7 +481,7 @@ export abstract class StaticJsAbstractObject
     this._privateElements.push(element);
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }

@@ -1,12 +1,12 @@
 import type { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
@@ -77,7 +77,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     yield* this._assertBindingNotDeclared(name);
 
     // Note: Our set entry and extranious data costs something too...
-    this._realm.memory.allocate(stringSizeBytes(name));
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
 
     this._bindings.set(name, {
       name,
@@ -93,7 +93,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     yield* this._assertBindingNotDeclared(name);
 
     // Note: Our set entry and extranious data costs something too...
-    this._realm.memory.allocate(stringSizeBytes(name));
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
 
     this._bindings.set(name, {
       name,
@@ -182,7 +182,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     return this._realm.types.undefined;
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
@@ -190,7 +190,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     marks.add(this);
 
     for (const [name, binding] of this._bindings.entries()) {
-      allocate?.(stringSizeBytes(name));
+      allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
 
       if (binding.value) {
         binding.value.mark(marks, allocate);

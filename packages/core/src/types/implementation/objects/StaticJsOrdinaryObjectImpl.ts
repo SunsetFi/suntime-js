@@ -1,10 +1,9 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -86,11 +85,11 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     descriptor: StaticJsPropertyDescriptor,
   ): void {
     if (!this._contents.has(key)) {
-      let size = STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES;
+      const memory = this.realm.memory;
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead);
       if (typeof key === "string") {
-        size += stringSizeBytes(key);
+        memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
       }
-      this.realm.memory.allocate(size);
     }
 
     this._contents.set(key, {
@@ -98,7 +97,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     });
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
@@ -106,10 +105,10 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     super.mark(marks, allocate);
 
     for (const [key, descr] of this._contents.entries()) {
-      allocate?.(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);
+      allocate?.(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead);
 
       if (typeof key === "string") {
-        allocate?.(stringSizeBytes(key));
+        allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
       } else {
         key.mark(marks, allocate);
       }
@@ -133,11 +132,11 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   ): EvaluationGenerator<boolean> {
     // TODO: Accept StaticJsStrings as property keys too and use that as a sign we do not need to allocate
     if (!this._contents.has(key)) {
-      let size = STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES;
+      const memory = this.realm.memory;
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead);
       if (typeof key === "string") {
-        size += stringSizeBytes(key);
+        memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
       }
-      this.realm.memory.allocate(size);
     }
 
     // Note: At one point, we merged the descriptor with the existing one.

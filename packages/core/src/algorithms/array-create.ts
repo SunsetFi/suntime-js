@@ -1,3 +1,4 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 
 import { Completion } from "#evaluator/completions/Completion.js";
@@ -18,9 +19,13 @@ export function* arrayCreate(
   return A;
 }
 
-arrayCreate.safe = function (length: number, proto?: StaticJsObject): StaticJsArray {
+arrayCreate.safe = function (
+  length: number,
+  proto?: StaticJsObject,
+  realm?: StaticJsRealm,
+): StaticJsArray {
   if (length > MAX_ARRAY_LENGTH_INCLUSIVE) {
     throw new RangeError("Invalid array length");
   }
-  return new StaticJsArrayImpl(EvaluationContext.current.realm, length, proto);
+  return new StaticJsArrayImpl(realm ?? EvaluationContext.current.realm, length, proto);
 };

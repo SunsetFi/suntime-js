@@ -1,17 +1,21 @@
+import type { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
 import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { StaticJsOutOfMemoryError } from "#errors/StaticJsOutOfMemoryError.js";
-
-import { stringSizeBytes } from "./string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 const DEFAULT_HIGH_WATERMARK_PERCENT = 0.8;
 
 export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   private readonly _pins = new Set<StaticJsValue>();
+
+  private _globalEnv: StaticJsGlobalEnvironmentRecord | null = null;
+  private _symbolRegistry: ReadonlyMap<string, StaticJsSymbol> | null = null;
 
   private _isInitializing: boolean = true;
   private _maxSize: number = Infinity;
@@ -22,22 +26,26 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   private _isMarking: boolean = false;
 
   constructor(
-    private readonly _realm: StaticJsRealm,
-    private readonly _symbolRegistry: ReadonlyMap<string, StaticJsSymbol>,
     maxMemorySize: number,
     memoryHighWatermark: number,
+    private readonly _memoryWeights: StaticJsMemoryWeights,
   ) {
     this._maxSize = maxMemorySize;
     this._highWatermark = memoryHighWatermark;
   }
 
-  initialize() {
+  initialize(
+    globalEnv: StaticJsGlobalEnvironmentRecord,
+    symbolRegistry: ReadonlyMap<string, StaticJsSymbol>,
+  ): void {
+    this._globalEnv = globalEnv;
+    this._symbolRegistry = symbolRegistry;
     this._genOneSize = this._initialSize = this._computeReachableSize();
     this._genZeroSize = 0;
     this._isInitializing = false;
   }
 
-  allocate(size: number): void {
+  allocate(tag: StaticJsMemoryAllocationTag, count: number = 1): void {
     if (this._isInitializing) {
       // Don't bother tracking.  We will mark and sweep after initialization is complete.
       return;
@@ -46,6 +54,8 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     if (this._isMarking) {
       throw new Error("Cannot allocate memory while marking");
     }
+
+    const size = this._getSize(tag, count);
 
     if (this.allocatedSize + size > this._maxSize) {
       // Try an emergency recount of gen one.
@@ -141,11 +151,17 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       throw new Error("Cannot trigger a mark operation while already marking");
     }
 
+    if (!this._globalEnv || !this._symbolRegistry) {
+      throw new Error(
+        "Memory manager has not been initialized with global environment and symbol registry",
+      );
+    }
+
     this._isMarking = true;
     try {
       let markedSize = 0;
-      const allocate = (size: number) => {
-        markedSize += size;
+      const allocate = (tag: StaticJsMemoryAllocationTag, count: number = 1) => {
+        markedSize += this._getSize(tag, count);
       };
 
       const marks = new Set<StaticJsMarkable>();
@@ -154,8 +170,11 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
         pin.mark(marks, allocate);
       }
 
-      this._realm.globalEnv.mark(marks, allocate);
-      this._markSymbolRegistry(marks, allocate);
+      this._globalEnv.mark(marks, allocate);
+      for (const [name, symbol] of this._symbolRegistry?.entries() ?? []) {
+        allocate(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
+        symbol.mark(marks, allocate);
+      }
 
       return markedSize;
     } finally {
@@ -163,10 +182,12 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     }
   }
 
-  private _markSymbolRegistry(marks: Set<StaticJsMarkable>, allocate: (size: number) => void) {
-    for (const [name, symbol] of this._symbolRegistry.entries()) {
-      allocate(stringSizeBytes(name));
-      symbol.mark(marks, allocate);
+  private _getSize(tag: StaticJsMemoryAllocationTag, count: number = 1): number {
+    const sizePerUnit = this._memoryWeights[tag];
+    if (sizePerUnit === undefined) {
+      throw new StaticJsEngineError(`Unknown memory allocation tag: ${tag}`);
     }
+
+    return sizePerUnit * count;
   }
 }
