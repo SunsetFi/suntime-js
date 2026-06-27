@@ -1,6 +1,6 @@
 // TODO REMOVE
 
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -19,7 +19,7 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import { STATICJS_PROXY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import type { StaticJsProxy } from "../StaticJsProxy.js";
@@ -58,7 +58,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
   ) {
-    _realm.memory.allocate(STATICJS_PROXY_OVERHEAD_BYTES);
+    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsProxy);
     this._proxyTarget = proxyTarget;
     this._handler = handler;
     this._callable = isStaticJsCallable(proxyTarget)
@@ -944,13 +944,13 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     throw new StaticJsEngineError("Cannot currently add private methods to proxies.");
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
     marks.add(this);
 
-    allocate?.(STATICJS_PROXY_OVERHEAD_BYTES);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsProxy);
 
     if (this._proxyTarget) {
       this._proxyTarget.mark(marks, allocate);

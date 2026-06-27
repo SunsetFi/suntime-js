@@ -1,17 +1,12 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import { call } from "#algorithms/call.js";
 import { isCallable } from "#algorithms/is-callable.js";
 import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
-import {
-  STATICJS_MAP_ENTRY_OVERHEAD_BYTES,
-  STATICJS_MAP_OVERHEAD_BYTES,
-  STATICJS_PRIMITIVE_BYTES,
-} from "#memory/implementation/measurements.js";
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
@@ -28,7 +23,7 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
   constructor(realm: StaticJsRealm) {
-    super(realm, realm.intrinsics["Map.prototype"], STATICJS_MAP_OVERHEAD_BYTES);
+    super(realm, realm.intrinsics["Map.prototype"], StaticJsMemoryAllocationTag.StaticJsMap);
   }
 
   override get [Symbol.toStringTag](): string {
@@ -135,7 +130,7 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
   *setValueEvaluator(key: StaticJsValue, value: StaticJsValue): EvaluationGenerator<void> {
     const keyUnwrapped = toNativeUnwrap(key);
     if (!this._backingStore.has(keyUnwrapped)) {
-      this.realm.memory.allocate(STATICJS_MAP_ENTRY_OVERHEAD_BYTES);
+      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead);
     }
     this._backingStore.set(keyUnwrapped, value);
   }
@@ -196,24 +191,24 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
     }
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
     super.mark(marks, allocate);
 
     for (const [key, value] of this._backingStore) {
-      allocate?.(STATICJS_MAP_ENTRY_OVERHEAD_BYTES);
+      allocate?.(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead);
 
       if (isStaticJsValue(key)) {
         key.mark(marks, allocate);
       } else {
         switch (typeof key) {
           case "string":
-            allocate?.(stringSizeBytes(key));
+            allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
             break;
           case "number":
-            allocate?.(STATICJS_PRIMITIVE_BYTES);
+            allocate?.(StaticJsMemoryAllocationTag.StaticJsNumber);
             break;
         }
       }

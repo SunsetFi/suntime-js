@@ -1,3 +1,4 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsArray } from "#types/StaticJsArray.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -22,9 +23,12 @@ export function* createArrayFromList(
   return array;
 }
 
-createArrayFromList.safe = function (elements: StaticJsValue[]): StaticJsArray {
+createArrayFromList.safe = function (
+  elements: StaticJsValue[],
+  realm?: StaticJsRealm,
+): StaticJsArray {
   // Guarenteed to produce our object, not a sandboxed object.
-  const array = arrayCreate.safe(0);
+  const array = arrayCreate.safe(0, undefined, realm);
 
   let n = 0;
   for (const e of elements) {

@@ -187,7 +187,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     }
 
     // This should be safe, as it never invokes sandboxed code.
-    return createArrayFromList.safe(items);
+    return createArrayFromList.safe(items, this._realm);
   }
 
   set(items?: Iterable<StaticJsValue> | readonly StaticJsValue[]): StaticJsSet {

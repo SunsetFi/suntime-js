@@ -1,7 +1,7 @@
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
-import { STATICJS_STRING_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsString } from "../../StaticJsString.js";
 
@@ -16,7 +16,8 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
       throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
 
-    super(realm, STATICJS_STRING_OVERHEAD_BYTES + stringSizeBytes(value));
+    super(realm, StaticJsMemoryAllocationTag.StaticJsString);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, value.length);
     this._value = value;
   }
 
@@ -38,6 +39,15 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
 
   get value() {
     return this._value;
+  }
+
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+    allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, this._value.length);
   }
 
   toNative() {

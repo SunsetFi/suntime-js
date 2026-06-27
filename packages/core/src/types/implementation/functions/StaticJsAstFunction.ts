@@ -18,7 +18,7 @@ import {
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { asyncFunctionStart } from "#algorithms/async-function-start.js";
@@ -42,7 +42,7 @@ import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import functionDeclarationInstantiation from "#evaluator/instantiation/function-declaration-instantiation.js";
 import evaluateStatementList from "#evaluator/node-evaluators/StatementList.js";
-import { stringSizeBytes } from "#memory/implementation/string-size.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 
@@ -112,7 +112,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     validateStaticJsAstFunctionParams(params);
 
     super(realm, prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"]);
-    realm.memory.allocate(stringSizeBytes(sourceText));
+    realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, sourceText.length);
     this._argumentDeclarations = params;
 
     if (strict) {
@@ -340,12 +340,12 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
     super.mark(marks, allocate);
-    allocate?.(stringSizeBytes(this.sourceText));
+    allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, this._sourceText.length);
 
     this._environment.mark(marks, allocate);
   }

@@ -1,3 +1,4 @@
+import type { StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
 import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "#types/HostAccessOptions.js";
 
@@ -77,9 +78,11 @@ export interface StaticJsRealmOptions {
   hostAccessDefaults?: HostAccessOptions;
 
   /**
-   * The maximum amount of memory (in bytes) that the realm is allowed to allocate.
+   * The maximum amount of memory (relative to {@link memoryWeights}) that the realm is allowed to allocate.
    * If the realm exceeds this limit, it will throw a {@link import("#errors/StaticJsOutOfMemoryError.ts").StaticJsOutOfMemoryError}.
    * If not specified, the realm will have no memory limit.
+   *
+   * Typically, this is specified in bytes, but it can be any unit of measurement that is consistent with the {@link memoryWeights} option.
    *
    * Note that this is best-effort, and the actual memory usage may vary depending on the underlying JavaScript engine.
    *
@@ -89,9 +92,25 @@ export interface StaticJsRealmOptions {
 
   /**
    * The high watermark of memory (in bytes) that the realm will allocate before performing a garbage collection sweep.
+   *
+   * Typically, this is specified in bytes, but it can be any unit of measurement that is consistent with the {@link memoryWeights} option.
+   *
    * Note that this is best-effort, and the actual memory usage may vary depending on the underlying JavaScript engine.
    */
   memoryHighWatermark?: number;
+
+  /**
+   * A mapping of memory weights per allocation type for the StaticJsMemoryManager.
+   * Typically, these are byte estimates, but they can be any unit of measurement
+   * that is consistent across all allocation types and the manager's maximum
+   * and high watermarks.
+   *
+   * If not specified, the default weights will be used, which are based on
+   * evidence gathering in NodeJs v24.16.0.
+   *
+   * See {@link StaticJsMemoryWeights} for more information.
+   */
+  memoryWeights?: StaticJsMemoryWeights;
 }
 
 /**
