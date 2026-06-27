@@ -59,8 +59,8 @@ describe("E2E: Memory", () => {
       size:
         // string overhead
         56 +
-        // string content
-        "Hello, World!".length * 2,
+        // string content (16 byte header + 1 byte per char)
+        (16 + "Hello, World!".length),
     },
     {
       name: "Boolean True",
@@ -89,6 +89,26 @@ describe("E2E: Memory", () => {
       factory: (realm) => realm.types.number(42),
       script: `42;`,
       size: 40,
+    },
+    {
+      name: "Number (fractional, HeapNumber)",
+      factory: (realm) => realm.types.number(3.14),
+      script: `3.14;`,
+      size:
+        // number overhead
+        40 +
+        // A non-SMI value is boxed as a 16 byte HeapNumber.
+        16,
+    },
+    {
+      name: "Number (out of SMI range, HeapNumber)",
+      factory: (realm) => realm.types.number(2 ** 40),
+      script: `${2 ** 40};`,
+      size:
+        // number overhead
+        40 +
+        // An integer outside the 32-bit SMI range is boxed as a 16 byte HeapNumber.
+        16,
     },
     {
       name: "Null",
@@ -120,24 +140,24 @@ describe("E2E: Memory", () => {
         factory:
           // symbol overhead
           655 +
-          // symbol description string overhead
-          "sym".length * 2,
+          // symbol description string content (16 byte header + 1 byte per char)
+          (16 + "sym".length),
         script:
           // String to make the symbol description
           56 +
-          // String content
-          "sym".length * 2 +
+          // String content (16 byte header + 1 byte per char)
+          (16 + "sym".length) +
           // symbol overhead
           655 +
-          // symbol description string overhead
-          "sym".length * 2,
+          // symbol description string content
+          (16 + "sym".length),
         genOne:
           // symbol overhead
           655 +
           // Symbols don't store a StaticJsString object, so there
           // is no + 56 overhead for one.
-          // symbol description string overhead
-          "sym".length * 2,
+          // symbol description string content
+          (16 + "sym".length),
       },
     },
     {
@@ -155,8 +175,8 @@ describe("E2E: Memory", () => {
         655 +
         // Property overhead
         212 +
-        // Property key string
-        "key".length * 2 +
+        // Property key string content (16 byte header + 1 byte per char)
+        (16 + "key".length) +
         // Property value number
         40,
     },
@@ -173,8 +193,8 @@ describe("E2E: Memory", () => {
         factory:
           // Symbol overhead
           655 +
-          // Symbol description string overhead
-          "sym".length * 2 +
+          // Symbol description string content (16 byte header + 1 byte per char)
+          (16 + "sym".length) +
           // object overhead
           655 +
           // Property overhead
@@ -182,12 +202,12 @@ describe("E2E: Memory", () => {
         script:
           // String to make the symbol description
           56 +
-          // String content
-          "sym".length * 2 +
+          // String content (16 byte header + 1 byte per char)
+          (16 + "sym".length) +
           // Symbol overhead
           655 +
-          // Symbol description string overhead
-          "sym".length * 2 +
+          // Symbol description string content
+          (16 + "sym".length) +
           // object overhead
           655 +
           // Property overhead
@@ -195,8 +215,8 @@ describe("E2E: Memory", () => {
         genOne:
           // Symbol overhead
           655 +
-          // Symbol description string overhead
-          "sym".length * 2 +
+          // Symbol description string content
+          (16 + "sym".length) +
           // object overhead
           655 +
           // Property overhead
@@ -218,16 +238,57 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let s`,
-        preambleAllocationSize: "s".length * 2,
+        preambleAllocationSize: 16 + "s".length,
         expression: `(s = new Set(), s.add(1), s)`,
       },
-      size:
-        // Set overhead
-        827 +
-        // Set entry overhead
-        27 +
-        // Number value
-        40,
+      size: {
+        genZero:
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27 +
+          // The caller's StaticJsNumber wrapper (counted while it is still alive)
+          40,
+        genOne:
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27,
+        // Sets do not retain the StaticJsNumber wrapper, and the unwrapped value
+        // is an inline SMI (RawNumber = 0), so nothing more is charged.
+      },
+    },
+    {
+      name: "Set with number (HeapNumber) value",
+      factory: (realm) => {
+        const set = realm.types.set();
+        set.addValueSync(realm.types.number(3.14));
+        return set;
+      },
+      script: {
+        preamble: `let s`,
+        preambleAllocationSize: 16 + "s".length,
+        expression: `(s = new Set(), s.add(3.14), s)`,
+      },
+      size: {
+        genZero:
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27 +
+          // The caller's StaticJsNumber wrapper...
+          40 +
+          // ...whose non-SMI value is boxed as a 16 byte HeapNumber.
+          16,
+        genOne:
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27 +
+          // Sets do not retain the StaticJsNumber wrapper, but the unwrapped value
+          // is a boxed HeapNumber (RawNumber = 16 for a non-SMI).
+          16,
+      },
     },
     {
       name: "Set with string value",
@@ -238,15 +299,15 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let s`,
-        preambleAllocationSize: "s".length * 2,
+        preambleAllocationSize: 16 + "s".length,
         expression: `(s = new Set(), s.add("value"), s)`,
       },
       size: {
         genZero:
           // String overhead
           56 +
-          // String content
-          "value".length * 2 +
+          // String content (16 byte header + 1 byte per char)
+          (16 + "value".length) +
           // Set overhead
           827 +
           // Set entry overhead
@@ -260,8 +321,8 @@ describe("E2E: Memory", () => {
           827 +
           // Set entry overhead
           27 +
-          // Set entry string content
-          "value".length * 2,
+          // Set entry string content (16 byte header + 1 byte per char)
+          (16 + "value".length),
       },
     },
     {
@@ -279,7 +340,7 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let m`,
-        preambleAllocationSize: "m".length * 2,
+        preambleAllocationSize: 16 + "m".length,
         expression: `(m = new Map(), m.set("key", 1), m)`,
       },
       size: {
@@ -290,8 +351,8 @@ describe("E2E: Memory", () => {
           37 +
           // String overhead
           56 +
-          // String value overhead
-          "key".length * 2 +
+          // String key content (16 byte header + 1 byte per char)
+          (16 + "key".length) +
           // Map entry value number overhead
           40,
         genOne:
@@ -301,9 +362,45 @@ describe("E2E: Memory", () => {
           37 +
           // Map entries do not retain a StaticJsString, so
           // the + 56 overhead for one is not counted.
-          // Map key string overhead
-          "key".length * 2 +
+          // Map key string content (16 byte header + 1 byte per char)
+          (16 + "key".length) +
           // Map entry value number overhead
+          40,
+      },
+    },
+    {
+      name: "Map with number (HeapNumber) key and number value",
+      factory: (realm) => {
+        const map = realm.types.map();
+        map.setValueSync(realm.types.number(3.14), realm.types.number(1));
+        return map;
+      },
+      script: {
+        preamble: `let m`,
+        preambleAllocationSize: 16 + "m".length,
+        expression: `(m = new Map(), m.set(3.14, 1), m)`,
+      },
+      size: {
+        genZero:
+          // Map overhead
+          880 +
+          // Map entry overhead
+          37 +
+          // The caller's key StaticJsNumber wrapper...
+          40 +
+          // ...whose non-SMI value is boxed as a 16 byte HeapNumber.
+          16 +
+          // Map entry value number overhead (SMI, so no HeapNumber box)
+          40,
+        genOne:
+          // Map overhead
+          880 +
+          // Map entry overhead
+          37 +
+          // Maps do not retain the key's StaticJsNumber wrapper, but the unwrapped
+          // key is a boxed HeapNumber (RawNumber = 16 for a non-SMI).
+          16 +
+          // The retained StaticJsNumber value (SMI, RawNumber = 0).
           40,
       },
     },
@@ -325,7 +422,7 @@ describe("E2E: Memory", () => {
       it("Allocates when in a script", () => {
         const measure = vi.fn();
 
-        const bindingSize = "value".length * 2;
+        const bindingSize = 16 + "value".length;
 
         const preambleSize =
           typeof script === "object" && script.preambleAllocationSize
@@ -399,8 +496,8 @@ describe("E2E: Memory", () => {
           const keySize =
             // Property overhead
             212 +
-            // Property key string
-            "_value".length * 2;
+            // Property key string content (16 byte header + 1 byte per char)
+            (16 + "_value".length);
 
           if (typeof script === "object") {
             realm.evaluateScriptSync(
