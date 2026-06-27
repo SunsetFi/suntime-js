@@ -3,7 +3,8 @@ import type { StaticJsObject } from "./StaticJsObject.js";
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "./StaticJsValue.js";
 
-export const MAX_ARRAY_LENGTH_INCLUSIVE = 2 ** 53 - 1;
+export const MAX_ARRAY_LENGTH_INCLUSIVE = 2 ** 32 - 1;
+export const MAX_ARRAYLIKE_LENGTH_INCLUSIVE = 2 ** 53 - 1;
 
 export interface StaticJsArray extends StaticJsObject {
   readonly runtimeTypeOf: "array";
@@ -13,7 +14,7 @@ export interface StaticJsArray extends StaticJsObject {
    * @param index The index to set.  Must be a non-negative integer less than or equal to MAX_ARRAY_LENGTH_INCLUSIVE.
    * @param value The value to set at the given index.  Must be a StaticJsValue.
    */
-  setIndexSafe(index: number, value: StaticJsValue): void;
+  setIndexSafe(index: number, value: StaticJsValue): boolean;
 }
 
 export function isStaticJsArray(value: unknown): value is StaticJsArray {

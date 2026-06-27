@@ -2,7 +2,7 @@ import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
-import { canonicalNumericStringIndex } from "#algorithms/canonical-numeric-string-index.js";
+import { canonicalNumericIndexString } from "#algorithms/canonical-numeric-index-string.js";
 import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import { isCompatiblePropertyDescriptor } from "#algorithms/is-compatible-property-descriptor.js";
 import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
@@ -126,7 +126,7 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
       return undefined;
     }
 
-    const index = yield* canonicalNumericStringIndex(propertyKey);
+    const index = yield* canonicalNumericIndexString(propertyKey);
     if (index === undefined || Math.round(index) !== index || index < 0) {
       return undefined;
     }

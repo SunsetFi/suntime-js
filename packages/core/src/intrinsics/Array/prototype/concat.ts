@@ -7,7 +7,7 @@ import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
 import { set } from "#algorithms/set.js";
 import { toObject } from "#algorithms/to-object.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
+import { MAX_ARRAYLIKE_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
@@ -49,7 +49,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
       if (spreadable) {
         const objE = E as StaticJsObject;
         const len = yield* lengthOfArrayLike(objE);
-        if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
+        if (n + len > MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
           throw yield* Completion.Throw.create("TypeError", "Maximum array size exceeded");
         }
 
@@ -72,7 +72,7 @@ const arrayProtoConcatDeclaration: IntrinsicPropertyDeclaration = {
           k++;
         }
       } else {
-        if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
+        if (n > MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
           throw yield* Completion.Throw.create("TypeError", "Maximum array size exceeded");
         }
 

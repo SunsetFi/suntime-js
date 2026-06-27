@@ -72,6 +72,15 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     }
   }
 
+  getOwnPropertyDescriptorSafe(name: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined {
+    const descriptor = this._contents.get(name);
+    if (!descriptor) {
+      return undefined;
+    }
+
+    return descriptor;
+  }
+
   setOwnPropertyDescriptorSafe(
     key: StaticJsPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
