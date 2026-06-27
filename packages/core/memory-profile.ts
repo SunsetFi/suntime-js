@@ -181,6 +181,55 @@ function bytesPerProperty(
   return median(samples);
 }
 
+/**
+ * Counts smaller than COUNT for composite/interpreted types, which are
+ * expensive per item and built through the (slow) tree-walking evaluator.
+ */
+const SCRIPT_COUNT = Math.min(COUNT, 50_000);
+
+/**
+ * Measure the retained cost of a value produced by an interpreted expression.
+ *
+ * Runs `for (var i = 0; i < count; i++) collect(<expr>);` and stashes each
+ * produced value in a pre-sized host array via a native `collect` binding, so
+ * only retained heap is counted. `setup` runs once *before* the baseline, so
+ * anything shared by every item (e.g. a common proxy target/handler, the
+ * enclosing scope, the parsed AST) is charged to the baseline rather than to
+ * the per-item figure. The result is therefore the marginal cost of one
+ * instance, sharing everything the setup created.
+ */
+function bytesPerScriptItem(setup: string, expr: string, count = SCRIPT_COUNT): number {
+  const realm = StaticJsRealm();
+  const holder: unknown[] = new Array(count).fill(null);
+  let idx = 0;
+  realm.global.defineOwnPropertySync("collect", {
+    value: realm.types.function("collect", function* (v) {
+      holder[idx++] = v;
+      return realm.types.undefined;
+    }),
+    writable: true,
+    enumerable: false,
+    configurable: true,
+  });
+
+  if (setup) {
+    realm.evaluateScriptSync(setup);
+  }
+  forceGc();
+  const before = heapUsed();
+
+  realm.evaluateScriptSync(`for (var __i = 0; __i < ${count}; __i++) { collect(${expr}); }`);
+
+  forceGc();
+  const after = heapUsed();
+  if (idx !== count) {
+    throw new Error(`collect filled ${idx}/${count}`);
+  }
+  const per = (after - before) / count;
+  holder.length = 0;
+  return per;
+}
+
 // --------------------------------------------------------------------------
 // Helpers for building distinct keys / strings of a fixed length
 // --------------------------------------------------------------------------
@@ -305,6 +354,24 @@ function main(): void {
     "symbol-key property",
     bytesPerProperty(realm, (i) => types.symbol(`k${i}`), HEAVY_COUNT),
   );
+  console.log();
+
+  console.log(
+    `Composite types (built via the interpreter, count=${SCRIPT_COUNT.toLocaleString()}):`,
+  );
+  // Proxy: target & handler are shared by setup, so this is the wrapper only.
+  // (StaticJsProxyImpl is not an ordinary object; it does NOT carry the ~655 base.)
+  reportFixed(
+    "proxy (wrapper only)",
+    bytesPerScriptItem("var t = {}; var h = {};", "new Proxy(t, h)"),
+  );
+  // Functions share the parsed AST and enclosing scope via setup; the figure is
+  // the function object + its name/length(/prototype) own properties. A declaration
+  // is a constructor, so it also owns a fresh .prototype object; an arrow is not.
+  // Neither retains a per-call StaticJsFunctionEnvironmentRecord — that is allocated
+  // per invocation, not per function instance.
+  reportFixed("ast function (constructable)", bytesPerScriptItem("", "function () {}"));
+  reportFixed("ast arrow (non-constructable)", bytesPerScriptItem("", "() => {}"));
 }
 
 main();
