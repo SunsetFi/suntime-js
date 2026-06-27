@@ -1,3 +1,4 @@
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
@@ -14,7 +15,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
   private _isInitializing: boolean = true;
   private _maxSize: number = Infinity;
-  private _genInitialSize: number = 0;
+  private _initialSize: number = NaN;
   private _genZeroSize: number = 0;
   private _genOneSize: number = NaN;
   private _highWatermark: number = NaN;
@@ -31,7 +32,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   }
 
   initialize() {
-    this._genInitialSize = this._computeReachableSize();
+    this._genOneSize = this._initialSize = this._computeReachableSize();
     this._genZeroSize = 0;
     this._isInitializing = false;
   }
@@ -64,6 +65,13 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
   sweep(): void {
     this._genOneSize = this._computeReachableSize();
+
+    // If we somehow end up with less memory than we initialized with, take that into account,
+    // to avoid showing a negative genOneSize.
+    if (this._genOneSize < this._initialSize) {
+      this._initialSize = this._genOneSize;
+    }
+
     this._genZeroSize = 0;
   }
 
@@ -90,11 +98,11 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   get genOneSize(): number {
     // Careful we don't send a negative value if we computed an initial generation size,
     // but have not yet computed the current generation one size.
-    if (Number.isNaN(this._genOneSize)) {
+    if (this._isInitializing) {
       return 0;
     }
 
-    return this._genOneSize - this._genInitialSize;
+    return this._genOneSize - this._initialSize;
   }
 
   get allocatedSize(): number {
@@ -140,7 +148,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
         markedSize += size;
       };
 
-      const marks = new Set<StaticJsValue>();
+      const marks = new Set<StaticJsMarkable>();
 
       for (const pin of this._pins) {
         pin.mark(marks, allocate);
@@ -155,7 +163,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     }
   }
 
-  private _markSymbolRegistry(marks: Set<StaticJsValue>, allocate: (size: number) => void) {
+  private _markSymbolRegistry(marks: Set<StaticJsMarkable>, allocate: (size: number) => void) {
     for (const [name, symbol] of this._symbolRegistry.entries()) {
       allocate(stringSizeBytes(name));
       symbol.mark(marks, allocate);
