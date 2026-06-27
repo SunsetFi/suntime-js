@@ -42,6 +42,7 @@ import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import functionDeclarationInstantiation from "#evaluator/instantiation/function-declaration-instantiation.js";
 import evaluateStatementList from "#evaluator/node-evaluators/StatementList.js";
+import { stringSizeBytes } from "#memory/implementation/string-size.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 
@@ -111,7 +112,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     validateStaticJsAstFunctionParams(params);
 
     super(realm, prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"]);
-
+    realm.memory.allocate(stringSizeBytes(sourceText));
     this._argumentDeclarations = params;
 
     if (strict) {
@@ -344,6 +345,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       return;
     }
     super.mark(marks, allocate);
+    allocate?.(stringSizeBytes(this.sourceText));
 
     this._environment.mark(marks, allocate);
   }

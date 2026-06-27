@@ -10,6 +10,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 export interface StaticJsMemoryManager {
   /**
    * Record an allocation of a given size in bytes.  This is used to track memory usage and enforce limits.
+   * This is typically called for gen zero allocations, which are never removed until the next garbage collection sweep.
    * @param size The size in bytes of the allocation.
    */
   allocate(size: number): void;
