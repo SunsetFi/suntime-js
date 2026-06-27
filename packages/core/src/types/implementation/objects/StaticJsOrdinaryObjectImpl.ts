@@ -3,10 +3,7 @@ import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import {
-  STATICJS_OBJECT_OVERHEAD_BYTES,
-  STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES,
-} from "#memory/implementation/measurements.js";
+import { STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES } from "#memory/implementation/measurements.js";
 import { stringSizeBytes } from "#memory/implementation/string-size.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
@@ -25,8 +22,12 @@ import { isArrayIndex } from "./is-array-index.js";
 export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>();
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null = null) {
-    super(realm, prototype);
+  constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObject | StaticJsNull | null = null,
+    size?: number,
+  ) {
+    super(realm, prototype, size);
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
@@ -71,14 +72,29 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     }
   }
 
+  setOwnPropertyDescriptorSafe(
+    key: StaticJsPropertyKey,
+    descriptor: StaticJsPropertyDescriptor,
+  ): void {
+    if (!this._contents.has(key)) {
+      let size = STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES;
+      if (typeof key === "string") {
+        size += stringSizeBytes(key);
+      }
+      this.realm.memory.allocate(size);
+    }
+
+    this._contents.set(key, {
+      ...descriptor,
+    });
+  }
+
   override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
     if (marks.has(this)) {
       return;
     }
 
-    marks.add(this);
-
-    allocate?.(STATICJS_OBJECT_OVERHEAD_BYTES);
+    super.mark(marks, allocate);
 
     for (const [key, descr] of this._contents.entries()) {
       allocate?.(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);

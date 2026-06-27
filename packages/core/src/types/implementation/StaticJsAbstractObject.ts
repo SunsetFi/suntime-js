@@ -58,8 +58,12 @@ export abstract class StaticJsAbstractObject
   private readonly _accessNativeInterner = new PolicyKeyInterner();
   private readonly _accessNativeCache = new Map<PolicyKey, object>();
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
-    super(realm, STATICJS_OBJECT_OVERHEAD_BYTES);
+  constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObject | StaticJsNull | null,
+    size?: number,
+  ) {
+    super(realm, size ?? STATICJS_OBJECT_OVERHEAD_BYTES);
     if (isStaticJsNull(prototype)) {
       this._prototype = null;
     } else {

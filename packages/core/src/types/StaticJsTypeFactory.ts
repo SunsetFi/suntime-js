@@ -5,6 +5,7 @@ import type { HostAccessArg } from "./HostAccessOptions.js";
 import type { StaticJsArray } from "./StaticJsArray.js";
 import type { StaticJsBoolean } from "./StaticJsBoolean.js";
 import type { StaticJsFunction } from "./StaticJsFunction.js";
+import type { StaticJsMap } from "./StaticJsMap.js";
 import type { StaticJsNull } from "./StaticJsNull.js";
 import type { StaticJsNumber } from "./StaticJsNumber.js";
 import type { StaticJsObject } from "./StaticJsObject.js";
@@ -12,6 +13,7 @@ import type { StaticJsPlainObject } from "./StaticJsPlainObject.js";
 import type { StaticJsPropertyDescriptorRecord } from "./StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "./StaticJsPropertyKey.js";
 import type { StaticJsProxy, StaticJsProxyHandlers, StaticJsProxyTarget } from "./StaticJsProxy.js";
+import type { StaticJsSet } from "./StaticJsSet.js";
 import type { StaticJsString } from "./StaticJsString.js";
 import type { StaticJsSymbol } from "./StaticJsSymbol.js";
 import type { StaticJsUndefined } from "./StaticJsUndefined.js";
@@ -128,7 +130,21 @@ export interface StaticJsTypeFactory {
    * Create a plain sandbox array with the given items or length.
    * @param itemsOrLength The items to include in the array, or the length of the array to create.
    */
-  array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray;
+  array(itemsOrLength?: readonly StaticJsValue[] | Iterable<StaticJsValue> | number): StaticJsArray;
+
+  /**
+   * Create a sandboxed Set with the given items.
+   * @param items The items to include in the Set.  If not provided, an empty Set will be created.
+   */
+  set(items?: Iterable<StaticJsValue> | readonly StaticJsValue[]): StaticJsSet;
+
+  /**
+   * Create a sandboxed Map with the given items.
+   * @param items The items to include in the Map.  If not provided, an empty Map will be created.
+   */
+  map(
+    items?: Iterable<[StaticJsValue, StaticJsValue]> | readonly [StaticJsValue, StaticJsValue][],
+  ): StaticJsMap;
 
   /**
    * Create a sandboxed function with the given name, implementation, and options.

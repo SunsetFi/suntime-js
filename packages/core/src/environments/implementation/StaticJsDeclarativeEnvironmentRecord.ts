@@ -76,6 +76,9 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void> {
     yield* this._assertBindingNotDeclared(name);
 
+    // Note: Our set entry and extranious data costs something too...
+    this._realm.memory.allocate(stringSizeBytes(name));
+
     this._bindings.set(name, {
       name,
       isMutable: true,
@@ -88,6 +91,9 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
     // TODO: Do we throw if not strict?
     yield* this._assertBindingNotDeclared(name);
+
+    // Note: Our set entry and extranious data costs something too...
+    this._realm.memory.allocate(stringSizeBytes(name));
 
     this._bindings.set(name, {
       name,

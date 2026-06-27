@@ -1,5 +1,7 @@
 import type { IntrinsicSymbols } from "#intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsMap } from "#types/StaticJsMap.js";
+import type { StaticJsSet } from "#types/StaticJsSet.js";
 
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { createNonEnumerableDataPropertyOrThrow } from "#algorithms/create-non-enumerable-data-property-or-throw.js";
@@ -43,7 +45,9 @@ import { StaticJsHostProxyFactory } from "./host-access/StaticJsHostProxyFactory
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsErrorImpl } from "./objects/StaticJsErrorImpl.js";
+import { StaticJsMapImpl } from "./objects/StaticJsMapImpl.js";
 import { StaticJsPlainObjectImpl } from "./objects/StaticJsPlainObjectImpl.js";
+import { StaticJsSetImpl } from "./objects/StaticJsSetImpl.js";
 import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";
 import { StaticJsNullImpl } from "./primitives/StaticJsNullImpl.js";
 import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
@@ -170,19 +174,50 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     return new StaticJsSymbolImpl(this._realm, description);
   }
 
-  array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray {
+  array(
+    itemsOrLength?: readonly StaticJsValue[] | Iterable<StaticJsValue> | number,
+  ): StaticJsArray {
     if (itemsOrLength === undefined || typeof itemsOrLength === "number") {
       return new StaticJsArrayImpl(this._realm, itemsOrLength);
-    } else if (Array.isArray(itemsOrLength)) {
-      if (!itemsOrLength.every(isStaticJsValue)) {
-        throw new TypeError("All items in the array must be StaticJsValues");
-      }
-      return this._realm.invokeEvaluatorSync(createArrayFromList(itemsOrLength ?? []));
-    } else {
-      throw new TypeError(
-        "Invalid argument for array creation: Must be a number or an array of StaticJsValues",
-      );
     }
+
+    const items = Array.from(itemsOrLength);
+    if (!items.every(isStaticJsValue)) {
+      throw new TypeError("All items must be StaticJsValue");
+    }
+
+    // This should be safe, as it never invokes sandboxed code.
+    return createArrayFromList.safe(items);
+  }
+
+  set(items?: Iterable<StaticJsValue> | readonly StaticJsValue[]): StaticJsSet {
+    const set = new StaticJsSetImpl(this._realm);
+
+    // We use the manual methods and do NOT check the prototype, so there is
+    // no chance of invoking sandbox code
+    if (items) {
+      for (const item of items) {
+        set.addValueSync(item);
+      }
+    }
+
+    return set;
+  }
+
+  map(
+    items?: Iterable<[StaticJsValue, StaticJsValue]> | readonly [StaticJsValue, StaticJsValue][],
+  ): StaticJsMap {
+    const map = new StaticJsMapImpl(this._realm);
+
+    // We use the manual methods and do NOT check the prototype, so there is
+    // no chance of invoking sandbox code
+    if (items) {
+      for (const [key, value] of items) {
+        map.setValueSync(key, value);
+      }
+    }
+
+    return map;
   }
 
   function(
