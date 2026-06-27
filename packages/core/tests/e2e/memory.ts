@@ -5,12 +5,49 @@ import { StaticJsOutOfMemoryError } from "#errors/StaticJsOutOfMemoryError.js";
 import { StaticJsRealm, type StaticJsValue } from "../../src/index.js";
 
 describe("E2E: Memory", () => {
+  interface SharedMemorySize {
+    genZero: number;
+    genOne: number | false;
+  }
+  interface SplitMemorySize {
+    factory: number;
+    script: number;
+    // Defaults to script.
+    genOne?: number | false;
+  }
+  type MemorySize = number | SharedMemorySize | SplitMemorySize;
+
+  function getGenZeroSize(size: MemorySize, type: "factory" | "script"): number {
+    if (typeof size === "number") {
+      return size;
+    } else if ("genZero" in size) {
+      return size.genZero;
+    } else {
+      return size[type];
+    }
+  }
+
+  function getGenOneSize(size: MemorySize): number | false {
+    if (typeof size === "number") {
+      return size;
+    } else if ("genOne" in size) {
+      return size.genOne!;
+    } else {
+      return size.script;
+    }
+  }
+
+  interface ScriptWithPreamble {
+    preamble: string;
+    preambleAllocationSize?: number;
+    expression: string;
+  }
+  type Script = string | ScriptWithPreamble;
   interface MemoryTestCase {
     name: string;
     factory: (realm: StaticJsRealm) => StaticJsValue;
-    script: string | { preamble: string; expression: string };
-    size: number | { factory: number; script: number };
-    genOneSize?: number | null;
+    script: Script;
+    size: MemorySize;
   }
 
   // Note: Testing hard values for overhead isn't ideal as this is engine dependent and we might change it.
@@ -30,18 +67,22 @@ describe("E2E: Memory", () => {
       factory: (realm) => realm.types.boolean(true),
       script: `true;`,
       // Should use shared.
-      size: 0,
-      // Can or cannot count as a single instance depending if anyone else has stored one.
-      genOneSize: null,
+      size: {
+        genZero: 0,
+        // Can or cannot count as a single instance depending if anyone else has stored one.
+        genOne: false,
+      },
     },
     {
       name: "Boolean False",
       factory: (realm) => realm.types.boolean(false),
       script: `false;`,
       // Should use shared.
-      size: 0,
-      // Can or cannot count as a single instance depending if anyone else has stored one.
-      genOneSize: null,
+      size: {
+        genZero: 0,
+        // Can or cannot count as a single instance depending if anyone else has stored one.
+        genOne: false,
+      },
     },
     {
       name: "Number",
@@ -54,16 +95,22 @@ describe("E2E: Memory", () => {
       factory: (realm) => realm.types.null,
       script: `null;`,
       // Should use shared.
-      size: 0,
-      // Can or cannot count as a single instance depending if anyone else has stored one.
-      genOneSize: null,
+      size: {
+        genZero: 0,
+        // Can or cannot count as a single instance depending if anyone else has stored one.
+        genOne: false,
+      },
     },
     {
       name: "Undefined",
       factory: (realm) => realm.types.undefined,
       script: `undefined;`,
       // Should use shared.
-      size: 0,
+      size: {
+        genZero: 0,
+        // Can or cannot count as a single instance depending if anyone else has stored one.
+        genOne: false,
+      },
     },
     {
       name: "Symbol",
@@ -84,12 +131,14 @@ describe("E2E: Memory", () => {
           655 +
           // symbol description string overhead
           "sym".length * 2,
+        genOne:
+          // symbol overhead
+          655 +
+          // Symbols don't store a StaticJsString object, so there
+          // is no + 56 overhead for one.
+          // symbol description string overhead
+          "sym".length * 2,
       },
-      genOneSize:
-        // symbol overhead
-        655 +
-        // symbol description string overhead
-        "sym".length * 2,
     },
     {
       name: "Empty Object",
@@ -143,16 +192,16 @@ describe("E2E: Memory", () => {
           655 +
           // Property overhead
           212,
+        genOne:
+          // Symbol overhead
+          655 +
+          // Symbol description string overhead
+          "sym".length * 2 +
+          // object overhead
+          655 +
+          // Property overhead
+          212,
       },
-      genOneSize:
-        // Symbol overhead
-        655 +
-        // Symbol description string overhead
-        "sym".length * 2 +
-        // object overhead
-        655 +
-        // Property overhead
-        212,
     },
     {
       name: "Empty Set",
@@ -169,25 +218,50 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let s`,
+        preambleAllocationSize: "s".length * 2,
         expression: `(s = new Set(), s.add(1), s)`,
       },
+      size:
+        // Set overhead
+        827 +
+        // Set entry overhead
+        27 +
+        // Number value
+        40,
+    },
+    {
+      name: "Set with string value",
+      factory: (realm) => {
+        const set = realm.types.set();
+        set.addValueSync(realm.types.string("value"));
+        return set;
+      },
+      script: {
+        preamble: `let s`,
+        preambleAllocationSize: "s".length * 2,
+        expression: `(s = new Set(), s.add("value"), s)`,
+      },
       size: {
-        factory:
+        genZero:
+          // String overhead
+          56 +
+          // String content
+          "value".length * 2 +
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27,
+        // Set gen zero does not count the string overhead,
+        // as it assumes the caller created one.
+        genOne:
+          // Sets do not retain a StaticJsString, so
+          // the + 56 overhead for one is not counted.
           // Set overhead
           827 +
           // Set entry overhead
           27 +
-          // Number value
-          40,
-        script:
-          // Declarative environment key "s",
-          "s".length * 2 +
-          // Set overhead
-          827 +
-          // Set entry overhead
-          27 +
-          // Number value
-          40,
+          // Set entry string content
+          "value".length * 2,
       },
     },
     {
@@ -205,10 +279,11 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let m`,
+        preambleAllocationSize: "m".length * 2,
         expression: `(m = new Map(), m.set("key", 1), m)`,
       },
       size: {
-        factory:
+        genZero:
           // Map overhead
           880 +
           // Map entry overhead
@@ -219,34 +294,20 @@ describe("E2E: Memory", () => {
           "key".length * 2 +
           // Map entry value number overhead
           40,
-        script:
-          // Declarative environment key "m",
-          "m".length * 2 +
+        genOne:
           // Map overhead
           880 +
           // Map entry overhead
           37 +
-          // String overhead
-          56 +
-          // String value overhead
-          // Map string is not counted, as we consider the callee to have counted it
+          // Map entries do not retain a StaticJsString, so
+          // the + 56 overhead for one is not counted.
+          // Map key string overhead
           "key".length * 2 +
           // Map entry value number overhead
           40,
       },
-      genOneSize:
-        // Preamble variable "m"
-        "m".length * 2 +
-        // Map overhead
-        880 +
-        // Map entry overhead
-        37 +
-        // Map key string overhead
-        "key".length * 2 +
-        // Map entry value number overhead
-        40,
     },
-  ])("$name", ({ factory, script, size, genOneSize }) => {
+  ])("$name", ({ factory, script, size }) => {
     describe("Gen Zero", () => {
       // Original plan was to not track these, and just end up tracking them in a sweep if they ever got added.
       // But now sweeps might not happen unless needed, and I still want to track things triggered by toNative proxies,
@@ -255,24 +316,29 @@ describe("E2E: Memory", () => {
         const realm = new StaticJsRealm();
         realm.memory.sweep();
         const value = factory(realm);
-        if (typeof size === "object") {
-          expect(realm.memory.genZeroSize).toBe(size.factory);
-        } else {
-          expect(realm.memory.genZeroSize).toBe(size);
-        }
+
+        const expectedSize = getGenZeroSize(size, "factory");
+        expect(realm.memory.genZeroSize).toBe(expectedSize);
         void value;
       });
 
       it("Allocates when in a script", () => {
         const measure = vi.fn();
+
         const bindingSize = "value".length * 2;
+
+        const preambleSize =
+          typeof script === "object" && script.preambleAllocationSize
+            ? script.preambleAllocationSize
+            : 0;
+
         const realm = new StaticJsRealm({
           global: {
             properties: {
               measure: {
                 value: () => {
                   // Don't include the size of our value binding.
-                  measure(realm.memory.genZeroSize - bindingSize);
+                  measure(realm.memory.genZeroSize - bindingSize - preambleSize);
                 },
               },
             },
@@ -293,16 +359,15 @@ describe("E2E: Memory", () => {
           `);
         }
 
-        if (typeof size === "object") {
-          expect(measure).toHaveBeenCalledWith(size.script);
-        } else {
-          expect(measure).toHaveBeenCalledWith(size);
-        }
+        const expectedSize = getGenZeroSize(size, "script");
+        expect(measure).toHaveBeenCalledWith(expectedSize);
       });
 
       it("Allocates when in a task", () => {
         const measure = vi.fn();
+
         const realm = new StaticJsRealm();
+
         realm.global.defineOwnPropertySync("act", {
           value: realm.types.function("act", function* () {
             const value = factory(realm);
@@ -310,50 +375,50 @@ describe("E2E: Memory", () => {
             return value;
           }),
         });
+
         realm.memory.sweep();
 
         realm.evaluateScriptSync("act();");
 
-        if (typeof size === "object") {
-          expect(measure).toHaveBeenCalledWith(size.factory);
-        } else {
-          expect(measure).toHaveBeenCalledWith(size);
-        }
+        const expectedSize = getGenZeroSize(size, "factory");
+        expect(measure).toHaveBeenCalledWith(expectedSize);
       });
     });
 
-    if (genOneSize !== null) {
+    const genOneSize = getGenOneSize(size);
+
+    if (genOneSize) {
       describe("Gen One", () => {
         it("Retains the allocation after a sweep", () => {
           const realm = new StaticJsRealm();
+
           realm.memory.sweep();
           const initialMemory = realm.memory.genOneSize;
 
+          // The key on globalThis also counts as an allocation
+          const keySize =
+            // Property overhead
+            212 +
+            // Property key string
+            "_value".length * 2;
+
           if (typeof script === "object") {
             realm.evaluateScriptSync(
-              `${script.preamble}
-              globalThis._value = ${script.expression};`,
+              `{
+                ${script.preamble}
+                globalThis._value = ${script.expression};
+              }`,
             );
           } else {
             realm.evaluateScriptSync(`globalThis._value = ${script};`);
           }
           realm.memory.sweep();
 
-          // The key also counts as an allocation
-          const keyAllocation =
-            // Property overhead
-            212 +
-            // Property key string
-            "_value".length * 2;
+          // We don't need to take the preamble allocation into account,
+          // as we do that in a block decl env that is disposed on sweep.
 
-          const allocated = realm.memory.genOneSize - initialMemory - keyAllocation;
-          if (genOneSize) {
-            expect(allocated).toBe(genOneSize);
-          } else if (typeof size === "object") {
-            expect(allocated).toBe(size.script);
-          } else {
-            expect(allocated).toBe(size);
-          }
+          const allocated = realm.memory.genOneSize - initialMemory - keySize;
+          expect(allocated).toBe(genOneSize);
         });
       });
     }

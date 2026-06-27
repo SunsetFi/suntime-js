@@ -9,6 +9,16 @@
   - [ ] Update documentation
 - [ ] Thread policy into propertyDescriptorToNative and other create-object-proxy toStaticJsNative calls from .toNative of object.
 
+## Safe access
+
+Started to introduce the ability to safely interact with objects without invoking sandbox.
+
+See array setIndexSafe
+
+- [ ] Add safe methods to object
+- [ ] Add safe methods to map
+- [ ] Add safe methods to set
+
 ## Immediate
 
 - [ ] Move proxy symbol owner of StaticJsSymbol to StaticJsTypeFactory
