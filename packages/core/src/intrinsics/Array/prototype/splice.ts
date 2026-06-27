@@ -11,6 +11,7 @@ import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
 import { toObject } from "#algorithms/to-object.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
+import { MAX_ARRAYLIKE_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
@@ -42,7 +43,7 @@ const arrayProtoSpliceDeclaration: IntrinsicPropertyDeclaration = {
       actualDeleteCount = Math.min(Math.max(dc, 0), len - actualStart);
     }
 
-    if (len + itemCount - actualDeleteCount > 2 ** 53 - 1) {
+    if (len + itemCount - actualDeleteCount > MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
       throw yield* Completion.Throw.create(
         "TypeError",
         "The number of elements in the array after the splice operation exceeds the maximum allowed length.",

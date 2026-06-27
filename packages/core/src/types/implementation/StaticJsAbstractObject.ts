@@ -134,6 +134,10 @@ export abstract class StaticJsAbstractObject
     return this._extensible;
   }
 
+  isExtensibleSafe() {
+    return this._extensible;
+  }
+
   async preventExtensionsAsync(opts?: StaticJsRunTaskOptions): Promise<boolean> {
     return this.realm.invokeEvaluatorAsync(this.preventExtensionsEvaluator(), opts);
   }

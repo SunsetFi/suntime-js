@@ -19,7 +19,7 @@ import { Q } from "#evaluator/completions/Q.js";
 import { getIteratorFromMethod } from "#iterators/get-iterator-from-method.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
+import { MAX_ARRAYLIKE_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
@@ -62,7 +62,7 @@ const arrayCtorFromDeclaration: IntrinsicPropertyDeclaration = {
       const iteratorRecord = yield* Q(getIteratorFromMethod(items, usingIterator));
       let k = 0;
       while (true) {
-        if (k >= MAX_ARRAY_LENGTH_INCLUSIVE) {
+        if (k >= MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
           const error = yield* Completion.Throw.create("TypeError", "Too many items from iterator");
           return yield* Q(iteratorClose(iteratorRecord, error));
         }

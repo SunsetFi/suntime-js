@@ -48,9 +48,36 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
     return StaticJsTypeCode.Array;
   }
 
-  setIndexSafe(index: number, value: StaticJsValue): void {
+  setIndexSafe(index: number, value: StaticJsValue): boolean {
     if (!Number.isInteger(index) || index < 0 || index > MAX_ARRAY_LENGTH_INCLUSIVE) {
       throw new RangeError("Invalid array index");
+    }
+
+    const lengthDesc = this.getOwnPropertyDescriptorSafe("length");
+    if (!lengthDesc) {
+      throw new StaticJsEngineError("Null length descriptor on array intrinsic");
+    }
+    if (lengthDesc.configurable) {
+      throw new StaticJsEngineError("Configurable length descriptor on array intrinsic");
+    }
+    if (!isStaticJsDataPropertyDescriptor(lengthDesc)) {
+      throw new StaticJsEngineError("Invalid length descriptor on array intrinsic");
+    }
+
+    const length = lengthDesc.value;
+    if (!isStaticJsNumber(length) || length.value < 0) {
+      throw new StaticJsEngineError("Invalid length value on array intrinsic");
+    }
+
+    if (index >= length.value && !lengthDesc.writable) {
+      return false;
+    }
+
+    if (
+      !this.isExtensibleSafe() &&
+      this.getOwnPropertyDescriptorSafe(index.toString()) === undefined
+    ) {
+      return false;
     }
 
     this.setOwnPropertyDescriptorSafe(index.toString(), {
@@ -59,6 +86,14 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
       configurable: true,
       value,
     });
+
+    if (index >= length.value) {
+      this.setOwnPropertyDescriptorSafe("length", {
+        ...lengthDesc,
+        value: this.realm.types.number(index + 1),
+      });
+    }
+    return true;
   }
 
   protected override _createToNativeProxyTarget(): StaticJsObjectProxyTarget {
