@@ -449,18 +449,18 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
     super.mark(marks, allocate);
 
-    for (const value of this._backingStore) {
-      allocate?.(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, this._backingStore.size);
 
+    for (const value of this._backingStore) {
       if (isStaticJsValue(value)) {
         value.mark(marks, allocate);
-      } else {
+      } else if (allocate) {
         switch (typeof value) {
           case "string":
-            allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, value.length);
+            allocate(StaticJsMemoryAllocationTag.RawStringCharacter, value.length);
             break;
           case "number":
-            allocate?.(StaticJsMemoryAllocationTag.StaticJsNumber);
+            allocate(StaticJsMemoryAllocationTag.RawNumber, value);
             break;
         }
       }

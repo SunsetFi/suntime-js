@@ -131,6 +131,10 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
     const keyUnwrapped = toNativeUnwrap(key);
     if (!this._backingStore.has(keyUnwrapped)) {
       this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead);
+      // The unwrapped key's own storage (string content, boxed number, etc.) is
+      // accounted for in mark(). At this point the caller still holds the
+      // StaticJsValue it was passed, which already charged for that storage, so
+      // charging it again here would double-count the same native value.
     }
     this._backingStore.set(keyUnwrapped, value);
   }
@@ -197,18 +201,18 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
     }
     super.mark(marks, allocate);
 
-    for (const [key, value] of this._backingStore) {
-      allocate?.(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, this._backingStore.size);
 
+    for (const [key, value] of this._backingStore) {
       if (isStaticJsValue(key)) {
         key.mark(marks, allocate);
-      } else {
+      } else if (allocate) {
         switch (typeof key) {
           case "string":
-            allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
+            allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
             break;
           case "number":
-            allocate?.(StaticJsMemoryAllocationTag.StaticJsNumber);
+            allocate(StaticJsMemoryAllocationTag.RawNumber, key);
             break;
         }
       }

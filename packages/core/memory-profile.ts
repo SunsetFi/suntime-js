@@ -411,11 +411,17 @@ function main(): void {
 
   console.log("Collections (ordinary object base + native backing store):");
   // Empty container total; subtract the ~655 object base for the native overhead.
+  // Map keeps TWO native backing maps (a value store keyed by the StaticJsValue
+  // wrapper plus an identity map), so its empty cost is ~2x a Set's native overhead.
   reportFixed("empty Map (total)", bytesPerScriptItem("", "new Map()"));
   reportFixed("empty Set (total)", bytesPerScriptItem("", "new Set()"));
-  // Per-entry = bare native V8 hash-table slot (SMI key, shared value). The key's
-  // and value's own storage are accounted separately when they are not primitives.
-  reportFixed("Map entry", bytesPerCollectionEntry("map", ENTRY_COUNT));
+  // Map entry = TWO native hash-table slots (~82) PLUS the retained key wrapper —
+  // the Map now keeps the passed StaticJsValue key alive instead of unwrapping it,
+  // so a number-keyed entry also retains a ~40-byte StaticJsNumber (~122 total).
+  // The key wrapper and value are charged separately via key.mark()/value.mark(),
+  // so the per-entry *overhead* constant is the ~82 structural part only.
+  // Set still unwraps to a single native slot (SMI key, shared value).
+  reportFixed("Map entry (number key, null value)", bytesPerCollectionEntry("map", ENTRY_COUNT));
   reportFixed("Set entry", bytesPerCollectionEntry("set", ENTRY_COUNT));
 }
 

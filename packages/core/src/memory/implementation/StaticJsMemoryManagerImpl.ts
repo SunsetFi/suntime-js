@@ -188,6 +188,10 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       throw new StaticJsEngineError(`Unknown memory allocation tag: ${tag}`);
     }
 
+    if (typeof sizePerUnit === "function") {
+      return sizePerUnit(count);
+    }
+
     return sizePerUnit * count;
   }
 }

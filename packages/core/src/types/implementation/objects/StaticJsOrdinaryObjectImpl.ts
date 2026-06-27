@@ -104,9 +104,9 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
 
     super.mark(marks, allocate);
 
-    for (const [key, descr] of this._contents.entries()) {
-      allocate?.(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, this._contents.size);
 
+    for (const [key, descr] of this._contents.entries()) {
       if (typeof key === "string") {
         allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
       } else {

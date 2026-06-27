@@ -35,7 +35,7 @@ export interface StaticJsRealmOptions {
   modules?: Record<string, StaticJsModuleResolution>;
 
   /**
-   * Optional hooks to override engine behavior for various operations.
+   * Optional hooks to override engine behavior.
    */
   hooks?: StaticJsRealmHookOptions;
 
@@ -85,17 +85,19 @@ export interface StaticJsRealmOptions {
    * Typically, this is specified in bytes, but it can be any unit of measurement that is consistent with the {@link memoryWeights} option.
    *
    * Note that this is best-effort, and the actual memory usage may vary depending on the underlying JavaScript engine.
+   * You may want to tweak {@link memoryWeights} to better reflect the actual memory usage of your underlying JavaScript engine.
    *
-   * This will not include the initial memory used by the realm to create the global object and other internal structures.
+   * Note that the memory used to initialize the global environment will not be counted against this limit.
    */
   maxMemorySize?: number;
 
   /**
-   * The high watermark of memory (in bytes) that the realm will allocate before performing a garbage collection sweep.
+   * The high watermark of memory (relative to units in {@link memoryWeights}) that the realm will allocate before performing a 'garbage collection' sweep.
+   *
+   * Note that this sweep does not directly free any memory, but instead recalculates the estimate of used memory used to
+   * determine when to throw a {@link import("#errors/StaticJsOutOfMemoryError.ts").StaticJsOutOfMemoryError}.
    *
    * Typically, this is specified in bytes, but it can be any unit of measurement that is consistent with the {@link memoryWeights} option.
-   *
-   * Note that this is best-effort, and the actual memory usage may vary depending on the underlying JavaScript engine.
    */
   memoryHighWatermark?: number;
 
@@ -106,7 +108,7 @@ export interface StaticJsRealmOptions {
    * and high watermarks.
    *
    * If not specified, the default weights will be used, which are based on
-   * evidence gathering in NodeJs v24.16.0.
+   * estimated byte sizes gathered from testing in NodeJs v24.16.0.
    *
    * See {@link StaticJsMemoryWeights} for more information.
    */
