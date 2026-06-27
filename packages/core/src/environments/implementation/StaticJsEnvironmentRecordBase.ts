@@ -56,5 +56,5 @@ export abstract class StaticJsEnvironmentRecordBase
 
   abstract getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
 
-  abstract mark(marks: Set<StaticJsValue>, allocate?: boolean): void;
+  abstract mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void;
 }

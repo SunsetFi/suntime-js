@@ -1,5 +1,5 @@
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { symbolInspect } from "#utils/symbol-inspect.js";
 
@@ -24,17 +24,15 @@ export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
 
   abstract get runtimeTypeCode(): StaticJsTypeCode;
 
-  mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
     // This could technically be a subclass that doesn't fit our union,
-    // but this is only used for marking, so we can safely cast it to StaticJsValue.
-    if (marks.has(this as unknown as StaticJsValue)) {
+    // but this is only used for marking, so we can safely cast it to StaticJsMarkable.
+    if (marks.has(this as unknown as StaticJsMarkable)) {
       return;
     }
-    marks.add(this as unknown as StaticJsValue);
+    marks.add(this as unknown as StaticJsMarkable);
 
-    if (allocate) {
-      this.realm.memory.allocate(this._size);
-    }
+    allocate?.(this._size);
   }
 
   abstract toNative(): unknown;

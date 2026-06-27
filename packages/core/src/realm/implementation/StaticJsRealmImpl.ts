@@ -8,6 +8,7 @@ import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "#types/HostAccessOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
+import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -118,7 +119,16 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
-    this._memory = new StaticJsMemoryManagerImpl(this, maxMemorySize, memoryHighWatermark);
+    // Allocated here because we need to scan it for memory use, and I don't feel like
+    // we want to make StaticJsTypeFactory a markable.
+    const symbolRegistry = new Map<string, StaticJsSymbol>();
+
+    this._memory = new StaticJsMemoryManagerImpl(
+      this,
+      symbolRegistry,
+      maxMemorySize,
+      memoryHighWatermark,
+    );
 
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
@@ -140,7 +150,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const intrinsics: IntrinsicsRecord = {} as IntrinsicsRecord;
     this._intrinsics = intrinsics;
 
-    const typeFactory = new StaticJsTypeFactoryImpl(this);
+    const typeFactory = new StaticJsTypeFactoryImpl(this, symbolRegistry);
     // Set the type factory now, so the rest of the type instantiation can use it.
     // This is a little bit fiddly, but much of our systems rely on having a reference to the type factory
     // through us, so it needs to be available early.

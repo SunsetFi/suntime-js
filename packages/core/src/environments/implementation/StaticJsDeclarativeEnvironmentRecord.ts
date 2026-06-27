@@ -1,5 +1,6 @@
 import type { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -175,11 +176,15 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     return this._realm.types.undefined;
   }
 
-  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
     for (const [name, binding] of this._bindings.entries()) {
-      if (allocate) {
-        this._realm.memory.allocate(stringSizeBytes(name));
-      }
+      allocate?.(stringSizeBytes(name));
 
       if (binding.value) {
         binding.value.mark(marks, allocate);

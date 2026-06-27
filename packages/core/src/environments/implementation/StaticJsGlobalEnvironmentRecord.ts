@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -126,7 +127,13 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._realm.types.undefined;
   }
 
-  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
     this._globalThis.mark(marks, allocate);
     this._declarativeRecord.mark(marks, allocate);
     // May include globalThis, but that's fine since mark is idempotent.

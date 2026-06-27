@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
@@ -93,7 +94,10 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
     return true;
   }
 
-  override mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+    if (marks.has(this)) {
+      return;
+    }
     super.mark(marks, allocate);
     this._thisValue?.mark(marks, allocate);
   }

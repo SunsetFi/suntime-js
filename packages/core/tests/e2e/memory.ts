@@ -276,4 +276,37 @@ describe("E2E: Memory", () => {
 
     expect(realm.memory.genOneSize).not.toBe(0);
   });
+
+  it("Traces marks through function environments", () => {
+    const realm = new StaticJsRealm();
+    realm.evaluateScriptSync(`
+      function makeCounter() {
+        let values = [];
+        for (let i = 0; i < 100; i++) {
+          values.push("Hello, World!");
+        }
+        return function() {
+          return values;
+        };
+      }
+
+      globalThis.makeCounter = makeCounter;
+    `);
+
+    realm.memory.sweep();
+    const initialMemory = realm.memory.genOneSize;
+
+    realm.evaluateScriptSync(`
+      globalThis.counter = globalThis.makeCounter();
+      delete globalThis.makeCounter;
+    `);
+    realm.memory.sweep();
+    const counterInvokedMemory = realm.memory.genOneSize;
+    expect(counterInvokedMemory).toBeGreaterThan(initialMemory);
+
+    realm.evaluateScriptSync(`delete globalThis.counter;`);
+    realm.memory.sweep();
+    const counterClearedMemory = realm.memory.genOneSize;
+    expect(counterClearedMemory).toBe(initialMemory);
+  });
 });

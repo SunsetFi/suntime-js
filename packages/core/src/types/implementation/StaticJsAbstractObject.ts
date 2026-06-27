@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -472,7 +473,7 @@ export abstract class StaticJsAbstractObject
     this._privateElements.push(element);
   }
 
-  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
     if (marks.has(this)) {
       return;
     }

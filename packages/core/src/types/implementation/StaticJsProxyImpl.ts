@@ -1,5 +1,6 @@
 // TODO REMOVE
 
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -943,15 +944,13 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     throw new StaticJsEngineError("Cannot currently add private methods to proxies.");
   }
 
-  mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
     if (marks.has(this)) {
       return;
     }
     marks.add(this);
 
-    if (allocate) {
-      this._realm.memory.allocate(STATICJS_PROXY_OVERHEAD_BYTES);
-    }
+    allocate?.(STATICJS_PROXY_OVERHEAD_BYTES);
 
     if (this._proxyTarget) {
       this._proxyTarget.mark(marks, allocate);
