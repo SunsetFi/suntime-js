@@ -55,9 +55,6 @@ import { buildIntrinsicSymbolRecord, getWellKnownSymbol } from "./well-known-sym
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _symbols: IntrinsicSymbols;
 
-  // The registry for our local Symbol.for()
-  private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
-
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
   private readonly _Infinity: StaticJsNumber;
@@ -70,7 +67,10 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   private readonly _hostProxyFactory: StaticJsHostProxyFactory;
 
-  constructor(private readonly _realm: StaticJsRealm) {
+  constructor(
+    private readonly _realm: StaticJsRealm,
+    private readonly _symbolRegistry: Map<string, StaticJsSymbol>,
+  ) {
     this._zero = new StaticJsNumberImpl(_realm, 0);
     this._NaN = new StaticJsNumberImpl(_realm, NaN);
     this._Infinity = new StaticJsNumberImpl(_realm, Infinity);

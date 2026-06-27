@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
-import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import {
@@ -71,26 +71,20 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     }
   }
 
-  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
     if (marks.has(this)) {
       return;
     }
 
-    const memory = this.realm.memory;
     marks.add(this);
-    if (allocate) {
-      memory.allocate(STATICJS_OBJECT_OVERHEAD_BYTES);
-    }
+
+    allocate?.(STATICJS_OBJECT_OVERHEAD_BYTES);
 
     for (const [key, descr] of this._contents.entries()) {
-      if (allocate) {
-        memory.allocate(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);
-      }
+      allocate?.(STATICJS_OBJECT_PROPERTY_OVERHEAD_BYTES);
 
       if (typeof key === "string") {
-        if (allocate) {
-          memory.allocate(stringSizeBytes(key));
-        }
+        allocate?.(stringSizeBytes(key));
       } else {
         key.mark(marks, allocate);
       }

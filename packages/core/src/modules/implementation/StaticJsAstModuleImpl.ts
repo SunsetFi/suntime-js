@@ -1,6 +1,7 @@
 import type { FunctionDeclaration, Program } from "@babel/types";
 
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -573,7 +574,13 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     });
   }
 
-  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
     if (this._moduleEnv) {
       this._moduleEnv.mark(marks, allocate);
     }

@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
@@ -128,7 +129,13 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     this._moduleBindings.set(name, { module, bindingName });
   }
 
-  mark(marks: Set<StaticJsValue>, allocate?: boolean): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
     for (const { module } of this._moduleBindings.values()) {
       module.mark(marks, allocate);
     }

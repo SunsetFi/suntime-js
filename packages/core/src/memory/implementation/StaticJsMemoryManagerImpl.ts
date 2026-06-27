@@ -1,10 +1,17 @@
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsOutOfMemoryError } from "#errors/StaticJsOutOfMemoryError.js";
 
+import { stringSizeBytes } from "./string-size.js";
+
+const DEFAULT_HIGH_WATERMARK_PERCENT = 0.8;
+
 export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
+  private readonly _pins = new Set<StaticJsValue>();
+
   private _isInitializing: boolean = true;
   private _maxSize: number = Infinity;
   private _genInitialSize: number = 0;
@@ -15,6 +22,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
   constructor(
     private readonly _realm: StaticJsRealm,
+    private readonly _symbolRegistry: ReadonlyMap<string, StaticJsSymbol>,
     maxMemorySize: number,
     memoryHighWatermark: number,
   ) {
@@ -23,12 +31,27 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   }
 
   initialize() {
-    this.sweep();
+    this._genInitialSize = this._computeReachableSize();
+    this._genZeroSize = 0;
     this._isInitializing = false;
   }
 
   allocate(size: number): void {
-    if (!this._isInitializing) {
+    if (this._isInitializing) {
+      // Don't bother tracking.  We will mark and sweep after initialization is complete.
+      return;
+    }
+
+    if (this._isMarking) {
+      throw new Error("Cannot allocate memory while marking");
+    }
+
+    if (this.allocatedSize + size > this._maxSize) {
+      // Try an emergency recount of gen one.
+      // Don't reset the gen zero size, as that is still ongoing.
+      // This still means we can possibly double count items in it.
+      this._genOneSize = this._computeReachableSize();
+
       if (this.allocatedSize + size > this._maxSize) {
         throw new StaticJsOutOfMemoryError(
           `Memory allocation of ${size} bytes exceeds max size of ${this._maxSize} bytes`,
@@ -36,31 +59,12 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       }
     }
 
-    if (this._isMarking) {
-      this._genOneSize += size;
-    } else {
-      this._genZeroSize += size;
-    }
+    this._genZeroSize += size;
   }
 
   sweep(): void {
-    if (this._isMarking) {
-      throw new Error("Cannot sweep cyclically");
-    }
-
-    this._isMarking = true;
-    try {
-      this._genZeroSize = 0;
-      this._genOneSize = 0;
-      const marks = new Set<StaticJsValue>();
-      this._realm.globalEnv.mark(marks, true);
-    } finally {
-      if (this._isInitializing) {
-        this._genInitialSize = this._genOneSize;
-        this._genOneSize = NaN;
-      }
-      this._isMarking = false;
-    }
+    this._genOneSize = this._computeReachableSize();
+    this._genZeroSize = 0;
   }
 
   sweepIfWatermark(): void {
@@ -71,11 +75,21 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     this.sweep();
   }
 
+  pin(value: StaticJsValue): void {
+    this._pins.add(value);
+  }
+
+  unpin(value: StaticJsValue): void {
+    this._pins.delete(value);
+  }
+
   get genZeroSize(): number {
     return this._genZeroSize;
   }
 
   get genOneSize(): number {
+    // Careful we don't send a negative value if we computed an initial generation size,
+    // but have not yet computed the current generation one size.
     if (Number.isNaN(this._genOneSize)) {
       return 0;
     }
@@ -89,7 +103,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
   get highWatermark(): number {
     if (Number.isNaN(this._highWatermark)) {
-      return this._maxSize * 0.8;
+      return this._maxSize * DEFAULT_HIGH_WATERMARK_PERCENT;
     }
     return this._highWatermark;
   }
@@ -112,5 +126,39 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     }
 
     this._maxSize = size;
+  }
+
+  private _computeReachableSize() {
+    if (this._isMarking) {
+      throw new Error("Cannot trigger a mark operation while already marking");
+    }
+
+    this._isMarking = true;
+    try {
+      let markedSize = 0;
+      const allocate = (size: number) => {
+        markedSize += size;
+      };
+
+      const marks = new Set<StaticJsValue>();
+
+      for (const pin of this._pins) {
+        pin.mark(marks, allocate);
+      }
+
+      this._realm.globalEnv.mark(marks, allocate);
+      this._markSymbolRegistry(marks, allocate);
+
+      return markedSize;
+    } finally {
+      this._isMarking = false;
+    }
+  }
+
+  private _markSymbolRegistry(marks: Set<StaticJsValue>, allocate: (size: number) => void) {
+    for (const [name, symbol] of this._symbolRegistry.entries()) {
+      allocate(stringSizeBytes(name));
+      symbol.mark(marks, allocate);
+    }
   }
 }

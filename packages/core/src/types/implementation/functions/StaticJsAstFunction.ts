@@ -18,6 +18,7 @@ import {
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { asyncFunctionStart } from "#algorithms/async-function-start.js";
@@ -338,7 +339,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
-  override mark(marks: Set<StaticJsValue>, allocate: boolean = false): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void {
     if (marks.has(this)) {
       return;
     }
