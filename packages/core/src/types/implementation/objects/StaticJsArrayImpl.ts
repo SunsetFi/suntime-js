@@ -1,19 +1,20 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { Writable } from "#ts-types/Writable.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { toNumber } from "#algorithms/to-number.js";
 import { toUInt32 } from "#algorithms/to-uint-32.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 
-import type { StaticJsArray } from "../../StaticJsArray.js";
 import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
+import { MAX_ARRAY_LENGTH_INCLUSIVE, type StaticJsArray } from "../../StaticJsArray.js";
 import { isStaticJsNumber } from "../../StaticJsNumber.js";
 import { isStaticJsDataPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -45,6 +46,19 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
 
   get runtimeTypeCode() {
     return StaticJsTypeCode.Array;
+  }
+
+  setIndexSafe(index: number, value: StaticJsValue): void {
+    if (!Number.isInteger(index) || index < 0 || index > MAX_ARRAY_LENGTH_INCLUSIVE) {
+      throw new RangeError("Invalid array index");
+    }
+
+    this.setOwnPropertyDescriptorSafe(index.toString(), {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value,
+    });
   }
 
   protected override _createToNativeProxyTarget(): StaticJsObjectProxyTarget {

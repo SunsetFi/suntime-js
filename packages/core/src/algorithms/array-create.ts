@@ -17,3 +17,10 @@ export function* arrayCreate(
   const A = new StaticJsArrayImpl(EvaluationContext.current.realm, length, proto);
   return A;
 }
+
+arrayCreate.safe = function (length: number, proto?: StaticJsObject): StaticJsArray {
+  if (length > 2 ** 32 - 1) {
+    throw new RangeError("Invalid array length");
+  }
+  return new StaticJsArrayImpl(EvaluationContext.current.realm, length, proto);
+};

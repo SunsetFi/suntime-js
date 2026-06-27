@@ -188,6 +188,13 @@ function bytesPerProperty(
 const SCRIPT_COUNT = Math.min(COUNT, 50_000);
 
 /**
+ * Count for per-entry collection measurements. Entries are cheap (~30 bytes),
+ * so a larger count gives a cleaner signal; the loop runs inside the evaluator
+ * (one host call) so it stays fast.
+ */
+const ENTRY_COUNT = Math.min(COUNT, 200_000);
+
+/**
  * Measure the retained cost of a value produced by an interpreted expression.
  *
  * Runs `for (var i = 0; i < count; i++) collect(<expr>);` and stashes each
@@ -228,6 +235,34 @@ function bytesPerScriptItem(setup: string, expr: string, count = SCRIPT_COUNT): 
   const per = (after - before) / count;
   holder.length = 0;
   return per;
+}
+
+/**
+ * Measure the marginal cost of one Map/Set entry by filling a single container
+ * inside an interpreted loop. Entries are added *inside* the script (one host
+ * call) rather than via N host `setValueSync`/`addValueSync` calls — the latter
+ * retains ~96 bytes of per-call evaluator state per call, which would swamp the
+ * ~30-byte entry. Keys are distinct SMI numbers and the Map value is a shared
+ * `null`, so the figure is the bare native hash-table slot, independent of key
+ * or value content (those are accounted separately).
+ */
+function bytesPerCollectionEntry(kind: "map" | "set", count = COUNT, trials = TRIALS): number {
+  const samples: number[] = [];
+  const ctor = kind === "map" ? "Map" : "Set";
+  const add = kind === "map" ? "globalThis.c.set(i, null);" : "globalThis.c.add(i);";
+
+  for (let t = 0; t < trials; t++) {
+    const realm = StaticJsRealm();
+    realm.evaluateScriptSync(`globalThis.c = new ${ctor}();`);
+    forceGc();
+    const before = heapUsed();
+    realm.evaluateScriptSync(`for (var i = 0; i < ${count}; i++) { ${add} }`);
+    forceGc();
+    const after = heapUsed();
+    samples.push((after - before) / count);
+  }
+
+  return median(samples);
 }
 
 // --------------------------------------------------------------------------
@@ -372,6 +407,16 @@ function main(): void {
   // per invocation, not per function instance.
   reportFixed("ast function (constructable)", bytesPerScriptItem("", "function () {}"));
   reportFixed("ast arrow (non-constructable)", bytesPerScriptItem("", "() => {}"));
+  console.log();
+
+  console.log("Collections (ordinary object base + native backing store):");
+  // Empty container total; subtract the ~655 object base for the native overhead.
+  reportFixed("empty Map (total)", bytesPerScriptItem("", "new Map()"));
+  reportFixed("empty Set (total)", bytesPerScriptItem("", "new Set()"));
+  // Per-entry = bare native V8 hash-table slot (SMI key, shared value). The key's
+  // and value's own storage are accounted separately when they are not primitives.
+  reportFixed("Map entry", bytesPerCollectionEntry("map", ENTRY_COUNT));
+  reportFixed("Set entry", bytesPerCollectionEntry("set", ENTRY_COUNT));
 }
 
 main();

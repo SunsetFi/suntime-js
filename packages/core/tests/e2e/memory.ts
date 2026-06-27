@@ -8,7 +8,7 @@ describe("E2E: Memory", () => {
   interface MemoryTestCase {
     name: string;
     factory: (realm: StaticJsRealm) => StaticJsValue;
-    script: string;
+    script: string | { preamble: string; expression: string };
     size: number | { factory: number; script: number };
     genOneSize?: number | null;
   }
@@ -154,6 +154,98 @@ describe("E2E: Memory", () => {
         // Property overhead
         212,
     },
+    {
+      name: "Empty Set",
+      factory: (realm) => realm.types.set(),
+      script: `new Set();`,
+      size: 827,
+    },
+    {
+      name: "Set with number value",
+      factory: (realm) => {
+        const set = realm.types.set();
+        set.addValueSync(realm.types.number(1));
+        return set;
+      },
+      script: {
+        preamble: `let s`,
+        expression: `(s = new Set(), s.add(1), s)`,
+      },
+      size: {
+        factory:
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27 +
+          // Number value
+          40,
+        script:
+          // Declarative environment key "s",
+          "s".length * 2 +
+          // Set overhead
+          827 +
+          // Set entry overhead
+          27 +
+          // Number value
+          40,
+      },
+    },
+    {
+      name: "Empty Map",
+      factory: (realm) => realm.types.map(),
+      script: `new Map();`,
+      size: 880,
+    },
+    {
+      name: "Map with string key and number value",
+      factory: (realm) => {
+        const map = realm.types.map();
+        map.setValueSync(realm.types.string("key"), realm.types.number(1));
+        return map;
+      },
+      script: {
+        preamble: `let m`,
+        expression: `(m = new Map(), m.set("key", 1), m)`,
+      },
+      size: {
+        factory:
+          // Map overhead
+          880 +
+          // Map entry overhead
+          37 +
+          // String overhead
+          56 +
+          // String value overhead
+          "key".length * 2 +
+          // Map entry value number overhead
+          40,
+        script:
+          // Declarative environment key "m",
+          "m".length * 2 +
+          // Map overhead
+          880 +
+          // Map entry overhead
+          37 +
+          // String overhead
+          56 +
+          // String value overhead
+          // Map string is not counted, as we consider the callee to have counted it
+          "key".length * 2 +
+          // Map entry value number overhead
+          40,
+      },
+      genOneSize:
+        // Preamble variable "m"
+        "m".length * 2 +
+        // Map overhead
+        880 +
+        // Map entry overhead
+        37 +
+        // Map key string overhead
+        "key".length * 2 +
+        // Map entry value number overhead
+        40,
+    },
   ])("$name", ({ factory, script, size, genOneSize }) => {
     describe("Gen Zero", () => {
       // Original plan was to not track these, and just end up tracking them in a sweep if they ever got added.
@@ -173,12 +265,14 @@ describe("E2E: Memory", () => {
 
       it("Allocates when in a script", () => {
         const measure = vi.fn();
+        const bindingSize = "value".length * 2;
         const realm = new StaticJsRealm({
           global: {
             properties: {
               measure: {
                 value: () => {
-                  measure(realm.memory.genZeroSize);
+                  // Don't include the size of our value binding.
+                  measure(realm.memory.genZeroSize - bindingSize);
                 },
               },
             },
@@ -186,10 +280,18 @@ describe("E2E: Memory", () => {
         });
         realm.memory.sweep();
 
-        realm.evaluateScriptSync(`
-          const value = ${script};
-          measure();
-        `);
+        if (typeof script === "object") {
+          realm.evaluateScriptSync(
+            `${script.preamble};
+            const value = ${script.expression};
+            measure();`,
+          );
+        } else {
+          realm.evaluateScriptSync(`
+            const value = ${script};
+            measure();
+          `);
+        }
 
         if (typeof size === "object") {
           expect(measure).toHaveBeenCalledWith(size.script);
@@ -227,7 +329,14 @@ describe("E2E: Memory", () => {
           realm.memory.sweep();
           const initialMemory = realm.memory.genOneSize;
 
-          realm.evaluateScriptSync(`globalThis._value = ${script};`);
+          if (typeof script === "object") {
+            realm.evaluateScriptSync(
+              `${script.preamble}
+              globalThis._value = ${script.expression};`,
+            );
+          } else {
+            realm.evaluateScriptSync(`globalThis._value = ${script};`);
+          }
           realm.memory.sweep();
 
           // The key also counts as an allocation
@@ -238,7 +347,13 @@ describe("E2E: Memory", () => {
             "_value".length * 2;
 
           const allocated = realm.memory.genOneSize - initialMemory - keyAllocation;
-          expect(allocated).toBe(genOneSize ?? size);
+          if (genOneSize) {
+            expect(allocated).toBe(genOneSize);
+          } else if (typeof size === "object") {
+            expect(allocated).toBe(size.script);
+          } else {
+            expect(allocated).toBe(size);
+          }
         });
       });
     }
