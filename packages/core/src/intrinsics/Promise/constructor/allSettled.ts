@@ -85,46 +85,60 @@ function* performPromiseAllSettled(
 
     let alreadyCalled = false;
     const thisIndex = index;
-    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, value) {
-      if (alreadyCalled) {
+    const onFulfilled = new StaticJsNativeFunctionImpl(
+      realm,
+      "",
+      function* (_thisArg, value) {
+        if (alreadyCalled) {
+          return realm.types.undefined;
+        }
+        alreadyCalled = true;
+
+        const obj = realm.types.object();
+        yield* createDataPropertyOrThrow(obj, "status", realm.types.string("fulfilled"));
+        yield* createDataPropertyOrThrow(obj, "value", value);
+        values[thisIndex] = obj;
+
+        remainingElementCount--;
+        if (remainingElementCount === 0) {
+          const valuesArray = realm.types.array(values);
+          yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
+        }
+
         return realm.types.undefined;
-      }
-      alreadyCalled = true;
+      },
+      {
+        markables: [resultCapability.resolve],
+      },
+    );
 
-      const obj = realm.types.object();
-      yield* createDataPropertyOrThrow(obj, "status", realm.types.string("fulfilled"));
-      yield* createDataPropertyOrThrow(obj, "value", value);
-      values[thisIndex] = obj;
+    const onRejected = new StaticJsNativeFunctionImpl(
+      realm,
+      "",
+      function* (_thisArg, reason) {
+        if (alreadyCalled) {
+          return realm.types.undefined;
+        }
+        alreadyCalled = true;
 
-      remainingElementCount--;
-      if (remainingElementCount === 0) {
-        const valuesArray = realm.types.array(values);
-        yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
-      }
+        const obj = realm.types.object();
+        yield* createDataPropertyOrThrow(obj, "status", realm.types.string("rejected"));
+        yield* createDataPropertyOrThrow(obj, "reason", reason);
+        values[thisIndex] = obj;
 
-      return realm.types.undefined;
-    });
+        remainingElementCount--;
 
-    const onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, reason) {
-      if (alreadyCalled) {
+        if (remainingElementCount === 0) {
+          const valuesArray = realm.types.array(values);
+          yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
+        }
+
         return realm.types.undefined;
-      }
-      alreadyCalled = true;
-
-      const obj = realm.types.object();
-      yield* createDataPropertyOrThrow(obj, "status", realm.types.string("rejected"));
-      yield* createDataPropertyOrThrow(obj, "reason", reason);
-      values[thisIndex] = obj;
-
-      remainingElementCount--;
-
-      if (remainingElementCount === 0) {
-        const valuesArray = realm.types.array(values);
-        yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
-      }
-
-      return realm.types.undefined;
-    });
+      },
+      {
+        markables: [resultCapability.resolve],
+      },
+    );
 
     index++;
     remainingElementCount++;

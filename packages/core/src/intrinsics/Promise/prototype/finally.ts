@@ -24,26 +24,40 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
     let thenFinally: StaticJsCallable | undefined = undefined;
     let catchFinally: StaticJsCallable | undefined = undefined;
     if (isCallable(onFinally)) {
-      thenFinally = new StaticJsNativeFunctionImpl(realm, "<thenFinally>", function* (value) {
-        const result = yield* call(onFinally, realm.types.undefined);
-        const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
-        yield* call(capability.resolve, realm.types.undefined, [result]);
-        const p = capability.promise;
-        const returnValue = new StaticJsNativeFunctionImpl(realm, "<returnValue>", function* () {
-          return value;
-        });
-        return yield* p.thenEvaluator(returnValue, undefined, true);
-      });
-      catchFinally = new StaticJsNativeFunctionImpl(realm, "<catchFinally>", function* (reason) {
-        const result = yield* call(onFinally, realm.types.undefined);
-        const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
-        yield* call(capability.resolve, realm.types.undefined, [result]);
-        const p = capability.promise;
-        const thrower = new StaticJsNativeFunctionImpl(realm, "<thrower>", function* () {
-          throw Completion.Throw(reason);
-        });
-        return yield* p.thenEvaluator(thrower, undefined, true);
-      });
+      thenFinally = new StaticJsNativeFunctionImpl(
+        realm,
+        "<thenFinally>",
+        function* (value) {
+          const result = yield* call(onFinally, realm.types.undefined);
+          const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
+          yield* call(capability.resolve, realm.types.undefined, [result]);
+          const p = capability.promise;
+          const returnValue = new StaticJsNativeFunctionImpl(realm, "<returnValue>", function* () {
+            return value;
+          });
+          return yield* p.thenEvaluator(returnValue, undefined, true);
+        },
+        {
+          markables: [onFinally],
+        },
+      );
+      catchFinally = new StaticJsNativeFunctionImpl(
+        realm,
+        "<catchFinally>",
+        function* (reason) {
+          const result = yield* call(onFinally, realm.types.undefined);
+          const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
+          yield* call(capability.resolve, realm.types.undefined, [result]);
+          const p = capability.promise;
+          const thrower = new StaticJsNativeFunctionImpl(realm, "<thrower>", function* () {
+            throw Completion.Throw(reason);
+          });
+          return yield* p.thenEvaluator(thrower, undefined, true);
+        },
+        {
+          markables: [onFinally],
+        },
+      );
     }
 
     return yield* thisArg.thenEvaluator(thenFinally, catchFinally);

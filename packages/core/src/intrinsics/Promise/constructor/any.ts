@@ -112,6 +112,9 @@ function* performPromiseAny(
 
         return realm.types.undefined;
       },
+      {
+        markables: [resultCapability.reject],
+      },
     );
 
     index++;

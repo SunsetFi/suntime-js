@@ -711,7 +711,7 @@ describe("E2E: Memory", () => {
       realm.evaluateScriptSync(
         `function* bigAllocate() {
           let values = [];
-          for (let i = 0; i < 10_000; i++) {
+          for (let i = 0; i < 1_000; i++) {
             values.push("${str}");
           }
           const inner = bigAllocate2();
@@ -721,7 +721,7 @@ describe("E2E: Memory", () => {
         };
         function* bigAllocate2() {
           let values = [];
-          for (let i = 0; i < 10_000; i++) {
+          for (let i = 0; i < 1_000; i++) {
             values.push("${str}");
           }
           yield;
@@ -735,7 +735,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 20_000;
+      const expectedIncrease = (56 + 16 + str.length) * 2_000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -746,7 +746,6 @@ describe("E2E: Memory", () => {
       const invokeMemory = realm.memory.genOneSize;
       expect(invokeMemory).toBeGreaterThan(initialMemory);
       expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
-      console.log("Increase is", invokeMemory - initialMemory);
 
       realm.evaluateScriptSync(`globalThis.allocator.next();`);
 

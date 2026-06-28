@@ -2,6 +2,7 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { createDataPropertyOrThrow } from "#algorithms/create-data-property-or-throw.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsProxyImpl } from "#types/implementation/StaticJsProxyImpl.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
@@ -60,10 +61,17 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
 
         const proxy = new StaticJsProxyImpl(target, handler, realm);
 
-        const revoker = new StaticJsNativeFunctionImpl(realm, "revoker", function* () {
-          proxy.revoke();
-          return realm.types.undefined;
-        });
+        const markable = containerMarkable(proxy);
+        const revoker = new StaticJsNativeFunctionImpl(
+          realm,
+          "revoker",
+          function* () {
+            proxy.revoke();
+            markable.clear();
+            return realm.types.undefined;
+          },
+          { markables: [markable] },
+        );
 
         const result = realm.types.object();
         yield* createDataPropertyOrThrow(result, "proxy", proxy);

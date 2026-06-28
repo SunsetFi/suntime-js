@@ -21,6 +21,7 @@ import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { createDeferred } from "#utils/create-deferred.js";
 
@@ -262,13 +263,17 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
     const { _ecmaScriptCode, _realm, _context } = this;
 
+    const markable = containerMarkable(this);
+
     const onModuleComplete = () => {
       this._status = "evaluated";
+      markable.clear();
       resolve();
     };
 
     const onModuleReject = (error: StaticJsValue) => {
       this._status = "evaluated";
+      markable.clear();
       reject(new StaticJsRuntimeError(error));
     };
 
@@ -281,15 +286,25 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       yield* _context!.run(function* () {
         const promiseCapability = yield* newPromiseCapability(_realm.intrinsics.Promise);
 
-        const onFulfilled = new StaticJsNativeFunctionImpl(_realm, "", function* (_thisArg) {
-          onModuleComplete();
-          return _realm.types.undefined;
-        });
+        const onFulfilled = new StaticJsNativeFunctionImpl(
+          _realm,
+          "",
+          function* (_thisArg) {
+            onModuleComplete();
+            return _realm.types.undefined;
+          },
+          { markables: [markable] },
+        );
 
-        const onRejected = new StaticJsNativeFunctionImpl(_realm, "", function* (_thisArg, arg) {
-          onModuleReject(arg);
-          return _realm.types.undefined;
-        });
+        const onRejected = new StaticJsNativeFunctionImpl(
+          _realm,
+          "",
+          function* (_thisArg, arg) {
+            onModuleReject(arg);
+            return _realm.types.undefined;
+          },
+          { markables: [markable] },
+        );
 
         yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);
 
