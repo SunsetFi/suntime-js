@@ -15,6 +15,7 @@ import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import { compoundMarkable } from "#memory/implementation/compound-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
@@ -65,6 +66,7 @@ function* performPromiseAny(
   const { realm } = EvaluationContext.current;
 
   const errors: StaticJsValue[] = [];
+  const errorsMarkable = compoundMarkable(errors);
 
   let remainingElementsCount = 1;
   let index = 0;
@@ -113,7 +115,7 @@ function* performPromiseAny(
         return realm.types.undefined;
       },
       {
-        markables: [resultCapability.reject],
+        markables: [resultCapability.reject, errorsMarkable],
       },
     );
 
