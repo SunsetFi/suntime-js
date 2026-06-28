@@ -79,7 +79,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   }
 
   *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key", this.realm);
+    return new StaticJsSetIteratorImpl(this, this._backingStore.values(), "key", this.realm);
   }
 
   entriesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -91,7 +91,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   }
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key+value", this.realm);
+    return new StaticJsSetIteratorImpl(this, this._backingStore.values(), "key+value", this.realm);
   }
 
   hasSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
