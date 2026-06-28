@@ -32,9 +32,14 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
           yield* call(capability.resolve, realm.types.undefined, [result]);
           const p = capability.promise;
-          const returnValue = new StaticJsNativeFunctionImpl(realm, "<returnValue>", function* () {
-            return value;
-          });
+          const returnValue = new StaticJsNativeFunctionImpl(
+            realm,
+            "<returnValue>",
+            function* () {
+              return value;
+            },
+            { mark: [value] },
+          );
           return yield* p.thenEvaluator(returnValue, undefined, true);
         },
         {
@@ -49,9 +54,16 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
           yield* call(capability.resolve, realm.types.undefined, [result]);
           const p = capability.promise;
-          const thrower = new StaticJsNativeFunctionImpl(realm, "<thrower>", function* () {
-            throw Completion.Throw(reason);
-          });
+          const thrower = new StaticJsNativeFunctionImpl(
+            realm,
+            "<thrower>",
+            function* () {
+              throw Completion.Throw(reason);
+            },
+            {
+              mark: [reason],
+            },
+          );
           return yield* p.thenEvaluator(thrower, undefined, true);
         },
         {

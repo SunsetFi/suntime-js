@@ -62,7 +62,7 @@
     "test:all": "vitest run --pool=threads",
     "test:view": "vite serve html",
     "format": "oxfmt",
-    "lint": "oxlint",
+    "lint": "SUNTIME_MEMORY=true oxlint",
     "prepublishOnly": "node ../../scripts/verify-build.mjs"
   },
   "dependencies": {
@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "@babel/types": "catalog:",
+    "@oxlint/plugins": "^1.66.0",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
     "@typescript/native-preview": "catalog:",
