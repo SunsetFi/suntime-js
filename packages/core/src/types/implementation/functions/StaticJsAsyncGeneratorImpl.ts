@@ -22,9 +22,9 @@ import { createIteratorResultObject } from "#iterators/create-iterator-result-ob
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
@@ -302,6 +302,19 @@ export class StaticJsAsyncGeneratorImpl
     super.mark(marks, allocate);
 
     this._asyncGeneratorContext.mark(marks, allocate);
+    for (const {
+      completion,
+      capability: { promise, reject, resolve },
+    } of this._asyncGeneratorQueue) {
+      const value = Completion.value(completion);
+      if (isStaticJsValue(value)) {
+        value.mark(marks, allocate);
+      }
+
+      promise.mark(marks, allocate);
+      reject.mark(marks, allocate);
+      resolve.mark(marks, allocate);
+    }
   }
 
   private *_asyncGeneratorValidate(

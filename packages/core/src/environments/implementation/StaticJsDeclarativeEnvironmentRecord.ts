@@ -182,12 +182,12 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     return this._realm.types.undefined;
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
 
-    marks.add(this);
+    super.mark(marks, allocate);
 
     for (const [name, binding] of this._bindings.entries()) {
       allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);

@@ -590,6 +590,7 @@ describe("E2E: Memory", () => {
   describe("Async function closures", () => {
     it("Traces marks through async function environments when resolved", async () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `
         async function bigAllocate() {
@@ -597,7 +598,7 @@ describe("E2E: Memory", () => {
           globalThis.resolve = resolve;
           let values = [];
           for (let i = 0; i < 1000; i++) {
-            values.push("Hello, World!");
+            values.push("${str}");
           }
           await promise;
           return values.length;
@@ -608,7 +609,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       realm.evaluateScriptSync(`globalThis.makeAllocator();`);
       realm.memory.sweep();
@@ -625,14 +626,14 @@ describe("E2E: Memory", () => {
 
     it("Traces marks through async function environments when rejected", async () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
-        `
-        async function bigAllocate() {
+        `async function bigAllocate() {
           const { promise, reject } = Promise.withResolvers();
           globalThis.reject = reject;
           let values = [];
           for (let i = 0; i < 1000; i++) {
-            values.push("Hello, World!");
+            values.push("${str}");
           }
           await promise;
           return values.length;
@@ -643,7 +644,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       realm.evaluateScriptSync(`globalThis.makeAllocator().catch(() => {});`);
       realm.memory.sweep();
@@ -683,7 +684,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = str.length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -776,7 +777,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = str.length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -820,7 +821,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = str.length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -866,7 +867,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = str.length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -908,7 +909,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = str.length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -952,7 +953,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = str.length * 1000;
+      const expectedIncrease = (56 + 16 + str.length) * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -973,6 +974,197 @@ describe("E2E: Memory", () => {
 
       // Now, the generator should have completed, disconnecting and orphaning its captured environment.
       // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Tracks marks through next queue", async () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.evaluateScriptSync(
+        `async function* test() {
+          const { promise, resolve } = Promise.withResolvers();
+          globalThis.resolve = resolve;
+          await promise;
+          yield;
+        }
+        `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      await realm.evaluateScript(`globalThis.generator = test();`, { topLevelAwait: true });
+      realm.memory.sweep();
+
+      const generatorMemory = realm.memory.genOneSize;
+      expect(generatorMemory).toBeGreaterThan(initialMemory);
+
+      await realm.evaluateScript(`await globalThis.generator.next("${str}");`, {
+        topLevelAwait: true,
+      });
+      realm.memory.sweep();
+
+      const expectedIncrease = 56 + 16 + str.length;
+
+      const afterNextMemory = realm.memory.genOneSize;
+      expect(afterNextMemory).toBeGreaterThan(initialMemory);
+      // Expect the queued payload to stick around.
+      expect(afterNextMemory - generatorMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      await realm.evaluateScript(`globalThis.resolve();`, {
+        topLevelAwait: true,
+      });
+      realm.memory.sweep();
+      // Expect the queued payload to have drained.
+      expect(realm.memory.genOneSize - afterNextMemory).toBeLessThanOrEqual(expectedIncrease);
+
+      await realm.evaluateScript(`delete globalThis.resolve; delete globalThis.generator;`);
+      realm.memory.sweep();
+      // Nothing should be left.
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+  });
+
+  describe("Promises", () => {
+    it("Traces marks through promise results", async () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      realm.evaluateScriptSync(
+        `globalThis.promise = new Promise((resolve) => {
+          resolve("${str}");
+        });`,
+      );
+      realm.memory.sweep();
+
+      const expectedIncrease = 56 + 16 + str.length;
+
+      const afterPromiseMemory = realm.memory.genOneSize;
+      expect(afterPromiseMemory).toBeGreaterThan(initialMemory);
+      expect(afterPromiseMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      realm.evaluateScriptSync(`delete globalThis.promise;`);
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    // TODO: Tests for reaction handlers and capabillities.
+  });
+
+  describe("Functions", () => {
+    it("Traces mark through nested function environments", () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.evaluateScriptSync(`
+        function makeFunc() {
+          const str = "${str}";
+          function create() {
+            return function func() {
+              return str;
+            }
+          }
+          return create();
+        }
+      `);
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      realm.evaluateScriptSync(`globalThis.func = makeFunc();`);
+      realm.memory.sweep();
+
+      const expectedIncrease = 56 + 16 + str.length;
+
+      const afterFuncMemory = realm.memory.genOneSize;
+      expect(afterFuncMemory).toBeGreaterThan(initialMemory);
+      expect(afterFuncMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      realm.evaluateScriptSync(`delete globalThis.func;`);
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+  });
+
+  describe("Bound functions", () => {
+    it("Traces marks through bound function arguments", () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.evaluateScriptSync(`function test() {}`);
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      realm.evaluateScriptSync(`
+        function test() {}
+        globalThis.bound = test.bind(null, "${str}");
+      `);
+      realm.memory.sweep();
+
+      const expectedIncrease = 56 + 16 + str.length;
+
+      const afterBoundMemory = realm.memory.genOneSize;
+      expect(afterBoundMemory).toBeGreaterThan(initialMemory);
+      expect(afterBoundMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      realm.evaluateScriptSync(`delete globalThis.bound;`);
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Traces marks through bound function thisArg", () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.evaluateScriptSync(`function test() {}`);
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      realm.evaluateScriptSync(`
+        function test() {}
+        globalThis.bound = test.bind("${str}");
+      `);
+      realm.memory.sweep();
+
+      const expectedIncrease = 56 + 16 + str.length;
+
+      const afterBoundMemory = realm.memory.genOneSize;
+      expect(afterBoundMemory).toBeGreaterThan(initialMemory);
+      expect(afterBoundMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      realm.evaluateScriptSync(`delete globalThis.bound;`);
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Traces marks through the bound function target", () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.evaluateScriptSync(`
+        function createFunc() {
+          const str = "${str}";
+          return function func() {
+            return str;
+          }
+        }
+      `);
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      realm.evaluateScriptSync(`globalThis.bound = createFunc().bind(null);`);
+      realm.memory.sweep();
+
+      const expectedIncrease = 56 + 16 + str.length;
+
+      const afterBoundMemory = realm.memory.genOneSize;
+      expect(afterBoundMemory).toBeGreaterThan(initialMemory);
+      expect(afterBoundMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      realm.evaluateScriptSync(`delete globalThis.bound;`);
       realm.memory.sweep();
       const clearedMemory = realm.memory.genOneSize;
       expect(clearedMemory).toBe(initialMemory);

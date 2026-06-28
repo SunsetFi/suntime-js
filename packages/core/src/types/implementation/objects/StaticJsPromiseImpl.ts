@@ -184,6 +184,8 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
 
     super.mark(marks, allocate);
 
+    this._result?.mark(marks, allocate);
+
     for (const reaction of this._fulfullReactions) {
       markReaction(reaction, marks, allocate);
     }
