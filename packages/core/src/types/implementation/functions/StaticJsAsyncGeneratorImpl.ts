@@ -461,31 +461,45 @@ export class StaticJsAsyncGeneratorImpl
     // oxlint-disable-next-line typescript/no-this-alias
     const generator = this;
 
-    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, value) {
-      if (generator._generatorState !== "draining-queue") {
-        throw new StaticJsEngineError(
-          "AsyncGenerator onFulfilled called when generator is not draining queue.",
-        );
-      }
+    const onFulfilled = new StaticJsNativeFunctionImpl(
+      realm,
+      "",
+      function* (_thisArg, value) {
+        if (generator._generatorState !== "draining-queue") {
+          throw new StaticJsEngineError(
+            "AsyncGenerator onFulfilled called when generator is not draining queue.",
+          );
+        }
 
-      const result = Completion.Normal(value);
-      yield* generator._asyncGeneratorCompleteStep(result, true);
-      yield* generator._asyncGeneratorDrainQueue();
-      return realm.types.undefined;
-    });
+        const result = Completion.Normal(value);
+        yield* generator._asyncGeneratorCompleteStep(result, true);
+        yield* generator._asyncGeneratorDrainQueue();
+        return realm.types.undefined;
+      },
+      {
+        markables: [generator],
+      },
+    );
 
-    const onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, reason) {
-      if (generator._generatorState !== "draining-queue") {
-        throw new StaticJsEngineError(
-          "AsyncGenerator onRejected called when generator is not draining queue.",
-        );
-      }
+    const onRejected = new StaticJsNativeFunctionImpl(
+      realm,
+      "",
+      function* (_thisArg, reason) {
+        if (generator._generatorState !== "draining-queue") {
+          throw new StaticJsEngineError(
+            "AsyncGenerator onRejected called when generator is not draining queue.",
+          );
+        }
 
-      const result = Completion.Throw(reason);
-      yield* generator._asyncGeneratorCompleteStep(result, true);
-      yield* generator._asyncGeneratorDrainQueue();
-      return realm.types.undefined;
-    });
+        const result = Completion.Throw(reason);
+        yield* generator._asyncGeneratorCompleteStep(result, true);
+        yield* generator._asyncGeneratorDrainQueue();
+        return realm.types.undefined;
+      },
+      {
+        markables: [generator],
+      },
+    );
 
     yield* performPromiseThen(promise, onFulfilled, onRejected);
   }

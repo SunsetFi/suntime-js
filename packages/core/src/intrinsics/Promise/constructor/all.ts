@@ -87,19 +87,26 @@ function* performPromiseAll(
     const nextPromise = yield* call(promiseResolve, constructor, [next]);
     let alreadyCalled = false;
     let thisIndex = index;
-    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, value) {
-      if (alreadyCalled) {
+    const onFulfilled = new StaticJsNativeFunctionImpl(
+      realm,
+      "",
+      function* (_thisArg, value) {
+        if (alreadyCalled) {
+          return realm.types.undefined;
+        }
+        alreadyCalled = true;
+        values[thisIndex] = value;
+        remainingElementsCount--;
+        if (remainingElementsCount === 0) {
+          const valuesArray = yield* createArrayFromList(values);
+          return yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
+        }
         return realm.types.undefined;
-      }
-      alreadyCalled = true;
-      values[thisIndex] = value;
-      remainingElementsCount--;
-      if (remainingElementsCount === 0) {
-        const valuesArray = yield* createArrayFromList(values);
-        return yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
-      }
-      return realm.types.undefined;
-    });
+      },
+      {
+        markables: [resultCapability.resolve],
+      },
+    );
     index++;
     remainingElementsCount++;
     yield* invoke(nextPromise, "then", [onFulfilled, resultCapability.reject]);

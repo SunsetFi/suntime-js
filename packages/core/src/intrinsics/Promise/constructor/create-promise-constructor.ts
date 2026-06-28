@@ -1,4 +1,3 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPromise } from "#types/StaticJsPromise.js";
@@ -10,6 +9,7 @@ import { ordinaryCreateFromConstructor } from "#algorithms/ordinary-create-from-
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromiseImpl } from "#types/implementation/objects/StaticJsPromiseImpl.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
@@ -104,21 +104,7 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
 function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm) {
   let alreadyResolved = false;
 
-  const markable: StaticJsMarkable = {
-    mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
-      if (alreadyResolved) {
-        return;
-      }
-
-      if (marks.has(this)) {
-        return;
-      }
-
-      marks.add(this);
-
-      promise.mark(marks, allocate);
-    },
-  };
+  const markable = containerMarkable(promise);
 
   const resolve = new StaticJsNativeFunctionImpl(
     realm,
@@ -129,6 +115,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
       }
 
       alreadyResolved = true;
+      markable.clear();
 
       if (resolution === promise) {
         promise.reject(realm.types.error("TypeError", "Cannot resolve promise to itself"));
@@ -184,6 +171,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
         return realm.types.undefined;
       }
       alreadyResolved = true;
+      markable.clear();
 
       promise.reject(reason);
       return realm.types.undefined;

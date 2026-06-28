@@ -5,6 +5,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsAstFunction } from "#types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsFunction } from "#types/StaticJsFunction.js";
@@ -108,18 +109,35 @@ function captureStackLocation(loc: SourceLocation): string {
 }
 
 function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGenerator<void> {
+  const markable = containerMarkable(stack);
+
   // Note: V8 uses a getter/setter here, as it avoids formatting the string until it's accessed.
   // Firefox and others use a writable data property instead.
   // We are following v8 conventions, here and elsewhere, for error stacks,
   // but we (currently) don't lazy format it.
   yield* definePropertyOrThrow(obj, "stack", {
-    get: new StaticJsNativeFunctionImpl(obj.realm, "", function* () {
-      return stack;
-    }),
-    set: new StaticJsNativeFunctionImpl(obj.realm, "", function* (value) {
-      stack = value;
-      return obj.realm.types.undefined;
-    }),
+    get: new StaticJsNativeFunctionImpl(
+      obj.realm,
+      "",
+      function* () {
+        return stack;
+      },
+      {
+        markables: [markable],
+      },
+    ),
+    set: new StaticJsNativeFunctionImpl(
+      obj.realm,
+      "",
+      function* (value) {
+        stack = value;
+        markable.set(value);
+        return obj.realm.types.undefined;
+      },
+      {
+        markables: [markable],
+      },
+    ),
     enumerable: false,
     configurable: true,
   });

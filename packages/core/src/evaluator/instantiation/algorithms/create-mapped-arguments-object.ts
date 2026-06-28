@@ -87,9 +87,16 @@ function* makeArgGetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsNativeFunctionImpl(realm, "get", function* () {
-    return yield* env.getBindingValueEvaluator(name, false);
-  });
+  return new StaticJsNativeFunctionImpl(
+    realm,
+    "get",
+    function* () {
+      return yield* env.getBindingValueEvaluator(name, false);
+    },
+    {
+      markables: [env],
+    },
+  );
 }
 
 function* makeArgSetter(
@@ -97,8 +104,15 @@ function* makeArgSetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsNativeFunctionImpl(realm, "set", function* (_thisArg, value) {
-    yield* env.setMutableBindingEvaluator(name, value, false);
-    return realm.types.undefined;
-  });
+  return new StaticJsNativeFunctionImpl(
+    realm,
+    "set",
+    function* (_thisArg, value) {
+      yield* env.setMutableBindingEvaluator(name, value, false);
+      return realm.types.undefined;
+    },
+    {
+      markables: [env],
+    },
+  );
 }
