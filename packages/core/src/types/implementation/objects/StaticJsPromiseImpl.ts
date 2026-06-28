@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -124,7 +125,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     let capability: StaticJsPromiseCapabilityRecord | null = null;
     if (resultCapability === undefined || resultCapability === true) {
       const c = yield* speciesConstructor(this, this.realm.intrinsics.Promise, this.realm);
-      capability = yield* newPromiseCapability(c, this.realm);
+      capability = yield* newPromiseCapability(c);
     } else if (resultCapability !== false) {
       capability = resultCapability;
     }
@@ -176,6 +177,22 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     return yield* this.thenEvaluator(undefined, onRejected, true);
   }
 
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+
+    for (const reaction of this._fulfullReactions) {
+      markReaction(reaction, marks, allocate);
+    }
+
+    for (const reaction of this._rejectReactions) {
+      markReaction(reaction, marks, allocate);
+    }
+  }
+
   override toNative(): Promise<unknown> {
     return super.toNative() as Promise<unknown>;
   }
@@ -218,4 +235,22 @@ function queuePromiseReactionJob(
       yield* Q(call(capability.resolve, realm.types.undefined, [handlerResult]));
     }
   });
+}
+
+function markReaction(
+  reaction: ReactionRecord,
+  marks: Set<StaticJsMarkable>,
+  allocate?: StaticJsMarkableAllocator,
+) {
+  const { capability, handler } = reaction;
+
+  if (capability) {
+    capability.promise.mark(marks, allocate);
+    capability.resolve.mark(marks, allocate);
+    capability.reject.mark(marks, allocate);
+  }
+
+  if (handler) {
+    handler.mark(marks, allocate);
+  }
 }

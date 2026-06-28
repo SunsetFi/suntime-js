@@ -267,7 +267,7 @@ export class StaticJsHostProxyFactory {
   private _stubPromise(host: Promise<unknown>, policy: HostAccessPolicy): StaticJsObject {
     // Safe: Promise constructor.
     const capability = this._realm.invokeEvaluatorSync(
-      newPromiseCapability(this._realm.intrinsics.Promise, this._realm),
+      newPromiseCapability(this._realm.intrinsics.Promise),
     );
 
     let resolved = false;

@@ -440,6 +440,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRunTaskOptions & { calleeType?: StaticJsTaskCalleeType } = {},
   ): TReturn {
     if (this._boostrapping) {
+      // FIXME: No stack provider is set here, so certain things will fail.
+      // For example, trying to coerce a promise as part of a global object.
       return drainIterator(invokeEvaluator(evaluator));
     }
 

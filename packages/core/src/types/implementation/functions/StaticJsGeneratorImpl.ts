@@ -1,5 +1,6 @@
 import { isNode, type Node } from "@babel/types";
 
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -57,6 +58,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
       }
 
       EvaluationContext.pop();
+
       acGenerator._generatorState = "completed";
 
       let resultValue: StaticJsValue;
@@ -184,6 +186,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     }
 
     this._generatorState = "executing";
+
     const context = this._generatorContext;
     return yield* EvaluationContext.withRealmEvaluator(this.realm, function* () {
       return yield* Q(SuspendCommand.runSuspendedContext(context, Completion.Normal(value)));
@@ -226,6 +229,15 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     return yield* EvaluationContext.withRealmEvaluator(this.realm, function* () {
       return yield* Q(SuspendCommand.runSuspendedContext(context, completion));
     });
+  }
+
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+    this._generatorContext.mark(marks, allocate);
   }
 
   private *_generatorValidate(

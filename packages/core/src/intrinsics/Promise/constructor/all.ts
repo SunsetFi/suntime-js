@@ -31,7 +31,7 @@ export const promiseCtorAllDeclaration: IntrinsicPropertyDeclaration = {
       );
     }
 
-    const promiseCapability = yield* newPromiseCapability(c, realm);
+    const promiseCapability = yield* newPromiseCapability(c);
     const promiseResolve = yield* captureThrownCompletion(getPromiseResolve(c));
     if (Completion.Abrupt.is(promiseResolve)) {
       yield* call(promiseCapability.reject, realm.types.undefined, [

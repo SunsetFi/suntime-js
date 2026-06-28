@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { setFunctionLength } from "#algorithms/set-function-length.js";
@@ -25,6 +26,7 @@ export interface StaticJsNativeFunctionOptions {
         newTarget: StaticJsCallable,
         ...args: StaticJsValue[]
       ) => EvaluationGenerator<StaticJsObject>);
+  markables?: readonly StaticJsMarkable[];
 }
 
 export class StaticJsNativeFunctionImpl
@@ -38,6 +40,8 @@ export class StaticJsNativeFunctionImpl
       ) => EvaluationGenerator<StaticJsValue>)
     | null;
 
+  private readonly _markables: readonly StaticJsMarkable[];
+
   constructor(
     realm: StaticJsRealm,
     private readonly _name: StaticJsPropertyKey | null,
@@ -45,9 +49,10 @@ export class StaticJsNativeFunctionImpl
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
     ) => EvaluationGenerator<StaticJsValue>,
-    { construct, length, prototype }: StaticJsNativeFunctionOptions = {},
+    { construct, length, prototype, markables }: StaticJsNativeFunctionOptions = {},
   ) {
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
+    this._markables = markables ?? [];
 
     const resolvedLength = length ?? _call.length;
     realm.invokeEvaluatorSync(setFunctionLength(this, resolvedLength));
@@ -120,5 +125,17 @@ export class StaticJsNativeFunctionImpl
       );
     }
     return result;
+  }
+
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+
+    for (const markable of this._markables) {
+      markable.mark(marks, allocate);
+    }
   }
 }

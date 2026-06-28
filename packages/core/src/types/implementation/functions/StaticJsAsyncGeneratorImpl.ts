@@ -1,5 +1,6 @@
 import { isNode, type Node } from "@babel/types";
 
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -89,6 +90,7 @@ export class StaticJsAsyncGeneratorImpl
 
       yield* acGenerator._asyncGeneratorCompleteStep(result, true);
       yield* acGenerator._asyncGeneratorDrainQueue();
+
       return realm.types.undefined;
     }
 
@@ -292,6 +294,16 @@ export class StaticJsAsyncGeneratorImpl
     return yield* this._asyncGeneratorUnwrapYieldResumption(resumptionValue);
   }
 
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+
+    this._asyncGeneratorContext.mark(marks, allocate);
+  }
+
   private *_asyncGeneratorValidate(
     func: string,
     generatorBrand?: string | null,
@@ -320,11 +332,9 @@ export class StaticJsAsyncGeneratorImpl
       );
     }
 
-    const genContext = this._asyncGeneratorContext;
-
     this._generatorState = "executing";
-
-    yield* SuspendCommand.runSuspendedContext(genContext, completion);
+    const context = this._asyncGeneratorContext;
+    yield* SuspendCommand.runSuspendedContext(context, completion);
   }
 
   private *_asyncGeneratorCompleteStep(
