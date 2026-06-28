@@ -1,4 +1,6 @@
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsSet } from "#types/StaticJsSet.js";
 
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
@@ -11,6 +13,7 @@ import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
 export class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
   constructor(
+    private _backingSet: StaticJsSet,
     private _backingIterator: IterableIterator<unknown> | null,
     private readonly _kind: "key" | "key+value",
     realm: StaticJsRealm,
@@ -53,5 +56,15 @@ export class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
       value: result,
       done: false,
     };
+  }
+
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator) {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+
+    this._backingSet.mark(marks, allocate);
   }
 }
