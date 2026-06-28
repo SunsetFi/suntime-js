@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -138,6 +139,20 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
 
   getNameSync(opts?: StaticJsRunTaskOptions): string {
     return this.realm.invokeEvaluatorSync(this._getNameEvaluator(), opts);
+  }
+
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+
+    this.targetFunc.mark(marks, allocate);
+    this._boundThis.mark(marks, allocate);
+    for (const arg of this._boundArgs) {
+      arg.mark(marks, allocate);
+    }
   }
 
   override toNative(

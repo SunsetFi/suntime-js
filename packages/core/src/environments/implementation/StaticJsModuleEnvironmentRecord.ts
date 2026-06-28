@@ -129,12 +129,12 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     this._moduleBindings.set(name, { module, bindingName });
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
 
-    marks.add(this);
+    super.mark(marks, allocate);
 
     for (const { module } of this._moduleBindings.values()) {
       module.mark(marks, allocate);

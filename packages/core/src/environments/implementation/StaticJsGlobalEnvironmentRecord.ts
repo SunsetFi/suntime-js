@@ -127,12 +127,12 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._realm.types.undefined;
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
 
-    marks.add(this);
+    super.mark(marks, allocate);
 
     this._globalThis.mark(marks, allocate);
     this._declarativeRecord.mark(marks, allocate);
