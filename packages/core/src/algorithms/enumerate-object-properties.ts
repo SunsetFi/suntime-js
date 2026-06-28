@@ -25,16 +25,23 @@ export function* enumerateObjectProperties(
     "next",
     function* () {
       while (true) {
+        let obj = currentObject.value;
+        if (!obj) {
+          return yield* createIteratorResultObject(realm.types.undefined, true, realm);
+        }
+
         if (nextIndex >= currentKeys.length) {
-          const prototype = yield* currentObject.value!.getPrototypeOfEvaluator();
+          const prototype = yield* obj.getPrototypeOfEvaluator();
           // If we've gone past the last key, we need to reset
           if (prototype === null) {
+            currentObject.clear();
             return yield* createIteratorResultObject(realm.types.undefined, true, realm);
           }
 
           nextIndex = 0;
-          currentObject.set(prototype);
-          currentKeys = yield* currentObject.value!.ownPropertyKeysEvaluator();
+          obj = prototype;
+          currentObject.set(obj);
+          currentKeys = yield* obj.ownPropertyKeysEvaluator();
         }
 
         const key = currentKeys[nextIndex++];
@@ -48,7 +55,7 @@ export function* enumerateObjectProperties(
 
         visited.add(key);
 
-        const desc = yield* currentObject.value!.getOwnPropertyEvaluator(key);
+        const desc = yield* obj.getOwnPropertyEvaluator(key);
         if (!desc?.enumerable) {
           continue;
         }
@@ -57,7 +64,7 @@ export function* enumerateObjectProperties(
       }
     },
     {
-      markables: [currentObject],
+      mark: [currentObject],
     },
   );
 

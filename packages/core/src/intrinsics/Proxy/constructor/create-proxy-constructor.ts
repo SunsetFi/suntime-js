@@ -59,22 +59,24 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
           throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
-        const proxy = new StaticJsProxyImpl(target, handler, realm);
-
-        const markable = containerMarkable(proxy);
+        const markable = containerMarkable(new StaticJsProxyImpl(target, handler, realm));
         const revoker = new StaticJsNativeFunctionImpl(
           realm,
           "revoker",
           function* () {
+            const proxy = markable.value;
+            if (!proxy) {
+              return realm.types.undefined;
+            }
             proxy.revoke();
             markable.clear();
             return realm.types.undefined;
           },
-          { markables: [markable] },
+          { mark: [markable] },
         );
 
         const result = realm.types.object();
-        yield* createDataPropertyOrThrow(result, "proxy", proxy);
+        yield* createDataPropertyOrThrow(result, "proxy", markable.value!);
         yield* createDataPropertyOrThrow(result, "revoke", revoker);
         return result;
       },
