@@ -79,7 +79,7 @@ let sink = 0;
  * so it does not pollute the per-item result.
  */
 function measureBytesPerItem(factory: (i: number) => unknown, count: number): number {
-  const holder: unknown[] = new Array(count).fill(null);
+  const holder: unknown[] = Array.from({ length: count }).fill(null);
 
   forceGc();
   const before = heapUsed();
@@ -207,7 +207,7 @@ const ENTRY_COUNT = Math.min(COUNT, 200_000);
  */
 function bytesPerScriptItem(setup: string, expr: string, count = SCRIPT_COUNT): number {
   const realm = StaticJsRealm();
-  const holder: unknown[] = new Array(count).fill(null);
+  const holder: unknown[] = Array.from({ length: count }).fill(null);
   let idx = 0;
   realm.global.defineOwnPropertySync("collect", {
     value: realm.types.function("collect", function* (v) {

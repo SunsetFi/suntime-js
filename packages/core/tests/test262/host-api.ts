@@ -7,10 +7,7 @@ import {
 } from "../../src/index.js";
 import { ScriptTimeout } from "./timeouts.js";
 
-export default function createHostApi(
-  realm: StaticJsRealm,
-  accessRealm: StaticJsRealm = realm,
-): StaticJsObject {
+export default function createHostApi(realm: StaticJsRealm): StaticJsObject {
   const hostDefinedProperty = {
     writable: true,
     configurable: true,
@@ -36,7 +33,7 @@ export default function createHostApi(
           runTask: runner,
           runTaskSync: runner,
         });
-        return createHostApi(newrealm, accessRealm);
+        return createHostApi(newrealm);
       }),
     },
     detatchArrayBuffer: {

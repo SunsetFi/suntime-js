@@ -39,9 +39,14 @@ export function* createIteratorConstructor(realm: StaticJsRealm, iteratorProto: 
   yield* iteratorProto.defineOwnPropertyEvaluator("constructor", {
     enumerable: false,
     configurable: true,
-    get: new StaticJsNativeFunctionImpl(realm, "get", function* () {
-      return ctor;
-    }),
+    get: new StaticJsNativeFunctionImpl(
+      realm,
+      "get",
+      function* () {
+        return ctor;
+      },
+      { mark: [ctor] },
+    ),
     set: new StaticJsNativeFunctionImpl(
       realm,
       "set",
@@ -49,6 +54,7 @@ export function* createIteratorConstructor(realm: StaticJsRealm, iteratorProto: 
         yield* setterThatIgnoresPrototypeProperties(thisArg, iteratorProto, "constructor", v);
         return realm.types.undefined;
       },
+      { mark: [iteratorProto] },
     ),
   });
 
