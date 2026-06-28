@@ -12,7 +12,7 @@ const asyncGeneratorProtoNextDeclaration: IntrinsicPropertyDeclaration = {
         "TypeError",
         "Generator next called on incompatible receiver",
       );
-      return yield* promiseReject(error, realm);
+      return yield* promiseReject(error);
     }
 
     return yield* thisArg.nextEvaluator(value);

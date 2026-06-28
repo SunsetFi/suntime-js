@@ -586,4 +586,338 @@ describe("E2E: Memory", () => {
     const counterClearedMemory = realm.memory.genOneSize;
     expect(counterClearedMemory).toBe(initialMemory);
   });
+
+  describe("Async function closures", () => {
+    it("Traces marks through async function environments when resolved", async () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `
+        async function bigAllocate() {
+          const { promise, resolve } = Promise.withResolvers();
+          globalThis.resolve = resolve;
+          let values = [];
+          for (let i = 0; i < 1000; i++) {
+            values.push("Hello, World!");
+          }
+          await promise;
+          return values.length;
+        };
+        globalThis.makeAllocator = bigAllocate;
+        `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      realm.evaluateScriptSync(`globalThis.makeAllocator();`);
+      realm.memory.sweep();
+      expect(realm.memory.genOneSize).toBeGreaterThan(initialMemory);
+      expect(realm.memory.genOneSize - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      await realm.evaluateScript(`globalThis.resolve(); delete globalThis.resolve;`, {
+        topLevelAwait: true,
+      });
+      realm.memory.sweep();
+
+      expect(realm.memory.genOneSize).toBe(initialMemory);
+    });
+
+    it("Traces marks through async function environments when rejected", async () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `
+        async function bigAllocate() {
+          const { promise, reject } = Promise.withResolvers();
+          globalThis.reject = reject;
+          let values = [];
+          for (let i = 0; i < 1000; i++) {
+            values.push("Hello, World!");
+          }
+          await promise;
+          return values.length;
+        };
+        globalThis.makeAllocator = bigAllocate;
+        `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      realm.evaluateScriptSync(`globalThis.makeAllocator().catch(() => {});`);
+      realm.memory.sweep();
+      expect(realm.memory.genOneSize).toBeGreaterThan(initialMemory);
+      expect(realm.memory.genOneSize - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      await realm.evaluateScript(
+        `globalThis.reject(new Error("Intentional error")); delete globalThis.reject;`,
+        {
+          topLevelAwait: true,
+        },
+      );
+      realm.memory.sweep();
+
+      expect(realm.memory.genOneSize).toBe(initialMemory);
+    });
+  });
+
+  describe("Generator closures", () => {
+    it("Traces marks through generator environments", () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `function* bigAllocate() {
+        let values = [];
+        for (let i = 0; i < 1000; i++) {
+          values.push("Hello, World!");
+        }
+        yield;
+        return values.length;
+      };
+      globalThis.makeAllocator = bigAllocate;
+      // Dummy object, to be equal to the object overhead when we get an allocator.
+      globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      realm.evaluateScriptSync(
+        `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
+      );
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      realm.evaluateScriptSync(`globalThis.allocator.next();`);
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Traces marks through generator environments that throw", () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `function* bigAllocate() {
+        let values = [];
+        for (let i = 0; i < 1000; i++) {
+          values.push("Hello, World!");
+        }
+        yield;
+        throw new Error("Intentional error");
+      };
+      globalThis.makeAllocator = bigAllocate;
+      // Dummy object, to be equal to the object overhead when we get an allocator.
+      globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      realm.evaluateScriptSync(
+        `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
+      );
+
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      expect(() => realm.evaluateScriptSync(`globalThis.allocator.next();`)).toThrow(
+        "Intentional error",
+      );
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Traces marks through generator environments that resume abruptly", () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `function* bigAllocate() {
+        let values = [];
+        for (let i = 0; i < 1000; i++) {
+          values.push("Hello, World!");
+        }
+        yield;
+        return values.length;
+      };
+      globalThis.makeAllocator = bigAllocate;
+      // Dummy object, to be equal to the object overhead when we get an allocator.
+      globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      realm.evaluateScriptSync(
+        `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
+      );
+
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      expect(() =>
+        realm.evaluateScriptSync(`globalThis.allocator.throw(new Error("Intentional error"));`),
+      ).toThrow("Intentional error");
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+  });
+
+  describe("Async generator closures", () => {
+    it("Traces marks through async generator environments", async () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `async function* bigAllocate() {
+        let values = [];
+        for (let i = 0; i < 1000; i++) {
+          values.push("Hello, World!");
+        }
+        yield;
+        return values.length;
+      };
+      globalThis.makeAllocator = bigAllocate;
+      // Dummy object, to be equal to the object overhead when we get an allocator.
+      globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      await realm.evaluateScript(
+        `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
+        { topLevelAwait: true },
+      );
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      await realm.evaluateScript(`globalThis.allocator.next()`, { topLevelAwait: true });
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Traces marks through async generator environments that throw", async () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `async function* bigAllocate() {
+        let values = [];
+        for (let i = 0; i < 1000; i++) {
+          values.push("Hello, World!");
+        }
+        yield;
+        throw new Error("Intentional error");
+      };
+      globalThis.makeAllocator = bigAllocate;
+      // Dummy object, to be equal to the object overhead when we get an allocator.
+      globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      await realm.evaluateScript(
+        `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
+        { topLevelAwait: true },
+      );
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      await expect(
+        realm.evaluateScript(`globalThis.allocator.next()`, { topLevelAwait: true }),
+      ).rejects.toThrow("Intentional error");
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
+    it("Traces marks through async generator environments that resume abruptly", async () => {
+      const realm = new StaticJsRealm();
+      realm.evaluateScriptSync(
+        `async function* bigAllocate() {
+        let values = [];
+        for (let i = 0; i < 1000; i++) {
+          values.push("Hello, World!");
+        }
+        yield;
+        return values.length;
+      };
+      globalThis.makeAllocator = bigAllocate;
+      // Dummy object, to be equal to the object overhead when we get an allocator.
+      globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = "Hello, World!".length * 1000;
+
+      await realm.evaluateScript(
+        `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
+        { topLevelAwait: true },
+      );
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+
+      await expect(
+        realm.evaluateScript(`globalThis.allocator.throw(new Error("Intentional error"))`, {
+          topLevelAwait: true,
+        }),
+      ).rejects.toThrow("Intentional error");
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+  });
 });

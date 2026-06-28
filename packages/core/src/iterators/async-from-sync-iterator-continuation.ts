@@ -1,5 +1,4 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
@@ -25,9 +24,8 @@ export function* asyncFromSyncIteratorContinuation(
   promiseCapability: StaticJsPromiseCapabilityRecord,
   syncIteratorRecord: StaticJsIteratorRecord,
   closeOnRejection: boolean,
-  realm?: StaticJsRealm,
 ): EvaluationGenerator<StaticJsPromise> {
-  realm ??= EvaluationContext.current.realm;
+  const realm = EvaluationContext.current.realm;
 
   let done: boolean;
   let value: StaticJsValue;
@@ -45,7 +43,7 @@ export function* asyncFromSyncIteratorContinuation(
 
   let valueWrapper: StaticJsPromise;
   try {
-    valueWrapper = yield* promiseResolve(realm.intrinsics.Promise, value, realm);
+    valueWrapper = yield* promiseResolve(realm.intrinsics.Promise, value);
   } catch (e) {
     if (Completion.Throw.is(e)) {
       let completion = e;

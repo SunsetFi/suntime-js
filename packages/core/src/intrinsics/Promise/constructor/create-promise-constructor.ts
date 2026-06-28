@@ -1,3 +1,4 @@
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPromise } from "#types/StaticJsPromise.js";
@@ -24,6 +25,7 @@ import { promiseCtorAnyDeclaration } from "./any.js";
 import { promiseCtorRejectDeclaration } from "./reject.js";
 import { promiseCtorResolveDeclaration } from "./resolve.js";
 import { promiseConstructorSymbolSpeciesDeclaration } from "./symbol_species.js";
+import { promiseCtorWithResolversDeclaration } from "./withResolvers.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorAllDeclaration,
@@ -32,6 +34,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
   promiseCtorResolveDeclaration,
   promiseConstructorSymbolSpeciesDeclaration,
+  promiseCtorWithResolversDeclaration,
 ];
 
 export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: StaticJsObject) {
@@ -101,6 +104,22 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
 function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm) {
   let alreadyResolved = false;
 
+  const markable: StaticJsMarkable = {
+    mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+      if (alreadyResolved) {
+        return;
+      }
+
+      if (marks.has(this)) {
+        return;
+      }
+
+      marks.add(this);
+
+      promise.mark(marks, allocate);
+    },
+  };
+
   const resolve = new StaticJsNativeFunctionImpl(
     realm,
     "resolve",
@@ -152,6 +171,9 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
 
       return realm.types.undefined;
     },
+    {
+      markables: [markable],
+    },
   );
 
   const reject = new StaticJsNativeFunctionImpl(
@@ -165,6 +187,9 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
 
       promise.reject(reason);
       return realm.types.undefined;
+    },
+    {
+      markables: [markable],
     },
   );
 

@@ -1,3 +1,5 @@
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
@@ -11,25 +13,22 @@ export interface SuspendContextResumptionValue<TCallerResumptionValue = unknown>
   __kind_resumption_value: TCallerResumptionValue;
 }
 
-export interface InitialSuspendContext<
-  TCallerResumptionValue = unknown,
-> extends SuspendContextResumptionValue<TCallerResumptionValue> {
+export interface InitialSuspendContext<TCallerResumptionValue = unknown>
+  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsMarkable {
   state: "initial";
   generator: null;
   evaluationContext: null;
 }
 
-export interface PrimedSuspendContext<
-  TCallerResumptionValue = unknown,
-> extends SuspendContextResumptionValue<TCallerResumptionValue> {
+export interface PrimedSuspendContext<TCallerResumptionValue = unknown>
+  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsMarkable {
   state: "primed";
   generator: EvaluationGenerator<unknown>;
   evaluationContext: EvaluationContext;
 }
 
-export interface ConsumedSuspendContext<
-  TCallerResumptionValue = unknown,
-> extends SuspendContextResumptionValue<TCallerResumptionValue> {
+export interface ConsumedSuspendContext<TCallerResumptionValue = unknown>
+  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsMarkable {
   state: "consumed";
   generator: null;
   evaluationContext: null;
@@ -91,6 +90,7 @@ function createContext<TCallerResumptionValue>(): SuspendContext<TCallerResumpti
     generator: null,
     evaluationContext: null,
     __kind_resumption_value: undefined as any,
+    mark: noop,
   };
 }
 SuspendCommand.createContext = createContext;
@@ -194,6 +194,21 @@ function suspendedContextPrime(
   primed.state = "primed";
   primed.generator = generator;
   primed.evaluationContext = evaluationContext;
+  primed.mark = (marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator) => {
+    if (marks.has(primed)) {
+      return;
+    }
+
+    marks.add(primed);
+
+    const { lexicalEnv, variableEnv } = primed.evaluationContext;
+    if (lexicalEnv) {
+      lexicalEnv.mark(marks, allocate);
+    }
+    if (variableEnv) {
+      variableEnv.mark(marks, allocate);
+    }
+  };
 }
 
 function suspendedContextConsume(
@@ -211,6 +226,9 @@ function suspendedContextConsume(
   consumed.state = "consumed";
   consumed.generator = null;
   consumed.evaluationContext = null;
+  consumed.mark = noop;
 
   return [generator, evaluationContext];
 }
+
+function noop(): void {}
