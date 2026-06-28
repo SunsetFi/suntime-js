@@ -665,11 +665,12 @@ describe("E2E: Memory", () => {
   describe("Generator closures", () => {
     it("Traces marks through generator environments", () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `function* bigAllocate() {
         let values = [];
         for (let i = 0; i < 1000; i++) {
-          values.push("Hello, World!");
+          values.push("${str}");
         }
         yield;
         return values.length;
@@ -682,7 +683,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = str.length * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -703,13 +704,66 @@ describe("E2E: Memory", () => {
       expect(clearedMemory).toBe(initialMemory);
     });
 
+    it("Traces marks through nested generator environments", () => {
+      const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
+      realm.evaluateScriptSync(
+        `function* bigAllocate() {
+          let values = [];
+          for (let i = 0; i < 10_000; i++) {
+            values.push("${str}");
+          }
+          const inner = bigAllocate2();
+          inner.next();
+          yield;
+          return values.length;
+        };
+        function* bigAllocate2() {
+          let values = [];
+          for (let i = 0; i < 10_000; i++) {
+            values.push("${str}");
+          }
+          yield;
+          return values.length;
+        };
+        globalThis.makeAllocator = bigAllocate;
+        // Dummy object, to be equal to the object overhead when we get an allocator.
+        globalThis.allocator = {};
+      `,
+      );
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      const expectedIncrease = (56 + 16 + str.length) * 20_000;
+
+      realm.evaluateScriptSync(
+        `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
+      );
+      realm.memory.sweep();
+
+      // At this point, the generator should be suspended while holding onto the array of strings, so we should have a memory increase.
+      const invokeMemory = realm.memory.genOneSize;
+      expect(invokeMemory).toBeGreaterThan(initialMemory);
+      expect(invokeMemory - initialMemory).toBeGreaterThanOrEqual(expectedIncrease);
+      console.log("Increase is", invokeMemory - initialMemory);
+
+      realm.evaluateScriptSync(`globalThis.allocator.next();`);
+
+      // Now, the generator should have completed, disconnecting and orphaning its captured environment.
+      // Since we stubbed allocator with a dummy object, the decl name and gen object overhead should reach initial levels.
+      realm.memory.sweep();
+      const clearedMemory = realm.memory.genOneSize;
+      expect(clearedMemory).toBe(initialMemory);
+    });
+
     it("Traces marks through generator environments that throw", () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `function* bigAllocate() {
         let values = [];
         for (let i = 0; i < 1000; i++) {
-          values.push("Hello, World!");
+          values.push("${str}");
         }
         yield;
         throw new Error("Intentional error");
@@ -722,7 +776,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = str.length * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -748,11 +802,12 @@ describe("E2E: Memory", () => {
 
     it("Traces marks through generator environments that resume abruptly", () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `function* bigAllocate() {
         let values = [];
         for (let i = 0; i < 1000; i++) {
-          values.push("Hello, World!");
+          values.push("${str}");
         }
         yield;
         return values.length;
@@ -765,7 +820,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = str.length * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -793,11 +848,12 @@ describe("E2E: Memory", () => {
   describe("Async generator closures", () => {
     it("Traces marks through async generator environments", async () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `async function* bigAllocate() {
         let values = [];
         for (let i = 0; i < 1000; i++) {
-          values.push("Hello, World!");
+          values.push("${str}");
         }
         yield;
         return values.length;
@@ -810,7 +866,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = str.length * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -834,11 +890,12 @@ describe("E2E: Memory", () => {
 
     it("Traces marks through async generator environments that throw", async () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `async function* bigAllocate() {
         let values = [];
         for (let i = 0; i < 1000; i++) {
-          values.push("Hello, World!");
+          values.push("${str}");
         }
         yield;
         throw new Error("Intentional error");
@@ -851,7 +908,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = str.length * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -877,24 +934,25 @@ describe("E2E: Memory", () => {
 
     it("Traces marks through async generator environments that resume abruptly", async () => {
       const realm = new StaticJsRealm();
+      const str = "x".repeat(10_000);
       realm.evaluateScriptSync(
         `async function* bigAllocate() {
-        let values = [];
-        for (let i = 0; i < 1000; i++) {
-          values.push("Hello, World!");
-        }
-        yield;
-        return values.length;
-      };
-      globalThis.makeAllocator = bigAllocate;
-      // Dummy object, to be equal to the object overhead when we get an allocator.
-      globalThis.allocator = {};
-      `,
+          let values = [];
+          for (let i = 0; i < 1000; i++) {
+            values.push("${str}");
+          }
+          yield;
+          return values.length;
+        };
+        globalThis.makeAllocator = bigAllocate;
+        // Dummy object, to be equal to the object overhead when we get an allocator.
+        globalThis.allocator = {};
+        `,
       );
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = "Hello, World!".length * 1000;
+      const expectedIncrease = str.length * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
