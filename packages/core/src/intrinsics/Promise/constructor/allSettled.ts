@@ -110,7 +110,7 @@ function* performPromiseAllSettled(
         return realm.types.undefined;
       },
       {
-        markables: [resultCapability.resolve, valuesMarkable],
+        mark: [resultCapability.resolve, valuesMarkable],
       },
     );
 
@@ -138,7 +138,7 @@ function* performPromiseAllSettled(
         return realm.types.undefined;
       },
       {
-        markables: [resultCapability.resolve, valuesMarkable],
+        mark: [resultCapability.resolve, valuesMarkable],
       },
     );
 

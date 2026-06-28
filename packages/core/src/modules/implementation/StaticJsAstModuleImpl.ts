@@ -293,7 +293,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
             onModuleComplete();
             return _realm.types.undefined;
           },
-          { markables: [markable] },
+          { mark: [markable] },
         );
 
         const onRejected = new StaticJsNativeFunctionImpl(
@@ -303,7 +303,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
             onModuleReject(arg);
             return _realm.types.undefined;
           },
-          { markables: [markable] },
+          { mark: [markable] },
         );
 
         yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);

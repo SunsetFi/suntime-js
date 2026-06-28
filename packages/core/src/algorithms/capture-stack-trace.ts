@@ -109,6 +109,7 @@ function captureStackLocation(loc: SourceLocation): string {
 }
 
 function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGenerator<void> {
+  const realm = obj.realm;
   const markable = containerMarkable(stack);
 
   // Note: V8 uses a getter/setter here, as it avoids formatting the string until it's accessed.
@@ -117,25 +118,25 @@ function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGe
   // but we (currently) don't lazy format it.
   yield* definePropertyOrThrow(obj, "stack", {
     get: new StaticJsNativeFunctionImpl(
-      obj.realm,
+      realm,
       "",
       function* () {
         return stack;
       },
       {
-        markables: [markable],
+        mark: [markable],
       },
     ),
     set: new StaticJsNativeFunctionImpl(
-      obj.realm,
+      realm,
       "",
       function* (value) {
         stack = value;
         markable.set(value);
-        return obj.realm.types.undefined;
+        return realm.types.undefined;
       },
       {
-        markables: [markable],
+        mark: [markable],
       },
     ),
     enumerable: false,

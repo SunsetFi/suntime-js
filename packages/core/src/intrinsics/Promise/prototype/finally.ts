@@ -38,7 +38,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           return yield* p.thenEvaluator(returnValue, undefined, true);
         },
         {
-          markables: [onFinally],
+          mark: [onFinally],
         },
       );
       catchFinally = new StaticJsNativeFunctionImpl(
@@ -55,7 +55,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           return yield* p.thenEvaluator(thrower, undefined, true);
         },
         {
-          markables: [onFinally],
+          mark: [onFinally],
         },
       );
     }

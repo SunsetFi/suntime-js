@@ -477,7 +477,7 @@ export class StaticJsAsyncGeneratorImpl
         return realm.types.undefined;
       },
       {
-        markables: [generator],
+        mark: [generator],
       },
     );
 
@@ -497,7 +497,7 @@ export class StaticJsAsyncGeneratorImpl
         return realm.types.undefined;
       },
       {
-        markables: [generator],
+        mark: [generator],
       },
     );
 
