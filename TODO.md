@@ -8,6 +8,7 @@
 - [x] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
   - [ ] Update documentation
 - [ ] Thread policy into propertyDescriptorToNative and other create-object-proxy toStaticJsNative calls from .toNative of object.
+- [ ] FIx crash on stubPromise when a promise is passed to a global option property in the realm ctor.
 
 ## Safe access
 
