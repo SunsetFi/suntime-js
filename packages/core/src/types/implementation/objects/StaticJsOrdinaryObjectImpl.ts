@@ -86,7 +86,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   ): void {
     if (!this._contents.has(key)) {
       const memory = this.realm.memory;
-      memory.allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead);
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead);
       if (typeof key === "string") {
         memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
       }
