@@ -1,8 +1,14 @@
+import { parse as parseAst } from "@babel/parser";
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsOutOfMemoryError } from "#errors/StaticJsOutOfMemoryError.js";
+import { StaticJsRealm, type StaticJsValue, StaticJsOutOfMemoryError } from "../../src/index.js";
 
-import { StaticJsRealm, type StaticJsValue } from "../../src/index.js";
+// These must import after index to avoid circular references.
+// oxfmt-ignore
+import { StaticJsAstFunction, type StaticJsAstFunctionNode } from "#types/implementation/functions/StaticJsAstFunction.js";
+// oxfmt-ignore
+import { StaticJsPromiseImpl } from "#types/implementation/objects/StaticJsPromiseImpl.js";
+import { babelParserOptions } from "#parser/babel-parser-options.js";
 
 describe("E2E: Memory", () => {
   interface SharedMemorySize {
@@ -1052,10 +1058,86 @@ describe("E2E: Memory", () => {
       expect(clearedMemory).toBe(initialMemory);
     });
 
-    // TODO: Tests for reaction handlers and capabillities.
+    it("Charges the ambient wrapper cost in place of the ordinary object base", () => {
+      const realm = new StaticJsRealm();
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      // A pending promise with no reactions and no settled result: the wrapper in
+      // isolation. The executor and the constructor's resolving functions are not
+      // retained, so only the promise wrapper survives the sweep.
+      realm.evaluateScriptSync(`globalThis.p = new Promise(function(){});`);
+      realm.memory.sweep();
+
+      // The globalThis.p property (overhead + key chars) plus the promise wrapper.
+      const keySize = 212 + (16 + "p".length);
+      expect(realm.memory.genOneSize - initialMemory - keySize).toBe(768);
+    });
+
+    it("Charges per retained reaction record on a pending promise", () => {
+      const realm = new StaticJsRealm();
+      const promise = new StaticJsPromiseImpl(realm);
+      realm.memory.pin(promise);
+      realm.memory.sweep();
+      const initialMemory = realm.memory.genOneSize;
+
+      // thenEvaluator with resultCapability=false and no handlers retains bare
+      // reaction records (null capability, null handler), isolating their overhead.
+      // Each call pushes a fulfill + reject pair.
+      const reactionPairs = 10;
+      for (let i = 0; i < reactionPairs; i++) {
+        realm.invokeEvaluatorSync(() => promise.thenEvaluator(undefined, undefined, false));
+      }
+      realm.memory.sweep();
+
+      expect(realm.memory.genOneSize - initialMemory).toBe(reactionPairs * 2 * 48);
+    });
   });
 
   describe("Functions", () => {
+    it("Charges the retained AST proportional to source-text length", () => {
+      // A function retains its parsed babel AST, not just its source text. The
+      // accounting charges that tree proportionally to sourceText.length (the
+      // StaticJsAstFunctionNode weight, ~325 bytes/char worst case).
+      function measure(body: string): number {
+        const realm = new StaticJsRealm();
+        realm.memory.sweep();
+        const initial = realm.memory.genOneSize;
+        realm.evaluateScriptSync(`globalThis.fn = function f(){${body}};`);
+        realm.memory.sweep();
+        return realm.memory.genOneSize - initial;
+      }
+
+      // A block comment grows sourceText (start..end spans it) without adding any
+      // AST nodes (attachComment is off), so the two functions differ only by the
+      // padding's length. Each padded char costs 325 (AST node weight) + 1 (the
+      // retained source string; its 16-byte header is unchanged).
+      const padding = `/* ${"x".repeat(1000)} */`;
+      expect(measure(padding) - measure("")).toBe(padding.length * (325 + 1));
+    });
+
+    it("Charges the ambient wrapper cost in place of the ordinary object base", () => {
+      const realm = new StaticJsRealm();
+      // A bare function with a shared node and empty source text, with no own
+      // properties: isolates the wrapper from its AST, source, and properties.
+      const file = parseAst("function f(){}", { ...babelParserOptions, sourceType: "script" });
+      const node = file.program.body[0] as unknown as StaticJsAstFunctionNode;
+
+      const fn = new StaticJsAstFunction(realm, node, "", {
+        thisMode: "non-lexical-this",
+        strict: false,
+        env: realm.globalEnv,
+        scriptOrModule: null,
+      });
+      realm.memory.pin(fn);
+      realm.memory.sweep();
+
+      // The StaticJsAstFunction wrapper (745) plus the empty source string's
+      // 16-byte header (RawStringCharacter at length 0); the AST node is shared
+      // and not markable, so it adds nothing here.
+      expect(realm.memory.genOneSize).toBe(745 + 16);
+    });
+
     it("Traces mark through nested function environments", () => {
       const realm = new StaticJsRealm();
       const str = "x".repeat(10_000);

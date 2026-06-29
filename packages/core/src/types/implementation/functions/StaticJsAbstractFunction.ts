@@ -2,6 +2,7 @@ import type { Node } from "@babel/types";
 
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import type { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -29,8 +30,12 @@ export abstract class StaticJsAbstractFunction
 {
   private _initialName: string | null = null;
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
-    super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
+  constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObject | StaticJsNull | null,
+    tag?: StaticJsMemoryAllocationTag,
+  ) {
+    super(realm, prototype ?? realm.intrinsics["Function.prototype"], tag);
   }
 
   override get [Symbol.toStringTag](): string {
