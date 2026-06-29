@@ -1,9 +1,3 @@
-import type {
-  StaticJsPropertyKey,
-  StaticJsRealm as IStaticJsRealm,
-  StaticJsValue,
-} from "./src/index.js";
-
 /**
  * General-purpose memory profiler for the StaticJs interpreter.
  *
@@ -28,7 +22,22 @@ import type {
  *   String         ~52 bytes empty, ~84 @ 10 chars, ~228 @ 32 chars.
  *   Number         ~52 bytes each.
  */
-import { StaticJsRealm } from "./src/index.js";
+
+import type { Node } from "@babel/types";
+
+import { parse as parseAst } from "@babel/parser";
+
+import type { StaticJsRealm as IStaticJsRealm } from "./src/realm/StaticJsRealm.js";
+import type { StaticJsPropertyKey } from "./src/types/StaticJsPropertyKey.js";
+import type { StaticJsValue } from "./src/types/StaticJsValue.js";
+
+import { babelParserOptions } from "./src/parser/babel-parser-options.js";
+import { StaticJsRealm } from "./src/realm/factories/StaticJsRealm.js";
+import {
+  StaticJsAstFunction,
+  type StaticJsAstFunctionNode,
+} from "./src/types/implementation/functions/StaticJsAstFunction.js";
+import { StaticJsPromiseImpl } from "./src/types/implementation/objects/StaticJsPromiseImpl.js";
 
 // --------------------------------------------------------------------------
 // Measurement core
@@ -266,6 +275,84 @@ function bytesPerCollectionEntry(kind: "map" | "set", count = COUNT, trials = TR
 }
 
 // --------------------------------------------------------------------------
+// AST retention measurement (StaticJsAstFunction)
+// --------------------------------------------------------------------------
+
+/**
+ * Count of retained function ASTs per measurement. Each parse produces an
+ * independent (unshared) tree, so this is kept small — a single dense tree can
+ * run to hundreds of KB.
+ */
+const AST_COUNT = Math.min(COUNT, 1_500);
+const AST_TRIALS = Math.min(TRIALS, 2);
+
+/**
+ * Parse `source` with the *exact* options the interpreter uses (see
+ * `babelParserOptions` — notably `ranges: true`, which adds a `[start,end]`
+ * array to every node on top of the default `loc`/`start`/`end`) and return the
+ * top-level function node.
+ *
+ * This is the node a {@link StaticJsAstFunction} stows in `this._node` and
+ * retains for its whole lifetime. We measure the babel tree directly rather than
+ * constructing a StaticJsAstFunction so the figure is the pure AST cost, free of
+ * the wrapper object / own-property overhead already profiled above.
+ */
+function parseFunctionNode(source: string): Node {
+  const file = parseAst(source, { ...babelParserOptions, sourceType: "script" });
+  const node = file.program.body[0];
+  if (node == null || node.type !== "FunctionDeclaration") {
+    throw new Error(`Expected a FunctionDeclaration, got ${node?.type}`);
+  }
+  // Drop the reference to the enclosing File/Program so only the function
+  // subtree (what StaticJsAstFunction actually holds) is retained.
+  return node;
+}
+
+/**
+ * Builders for *worst-case-dense* function bodies: source that packs the maximum
+ * number of AST nodes per source character (~1 node/char is the ceiling, since
+ * every node needs at least one token). Each builder returns source whose total
+ * length is approximately `target` chars. The body is what dominates; the
+ * `function f(){…}` wrapper is a fixed ~14-char tax folded into the fit's base.
+ *
+ * The dominant per-node cost is the fixed `loc`/`range`/Position overhead that
+ * every node carries regardless of type, so the densest-in-nodes pattern wins
+ * even when its node *type* is the lightest (empty statements).
+ */
+const astBodyBuilders: Record<string, (target: number) => string> = {
+  // `;;;…` — one EmptyStatement per char; the densest pattern by node count.
+  "empty statements": (target) => `function f(){${";".repeat(Math.max(1, target - 14))}}`,
+  // `!!!…x` — one UnaryExpression per char.
+  "unary chain": (target) => `function f(){${"!".repeat(Math.max(1, target - 15))}x}`,
+  // `x.a.a.a…` — a MemberExpression + Identifier per two chars (heavier nodes).
+  "member chain": (target) => `function f(){x${".a".repeat(Math.max(1, (target - 15) >> 1))}}`,
+  // `x+x+x…` — a BinaryExpression + Identifier per two chars.
+  "binary chain": (target) => `function f(){x${"+x".repeat(Math.max(1, (target - 15) >> 1))}}`,
+};
+
+/** Source lengths sampled for the linear fit of AST bytes vs. source chars. */
+const AST_SIZES = [128, 512, 2048];
+
+/**
+ * Fit `retained AST bytes = base + perChar * sourceChars` for one dense pattern.
+ * The x-axis is the function node's own source span (`end - start`), which is
+ * exactly the `sourceText.length` the interpreter charges for — so `perChar` is
+ * directly comparable to the current per-char source-text weight.
+ */
+function fitAstPattern(build: (target: number) => string): LinearFit {
+  return fitLinear(
+    AST_SIZES.map((target) => {
+      const source = build(target);
+      const sourceChars = source.length;
+      return {
+        size: sourceChars,
+        bytes: bytesPerItem(() => parseFunctionNode(source), AST_COUNT, AST_TRIALS),
+      };
+    }),
+  );
+}
+
+// --------------------------------------------------------------------------
 // Helpers for building distinct keys / strings of a fixed length
 // --------------------------------------------------------------------------
 
@@ -423,6 +510,84 @@ function main(): void {
   // Set still unwraps to a single native slot (SMI key, shared value).
   reportFixed("Map entry (number key, null value)", bytesPerCollectionEntry("map", ENTRY_COUNT));
   reportFixed("Set entry", bytesPerCollectionEntry("set", ENTRY_COUNT));
+  console.log();
+
+  console.log(
+    `Retained AST cost (worst-case dense source, count=${AST_COUNT.toLocaleString()}):\n` +
+      `  StaticJsAstFunction charges only its source text (~1 byte/char + 16 base), but it\n` +
+      `  also retains the parsed babel node tree. These are the AST bytes on TOP of that.`,
+  );
+  let worstName = "";
+  let worstFit: LinearFit | null = null;
+  for (const [name, build] of Object.entries(astBodyBuilders)) {
+    const fit = fitAstPattern(build);
+    reportLinear(name, "src-char", fit);
+    if (worstFit === null || fit.perUnit > worstFit.perUnit) {
+      worstFit = fit;
+      worstName = name;
+    }
+  }
+  if (worstFit) {
+    console.log(
+      `\n  => worst case: "${worstName}" at ~${worstFit.perUnit.toFixed(0)} bytes per source-char\n` +
+        `     (the current accounting under-counts a function's AST by this much per char;\n` +
+        `      add it as an AST-node weight scaled by sourceText.length).`,
+    );
+  }
+  console.log();
+
+  console.log(
+    "Ambient wrapper costs (bare instance, isolated from AST / source / own properties):\n" +
+      "  Total retained cost of the wrapper object itself — what a per-type weight tag would\n" +
+      "  charge in place of the ~655 ordinary-object base (cf. Map/Set/Proxy). Built directly\n" +
+      "  rather than through the interpreter so no properties, AST, or source text are counted.",
+  );
+  // Reference point: a plain ordinary object (should track the StaticJsObject weight).
+  const ordinaryBase = bytesPerItem(() => types.object());
+  reportFixed("ordinary object (reference)", ordinaryBase);
+
+  // Pending promise: ordinary object + state/result fields + two (empty) reaction
+  // arrays. The result value, when settled, is a separate StaticJsValue charged on
+  // its own, so a pending promise is the ambient cost in isolation.
+  const promiseAmbient = bytesPerItem(() => new StaticJsPromiseImpl(realm));
+  reportFixed("promise (pending)", promiseAmbient);
+
+  // AST function: ordinary object + the instance's env/node/params/flags fields. The
+  // node is shared across all instances and sourceText is empty, so neither the AST
+  // (StaticJsAstFunctionNode weight) nor the source text (RawStringCharacter) is counted.
+  const fnNode = parseFunctionNode("function f(){}") as StaticJsAstFunctionNode;
+  const astFnAmbient = bytesPerItem(
+    () =>
+      new StaticJsAstFunction(realm, fnNode, "", {
+        thisMode: "non-lexical-this",
+        strict: false,
+        env: realm.globalEnv,
+        scriptOrModule: null,
+      }),
+  );
+  reportFixed("ast function (no props)", astFnAmbient);
+
+  // A pending promise accumulates ReactionRecords ({ capability, handler, type }) as
+  // `.then()` is called. The capability's promise/resolve/reject and the handler are
+  // each markable on their own; this is the bare record + array-slot overhead, measured
+  // with shared capability/handler refs. One `.then()` pushes a fulfill + reject pair.
+  const sharedCapability = { promise: {}, resolve: {}, reject: {} };
+  const sharedHandler = {};
+  const reactionRecord = bytesPerItem(() => ({
+    capability: sharedCapability,
+    handler: sharedHandler,
+    type: "fulfill",
+  }));
+  reportFixed("promise reaction record", reactionRecord);
+
+  console.log(
+    `\n  => promise wrapper:  ~${promiseAmbient.toFixed(0)} bytes ` +
+      `(~${(promiseAmbient - ordinaryBase).toFixed(0)} over a plain object)\n` +
+      `     ast function:     ~${astFnAmbient.toFixed(0)} bytes ` +
+      `(~${(astFnAmbient - ordinaryBase).toFixed(0)} over a plain object)\n` +
+      `     reaction record:  ~${reactionRecord.toFixed(0)} bytes/record ` +
+      `(~${(reactionRecord * 2).toFixed(0)} per .then()).`,
+  );
 }
 
 main();

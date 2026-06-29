@@ -30,6 +30,8 @@ export const defaultV8StaticJsMemoryWeights: StaticJsMemoryWeights = {
   [StaticJsMemoryAllocationTag.StaticJsNumber]: 40,
   [StaticJsMemoryAllocationTag.StaticJsString]: 56,
 
+  // Based around StaticJsPlainObject.  Count might not reflect other
+  // object types.
   [StaticJsMemoryAllocationTag.StaticJsObject]: 655,
   [StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead]: 212,
 
@@ -39,5 +41,24 @@ export const defaultV8StaticJsMemoryWeights: StaticJsMemoryWeights = {
   [StaticJsMemoryAllocationTag.StaticJsSet]: 827,
   [StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead]: 27,
 
+  // Not based on AbstractObject, so lighter-weight.
   [StaticJsMemoryAllocationTag.StaticJsProxy]: 85,
+
+  // A Promise object: ordinary object base + state/result fields + two
+  // (empty) reaction arrays.
+  [StaticJsMemoryAllocationTag.StaticJsPromise]: 768,
+  // One retained reaction record ({ capability, handler, type }) + array slot.
+  [StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead]: 48,
+
+  // An AST function wrapper: ordinary object base + the instance's
+  // env/node/params/flags fields.
+  [StaticJsMemoryAllocationTag.StaticJsAstFunction]: 745,
+
+  // Worst-case retained size of a parsed function's babel AST, per source-text
+  // char. Densest source is ~1 node/char (e.g. `;;;…`); each node carries a
+  // node object plus its loc/range/Position overhead, ~325 bytes total. The
+  // argument is the function's sourceText.length.
+  // Note that this is not charged for evaluating scripts ad-hoc, but only
+  // for retained ASTs in StaticJsAstFunction instances.
+  [StaticJsMemoryAllocationTag.StaticJsAstFunctionNode]: (count: number) => 325 * count,
 };

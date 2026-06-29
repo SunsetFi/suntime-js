@@ -11,6 +11,7 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -34,7 +35,11 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
   private _clearUncaughtError: (() => void) | null = null;
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
-    super(realm, prototype ?? realm.intrinsics["Promise.prototype"]);
+    super(
+      realm,
+      prototype ?? realm.intrinsics["Promise.prototype"],
+      StaticJsMemoryAllocationTag.StaticJsPromise,
+    );
   }
 
   override get [Symbol.toStringTag](): string {
@@ -149,6 +154,8 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
       case "pending":
         this._fulfullReactions.push(fulfillReaction);
         this._rejectReactions.push(rejectReaction);
+        // Two retained reaction records (fulfill + reject).
+        this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead, 2);
         break;
       case "fulfilled":
         queuePromiseReactionJob(this.realm, fulfillReaction, this._result!);
@@ -185,6 +192,11 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     super.mark(marks, allocate);
 
     this._result?.mark(marks, allocate);
+
+    allocate?.(
+      StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
+      this._fulfullReactions.length + this._rejectReactions.length,
+    );
 
     for (const reaction of this._fulfullReactions) {
       markReaction(reaction, marks, allocate);
@@ -226,7 +238,6 @@ function queuePromiseReactionJob(
       return;
     }
 
-    // FIXME: Spec says we return these...  Who to?
     if (Completion.Abrupt.is(handlerResult)) {
       const value = Completion.value(handlerResult);
       if (!isStaticJsValue(value)) {
