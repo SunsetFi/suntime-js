@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  typecheck:
-    name: Typecheck
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,7 +28,7 @@ jobs:
           package-manager-cache: false
 
       - name: Typecheck
-        run: pnpm -r typecheck
+        run: pnpm -r build
   lint:
     name: Lint
     runs-on: ubuntu-latest
