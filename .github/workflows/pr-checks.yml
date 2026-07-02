@@ -27,7 +27,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
 
-      - name: Typecheck
+      - name: Build
         run: pnpm -r build
   lint:
     name: Lint
