@@ -9,7 +9,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 export class StaticJsNullImpl implements StaticJsNull {
   constructor(private readonly _realm: StaticJsRealm) {
-    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsNull);
+    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsNull, this);
   }
 
   [Symbol.toStringTag](): string {
@@ -44,7 +44,7 @@ export class StaticJsNullImpl implements StaticJsNull {
 
     marks.add(this);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsNull);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsNull, this);
   }
 
   toNative() {

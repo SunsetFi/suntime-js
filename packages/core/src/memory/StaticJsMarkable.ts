@@ -1,6 +1,11 @@
 import type { StaticJsMemoryAllocationTag } from "./StaticJsMemoryAllocationTag.js";
+import type { StaticJsAllocatorType } from "./StaticJsMemoryWeights.js";
 
-export type StaticJsMarkableAllocator = (tag: StaticJsMemoryAllocationTag, count?: number) => void;
+export type StaticJsMarkableAllocator = <T extends StaticJsMemoryAllocationTag>(
+  tag: T,
+  value: StaticJsAllocatorType<T>,
+) => void;
+
 export type StaticJsMarkFunction = (
   this: StaticJsMarkable,
   marks: Set<StaticJsMarkable>,

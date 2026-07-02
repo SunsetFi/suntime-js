@@ -1,3 +1,4 @@
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
@@ -11,7 +12,8 @@ export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements St
   private readonly _value: boolean;
 
   constructor(realm: StaticJsRealm, value: boolean) {
-    super(realm, StaticJsMemoryAllocationTag.StaticJsBoolean);
+    super(realm);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsBoolean, this);
     this._value = value;
   }
 
@@ -33,6 +35,16 @@ export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements St
 
   get value() {
     return this._value;
+  }
+
+  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsBoolean, this);
   }
 
   toNative() {

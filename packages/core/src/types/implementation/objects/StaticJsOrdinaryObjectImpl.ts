@@ -86,9 +86,9 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   ): void {
     if (!this._contents.has(key)) {
       const memory = this.realm.memory;
-      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead);
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
       if (typeof key === "string") {
-        memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
+        memory.allocate(StaticJsMemoryAllocationTag.RawString, key);
       }
     }
 
@@ -104,11 +104,10 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
 
     super.mark(marks, allocate);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, this._contents.size);
-
     for (const [key, descr] of this._contents.entries()) {
+      allocate?.(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
       if (typeof key === "string") {
-        allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
+        allocate?.(StaticJsMemoryAllocationTag.RawString, key);
       } else {
         key.mark(marks, allocate);
       }
@@ -133,9 +132,9 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     // TODO: Accept StaticJsStrings as property keys too and use that as a sign we do not need to allocate
     if (!this._contents.has(key)) {
       const memory = this.realm.memory;
-      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead);
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
       if (typeof key === "string") {
-        memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
+        memory.allocate(StaticJsMemoryAllocationTag.RawString, key);
       }
     }
 

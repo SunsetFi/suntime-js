@@ -36,7 +36,7 @@ import { type StaticJsEvaluator, invokeEvaluator } from "#evaluator/StaticJsEval
 import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
 import { StaticJsMemoryManagerImpl } from "#memory/implementation/StaticJsMemoryManagerImpl.js";
-import { defaultV8StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
+import { memoryWeights_Node_24_16_0 } from "#memory/weights/node_24.16.0.js";
 import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "#modules/implementation/StaticJsExternalModuleImpl.js";
 import { isStaticJsModule } from "#modules/StaticJsModule.js";
@@ -117,7 +117,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       hostAccessDefaults,
       maxMemorySize = Number.POSITIVE_INFINITY,
       memoryHighWatermark = Number.NaN,
-      memoryWeights = defaultV8StaticJsMemoryWeights,
+      memoryWeights = memoryWeights_Node_24_16_0,
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {

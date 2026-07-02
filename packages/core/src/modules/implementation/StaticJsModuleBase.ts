@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
@@ -133,7 +133,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     return ns;
   }
 
-  abstract mark(marks: Set<StaticJsMarkable>, allocate?: (size: number) => void): void;
+  abstract mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void;
 
   private *_getExportEvaluator(exportName: string): EvaluationGenerator<StaticJsValue | null> {
     const resolution = yield* this.resolveExportEvaluator(exportName);

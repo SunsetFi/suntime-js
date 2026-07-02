@@ -1,6 +1,7 @@
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import type { StaticJsMemoryAllocationTag } from "./StaticJsMemoryAllocationTag.js";
+import type { StaticJsAllocatorType } from "./StaticJsMemoryWeights.js";
 
 /**
  * Provides a best-effort, non-authoritative tracking and management of memory usage and limits for a {@link StaticJsRealm}.
@@ -14,9 +15,9 @@ export interface StaticJsMemoryManager {
    * Record an allocation of a given size in bytes.  This is used to track memory usage and enforce limits.
    * This is typically called for gen zero allocations, which are never removed until the next garbage collection sweep.
    * @param tag The type of allocation being made.  This is used to determine the size of the allocation in bytes.
-   * @param count The number of units being allocated.  Defaults to 1
+   * @param value The value being allocated.  This is used to determine the size of the allocation in bytes.
    */
-  allocate(tag: StaticJsMemoryAllocationTag, count?: number): void;
+  allocate<T extends StaticJsMemoryAllocationTag>(tag: T, value: StaticJsAllocatorType<T>): void;
 
   /**
    * Perform a garbage collection sweep, resetting the gen zero size and recounting the gen one size.

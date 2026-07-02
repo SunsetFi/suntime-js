@@ -130,7 +130,7 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
   *setValueEvaluator(key: StaticJsValue, value: StaticJsValue): EvaluationGenerator<void> {
     const keyUnwrapped = toNativeUnwrap(key);
     if (!this._backingStore.has(keyUnwrapped)) {
-      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead);
+      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, undefined);
       // The unwrapped key's own storage (string content, boxed number, etc.) is
       // accounted for in mark(). At this point the caller still holds the
       // StaticJsValue it was passed, which already charged for that storage, so
@@ -201,15 +201,14 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
     }
     super.mark(marks, allocate);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, this._backingStore.size);
-
     for (const [key, value] of this._backingStore) {
+      allocate?.(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, undefined);
       if (isStaticJsValue(key)) {
         key.mark(marks, allocate);
       } else if (allocate) {
         switch (typeof key) {
           case "string":
-            allocate(StaticJsMemoryAllocationTag.RawStringCharacter, key.length);
+            allocate(StaticJsMemoryAllocationTag.RawString, key);
             break;
           case "number":
             allocate(StaticJsMemoryAllocationTag.RawNumber, key);

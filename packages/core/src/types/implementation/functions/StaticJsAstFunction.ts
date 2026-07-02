@@ -116,10 +116,13 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"],
       StaticJsMemoryAllocationTag.StaticJsAstFunction,
     );
-    realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, sourceText.length);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, sourceText);
     // The retained babel AST (`_node`) costs far more than its source text; charge
     // it proportionally to the source length (~325 bytes/char worst case).
-    realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsAstFunctionNode, sourceText.length);
+    realm.memory.allocate(
+      StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText,
+      sourceText.length,
+    );
     this._argumentDeclarations = params;
 
     if (strict) {
@@ -352,8 +355,11 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       return;
     }
     super.mark(marks, allocate);
-    allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, this._sourceText.length);
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsAstFunctionNode, this._sourceText.length);
+    allocate?.(StaticJsMemoryAllocationTag.RawString, this._sourceText);
+    allocate?.(
+      StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText,
+      this._sourceText.length,
+    );
 
     this._environment.mark(marks, allocate);
   }

@@ -1,7 +1,11 @@
 import type { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
-import type { StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
+import type {
+  StaticJsAllocatorType,
+  StaticJsMemoryAllocator,
+  StaticJsMemoryWeights,
+} from "#memory/StaticJsMemoryWeights.js";
 import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -45,7 +49,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     this._isInitializing = false;
   }
 
-  allocate(tag: StaticJsMemoryAllocationTag, count: number = 1): void {
+  allocate<T extends StaticJsMemoryAllocationTag>(tag: T, value: StaticJsAllocatorType<T>): void {
     if (this._isInitializing) {
       // Don't bother tracking.  We will mark and sweep after initialization is complete.
       return;
@@ -55,7 +59,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       throw new Error("Cannot allocate memory while marking");
     }
 
-    const size = this._getSize(tag, count);
+    const size = this._getSize(tag, value);
 
     if (this.allocatedSize + size > this._maxSize) {
       // Try an emergency recount of gen one.
@@ -160,8 +164,11 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     this._isMarking = true;
     try {
       let markedSize = 0;
-      const allocate = (tag: StaticJsMemoryAllocationTag, count: number = 1) => {
-        markedSize += this._getSize(tag, count);
+      const allocate = <T extends StaticJsMemoryAllocationTag>(
+        tag: T,
+        value: StaticJsAllocatorType<T>,
+      ) => {
+        markedSize += this._getSize(tag, value);
       };
 
       const marks = new Set<StaticJsMarkable>();
@@ -172,7 +179,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
       this._globalEnv.mark(marks, allocate);
       for (const [name, symbol] of this._symbolRegistry?.entries() ?? []) {
-        allocate(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
+        allocate(StaticJsMemoryAllocationTag.RawString, name);
         symbol.mark(marks, allocate);
       }
 
@@ -182,16 +189,19 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     }
   }
 
-  private _getSize(tag: StaticJsMemoryAllocationTag, count: number = 1): number {
-    const sizePerUnit = this._memoryWeights[tag];
+  private _getSize<T extends StaticJsMemoryAllocationTag>(
+    tag: T,
+    value: StaticJsAllocatorType<T>,
+  ): number {
+    const sizePerUnit = this._memoryWeights[tag] as StaticJsMemoryAllocator<T>;
     if (sizePerUnit === undefined) {
       throw new StaticJsEngineError(`Unknown memory allocation tag: ${tag}`);
     }
 
     if (typeof sizePerUnit === "function") {
-      return sizePerUnit(count);
+      return sizePerUnit(value as T);
     }
 
-    return sizePerUnit * count;
+    return sizePerUnit;
   }
 }

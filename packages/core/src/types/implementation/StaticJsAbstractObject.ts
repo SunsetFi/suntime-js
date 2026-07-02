@@ -1,5 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsMemoryAllocationObjectTag } from "#memory/StaticJsMemoryWeights.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -61,9 +62,10 @@ export abstract class StaticJsAbstractObject
   constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null,
-    tag?: StaticJsMemoryAllocationTag,
+    tag: StaticJsMemoryAllocationObjectTag = StaticJsMemoryAllocationTag.StaticJsObject,
   ) {
-    super(realm, tag ?? StaticJsMemoryAllocationTag.StaticJsObject);
+    super(realm);
+    this.realm.memory.allocate(tag, this as any);
     if (isStaticJsNull(prototype)) {
       this._prototype = null;
     } else {
@@ -481,11 +483,13 @@ export abstract class StaticJsAbstractObject
     this._privateElements.push(element);
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
-    super.mark(marks, allocate);
+
+    marks.add(this);
+
     for (const pe of this._privateElements) {
       switch (pe.kind) {
         case "field":

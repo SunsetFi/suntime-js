@@ -16,7 +16,8 @@ export class StaticJsNumberImpl extends StaticJsAbstractPrimitive implements Sta
       throw new TypeError(`StaticJsNumberImpl constructor expects a number, got ${typeof value}`);
     }
 
-    super(realm, StaticJsMemoryAllocationTag.StaticJsNumber);
+    super(realm);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsNumber, this);
     realm.memory.allocate(StaticJsMemoryAllocationTag.RawNumber, value);
     this._value = value;
   }
@@ -41,12 +42,12 @@ export class StaticJsNumberImpl extends StaticJsAbstractPrimitive implements Sta
     return this._value;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    marks.add(this);
     allocate?.(StaticJsMemoryAllocationTag.RawNumber, this._value);
   }
 

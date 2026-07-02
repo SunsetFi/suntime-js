@@ -77,7 +77,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     yield* this._assertBindingNotDeclared(name);
 
     // Note: Our set entry and extranious data costs something too...
-    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, name);
 
     this._bindings.set(name, {
       name,
@@ -93,7 +93,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     yield* this._assertBindingNotDeclared(name);
 
     // Note: Our set entry and extranious data costs something too...
-    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, name);
 
     this._bindings.set(name, {
       name,
@@ -190,7 +190,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     super.mark(marks, allocate);
 
     for (const [name, binding] of this._bindings.entries()) {
-      allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, name.length);
+      allocate?.(StaticJsMemoryAllocationTag.RawString, name);
 
       if (binding.value) {
         binding.value.mark(marks, allocate);

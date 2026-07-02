@@ -3,12 +3,12 @@
  */
 export enum StaticJsMemoryAllocationTag {
   /**
-   * Raw engine-native strings
+   * Engine-native strings
    */
-  RawStringCharacter,
+  RawString,
 
   /**
-   * Raw engine-native numbers
+   * Engine-native numbers
    * Can be free, or can incur a heap cost depending on context and value.
    */
   RawNumber,
@@ -57,9 +57,9 @@ export enum StaticJsMemoryAllocationTag {
   /**
    * The parsed babel AST a {@link StaticJsAstFunction} retains for its lifetime,
    * charged proportionally to the function's source-text length. The source text
-   * itself is accounted separately via {@link RawStringCharacter}; this is the
+   * itself is accounted separately via {@link RawString}; this is the
    * node tree on top of it.
    * At its worst case, empty statements (`;;;;`) produce ~325 bytes/char.
    */
-  StaticJsAstFunctionNode,
+  StaticJsAstFunctionAstRootBySourceText,
 }

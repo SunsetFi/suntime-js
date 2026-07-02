@@ -12,12 +12,13 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
   private readonly _value: string;
 
   constructor(realm: StaticJsRealm, value: string) {
+    super(realm);
     if (typeof value !== "string") {
       throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
 
-    super(realm, StaticJsMemoryAllocationTag.StaticJsString);
-    realm.memory.allocate(StaticJsMemoryAllocationTag.RawStringCharacter, value.length);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsString, this);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, value);
     this._value = value;
   }
 
@@ -41,13 +42,13 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
     return this._value;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
-    allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, this._value.length);
+    marks.add(this);
+    allocate?.(StaticJsMemoryAllocationTag.RawString, this._value);
   }
 
   toNative() {

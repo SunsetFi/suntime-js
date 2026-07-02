@@ -49,10 +49,7 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     // TODO: If we created our own symbol, we should track that allocation.
 
     if (this._description) {
-      realm.memory.allocate(
-        StaticJsMemoryAllocationTag.RawStringCharacter,
-        this._description.length,
-      );
+      realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, this._description);
     }
   }
 
@@ -86,7 +83,7 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     }
     super.mark(marks, allocate);
     if (this._description) {
-      allocate?.(StaticJsMemoryAllocationTag.RawStringCharacter, this._description.length);
+      allocate?.(StaticJsMemoryAllocationTag.RawString, this._description);
     }
   }
 

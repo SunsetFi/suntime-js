@@ -58,7 +58,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
   ) {
-    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsProxy);
+    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsProxy, this);
     this._proxyTarget = proxyTarget;
     this._handler = handler;
     this._callable = isStaticJsCallable(proxyTarget)
@@ -950,7 +950,7 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     }
     marks.add(this);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsProxy);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsProxy, this);
 
     if (this._proxyTarget) {
       this._proxyTarget.mark(marks, allocate);

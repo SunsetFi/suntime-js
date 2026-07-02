@@ -118,7 +118,7 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   *addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
     const unwrapped = toNativeUnwrap(value);
     if (!this._backingStore.has(unwrapped)) {
-      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead);
+      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, undefined);
       this._backingStore.add(unwrapped);
     }
   }
@@ -449,15 +449,14 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
     super.mark(marks, allocate);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, this._backingStore.size);
-
     for (const value of this._backingStore) {
+      allocate?.(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, undefined);
       if (isStaticJsValue(value)) {
         value.mark(marks, allocate);
       } else if (allocate) {
         switch (typeof value) {
           case "string":
-            allocate(StaticJsMemoryAllocationTag.RawStringCharacter, value.length);
+            allocate(StaticJsMemoryAllocationTag.RawString, value);
             break;
           case "number":
             allocate(StaticJsMemoryAllocationTag.RawNumber, value);

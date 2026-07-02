@@ -1,6 +1,20 @@
+import type { StaticJsBoolean } from "#types/StaticJsBoolean.js";
+import type { StaticJsFunction } from "#types/StaticJsFunction.js";
+import type { StaticJsMap } from "#types/StaticJsMap.js";
+import type { StaticJsNull } from "#types/StaticJsNull.js";
+import type { StaticJsNumber } from "#types/StaticJsNumber.js";
+import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPromise } from "#types/StaticJsPromise.js";
+import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
+import type { StaticJsProxy } from "#types/StaticJsProxy.js";
+import type { StaticJsSet } from "#types/StaticJsSet.js";
+import type { StaticJsString } from "#types/StaticJsString.js";
+import type { StaticJsUndefined } from "#types/StaticJsUndefined.js";
+
 import { StaticJsMemoryAllocationTag } from "./StaticJsMemoryAllocationTag.js";
 
-export type StaticJsMemoryWeight = number | ((count: number) => number);
+export type StaticJsMemoryAllocatorFunc<in TValue> = (value: TValue) => number;
+export type StaticJsMemoryAllocator<TValue> = number | StaticJsMemoryAllocatorFunc<TValue>;
 
 /**
  * A mapping of memory weights per allocation type for the StaticJsMemoryManager.
@@ -8,57 +22,41 @@ export type StaticJsMemoryWeight = number | ((count: number) => number);
  * that is consistent across all allocation types and the manager's maximum
  * and high watermarks.
  */
-export type StaticJsMemoryWeights = Record<StaticJsMemoryAllocationTag, StaticJsMemoryWeight>;
+export interface StaticJsMemoryWeights {
+  [StaticJsMemoryAllocationTag.RawString]: StaticJsMemoryAllocator<string>;
+  [StaticJsMemoryAllocationTag.RawNumber]: StaticJsMemoryAllocator<number>;
 
-/**
- * Estimated byte weights for each allocation type in the StaticJsMemoryManager, based on
- * evidence gathering in NodeJs v24.16.0
- */
-export const defaultV8StaticJsMemoryWeights: StaticJsMemoryWeights = {
-  // 16 byte header for strings, plus 1 byte per char.
-  [StaticJsMemoryAllocationTag.RawStringCharacter]: (count: number) => 16 + count,
+  [StaticJsMemoryAllocationTag.StaticJsNull]: StaticJsMemoryAllocator<StaticJsNull>;
+  [StaticJsMemoryAllocationTag.StaticJsUndefined]: StaticJsMemoryAllocator<StaticJsUndefined>;
+  [StaticJsMemoryAllocationTag.StaticJsBoolean]: StaticJsMemoryAllocator<StaticJsBoolean>;
+  [StaticJsMemoryAllocationTag.StaticJsNumber]: StaticJsMemoryAllocator<StaticJsNumber>;
+  [StaticJsMemoryAllocationTag.StaticJsString]: StaticJsMemoryAllocator<StaticJsString>;
 
-  // Numbers that fit in a 32-bit signed integer are stored inline as a SMI at no
-  // cost. Any other number (fractional, out of SMI range, -0, NaN, +/-Infinity)
-  // is boxed as a 16-byte HeapNumber. The argument is the number value itself.
-  [StaticJsMemoryAllocationTag.RawNumber]: (value: number) =>
-    value === (value | 0) && !Object.is(value, -0) ? 0 : 16,
+  [StaticJsMemoryAllocationTag.StaticJsObject]: StaticJsMemoryAllocator<StaticJsObject>;
+  [StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead]: StaticJsMemoryAllocator<StaticJsPropertyKey>;
 
-  [StaticJsMemoryAllocationTag.StaticJsNull]: 40,
-  [StaticJsMemoryAllocationTag.StaticJsUndefined]: 40,
-  [StaticJsMemoryAllocationTag.StaticJsBoolean]: 40,
-  [StaticJsMemoryAllocationTag.StaticJsNumber]: 40,
-  [StaticJsMemoryAllocationTag.StaticJsString]: 56,
+  [StaticJsMemoryAllocationTag.StaticJsMap]: StaticJsMemoryAllocator<StaticJsMap>;
+  [StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead]: StaticJsMemoryAllocator<void>;
 
-  // Based around StaticJsPlainObject.  Count might not reflect other
-  // object types.
-  [StaticJsMemoryAllocationTag.StaticJsObject]: 655,
-  [StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead]: 212,
+  [StaticJsMemoryAllocationTag.StaticJsSet]: StaticJsMemoryAllocator<StaticJsSet>;
+  [StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead]: StaticJsMemoryAllocator<void>;
 
-  [StaticJsMemoryAllocationTag.StaticJsMap]: 880,
-  [StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead]: 37,
+  [StaticJsMemoryAllocationTag.StaticJsProxy]: StaticJsMemoryAllocator<StaticJsProxy>;
 
-  [StaticJsMemoryAllocationTag.StaticJsSet]: 827,
-  [StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead]: 27,
+  [StaticJsMemoryAllocationTag.StaticJsPromise]: StaticJsMemoryAllocator<StaticJsPromise>;
+  [StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead]: StaticJsMemoryAllocator<number>;
 
-  // Not based on AbstractObject, so lighter-weight.
-  [StaticJsMemoryAllocationTag.StaticJsProxy]: 85,
+  [StaticJsMemoryAllocationTag.StaticJsAstFunction]: StaticJsMemoryAllocator<StaticJsFunction>;
+  [StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText]: StaticJsMemoryAllocator<unknown>;
+}
 
-  // A Promise object: ordinary object base + state/result fields + two
-  // (empty) reaction arrays.
-  [StaticJsMemoryAllocationTag.StaticJsPromise]: 768,
-  // One retained reaction record ({ capability, handler, type }) + array slot.
-  [StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead]: 48,
+export type StaticJsMemoryAllocationObjectTag =
+  | StaticJsMemoryAllocationTag.StaticJsObject
+  | StaticJsMemoryAllocationTag.StaticJsMap
+  | StaticJsMemoryAllocationTag.StaticJsSet
+  | StaticJsMemoryAllocationTag.StaticJsProxy
+  | StaticJsMemoryAllocationTag.StaticJsPromise
+  | StaticJsMemoryAllocationTag.StaticJsAstFunction;
 
-  // An AST function wrapper: ordinary object base + the instance's
-  // env/node/params/flags fields.
-  [StaticJsMemoryAllocationTag.StaticJsAstFunction]: 745,
-
-  // Worst-case retained size of a parsed function's babel AST, per source-text
-  // char. Densest source is ~1 node/char (e.g. `;;;…`); each node carries a
-  // node object plus its loc/range/Position overhead, ~325 bytes total. The
-  // argument is the function's sourceText.length.
-  // Note that this is not charged for evaluating scripts ad-hoc, but only
-  // for retained ASTs in StaticJsAstFunction instances.
-  [StaticJsMemoryAllocationTag.StaticJsAstFunctionNode]: (count: number) => 325 * count,
-};
+export type StaticJsAllocatorType<TTag extends keyof StaticJsMemoryWeights> =
+  StaticJsMemoryWeights[TTag] extends StaticJsMemoryAllocator<infer TValue> ? TValue : never;

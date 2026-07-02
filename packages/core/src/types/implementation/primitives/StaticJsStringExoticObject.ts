@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -6,6 +7,7 @@ import { canonicalNumericIndexString } from "#algorithms/canonical-numeric-index
 import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import { isCompatiblePropertyDescriptor } from "#algorithms/is-compatible-property-descriptor.js";
 import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type {
@@ -26,6 +28,7 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
     prototype: StaticJsObject = realm.intrinsics["String.prototype"],
   ) {
     super(realm, prototype);
+    realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, _value);
 
     realm.invokeEvaluatorSync(
       definePropertyOrThrow(this, "length", {
@@ -148,5 +151,15 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
       enumerable: true,
       configurable: false,
     };
+  }
+
+  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator) {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks, allocate);
+
+    allocate?.(StaticJsMemoryAllocationTag.RawString, this._value);
   }
 }

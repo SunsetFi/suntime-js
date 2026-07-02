@@ -9,7 +9,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 export class StaticJsUndefinedImpl implements StaticJsUndefined {
   constructor(private readonly _realm: StaticJsRealm) {
-    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsUndefined);
+    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsUndefined, this);
   }
 
   get [Symbol.toStringTag](): string {
@@ -43,7 +43,7 @@ export class StaticJsUndefinedImpl implements StaticJsUndefined {
 
     marks.add(this);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsUndefined);
+    allocate?.(StaticJsMemoryAllocationTag.StaticJsUndefined, this);
   }
 
   toNative() {

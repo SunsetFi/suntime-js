@@ -21,7 +21,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
-interface ReactionRecord {
+interface StaticJsReactionRecord {
   capability: StaticJsPromiseCapabilityRecord | null;
   handler: StaticJsCallable | null;
   type: "fulfill" | "reject";
@@ -30,8 +30,8 @@ interface ReactionRecord {
 export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements StaticJsPromise {
   private _state: "pending" | "fulfilled" | "rejected" = "pending";
   private _result: StaticJsValue | null = null;
-  private _fulfullReactions: ReactionRecord[] = [];
-  private _rejectReactions: ReactionRecord[] = [];
+  private _fulfullReactions: StaticJsReactionRecord[] = [];
+  private _rejectReactions: StaticJsReactionRecord[] = [];
   private _clearUncaughtError: (() => void) | null = null;
 
   constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
@@ -138,13 +138,13 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     const fulfillHandler = isCallable(onFulfilled) ? onFulfilled : null;
     const rejectHandler = isCallable(onRejected) ? onRejected : null;
 
-    const fulfillReaction: ReactionRecord = {
+    const fulfillReaction: StaticJsReactionRecord = {
       type: "fulfill",
       handler: fulfillHandler,
       capability,
     };
 
-    const rejectReaction: ReactionRecord = {
+    const rejectReaction: StaticJsReactionRecord = {
       type: "reject",
       handler: rejectHandler,
       capability,
@@ -214,7 +214,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
 
 function queuePromiseReactionJob(
   realm: StaticJsRealm,
-  reaction: ReactionRecord,
+  reaction: StaticJsReactionRecord,
   argument: StaticJsValue,
 ) {
   realm.enqueuePromiseJob(function* () {
@@ -251,7 +251,7 @@ function queuePromiseReactionJob(
 }
 
 function markReaction(
-  reaction: ReactionRecord,
+  reaction: StaticJsReactionRecord,
   marks: Set<StaticJsMarkable>,
   allocate?: StaticJsMarkableAllocator,
 ) {
