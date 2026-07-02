@@ -1,4 +1,4 @@
-import type { StaticJsDebugSessionState } from "../session/StaticJsDebugSessionState.js";
+import type { StaticJsDebugSessionState } from "#session/StaticJsDebugSessionState.js";
 
 export interface StaticJsDebugChangeEvent {
   readonly sessionId: string;

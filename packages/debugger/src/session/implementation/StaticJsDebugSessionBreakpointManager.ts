@@ -2,7 +2,7 @@ import type { StaticJsTaskSourceLocation } from "@suntime-js/core";
 import type {
   StaticJsDebugBreakpoint,
   StaticJsDebugBreakpointInput,
-} from "../../breakpoints/StaticJsDebugBreakpoint.js";
+} from "#breakpoints/StaticJsDebugBreakpoint.js";
 
 export class StaticJsDebugSessionBreakpointManager {
   private readonly _breakpointsById = new Map<string, StaticJsDebugBreakpoint>();

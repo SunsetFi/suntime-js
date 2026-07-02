@@ -1,4 +1,4 @@
-import type { StaticJsDebugSourceKind } from "../session/StaticJsDebugSessionOptions.js";
+import type { StaticJsDebugSourceKind } from "#session/StaticJsDebugSessionOptions.js";
 
 export interface StaticJsDebugSnapshot {
   /**

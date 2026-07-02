@@ -1,5 +1,5 @@
-import type { StaticJsDebugSession } from "../session/StaticJsDebugSession.js";
-import type { StaticJsDebugSessionOptions } from "../session/StaticJsDebugSessionOptions.js";
+import type { StaticJsDebugSession } from "#session/StaticJsDebugSession.js";
+import type { StaticJsDebugSessionOptions } from "#session/StaticJsDebugSessionOptions.js";
 import { StaticJsDebuggerImpl } from "./implementation/StaticJsDebuggerImpl.js";
 import type { StaticJsDebuggerOptions } from "./StaticJsDebuggerOptions.js";
 

@@ -1,7 +1,7 @@
-import type { StaticJsDebugChangeEvent } from "../../events/StaticJsDebugChangeEvent.js";
-import type { StaticJsDebugStartEvent } from "../../events/StaticJsDebugStartEvent.js";
-import type { StaticJsDebugStopEvent } from "../../events/StaticJsDebugStopEvent.js";
-import type { StaticJsDebugTerminateEvent } from "../../events/StaticJsDebugTerminateEvent.js";
+import type { StaticJsDebugChangeEvent } from "#events/StaticJsDebugChangeEvent.js";
+import type { StaticJsDebugStartEvent } from "#events/StaticJsDebugStartEvent.js";
+import type { StaticJsDebugStopEvent } from "#events/StaticJsDebugStopEvent.js";
+import type { StaticJsDebugTerminateEvent } from "#events/StaticJsDebugTerminateEvent.js";
 
 type Listener<T> = (event: T) => void;
 

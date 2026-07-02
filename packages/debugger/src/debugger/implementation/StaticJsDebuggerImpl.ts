@@ -4,10 +4,10 @@ import {
   synchronousDefaultTaskRunner,
 } from "@suntime-js/core";
 
-import { StaticJsAttachDebugSession } from "../../session/implementation/StaticJsAttachDebugSession.js";
-import { StaticJsLaunchDebugSession } from "../../session/implementation/StaticJsLaunchDebugSession.js";
-import type { StaticJsDebugSession } from "../../session/StaticJsDebugSession.js";
-import type { StaticJsDebugSessionOptions } from "../../session/StaticJsDebugSessionOptions.js";
+import { StaticJsAttachDebugSession } from "#session/implementation/StaticJsAttachDebugSession.js";
+import { StaticJsLaunchDebugSession } from "#session/implementation/StaticJsLaunchDebugSession.js";
+import type { StaticJsDebugSession } from "#session/StaticJsDebugSession.js";
+import type { StaticJsDebugSessionOptions } from "#session/StaticJsDebugSessionOptions.js";
 import type { StaticJsDebugger } from "../StaticJsDebugger.js";
 
 export class StaticJsDebuggerImpl implements StaticJsDebugger {
@@ -24,7 +24,7 @@ export class StaticJsDebuggerImpl implements StaticJsDebugger {
           "set as the realm's default runTask. The task interceptor (which creates the " +
           "session) must be distinct from the driver (which pumps it): capture the task " +
           "via a per-evaluation runTask, or pass an explicit driver to " +
-          "StaticJsDebugger({ realm, runTask }).",
+          "StaticJsDebugger({ runTask }).",
       );
     }
 

@@ -1,6 +1,6 @@
 import type { StaticJsRealm, StaticJsTaskIterator } from "@suntime-js/core";
 
-import type { StaticJsDebugBreakpointInput } from "../breakpoints/StaticJsDebugBreakpoint.js";
+import type { StaticJsDebugBreakpointInput } from "#breakpoints/StaticJsDebugBreakpoint.js";
 
 export type StaticJsDebugSourceKind = "script" | "expression" | "module";
 
