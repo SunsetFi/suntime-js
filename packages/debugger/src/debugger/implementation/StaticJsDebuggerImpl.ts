@@ -13,7 +13,7 @@ import type { StaticJsDebugger } from "../StaticJsDebugger.js";
 export class StaticJsDebuggerImpl implements StaticJsDebugger {
   private _driving = false;
 
-  constructor(private readonly _runTask: StaticJsTaskRunner = synchronousDefaultTaskRunner) {}
+  constructor(private readonly _runTask?: StaticJsTaskRunner) {}
 
   createSession(options: StaticJsDebugSessionOptions): StaticJsDebugSession {
     if (this._driving) {
@@ -29,18 +29,24 @@ export class StaticJsDebuggerImpl implements StaticJsDebugger {
     }
 
     if ("attach" in options && options.attach) {
-      return new StaticJsAttachDebugSession(options.attach, this._drive);
+      return new StaticJsAttachDebugSession(options.attach, this._makeLaunchTask());
     }
 
-    return new StaticJsLaunchDebugSession(options.launch, this._drive);
+    return new StaticJsLaunchDebugSession(
+      options.launch,
+      this._makeLaunchTask(options.launch.realm?.config.runTask),
+    );
   }
 
-  private readonly _drive: StaticJsTaskRunner = (task: StaticJsTaskIterator) => {
-    this._driving = true;
-    try {
-      this._runTask(task);
-    } finally {
-      this._driving = false;
-    }
-  };
+  private _makeLaunchTask(fallbackRunner?: StaticJsTaskRunner | undefined): StaticJsTaskRunner {
+    return (task: StaticJsTaskIterator) => {
+      const taskRunner = this._runTask ?? fallbackRunner ?? synchronousDefaultTaskRunner;
+      this._driving = true;
+      try {
+        taskRunner(task);
+      } finally {
+        this._driving = false;
+      }
+    };
+  }
 }
