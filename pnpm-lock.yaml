@@ -18,6 +18,9 @@ catalogs:
     '@types/babel__traverse':
       specifier: ^7.28.0
       version: 7.28.0
+    '@types/node':
+      specifier: ^25.5.0
+      version: 25.9.4
     '@typescript/native-preview':
       specifier: 7.0.0-dev.20260421.2
       version: 7.0.0-dev.20260421.2
@@ -260,7 +263,7 @@ importers:
         version: 7.29.7
       uuid:
         specifier: ^14.0.0
-        version: 14.0.0
+        version: 14.0.1
     devDependencies:
       '@babel/types':
         specifier: 'catalog:'
@@ -7286,8 +7289,8 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
-  uuid@14.0.0:
-    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
+  uuid@14.0.1:
+    resolution: {integrity: sha512-6ZxzVpzDXDa3bJWaHilVayA+BH/1zmxCJoVgvmqJnid/gPoKHxUrS/aC/T6LGQtNHT+XHG9fXPJB4d+IrU30Ew==}
     hasBin: true
 
   uuid@8.3.2:
@@ -14136,7 +14139,7 @@ snapshots:
       roughjs: 4.6.6
       stylis: 4.4.0
       ts-dedent: 2.3.0
-      uuid: 14.0.0
+      uuid: 14.0.1
 
   methods@1.1.2: {}
 
@@ -16277,7 +16280,7 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
-  uuid@14.0.0: {}
+  uuid@14.0.1: {}
 
   uuid@8.3.2: {}
 
