@@ -48,7 +48,7 @@ export function* createAggregateErrorConstructor(
 
     return obj;
   }
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "AggregateError",
     function* (

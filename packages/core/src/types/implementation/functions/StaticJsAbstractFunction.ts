@@ -30,7 +30,7 @@ export abstract class StaticJsAbstractFunction
 {
   private _initialName: string | null = null;
 
-  constructor(
+  protected constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null,
     tag?: StaticJsMemoryAllocationTag,

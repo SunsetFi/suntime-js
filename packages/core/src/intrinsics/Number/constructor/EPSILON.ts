@@ -5,7 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-propert
 const numberCtorEpsilonDeclaration: IntrinsicPropertyDeclaration = {
   key: "EPSILON",
   value(realm) {
-    return new StaticJsNumberImpl(realm, Number.EPSILON);
+    return StaticJsNumberImpl.create(realm, Number.EPSILON);
   },
   writable: false,
   enumerable: false,

@@ -7,6 +7,7 @@ import { canonicalNumericIndexString } from "#algorithms/canonical-numeric-index
 import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import { isCompatiblePropertyDescriptor } from "#algorithms/is-compatible-property-descriptor.js";
 import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -22,13 +23,20 @@ import { isArrayIndex } from "../objects/is-array-index.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
-  constructor(
+  static create(
+    realm: StaticJsRealm,
+    _value: string,
+    prototype: StaticJsObject = realm.intrinsics["String.prototype"],
+  ): StaticJsStringExoticObject {
+    return allocated(new StaticJsStringExoticObject(realm, _value, prototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _value: string,
     prototype: StaticJsObject = realm.intrinsics["String.prototype"],
   ) {
     super(realm, prototype);
-    realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, _value);
 
     realm.invokeEvaluatorSync(
       definePropertyOrThrow(this, "length", {

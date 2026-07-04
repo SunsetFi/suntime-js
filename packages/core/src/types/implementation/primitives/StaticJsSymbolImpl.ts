@@ -1,6 +1,7 @@
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -24,7 +25,15 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
   private _description: string | undefined = undefined;
   private _nativeSymbol: symbol;
 
-  constructor(
+  static create(
+    realm: StaticJsRealm,
+    descriptionOrSymbol: string | symbol | undefined,
+    prototype?: StaticJsObject | undefined,
+  ): StaticJsSymbolImpl {
+    return allocated(new StaticJsSymbolImpl(realm, descriptionOrSymbol, prototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     descriptionOrSymbol: string | symbol | undefined,
     prototype?: StaticJsObject | undefined,
@@ -47,10 +56,6 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     }
 
     // TODO: If we created our own symbol, we should track that allocation.
-
-    if (this._description) {
-      realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, this._description);
-    }
   }
 
   override get [Symbol.toStringTag](): string {

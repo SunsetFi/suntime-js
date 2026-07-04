@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
+import { analyzeAllocateSelf } from "./allocate-self-analysis.ts";
 // .ts extension required: oxlint loads this via Node's native TS stripping, which (unlike tsc) does not remap .js -> .ts.
 import { analyzeSourceFile } from "./allocation-analysis.ts";
 
@@ -69,7 +70,36 @@ const markableCapture = defineRule({
   },
 });
 
+const allocateSelf = defineRule({
+  create(context) {
+    return {
+      Program() {
+        const filename = context.filename;
+        if (!isUnderSrc(filename)) {
+          return;
+        }
+        const program = getProgram();
+        const sourceFile = program.getSourceFile(filename);
+        if (!sourceFile) {
+          return;
+        }
+        for (const v of analyzeAllocateSelf(program, sourceFile)) {
+          const start = sourceFile.getLineAndCharacterOfPosition(v.start);
+          const end = sourceFile.getLineAndCharacterOfPosition(v.end);
+          context.report({
+            message: v.message,
+            loc: {
+              start: { line: start.line + 1, column: start.character },
+              end: { line: end.line + 1, column: end.character },
+            },
+          });
+        }
+      },
+    };
+  },
+});
+
 export default definePlugin({
   meta: { name: "suntime-memory" },
-  rules: { "markable-capture": markableCapture },
+  rules: { "markable-capture": markableCapture, "allocate-self": allocateSelf },
 });

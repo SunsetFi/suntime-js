@@ -4,6 +4,7 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsObjectEnvironmentRecord } from "./StaticJsObjectEnvironmentRecord.js";
@@ -11,7 +12,18 @@ import type { StaticJsObjectEnvironmentRecord } from "./StaticJsObjectEnvironmen
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
 export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
-  constructor(
+  static create(
+    globalThis: StaticJsValue,
+    declarativeRecord: StaticJsDeclarativeEnvironmentRecord,
+    objectRecord: StaticJsObjectEnvironmentRecord,
+    realm: StaticJsRealm,
+  ): StaticJsGlobalEnvironmentRecord {
+    return allocated(
+      new StaticJsGlobalEnvironmentRecord(globalThis, declarativeRecord, objectRecord, realm),
+    );
+  }
+
+  protected constructor(
     private readonly _globalThis: StaticJsValue,
     private readonly _declarativeRecord: StaticJsDeclarativeEnvironmentRecord,
     private readonly _objectRecord: StaticJsObjectEnvironmentRecord,

@@ -7,6 +7,7 @@ import { get } from "#algorithms/get.js";
 import { set } from "#algorithms/set.js";
 import { toBoolean } from "#algorithms/to-boolean.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
 import { isStaticJsSymbol } from "#types/StaticJsSymbol.js";
 
@@ -15,7 +16,16 @@ import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js"
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
 export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
-  constructor(
+  static create(
+    obj: StaticJsObject,
+    isWithEnvironment: boolean,
+    outerEnv: StaticJsEnvironmentRecord | null,
+    realm: StaticJsRealm,
+  ): StaticJsObjectEnvironmentRecord {
+    return allocated(new StaticJsObjectEnvironmentRecord(obj, isWithEnvironment, outerEnv, realm));
+  }
+
+  protected constructor(
     private readonly _obj: StaticJsObject,
     private readonly _isWithEnvironment: boolean,
     outerEnv: StaticJsEnvironmentRecord | null,

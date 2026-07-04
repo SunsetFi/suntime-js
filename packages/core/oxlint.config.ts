@@ -15,6 +15,7 @@ export default defineConfig({
     ...(memoryEnabled
       ? {
           "suntime-memory/markable-capture": "error",
+          "suntime-memory/allocate-self": "error",
         }
       : {}),
   },

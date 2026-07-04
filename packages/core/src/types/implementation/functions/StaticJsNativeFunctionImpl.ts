@@ -7,6 +7,7 @@ import { setFunctionName } from "#algorithms/set-function-name.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
@@ -42,7 +43,16 @@ export class StaticJsNativeFunctionImpl
 
   private readonly _dependencyMark: StaticJsMarkFunction;
 
-  constructor(
+  static create(
+    realm: StaticJsRealm,
+    name: StaticJsPropertyKey | null,
+    call: (thisArg: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator<StaticJsValue>,
+    opts: StaticJsNativeFunctionOptions = {},
+  ): StaticJsNativeFunctionImpl {
+    return allocated(new StaticJsNativeFunctionImpl(realm, name, call, opts));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _name: StaticJsPropertyKey | null,
     private readonly _call: (

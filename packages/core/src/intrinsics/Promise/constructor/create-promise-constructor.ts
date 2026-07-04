@@ -38,7 +38,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Promise",
     function* () {
@@ -63,7 +63,7 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
         const promise = yield* ordinaryCreateFromConstructor(
           newTarget,
           "Promise.prototype",
-          StaticJsPromiseImpl,
+          StaticJsPromiseImpl.create,
         );
 
         const { resolve, reject } = createResolvingFunctions(promise, realm);
@@ -106,7 +106,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
 
   const markable = containerMarkable(promise);
 
-  const resolve = new StaticJsNativeFunctionImpl(
+  const resolve = StaticJsNativeFunctionImpl.create(
     realm,
     "resolve",
     function* (_thisArg, resolution = realm.types.undefined) {
@@ -163,7 +163,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
     },
   );
 
-  const reject = new StaticJsNativeFunctionImpl(
+  const reject = StaticJsNativeFunctionImpl.create(
     realm,
     "reject",
     function* (_thisArg, reason = realm.types.undefined) {

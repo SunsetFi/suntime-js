@@ -25,19 +25,25 @@ export function* toObject(
   requireObjectCoercible.enforce(value);
 
   if (isStaticJsBoolean(value)) {
-    return new StaticJsBooleanBoxed(realm ?? EvaluationContext.current.realm, value.value);
+    return StaticJsBooleanBoxed.create({
+      realm: realm ?? EvaluationContext.current.realm,
+      value: value.value,
+    });
   }
 
   if (isStaticJsNumber(value)) {
-    return new StaticJsNumberBoxed(realm ?? EvaluationContext.current.realm, value.value);
+    return StaticJsNumberBoxed.create({
+      realm: realm ?? EvaluationContext.current.realm,
+      value: value.value,
+    });
   }
 
   if (isStaticJsString(value)) {
-    return new StaticJsStringExoticObject(realm ?? EvaluationContext.current.realm, value.value);
+    return StaticJsStringExoticObject.create(realm ?? EvaluationContext.current.realm, value.value);
   }
 
   if (isStaticJsSymbol(value)) {
-    return new StaticJsSymbolBoxed(realm ?? EvaluationContext.current.realm, value);
+    return StaticJsSymbolBoxed.create({ realm: realm ?? EvaluationContext.current.realm, value });
   }
 
   if (isStaticJsObject(value)) {

@@ -7,9 +7,7 @@ import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js"
 export abstract class StaticJsEnvironmentRecordBase
   implements StaticJsEnvironmentRecord, StaticJsAllocation
 {
-  constructor(private readonly _outerEnv: StaticJsEnvironmentRecord | null) {
-    this.allocateSelf();
-  }
+  protected constructor(private readonly _outerEnv: StaticJsEnvironmentRecord | null) {}
 
   get outerEnv(): StaticJsEnvironmentRecord | null {
     return this._outerEnv;

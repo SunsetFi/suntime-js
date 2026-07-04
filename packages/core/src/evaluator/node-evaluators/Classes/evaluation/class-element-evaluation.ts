@@ -63,7 +63,7 @@ function* classFieldDefinitionEvaluation(
     // By spec, OrdinaryFunctionCreate
     const sourceText =
       scriptOrModule?.ecmaScriptSource.slice(element.value.start!, element.value.end!) ?? "";
-    initializer = new StaticJsMethodFunction(
+    initializer = StaticJsMethodFunction.create(
       realm,
       // Spec wants this to be an assignment expression, but to us that means
       // x = y,
@@ -96,7 +96,7 @@ function* classStaticBlockDefinitionEvaluation(
 ): EvaluationGenerator<StaticJsClassStaticBlockDefinitionRecord | Completion.Abrupt> {
   const { lexicalEnv: lex, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const bodyFunction = new StaticJsMethodFunction(
+  const bodyFunction = StaticJsMethodFunction.create(
     realm,
     element,
     sourceText,

@@ -20,7 +20,7 @@ import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsRe
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObject | null = null;
 
-  constructor(
+  protected constructor(
     protected readonly _name: string,
     protected readonly _realm: StaticJsRealm,
   ) {}
@@ -128,7 +128,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     // TODO: Apparently we need to sort the names here according to their code unit order.
     // As that potentially spans across multiple modules, I have no idea what that means for us.
 
-    const ns = new StaticJsNamespaceExoticObject(this, unambiguousNames, this._realm);
+    const ns = StaticJsNamespaceExoticObject.create(this, unambiguousNames, this._realm);
     this._cachedNamespaceObject = ns;
     return ns;
   }

@@ -6,6 +6,7 @@ import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import { call } from "#algorithms/call.js";
 import { isCallable } from "#algorithms/is-callable.js";
 import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
@@ -13,16 +14,23 @@ import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import type { StaticJsMap } from "../../StaticJsMap.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsMapIteratorImpl } from "./StaticJsMapIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
+export type StaticJsMapImplCreateParams = StaticJsAbstractObjectCreateParams;
+
 export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
-  constructor(realm: StaticJsRealm) {
+  static create(params: StaticJsMapImplCreateParams): StaticJsMapImpl {
+    return allocated(new StaticJsMapImpl(params.realm));
+  }
+
+  protected constructor(realm: StaticJsRealm) {
     super(realm, realm.intrinsics["Map.prototype"], StaticJsMemoryAllocationTag.StaticJsMap);
   }
 
@@ -60,7 +68,12 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(this, backingIterator, "key+value", this.realm);
+    return StaticJsMapIteratorImpl.create({
+      backingMap: this,
+      backingIterator,
+      kind: "key+value",
+      realm: this.realm,
+    });
   }
 
   keysSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -73,7 +86,12 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *keysEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(this, backingIterator, "key", this.realm);
+    return StaticJsMapIteratorImpl.create({
+      backingMap: this,
+      backingIterator,
+      kind: "key",
+      realm: this.realm,
+    });
   }
 
   valuesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -86,7 +104,12 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(this, backingIterator, "value", this.realm);
+    return StaticJsMapIteratorImpl.create({
+      backingMap: this,
+      backingIterator,
+      kind: "value",
+      realm: this.realm,
+    });
   }
 
   hasSync(key: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {

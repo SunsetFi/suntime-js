@@ -7,6 +7,7 @@ import { construct } from "#algorithms/construct.js";
 import { get } from "#algorithms/get.js";
 import { sameValue } from "#algorithms/same-value.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";
@@ -21,7 +22,17 @@ import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImp
 export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {
   private _initialName: string | null = null;
 
-  constructor(
+  static create(
+    realm: StaticJsRealm,
+    targetFunc: StaticJsCallable,
+    boundThis: StaticJsValue,
+    boundArgs: StaticJsValue[],
+    prototype?: StaticJsObject | StaticJsNull | null,
+  ): StaticJsBoundFunction {
+    return allocated(new StaticJsBoundFunction(realm, targetFunc, boundThis, boundArgs, prototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     public readonly targetFunc: StaticJsCallable,
     private readonly _boundThis: StaticJsValue,

@@ -5,7 +5,7 @@ import { createDynamicFunction } from "#algorithms/create-dynamic-function.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function* createFunctionConstructor(realm: StaticJsRealm, functionProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Function",
     function* (_thisArg, ...args) {

@@ -91,7 +91,7 @@ function* performPromiseAny(
 
     let alreadyCalled = false;
     const thisIndex = index;
-    const onRejected = new StaticJsNativeFunctionImpl(
+    const onRejected = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, error = realm.types.undefined) {

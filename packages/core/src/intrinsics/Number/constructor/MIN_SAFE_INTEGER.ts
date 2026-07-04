@@ -5,7 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-propert
 const numberCtorMinSafeIntegerDeclaration: IntrinsicPropertyDeclaration = {
   key: "MIN_SAFE_INTEGER",
   value(realm) {
-    return new StaticJsNumberImpl(realm, Number.MIN_SAFE_INTEGER);
+    return StaticJsNumberImpl.create(realm, Number.MIN_SAFE_INTEGER);
   },
   writable: false,
   enumerable: false,

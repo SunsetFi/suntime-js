@@ -23,7 +23,7 @@ export function* newPromiseCapability(
 
   const realm = EvaluationContext.current.realm;
 
-  const resolver = new StaticJsNativeFunctionImpl(
+  const resolver = StaticJsNativeFunctionImpl.create(
     realm,
     "resolver",
     function* (_thisArg, resolve, reject) {

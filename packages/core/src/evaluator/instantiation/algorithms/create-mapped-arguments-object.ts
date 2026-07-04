@@ -25,7 +25,7 @@ export default function* createMappedArgumentsObject(
   const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
   const map = realm.types.object();
-  const obj = new StaticJsArgumentsExoticObject(map, realm);
+  const obj = StaticJsArgumentsExoticObject.create(map, realm);
 
   const parameterNames = boundNames.ofParameters(formals);
   const numberOfParameters = parameterNames.length;
@@ -87,7 +87,7 @@ function* makeArgGetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsNativeFunctionImpl(
+  return StaticJsNativeFunctionImpl.create(
     realm,
     "get",
     function* () {
@@ -104,7 +104,7 @@ function* makeArgSetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsNativeFunctionImpl(
+  return StaticJsNativeFunctionImpl.create(
     realm,
     "set",
     function* (_thisArg, value) {

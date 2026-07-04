@@ -7,11 +7,14 @@ import { toNumber } from "#algorithms/to-number.js";
 import { toUInt32 } from "#algorithms/to-uint-32.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 import type { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
 import { MAX_ARRAY_LENGTH_INCLUSIVE, type StaticJsArray } from "../../StaticJsArray.js";
@@ -22,8 +25,22 @@ import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
 import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsArrayImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  length?: number | undefined;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements StaticJsArray {
-  constructor(realm: StaticJsRealm, length = 0, prototype = realm.intrinsics["Array.prototype"]) {
+  static create(params: StaticJsArrayImplCreateParams): StaticJsArrayImpl {
+    const { realm, length = 0, prototype = realm.intrinsics["Array.prototype"] } = params;
+    return allocated(new StaticJsArrayImpl(realm, length, prototype));
+  }
+
+  protected constructor(
+    realm: StaticJsRealm,
+    length = 0,
+    prototype = realm.intrinsics["Array.prototype"],
+  ) {
     super(realm, prototype);
     realm.invokeEvaluatorSync(
       // Needs to explicitly be OrdinaryDefineOwnProperty, not our own
@@ -138,7 +155,7 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
       if (index >= length.value) {
         lengthDesc = {
           ...lengthDesc,
-          value: new StaticJsNumberImpl(this.realm, index + 1),
+          value: StaticJsNumberImpl.create(this.realm, index + 1),
         };
 
         const success = yield* super._setPropertyDescriptorEvaluator("length", lengthDesc);

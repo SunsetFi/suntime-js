@@ -6,6 +6,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
@@ -21,12 +22,37 @@ interface DeclarativeBinding {
 }
 export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static from(context: EvaluationContext) {
-    return new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, context.realm);
+    return StaticJsDeclarativeEnvironmentRecord.create(context.lexicalEnv, context.realm);
+  }
+
+  // NOTE: the parameters are typed as `unknown` (not their real
+  // `StaticJsEnvironmentRecord | null` / `StaticJsRealm` types) because this
+  // class is subclassed by StaticJsFunctionEnvironmentRecord, which declares its
+  // own `static create` with a completely different parameter shape
+  // (functionObject, newTarget, lexical, outerEnv, realm). TypeScript requires
+  // `typeof Subclass` to be assignable to `typeof StaticJsDeclarativeEnvironmentRecord`
+  // for `extends` to typecheck (TS2417), so the base's `create` must accept the
+  // subclass's arity/shape. Widening to `unknown` (as fixed optional positional
+  // params, so arity is still checked) resolves the conflict; the casts below
+  // reconstruct the real parameter shape, so runtime behavior is unchanged.
+  static create(
+    outerEnv?: unknown,
+    realm?: unknown,
+    _arg3?: unknown,
+    _arg4?: unknown,
+    _arg5?: unknown,
+  ): StaticJsDeclarativeEnvironmentRecord {
+    return allocated(
+      new StaticJsDeclarativeEnvironmentRecord(
+        outerEnv as StaticJsEnvironmentRecord | null,
+        realm as StaticJsRealm,
+      ),
+    );
   }
 
   private readonly _bindings: Map<string, DeclarativeBinding> = new Map();
 
-  constructor(
+  protected constructor(
     outerEnv: StaticJsEnvironmentRecord | null,
     protected readonly _realm: StaticJsRealm,
   ) {

@@ -20,7 +20,7 @@ export function* enumerateObjectProperties(
   const visited = new Set<string>();
   let currentKeys = yield* currentObject.value!.ownPropertyKeysEvaluator();
   let nextIndex = 0;
-  const next = new StaticJsNativeFunctionImpl(
+  const next = StaticJsNativeFunctionImpl.create(
     realm,
     "next",
     function* () {

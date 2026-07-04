@@ -11,6 +11,7 @@ import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
@@ -18,6 +19,7 @@ import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -27,10 +29,16 @@ import { StaticJsSetIteratorImpl } from "./StaticJsSetIteratorImpl.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
+export type StaticJsSetImplCreateParams = StaticJsAbstractObjectCreateParams;
+
 export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements StaticJsSet {
   private _backingStore = new Set<unknown>();
 
-  constructor(realm: StaticJsRealm) {
+  static create(params: StaticJsSetImplCreateParams): StaticJsSetImpl {
+    return allocated(new StaticJsSetImpl(params.realm));
+  }
+
+  protected constructor(realm: StaticJsRealm) {
     super(realm, realm.intrinsics["Set.prototype"], StaticJsMemoryAllocationTag.StaticJsSet);
   }
 
@@ -79,7 +87,12 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   }
 
   *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this, this._backingStore.values(), "key", this.realm);
+    return StaticJsSetIteratorImpl.create({
+      backingSet: this,
+      backingIterator: this._backingStore.values(),
+      kind: "key",
+      realm: this.realm,
+    });
   }
 
   entriesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -91,7 +104,12 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   }
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this, this._backingStore.values(), "key+value", this.realm);
+    return StaticJsSetIteratorImpl.create({
+      backingSet: this,
+      backingIterator: this._backingStore.values(),
+      kind: "key+value",
+      realm: this.realm,
+    });
   }
 
   hasSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
@@ -456,7 +474,9 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     }
   }
 
-  override allocateSelf(allocate: StaticJsAllocator): void {
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
     super.allocateSelf(allocate);
 
     for (const value of this._backingStore) {

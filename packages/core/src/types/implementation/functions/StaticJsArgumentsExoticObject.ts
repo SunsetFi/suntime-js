@@ -4,6 +4,7 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { get } from "#algorithms/get.js";
 import { sameValue } from "#algorithms/same-value.js";
 import { set } from "#algorithms/set.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsObject, StaticJsObjectPropertyAccessOptions } from "../../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
@@ -19,7 +20,11 @@ import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
-  constructor(
+  static create(parameterMap: StaticJsObject, realm: StaticJsRealm): StaticJsArgumentsExoticObject {
+    return allocated(new StaticJsArgumentsExoticObject(parameterMap, realm));
+  }
+
+  protected constructor(
     private readonly _parameterMap: StaticJsObject,
     realm: StaticJsRealm,
   ) {

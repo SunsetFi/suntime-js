@@ -48,59 +48,122 @@ export function* populateIntrinsics(
   realm: StaticJsRealm,
   intrinsics: IntrinsicsRecord,
 ): EvaluationGenerator<void> {
-  const objectProto = new StaticJsPlainObjectImpl(realm, null);
+  const objectProto = StaticJsPlainObjectImpl.create({ realm, prototype: null });
   intrinsics["Object.prototype"] = objectProto;
 
-  intrinsics["Symbol.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
+  intrinsics["Symbol.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: objectProto,
+  });
 
-  intrinsics["String.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
-  intrinsics["Number.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
-  intrinsics["Boolean.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
+  intrinsics["String.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: objectProto,
+  });
+  intrinsics["Number.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: objectProto,
+  });
+  intrinsics["Boolean.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: objectProto,
+  });
 
-  intrinsics["Array.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
+  intrinsics["Array.prototype"] = StaticJsPlainObjectImpl.create({ realm, prototype: objectProto });
 
-  intrinsics["Promise.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
+  intrinsics["Promise.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: objectProto,
+  });
 
-  intrinsics["Set.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
+  intrinsics["Set.prototype"] = StaticJsPlainObjectImpl.create({ realm, prototype: objectProto });
 
-  intrinsics["Map.prototype"] = new StaticJsPlainObjectImpl(realm, objectProto);
+  intrinsics["Map.prototype"] = StaticJsPlainObjectImpl.create({ realm, prototype: objectProto });
 
-  const iteratorProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const iteratorProto = StaticJsPlainObjectImpl.create({ realm, prototype: objectProto });
   intrinsics["Iterator.prototype"] = iteratorProto;
-  intrinsics["IteratorHelperPrototype"] = new StaticJsPlainObjectImpl(realm, iteratorProto);
-  intrinsics["ArrayIteratorPrototype"] = new StaticJsPlainObjectImpl(realm, iteratorProto);
-  intrinsics["StringIteratorPrototype"] = new StaticJsPlainObjectImpl(realm, iteratorProto);
-  intrinsics["SetIteratorPrototype"] = new StaticJsPlainObjectImpl(realm, iteratorProto);
-  intrinsics["MapIteratorPrototype"] = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  intrinsics["IteratorHelperPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: iteratorProto,
+  });
+  intrinsics["ArrayIteratorPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: iteratorProto,
+  });
+  intrinsics["StringIteratorPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: iteratorProto,
+  });
+  intrinsics["SetIteratorPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: iteratorProto,
+  });
+  intrinsics["MapIteratorPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: iteratorProto,
+  });
 
-  const asyncIteratorProto = new StaticJsPlainObjectImpl(realm, iteratorProto);
+  const asyncIteratorProto = StaticJsPlainObjectImpl.create({ realm, prototype: iteratorProto });
   intrinsics["AsyncIteratorPrototype"] = asyncIteratorProto;
 
-  intrinsics["AsyncFromSyncIteratorPrototype"] = new StaticJsPlainObjectImpl(
+  intrinsics["AsyncFromSyncIteratorPrototype"] = StaticJsPlainObjectImpl.create({
     realm,
-    asyncIteratorProto,
-  );
+    prototype: asyncIteratorProto,
+  });
 
-  const functionProto = new StaticJsFunctionPrototypeImpl(realm, objectProto);
+  const functionProto = StaticJsFunctionPrototypeImpl.create(realm, objectProto);
   intrinsics["Function.prototype"] = functionProto;
-  intrinsics["AsyncFunction.prototype"] = new StaticJsPlainObjectImpl(realm, functionProto);
-  intrinsics["GeneratorFunction.prototype"] = new StaticJsPlainObjectImpl(realm, functionProto);
-  intrinsics["GeneratorPrototype"] = new StaticJsPlainObjectImpl(realm, iteratorProto);
-  intrinsics["AsyncGeneratorFunction.prototype"] = new StaticJsPlainObjectImpl(
+  intrinsics["AsyncFunction.prototype"] = StaticJsPlainObjectImpl.create({
     realm,
-    functionProto,
-  );
-  intrinsics["AsyncGeneratorPrototype"] = new StaticJsPlainObjectImpl(realm, asyncIteratorProto);
+    prototype: functionProto,
+  });
+  intrinsics["GeneratorFunction.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: functionProto,
+  });
+  intrinsics["GeneratorPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: iteratorProto,
+  });
+  intrinsics["AsyncGeneratorFunction.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: functionProto,
+  });
+  intrinsics["AsyncGeneratorPrototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: asyncIteratorProto,
+  });
 
-  const errorProto = new StaticJsPlainObjectImpl(realm, objectProto);
+  const errorProto = StaticJsPlainObjectImpl.create({ realm, prototype: objectProto });
   intrinsics["Error.prototype"] = errorProto;
-  intrinsics["AggregateError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
-  intrinsics["EvalError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
-  intrinsics["RangeError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
-  intrinsics["ReferenceError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
-  intrinsics["SyntaxError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
-  intrinsics["TypeError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
-  intrinsics["URIError.prototype"] = new StaticJsPlainObjectImpl(realm, errorProto);
+  intrinsics["AggregateError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
+  intrinsics["EvalError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
+  intrinsics["RangeError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
+  intrinsics["ReferenceError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
+  intrinsics["SyntaxError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
+  intrinsics["TypeError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
+  intrinsics["URIError.prototype"] = StaticJsPlainObjectImpl.create({
+    realm,
+    prototype: errorProto,
+  });
 
   intrinsics["ThrowTypeError"] = yield* createThrowTypeError(realm);
 

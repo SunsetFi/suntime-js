@@ -67,7 +67,7 @@ export function* createIntrinsicSymbols(
       continue;
     }
 
-    const realmSymbol = new StaticJsSymbolImpl(realm, symbol, intrinsics["Symbol.prototype"]);
+    const realmSymbol = StaticJsSymbolImpl.create(realm, symbol, intrinsics["Symbol.prototype"]);
     intrinsics[`Symbol.${name}`] = realmSymbol;
   }
 }

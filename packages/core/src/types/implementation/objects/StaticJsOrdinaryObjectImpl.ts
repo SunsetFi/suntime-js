@@ -1,14 +1,22 @@
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import {
+  validateAndApplyPropertyDescriptor,
+  type PropertySlotSetter,
+} from "#algorithms/validate-and-apply-property-descriptor.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { isStaticJsValue } from "#types/StaticJsValue.js";
+import { drainIterator } from "#utils/drain-iterator.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
+import type {
+  StaticJsPropertyDescriptor,
+  StaticJsPropertyDescriptorRecord,
+} from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 
@@ -22,7 +30,7 @@ import { isArrayIndex } from "./is-array-index.js";
 export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>();
 
-  constructor(
+  protected constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null = null,
     size?: number,
@@ -83,7 +91,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
 
   setOwnPropertyDescriptorSafe(
     key: StaticJsPropertyKey,
-    descriptor: StaticJsPropertyDescriptor,
+    descriptor: StaticJsPropertyDescriptorRecord,
   ): void {
     if (!this._contents.has(key)) {
       const memory = this.realm.memory;
@@ -93,9 +101,18 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
       }
     }
 
-    this._contents.set(key, {
-      ...descriptor,
-    });
+    const current = this._contents.get(key);
+    const extensible = current === undefined ? this.isExtensibleSafe() : true;
+
+    const setSlot: PropertySlotSetter = (key, descriptor) => {
+      this._contents.set(key, descriptor);
+      return EvaluationGenerator.forResult(true);
+    };
+
+    // This only yields to setSlot, so this is safe.
+    drainIterator(
+      validateAndApplyPropertyDescriptor(setSlot, key, extensible, descriptor, current, this.realm),
+    );
   }
 
   override mark(marks: Set<StaticJsAllocation>): void {
@@ -126,6 +143,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   override allocateSelf(
     allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
   ): void {
+    super.allocateSelf(allocate);
     for (const key of this._contents.keys()) {
       allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
       if (typeof key === "string") {

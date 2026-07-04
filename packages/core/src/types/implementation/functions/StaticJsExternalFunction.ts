@@ -12,6 +12,7 @@ import {
   EvaluationGenerator,
   type MaybeEvaluationGenerator,
 } from "#evaluator/EvaluationGenerator.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
@@ -22,15 +23,27 @@ import type { HostAccessPolicy } from "../host-access/HostAccessPolicy.js";
 import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { applyChildPolicyQuery } from "../host-access/resolve-host-access-options.js";
-import { StaticJsExternalObject } from "../objects/StaticJsExternalObject.js";
+import {
+  StaticJsExternalObject,
+  type StaticJsExternalObjectCreateParams,
+} from "../objects/StaticJsExternalObject.js";
 
 export interface StaticJsExternalFunctionOpts {
   getThisArg?: (thisArg: StaticJsValue) => MaybeEvaluationGenerator<unknown>;
   getArgs?: (args: StaticJsValue[]) => MaybeEvaluationGenerator<unknown[]>;
 }
 
+export interface StaticJsExternalFunctionCreateParams extends StaticJsExternalObjectCreateParams {
+  homeObject?: unknown;
+}
+
 export class StaticJsExternalFunction extends StaticJsExternalObject implements StaticJsFunction {
-  constructor(
+  static override create(params: StaticJsExternalFunctionCreateParams): StaticJsExternalFunction {
+    const { realm, target, homeObject, policy } = params;
+    return allocated(new StaticJsExternalFunction(realm, target as Function, homeObject, policy));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     target: Function,
     private readonly _homeObject: unknown,

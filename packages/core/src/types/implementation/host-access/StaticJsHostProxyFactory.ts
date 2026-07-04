@@ -193,7 +193,7 @@ export class StaticJsHostProxyFactory {
       return builtin;
     }
 
-    const wrapper = new StaticJsExternalObject(this._realm, host, policy);
+    const wrapper = StaticJsExternalObject.create({ realm: this._realm, target: host, policy });
     this._putCached(host, policy, wrapper);
     return wrapper;
   }
@@ -215,12 +215,12 @@ export class StaticJsHostProxyFactory {
       return builtin as StaticJsFunction;
     }
 
-    const wrapper = new StaticJsExternalFunction(
-      this._realm,
-      host,
-      useSandboxThis ? undefined : homeObject,
+    const wrapper = StaticJsExternalFunction.create({
+      realm: this._realm,
+      target: host,
+      homeObject: useSandboxThis ? undefined : homeObject,
       policy,
-    );
+    });
     this._putCached(host, policy, wrapper);
     return wrapper;
   }

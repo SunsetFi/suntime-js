@@ -49,7 +49,7 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
         "Cannot define a class constructor method when no private environment is set.",
       );
     }
-    closure = new StaticJsClassConstructorFunction(
+    closure = StaticJsClassConstructorFunction.create(
       realm,
       method,
       sourceText,
@@ -59,7 +59,7 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
       functionPrototype,
     );
   } else {
-    closure = new StaticJsMethodFunction(
+    closure = StaticJsMethodFunction.create(
       realm,
       method,
       sourceText,

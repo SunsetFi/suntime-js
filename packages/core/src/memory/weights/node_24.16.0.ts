@@ -1,6 +1,5 @@
 import type { StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
 
-import { weighAstNode } from "#memory/implementation/weigh-ast-node.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 /**
@@ -8,7 +7,7 @@ import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag
  * evidence gathering in NodeJs v24.16.0
  */
 export const memoryWeights_Node_24_16_0: StaticJsMemoryWeights = {
-  // 16 byte header for strings, plus 1 byte per char.
+  // 16 byte header for strings, plus 2 bytes per char.
   [StaticJsMemoryAllocationTag.RawString]: (str: string) => 16 + str.length * 2,
 
   // Numbers that fit in a 32-bit signed integer are stored inline as a SMI at no
@@ -53,6 +52,6 @@ export const memoryWeights_Node_24_16_0: StaticJsMemoryWeights = {
   // argument is the function's sourceText.length.
   // Note that this is not charged for evaluating scripts ad-hoc, but only
   // for retained ASTs in StaticJsAstFunction instances.
-  [StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText]: (node: unknown) =>
-    weighAstNode(node),
+  [StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText]: (sourceText: string) =>
+    sourceText.length * 325,
 };

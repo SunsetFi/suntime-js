@@ -4,15 +4,28 @@ import type { StaticJsMap } from "#types/StaticJsMap.js";
 
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { allocated } from "#memory/allocated.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
+export interface StaticJsMapIteratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  backingMap: StaticJsMap;
+  backingIterator: IterableIterator<[unknown, StaticJsValue]> | null;
+  kind: "key" | "value" | "key+value";
+}
+
 export class StaticJsMapIteratorImpl extends StaticJsIteratorImpl {
-  constructor(
+  static create(params: StaticJsMapIteratorImplCreateParams): StaticJsMapIteratorImpl {
+    const { backingMap, backingIterator, kind, realm } = params;
+    return allocated(new StaticJsMapIteratorImpl(backingMap, backingIterator, kind, realm));
+  }
+
+  protected constructor(
     private _backingMap: StaticJsMap,
     private _backingIterator: IterableIterator<[unknown, StaticJsValue]> | null,
     private readonly _kind: "key" | "value" | "key+value",

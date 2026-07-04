@@ -11,7 +11,7 @@ export function* createAsyncFromSyncIterator(
 ): EvaluationGenerator<StaticJsIteratorRecord> {
   const { realm } = EvaluationContext.current;
 
-  const asyncIterator = new StaticJsAsyncFromSyncIterator(realm, syncIteratorRecord);
+  const asyncIterator = StaticJsAsyncFromSyncIterator.create({ realm, syncIteratorRecord });
 
   const nextMethod = yield* get(asyncIterator, "next");
 

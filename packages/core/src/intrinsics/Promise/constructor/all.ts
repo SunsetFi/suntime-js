@@ -89,7 +89,7 @@ function* performPromiseAll(
     const nextPromise = yield* call(promiseResolve, constructor, [next]);
     let alreadyCalled = false;
     let thisIndex = index;
-    const onFulfilled = new StaticJsNativeFunctionImpl(
+    const onFulfilled = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, value) {

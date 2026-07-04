@@ -87,7 +87,7 @@ function* performPromiseAllSettled(
 
     let alreadyCalled = false;
     const thisIndex = index;
-    const onFulfilled = new StaticJsNativeFunctionImpl(
+    const onFulfilled = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, value) {
@@ -114,7 +114,7 @@ function* performPromiseAllSettled(
       },
     );
 
-    const onRejected = new StaticJsNativeFunctionImpl(
+    const onRejected = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, reason) {

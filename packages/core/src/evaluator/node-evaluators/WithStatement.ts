@@ -19,7 +19,7 @@ export default function* withStatementNodeEvaluator(node: WithStatement): Evalua
   const obj = yield* toObject(val);
 
   const oldEnv = lexicalEnv;
-  const newEnv = new StaticJsObjectEnvironmentRecord(obj, true, lexicalEnv, realm);
+  const newEnv = StaticJsObjectEnvironmentRecord.create(obj, true, lexicalEnv, realm);
 
   context.lexicalEnv = newEnv;
   try {

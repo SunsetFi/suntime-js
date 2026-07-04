@@ -15,7 +15,7 @@ import {
 const declarations: IntrinsicPropertyDeclaration[] = [];
 
 export function* createProxyConstructor(realm: StaticJsRealm) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Proxy",
     function* () {
@@ -41,13 +41,13 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
           throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
-        return new StaticJsProxyImpl(target, handler, realm);
+        return StaticJsProxyImpl.create(target, handler, realm);
       },
     },
   );
 
   yield* ctor.defineOwnPropertyEvaluator("revocable", {
-    value: new StaticJsNativeFunctionImpl(
+    value: StaticJsNativeFunctionImpl.create(
       realm,
       "revocable",
       function* (_thisArg, target, handler) {
@@ -59,8 +59,8 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
           throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
-        const markable = containerMarkable(new StaticJsProxyImpl(target, handler, realm));
-        const revoker = new StaticJsNativeFunctionImpl(
+        const markable = containerMarkable(StaticJsProxyImpl.create(target, handler, realm));
+        const revoker = StaticJsNativeFunctionImpl.create(
           realm,
           "revoker",
           function* () {

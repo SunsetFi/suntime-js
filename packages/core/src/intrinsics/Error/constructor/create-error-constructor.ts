@@ -35,7 +35,7 @@ export function* createErrorConstructor(realm: StaticJsRealm, errorProto: Static
     const obj = yield* ordinaryCreateFromConstructor(
       newTarget,
       "Error.prototype",
-      StaticJsErrorImpl,
+      StaticJsErrorImpl.create,
     );
     if (!isStaticJsUndefined(message)) {
       const msg = yield* toString(message);
@@ -52,7 +52,7 @@ export function* createErrorConstructor(realm: StaticJsRealm, errorProto: Static
     return obj;
   }
 
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Error",
     function* (_thisArg, message = realm.types.undefined, options = realm.types.undefined) {

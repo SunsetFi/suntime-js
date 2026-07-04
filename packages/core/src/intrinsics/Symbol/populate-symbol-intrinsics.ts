@@ -17,7 +17,7 @@ export function* populateSymbolIntrinsics(
   yield* populateSymbolPrototype(realm, proto);
 
   for (const [symbol, key] of getWellKnownSymbols()) {
-    intrinsics[`Symbol.${key}`] = new StaticJsSymbolImpl(realm, symbol);
+    intrinsics[`Symbol.${key}`] = StaticJsSymbolImpl.create(realm, symbol);
   }
 
   intrinsics["Symbol"] = yield* createSymbolConstructor(realm, proto);

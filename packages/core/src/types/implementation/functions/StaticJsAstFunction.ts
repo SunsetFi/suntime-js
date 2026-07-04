@@ -42,6 +42,7 @@ import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import functionDeclarationInstantiation from "#evaluator/instantiation/function-declaration-instantiation.js";
 import evaluateStatementList from "#evaluator/node-evaluators/StatementList.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
@@ -94,7 +95,38 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
   private _constructorKind: null | "base" | "derived" = null;
 
-  constructor(
+  // NOTE: `node` and `options` are typed as `unknown` here (not their real
+  // types `StaticJsAstFunctionNode` / `StaticJsAstFunctionOptions`) because
+  // this class is subclassed by StaticJsMethodFunction, which is in turn
+  // subclassed by StaticJsClassConstructorFunction. Both declare their own
+  // `static create` with a completely different trailing parameter shape
+  // (homeObject, env, privateEnv, prototype instead of a single options bag),
+  // and TypeScript requires `typeof Subclass` to be assignable to
+  // `typeof StaticJsAstFunction` for `extends` to typecheck (TS2417). Widening
+  // the conflicting trailing parameters to `unknown` (as fixed optional
+  // positional params, so arity is still checked) resolves the conflict. The
+  // casts inside `create` reconstruct the exact original parameter shape, so
+  // runtime behavior and allocation accounting are unchanged.
+  static create(
+    realm: StaticJsRealm,
+    node?: unknown,
+    sourceText?: unknown,
+    options?: unknown,
+    _arg5?: unknown,
+    _arg6?: unknown,
+    _arg7?: unknown,
+  ): StaticJsAstFunction {
+    return allocated(
+      new StaticJsAstFunction(
+        realm,
+        node as StaticJsAstFunctionNode,
+        sourceText as string,
+        options as StaticJsAstFunctionOptions,
+      ),
+    );
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     protected readonly _node: StaticJsAstFunctionNode,
     sourceText: string,
@@ -356,10 +388,11 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   override allocateSelf(
     allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
   ): void {
+    super.allocateSelf(allocate);
     allocate?.(StaticJsMemoryAllocationTag.RawString, this._sourceText);
     allocate?.(
       StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText,
-      this._sourceText.length,
+      this._sourceText,
     );
   }
 
@@ -458,7 +491,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     const proto = yield* getPrototypeFromConstructor(this, "AsyncGeneratorPrototype");
     const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
-    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm, proto);
+    const generator = StaticJsAsyncGeneratorImpl.create(evaluator, null, realm, proto);
     return Completion.Return(generator);
   }
 
@@ -474,7 +507,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
 
     const proto = yield* getPrototypeFromConstructor(this, "GeneratorPrototype");
-    const generator = new StaticJsGeneratorImpl(evaluator, null, realm, proto);
+    const generator = StaticJsGeneratorImpl.create(evaluator, null, realm, proto);
 
     return Completion.Return(generator);
   }
@@ -619,7 +652,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   protected *_newFunctionEnvironment(
     newTarget: StaticJsObject | null,
   ): EvaluationGenerator<StaticJsFunctionEnvironmentRecord> {
-    const env = new StaticJsFunctionEnvironmentRecord(
+    const env = StaticJsFunctionEnvironmentRecord.create(
       this,
       newTarget,
       this._thisMode === "lexical",

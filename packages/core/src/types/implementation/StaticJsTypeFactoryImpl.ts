@@ -75,15 +75,15 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     private readonly _realm: StaticJsRealm,
     private readonly _symbolRegistry: Map<string, StaticJsSymbol>,
   ) {
-    this._zero = new StaticJsNumberImpl(_realm, 0);
-    this._NaN = new StaticJsNumberImpl(_realm, NaN);
-    this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
+    this._zero = StaticJsNumberImpl.create(_realm, 0);
+    this._NaN = StaticJsNumberImpl.create(_realm, NaN);
+    this._Infinity = StaticJsNumberImpl.create(_realm, Infinity);
 
-    this._false = new StaticJsBooleanImpl(_realm, false);
-    this._true = new StaticJsBooleanImpl(_realm, true);
+    this._false = StaticJsBooleanImpl.create(_realm, false);
+    this._true = StaticJsBooleanImpl.create(_realm, true);
 
-    this._null = new StaticJsNullImpl(_realm);
-    this._undefined = new StaticJsUndefinedImpl(_realm);
+    this._null = StaticJsNullImpl.create(_realm);
+    this._undefined = StaticJsUndefinedImpl.create(_realm);
 
     const intrinsics = _realm.intrinsics;
 
@@ -148,11 +148,11 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     Object.values(properties ?? {}).forEach(validateStaticJsPropertyDescriptorRecord);
 
-    const obj = new StaticJsPlainObjectImpl(
-      this._realm,
-      isStaticJsNull(prototype) ? null : prototype,
+    const obj = StaticJsPlainObjectImpl.create({
+      realm: this._realm,
+      prototype: isStaticJsNull(prototype) ? null : prototype,
       properties,
-    );
+    });
 
     return obj;
   }
@@ -171,14 +171,14 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     }
 
     // FIXME: We should cache the symbols ourselves, not rely on this and getSymbolProxyOwner to do it for us.
-    return new StaticJsSymbolImpl(this._realm, description);
+    return StaticJsSymbolImpl.create(this._realm, description);
   }
 
   array(
     itemsOrLength?: readonly StaticJsValue[] | Iterable<StaticJsValue> | number,
   ): StaticJsArray {
     if (itemsOrLength === undefined || typeof itemsOrLength === "number") {
-      return new StaticJsArrayImpl(this._realm, itemsOrLength);
+      return StaticJsArrayImpl.create({ realm: this._realm, length: itemsOrLength });
     }
 
     const items = Array.from(itemsOrLength);
@@ -191,7 +191,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   set(items?: Iterable<StaticJsValue> | readonly StaticJsValue[]): StaticJsSet {
-    const set = new StaticJsSetImpl(this._realm);
+    const set = StaticJsSetImpl.create({ realm: this._realm });
 
     // We use the manual methods and do NOT check the prototype, so there is
     // no chance of invoking sandbox code
@@ -207,7 +207,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   map(
     items?: Iterable<[StaticJsValue, StaticJsValue]> | readonly [StaticJsValue, StaticJsValue][],
   ): StaticJsMap {
-    const map = new StaticJsMapImpl(this._realm);
+    const map = StaticJsMapImpl.create({ realm: this._realm });
 
     // We use the manual methods and do NOT check the prototype, so there is
     // no chance of invoking sandbox code
@@ -226,7 +226,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     opts: StaticJsFunctionTypeCreationOptions = {},
   ): StaticJsFunction {
     const realm = this._realm;
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
@@ -299,7 +299,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         break;
     }
 
-    const error = new StaticJsErrorImpl(this._realm, proto);
+    const error = StaticJsErrorImpl.create({ realm: this._realm, prototype: proto });
 
     // Safe: Invokes defineOwnProperty on our error object, which cannot be sandboxed code.
     this._realm.invokeEvaluatorSync(
@@ -380,11 +380,11 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   number(value: number): StaticJsNumber {
-    return new StaticJsNumberImpl(this._realm, value);
+    return StaticJsNumberImpl.create(this._realm, value);
   }
 
   string(value: string): StaticJsString {
-    return new StaticJsStringImpl(this._realm, value);
+    return StaticJsStringImpl.create(this._realm, value);
   }
 
   private _toStaticJsValueSymbol(value: symbol): StaticJsSymbol {
@@ -393,7 +393,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       return wellKnown;
     }
 
-    return new StaticJsSymbolImpl(this._realm, value);
+    return StaticJsSymbolImpl.create(this._realm, value);
   }
 
   private _toStaticJsValueNull(): StaticJsNull {

@@ -60,7 +60,14 @@ function* getterMethodDefinitionEvaluation(
 
   // OrdinaryFunctionCreate
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = new StaticJsMethodFunction(realm, element, sourceText, object, env, privateEnv);
+  const closure = StaticJsMethodFunction.create(
+    realm,
+    element,
+    sourceText,
+    object,
+    env,
+    privateEnv,
+  );
   const len = expectedArgumentCount(element.params);
   yield* setFunctionLength(closure, len);
   // End OrdinaryFunctionCreate
@@ -99,7 +106,14 @@ function* setterMethodDefinitionEvaluation(
 
   // OrdinaryFunctionCreate
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = new StaticJsMethodFunction(realm, element, sourceText, object, env, privateEnv);
+  const closure = StaticJsMethodFunction.create(
+    realm,
+    element,
+    sourceText,
+    object,
+    env,
+    privateEnv,
+  );
   const len = expectedArgumentCount(element.params);
   yield* setFunctionLength(closure, len);
   // End OrdinaryFunctionCreate
@@ -137,7 +151,7 @@ function* asyncGeneratorMethodDefinitionEvaluation(
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = new StaticJsMethodFunction(
+  const closure = StaticJsMethodFunction.create(
     realm,
     element,
     sourceText,
@@ -171,7 +185,7 @@ function* asyncMethodDefinitionEvaluation(
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = new StaticJsMethodFunction(
+  const closure = StaticJsMethodFunction.create(
     realm,
     element,
     sourceText,
@@ -198,7 +212,7 @@ function* generatorMethodDefinitionEvaluation(
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = new StaticJsMethodFunction(
+  const closure = StaticJsMethodFunction.create(
     realm,
     element,
     sourceText,

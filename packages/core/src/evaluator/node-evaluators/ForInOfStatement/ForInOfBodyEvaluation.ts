@@ -111,7 +111,7 @@ export const forInOfBodyEvaluation = Q.makeReceiver(function* forInOfBodyEvaluat
         );
       }
 
-      const iterationEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
+      const iterationEnv = StaticJsDeclarativeEnvironmentRecord.create(oldEnv, realm);
       yield* forDeclarationBindingInstantiation(lhs, iterationEnv);
 
       EvaluationContext.current.lexicalEnv = iterationEnv;

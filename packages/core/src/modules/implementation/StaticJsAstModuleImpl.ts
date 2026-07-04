@@ -21,6 +21,7 @@ import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import { allocated } from "#memory/allocated.js";
 import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { createDeferred } from "#utils/create-deferred.js";
@@ -68,7 +69,16 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
   private _evaluationPromise: Promise<void> | null = null;
 
-  constructor(
+  static create(
+    name: string,
+    ecmaScriptSource: string,
+    ecmaScriptCode: Program,
+    realm: StaticJsRealm,
+  ): StaticJsAstModuleImpl {
+    return allocated(new StaticJsAstModuleImpl(name, ecmaScriptSource, ecmaScriptCode, realm));
+  }
+
+  protected constructor(
     name: string,
     private readonly _ecmaScriptSource: string,
     private readonly _ecmaScriptCode: Program,
@@ -286,7 +296,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       yield* _context!.run(function* () {
         const promiseCapability = yield* newPromiseCapability(_realm.intrinsics.Promise);
 
-        const onFulfilled = new StaticJsNativeFunctionImpl(
+        const onFulfilled = StaticJsNativeFunctionImpl.create(
           _realm,
           "",
           function* (_thisArg) {
@@ -296,7 +306,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
           { captures: [markable] },
         );
 
-        const onRejected = new StaticJsNativeFunctionImpl(
+        const onRejected = StaticJsNativeFunctionImpl.create(
           _realm,
           "",
           function* (_thisArg, arg) {
@@ -491,8 +501,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    this._moduleEnv = new StaticJsModuleEnvironmentRecord(this._realm);
-    this._envRec = new StaticJsDeclarativeEnvironmentRecord(this._moduleEnv, this._realm);
+    this._moduleEnv = StaticJsModuleEnvironmentRecord.create(this._realm);
+    this._envRec = StaticJsDeclarativeEnvironmentRecord.create(this._moduleEnv, this._realm);
 
     for (const entry of this._importEntries) {
       const importedModule = this._linkedModules.get(entry.moduleRequest);

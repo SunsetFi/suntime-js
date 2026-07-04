@@ -60,7 +60,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.current;
   const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment, scriptOrModule } = context;
-  const classEnv = new StaticJsDeclarativeEnvironmentRecord(env, realm);
+  const classEnv = StaticJsDeclarativeEnvironmentRecord.create(env, realm);
   if (classBinding) {
     yield* classEnv.createImmutableBindingEvaluator(classBinding, true);
   }
@@ -114,7 +114,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     if (!constructor) {
       // The entire class expression, apparently.
       // In the spec, this is passed in externally.
-      F = new StaticJsClassConstructorFunction(
+      F = StaticJsClassConstructorFunction.create(
         realm,
         function* (
           _thisArg: StaticJsValue | undefined,

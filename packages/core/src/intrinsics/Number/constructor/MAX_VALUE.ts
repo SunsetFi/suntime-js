@@ -5,7 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-propert
 const numberCtorMaxValueDeclaration: IntrinsicPropertyDeclaration = {
   key: "MAX_VALUE",
   value(realm) {
-    return new StaticJsNumberImpl(realm, Number.MAX_VALUE);
+    return StaticJsNumberImpl.create(realm, Number.MAX_VALUE);
   },
   writable: false,
   enumerable: false,

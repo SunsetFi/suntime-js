@@ -7,6 +7,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
@@ -23,7 +24,19 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
   private _thisBindingStatus: "lexical" | "initialized" | "uninitialized";
   private _thisValue: StaticJsValue | null;
 
-  constructor(
+  static override create(
+    functionObject: StaticJsFunction,
+    newTarget: StaticJsObject | null,
+    lexical: boolean,
+    outerEnv: StaticJsEnvironmentRecord,
+    realm: StaticJsRealm,
+  ): StaticJsFunctionEnvironmentRecord {
+    return allocated(
+      new StaticJsFunctionEnvironmentRecord(functionObject, newTarget, lexical, outerEnv, realm),
+    );
+  }
+
+  protected constructor(
     private readonly _functionObject: StaticJsFunction,
     private readonly _newTarget: StaticJsObject | null,
     lexical: boolean,

@@ -28,6 +28,13 @@ declare class StaticJsNativeFunctionImpl {
   );
 }
 declare const realm: unknown;
+declare function allocated<T extends StaticJsAllocation>(instance: T): T;
+declare abstract class AbstractMarkable implements StaticJsAllocation {
+  mark(marks: Set<StaticJsAllocation>): void;
+  allocateSelf(allocate?: (...a: any[]) => void): void;
+  protected constructor();
+}
+declare class PlainClass { constructor(); }
 `;
 
 const FILE_NAME = "test.ts";
@@ -68,4 +75,11 @@ export async function analyze(body: string) {
   const { analyzeSourceFile } = await import("../allocation-analysis.js");
   const { program, sourceFile } = createProgram(STUBS + "\n" + body);
   return analyzeSourceFile(program, sourceFile);
+}
+
+/** Build a program from STUBS + body and run the allocate-self analyzer over it. */
+export async function analyzeAllocSelf(body: string) {
+  const { analyzeAllocateSelf } = await import("../allocate-self-analysis.js");
+  const { program, sourceFile } = createProgram(STUBS + "\n" + body);
+  return analyzeAllocateSelf(program, sourceFile);
 }

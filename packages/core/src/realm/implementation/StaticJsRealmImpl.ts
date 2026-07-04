@@ -161,10 +161,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._global = globalObjectResolved;
     this._globalThis = globalThisResolved;
 
-    this._objectEnv = new StaticJsObjectEnvironmentRecord(this._global, false, null, this);
-    this._declarativeEnv = new StaticJsDeclarativeEnvironmentRecord(null, this);
+    this._objectEnv = StaticJsObjectEnvironmentRecord.create(this._global, false, null, this);
+    this._declarativeEnv = StaticJsDeclarativeEnvironmentRecord.create(null, this);
 
-    this._globalEnv = new StaticJsGlobalEnvironmentRecord(
+    this._globalEnv = StaticJsGlobalEnvironmentRecord.create(
       globalThisResolved,
       this._declarativeEnv,
       this._objectEnv,
@@ -326,7 +326,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     try {
       const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
       const parsed = parseModule(code, sourceName);
-      const module = new StaticJsAstModuleImpl(sourceName, code, parsed.program, this);
+      const module = StaticJsAstModuleImpl.create(sourceName, code, parsed.program, this);
 
       // Bit weird that we link immediately instead of when we are ready to perform the task?
       await module.linkModules();
@@ -710,13 +710,13 @@ function realmModuleToModule(
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
     const parsed = parseModule(module, specifier);
-    return new StaticJsAstModuleImpl(specifier, module, parsed.program, realm);
+    return StaticJsAstModuleImpl.create(specifier, module, parsed.program, realm);
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {
     return staticJsModuleToImplementation(realm, module);
   } else if (module != null && "exports" in module) {
-    return new StaticJsExternalModuleImpl(specifier, module.exports, realm);
+    return StaticJsExternalModuleImpl.create(specifier, module.exports, realm);
   } else {
     throw new TypeError(
       `StaticJsRealm resolveModule for module ${specifier} did not return source code, a valid module, or an object with an exports property.`,

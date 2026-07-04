@@ -44,10 +44,10 @@ export interface StaticJsMemoryWeights {
   [StaticJsMemoryAllocationTag.StaticJsProxy]: StaticJsMemoryAllocator<StaticJsProxy>;
 
   [StaticJsMemoryAllocationTag.StaticJsPromise]: StaticJsMemoryAllocator<StaticJsPromise>;
-  [StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead]: StaticJsMemoryAllocator<number>;
+  [StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead]: StaticJsMemoryAllocator<unknown>;
 
   [StaticJsMemoryAllocationTag.StaticJsAstFunction]: StaticJsMemoryAllocator<StaticJsFunction>;
-  [StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText]: StaticJsMemoryAllocator<unknown>;
+  [StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText]: StaticJsMemoryAllocator<string>;
 }
 
 export type StaticJsMemoryAllocationObjectTag =

@@ -6,6 +6,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
@@ -17,7 +18,11 @@ interface ModuleBinding {
 export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   private readonly _moduleBindings = new Map<string, ModuleBinding>();
 
-  constructor(private readonly _realm: StaticJsRealm) {
+  static create(realm: StaticJsRealm): StaticJsModuleEnvironmentRecord {
+    return allocated(new StaticJsModuleEnvironmentRecord(realm));
+  }
+
+  protected constructor(private readonly _realm: StaticJsRealm) {
     super(_realm.globalEnv);
   }
 

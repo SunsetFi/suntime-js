@@ -11,11 +11,13 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromiseCapabilityRecord, StaticJsPromise } from "../../StaticJsPromise.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
@@ -27,6 +29,10 @@ interface StaticJsReactionRecord {
   type: "fulfill" | "reject";
 }
 
+export interface StaticJsPromiseImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  prototype?: StaticJsObject | null | undefined;
+}
+
 export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements StaticJsPromise {
   private _state: "pending" | "fulfilled" | "rejected" = "pending";
   private _result: StaticJsValue | null = null;
@@ -34,7 +40,12 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
   private _rejectReactions: StaticJsReactionRecord[] = [];
   private _clearUncaughtError: (() => void) | null = null;
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
+  static create(params: StaticJsPromiseImplCreateParams): StaticJsPromiseImpl {
+    const { realm, prototype = null } = params;
+    return allocated(new StaticJsPromiseImpl(realm, prototype));
+  }
+
+  protected constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
     super(
       realm,
       prototype ?? realm.intrinsics["Promise.prototype"],
@@ -151,12 +162,21 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     };
 
     switch (this._state) {
-      case "pending":
-        this._fulfullReactions.push(fulfillReaction);
-        this._rejectReactions.push(rejectReaction);
+      case "pending": {
         // Two retained reaction records (fulfill + reject).
-        this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead, 2);
+        const { memory } = this.realm;
+        memory.allocate(
+          StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
+          fulfillReaction,
+        );
+        this._fulfullReactions.push(fulfillReaction);
+        memory.allocate(
+          StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
+          rejectReaction,
+        );
+        this._rejectReactions.push(rejectReaction);
         break;
+      }
       case "fulfilled":
         queuePromiseReactionJob(this.realm, fulfillReaction, this._result!);
         break;
@@ -207,10 +227,13 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
   ): void {
     super.allocateSelf(allocate);
 
-    allocate(
-      StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
-      this._fulfullReactions.length + this._rejectReactions.length,
-    );
+    for (const reaction of this._fulfullReactions) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead, reaction);
+    }
+
+    for (const reaction of this._rejectReactions) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead, reaction);
+    }
   }
 
   override toNative(): Promise<unknown> {

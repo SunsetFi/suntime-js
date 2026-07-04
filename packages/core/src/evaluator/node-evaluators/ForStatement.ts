@@ -31,7 +31,7 @@ const forStatementNodeEvaluator = breakableStatementEvaluation(
     try {
       if (init) {
         if (init.type === "VariableDeclaration" && ["let", "const"].includes(init.kind)) {
-          const loopEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
+          const loopEnv = StaticJsDeclarativeEnvironmentRecord.create(oldEnv, realm);
           const isConst = init.kind === "const";
           const names = boundNames(init);
           for (const dn of names) {
@@ -117,7 +117,7 @@ function* createPerIterationEnvironment(perIterationBindings: string[]): Evaluat
       );
     }
 
-    const thisIterationEnv = new StaticJsDeclarativeEnvironmentRecord(outer, context.realm);
+    const thisIterationEnv = StaticJsDeclarativeEnvironmentRecord.create(outer, context.realm);
 
     for (const bn of perIterationBindings) {
       yield* thisIterationEnv.createMutableBindingEvaluator(bn, false);

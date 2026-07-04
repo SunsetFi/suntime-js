@@ -1,6 +1,7 @@
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsNumber } from "../../StaticJsNumber.js";
@@ -11,14 +12,16 @@ import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
 export class StaticJsNumberImpl extends StaticJsAbstractPrimitive implements StaticJsNumber {
   private readonly _value: number;
 
-  constructor(realm: StaticJsRealm, value: number) {
+  static create(realm: StaticJsRealm, value: number): StaticJsNumberImpl {
+    return allocated(new StaticJsNumberImpl(realm, value));
+  }
+
+  protected constructor(realm: StaticJsRealm, value: number) {
     if (typeof value !== "number") {
       throw new TypeError(`StaticJsNumberImpl constructor expects a number, got ${typeof value}`);
     }
 
     super(realm);
-    realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsNumber, this);
-    realm.memory.allocate(StaticJsMemoryAllocationTag.RawNumber, value);
     this._value = value;
   }
 

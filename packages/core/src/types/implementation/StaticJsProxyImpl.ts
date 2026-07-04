@@ -19,6 +19,7 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
@@ -53,12 +54,19 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   private _proxyTarget: StaticJsObject | null;
   private _callable: boolean | "constructor";
 
-  constructor(
+  static create(
+    proxyTarget: StaticJsObject,
+    handler: StaticJsObject,
+    realm: StaticJsRealm,
+  ): StaticJsProxyImpl {
+    return allocated(new StaticJsProxyImpl(proxyTarget, handler, realm));
+  }
+
+  protected constructor(
     proxyTarget: StaticJsObject,
     handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
   ) {
-    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsProxy, this);
     this._proxyTarget = proxyTarget;
     this._handler = handler;
     this._callable = isStaticJsCallable(proxyTarget)

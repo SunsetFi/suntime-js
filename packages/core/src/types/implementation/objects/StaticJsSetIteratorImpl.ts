@@ -4,15 +4,28 @@ import type { StaticJsSet } from "#types/StaticJsSet.js";
 
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { allocated } from "#memory/allocated.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
+export interface StaticJsSetIteratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  backingSet: StaticJsSet;
+  backingIterator: IterableIterator<unknown> | null;
+  kind: "key" | "key+value";
+}
+
 export class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
-  constructor(
+  static create(params: StaticJsSetIteratorImplCreateParams): StaticJsSetIteratorImpl {
+    const { backingSet, backingIterator, kind, realm } = params;
+    return allocated(new StaticJsSetIteratorImpl(backingSet, backingIterator, kind, realm));
+  }
+
+  protected constructor(
     private _backingSet: StaticJsSet,
     private _backingIterator: IterableIterator<unknown> | null,
     private readonly _kind: "key" | "key+value",

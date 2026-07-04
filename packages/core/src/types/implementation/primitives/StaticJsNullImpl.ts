@@ -1,6 +1,7 @@
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
@@ -8,9 +9,11 @@ import type { StaticJsNull } from "../../StaticJsNull.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 export class StaticJsNullImpl implements StaticJsNull {
-  constructor(private readonly _realm: StaticJsRealm) {
-    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsNull, this);
+  static create(realm: StaticJsRealm): StaticJsNullImpl {
+    return allocated(new StaticJsNullImpl(realm));
   }
+
+  protected constructor(private readonly _realm: StaticJsRealm) {}
 
   [Symbol.toStringTag](): string {
     return "StaticJsNull";

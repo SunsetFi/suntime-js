@@ -1,7 +1,13 @@
 import { parse as parseAst } from "@babel/parser";
 import { describe, it, expect, vi } from "vitest";
 
-import { StaticJsRealm, type StaticJsValue, StaticJsOutOfMemoryError } from "../../src/index.js";
+import {
+  StaticJsRealm,
+  type StaticJsValue,
+  StaticJsOutOfMemoryError,
+  StaticJsMemoryAllocationTag,
+  memoryWeights_Node_24_16_0,
+} from "../../src/index.js";
 
 // These must import after index to avoid circular references.
 // oxfmt-ignore
@@ -9,6 +15,19 @@ import { StaticJsAstFunction, type StaticJsAstFunctionNode } from "#types/implem
 // oxfmt-ignore
 import { StaticJsPromiseImpl } from "#types/implementation/objects/StaticJsPromiseImpl.js";
 import { babelParserOptions } from "#parser/babel-parser-options.js";
+
+const weightOfRawStringValue = memoryWeights_Node_24_16_0[StaticJsMemoryAllocationTag.RawString];
+const weightOfRawString =
+  typeof weightOfRawStringValue === "function"
+    ? weightOfRawStringValue
+    : () => weightOfRawStringValue;
+
+const weightOfAstNodePerSourceTextValue =
+  memoryWeights_Node_24_16_0[StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText];
+const weightOfAstNodePerSourceText =
+  typeof weightOfAstNodePerSourceTextValue === "function"
+    ? weightOfAstNodePerSourceTextValue
+    : () => weightOfAstNodePerSourceTextValue;
 
 describe("E2E: Memory", () => {
   interface SharedMemorySize {
@@ -64,9 +83,7 @@ describe("E2E: Memory", () => {
       script: `"Hello, World!";`,
       size:
         // string overhead
-        56 +
-        // string content (16 byte header + 1 byte per char)
-        (16 + "Hello, World!".length),
+        56 + weightOfRawString("Hello, World!"),
     },
     {
       name: "Boolean True",
@@ -147,23 +164,24 @@ describe("E2E: Memory", () => {
           // symbol overhead
           655 +
           // symbol description string content (16 byte header + 1 byte per char)
-          (16 + "sym".length),
+          weightOfRawString("sym"),
+
         script:
           // String to make the symbol description
           56 +
           // String content (16 byte header + 1 byte per char)
-          (16 + "sym".length) +
+          weightOfRawString("sym") +
           // symbol overhead
           655 +
           // symbol description string content
-          (16 + "sym".length),
+          weightOfRawString("sym"),
         genOne:
           // symbol overhead
           655 +
           // Symbols don't store a StaticJsString object, so there
           // is no + 56 overhead for one.
           // symbol description string content
-          (16 + "sym".length),
+          weightOfRawString("sym"),
       },
     },
     {
@@ -182,7 +200,7 @@ describe("E2E: Memory", () => {
         // Property overhead
         212 +
         // Property key string content (16 byte header + 1 byte per char)
-        (16 + "key".length) +
+        weightOfRawString("key") +
         // Property value number
         40,
     },
@@ -200,7 +218,7 @@ describe("E2E: Memory", () => {
           // Symbol overhead
           655 +
           // Symbol description string content (16 byte header + 1 byte per char)
-          (16 + "sym".length) +
+          weightOfRawString("sym") +
           // object overhead
           655 +
           // Property overhead
@@ -209,11 +227,11 @@ describe("E2E: Memory", () => {
           // String to make the symbol description
           56 +
           // String content (16 byte header + 1 byte per char)
-          (16 + "sym".length) +
+          weightOfRawString("sym") +
           // Symbol overhead
           655 +
           // Symbol description string content
-          (16 + "sym".length) +
+          weightOfRawString("sym") +
           // object overhead
           655 +
           // Property overhead
@@ -222,7 +240,7 @@ describe("E2E: Memory", () => {
           // Symbol overhead
           655 +
           // Symbol description string content
-          (16 + "sym".length) +
+          weightOfRawString("sym") +
           // object overhead
           655 +
           // Property overhead
@@ -244,7 +262,7 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let s`,
-        preambleAllocationSize: 16 + "s".length,
+        preambleAllocationSize: weightOfRawString("s"),
         expression: `(s = new Set(), s.add(1), s)`,
       },
       size: {
@@ -273,7 +291,7 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let s`,
-        preambleAllocationSize: 16 + "s".length,
+        preambleAllocationSize: weightOfRawString("s"),
         expression: `(s = new Set(), s.add(3.14), s)`,
       },
       size: {
@@ -305,7 +323,7 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let s`,
-        preambleAllocationSize: 16 + "s".length,
+        preambleAllocationSize: weightOfRawString("s"),
         expression: `(s = new Set(), s.add("value"), s)`,
       },
       size: {
@@ -313,7 +331,7 @@ describe("E2E: Memory", () => {
           // String overhead
           56 +
           // String content (16 byte header + 1 byte per char)
-          (16 + "value".length) +
+          weightOfRawString("value") +
           // Set overhead
           827 +
           // Set entry overhead
@@ -328,7 +346,7 @@ describe("E2E: Memory", () => {
           // Set entry overhead
           27 +
           // Set entry string content (16 byte header + 1 byte per char)
-          (16 + "value".length),
+          weightOfRawString("value"),
       },
     },
     {
@@ -346,7 +364,7 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let m`,
-        preambleAllocationSize: 16 + "m".length,
+        preambleAllocationSize: weightOfRawString("m"),
         expression: `(m = new Map(), m.set("key", 1), m)`,
       },
       size: {
@@ -358,7 +376,7 @@ describe("E2E: Memory", () => {
           // String overhead
           56 +
           // String key content (16 byte header + 1 byte per char)
-          (16 + "key".length) +
+          weightOfRawString("key") +
           // Map entry value number overhead
           40,
         genOne:
@@ -369,7 +387,7 @@ describe("E2E: Memory", () => {
           // Map entries do not retain a StaticJsString, so
           // the + 56 overhead for one is not counted.
           // Map key string content (16 byte header + 1 byte per char)
-          (16 + "key".length) +
+          weightOfRawString("key") +
           // Map entry value number overhead
           40,
       },
@@ -383,7 +401,7 @@ describe("E2E: Memory", () => {
       },
       script: {
         preamble: `let m`,
-        preambleAllocationSize: 16 + "m".length,
+        preambleAllocationSize: weightOfRawString("m"),
         expression: `(m = new Map(), m.set(3.14, 1), m)`,
       },
       size: {
@@ -412,9 +430,6 @@ describe("E2E: Memory", () => {
     },
   ])("$name", ({ factory, script, size }) => {
     describe("Gen Zero", () => {
-      // Original plan was to not track these, and just end up tracking them in a sweep if they ever got added.
-      // But now sweeps might not happen unless needed, and I still want to track things triggered by toNative proxies,
-      // so we should track them ahead of time.
       it("Allocates when not in a task", () => {
         const realm = new StaticJsRealm();
         realm.memory.sweep();
@@ -428,7 +443,7 @@ describe("E2E: Memory", () => {
       it("Allocates when in a script", () => {
         const measure = vi.fn();
 
-        const bindingSize = 16 + "value".length;
+        const bindingSize = weightOfRawString("value");
 
         const preambleSize =
           typeof script === "object" && script.preambleAllocationSize
@@ -503,7 +518,7 @@ describe("E2E: Memory", () => {
             // Property overhead
             212 +
             // Property key string content (16 byte header + 1 byte per char)
-            (16 + "_value".length);
+            weightOfRawString("_value");
 
           if (typeof script === "object") {
             realm.evaluateScriptSync(
@@ -615,7 +630,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       realm.evaluateScriptSync(`globalThis.makeAllocator();`);
       realm.memory.sweep();
@@ -650,7 +665,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       realm.evaluateScriptSync(`globalThis.makeAllocator().catch(() => {});`);
       realm.memory.sweep();
@@ -690,7 +705,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -741,7 +756,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 2_000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 2_000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -782,7 +797,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -826,7 +841,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       realm.evaluateScriptSync(
         `globalThis.allocator = globalThis.makeAllocator(); globalThis.allocator.next()`,
@@ -872,7 +887,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -914,7 +929,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -958,7 +973,7 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
 
-      const expectedIncrease = (56 + 16 + str.length) * 1000;
+      const expectedIncrease = (56 + weightOfRawString(str)) * 1000;
 
       await realm.evaluateScript(
         `globalThis.allocator = globalThis.makeAllocator(); await globalThis.allocator.next()`,
@@ -1010,7 +1025,7 @@ describe("E2E: Memory", () => {
       });
       realm.memory.sweep();
 
-      const expectedIncrease = 56 + 16 + str.length;
+      const expectedIncrease = 56 + weightOfRawString(str);
 
       const afterNextMemory = realm.memory.genOneSize;
       expect(afterNextMemory).toBeGreaterThan(initialMemory);
@@ -1046,7 +1061,7 @@ describe("E2E: Memory", () => {
       );
       realm.memory.sweep();
 
-      const expectedIncrease = 56 + 16 + str.length;
+      const expectedIncrease = 56 + weightOfRawString(str);
 
       const afterPromiseMemory = realm.memory.genOneSize;
       expect(afterPromiseMemory).toBeGreaterThan(initialMemory);
@@ -1070,13 +1085,13 @@ describe("E2E: Memory", () => {
       realm.memory.sweep();
 
       // The globalThis.p property (overhead + key chars) plus the promise wrapper.
-      const keySize = 212 + (16 + "p".length);
+      const keySize = 212 + weightOfRawString("p");
       expect(realm.memory.genOneSize - initialMemory - keySize).toBe(768);
     });
 
     it("Charges per retained reaction record on a pending promise", () => {
       const realm = new StaticJsRealm();
-      const promise = new StaticJsPromiseImpl(realm);
+      const promise = StaticJsPromiseImpl.create({ realm });
       realm.memory.pin(promise);
       realm.memory.sweep();
       const initialMemory = realm.memory.genOneSize;
@@ -1108,12 +1123,10 @@ describe("E2E: Memory", () => {
         return realm.memory.genOneSize - initial;
       }
 
-      // A block comment grows sourceText (start..end spans it) without adding any
-      // AST nodes (attachComment is off), so the two functions differ only by the
-      // padding's length. Each padded char costs 325 (AST node weight) + 1 (the
-      // retained source string; its 16-byte header is unchanged).
       const padding = `/* ${"x".repeat(1000)} */`;
-      expect(measure(padding) - measure("")).toBe(padding.length * (325 + 1));
+      const rawStringCount = weightOfRawString(padding) - 16; // The 16 bytes are included in the empty set as well as the padding set.
+      const nodeEstimateCount = weightOfAstNodePerSourceText(padding);
+      expect(measure(padding) - measure("")).toBe(rawStringCount + nodeEstimateCount);
     });
 
     it("Charges the ambient wrapper cost in place of the ordinary object base", () => {
@@ -1123,7 +1136,7 @@ describe("E2E: Memory", () => {
       const file = parseAst("function f(){}", { ...babelParserOptions, sourceType: "script" });
       const node = file.program.body[0] as unknown as StaticJsAstFunctionNode;
 
-      const fn = new StaticJsAstFunction(realm, node, "", {
+      const fn = StaticJsAstFunction.create(realm, node, "", {
         thisMode: "non-lexical-this",
         strict: false,
         env: realm.globalEnv,
@@ -1158,7 +1171,7 @@ describe("E2E: Memory", () => {
       realm.evaluateScriptSync(`globalThis.func = makeFunc();`);
       realm.memory.sweep();
 
-      const expectedIncrease = 56 + 16 + str.length;
+      const expectedIncrease = 56 + weightOfRawString(str);
 
       const afterFuncMemory = realm.memory.genOneSize;
       expect(afterFuncMemory).toBeGreaterThan(initialMemory);
@@ -1185,7 +1198,7 @@ describe("E2E: Memory", () => {
       `);
       realm.memory.sweep();
 
-      const expectedIncrease = 56 + 16 + str.length;
+      const expectedIncrease = 56 + weightOfRawString(str);
 
       const afterBoundMemory = realm.memory.genOneSize;
       expect(afterBoundMemory).toBeGreaterThan(initialMemory);
@@ -1210,7 +1223,7 @@ describe("E2E: Memory", () => {
       `);
       realm.memory.sweep();
 
-      const expectedIncrease = 56 + 16 + str.length;
+      const expectedIncrease = 56 + weightOfRawString(str);
 
       const afterBoundMemory = realm.memory.genOneSize;
       expect(afterBoundMemory).toBeGreaterThan(initialMemory);
@@ -1239,7 +1252,7 @@ describe("E2E: Memory", () => {
       realm.evaluateScriptSync(`globalThis.bound = createFunc().bind(null);`);
       realm.memory.sweep();
 
-      const expectedIncrease = 56 + 16 + str.length;
+      const expectedIncrease = 56 + weightOfRawString(str);
 
       const afterBoundMemory = realm.memory.genOneSize;
       expect(afterBoundMemory).toBeGreaterThan(initialMemory);

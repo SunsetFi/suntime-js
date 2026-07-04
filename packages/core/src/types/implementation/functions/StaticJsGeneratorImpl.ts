@@ -15,6 +15,7 @@ import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
 import { iteratorComplete } from "#iterators/iterator-complete.js";
 import { iteratorValue } from "#iterators/iterator-value.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
@@ -30,7 +31,16 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
   private _generatorState: GeneratorState = "suspended-start";
   private _generatorContext: SuspendContext<StaticJsObject>;
 
-  constructor(
+  static create(
+    generatorBody: Node | EvaluationGenerator<Completion>,
+    generatorBrand: string | null,
+    realm: StaticJsRealm,
+    prototype?: StaticJsObject,
+  ): StaticJsGeneratorImpl {
+    return allocated(new StaticJsGeneratorImpl(generatorBody, generatorBrand, realm, prototype));
+  }
+
+  protected constructor(
     generatorBody: Node | EvaluationGenerator<Completion>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,

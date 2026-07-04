@@ -96,3 +96,12 @@ export function isMarkableContainer(type: ts.Type, checker: ts.TypeChecker): boo
     containerElementTypes(t, checker).some((el) => isMarkableType(el, checker)),
   );
 }
+
+export const ALLOCATOR_NAMES: ReadonlySet<string> = new Set(["allocated"]);
+
+/** True when `type` (an instance type) structurally implements StaticJsAllocation. */
+export function isAllocationClass(type: ts.Type, checker: ts.TypeChecker): boolean {
+  return (
+    !!checker.getPropertyOfType(type, "allocateSelf") && !!checker.getPropertyOfType(type, "mark")
+  );
+}

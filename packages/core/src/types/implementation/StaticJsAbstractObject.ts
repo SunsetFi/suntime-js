@@ -47,6 +47,10 @@ import {
 } from "./objects/create-object-proxy.js";
 import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
+export interface StaticJsAbstractObjectCreateParams {
+  realm: StaticJsRealm;
+}
+
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
   implements StaticJsObject
@@ -59,7 +63,7 @@ export abstract class StaticJsAbstractObject
   private readonly _accessNativeInterner = new PolicyKeyInterner();
   private readonly _accessNativeCache = new Map<PolicyKey, object>();
 
-  constructor(
+  protected constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject | StaticJsNull | null,
     private readonly _tag: StaticJsMemoryAllocationObjectTag = StaticJsMemoryAllocationTag.StaticJsObject,
@@ -70,7 +74,6 @@ export abstract class StaticJsAbstractObject
     } else {
       this._prototype = prototype;
     }
-    this.allocateSelf();
   }
 
   override get [Symbol.toStringTag](): string {

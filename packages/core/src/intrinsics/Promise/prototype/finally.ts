@@ -24,7 +24,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
     let thenFinally: StaticJsCallable | undefined = undefined;
     let catchFinally: StaticJsCallable | undefined = undefined;
     if (isCallable(onFinally)) {
-      thenFinally = new StaticJsNativeFunctionImpl(
+      thenFinally = StaticJsNativeFunctionImpl.create(
         realm,
         "<thenFinally>",
         function* (value) {
@@ -32,7 +32,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
           yield* call(capability.resolve, realm.types.undefined, [result]);
           const p = capability.promise;
-          const returnValue = new StaticJsNativeFunctionImpl(
+          const returnValue = StaticJsNativeFunctionImpl.create(
             realm,
             "<returnValue>",
             function* () {
@@ -46,7 +46,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           captures: [onFinally],
         },
       );
-      catchFinally = new StaticJsNativeFunctionImpl(
+      catchFinally = StaticJsNativeFunctionImpl.create(
         realm,
         "<catchFinally>",
         function* (reason) {
@@ -54,7 +54,7 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
           const capability = yield* newPromiseCapability(realm.intrinsics.Promise);
           yield* call(capability.resolve, realm.types.undefined, [result]);
           const p = capability.promise;
-          const thrower = new StaticJsNativeFunctionImpl(
+          const thrower = StaticJsNativeFunctionImpl.create(
             realm,
             "<thrower>",
             function* () {

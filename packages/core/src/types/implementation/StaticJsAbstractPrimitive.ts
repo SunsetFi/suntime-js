@@ -7,7 +7,7 @@ import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
 export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
-  constructor(private readonly _realm: StaticJsRealm) {}
+  protected constructor(private readonly _realm: StaticJsRealm) {}
 
   get realm(): StaticJsRealm {
     return this._realm;

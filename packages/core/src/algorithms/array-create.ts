@@ -15,7 +15,11 @@ export function* arrayCreate(
     throw yield* Completion.Throw.create("RangeError", "Invalid array length");
   }
 
-  const A = new StaticJsArrayImpl(EvaluationContext.current.realm, length, proto);
+  const A = StaticJsArrayImpl.create({
+    realm: EvaluationContext.current.realm,
+    length,
+    prototype: proto,
+  });
   return A;
 }
 
@@ -27,5 +31,9 @@ arrayCreate.safe = function (
   if (length > MAX_ARRAY_LENGTH_INCLUSIVE) {
     throw new RangeError("Invalid array length");
   }
-  return new StaticJsArrayImpl(realm ?? EvaluationContext.current.realm, length, proto);
+  return StaticJsArrayImpl.create({
+    realm: realm ?? EvaluationContext.current.realm,
+    length,
+    prototype: proto,
+  });
 };

@@ -58,13 +58,13 @@ export function* asyncFromSyncIteratorContinuation(
     throw e;
   }
 
-  const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, v) {
+  const onFulfilled = StaticJsNativeFunctionImpl.create(realm, "", function* (_thisArg, v) {
     return yield* createIteratorResultObject(v, done, realm);
   });
 
   let onRejected: StaticJsFunction | undefined;
   if (!done && closeOnRejection) {
-    onRejected = new StaticJsNativeFunctionImpl(
+    onRejected = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, e) {

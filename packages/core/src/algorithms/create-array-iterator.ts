@@ -9,5 +9,10 @@ export function* createArrayIterator(
   kind: "key+value" | "key" | "value",
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsObject> {
-  return new StaticJsArrayIteratorImpl(array, 0, kind, realm);
+  return StaticJsArrayIteratorImpl.create({
+    iteratedArrayLike: array,
+    arrayLikeNextIndex: 0,
+    arrayLikeIterationKind: kind,
+    realm,
+  });
 }

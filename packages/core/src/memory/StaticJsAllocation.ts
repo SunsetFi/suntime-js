@@ -13,7 +13,7 @@ export type StaticJsMarkFunction = (
 
 export type StaticJsAllocateSelfFunction = (
   this: StaticJsAllocation,
-  allocate: StaticJsAllocator,
+  allocate?: StaticJsAllocator,
 ) => void;
 
 export interface StaticJsAllocation {

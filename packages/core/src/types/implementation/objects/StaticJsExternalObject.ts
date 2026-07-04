@@ -3,6 +3,7 @@ import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -19,8 +20,17 @@ import {
 } from "../../StaticJsPropertyDescriptor.js";
 import { isStaticJsSymbol, type StaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsAbstractObject } from "../StaticJsAbstractObject.js";
+import {
+  StaticJsAbstractObject,
+  type StaticJsAbstractObjectCreateParams,
+} from "../StaticJsAbstractObject.js";
 import { isWellKnownSymbol } from "../well-known-symbols.js";
+
+export interface StaticJsExternalObjectCreateParams extends StaticJsAbstractObjectCreateParams {
+  target: object;
+  policy: HostAccessPolicy;
+  fallbackPrototype?: keyof Intrinsics | undefined;
+}
 
 export class StaticJsExternalObject extends StaticJsAbstractObject {
   private readonly _extends = new Map<string | StaticJsSymbol, StaticJsPropertyDescriptor>();
@@ -30,7 +40,12 @@ export class StaticJsExternalObject extends StaticJsAbstractObject {
     [PropertyDescriptor, StaticJsPropertyDescriptor]
   >();
 
-  constructor(
+  static create(params: StaticJsExternalObjectCreateParams): StaticJsExternalObject {
+    const { realm, target, policy, fallbackPrototype = "Object.prototype" } = params;
+    return allocated(new StaticJsExternalObject(realm, target, policy, fallbackPrototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _target: object,
     private readonly _policy: HostAccessPolicy,

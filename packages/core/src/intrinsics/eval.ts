@@ -9,7 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.
 import type { IntrinsicsRecord } from "./intrinsics.js";
 
 export function* createEval(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
-  const evalFunc = new StaticJsNativeFunctionImpl(
+  const evalFunc = StaticJsNativeFunctionImpl.create(
     realm,
     "eval",
     function* (_thisArg, source = realm.types.undefined) {

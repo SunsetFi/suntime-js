@@ -11,7 +11,7 @@ export function* createIsFinite(
   realm: StaticJsRealm,
   intrinsics: IntrinsicsRecord,
 ): EvaluationGenerator<void> {
-  const func = new StaticJsNativeFunctionImpl(
+  const func = StaticJsNativeFunctionImpl.create(
     realm,
     "isFinite",
     function* (_thisArg, value = realm.types.undefined) {

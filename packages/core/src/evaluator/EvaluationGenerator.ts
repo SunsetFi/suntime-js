@@ -24,11 +24,15 @@ export function EvaluationGenerator<T>(maybe: MaybeEvaluationGenerator<T>): Eval
   return new StubEvaluationGenerator(maybe);
 }
 
+EvaluationGenerator.forResult = function forResult<T>(value: T): EvaluationGenerator<T> {
+  return new StubEvaluationGenerator(value);
+};
+
 export function isEvaluationGenerator(value: unknown): value is EvaluationGenerator<unknown> {
   return value instanceof Iterator;
 }
 
-export class StubEvaluationGenerator<T>
+class StubEvaluationGenerator<T>
   extends Iterator<EvaluatorCommandBase, T, CompletionValue>
   implements EvaluationGenerator<T>
 {

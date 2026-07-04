@@ -62,16 +62,9 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
     const size = this._getSize(tag, value);
 
     if (this.allocatedSize + size > this._maxSize) {
-      // Try an emergency recount of gen one.
-      // Don't reset the gen zero size, as that is still ongoing.
-      // This still means we can possibly double count items in it.
-      this._genOneSize = this._computeReachableSize();
-
-      if (this.allocatedSize + size > this._maxSize) {
-        throw new StaticJsOutOfMemoryError(
-          `Memory allocation of ${size} bytes exceeds max size of ${this._maxSize} bytes`,
-        );
-      }
+      throw new StaticJsOutOfMemoryError(
+        `Memory allocation of ${size} bytes exceeds max size of ${this._maxSize} bytes`,
+      );
     }
 
     this._genZeroSize += size;

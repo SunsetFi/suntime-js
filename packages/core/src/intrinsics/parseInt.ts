@@ -9,7 +9,7 @@ import type { IntrinsicPropertyDeclaration } from "./apply-intrinsic-properties.
 import type { IntrinsicsRecord } from "./intrinsics.js";
 
 export function* createParseInt(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
-  const func = new StaticJsNativeFunctionImpl(
+  const func = StaticJsNativeFunctionImpl.create(
     realm,
     "parseInt",
     function* (_thisArg, string = realm.types.undefined, radix = realm.types.undefined) {

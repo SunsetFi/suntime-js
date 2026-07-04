@@ -67,6 +67,6 @@ function* boundFunctionCreate(
   boundArgs: StaticJsValue[],
 ): EvaluationGenerator<StaticJsFunction> {
   const proto = yield* Q(targetFunction.getPrototypeOfEvaluator());
-  const obj = new StaticJsBoundFunction(realm, targetFunction, boundThis, boundArgs, proto);
+  const obj = StaticJsBoundFunction.create(realm, targetFunction, boundThis, boundArgs, proto);
   return obj;
 }

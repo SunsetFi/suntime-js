@@ -21,6 +21,7 @@ import { rethrowCompletion } from "#evaluator/completions/rethrow-completion.js"
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { initializeInstanceElements } from "#evaluator/node-evaluators/Classes/evaluation/initialize-instance-elements.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type {
@@ -41,7 +42,29 @@ export type StaticJsClassConstructorNativeConstruct = (
 export class StaticJsClassConstructorFunction extends StaticJsMethodFunction {
   private readonly _nativeFunc: StaticJsClassConstructorNativeConstruct | null;
 
-  constructor(
+  static override create(
+    realm: StaticJsRealm,
+    node: Function | Expression | StaticJsClassConstructorNativeConstruct,
+    sourceText: string,
+    homeObject: StaticJsObject,
+    env: StaticJsEnvironmentRecord,
+    privateEnv: StaticJsPrivateEnvironmentRecord,
+    prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
+  ): StaticJsClassConstructorFunction {
+    return allocated(
+      new StaticJsClassConstructorFunction(
+        realm,
+        node,
+        sourceText,
+        homeObject,
+        env,
+        privateEnv,
+        prototype,
+      ),
+    );
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     node: Function | Expression | StaticJsClassConstructorNativeConstruct,
     sourceText: string,

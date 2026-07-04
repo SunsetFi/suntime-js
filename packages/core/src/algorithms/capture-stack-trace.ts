@@ -117,7 +117,7 @@ function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGe
   // We are following v8 conventions, here and elsewhere, for error stacks,
   // but we (currently) don't lazy format it.
   yield* definePropertyOrThrow(obj, "stack", {
-    get: new StaticJsNativeFunctionImpl(
+    get: StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* () {
@@ -127,7 +127,7 @@ function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGe
         captures: [markable],
       },
     ),
-    set: new StaticJsNativeFunctionImpl(
+    set: StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (value) {

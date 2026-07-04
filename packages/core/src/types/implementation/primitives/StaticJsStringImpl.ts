@@ -1,6 +1,7 @@
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsString } from "../../StaticJsString.js";
@@ -11,14 +12,16 @@ import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
 export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements StaticJsString {
   private readonly _value: string;
 
-  constructor(realm: StaticJsRealm, value: string) {
+  static create(realm: StaticJsRealm, value: string): StaticJsStringImpl {
+    return allocated(new StaticJsStringImpl(realm, value));
+  }
+
+  protected constructor(realm: StaticJsRealm, value: string) {
     super(realm);
     if (typeof value !== "string") {
       throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
     this._value = value;
-
-    this.allocateSelf();
   }
 
   override get [Symbol.toStringTag](): string {

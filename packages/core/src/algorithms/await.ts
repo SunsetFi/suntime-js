@@ -17,7 +17,7 @@ export const Await = Q.makeReceiver(function* Await(
   const suspendContext = SuspendCommand.createContext();
 
   const promise = yield* Q(promiseResolve(realm.intrinsics.Promise, value));
-  const onFulfilled = new StaticJsNativeFunctionImpl(
+  const onFulfilled = StaticJsNativeFunctionImpl.create(
     realm,
     "",
     function* (_thisArg, v) {
@@ -28,7 +28,7 @@ export const Await = Q.makeReceiver(function* Await(
       captures: [suspendContext],
     },
   );
-  const onRejected = new StaticJsNativeFunctionImpl(
+  const onRejected = StaticJsNativeFunctionImpl.create(
     realm,
     "",
     function* (_thisArg, e) {

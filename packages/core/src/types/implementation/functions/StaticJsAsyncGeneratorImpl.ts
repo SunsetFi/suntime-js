@@ -18,6 +18,7 @@ import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -49,7 +50,16 @@ export class StaticJsAsyncGeneratorImpl
   private _asyncGeneratorContext: SuspendContext<StaticJsValue>;
   private _asyncGeneratorQueue: AsyncGeneratorRequest[] = [];
 
-  constructor(
+  static create(
+    generatorBody: Node | EvaluationGenerator<Completion>,
+    generatorBrand: string | null,
+    realm: StaticJsRealm,
+    proto?: StaticJsObject,
+  ): StaticJsAsyncGeneratorImpl {
+    return allocated(new StaticJsAsyncGeneratorImpl(generatorBody, generatorBrand, realm, proto));
+  }
+
+  protected constructor(
     generatorBody: Node | EvaluationGenerator<Completion>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
@@ -461,7 +471,7 @@ export class StaticJsAsyncGeneratorImpl
     // oxlint-disable-next-line typescript/no-this-alias
     const generator = this;
 
-    const onFulfilled = new StaticJsNativeFunctionImpl(
+    const onFulfilled = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, value) {
@@ -481,7 +491,7 @@ export class StaticJsAsyncGeneratorImpl
       },
     );
 
-    const onRejected = new StaticJsNativeFunctionImpl(
+    const onRejected = StaticJsNativeFunctionImpl.create(
       realm,
       "",
       function* (_thisArg, reason) {

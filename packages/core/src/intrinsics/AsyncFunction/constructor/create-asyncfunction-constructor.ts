@@ -10,7 +10,7 @@ export function* createAsyncFunctionConstructor(
   asyncFunctionProto: StaticJsObject,
   functionConstructor: StaticJsCallable,
 ) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "AsyncFunction",
     function* (_thisArg, ...args) {

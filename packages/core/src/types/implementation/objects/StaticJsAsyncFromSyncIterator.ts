@@ -12,16 +12,26 @@ import { asyncFromSyncIteratorContinuation } from "#iterators/async-from-sync-it
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorNext } from "#iterators/iterator-next.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsPromise } from "../../StaticJsPromise.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsAsyncFromSyncIteratorCreateParams extends StaticJsAbstractObjectCreateParams {
+  syncIteratorRecord: StaticJsIteratorRecord;
+}
+
 export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
-  constructor(
+  static create(params: StaticJsAsyncFromSyncIteratorCreateParams): StaticJsAsyncFromSyncIterator {
+    return allocated(new StaticJsAsyncFromSyncIterator(params.realm, params.syncIteratorRecord));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _syncIteratorRecord: StaticJsIteratorRecord,
   ) {

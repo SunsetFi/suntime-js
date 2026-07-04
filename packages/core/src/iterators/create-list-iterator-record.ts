@@ -18,7 +18,7 @@ export function* createListIteratorRecord(
   let index = 0;
 
   const markable = containerMarkable(compoundMarkable(values));
-  const next = new StaticJsNativeFunctionImpl(
+  const next = StaticJsNativeFunctionImpl.create(
     realm,
     "next",
     function* () {

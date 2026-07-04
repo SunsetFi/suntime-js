@@ -12,7 +12,7 @@ export abstract class StaticJsIteratorImpl
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsIterator
 {
-  constructor(
+  protected constructor(
     realm: StaticJsRealm,
     prototype: StaticJsObject = realm.intrinsics["Iterator.prototype"],
   ) {

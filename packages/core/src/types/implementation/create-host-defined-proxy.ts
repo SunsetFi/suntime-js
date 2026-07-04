@@ -35,7 +35,7 @@ type StaticJsProxyHandlerFactories = {
 };
 const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
   getPrototypeOf: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(realm, "getPrototypeOf", function* (_thisArg, target) {
+    return StaticJsNativeFunctionImpl.create(realm, "getPrototypeOf", function* (_thisArg, target) {
       const result = Reflect.apply(func, undefined, [target]);
       const evaluated = yield* EvaluationGenerator(result);
       if (evaluated === null) {
@@ -48,7 +48,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     });
   },
   setPrototypeOf: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "setPrototypeOf",
       function* (_thisArg, target, prototype) {
@@ -62,7 +62,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   isExtensible: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(realm, "isExtensible", function* (_thisArg, target) {
+    return StaticJsNativeFunctionImpl.create(realm, "isExtensible", function* (_thisArg, target) {
       const result = Reflect.apply(func, undefined, [target]);
       const evaluated = yield* EvaluationGenerator(result);
       if (typeof evaluated !== "boolean") {
@@ -72,17 +72,21 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     });
   },
   preventExtensions: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(realm, "preventExtensions", function* (_thisArg, target) {
-      const result = Reflect.apply(func, undefined, [target]);
-      const evaluated = yield* EvaluationGenerator(result);
-      if (typeof evaluated !== "boolean") {
-        throw new TypeError(`Proxy handler preventExtensions trap must return a boolean`);
-      }
-      return realm.types.boolean(evaluated);
-    });
+    return StaticJsNativeFunctionImpl.create(
+      realm,
+      "preventExtensions",
+      function* (_thisArg, target) {
+        const result = Reflect.apply(func, undefined, [target]);
+        const evaluated = yield* EvaluationGenerator(result);
+        if (typeof evaluated !== "boolean") {
+          throw new TypeError(`Proxy handler preventExtensions trap must return a boolean`);
+        }
+        return realm.types.boolean(evaluated);
+      },
+    );
   },
   getOwnPropertyDescriptor: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "getOwnPropertyDescriptor",
       function* (_thisArg, target, key) {
@@ -103,7 +107,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   defineProperty: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "defineProperty",
       function* (_thisArg, target, key, descriptor) {
@@ -118,7 +122,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   has: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(realm, "has", function* (_thisArg, target, key) {
+    return StaticJsNativeFunctionImpl.create(realm, "has", function* (_thisArg, target, key) {
       const nativeKey = toStaticJsPropertyKey(key);
       const result = Reflect.apply(func, undefined, [target, nativeKey]);
       const evaluated = yield* EvaluationGenerator(result);
@@ -129,7 +133,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     });
   },
   get: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "get",
       function* (_thisArg, target, key, receiver) {
@@ -144,7 +148,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   set: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "set",
       function* (_thisArg, target, key, value, receiver) {
@@ -159,7 +163,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   deleteProperty: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "deleteProperty",
       function* (_thisArg, target, key) {
@@ -174,7 +178,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   ownKeys: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(realm, "ownKeys", function* (_thisArg, target) {
+    return StaticJsNativeFunctionImpl.create(realm, "ownKeys", function* (_thisArg, target) {
       const result = Reflect.apply(func, undefined, [target]);
       const evaluated = yield* EvaluationGenerator(result);
       if (!Array.isArray(evaluated) || !evaluated.some(isStaticJsPropertyKey)) {
@@ -189,7 +193,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     });
   },
   apply: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "apply",
       function* (_thisArg, target, thisArgument, argArray) {
@@ -203,7 +207,7 @@ const HostDefinedProxyHandlerFactories: StaticJsProxyHandlerFactories = {
     );
   },
   construct: (realm, func) => {
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       "construct",
       function* (_thisArg, target, argArray, newTarget) {
@@ -268,5 +272,5 @@ export function createHostDefinedProxy(
 
   const handlersObject = realm.types.object(descriptors);
 
-  return new StaticJsProxyImpl(resolvedTarget, handlersObject, realm);
+  return StaticJsProxyImpl.create(resolvedTarget, handlersObject, realm);
 }
