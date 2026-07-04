@@ -64,7 +64,7 @@ export function* enumerateObjectProperties(
       }
     },
     {
-      mark: [currentObject],
+      captures: [currentObject],
     },
   );
 

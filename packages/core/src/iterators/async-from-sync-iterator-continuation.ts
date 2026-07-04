@@ -71,7 +71,7 @@ export function* asyncFromSyncIteratorContinuation(
         return yield* Q(iteratorClose(syncIteratorRecord, Completion.Throw(e)));
       },
       {
-        mark: [syncIteratorRecord.iterator, syncIteratorRecord.nextMethod],
+        captures: [syncIteratorRecord.iterator, syncIteratorRecord.nextMethod],
       },
     );
   }

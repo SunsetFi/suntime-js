@@ -36,6 +36,9 @@ export interface StaticJsRealm {
    */
   readonly types: StaticJsTypeFactory;
 
+  /**
+   * The memory manager for the realm.
+   */
   readonly memory: StaticJsMemoryManager;
 
   /**

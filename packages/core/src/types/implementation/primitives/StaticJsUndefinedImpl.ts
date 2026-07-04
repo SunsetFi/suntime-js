@@ -1,4 +1,4 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
@@ -9,7 +9,7 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
 export class StaticJsUndefinedImpl implements StaticJsUndefined {
   constructor(private readonly _realm: StaticJsRealm) {
-    _realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsUndefined, this);
+    this.allocateSelf();
   }
 
   get [Symbol.toStringTag](): string {
@@ -36,14 +36,18 @@ export class StaticJsUndefinedImpl implements StaticJsUndefined {
     return undefined;
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
     marks.add(this);
+  }
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsUndefined, this);
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(StaticJsMemoryAllocationTag.StaticJsUndefined, this);
   }
 
   toNative() {

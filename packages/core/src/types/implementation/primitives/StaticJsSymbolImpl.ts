@@ -1,4 +1,4 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
@@ -77,13 +77,19 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     return this._description;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
-    super.mark(marks, allocate);
+    super.mark(marks);
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
     if (this._description) {
-      allocate?.(StaticJsMemoryAllocationTag.RawString, this._description);
+      allocate(StaticJsMemoryAllocationTag.RawString, this._description);
     }
   }
 

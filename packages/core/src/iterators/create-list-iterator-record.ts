@@ -32,7 +32,7 @@ export function* createListIteratorRecord(
       return result;
     },
     {
-      mark: [markable],
+      captures: [markable],
     },
   );
 

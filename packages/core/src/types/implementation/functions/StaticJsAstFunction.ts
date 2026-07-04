@@ -18,7 +18,7 @@ import {
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { asyncFunctionStart } from "#algorithms/async-function-start.js";
@@ -116,13 +116,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
       prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"],
       StaticJsMemoryAllocationTag.StaticJsAstFunction,
     );
-    realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, sourceText);
-    // The retained babel AST (`_node`) costs far more than its source text; charge
-    // it proportionally to the source length (~325 bytes/char worst case).
-    realm.memory.allocate(
-      StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText,
-      sourceText.length,
-    );
+
     this._argumentDeclarations = params;
 
     if (strict) {
@@ -350,18 +344,23 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
-    super.mark(marks, allocate);
+
+    super.mark(marks);
+    this._environment.mark(marks);
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
     allocate?.(StaticJsMemoryAllocationTag.RawString, this._sourceText);
     allocate?.(
       StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText,
       this._sourceText.length,
     );
-
-    this._environment.mark(marks, allocate);
   }
 
   override toStringSync() {

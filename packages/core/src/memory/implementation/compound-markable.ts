@@ -1,8 +1,8 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 
-export function compoundMarkable(markables: StaticJsMarkable[]): StaticJsMarkable {
+export function compoundMarkable(markables: StaticJsAllocation[]): StaticJsAllocation {
   return {
-    mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    mark(marks: Set<StaticJsAllocation>): void {
       if (marks.has(this)) {
         return;
       }
@@ -10,8 +10,9 @@ export function compoundMarkable(markables: StaticJsMarkable[]): StaticJsMarkabl
       marks.add(this);
 
       for (const markable of markables) {
-        markable.mark(marks, allocate);
+        markable.mark(marks);
       }
     },
+    allocateSelf() {},
   };
 }

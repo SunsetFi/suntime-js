@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
-import { isMarkableContainer, isMarkableType } from "../markable-types.js";
+import { isMarkableContainer, isMarkableType } from "../allocation-types.js";
 import { STUBS, createProgram } from "./program-fixture.js";
 
 function typeOfDecl(decl: string) {
@@ -12,11 +12,11 @@ function typeOfDecl(decl: string) {
 }
 
 describe("isMarkableType", () => {
-  it("is true for a direct StaticJsMarkable", () => {
-    const { type, checker } = typeOfDecl("declare const m: StaticJsMarkable;");
+  it("is true for a direct StaticJsAllocation", () => {
+    const { type, checker } = typeOfDecl("declare const m: StaticJsAllocation;");
     expect(isMarkableType(type, checker)).toBe(true);
   });
-  it("is true for StaticJsValue (extends StaticJsMarkable)", () => {
+  it("is true for StaticJsValue (extends StaticJsAllocation)", () => {
     const { type, checker } = typeOfDecl("declare const v: StaticJsValue;");
     expect(isMarkableType(type, checker)).toBe(true);
   });
@@ -32,7 +32,7 @@ describe("isMarkableType", () => {
   // Follow-up A: union-fixture tests
   it("is true for a union whose every constituent is markable", () => {
     const { type, checker } = typeOfDecl(
-      "interface A extends StaticJsMarkable { a: 1 } interface B extends StaticJsMarkable { b: 1 } declare const u: A | B;",
+      "interface A extends StaticJsAllocation { a: 1 } interface B extends StaticJsAllocation { b: 1 } declare const u: A | B;",
     );
     expect(isMarkableType(type, checker)).toBe(true);
   });
@@ -42,8 +42,8 @@ describe("isMarkableType", () => {
   });
 
   // Follow-up B: tightened hasMarkMethod tests
-  it("is true for a type whose mark takes Set<StaticJsMarkable> (real shape)", () => {
-    const { type, checker } = typeOfDecl("declare const m: StaticJsMarkable;");
+  it("is true for a type whose mark takes Set<StaticJsAllocation> (real shape)", () => {
+    const { type, checker } = typeOfDecl("declare const m: StaticJsAllocation;");
     expect(isMarkableType(type, checker)).toBe(true);
   });
   it("is false for a type whose mark first param is Set<string> (not a Set of markables)", () => {
@@ -69,8 +69,8 @@ describe("isMarkableContainer", () => {
     const { type, checker } = typeOfDecl("declare const m: Map<unknown, StaticJsValue>;");
     expect(isMarkableContainer(type, checker)).toBe(true);
   });
-  it("is true for Set<StaticJsMarkable>", () => {
-    const { type, checker } = typeOfDecl("declare const s: Set<StaticJsMarkable>;");
+  it("is true for Set<StaticJsAllocation>", () => {
+    const { type, checker } = typeOfDecl("declare const s: Set<StaticJsAllocation>;");
     expect(isMarkableContainer(type, checker)).toBe(true);
   });
   it("is false for string[]", () => {

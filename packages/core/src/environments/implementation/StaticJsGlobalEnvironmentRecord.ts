@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -127,17 +127,17 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._realm.types.undefined;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
-    this._globalThis.mark(marks, allocate);
-    this._declarativeRecord.mark(marks, allocate);
+    this._globalThis.mark(marks);
+    this._declarativeRecord.mark(marks);
     // May include globalThis, but that's fine since mark is idempotent.
-    this._objectRecord.mark(marks, allocate);
+    this._objectRecord.mark(marks);
   }
 
   private *_ensureDeclarativeBindingNotDeclared(name: string): EvaluationGenerator<void> {

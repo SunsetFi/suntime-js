@@ -1,4 +1,4 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { symbolInspect } from "#utils/symbol-inspect.js";
@@ -19,7 +19,9 @@ export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
 
   abstract get runtimeTypeCode(): StaticJsTypeCode;
 
-  abstract mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void;
+  abstract mark(marks: Set<StaticJsAllocation>): void;
+
+  abstract allocateSelf(allocate?: StaticJsAllocator): void;
 
   abstract toNative(): unknown;
 

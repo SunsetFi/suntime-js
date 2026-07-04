@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -184,27 +184,33 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     return yield* this.thenEvaluator(undefined, onRejected, true);
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
-    this._result?.mark(marks, allocate);
-
-    allocate?.(
-      StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
-      this._fulfullReactions.length + this._rejectReactions.length,
-    );
+    this._result?.mark(marks);
 
     for (const reaction of this._fulfullReactions) {
-      markReaction(reaction, marks, allocate);
+      markReaction(reaction, marks);
     }
 
     for (const reaction of this._rejectReactions) {
-      markReaction(reaction, marks, allocate);
+      markReaction(reaction, marks);
     }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+
+    allocate(
+      StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
+      this._fulfullReactions.length + this._rejectReactions.length,
+    );
   }
 
   override toNative(): Promise<unknown> {
@@ -250,20 +256,16 @@ function queuePromiseReactionJob(
   });
 }
 
-function markReaction(
-  reaction: StaticJsReactionRecord,
-  marks: Set<StaticJsMarkable>,
-  allocate?: StaticJsMarkableAllocator,
-) {
+function markReaction(reaction: StaticJsReactionRecord, marks: Set<StaticJsAllocation>) {
   const { capability, handler } = reaction;
 
   if (capability) {
-    capability.promise.mark(marks, allocate);
-    capability.resolve.mark(marks, allocate);
-    capability.reject.mark(marks, allocate);
+    capability.promise.mark(marks);
+    capability.resolve.mark(marks);
+    capability.reject.mark(marks);
   }
 
   if (handler) {
-    handler.mark(marks, allocate);
+    handler.mark(marks);
   }
 }

@@ -72,7 +72,7 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
             markable.clear();
             return realm.types.undefined;
           },
-          { mark: [markable] },
+          { captures: [markable] },
         );
 
         const result = realm.types.object();

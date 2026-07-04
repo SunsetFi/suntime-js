@@ -1,6 +1,6 @@
 // TODO REMOVE
 
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -944,20 +944,25 @@ export class StaticJsProxyImpl implements StaticJsProxy {
     throw new StaticJsEngineError("Cannot currently add private methods to proxies.");
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
+
     marks.add(this);
 
-    allocate?.(StaticJsMemoryAllocationTag.StaticJsProxy, this);
-
     if (this._proxyTarget) {
-      this._proxyTarget.mark(marks, allocate);
+      this._proxyTarget.mark(marks);
     }
     if (this._handler) {
-      this._handler.mark(marks, allocate);
+      this._handler.mark(marks);
     }
+  }
+
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(StaticJsMemoryAllocationTag.StaticJsProxy, this);
   }
 
   toNative(): unknown {

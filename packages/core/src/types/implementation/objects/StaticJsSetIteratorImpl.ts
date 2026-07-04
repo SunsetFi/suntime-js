@@ -1,4 +1,4 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsSet } from "#types/StaticJsSet.js";
 
@@ -58,13 +58,13 @@ export class StaticJsSetIteratorImpl extends StaticJsIteratorImpl {
     };
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator) {
+  override mark(marks: Set<StaticJsAllocation>) {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
-    this._backingSet.mark(marks, allocate);
+    this._backingSet.mark(marks);
   }
 }

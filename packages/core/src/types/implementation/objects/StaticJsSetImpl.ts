@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -442,26 +442,29 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     return result;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
     for (const value of this._backingStore) {
-      allocate?.(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, undefined);
       if (isStaticJsValue(value)) {
-        value.mark(marks, allocate);
-      } else if (allocate) {
-        switch (typeof value) {
-          case "string":
-            allocate(StaticJsMemoryAllocationTag.RawString, value);
-            break;
-          case "number":
-            allocate(StaticJsMemoryAllocationTag.RawNumber, value);
-            break;
-        }
+        value.mark(marks);
+      }
+    }
+  }
+
+  override allocateSelf(allocate: StaticJsAllocator): void {
+    super.allocateSelf(allocate);
+
+    for (const value of this._backingStore) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, undefined);
+      if (typeof value === "string") {
+        allocate(StaticJsMemoryAllocationTag.RawString, value);
+      } else if (typeof value === "number") {
+        allocate(StaticJsMemoryAllocationTag.RawNumber, value);
       }
     }
   }

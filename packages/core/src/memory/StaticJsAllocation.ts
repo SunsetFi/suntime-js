@@ -1,21 +1,30 @@
 import type { StaticJsMemoryAllocationTag } from "./StaticJsMemoryAllocationTag.js";
 import type { StaticJsAllocatorType } from "./StaticJsMemoryWeights.js";
 
-export type StaticJsMarkableAllocator = <T extends StaticJsMemoryAllocationTag>(
+export type StaticJsAllocator = <T extends StaticJsMemoryAllocationTag>(
   tag: T,
   value: StaticJsAllocatorType<T>,
 ) => void;
 
 export type StaticJsMarkFunction = (
-  this: StaticJsMarkable,
-  marks: Set<StaticJsMarkable>,
-  allocate?: StaticJsMarkableAllocator,
+  this: StaticJsAllocation,
+  marks: Set<StaticJsAllocation>,
 ) => void;
-export interface StaticJsMarkable {
+
+export type StaticJsAllocateSelfFunction = (
+  this: StaticJsAllocation,
+  allocate: StaticJsAllocator,
+) => void;
+
+export interface StaticJsAllocation {
   /**
    * Marks the object and its references.  Used for garbage collection and cycle detection.
    * @param marks A set of already marked objects to avoid infinite recursion.
-   * @param allocate If present, a function to call to report the allocated memory for this object and its children.  This is used to track memory usage and enforce limits.
    */
   mark: StaticJsMarkFunction;
+
+  /**
+   * Requests the object to allocate itself against the realm's memory manager.
+   */
+  allocateSelf: StaticJsAllocateSelfFunction;
 }

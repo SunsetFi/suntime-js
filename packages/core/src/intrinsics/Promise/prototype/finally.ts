@@ -38,12 +38,12 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
             function* () {
               return value;
             },
-            { mark: [value] },
+            { captures: [value] },
           );
           return yield* p.thenEvaluator(returnValue, undefined, true);
         },
         {
-          mark: [onFinally],
+          captures: [onFinally],
         },
       );
       catchFinally = new StaticJsNativeFunctionImpl(
@@ -61,13 +61,13 @@ const promiseProtoFinallyDeclaration: IntrinsicPropertyDeclaration = {
               throw Completion.Throw(reason);
             },
             {
-              mark: [reason],
+              captures: [reason],
             },
           );
           return yield* p.thenEvaluator(thrower, undefined, true);
         },
         {
-          mark: [onFinally],
+          captures: [onFinally],
         },
       );
     }

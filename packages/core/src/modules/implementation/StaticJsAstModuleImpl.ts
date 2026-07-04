@@ -1,7 +1,7 @@
 import type { FunctionDeclaration, Program } from "@babel/types";
 
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -293,7 +293,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
             onModuleComplete();
             return _realm.types.undefined;
           },
-          { mark: [markable] },
+          { captures: [markable] },
         );
 
         const onRejected = new StaticJsNativeFunctionImpl(
@@ -303,7 +303,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
             onModuleReject(arg);
             return _realm.types.undefined;
           },
-          { mark: [markable] },
+          { captures: [markable] },
         );
 
         yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);
@@ -589,7 +589,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     });
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
@@ -597,10 +597,12 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     marks.add(this);
 
     if (this._moduleEnv) {
-      this._moduleEnv.mark(marks, allocate);
+      this._moduleEnv.mark(marks);
     }
     if (this._envRec) {
-      this._envRec.mark(marks, allocate);
+      this._envRec.mark(marks);
     }
   }
+
+  allocateSelf() {}
 }

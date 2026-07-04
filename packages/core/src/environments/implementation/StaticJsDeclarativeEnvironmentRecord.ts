@@ -1,6 +1,6 @@
 import type { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -182,19 +182,25 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     return this._realm.types.undefined;
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
-    for (const [name, binding] of this._bindings.entries()) {
-      allocate?.(StaticJsMemoryAllocationTag.RawString, name);
-
-      if (binding.value) {
-        binding.value.mark(marks, allocate);
+    for (const { value } of this._bindings.values()) {
+      if (value) {
+        value.mark(marks);
       }
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this._realm.memory.allocate.bind(this._realm.memory),
+  ): void {
+    for (const name of this._bindings.keys()) {
+      allocate(StaticJsMemoryAllocationTag.RawString, name);
     }
   }
 

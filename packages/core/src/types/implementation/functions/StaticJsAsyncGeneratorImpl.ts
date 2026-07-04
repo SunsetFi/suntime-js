@@ -1,6 +1,6 @@
 import { isNode, type Node } from "@babel/types";
 
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -294,26 +294,26 @@ export class StaticJsAsyncGeneratorImpl
     return yield* this._asyncGeneratorUnwrapYieldResumption(resumptionValue);
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
-    this._asyncGeneratorContext.mark(marks, allocate);
+    this._asyncGeneratorContext.mark(marks);
     for (const {
       completion,
       capability: { promise, reject, resolve },
     } of this._asyncGeneratorQueue) {
       const value = Completion.value(completion);
       if (isStaticJsValue(value)) {
-        value.mark(marks, allocate);
+        value.mark(marks);
       }
 
-      promise.mark(marks, allocate);
-      reject.mark(marks, allocate);
-      resolve.mark(marks, allocate);
+      promise.mark(marks);
+      reject.mark(marks);
+      resolve.mark(marks);
     }
   }
 
@@ -477,7 +477,7 @@ export class StaticJsAsyncGeneratorImpl
         return realm.types.undefined;
       },
       {
-        mark: [generator],
+        captures: [generator],
       },
     );
 
@@ -497,7 +497,7 @@ export class StaticJsAsyncGeneratorImpl
         return realm.types.undefined;
       },
       {
-        mark: [generator],
+        captures: [generator],
       },
     );
 

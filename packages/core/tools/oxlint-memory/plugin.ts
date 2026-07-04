@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
 // .ts extension required: oxlint loads this via Node's native TS stripping, which (unlike tsc) does not remap .js -> .ts.
-import { analyzeSourceFile } from "./markable-analysis.ts";
+import { analyzeSourceFile } from "./allocation-analysis.ts";
 
 const PLUGIN_DIR = path.dirname(fileURLToPath(import.meta.url));
 const CORE_ROOT = path.resolve(PLUGIN_DIR, "..", ".."); // packages/core

@@ -79,7 +79,7 @@ describe("analyzeSourceFile", () => {
   it("skips a new-expression whose mark is not an array literal (opaque)", async () => {
     const vs = await analyze(`
       declare const stack: StaticJsValue;
-      declare const opaque: readonly StaticJsMarkable[];
+      declare const opaque: readonly StaticJsAllocation[];
       new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { mark: opaque });
     `);
     expect(vs).toHaveLength(0);
@@ -140,8 +140,8 @@ describe("analyzeSourceFile", () => {
   // Follow-up A: union-typed markable capture
   it("flags a captured union-typed markable not in mark", async () => {
     const vs = await analyze(`
-      interface A extends StaticJsMarkable { a: 1 }
-      interface B extends StaticJsMarkable { b: 1 }
+      interface A extends StaticJsAllocation { a: 1 }
+      interface B extends StaticJsAllocation { b: 1 }
       declare const u: A | B;
       new StaticJsNativeFunctionImpl(realm, "", function* () { return u as any; });
     `);

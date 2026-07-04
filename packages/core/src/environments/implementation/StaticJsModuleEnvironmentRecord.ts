@@ -1,11 +1,12 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
 
@@ -129,15 +130,23 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     this._moduleBindings.set(name, { module, bindingName });
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
     for (const { module } of this._moduleBindings.values()) {
-      module.mark(marks, allocate);
+      module.mark(marks);
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this._realm.memory.allocate.bind(this._realm.memory),
+  ): void {
+    for (const name of this._moduleBindings.keys()) {
+      allocate(StaticJsMemoryAllocationTag.RawString, name);
     }
   }
 }

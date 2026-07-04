@@ -25,7 +25,7 @@ export const Await = Q.makeReceiver(function* Await(
       return realm.types.undefined;
     },
     {
-      mark: [suspendContext],
+      captures: [suspendContext],
     },
   );
   const onRejected = new StaticJsNativeFunctionImpl(
@@ -36,7 +36,7 @@ export const Await = Q.makeReceiver(function* Await(
       return realm.types.undefined;
     },
     {
-      mark: [suspendContext],
+      captures: [suspendContext],
     },
   );
 

@@ -159,7 +159,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
       return realm.types.undefined;
     },
     {
-      mark: [markable],
+      captures: [markable],
     },
   );
 
@@ -177,7 +177,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
       return realm.types.undefined;
     },
     {
-      mark: [markable],
+      captures: [markable],
     },
   );
 

@@ -1,9 +1,10 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
+import { isStaticJsValue } from "#types/StaticJsValue.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
@@ -97,30 +98,38 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     });
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
     for (const [key, descr] of this._contents.entries()) {
-      allocate?.(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
-      if (typeof key === "string") {
-        allocate?.(StaticJsMemoryAllocationTag.RawString, key);
-      } else {
-        key.mark(marks, allocate);
+      if (isStaticJsValue(key)) {
+        key.mark(marks);
       }
 
       if (isStaticJsDataPropertyDescriptor(descr)) {
-        descr.value.mark(marks, allocate);
+        descr.value.mark(marks);
       } else if (isStaticJsAccessorPropertyDescriptor(descr)) {
         if (descr.get) {
-          descr.get.mark(marks, allocate);
+          descr.get.mark(marks);
         }
         if (descr.set) {
-          descr.set.mark(marks, allocate);
+          descr.set.mark(marks);
         }
+      }
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    for (const key of this._contents.keys()) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
+      if (typeof key === "string") {
+        allocate(StaticJsMemoryAllocationTag.RawString, key);
       }
     }
   }

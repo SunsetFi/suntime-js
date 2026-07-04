@@ -1,11 +1,11 @@
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import type { StaticJsToNativeOpts } from "./StaticJsToNativeOpts.js";
 
 import { StaticJsTypeCode } from "./StaticJsTypeCode.js";
 
-export interface StaticJsPrimitive extends StaticJsMarkable {
+export interface StaticJsPrimitive extends StaticJsAllocation {
   /**
    * The realm that created this value. Each value is unique to the realm that created it, and cannot be crossed to other realms.
    */

@@ -2,22 +2,22 @@ import ts from "typescript";
 
 /** Minimal type stubs mirroring the real markable/native-function surface. */
 export const STUBS = `
-interface StaticJsMarkable {
-  mark(marks: Set<StaticJsMarkable>, allocate?: (...a: any[]) => void): void;
+interface StaticJsAllocation {
+  mark(marks: Set<StaticJsAllocation>, allocate?: (...a: any[]) => void): void;
 }
-interface StaticJsValue extends StaticJsMarkable {
+interface StaticJsValue extends StaticJsAllocation {
   readonly runtimeTypeOf: string;
 }
-interface StaticJsContainerMarkable<T extends StaticJsMarkable> extends StaticJsMarkable {
+interface StaticJsContainerMarkable<T extends StaticJsAllocation> extends StaticJsAllocation {
   set(v: T): void;
   readonly value: T | null;
 }
-declare function containerMarkable<T extends StaticJsMarkable>(initial?: T): StaticJsContainerMarkable<T>;
-declare function compoundMarkable(markables: StaticJsMarkable[]): StaticJsMarkable;
+declare function containerMarkable<T extends StaticJsAllocation>(initial?: T): StaticJsContainerMarkable<T>;
+declare function compoundMarkable(markables: StaticJsAllocation[]): StaticJsAllocation;
 interface StaticJsNativeFunctionOptions {
   length?: number;
   construct?: boolean | ((...args: StaticJsValue[]) => unknown);
-  mark?: readonly StaticJsMarkable[];
+  mark?: readonly StaticJsAllocation[];
 }
 declare class StaticJsNativeFunctionImpl {
   constructor(
@@ -65,7 +65,7 @@ export function createProgram(source: string): {
 
 /** Build a program from STUBS + body and run the analyzer over it. */
 export async function analyze(body: string) {
-  const { analyzeSourceFile } = await import("../markable-analysis.js");
+  const { analyzeSourceFile } = await import("../allocation-analysis.js");
   const { program, sourceFile } = createProgram(STUBS + "\n" + body);
   return analyzeSourceFile(program, sourceFile);
 }

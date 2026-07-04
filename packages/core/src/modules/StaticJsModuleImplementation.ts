@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
@@ -14,7 +14,7 @@ export type StaticJsModuleStatus =
   | "evaluating"
   | "evaluated";
 
-export interface StaticJsModuleImplementation extends StaticJsModule, StaticJsMarkable {
+export interface StaticJsModuleImplementation extends StaticJsModule, StaticJsAllocation {
   readonly name: string;
   readonly status: StaticJsModuleStatus;
 
@@ -113,6 +113,9 @@ export function staticJsModuleToImplementation(
       return realm.types.toStaticJsValue(ns);
     },
     mark(): void {
+      // No-op
+    },
+    allocateSelf(): void {
       // No-op
     },
   };

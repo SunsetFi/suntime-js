@@ -1,16 +1,18 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 
-export interface StaticJsContainerMarkable<T extends StaticJsMarkable> extends StaticJsMarkable {
+export interface StaticJsContainerMarkable<
+  T extends StaticJsAllocation,
+> extends StaticJsAllocation {
   set(markable: T): void;
   get value(): T | null;
   clear(): void;
 }
-export function containerMarkable<T extends StaticJsMarkable>(
+export function containerMarkable<T extends StaticJsAllocation>(
   initial?: T,
 ): StaticJsContainerMarkable<T> {
   let value: T | null = initial ?? null;
   return {
-    mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+    mark(marks: Set<StaticJsAllocation>): void {
       if (marks.has(this)) {
         return;
       }
@@ -18,9 +20,10 @@ export function containerMarkable<T extends StaticJsMarkable>(
       marks.add(this);
 
       if (value) {
-        value.mark(marks, allocate);
+        value.mark(marks);
       }
     },
+    allocateSelf() {},
     set(markable: T): void {
       value = markable;
     },

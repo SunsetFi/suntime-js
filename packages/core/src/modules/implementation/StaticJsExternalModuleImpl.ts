@@ -100,4 +100,8 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
   mark(): void {
     // No-op
   }
+
+  allocateSelf(): void {
+    // No-op
+  }
 }

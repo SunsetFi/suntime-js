@@ -1,5 +1,5 @@
 import type { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
-import type { StaticJsMarkable } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type {
   StaticJsAllocatorType,
@@ -16,7 +16,7 @@ import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag
 const DEFAULT_HIGH_WATERMARK_PERCENT = 0.8;
 
 export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
-  private readonly _pins = new Set<StaticJsValue>();
+  private readonly _pins = new Map<StaticJsValue, number>();
 
   private _globalEnv: StaticJsGlobalEnvironmentRecord | null = null;
   private _symbolRegistry: ReadonlyMap<string, StaticJsSymbol> | null = null;
@@ -98,11 +98,19 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   }
 
   pin(value: StaticJsValue): void {
-    this._pins.add(value);
+    this._pins.set(value, (this._pins.get(value) ?? 0) + 1);
   }
 
   unpin(value: StaticJsValue): void {
-    this._pins.delete(value);
+    const count = this._pins.get(value);
+    if (count === undefined) {
+      return;
+    }
+    if (count === 1) {
+      this._pins.delete(value);
+    } else {
+      this._pins.set(value, count - 1);
+    }
   }
 
   get genZeroSize(): number {
@@ -171,16 +179,23 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
         markedSize += this._getSize(tag, value);
       };
 
-      const marks = new Set<StaticJsMarkable>();
+      const marks = new Set<StaticJsAllocation>();
 
-      for (const pin of this._pins) {
-        pin.mark(marks, allocate);
+      for (const pin of this._pins.keys()) {
+        pin.mark(marks);
       }
 
-      this._globalEnv.mark(marks, allocate);
+      this._globalEnv.mark(marks);
+
       for (const [name, symbol] of this._symbolRegistry?.entries() ?? []) {
         allocate(StaticJsMemoryAllocationTag.RawString, name);
-        symbol.mark(marks, allocate);
+        symbol.mark(marks);
+      }
+
+      // TODO: Mark modules!
+
+      for (const mark of marks) {
+        mark.allocateSelf(allocate);
       }
 
       return markedSize;

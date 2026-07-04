@@ -106,7 +106,7 @@ function* performPromiseAll(
         return realm.types.undefined;
       },
       {
-        mark: [resultCapability.resolve, valuesMarkable],
+        captures: [resultCapability.resolve, valuesMarkable],
       },
     );
     index++;

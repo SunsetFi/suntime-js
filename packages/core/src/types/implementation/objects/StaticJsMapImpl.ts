@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -195,28 +195,32 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
     }
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
-    super.mark(marks, allocate);
+
+    super.mark(marks);
 
     for (const [key, value] of this._backingStore) {
-      allocate?.(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, undefined);
       if (isStaticJsValue(key)) {
-        key.mark(marks, allocate);
-      } else if (allocate) {
-        switch (typeof key) {
-          case "string":
-            allocate(StaticJsMemoryAllocationTag.RawString, key);
-            break;
-          case "number":
-            allocate(StaticJsMemoryAllocationTag.RawNumber, key);
-            break;
-        }
+        key.mark(marks);
       }
+      value.mark(marks);
+    }
+  }
 
-      value.mark(marks, allocate);
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    for (const key of this._backingStore.keys()) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, undefined);
+      if (typeof key === "string") {
+        allocate(StaticJsMemoryAllocationTag.RawString, key);
+      } else if (typeof key === "number") {
+        allocate(StaticJsMemoryAllocationTag.RawNumber, key);
+      }
     }
   }
 }

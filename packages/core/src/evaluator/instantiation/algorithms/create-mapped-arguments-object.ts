@@ -94,7 +94,7 @@ function* makeArgGetter(
       return yield* env.getBindingValueEvaluator(name, false);
     },
     {
-      mark: [env],
+      captures: [env],
     },
   );
 }
@@ -112,7 +112,7 @@ function* makeArgSetter(
       return realm.types.undefined;
     },
     {
-      mark: [env],
+      captures: [env],
     },
   );
 }

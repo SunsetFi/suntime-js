@@ -124,7 +124,7 @@ function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGe
         return stack;
       },
       {
-        mark: [markable],
+        captures: [markable],
       },
     ),
     set: new StaticJsNativeFunctionImpl(
@@ -136,7 +136,7 @@ function* setErrorStack(obj: StaticJsObject, stack: StaticJsValue): EvaluationGe
         return realm.types.undefined;
       },
       {
-        mark: [markable],
+        captures: [markable],
       },
     ),
     enumerable: false,

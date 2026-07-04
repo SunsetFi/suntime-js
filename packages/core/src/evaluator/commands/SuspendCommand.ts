@@ -1,4 +1,4 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
@@ -14,21 +14,21 @@ export interface SuspendContextResumptionValue<TCallerResumptionValue = unknown>
 }
 
 export interface InitialSuspendContext<TCallerResumptionValue = unknown>
-  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsMarkable {
+  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsAllocation {
   state: "initial";
   generator: null;
   evaluationContext: null;
 }
 
 export interface PrimedSuspendContext<TCallerResumptionValue = unknown>
-  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsMarkable {
+  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsAllocation {
   state: "primed";
   generator: EvaluationGenerator<unknown>;
   evaluationContext: EvaluationContext;
 }
 
 export interface ConsumedSuspendContext<TCallerResumptionValue = unknown>
-  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsMarkable {
+  extends SuspendContextResumptionValue<TCallerResumptionValue>, StaticJsAllocation {
   state: "consumed";
   generator: null;
   evaluationContext: null;
@@ -91,6 +91,7 @@ function createContext<TCallerResumptionValue>(): SuspendContext<TCallerResumpti
     evaluationContext: null,
     __kind_resumption_value: undefined as any,
     mark: noop,
+    allocateSelf: noop,
   };
 }
 SuspendCommand.createContext = createContext;
@@ -194,7 +195,7 @@ function suspendedContextPrime(
   primed.state = "primed";
   primed.generator = generator;
   primed.evaluationContext = evaluationContext;
-  primed.mark = (marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator) => {
+  primed.mark = (marks: Set<StaticJsAllocation>) => {
     if (marks.has(primed)) {
       return;
     }
@@ -203,10 +204,10 @@ function suspendedContextPrime(
 
     const { lexicalEnv, variableEnv } = primed.evaluationContext;
     if (lexicalEnv) {
-      lexicalEnv.mark(marks, allocate);
+      lexicalEnv.mark(marks);
     }
     if (variableEnv) {
-      variableEnv.mark(marks, allocate);
+      variableEnv.mark(marks);
     }
   };
 }

@@ -1,5 +1,5 @@
 import type { StaticJsIteratorRecord } from "#iterators/StaticJsIteratorRecord.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { call } from "#algorithms/call.js";
@@ -173,15 +173,15 @@ export class StaticJsAsyncFromSyncIterator extends StaticJsOrdinaryObjectImpl {
     );
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  override mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
 
     const { iterator, nextMethod } = this._syncIteratorRecord;
-    iterator.mark(marks, allocate);
-    nextMethod.mark(marks, allocate);
+    iterator.mark(marks);
+    nextMethod.mark(marks);
   }
 }

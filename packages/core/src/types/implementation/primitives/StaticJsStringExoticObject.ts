@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -153,13 +153,19 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
     };
   }
 
-  override mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator) {
+  override mark(marks: Set<StaticJsAllocation>) {
     if (marks.has(this)) {
       return;
     }
 
-    super.mark(marks, allocate);
+    super.mark(marks);
+  }
 
-    allocate?.(StaticJsMemoryAllocationTag.RawString, this._value);
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+
+    allocate(StaticJsMemoryAllocationTag.RawString, this._value);
   }
 }

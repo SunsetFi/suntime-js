@@ -115,7 +115,7 @@ function* performPromiseAny(
         return realm.types.undefined;
       },
       {
-        mark: [resultCapability.reject, errorsMarkable],
+        captures: [resultCapability.reject, errorsMarkable],
       },
     );
 

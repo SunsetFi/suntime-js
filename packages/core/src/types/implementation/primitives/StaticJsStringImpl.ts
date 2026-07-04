@@ -1,4 +1,4 @@
-import type { StaticJsMarkable, StaticJsMarkableAllocator } from "#memory/StaticJsMarkable.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
@@ -16,10 +16,9 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
     if (typeof value !== "string") {
       throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
-
-    realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsString, this);
-    realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, value);
     this._value = value;
+
+    this.allocateSelf();
   }
 
   override get [Symbol.toStringTag](): string {
@@ -42,13 +41,19 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
     return this._value;
   }
 
-  mark(marks: Set<StaticJsMarkable>, allocate?: StaticJsMarkableAllocator): void {
+  mark(marks: Set<StaticJsAllocation>): void {
     if (marks.has(this)) {
       return;
     }
 
     marks.add(this);
-    allocate?.(StaticJsMemoryAllocationTag.RawString, this._value);
+  }
+
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(StaticJsMemoryAllocationTag.StaticJsString, this);
+    allocate(StaticJsMemoryAllocationTag.RawString, this._value);
   }
 
   toNative() {

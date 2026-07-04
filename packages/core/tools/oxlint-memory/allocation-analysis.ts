@@ -7,7 +7,7 @@ import {
   isMarkableContainer,
   isMarkableType,
   resolveSymbol,
-} from "./markable-types.ts";
+} from "./allocation-types.ts";
 
 export interface Violation {
   start: number;
@@ -67,12 +67,12 @@ function analyzeConstruction(
 ): void {
   const options = getOptionsObject(node);
 
-  // --- mark list ---
-  const markInit = getProperty(options, "mark");
-  if (markInit && !ts.isArrayLiteralExpression(markInit)) {
+  // --- captures list ---
+  const capturesInit = getProperty(options, "captures");
+  if (capturesInit && !ts.isArrayLiteralExpression(capturesInit)) {
     return; // opaque: skip the whole construction
   }
-  const covered = buildCoveredSet(markInit, checker);
+  const covered = buildCoveredSet(capturesInit, checker);
 
   // --- callbacks ---
   const callbacks: (ts.FunctionExpression | ts.ArrowFunction)[] = [];
@@ -216,7 +216,7 @@ function collectCaptures(
                 end: node.getEnd(),
                 bindingName: resolved.getName(),
                 message:
-                  `'${resolved.getName()}' is a StaticJsMarkable captured by a ` +
+                  `'${resolved.getName()}' is a StaticJsAllocation captured by a ` +
                   `StaticJsNativeFunctionImpl callback but is not reachable through the ` +
                   `constructor's 'mark' option. Add it to 'mark' (directly or via ` +
                   `containerMarkable/compoundMarkable).`,
