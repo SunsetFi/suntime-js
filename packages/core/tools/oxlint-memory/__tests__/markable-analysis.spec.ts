@@ -16,7 +16,7 @@ describe("analyzeSourceFile", () => {
   it("passes when the captured markable is listed directly in mark", async () => {
     const vs = await analyze(`
       declare const stack: StaticJsValue;
-      new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { mark: [stack] });
+      new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { captures: [stack] });
     `);
     expect(vs).toHaveLength(0);
   });
@@ -28,7 +28,7 @@ describe("analyzeSourceFile", () => {
       new StaticJsNativeFunctionImpl(
         realm, "",
         function* () { return stack; },
-        { mark: [markable] },
+        { captures: [markable] },
       );
     `);
     expect(vs).toHaveLength(0);
@@ -37,7 +37,7 @@ describe("analyzeSourceFile", () => {
   it("passes when laundered via an inline containerMarkable element", async () => {
     const vs = await analyze(`
       declare const stack: StaticJsValue;
-      new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { mark: [containerMarkable(stack)] });
+      new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { captures: [containerMarkable(stack)] });
     `);
     expect(vs).toHaveLength(0);
   });
@@ -53,7 +53,7 @@ describe("analyzeSourceFile", () => {
   it("passes when a container is laundered via compoundMarkable(arr) in mark", async () => {
     const vs = await analyze(`
       declare const arr: StaticJsValue[];
-      new StaticJsNativeFunctionImpl(realm, "", function* () { return arr[0]; }, { mark: [compoundMarkable(arr)] });
+      new StaticJsNativeFunctionImpl(realm, "", function* () { return arr[0]; }, { captures: [compoundMarkable(arr)] });
     `);
     expect(vs).toHaveLength(0);
   });
@@ -61,7 +61,7 @@ describe("analyzeSourceFile", () => {
   it("passes when a Map is laundered via compoundMarkable([...m.values()]) in mark", async () => {
     const vs = await analyze(`
       declare const m: Map<unknown, StaticJsValue>;
-      new StaticJsNativeFunctionImpl(realm, "", function* () { return m.size; }, { mark: [compoundMarkable([...m.values()])] });
+      new StaticJsNativeFunctionImpl(realm, "", function* () { return m.size; }, { captures: [compoundMarkable([...m.values()])] });
     `);
     expect(vs).toHaveLength(0);
   });
@@ -80,7 +80,7 @@ describe("analyzeSourceFile", () => {
     const vs = await analyze(`
       declare const stack: StaticJsValue;
       declare const opaque: readonly StaticJsAllocation[];
-      new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { mark: opaque });
+      new StaticJsNativeFunctionImpl(realm, "", function* () { return stack; }, { captures: opaque });
     `);
     expect(vs).toHaveLength(0);
   });
@@ -112,7 +112,7 @@ describe("analyzeSourceFile", () => {
     const vs = await analyze(`
       declare const x: StaticJsValue;
       new StaticJsNativeFunctionImpl(realm, "", function* () {
-        return new StaticJsNativeFunctionImpl(realm, "", function* () { return x; }, { mark: [x] });
+        return new StaticJsNativeFunctionImpl(realm, "", function* () { return x; }, { captures: [x] });
       });
     `);
     expect(vs).toHaveLength(0);
@@ -152,7 +152,7 @@ describe("analyzeSourceFile", () => {
     const vs = await analyze(`
       declare const values: StaticJsValue[];
       const markable = containerMarkable(compoundMarkable(values));
-      new StaticJsNativeFunctionImpl(realm, "", function* () { return values[0]; }, { mark: [markable] });
+      new StaticJsNativeFunctionImpl(realm, "", function* () { return values[0]; }, { captures: [markable] });
     `);
     expect(vs).toHaveLength(0);
   });
