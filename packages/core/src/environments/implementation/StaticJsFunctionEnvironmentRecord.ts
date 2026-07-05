@@ -8,6 +8,7 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { allocated } from "#memory/allocated.js";
+import { isStaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
@@ -15,13 +16,6 @@ import {
   StaticJsDeclarativeEnvironmentRecord,
   type StaticJsDeclarativeEnvironmentRecordCreateParams,
 } from "./StaticJsDeclarativeEnvironmentRecord.js";
-
-// Some circular reference with StaticJsMethodFunction.
-// How do we fix this?
-const HackFunctionMethodClassNames = new Set([
-  "StaticJsClassConstructorFunction",
-  "StaticJsMethodFunction",
-]);
 
 export interface StaticJsFunctionEnvironmentRecordCreateParams extends StaticJsDeclarativeEnvironmentRecordCreateParams {
   functionObject: StaticJsFunction;
@@ -103,15 +97,7 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
 
     const func = this._functionObject;
 
-    // HACK HACK HACK: Circular imports??
-    // if (func instanceof StaticJsMethodFunction === false) {
-    //   return false;
-    // }
-    if (!HackFunctionMethodClassNames.has(func.constructor.name)) {
-      return false;
-    }
-
-    return true;
+    return isStaticJsMethodFunction(func);
   }
 
   override mark(marks: Set<StaticJsAllocation>): void {

@@ -1,5 +1,6 @@
 import { Completion } from "#evaluator/completions/Completion.js";
 import { StaticJsAstFunction } from "#types/implementation/functions/StaticJsAstFunction.js";
+import { isStaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
 import { isStaticJsCallable } from "#types/StaticJsCallable.js";
 import { isStaticJsFunction } from "#types/StaticJsFunction.js";
 
@@ -9,6 +10,12 @@ export const functionProtoToStringDeclaration: IntrinsicPropertyDeclaration = {
   key: "toString",
   *func(realm, thisArg) {
     if (thisArg instanceof StaticJsAstFunction) {
+      return realm.types.string(thisArg.sourceText);
+    }
+
+    // HACK
+    // Arguably, this is more correct than the above hack.
+    if (isStaticJsMethodFunction(thisArg)) {
       return realm.types.string(thisArg.sourceText);
     }
 

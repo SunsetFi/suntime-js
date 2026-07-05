@@ -1,14 +1,23 @@
 # TODO:
 
+## Memory tracking
+
+- [ ] Account for creating native symbols for SymbolImpl
+- [ ] Account for private env names
+- [ ] Account for module environments on the current realm
+- [ ] Object param create methods to stop type jank.
+- [ ] Weigh true cost of ast function nodes, use length-based as estimate only.
+- [ ] Document memory stuff
+
 ## Host access
 
 - [ ] Realm hostAccessDefaults should be able to be a function called with the object to test.
 - [ ] Look really closely at realm's global object initializer and stub policy.
 - [ ] Tests for host wrapped function thrown value wrap policies.
-- [x] `The ability to supply extensible objects, define writable properties, and selectively expose prototypes is planned.`
   - [ ] Update documentation
 - [ ] Thread policy into propertyDescriptorToNative and other create-object-proxy toStaticJsNative calls from .toNative of object.
-- [ ] FIx crash on stubPromise when a promise is passed to a global option property in the realm ctor.
+- [ ] Fix crash on stubPromise when a promise is passed to a global option property in the realm ctor.
+- [ ] Document host access stuff
 
 ## Safe access
 
@@ -22,6 +31,12 @@ See array setIndexSafe
 
 ## Immediate
 
+- [ ] Clean up StaticJsMethodFunction and StaticJsClassConstructorFunction
+      Currently duplicate some properties from StaticJsAstFunction.
+  - [ ] Add missing properties to StaticJsFunction (constructorKind, sourceText)
+    - [ ] Use public sourceText in function prototype toString instead of instance check
+  - [ ] Allow StaticJsNativeClassConstructorFunction to inherit from NativeFunction
+        Needs the latter to have a parameterized .create()
 - [ ] Move proxy symbol owner of StaticJsSymbol to StaticJsTypeFactory
   - [ ] Symbols that are in .for() can't be in a WeakMap, and can be referenced in the future anyway, so store them in symbolRegistry
 - [ ] Figure out why oxclint is complaining about clearly reachable code being unreachable.
