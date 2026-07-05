@@ -35,6 +35,7 @@ export class StaticJsPrivateEnvironmentRecord implements StaticJsAllocation {
 
   addPrivateName(description: string): StaticJsPrivateName {
     const privateName = staticJsPrivateName(description);
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, description);
     this._names.push(privateName);
     return privateName;
   }

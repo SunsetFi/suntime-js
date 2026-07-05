@@ -3,9 +3,9 @@
 ## Memory tracking
 
 - [ ] Account for creating native symbols for SymbolImpl
-- [ ] Account for private env names
+- [x] Account for private env names
 - [ ] Account for module environments on the current realm
-- [ ] Object param create methods to stop type jank.
+- [x] Object param create methods to stop type jank.
 - [ ] Weigh true cost of ast function nodes, use length-based as estimate only.
 - [ ] Document memory stuff
 
@@ -29,7 +29,7 @@ See array setIndexSafe
 - [ ] Add safe methods to map
 - [ ] Add safe methods to set
 
-## Immediate
+## General
 
 - [ ] Clean up StaticJsMethodFunction and StaticJsClassConstructorFunction
       Currently duplicate some properties from StaticJsAstFunction.
