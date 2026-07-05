@@ -59,10 +59,29 @@ export interface StaticJsAstFunctionOptions {
   thisMode: "lexical-this" | "non-lexical-this";
   strict: boolean;
   env: StaticJsEnvironmentRecord;
-  prototype?: StaticJsObject | null;
-  privateEnv?: StaticJsPrivateEnvironmentRecord | null;
+  prototype?: StaticJsObject | null | undefined;
+  privateEnv?: StaticJsPrivateEnvironmentRecord | null | undefined;
   scriptOrModule: StaticJsScriptOrModuleRecord | null;
-  construct?: boolean;
+  construct?: boolean | undefined;
+}
+
+// The "mode" fields (thisMode, strict, scriptOrModule) are optional here even
+// though StaticJsAstFunction needs them: the subclasses (StaticJsAstMethodFunction
+// and below) derive those internally and must be able to omit them. Because a
+// subclass params interface `extends` this one, and `extends` forbids
+// re-declaring an inherited required field as optional, they must be optional
+// at the root. `create` fills sane defaults before constructing.
+export interface StaticJsAstFunctionCreateParams {
+  realm: StaticJsRealm;
+  node: StaticJsAstFunctionNode;
+  sourceText: string;
+  env: StaticJsEnvironmentRecord;
+  thisMode?: "lexical-this" | "non-lexical-this" | undefined;
+  strict?: boolean | undefined;
+  scriptOrModule?: StaticJsScriptOrModuleRecord | null | undefined;
+  privateEnv?: StaticJsPrivateEnvironmentRecord | null | undefined;
+  construct?: boolean | undefined;
+  prototype?: StaticJsObject | null | undefined;
 }
 
 export type StaticJsAstFunctionArgument = Identifier | Pattern | RestElement;
@@ -95,34 +114,29 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
   private _constructorKind: null | "base" | "derived" = null;
 
-  // NOTE: `node` and `options` are typed as `unknown` here (not their real
-  // types `StaticJsAstFunctionNode` / `StaticJsAstFunctionOptions`) because
-  // this class is subclassed by StaticJsMethodFunction, which is in turn
-  // subclassed by StaticJsClassConstructorFunction. Both declare their own
-  // `static create` with a completely different trailing parameter shape
-  // (homeObject, env, privateEnv, prototype instead of a single options bag),
-  // and TypeScript requires `typeof Subclass` to be assignable to
-  // `typeof StaticJsAstFunction` for `extends` to typecheck (TS2417). Widening
-  // the conflicting trailing parameters to `unknown` (as fixed optional
-  // positional params, so arity is still checked) resolves the conflict. The
-  // casts inside `create` reconstruct the exact original parameter shape, so
-  // runtime behavior and allocation accounting are unchanged.
-  static create(
-    realm: StaticJsRealm,
-    node?: unknown,
-    sourceText?: unknown,
-    options?: unknown,
-    _arg5?: unknown,
-    _arg6?: unknown,
-    _arg7?: unknown,
-  ): StaticJsAstFunction {
+  static create(params: StaticJsAstFunctionCreateParams): StaticJsAstFunction {
+    const {
+      realm,
+      node,
+      sourceText,
+      env,
+      thisMode = "non-lexical-this",
+      strict = false,
+      scriptOrModule = null,
+      privateEnv = null,
+      construct,
+      prototype,
+    } = params;
     return allocated(
-      new StaticJsAstFunction(
-        realm,
-        node as StaticJsAstFunctionNode,
-        sourceText as string,
-        options as StaticJsAstFunctionOptions,
-      ),
+      new StaticJsAstFunction(realm, node, sourceText, {
+        thisMode,
+        strict,
+        env,
+        privateEnv,
+        scriptOrModule,
+        construct,
+        prototype,
+      }),
     );
   }
 

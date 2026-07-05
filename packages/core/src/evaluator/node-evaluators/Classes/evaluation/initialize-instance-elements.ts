@@ -1,6 +1,5 @@
+import type { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
-
-import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
 
 import { Q } from "../../../completions/Q.js";
 import { EvaluationGenerator } from "../../../EvaluationGenerator.js";

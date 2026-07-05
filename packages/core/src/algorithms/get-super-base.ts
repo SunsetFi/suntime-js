@@ -6,7 +6,7 @@ import { StaticJsFunctionEnvironmentRecord } from "#environments/implementation/
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
 
 export function* getSuperBase(
@@ -16,7 +16,7 @@ export function* getSuperBase(
     return EvaluationContext.current.realm.types.undefined;
   }
   const funcObject = envRec.functionObject;
-  if (funcObject instanceof StaticJsMethodFunction === false) {
+  if (funcObject instanceof StaticJsAstMethodFunction === false) {
     return EvaluationContext.current.realm.types.undefined;
   }
 

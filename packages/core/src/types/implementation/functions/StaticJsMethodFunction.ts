@@ -1,73 +1,25 @@
-import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsPrivateName } from "#types/StaticJsPrivateName.js";
+import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 
-import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
-import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import { allocated } from "#memory/allocated.js";
+import { isStaticJsFunction, type StaticJsFunction } from "#types/StaticJsFunction.js";
+import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
 
-import type { StaticJsObject } from "../../StaticJsObject.js";
-import type { StaticJsPrivateName } from "../../StaticJsPrivateName.js";
-import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
-
-import { StaticJsAstFunction, type StaticJsAstFunctionNode } from "./StaticJsAstFunction.js";
-
-export class StaticJsMethodFunction extends StaticJsAstFunction {
-  private _homeObject: StaticJsObject;
-
-  // NOTE: see the equivalent note on StaticJsAstFunction.create. This class is
-  // itself further subclassed by StaticJsClassConstructorFunction, whose
-  // `node` parameter type differs (it also accepts a native-construct
-  // closure), so `node` is widened to `unknown` here too to keep the static
-  // side of that further `extends` compatible (TS2417).
-  static override create(
-    realm: StaticJsRealm,
-    node: unknown,
-    sourceText: string,
-    homeObject: StaticJsObject,
-    env: StaticJsEnvironmentRecord,
-    privateEnv: StaticJsPrivateEnvironmentRecord | null,
-    prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
-  ): StaticJsMethodFunction {
-    return allocated(
-      new StaticJsMethodFunction(
-        realm,
-        node as StaticJsAstFunctionNode,
-        sourceText,
-        homeObject,
-        env,
-        privateEnv,
-        prototype,
-      ),
-    );
-  }
-
-  protected constructor(
-    realm: StaticJsRealm,
-    node: StaticJsAstFunctionNode,
-    sourceText: string,
-    homeObject: StaticJsObject,
-    env: StaticJsEnvironmentRecord,
-    privateEnv: StaticJsPrivateEnvironmentRecord | null,
-    prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
-  ) {
-    const { strict, scriptOrModule } = EvaluationContext.current;
-
-    super(realm, node, sourceText, {
-      thisMode: "non-lexical-this",
-      construct: false,
-      env,
-      privateEnv,
-      prototype,
-      strict,
-      scriptOrModule,
-    });
-
-    this._homeObject = homeObject;
-  }
-
+export interface StaticJsMethodFunction extends StaticJsFunction {
+  sourceText: string;
+  constructorKind: null | "base" | "derived";
+  makeConstructor(
+    writablePrototype?: boolean,
+    prototype?: StaticJsObject,
+  ): EvaluationGenerator<void>;
   classFieldInitializerName?: string | StaticJsSymbol | StaticJsPrivateName;
+  readonly homeObject: StaticJsObject;
+}
 
-  get homeObject(): StaticJsObject {
-    return this._homeObject;
-  }
+export function isStaticJsMethodFunction(value: unknown): value is StaticJsMethodFunction {
+  return (
+    isStaticJsFunction(value) &&
+    "homeObject" in value &&
+    isStaticJsObject((value as StaticJsMethodFunction).homeObject)
+  );
 }

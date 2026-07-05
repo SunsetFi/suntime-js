@@ -9,8 +9,8 @@ import { expectedArgumentCount } from "#algorithms/expected-argument-count.js";
 import { setFunctionLength } from "#algorithms/set-function-length.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
-import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import { StaticJsAstClassConstructorFunction } from "#types/implementation/functions/StaticJsAstClassConstructorFunction.js";
+import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 
 import { Q } from "../../../completions/Q.js";
 import { EvaluationContext } from "../../../EvaluationContext.js";
@@ -49,25 +49,25 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
         "Cannot define a class constructor method when no private environment is set.",
       );
     }
-    closure = StaticJsClassConstructorFunction.create(
+    closure = StaticJsAstClassConstructorFunction.create({
       realm,
-      method,
+      node: method,
       sourceText,
-      object,
+      homeObject: object,
       env,
       privateEnv,
-      functionPrototype,
-    );
+      prototype: functionPrototype,
+    });
   } else {
-    closure = StaticJsMethodFunction.create(
+    closure = StaticJsAstMethodFunction.create({
       realm,
-      method,
+      node: method,
       sourceText,
-      object,
+      homeObject: object,
       env,
       privateEnv,
-      functionPrototype,
-    );
+      prototype: functionPrototype,
+    });
   }
 
   const len = expectedArgumentCount(method.params);

@@ -9,7 +9,7 @@ import { expectedArgumentCount } from "#algorithms/expected-argument-count.js";
 import { setFunctionLength } from "#algorithms/set-function-length.js";
 import { setFunctionName } from "#algorithms/set-function-name.js";
 import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
-import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 import { isStaticJsPrivateName } from "#types/StaticJsPrivateName.js";
 
 import { Q } from "../../../completions/Q.js";
@@ -60,14 +60,14 @@ function* getterMethodDefinitionEvaluation(
 
   // OrdinaryFunctionCreate
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = StaticJsMethodFunction.create(
+  const closure = StaticJsAstMethodFunction.create({
     realm,
-    element,
+    node: element,
     sourceText,
-    object,
+    homeObject: object,
     env,
     privateEnv,
-  );
+  });
   const len = expectedArgumentCount(element.params);
   yield* setFunctionLength(closure, len);
   // End OrdinaryFunctionCreate
@@ -106,14 +106,14 @@ function* setterMethodDefinitionEvaluation(
 
   // OrdinaryFunctionCreate
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = StaticJsMethodFunction.create(
+  const closure = StaticJsAstMethodFunction.create({
     realm,
-    element,
+    node: element,
     sourceText,
-    object,
+    homeObject: object,
     env,
     privateEnv,
-  );
+  });
   const len = expectedArgumentCount(element.params);
   yield* setFunctionLength(closure, len);
   // End OrdinaryFunctionCreate
@@ -151,15 +151,15 @@ function* asyncGeneratorMethodDefinitionEvaluation(
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = StaticJsMethodFunction.create(
+  const closure = StaticJsAstMethodFunction.create({
     realm,
-    element,
+    node: element,
     sourceText,
-    object,
+    homeObject: object,
     env,
     privateEnv,
-    realm.intrinsics["AsyncGeneratorFunction.prototype"],
-  );
+    prototype: realm.intrinsics["AsyncGeneratorFunction.prototype"],
+  });
   yield* setFunctionLength(closure, expectedArgumentCount(element.params));
   yield* setFunctionName(closure, propertyKey);
 
@@ -185,15 +185,15 @@ function* asyncMethodDefinitionEvaluation(
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = StaticJsMethodFunction.create(
+  const closure = StaticJsAstMethodFunction.create({
     realm,
-    element,
+    node: element,
     sourceText,
-    object,
+    homeObject: object,
     env,
     privateEnv,
-    realm.intrinsics["AsyncFunction.prototype"],
-  );
+    prototype: realm.intrinsics["AsyncFunction.prototype"],
+  });
   yield* setFunctionLength(closure, expectedArgumentCount(element.params));
   yield* setFunctionName(closure, propertyKey);
 
@@ -212,15 +212,15 @@ function* generatorMethodDefinitionEvaluation(
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const closure = StaticJsMethodFunction.create(
+  const closure = StaticJsAstMethodFunction.create({
     realm,
-    element,
+    node: element,
     sourceText,
-    object,
+    homeObject: object,
     env,
     privateEnv,
-    realm.intrinsics["GeneratorFunction.prototype"],
-  );
+    prototype: realm.intrinsics["GeneratorFunction.prototype"],
+  });
   yield* setFunctionLength(closure, expectedArgumentCount(element.params));
   yield* setFunctionName(closure, propertyKey);
 

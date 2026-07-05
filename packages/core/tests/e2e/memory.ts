@@ -1136,7 +1136,10 @@ describe("E2E: Memory", () => {
       const file = parseAst("function f(){}", { ...babelParserOptions, sourceType: "script" });
       const node = file.program.body[0] as unknown as StaticJsAstFunctionNode;
 
-      const fn = StaticJsAstFunction.create(realm, node, "", {
+      const fn = StaticJsAstFunction.create({
+        realm,
+        node,
+        sourceText: "",
         thisMode: "non-lexical-this",
         strict: false,
         env: realm.globalEnv,

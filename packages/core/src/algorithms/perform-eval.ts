@@ -20,8 +20,8 @@ import { containsNewTarget } from "#parser/contains-new-target.js";
 import { containsSuperCall } from "#parser/contains-super-call.js";
 import { containsSuperProperty } from "#parser/contains-super-property.js";
 import { parseScript } from "#parser/parse-script.js";
-import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
-import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
+import { isStaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsString } from "#types/StaticJsString.js";
 
 import { getThisEnvironment } from "./get-this-environment.js";
@@ -52,12 +52,12 @@ export function* performEval(
       const func = thisEnvRec.functionObject;
       inFunction = true;
       inMethod = yield* thisEnvRec.hasSuperBindingEvaluator();
-      if (func instanceof StaticJsClassConstructorFunction) {
+      if (isStaticJsClassConstructorFunction(func)) {
         if (func.constructorKind === "derived") {
           inDerivedConstructor = true;
         }
       }
-      if (func instanceof StaticJsMethodFunction) {
+      if (func instanceof StaticJsAstMethodFunction) {
         if (func.classFieldInitializerName) {
           inClassFieldInitializer = true;
         }
