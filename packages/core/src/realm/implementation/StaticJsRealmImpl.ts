@@ -116,7 +116,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       runTaskSync,
       hostAccessDefaults,
       maxMemorySize = Number.POSITIVE_INFINITY,
-      memoryHighWatermark = Number.NaN,
+      memoryHighWatermark = isFinite(maxMemorySize) ? Math.floor(maxMemorySize * 0.8) : Number.NaN,
       memoryWeights = memoryWeights_Node_24_16_0,
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,

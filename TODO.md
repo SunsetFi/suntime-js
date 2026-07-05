@@ -5,7 +5,9 @@
 - [ ] Account for creating native symbols for SymbolImpl
 - [x] Account for private env names
 - [ ] Account for module environments on the current realm
+  - [ ] Requires us to propertly dedupe module specifiers, so do that first.
 - [x] Object param create methods to stop type jank.
+- [ ] Account for enqueued promise resolution tasks.
 - [ ] Weigh true cost of ast function nodes, use length-based as estimate only.
 - [ ] Document memory stuff
 
@@ -49,6 +51,7 @@ See array setIndexSafe
         as StaticJsExternalObject does
     - [ ] Don't allow mutations to other properties (based on policy)
   - [ ] Update type coercion docs.
+- [ ] Object.defineProperties/y used to give more helpful errors for if object was not extensible or cannot redefine property. Re-add this.
 
 ### Performance lookthrough
 
@@ -99,13 +102,11 @@ See array setIndexSafe
 - [ ] Deep review and cleanup of dap
   - [ ] Sanify file names on kebab.
 
-## General
+## Tests
 
 - [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - [x] Add builtins tests
   - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
-- Object.defineProperties/y used to give more helpful errors for if object was not extensible or cannot redefine property.
-  They got removed for "spec compliance". Put them back!
 
 ## Sandboxing / Security
 

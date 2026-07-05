@@ -88,11 +88,16 @@ export interface StaticJsRealmOptions {
    * You may want to tweak {@link memoryWeights} to better reflect the actual memory usage of your underlying JavaScript engine.
    *
    * Note that the memory used to initialize the global environment will not be counted against this limit.
+   * @default Infinity
    */
   maxMemorySize?: number;
 
   /**
    * The high watermark of memory (relative to units in {@link memoryWeights}) that the realm will allocate before performing a 'garbage collection' sweep.
+   * By default, it uses 80% of maxMemorySize.
+   *
+   * Set to NaN to disable the sweep.  Disabling will mean memory continues to accumulate in gen zero without being freed.
+   * If disabled, you may wish to call {@link IStaticJsRealm.memory.sweep} periodically to allow the realm to perform a sweep.
    *
    * Note that this sweep does not directly free any memory, but instead recalculates the estimate of used memory used to
    * determine when to throw a {@link import("#errors/StaticJsOutOfMemoryError.ts").StaticJsOutOfMemoryError}.
