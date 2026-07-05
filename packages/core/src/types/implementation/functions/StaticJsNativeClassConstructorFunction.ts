@@ -37,7 +37,7 @@ export interface StaticJsNativeClassConstructorFunctionCreateParams {
   construct: StaticJsClassConstructorNativeConstruct;
   homeObject: StaticJsObject;
   env: StaticJsEnvironmentRecord;
-  privateEnv: StaticJsPrivateEnvironmentRecord | null;
+  privateEnv: StaticJsPrivateEnvironmentRecord;
   prototype?: StaticJsObject | undefined;
   sourceText?: string | undefined;
   captures?: readonly StaticJsAllocation[] | undefined;
@@ -56,7 +56,7 @@ export class StaticJsNativeClassConstructorFunction
 {
   private readonly _nativeFunc: StaticJsClassConstructorNativeConstruct;
   private readonly _environment: StaticJsEnvironmentRecord;
-  private readonly _privateEnv: StaticJsPrivateEnvironmentRecord | null;
+  private readonly _privateEnv: StaticJsPrivateEnvironmentRecord;
   private readonly _homeObject: StaticJsObject;
   private readonly _captures: readonly StaticJsAllocation[];
   private _sourceText: string;
@@ -94,7 +94,7 @@ export class StaticJsNativeClassConstructorFunction
     construct: StaticJsClassConstructorNativeConstruct,
     homeObject: StaticJsObject,
     env: StaticJsEnvironmentRecord,
-    privateEnv: StaticJsPrivateEnvironmentRecord | null,
+    privateEnv: StaticJsPrivateEnvironmentRecord,
     prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
     sourceText: string = "",
     captures: readonly StaticJsAllocation[] = [],
@@ -201,6 +201,7 @@ export class StaticJsNativeClassConstructorFunction
     super.mark(marks);
 
     this._environment.mark(marks);
+    this._privateEnv?.mark(marks);
     this._homeObject.mark(marks);
     for (const capture of this._captures) {
       capture.mark(marks);

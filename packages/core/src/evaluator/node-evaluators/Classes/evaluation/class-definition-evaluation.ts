@@ -63,13 +63,16 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
   className: StaticJsPropertyKey | StaticJsPrivateName,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.current;
-  const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment, scriptOrModule } = context;
+  const { lexicalEnv: env, realm, privateEnv: outerPrivateEnv, scriptOrModule } = context;
   const classEnv = StaticJsDeclarativeEnvironmentRecord.create({ outerEnv: env, realm: realm });
   if (classBinding) {
     yield* classEnv.createImmutableBindingEvaluator(classBinding, true);
   }
 
-  const classPrivateEnvironment = new StaticJsPrivateEnvironmentRecord(outerPrivateEnvironment);
+  const classPrivateEnvironment = StaticJsPrivateEnvironmentRecord.create({
+    realm,
+    outerPrivateEnv,
+  });
   if (node.body.body.length > 0) {
     for (const dn of privateBoundIdentifiers(node.body)) {
       if (!classPrivateEnvironment.hasPrivateName(dn)) {
@@ -318,7 +321,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
       }
 
       if (Completion.Abrupt.is(result)) {
-        EvaluationContext.current.privateEnv = outerPrivateEnvironment;
+        EvaluationContext.current.privateEnv = outerPrivateEnv;
         return yield* Q(result);
       }
     }
@@ -327,6 +330,6 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
   } finally {
     const ctx = EvaluationContext.current;
     ctx.lexicalEnv = env;
-    ctx.privateEnv = outerPrivateEnvironment;
+    ctx.privateEnv = outerPrivateEnv;
   }
 });

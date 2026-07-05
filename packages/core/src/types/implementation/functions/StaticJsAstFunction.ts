@@ -398,6 +398,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     super.mark(marks);
 
     this._environment.mark(marks);
+    this._privateEnv?.mark(marks);
   }
 
   override allocateSelf(
