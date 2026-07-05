@@ -509,8 +509,6 @@ describe("E2E: Memory", () => {
       describe("Gen One", () => {
         it("Retains the allocation after a sweep", () => {
           const realm = new StaticJsRealm();
-
-          realm.memory.sweep();
           const initialMemory = realm.memory.genOneSize;
 
           // The key on globalThis also counts as an allocation
@@ -537,6 +535,24 @@ describe("E2E: Memory", () => {
 
           const allocated = realm.memory.genOneSize - initialMemory - keySize;
           expect(allocated).toBe(genOneSize);
+        });
+
+        it("Retains when in a module", async () => {
+          const realm = new StaticJsRealm();
+          const initialMemory = realm.memory.genOneSize;
+
+          // Script declarative envs stick around, so wrap the preamble in an IIFE to avoid it being retained.
+          const scriptCode =
+            typeof script === "object"
+              ? `export const value = (function() { ${script.preamble}; return ${script.expression}; })();`
+              : `export const value = ${script};`;
+          const module = await realm.evaluateModule(scriptCode);
+          realm.memory.sweep();
+
+          const keySize = weightOfRawString("value");
+          const allocated = realm.memory.genOneSize - initialMemory - keySize;
+          expect(allocated).toBe(genOneSize);
+          void module;
         });
       });
     }

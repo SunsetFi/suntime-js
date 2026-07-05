@@ -1,5 +1,4 @@
-import type { StaticJsModule } from "#modules/StaticJsModule.js";
-
+import type { StaticJsModuleReferrer } from "./StaticJsModuleReferrer.js";
 import type { StaticJsModuleResolution } from "./StaticJsModuleResolution.js";
 
 /**
@@ -7,5 +6,5 @@ import type { StaticJsModuleResolution } from "./StaticJsModuleResolution.js";
  */
 export type StaticJsModuleResolver = (
   specifier: string,
-  referencingModule: StaticJsModule,
+  referrer: StaticJsModuleReferrer,
 ) => Promise<StaticJsModuleResolution | null>;

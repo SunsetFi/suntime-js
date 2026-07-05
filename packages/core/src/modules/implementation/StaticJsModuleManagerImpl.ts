@@ -1,9 +1,10 @@
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
+import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
 import type { StaticJsModuleResolution } from "#modules/StaticJsModuleResolution.js";
 import type { StaticJsModuleResolver } from "#modules/StaticJsModuleResolver.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
-import { isStaticJsModule, type StaticJsModule } from "#modules/StaticJsModule.js";
+import { isStaticJsModule } from "#modules/StaticJsModule.js";
 import {
   isStaticJsModuleImplementation,
   staticJsModuleToImplementation,
@@ -64,13 +65,13 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
 
   async resolve(
     specifier: string,
-    referencingModule: StaticJsModule,
+    referrer: StaticJsModuleReferrer,
   ): Promise<StaticJsModuleImplementation | null> {
     if (this._resolvedModules.has(specifier)) {
       return this._resolvedModules.get(specifier) ?? null;
     }
 
-    let resolved = await this._resolveExternalModule(specifier, referencingModule);
+    let resolved = await this._resolveExternalModule(specifier, referrer);
     if (resolved) {
       const implementation = moduleResolutionToImplementation(this._realm, specifier, resolved);
       this._resolvedModules.set(specifier, implementation);

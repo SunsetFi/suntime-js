@@ -37,11 +37,9 @@ import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
 import { StaticJsMemoryManagerImpl } from "#memory/implementation/StaticJsMemoryManagerImpl.js";
 import { memoryWeights_Node_24_16_0 } from "#memory/weights/node_24.16.0.js";
-import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsModuleManagerImpl } from "#modules/implementation/StaticJsModuleManagerImpl.js";
 import { findTopLevelAwait } from "#parser/find-top-level-await.js";
 import { parseExpression } from "#parser/parse-expression.js";
-import { parseModule } from "#parser/parse-module.js";
 import { parseScript } from "#parser/parse-script.js";
 import { synchronousDefaultTaskRunner } from "#tasks/task-runners/synchronous-default.js";
 import { StaticJsTypeFactoryImpl } from "#types/implementation/StaticJsTypeFactoryImpl.js";
@@ -171,11 +169,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     drainIterator(populateGlobal(this, this._global));
 
-    this._memory.initialize(this._globalEnv, symbolRegistry);
     this._modules = new StaticJsModuleManagerImpl(this, {
       resolveExternalModule: resolveModule ?? (() => Promise.resolve(null)),
     });
 
+    this._memory.initialize(this._globalEnv, symbolRegistry, this._modules);
     this._boostrapping = false;
 
     for (const [specifier, moduleResolution] of Object.entries(modules ?? {})) {
@@ -330,13 +328,18 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): Promise<StaticJsModule> {
     try {
       const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
-      const parsed = parseModule(code, sourceName);
-      const module = StaticJsAstModuleImpl.create({
-        name: sourceName,
-        ecmaScriptSource: code,
-        ecmaScriptCode: parsed.program,
-        realm: this,
-      });
+      this._modules.add(sourceName, code);
+
+      const moduleResolved = await this._modules.resolve(sourceName, this);
+      if (!moduleResolved) {
+        throw new StaticJsEngineError(
+          `Failed to resolve module ${sourceName} after adding it to the module manager.`,
+        );
+      }
+      // Typescript seems to have gotten worse with recent updates...
+      // There's no way in hell this can be undefined, as its const and checked, but ts
+      // still complains inside the evaluate function.
+      const module = moduleResolved;
 
       // Bit weird that we link immediately instead of when we are ready to perform the task?
       await module.linkModules();
@@ -346,13 +349,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         yield* module.moduleDeclarationInstantiationEvaluator();
         const resolutionPromise = yield* module.moduleEvaluationEvaluator();
         resolve(
-          resolutionPromise.then(
+          resolutionPromise?.then(
             () => module,
             (err) => {
               Completion.handleRuntime(err);
               throw err;
             },
-          ),
+          ) ?? module,
         );
       }
 

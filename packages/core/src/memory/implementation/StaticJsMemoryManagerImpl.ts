@@ -6,6 +6,7 @@ import type {
   StaticJsMemoryAllocator,
   StaticJsMemoryWeights,
 } from "#memory/StaticJsMemoryWeights.js";
+import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
 import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -20,6 +21,7 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
   private _globalEnv: StaticJsGlobalEnvironmentRecord | null = null;
   private _symbolRegistry: ReadonlyMap<string, StaticJsSymbol> | null = null;
+  private _modules: StaticJsModuleManager | null = null;
 
   private _isInitializing: boolean = true;
   private _maxSize: number = Infinity;
@@ -41,12 +43,15 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
   initialize(
     globalEnv: StaticJsGlobalEnvironmentRecord,
     symbolRegistry: ReadonlyMap<string, StaticJsSymbol>,
+    modules: StaticJsModuleManager,
   ): void {
     this._globalEnv = globalEnv;
     this._symbolRegistry = symbolRegistry;
+    this._modules = modules;
     this._genOneSize = this._initialSize = this._computeReachableSize();
     this._genZeroSize = 0;
     this._isInitializing = false;
+    this.sweep();
   }
 
   allocate<T extends StaticJsMemoryAllocationTag>(tag: T, value: StaticJsAllocatorType<T>): void {
@@ -156,9 +161,9 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       throw new Error("Cannot trigger a mark operation while already marking");
     }
 
-    if (!this._globalEnv || !this._symbolRegistry) {
+    if (!this._globalEnv || !this._symbolRegistry || !this._modules) {
       throw new Error(
-        "Memory manager has not been initialized with global environment and symbol registry",
+        "Memory manager has not been initialized with global environment, symbol registry, and modules",
       );
     }
 
@@ -180,12 +185,14 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
 
       this._globalEnv.mark(marks);
 
-      for (const [name, symbol] of this._symbolRegistry?.entries() ?? []) {
+      for (const [name, symbol] of this._symbolRegistry.entries()) {
         allocate(StaticJsMemoryAllocationTag.RawString, name);
         symbol.mark(marks);
       }
 
-      // TODO: Mark modules!
+      for (const module of this._modules.values()) {
+        module.mark(marks);
+      }
 
       for (const mark of marks) {
         mark.allocateSelf(allocate);

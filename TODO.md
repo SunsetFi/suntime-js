@@ -4,8 +4,7 @@
 
 - [ ] Account for creating native symbols for SymbolImpl
 - [x] Account for private env names
-- [ ] Account for module environments on the current realm
-  - [ ] Requires us to propertly dedupe module specifiers, so do that first.
+- [x] Account for module environments on the current realm
 - [x] Object param create methods to stop type jank.
 - [ ] Account for enqueued promise resolution tasks.
 - [ ] Weigh true cost of ast function nodes, use length-based as estimate only.
