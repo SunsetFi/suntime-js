@@ -100,7 +100,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
     return "StaticJsAstModule";
   }
 
-  override get name() {
+  override get specifier() {
     return this._name;
   }
 
@@ -206,7 +206,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
       if (!exportName) {
         throw new StaticJsEngineError(
-          `Export name is null for named export from module ${module.name} in module ${this._name}.`,
+          `Export name is null for named export from module ${module.specifier} in module ${this._name}.`,
         );
       }
 
@@ -430,7 +430,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   }
 
   *getExportedNamesEvaluator(exportStarSet = new Set<string>()): EvaluationGenerator<string[]> {
-    const visitedKey = this.name;
+    const visitedKey = this.specifier;
     if (exportStarSet.has(visitedKey)) {
       return [];
     }

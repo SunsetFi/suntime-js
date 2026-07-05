@@ -5,6 +5,7 @@ import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
+import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
@@ -45,6 +46,11 @@ export interface StaticJsRealm {
    * The intrinsics of the realm.
    */
   readonly intrinsics: Intrinsics;
+
+  /**
+   * The module manager for the realm.
+   */
+  readonly modules: StaticJsModuleManager;
 
   /**
    * The global-scope global object of the realm.
@@ -153,8 +159,9 @@ export interface StaticJsRealm {
    * A function to resolve an imported ECMAScript Module given a referencing module
    * and a specifier.
    * @internal
-   * @param referencingModule
-   * @param specifier
+   * @param specifier The module specifier.
+   * @param referencingModule The module that is importing the specifier.
+   * @returns A promise that resolves to the module implementation, or null if the module could not be resolved.
    */
   resolveImportedModule(
     specifier: string,

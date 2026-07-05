@@ -30,7 +30,7 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     protected readonly _realm: StaticJsRealm,
   ) {}
 
-  get name(): string {
+  get specifier(): string {
     return this._name;
   }
 

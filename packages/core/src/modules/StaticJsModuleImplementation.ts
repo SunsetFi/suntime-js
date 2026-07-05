@@ -15,7 +15,7 @@ export type StaticJsModuleStatus =
   | "evaluated";
 
 export interface StaticJsModuleImplementation extends StaticJsModule, StaticJsAllocation {
-  readonly name: string;
+  readonly specifier: string;
   readonly status: StaticJsModuleStatus;
 
   linkModules(): Promise<void>;
@@ -48,7 +48,7 @@ export function isStaticJsModuleImplementation(x: unknown): x is StaticJsModuleI
 
   const module = x as StaticJsModuleImplementation;
   return (
-    typeof module.name === "string" &&
+    typeof module.specifier === "string" &&
     typeof module.status === "string" &&
     typeof module.moduleDeclarationInstantiationEvaluator === "function" &&
     typeof module.moduleEvaluationEvaluator === "function" &&
@@ -67,7 +67,7 @@ export function staticJsModuleToImplementation(
     return module;
   }
   return {
-    name: module.name,
+    specifier: module.specifier,
     status: "evaluated",
     getExportedNames() {
       return module.getExportedNames();

@@ -38,12 +38,7 @@ import { populateGlobal } from "#intrinsics/populate-global.js";
 import { StaticJsMemoryManagerImpl } from "#memory/implementation/StaticJsMemoryManagerImpl.js";
 import { memoryWeights_Node_24_16_0 } from "#memory/weights/node_24.16.0.js";
 import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
-import { StaticJsExternalModuleImpl } from "#modules/implementation/StaticJsExternalModuleImpl.js";
-import { isStaticJsModule } from "#modules/StaticJsModule.js";
-import {
-  isStaticJsModuleImplementation,
-  staticJsModuleToImplementation,
-} from "#modules/StaticJsModuleImplementation.js";
+import { StaticJsModuleManagerImpl } from "#modules/implementation/StaticJsModuleManagerImpl.js";
 import { findTopLevelAwait } from "#parser/find-top-level-await.js";
 import { parseExpression } from "#parser/parse-expression.js";
 import { parseModule } from "#parser/parse-module.js";
@@ -65,8 +60,6 @@ import type {
   StaticJsRealmGlobalOption,
 } from "../factories/StaticJsRealmGlobalOptions.js";
 import type { StaticJsConfig } from "../StaticJsConfig.js";
-import type { StaticJsModuleResolution } from "../StaticJsModuleResolver.js";
-import type { StaticJsModuleResolver } from "../StaticJsModuleResolver.js";
 import type { StaticJsRealm } from "../StaticJsRealm.js";
 import type {
   StaticJsRealmEvaluateScriptOptions,
@@ -78,6 +71,7 @@ import { EvaluationTask } from "./EvaluationTask.js";
 
 export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _intrinsics: Intrinsics;
+  private readonly _modules: StaticJsModuleManagerImpl;
   private readonly _global: StaticJsObject;
   private readonly _globalThis: StaticJsValue;
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
@@ -86,9 +80,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   private readonly _memory: StaticJsMemoryManagerImpl;
   private readonly _typeFactory: StaticJsTypeFactory;
-
-  private readonly _staticModules = new Map<string, StaticJsModuleImplementation | null>();
-  private readonly _externalResolveModule: StaticJsModuleResolver | undefined;
 
   private readonly _tasks: EvaluationTask[] = [];
   private _currentTask: EvaluationTask | null = null;
@@ -127,7 +118,6 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     this._memory = new StaticJsMemoryManagerImpl(maxMemorySize, memoryHighWatermark, memoryWeights);
 
-    this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? synchronousDefaultTaskRunner;
 
@@ -182,11 +172,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     drainIterator(populateGlobal(this, this._global));
 
     this._memory.initialize(this._globalEnv, symbolRegistry);
+    this._modules = new StaticJsModuleManagerImpl(this, {
+      resolveExternalModule: resolveModule ?? (() => Promise.resolve(null)),
+    });
+
     this._boostrapping = false;
 
-    for (const [name, moduleDef] of Object.entries(modules ?? {})) {
-      const module = realmModuleToModule(this, name, moduleDef);
-      this._staticModules.set(name, module);
+    for (const [specifier, moduleResolution] of Object.entries(modules ?? {})) {
+      this._modules.add(specifier, moduleResolution);
     }
   }
 
@@ -232,6 +225,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get memory() {
     return this._memory;
+  }
+
+  get modules() {
+    return this._modules;
   }
 
   get hooks() {
@@ -408,20 +405,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     throw new StaticJsUnhandledRejectionError(error);
   }
 
-  async resolveImportedModule(
+  resolveImportedModule(
     specifier: string,
     referencingModule: StaticJsModule,
   ): Promise<StaticJsModuleImplementation | null> {
-    let module = this._staticModules.get(specifier);
-
-    if (!module && this._externalResolveModule) {
-      const resolved = await this._externalResolveModule(specifier, referencingModule);
-      if (resolved) {
-        module = realmModuleToModule(this, specifier, resolved);
-      }
-    }
-
-    return module ?? null;
+    return this._modules.resolve(specifier, referencingModule);
   }
 
   enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {
@@ -714,32 +702,6 @@ function resolveGlobalObjectValue(
   }
 
   throw new Error("Invalid global or globalThis");
-}
-
-function realmModuleToModule(
-  realm: StaticJsRealm,
-  specifier: string,
-  module: StaticJsModuleResolution,
-): StaticJsModuleImplementation {
-  if (typeof module === "string") {
-    const parsed = parseModule(module, specifier);
-    return StaticJsAstModuleImpl.create({
-      name: specifier,
-      ecmaScriptSource: module,
-      ecmaScriptCode: parsed.program,
-      realm,
-    });
-  } else if (isStaticJsModuleImplementation(module)) {
-    return module;
-  } else if (isStaticJsModule(module)) {
-    return staticJsModuleToImplementation(realm, module);
-  } else if (module != null && "exports" in module) {
-    return StaticJsExternalModuleImpl.create({ name: specifier, obj: module.exports, realm });
-  } else {
-    throw new TypeError(
-      `StaticJsRealm resolveModule for module ${specifier} did not return source code, a valid module, or an object with an exports property.`,
-    );
-  }
 }
 
 function globalDeclToDescriptor(realm: StaticJsRealm, descriptor: StaticJsRealmGlobalDeclProperty) {

@@ -1,14 +1,12 @@
 import type { StaticJsMemoryWeights } from "#memory/StaticJsMemoryWeights.js";
+import type { StaticJsModuleResolution } from "#modules/StaticJsModuleResolution.js";
+import type { StaticJsModuleResolver } from "#modules/StaticJsModuleResolver.js";
 import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "#types/HostAccessOptions.js";
 
 import { realmDefaultHooks } from "#hooks/index.js";
 import { mergeDeep } from "#utils/merge-deep.js";
 
-import type {
-  StaticJsModuleResolution,
-  StaticJsModuleResolver,
-} from "../StaticJsModuleResolver.js";
 import type { StaticJsRealm as IStaticJsRealm } from "../StaticJsRealm.js";
 import type { StaticJsRealmGlobalOption } from "./StaticJsRealmGlobalOptions.js";
 import type { StaticJsRealmHookOptions } from "./StaticJsRealmHooksOptions.js";

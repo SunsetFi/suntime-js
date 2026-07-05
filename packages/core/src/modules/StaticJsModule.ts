@@ -3,7 +3,7 @@ import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 export interface StaticJsModule {
-  readonly name: string;
+  readonly specifier: string;
 
   getExportedNames(opts?: StaticJsRunTaskOptions): string[];
 
@@ -19,7 +19,7 @@ export function isStaticJsModule(x: unknown): x is StaticJsModule {
   return (
     module &&
     typeof module === "object" &&
-    typeof module.name === "string" &&
+    typeof module.specifier === "string" &&
     typeof module.getExportedNames === "function" &&
     typeof module.getExportJsSync === "function" &&
     typeof module.getModuleNamespaceJsSync === "function"

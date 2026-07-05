@@ -107,7 +107,7 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     const { module, bindingName } = binding;
     const value = yield* module.getOwnBindingValueEvaluator(bindingName);
     if (value == null) {
-      throw new StaticJsEngineError(`Export ${name} not found in module ${module.name}.`);
+      throw new StaticJsEngineError(`Export ${name} not found in module ${module.specifier}.`);
     }
     return value;
   }

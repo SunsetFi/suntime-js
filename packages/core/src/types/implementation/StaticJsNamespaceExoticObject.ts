@@ -93,7 +93,7 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
     const binding = yield* this._module.resolveExportEvaluator(key);
     if (!binding || binding === "ambiguous") {
       throw new StaticJsEngineError(
-        `Failed to resolve namespace export for key '${key}' of module ${this._module.name}.`,
+        `Failed to resolve namespace export for key '${key}' of module ${this._module.specifier}.`,
       );
     }
 
@@ -112,7 +112,7 @@ export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
           // TODO: What error message?
           // In theory we need to use the module's environment,
           // but '${name} is not defined` seems confusing for an object-like property.
-          `Module ${targetModule.name} binding ${binding.bindingName} for export ${key} not found.`,
+          `Module ${targetModule.specifier} binding ${binding.bindingName} for export ${key} not found.`,
         );
       }
 

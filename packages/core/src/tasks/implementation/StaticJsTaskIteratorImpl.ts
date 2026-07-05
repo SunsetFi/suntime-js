@@ -339,7 +339,7 @@ function environmentRecordToTaskScopeFrame(
     type = "global";
   } else if (env instanceof StaticJsModuleEnvironmentRecord) {
     if (context.scriptOrModule?.type === "module") {
-      const moduleName = context.scriptOrModule.module.name;
+      const moduleName = context.scriptOrModule.module.specifier;
       name = `${moduleName} [module]`;
     } else {
       name = "<module>";

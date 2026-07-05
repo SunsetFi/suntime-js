@@ -33,7 +33,7 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
     this._exportKeys = Object.freeze(Object.keys(_obj));
   }
 
-  override get name() {
+  override get specifier() {
     return this._name;
   }
 
