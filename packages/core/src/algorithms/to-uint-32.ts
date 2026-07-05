@@ -2,6 +2,8 @@ import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { toFixedSizeInteger } from "./to-fixed-size-integer.js";
+import { toIntegerOrInfinity } from "./to-integer-or-infinity.js";
 import { toNumber } from "./to-number.js";
 
 export function* toUInt32(
@@ -14,25 +16,13 @@ export function* toUInt32(
   } else if (typeof value === "string") {
     number = Number(value);
   } else {
-    const num = yield* toNumber(value);
-    number = num.value;
+    number = yield* toNumber.js(value);
   }
 
-  return toUInt32Native(number);
+  return toUInt32.native(number);
 }
 
-function toUInt32Native(value: string | number): number {
-  if (typeof value !== "number") {
-    value = Number(value);
-  }
-
-  if (Number.isFinite(value) === false || value === 0) {
-    return 0;
-  }
-
-  const int = Math.trunc(value);
-  const int32Bit = int % 2 ** 32;
-  return int32Bit;
-}
-
-toUInt32.native = toUInt32Native;
+toUInt32.native = function toUInt32Native(value: string | number): number {
+  const int = toIntegerOrInfinity.native(value);
+  return toFixedSizeInteger(int, "unsigned", 32);
+};

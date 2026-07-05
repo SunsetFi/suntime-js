@@ -13,7 +13,7 @@ export function* createParseFloat(
   realm: StaticJsRealm,
   intrinsics: IntrinsicsRecord,
 ): EvaluationGenerator<void> {
-  const func = new StaticJsNativeFunctionImpl(
+  const func = StaticJsNativeFunctionImpl.create(
     realm,
     "parseFloat",
     function* (_thisArg, value = realm.types.undefined) {

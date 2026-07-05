@@ -21,7 +21,7 @@ import setCtorSymbolSpeciesDeclaration from "./symbol_species.js";
 const declarations: IntrinsicPropertyDeclaration[] = [setCtorSymbolSpeciesDeclaration];
 
 export function* createSetConstructor(realm: StaticJsRealm, setProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Set",
     function* (_thisArg) {
@@ -29,7 +29,7 @@ export function* createSetConstructor(realm: StaticJsRealm, setProto: StaticJsOb
     },
     {
       *construct(_thisArg, iterable) {
-        const set = new StaticJsSetImpl(realm);
+        const set = StaticJsSetImpl.create({ realm });
 
         if (!iterable || isStaticJsNull(iterable) || isStaticJsUndefined(iterable)) {
           return set;

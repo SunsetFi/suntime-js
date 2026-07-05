@@ -1,6 +1,7 @@
 import type { FunctionDeclaration, Program } from "@babel/types";
 
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -20,6 +21,8 @@ import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import { allocated } from "#memory/allocated.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { createDeferred } from "#utils/create-deferred.js";
 
@@ -37,12 +40,17 @@ import {
   ImportAllButDefault,
 } from "./StaticJsExportEntry.js";
 import { NamespaceImportName, type StaticJsImportEntry } from "./StaticJsImportEntry.js";
-import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
+import { StaticJsModuleBase, type StaticJsModuleBaseCreateParams } from "./StaticJsModuleBase.js";
 import {
   BindingNameNamespace,
   type StaticJsModuleResolvedBinding,
   type StaticJsResolvedBinding,
 } from "./StaticJsResolvedBinding.js";
+
+export interface StaticJsAstModuleImplCreateParams extends StaticJsModuleBaseCreateParams {
+  ecmaScriptSource: string;
+  ecmaScriptCode: Program;
+}
 
 export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -66,7 +74,12 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
   private _evaluationPromise: Promise<void> | null = null;
 
-  constructor(
+  static create(params: StaticJsAstModuleImplCreateParams): StaticJsAstModuleImpl {
+    const { name, ecmaScriptSource, ecmaScriptCode, realm } = params;
+    return allocated(new StaticJsAstModuleImpl(name, ecmaScriptSource, ecmaScriptCode, realm));
+  }
+
+  protected constructor(
     name: string,
     private readonly _ecmaScriptSource: string,
     private readonly _ecmaScriptCode: Program,
@@ -261,13 +274,17 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
     const { _ecmaScriptCode, _realm, _context } = this;
 
+    const markable = containerMarkable(this);
+
     const onModuleComplete = () => {
       this._status = "evaluated";
+      markable.clear();
       resolve();
     };
 
     const onModuleReject = (error: StaticJsValue) => {
       this._status = "evaluated";
+      markable.clear();
       reject(new StaticJsRuntimeError(error));
     };
 
@@ -280,15 +297,25 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       yield* _context!.run(function* () {
         const promiseCapability = yield* newPromiseCapability(_realm.intrinsics.Promise);
 
-        const onFulfilled = new StaticJsNativeFunctionImpl(_realm, "", function* (_thisArg) {
-          onModuleComplete();
-          return _realm.types.undefined;
-        });
+        const onFulfilled = StaticJsNativeFunctionImpl.create(
+          _realm,
+          "",
+          function* (_thisArg) {
+            onModuleComplete();
+            return _realm.types.undefined;
+          },
+          { captures: [markable] },
+        );
 
-        const onRejected = new StaticJsNativeFunctionImpl(_realm, "", function* (_thisArg, arg) {
-          onModuleReject(arg);
-          return _realm.types.undefined;
-        });
+        const onRejected = StaticJsNativeFunctionImpl.create(
+          _realm,
+          "",
+          function* (_thisArg, arg) {
+            onModuleReject(arg);
+            return _realm.types.undefined;
+          },
+          { captures: [markable] },
+        );
 
         yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);
 
@@ -475,8 +502,11 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    this._moduleEnv = new StaticJsModuleEnvironmentRecord(this._realm);
-    this._envRec = new StaticJsDeclarativeEnvironmentRecord(this._moduleEnv, this._realm);
+    this._moduleEnv = StaticJsModuleEnvironmentRecord.create({ realm: this._realm });
+    this._envRec = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: this._moduleEnv,
+      realm: this._realm,
+    });
 
     for (const entry of this._importEntries) {
       const importedModule = this._linkedModules.get(entry.moduleRequest);
@@ -572,4 +602,21 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     });
   }
+
+  mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
+    if (this._moduleEnv) {
+      this._moduleEnv.mark(marks);
+    }
+    if (this._envRec) {
+      this._envRec.mark(marks);
+    }
+  }
+
+  allocateSelf() {}
 }

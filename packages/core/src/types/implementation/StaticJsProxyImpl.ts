@@ -1,5 +1,6 @@
 // TODO REMOVE
 
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -18,6 +19,8 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsPrivateElement } from "../StaticJsPrivateElement.js";
 import type { StaticJsProxy } from "../StaticJsProxy.js";
@@ -51,7 +54,15 @@ export class StaticJsProxyImpl implements StaticJsProxy {
   private _proxyTarget: StaticJsObject | null;
   private _callable: boolean | "constructor";
 
-  constructor(
+  static create(
+    proxyTarget: StaticJsObject,
+    handler: StaticJsObject,
+    realm: StaticJsRealm,
+  ): StaticJsProxyImpl {
+    return allocated(new StaticJsProxyImpl(proxyTarget, handler, realm));
+  }
+
+  protected constructor(
     proxyTarget: StaticJsObject,
     handler: StaticJsObject,
     private readonly _realm: StaticJsRealm,
@@ -939,6 +950,27 @@ export class StaticJsProxyImpl implements StaticJsProxy {
 
   *privateElementAddEvaluator(): EvaluationGenerator<void> {
     throw new StaticJsEngineError("Cannot currently add private methods to proxies.");
+  }
+
+  mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
+    if (this._proxyTarget) {
+      this._proxyTarget.mark(marks);
+    }
+    if (this._handler) {
+      this._handler.mark(marks);
+    }
+  }
+
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(StaticJsMemoryAllocationTag.StaticJsProxy, this);
   }
 
   toNative(): unknown {

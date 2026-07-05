@@ -1,14 +1,20 @@
 import type { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
 
 interface DeclarativeBinding {
   readonly name: string;
@@ -17,14 +23,29 @@ interface DeclarativeBinding {
   readonly isDeletable: boolean;
   value: StaticJsValue | null;
 }
+
+export interface StaticJsDeclarativeEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
+  outerEnv: StaticJsEnvironmentRecord | null;
+}
+
 export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static from(context: EvaluationContext) {
-    return new StaticJsDeclarativeEnvironmentRecord(context.lexicalEnv, context.realm);
+    return StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: context.lexicalEnv,
+      realm: context.realm,
+    });
+  }
+
+  static create(
+    params: StaticJsDeclarativeEnvironmentRecordCreateParams,
+  ): StaticJsDeclarativeEnvironmentRecord {
+    const { outerEnv, realm } = params;
+    return allocated(new StaticJsDeclarativeEnvironmentRecord(outerEnv, realm));
   }
 
   private readonly _bindings: Map<string, DeclarativeBinding> = new Map();
 
-  constructor(
+  protected constructor(
     outerEnv: StaticJsEnvironmentRecord | null,
     protected readonly _realm: StaticJsRealm,
   ) {
@@ -74,6 +95,9 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void> {
     yield* this._assertBindingNotDeclared(name);
 
+    // Note: Our set entry and extranious data costs something too...
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, name);
+
     this._bindings.set(name, {
       name,
       isMutable: true,
@@ -86,6 +110,9 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
     // TODO: Do we throw if not strict?
     yield* this._assertBindingNotDeclared(name);
+
+    // Note: Our set entry and extranious data costs something too...
+    this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, name);
 
     this._bindings.set(name, {
       name,
@@ -172,6 +199,29 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._realm.types.undefined;
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    for (const { value } of this._bindings.values()) {
+      if (value) {
+        value.mark(marks);
+      }
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this._realm.memory.allocate.bind(this._realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    for (const name of this._bindings.keys()) {
+      allocate(StaticJsMemoryAllocationTag.RawString, name);
+    }
   }
 
   protected *_assertBindingNotDeclared(name: string) {

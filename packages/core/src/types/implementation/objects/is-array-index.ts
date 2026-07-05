@@ -1,18 +1,29 @@
+import { canonicalNumericIndexString } from "#algorithms/canonical-numeric-index-string.js";
+
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "../../StaticJsArray.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
+
+const MAX_INDEX_INCLUSIVE = 2 ** 32 - 2;
 
 export function isArrayIndex(value: StaticJsPropertyKey): value is string {
   if (isStaticJsSymbol(value)) {
     return false;
   }
 
-  const parsed = parseInt(value, 10);
-  return (
-    !Number.isNaN(parsed) &&
-    parsed >= 0 &&
-    parsed <= MAX_ARRAY_LENGTH_INCLUSIVE &&
-    Math.floor(parsed) === parsed
-  );
+  // SPec says to use CanonicalNumericIndexString
+  const canonical = canonicalNumericIndexString.js(value);
+  if (canonical === undefined) {
+    return false;
+  }
+
+  if (Math.trunc(canonical) !== canonical) {
+    return false;
+  }
+
+  if (canonical < 0 || canonical > MAX_INDEX_INCLUSIVE) {
+    return false;
+  }
+
+  return true;
 }

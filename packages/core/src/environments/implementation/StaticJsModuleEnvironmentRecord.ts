@@ -1,21 +1,36 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
 
 interface ModuleBinding {
   module: StaticJsModuleImplementation;
   bindingName: string;
 }
+
+export type StaticJsModuleEnvironmentRecordCreateParams = StaticJsEnvironmentRecordBaseCreateParams;
+
 export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   private readonly _moduleBindings = new Map<string, ModuleBinding>();
 
-  constructor(private readonly _realm: StaticJsRealm) {
+  static create(
+    params: StaticJsModuleEnvironmentRecordCreateParams,
+  ): StaticJsModuleEnvironmentRecord {
+    return allocated(new StaticJsModuleEnvironmentRecord(params.realm));
+  }
+
+  protected constructor(private readonly _realm: StaticJsRealm) {
     super(_realm.globalEnv);
   }
 
@@ -126,5 +141,26 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     bindingName: string,
   ): EvaluationGenerator<void> {
     this._moduleBindings.set(name, { module, bindingName });
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    for (const { module } of this._moduleBindings.values()) {
+      module.mark(marks);
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this._realm.memory.allocate.bind(this._realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    for (const name of this._moduleBindings.keys()) {
+      allocate(StaticJsMemoryAllocationTag.RawString, name);
+    }
   }
 }

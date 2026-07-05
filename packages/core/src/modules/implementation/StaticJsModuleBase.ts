@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
@@ -16,10 +17,15 @@ import type {
 
 import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
+export interface StaticJsModuleBaseCreateParams {
+  name: string;
+  realm: StaticJsRealm;
+}
+
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObject | null = null;
 
-  constructor(
+  protected constructor(
     protected readonly _name: string,
     protected readonly _realm: StaticJsRealm,
   ) {}
@@ -127,10 +133,14 @@ export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModu
     // TODO: Apparently we need to sort the names here according to their code unit order.
     // As that potentially spans across multiple modules, I have no idea what that means for us.
 
-    const ns = new StaticJsNamespaceExoticObject(this, unambiguousNames, this._realm);
+    const ns = StaticJsNamespaceExoticObject.create(this, unambiguousNames, this._realm);
     this._cachedNamespaceObject = ns;
     return ns;
   }
+
+  abstract mark(marks: Set<StaticJsAllocation>): void;
+
+  abstract allocateSelf(allocator?: StaticJsAllocator): void;
 
   private *_getExportEvaluator(exportName: string): EvaluationGenerator<StaticJsValue | null> {
     const resolution = yield* this.resolveExportEvaluator(exportName);

@@ -7,11 +7,12 @@ import {
   parenthesizedExpression,
 } from "@babel/types";
 
+import type { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPrivateElement } from "#types/StaticJsPrivateElement.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { StaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
+import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 
 import type { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
 import type { StaticJsClassStaticBlockDefinitionRecord } from "../ClassStaticBlockDefinitionRecord.js";
@@ -63,7 +64,7 @@ function* classFieldDefinitionEvaluation(
     // By spec, OrdinaryFunctionCreate
     const sourceText =
       scriptOrModule?.ecmaScriptSource.slice(element.value.start!, element.value.end!) ?? "";
-    initializer = new StaticJsMethodFunction(
+    initializer = StaticJsAstMethodFunction.create({
       realm,
       // Spec wants this to be an assignment expression, but to us that means
       // x = y,
@@ -71,12 +72,12 @@ function* classFieldDefinitionEvaluation(
       // Note: Just passing value here is a bug, as if the value is a function itself, this will
       // just evaluate that function.
       // Luckally, babel has parenthesizedExpression even though it doesn't generate them by default.
-      parenthesizedExpression(element.value),
+      node: parenthesizedExpression(element.value),
       sourceText,
-      object,
+      homeObject: object,
       env,
       privateEnv,
-    );
+    });
 
     initializer.classFieldInitializerName = name;
   } else {
@@ -96,14 +97,14 @@ function* classStaticBlockDefinitionEvaluation(
 ): EvaluationGenerator<StaticJsClassStaticBlockDefinitionRecord | Completion.Abrupt> {
   const { lexicalEnv: lex, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
   const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
-  const bodyFunction = new StaticJsMethodFunction(
+  const bodyFunction = StaticJsAstMethodFunction.create({
     realm,
-    element,
+    node: element,
     sourceText,
-    object,
-    lex,
+    homeObject: object,
+    env: lex,
     privateEnv,
-  );
+  });
   return {
     type: "class-static-block-definition",
     bodyFunction,

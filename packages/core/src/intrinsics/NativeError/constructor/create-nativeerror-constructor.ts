@@ -38,7 +38,7 @@ export function* createNativeErrorConstructor(
       newTarget = EvaluationContext.current.function!;
     }
 
-    const obj = yield* ordinaryCreateFromConstructor(newTarget, protoKey, StaticJsErrorImpl);
+    const obj = yield* ordinaryCreateFromConstructor(newTarget, protoKey, StaticJsErrorImpl.create);
     if (!isStaticJsUndefined(message)) {
       const msg = yield* toString(message);
       yield* createNonEnumerableDataPropertyOrThrow(obj, "message", msg);
@@ -54,7 +54,7 @@ export function* createNativeErrorConstructor(
     return obj;
   }
 
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     name,
     function* (_thisArg, message = realm.types.undefined, options = realm.types.undefined) {

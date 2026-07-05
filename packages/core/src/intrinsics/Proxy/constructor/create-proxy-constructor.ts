@@ -2,6 +2,7 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { createDataPropertyOrThrow } from "#algorithms/create-data-property-or-throw.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsProxyImpl } from "#types/implementation/StaticJsProxyImpl.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
@@ -14,7 +15,7 @@ import {
 const declarations: IntrinsicPropertyDeclaration[] = [];
 
 export function* createProxyConstructor(realm: StaticJsRealm) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Proxy",
     function* () {
@@ -40,13 +41,13 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
           throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
-        return new StaticJsProxyImpl(target, handler, realm);
+        return StaticJsProxyImpl.create(target, handler, realm);
       },
     },
   );
 
   yield* ctor.defineOwnPropertyEvaluator("revocable", {
-    value: new StaticJsNativeFunctionImpl(
+    value: StaticJsNativeFunctionImpl.create(
       realm,
       "revocable",
       function* (_thisArg, target, handler) {
@@ -58,15 +59,24 @@ export function* createProxyConstructor(realm: StaticJsRealm) {
           throw yield* Completion.Throw.create("TypeError", "Proxy handler is not an object");
         }
 
-        const proxy = new StaticJsProxyImpl(target, handler, realm);
-
-        const revoker = new StaticJsNativeFunctionImpl(realm, "revoker", function* () {
-          proxy.revoke();
-          return realm.types.undefined;
-        });
+        const markable = containerMarkable(StaticJsProxyImpl.create(target, handler, realm));
+        const revoker = StaticJsNativeFunctionImpl.create(
+          realm,
+          "revoker",
+          function* () {
+            const proxy = markable.value;
+            if (!proxy) {
+              return realm.types.undefined;
+            }
+            proxy.revoke();
+            markable.clear();
+            return realm.types.undefined;
+          },
+          { captures: [markable] },
+        );
 
         const result = realm.types.object();
-        yield* createDataPropertyOrThrow(result, "proxy", proxy);
+        yield* createDataPropertyOrThrow(result, "proxy", markable.value!);
         yield* createDataPropertyOrThrow(result, "revoke", revoker);
         return result;
       },

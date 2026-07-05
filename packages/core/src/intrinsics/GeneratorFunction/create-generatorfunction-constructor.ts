@@ -8,7 +8,7 @@ export function* createGeneratorFunctionConstructor(
   realm: StaticJsRealm,
   functionProto: StaticJsObject,
 ) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "GeneratorFunction",
     function* (_thisArg, ...args) {

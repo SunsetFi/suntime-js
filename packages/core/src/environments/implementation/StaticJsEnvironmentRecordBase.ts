@@ -1,10 +1,18 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-export abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironmentRecord {
-  constructor(private readonly _outerEnv: StaticJsEnvironmentRecord | null) {}
+export interface StaticJsEnvironmentRecordBaseCreateParams {
+  realm: StaticJsRealm;
+}
+
+export abstract class StaticJsEnvironmentRecordBase
+  implements StaticJsEnvironmentRecord, StaticJsAllocation
+{
+  protected constructor(private readonly _outerEnv: StaticJsEnvironmentRecord | null) {}
 
   get outerEnv(): StaticJsEnvironmentRecord | null {
     return this._outerEnv;
@@ -52,4 +60,17 @@ export abstract class StaticJsEnvironmentRecordBase implements StaticJsEnvironme
   abstract withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue>;
 
   abstract getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue>;
+
+  mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+    if (this._outerEnv) {
+      this._outerEnv.mark(marks);
+    }
+  }
+
+  allocateSelf(_allocate?: StaticJsAllocator): void {}
 }

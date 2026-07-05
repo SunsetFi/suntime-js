@@ -11,7 +11,7 @@ export function* createIsNaN(
   realm: StaticJsRealm,
   intrinsics: IntrinsicsRecord,
 ): EvaluationGenerator<void> {
-  const func = new StaticJsNativeFunctionImpl(
+  const func = StaticJsNativeFunctionImpl.create(
     realm,
     "isNaN",
     function* (_thisArg, value = realm.types.undefined) {

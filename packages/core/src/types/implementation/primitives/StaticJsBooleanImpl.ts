@@ -1,14 +1,29 @@
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsBoolean } from "../../StaticJsBoolean.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
+import {
+  StaticJsAbstractPrimitive,
+  type StaticJsAbstractPrimitiveCreateParams,
+} from "../StaticJsAbstractPrimitive.js";
+
+export interface StaticJsBooleanImplCreateParams extends StaticJsAbstractPrimitiveCreateParams {
+  value: boolean;
+}
 
 export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements StaticJsBoolean {
   private readonly _value: boolean;
 
-  constructor(realm: StaticJsRealm, value: boolean) {
+  static create(params: StaticJsBooleanImplCreateParams): StaticJsBooleanImpl {
+    return allocated(new StaticJsBooleanImpl(params.realm, params.value));
+  }
+
+  protected constructor(realm: StaticJsRealm, value: boolean) {
     super(realm);
     this._value = value;
   }
@@ -31,6 +46,20 @@ export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements St
 
   get value() {
     return this._value;
+  }
+
+  mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+  }
+
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(StaticJsMemoryAllocationTag.StaticJsBoolean, this);
   }
 
   toNative() {

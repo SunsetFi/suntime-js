@@ -25,7 +25,7 @@ export default function* createMappedArgumentsObject(
   const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
   const map = realm.types.object();
-  const obj = new StaticJsArgumentsExoticObject(map, realm);
+  const obj = StaticJsArgumentsExoticObject.create({ parameterMap: map, realm });
 
   const parameterNames = boundNames.ofParameters(formals);
   const numberOfParameters = parameterNames.length;
@@ -87,9 +87,16 @@ function* makeArgGetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsNativeFunctionImpl(realm, "get", function* () {
-    return yield* env.getBindingValueEvaluator(name, false);
-  });
+  return StaticJsNativeFunctionImpl.create(
+    realm,
+    "get",
+    function* () {
+      return yield* env.getBindingValueEvaluator(name, false);
+    },
+    {
+      captures: [env],
+    },
+  );
 }
 
 function* makeArgSetter(
@@ -97,8 +104,15 @@ function* makeArgSetter(
   env: StaticJsEnvironmentRecord,
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsFunction> {
-  return new StaticJsNativeFunctionImpl(realm, "set", function* (_thisArg, value) {
-    yield* env.setMutableBindingEvaluator(name, value, false);
-    return realm.types.undefined;
-  });
+  return StaticJsNativeFunctionImpl.create(
+    realm,
+    "set",
+    function* (_thisArg, value) {
+      yield* env.setMutableBindingEvaluator(name, value, false);
+      return realm.types.undefined;
+    },
+    {
+      captures: [env],
+    },
+  );
 }

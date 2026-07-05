@@ -9,6 +9,7 @@ import { ordinaryCreateFromConstructor } from "#algorithms/ordinary-create-from-
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsPromiseImpl } from "#types/implementation/objects/StaticJsPromiseImpl.js";
 import { isStaticJsObject } from "#types/StaticJsObject.js";
@@ -24,6 +25,7 @@ import { promiseCtorAnyDeclaration } from "./any.js";
 import { promiseCtorRejectDeclaration } from "./reject.js";
 import { promiseCtorResolveDeclaration } from "./resolve.js";
 import { promiseConstructorSymbolSpeciesDeclaration } from "./symbol_species.js";
+import { promiseCtorWithResolversDeclaration } from "./withResolvers.js";
 
 const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorAllDeclaration,
@@ -32,10 +34,11 @@ const declarations: IntrinsicPropertyDeclaration[] = [
   promiseCtorRejectDeclaration,
   promiseCtorResolveDeclaration,
   promiseConstructorSymbolSpeciesDeclaration,
+  promiseCtorWithResolversDeclaration,
 ];
 
 export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Promise",
     function* () {
@@ -60,7 +63,7 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
         const promise = yield* ordinaryCreateFromConstructor(
           newTarget,
           "Promise.prototype",
-          StaticJsPromiseImpl,
+          StaticJsPromiseImpl.create,
         );
 
         const { resolve, reject } = createResolvingFunctions(promise, realm);
@@ -101,7 +104,9 @@ export function* createPromiseConstructor(realm: StaticJsRealm, promiseProto: St
 function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm) {
   let alreadyResolved = false;
 
-  const resolve = new StaticJsNativeFunctionImpl(
+  const markable = containerMarkable(promise);
+
+  const resolve = StaticJsNativeFunctionImpl.create(
     realm,
     "resolve",
     function* (_thisArg, resolution = realm.types.undefined) {
@@ -110,6 +115,7 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
       }
 
       alreadyResolved = true;
+      markable.clear();
 
       if (resolution === promise) {
         promise.reject(realm.types.error("TypeError", "Cannot resolve promise to itself"));
@@ -152,9 +158,12 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
 
       return realm.types.undefined;
     },
+    {
+      captures: [markable],
+    },
   );
 
-  const reject = new StaticJsNativeFunctionImpl(
+  const reject = StaticJsNativeFunctionImpl.create(
     realm,
     "reject",
     function* (_thisArg, reason = realm.types.undefined) {
@@ -162,9 +171,13 @@ function createResolvingFunctions(promise: StaticJsPromise, realm: StaticJsRealm
         return realm.types.undefined;
       }
       alreadyResolved = true;
+      markable.clear();
 
       promise.reject(reason);
       return realm.types.undefined;
+    },
+    {
+      captures: [markable],
     },
   );
 

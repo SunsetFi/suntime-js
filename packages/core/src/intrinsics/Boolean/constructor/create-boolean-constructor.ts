@@ -6,7 +6,7 @@ import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/Stat
 import { StaticJsBooleanBoxed } from "#types/implementation/primitives/StaticJsBooleanBoxed.js";
 
 export function* createBooleanConstructor(realm: StaticJsRealm, booleanProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Boolean",
     function* (_thisArg, value = realm.types.undefined) {
@@ -15,7 +15,7 @@ export function* createBooleanConstructor(realm: StaticJsRealm, booleanProto: St
     {
       *construct(_thisArg, value = realm.types.undefined) {
         const boolVal = yield* toBoolean.js(value);
-        return new StaticJsBooleanBoxed(realm, boolVal);
+        return StaticJsBooleanBoxed.create({ realm, value: boolVal });
       },
     },
   );

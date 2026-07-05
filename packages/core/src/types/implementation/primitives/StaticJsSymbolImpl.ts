@@ -1,7 +1,12 @@
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
@@ -17,11 +22,21 @@ export function getSymbolProxyOwner(sym: unknown): StaticJsSymbol | null {
   return proxySymbolOwners.get(sym as unknown as object) ?? null;
 }
 
+export interface StaticJsSymbolImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  descriptionOrSymbol: string | symbol | undefined;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements StaticJsSymbol {
   private _description: string | undefined = undefined;
   private _nativeSymbol: symbol;
 
-  constructor(
+  static create(params: StaticJsSymbolImplCreateParams): StaticJsSymbolImpl {
+    const { realm, descriptionOrSymbol, prototype } = params;
+    return allocated(new StaticJsSymbolImpl(realm, descriptionOrSymbol, prototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     descriptionOrSymbol: string | symbol | undefined,
     prototype?: StaticJsObject | undefined,
@@ -42,6 +57,8 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
       // ...But we have to do shennanigans for typescript to accept that.
       proxySymbolOwners.set(this._nativeSymbol as unknown as object, this);
     }
+
+    // TODO: If we created our own symbol, we should track that allocation.
   }
 
   override get [Symbol.toStringTag](): string {
@@ -66,6 +83,23 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
 
   get description(): string | undefined {
     return this._description;
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    if (this._description) {
+      allocate(StaticJsMemoryAllocationTag.RawString, this._description);
+    }
   }
 
   override toNative(): symbol {

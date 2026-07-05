@@ -18,6 +18,7 @@ import {
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { asyncFunctionStart } from "#algorithms/async-function-start.js";
@@ -41,6 +42,8 @@ import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import functionDeclarationInstantiation from "#evaluator/instantiation/function-declaration-instantiation.js";
 import evaluateStatementList from "#evaluator/node-evaluators/StatementList.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 
@@ -56,10 +59,29 @@ export interface StaticJsAstFunctionOptions {
   thisMode: "lexical-this" | "non-lexical-this";
   strict: boolean;
   env: StaticJsEnvironmentRecord;
-  prototype?: StaticJsObject | null;
-  privateEnv?: StaticJsPrivateEnvironmentRecord | null;
+  prototype?: StaticJsObject | null | undefined;
+  privateEnv?: StaticJsPrivateEnvironmentRecord | null | undefined;
   scriptOrModule: StaticJsScriptOrModuleRecord | null;
-  construct?: boolean;
+  construct?: boolean | undefined;
+}
+
+// The "mode" fields (thisMode, strict, scriptOrModule) are optional here even
+// though StaticJsAstFunction needs them: the subclasses (StaticJsAstMethodFunction
+// and below) derive those internally and must be able to omit them. Because a
+// subclass params interface `extends` this one, and `extends` forbids
+// re-declaring an inherited required field as optional, they must be optional
+// at the root. `create` fills sane defaults before constructing.
+export interface StaticJsAstFunctionCreateParams {
+  realm: StaticJsRealm;
+  node: StaticJsAstFunctionNode;
+  sourceText: string;
+  env: StaticJsEnvironmentRecord;
+  thisMode?: "lexical-this" | "non-lexical-this" | undefined;
+  strict?: boolean | undefined;
+  scriptOrModule?: StaticJsScriptOrModuleRecord | null | undefined;
+  privateEnv?: StaticJsPrivateEnvironmentRecord | null | undefined;
+  construct?: boolean | undefined;
+  prototype?: StaticJsObject | null | undefined;
 }
 
 export type StaticJsAstFunctionArgument = Identifier | Pattern | RestElement;
@@ -92,7 +114,33 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
   private _constructorKind: null | "base" | "derived" = null;
 
-  constructor(
+  static create(params: StaticJsAstFunctionCreateParams): StaticJsAstFunction {
+    const {
+      realm,
+      node,
+      sourceText,
+      env,
+      thisMode = "non-lexical-this",
+      strict = false,
+      scriptOrModule = null,
+      privateEnv = null,
+      construct,
+      prototype,
+    } = params;
+    return allocated(
+      new StaticJsAstFunction(realm, node, sourceText, {
+        thisMode,
+        strict,
+        env,
+        privateEnv,
+        scriptOrModule,
+        construct,
+        prototype,
+      }),
+    );
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     protected readonly _node: StaticJsAstFunctionNode,
     sourceText: string,
@@ -109,7 +157,11 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const params = isFunction(_node) ? _node.params : [];
     validateStaticJsAstFunctionParams(params);
 
-    super(realm, prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"]);
+    super(
+      realm,
+      prototype !== undefined ? prototype : realm.intrinsics["Function.prototype"],
+      StaticJsMemoryAllocationTag.StaticJsAstFunction,
+    );
 
     this._argumentDeclarations = params;
 
@@ -338,6 +390,28 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     });
   }
 
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._environment.mark(marks);
+    this._privateEnv?.mark(marks);
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    allocate?.(StaticJsMemoryAllocationTag.RawString, this._sourceText);
+    allocate?.(
+      StaticJsMemoryAllocationTag.StaticJsAstFunctionAstRootBySourceText,
+      this._sourceText,
+    );
+  }
+
   override toStringSync() {
     const name = this.getNameSync();
 
@@ -433,7 +507,12 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     const proto = yield* getPrototypeFromConstructor(this, "AsyncGeneratorPrototype");
     const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
-    const generator = new StaticJsAsyncGeneratorImpl(evaluator, null, realm, proto);
+    const generator = StaticJsAsyncGeneratorImpl.create({
+      generatorBody: evaluator,
+      generatorBrand: null,
+      realm,
+      prototype: proto,
+    });
     return Completion.Return(generator);
   }
 
@@ -449,7 +528,12 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
 
     const proto = yield* getPrototypeFromConstructor(this, "GeneratorPrototype");
-    const generator = new StaticJsGeneratorImpl(evaluator, null, realm, proto);
+    const generator = StaticJsGeneratorImpl.create({
+      generatorBody: evaluator,
+      generatorBrand: null,
+      realm,
+      prototype: proto,
+    });
 
     return Completion.Return(generator);
   }
@@ -594,13 +678,13 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   protected *_newFunctionEnvironment(
     newTarget: StaticJsObject | null,
   ): EvaluationGenerator<StaticJsFunctionEnvironmentRecord> {
-    const env = new StaticJsFunctionEnvironmentRecord(
-      this,
+    const env = StaticJsFunctionEnvironmentRecord.create({
+      functionObject: this,
       newTarget,
-      this._thisMode === "lexical",
-      this._environment,
-      this.realm,
-    );
+      lexical: this._thisMode === "lexical",
+      outerEnv: this._environment,
+      realm: this.realm,
+    });
     return env;
   }
 }

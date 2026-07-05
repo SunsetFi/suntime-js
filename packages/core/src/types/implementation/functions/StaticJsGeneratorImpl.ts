@@ -1,5 +1,6 @@
 import { isNode, type Node } from "@babel/types";
 
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -14,22 +15,35 @@ import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
 import { iteratorComplete } from "#iterators/iterator-complete.js";
 import { iteratorValue } from "#iterators/iterator-value.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export type GeneratorState = "suspended-start" | "suspended-yield" | "executing" | "completed";
 
+export interface StaticJsGeneratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  generatorBody: Node | EvaluationGenerator<Completion>;
+  generatorBrand: string | null;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsGenerator {
   private _generatorState: GeneratorState = "suspended-start";
   private _generatorContext: SuspendContext<StaticJsObject>;
 
-  constructor(
+  static create(params: StaticJsGeneratorImplCreateParams): StaticJsGeneratorImpl {
+    const { realm, generatorBody, generatorBrand, prototype } = params;
+    return allocated(new StaticJsGeneratorImpl(generatorBody, generatorBrand, realm, prototype));
+  }
+
+  protected constructor(
     generatorBody: Node | EvaluationGenerator<Completion>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
@@ -57,6 +71,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
       }
 
       EvaluationContext.pop();
+
       acGenerator._generatorState = "completed";
 
       let resultValue: StaticJsValue;
@@ -184,6 +199,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     }
 
     this._generatorState = "executing";
+
     const context = this._generatorContext;
     return yield* EvaluationContext.withRealmEvaluator(this.realm, function* () {
       return yield* Q(SuspendCommand.runSuspendedContext(context, Completion.Normal(value)));
@@ -226,6 +242,16 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     return yield* EvaluationContext.withRealmEvaluator(this.realm, function* () {
       return yield* Q(SuspendCommand.runSuspendedContext(context, completion));
     });
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._generatorContext.mark(marks);
   }
 
   private *_generatorValidate(

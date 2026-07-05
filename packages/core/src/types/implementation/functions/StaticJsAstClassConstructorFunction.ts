@@ -1,0 +1,155 @@
+import type { Expression, Function } from "@babel/types";
+
+import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
+import type { StaticJsClassFieldDefinitionRecord } from "#evaluator/node-evaluators/Classes/ClassFieldDefinitionRecord.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { ordinaryCreateFromConstructor } from "#algorithms/ordinary-create-from-constructor.js";
+import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { EvaluateFunctionBodyCommand } from "#evaluator/commands/EvaluateFunctionBodyCommand.js";
+import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
+import { rethrowCompletion } from "#evaluator/completions/rethrow-completion.js";
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { initializeInstanceElements } from "#evaluator/node-evaluators/Classes/evaluation/initialize-instance-elements.js";
+import { allocated } from "#memory/allocated.js";
+
+import type { StaticJsCallable } from "../../StaticJsCallable.js";
+import type {
+  StaticJsPrivateElementAccessor,
+  StaticJsPrivateElementMethod,
+} from "../../StaticJsPrivateElement.js";
+import type { StaticJsClassConstructorFunction } from "./StaticJsClassConstructorFunction.js";
+
+import { isStaticJsObject, type StaticJsObject } from "../../StaticJsObject.js";
+import { isStaticJsUndefined } from "../../StaticJsUndefined.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
+import {
+  StaticJsAstMethodFunction,
+  type StaticJsAstMethodFunctionCreateParams,
+} from "./StaticJsAstMethodFunction.js";
+
+export interface StaticJsAstClassConstructorFunctionCreateParams extends StaticJsAstMethodFunctionCreateParams {
+  node: Function | Expression;
+  privateEnv: StaticJsPrivateEnvironmentRecord;
+}
+
+export class StaticJsAstClassConstructorFunction
+  extends StaticJsAstMethodFunction
+  implements StaticJsClassConstructorFunction
+{
+  static override create(
+    params: StaticJsAstClassConstructorFunctionCreateParams,
+  ): StaticJsAstClassConstructorFunction {
+    const { realm, node, sourceText, homeObject, env, privateEnv, prototype } = params;
+    return allocated(
+      new StaticJsAstClassConstructorFunction(
+        realm,
+        node,
+        sourceText,
+        homeObject,
+        env,
+        privateEnv,
+        prototype ?? undefined,
+      ),
+    );
+  }
+
+  protected constructor(
+    realm: StaticJsRealm,
+    node: Function | Expression,
+    sourceText: string,
+    homeObject: StaticJsObject,
+    env: StaticJsEnvironmentRecord,
+    privateEnv: StaticJsPrivateEnvironmentRecord,
+    prototype: StaticJsObject = realm.intrinsics["Function.prototype"],
+  ) {
+    super(realm, node, sourceText, homeObject, env, privateEnv, prototype);
+  }
+
+  privateMethods: (StaticJsPrivateElementMethod | StaticJsPrivateElementAccessor)[] = [];
+  fields: StaticJsClassFieldDefinitionRecord[] = [];
+
+  override *callEvaluator(): EvaluationGenerator<StaticJsValue> {
+    throw yield* Completion.Throw.create(
+      "TypeError",
+      "Class constructor cannot be invoked without 'new'",
+    );
+  }
+
+  override *constructEvaluator(
+    args: StaticJsValue[] = [],
+    newTarget: StaticJsCallable = this,
+  ): EvaluationGenerator<StaticJsObject> {
+    const kind = this.constructorKind;
+    if (kind === null) {
+      // FIXME: Better error message.  What does NodeJs say?
+      throw yield* Completion.Throw.create("TypeError", "This function is not a constructor.");
+    }
+
+    let thisArg: StaticJsObject | undefined;
+    if (kind === "base") {
+      thisArg = yield* ordinaryCreateFromConstructor(newTarget, "Object.prototype");
+    }
+
+    const calleeContext = yield* this._prepareForOrdinaryCall(newTarget);
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const func = this;
+    return yield* EvaluateFunctionBodyCommand(func, function* () {
+      if (kind === "base") {
+        yield* func._ordinaryCallBindThis(calleeContext, thisArg!);
+        const initializationResult = yield* initializeInstanceElements(thisArg!, func);
+        if (Completion.Abrupt.is(initializationResult)) {
+          EvaluationContext.pop();
+          rethrowCompletion(initializationResult);
+        }
+      }
+
+      const constructorEnv = EvaluationContext.current.lexicalEnv;
+
+      let result = yield* captureThrownCompletion(func._evaluateBody(args));
+      EvaluationContext.pop();
+
+      if (Completion.Throw.is(result)) {
+        throw result;
+      }
+
+      // HACK: Supporting internal caller shorthand
+      if (isStaticJsValue(result)) {
+        result = Completion.Return(result);
+      }
+
+      // Apparently typescript is upset about Completion.Return.assert?
+      if (!Completion.Return.is(result)) {
+        throw new StaticJsEngineError("Constructor did not return a value or threw an exception.");
+      }
+
+      const value = result.value;
+      if (isStaticJsObject(value)) {
+        return value;
+      }
+
+      if (kind === "base") {
+        return thisArg!;
+      }
+
+      if (!isStaticJsUndefined(value)) {
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Derived constructor returned a non-object value.",
+        );
+      }
+
+      const thisBinding = yield* Q(constructorEnv.getThisBindingEvaluator());
+      if (!isStaticJsObject(thisBinding)) {
+        throw new StaticJsEngineError("Expected object this binding after constructor evaluation.");
+      }
+
+      return thisBinding;
+    });
+  }
+}

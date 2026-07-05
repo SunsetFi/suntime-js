@@ -5,7 +5,7 @@ import { isCallable } from "#algorithms/is-callable.js";
 import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
 import { toObject } from "#algorithms/to-object.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { isStaticJsArray, MAX_ARRAY_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
+import { isStaticJsArray, MAX_ARRAYLIKE_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
@@ -40,7 +40,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
       // flatMap does not flatten non-array array-likes.
       if (isStaticJsArray(result)) {
         const len = yield* lengthOfArrayLike(result);
-        if (n + len > MAX_ARRAY_LENGTH_INCLUSIVE) {
+        if (n + len > MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
           throw yield* Completion.Throw.create("TypeError", "Maximum array size exceeded");
         }
 
@@ -60,7 +60,7 @@ const arrayProtoFlatMapDeclaration: IntrinsicPropertyDeclaration = {
           n++;
         }
       } else {
-        if (n > MAX_ARRAY_LENGTH_INCLUSIVE) {
+        if (n > MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
           throw yield* Completion.Throw.create("TypeError", "Maximum array size exceeded");
         }
 

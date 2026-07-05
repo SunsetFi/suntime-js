@@ -15,7 +15,7 @@ import stringCtorFromCharCodeDeclaration from "./fromCharCode.js";
 const declarations: IntrinsicPropertyDeclaration[] = [stringCtorFromCharCodeDeclaration];
 
 export function* createStringConstructor(realm: StaticJsRealm, stringProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "String",
     function* (_thisArg, value) {
@@ -34,7 +34,7 @@ export function* createStringConstructor(realm: StaticJsRealm, stringProto: Stat
         const str = yield* toString.js(value ?? realm.types.string(""));
         // FIXME: Need newTarget for this
         // const proto = yield* getPrototypeFromConstructor()
-        return new StaticJsStringExoticObject(realm, str);
+        return StaticJsStringExoticObject.create({ realm: realm, value: str });
       },
     },
   );

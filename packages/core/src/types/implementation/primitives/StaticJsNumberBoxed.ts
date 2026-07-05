@@ -1,9 +1,22 @@
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
-import { StaticJsPlainObjectImpl } from "../objects/StaticJsPlainObjectImpl.js";
+import { allocated } from "#memory/allocated.js";
+
+import {
+  StaticJsPlainObjectImpl,
+  type StaticJsPlainObjectImplCreateParams,
+} from "../objects/StaticJsPlainObjectImpl.js";
+
+export interface StaticJsNumberBoxedCreateParams extends StaticJsPlainObjectImplCreateParams {
+  value: number;
+}
 
 export class StaticJsNumberBoxed extends StaticJsPlainObjectImpl {
-  constructor(
+  static override create(params: StaticJsNumberBoxedCreateParams): StaticJsNumberBoxed {
+    return allocated(new StaticJsNumberBoxed(params.realm, params.value));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _value: number,
   ) {

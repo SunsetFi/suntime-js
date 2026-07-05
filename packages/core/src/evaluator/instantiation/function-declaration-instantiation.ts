@@ -84,7 +84,7 @@ export default function* functionDeclarationInstantiation(
     env = calleeContext.lexicalEnv;
   } else {
     const calleeEnv = calleeContext.lexicalEnv;
-    env = new StaticJsDeclarativeEnvironmentRecord(calleeEnv, realm);
+    env = StaticJsDeclarativeEnvironmentRecord.create({ outerEnv: calleeEnv, realm: realm });
     calleeContext.lexicalEnv = env;
   }
 
@@ -151,7 +151,7 @@ export default function* functionDeclarationInstantiation(
 
     varEnv = env;
   } else {
-    varEnv = new StaticJsDeclarativeEnvironmentRecord(env, realm);
+    varEnv = StaticJsDeclarativeEnvironmentRecord.create({ outerEnv: env, realm: realm });
     calleeContext.variableEnv = varEnv;
     instantiatedVarNames = [];
     for (const n of varNames) {
@@ -193,7 +193,7 @@ export default function* functionDeclarationInstantiation(
 
       f.extra = { ...f.extra, annexBHoisted: F };
     }
-    lexEnv = new StaticJsDeclarativeEnvironmentRecord(varEnv, realm);
+    lexEnv = StaticJsDeclarativeEnvironmentRecord.create({ outerEnv: varEnv, realm: realm });
   }
 
   calleeContext.lexicalEnv = lexEnv;

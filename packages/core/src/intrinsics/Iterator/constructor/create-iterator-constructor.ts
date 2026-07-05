@@ -7,7 +7,7 @@ import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/Stat
 import { isStaticJsUndefined } from "#types/StaticJsUndefined.js";
 
 export function* createIteratorConstructor(realm: StaticJsRealm, iteratorProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Iterator",
     function* (_thisArg) {
@@ -39,16 +39,22 @@ export function* createIteratorConstructor(realm: StaticJsRealm, iteratorProto: 
   yield* iteratorProto.defineOwnPropertyEvaluator("constructor", {
     enumerable: false,
     configurable: true,
-    get: new StaticJsNativeFunctionImpl(realm, "get", function* () {
-      return ctor;
-    }),
-    set: new StaticJsNativeFunctionImpl(
+    get: StaticJsNativeFunctionImpl.create(
+      realm,
+      "get",
+      function* () {
+        return ctor;
+      },
+      { captures: [ctor] },
+    ),
+    set: StaticJsNativeFunctionImpl.create(
       realm,
       "set",
       function* (thisArg, v = realm.types.undefined) {
         yield* setterThatIgnoresPrototypeProperties(thisArg, iteratorProto, "constructor", v);
         return realm.types.undefined;
       },
+      { captures: [iteratorProto] },
     ),
   });
 

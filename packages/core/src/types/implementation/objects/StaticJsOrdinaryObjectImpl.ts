@@ -1,11 +1,22 @@
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
+import {
+  validateAndApplyPropertyDescriptor,
+  type PropertySlotSetter,
+} from "#algorithms/validate-and-apply-property-descriptor.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
+import { isStaticJsValue } from "#types/StaticJsValue.js";
+import { drainIterator } from "#utils/drain-iterator.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
-import type { StaticJsPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
+import type {
+  StaticJsPropertyDescriptor,
+  StaticJsPropertyDescriptorRecord,
+} from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
 
@@ -19,8 +30,12 @@ import { isArrayIndex } from "./is-array-index.js";
 export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject {
   private readonly _contents = new Map<StaticJsPropertyKey, StaticJsPropertyDescriptor>();
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null = null) {
-    super(realm, prototype);
+  protected constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObject | StaticJsNull | null = null,
+    size?: number,
+  ) {
+    super(realm, prototype, size);
   }
 
   *ownPropertyKeysEvaluator(): EvaluationGenerator<StaticJsPropertyKey[]> {
@@ -65,10 +80,91 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
     }
   }
 
+  getOwnPropertyDescriptorSafe(name: StaticJsPropertyKey): StaticJsPropertyDescriptor | undefined {
+    const descriptor = this._contents.get(name);
+    if (!descriptor) {
+      return undefined;
+    }
+
+    return descriptor;
+  }
+
+  setOwnPropertyDescriptorSafe(
+    key: StaticJsPropertyKey,
+    descriptor: StaticJsPropertyDescriptorRecord,
+  ): void {
+    if (!this._contents.has(key)) {
+      const memory = this.realm.memory;
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
+      if (typeof key === "string") {
+        memory.allocate(StaticJsMemoryAllocationTag.RawString, key);
+      }
+    }
+
+    const current = this._contents.get(key);
+    const extensible = current === undefined ? this.isExtensibleSafe() : true;
+
+    const setSlot: PropertySlotSetter = (key, descriptor) => {
+      this._contents.set(key, descriptor);
+      return EvaluationGenerator.forResult(true);
+    };
+
+    // This only yields to setSlot, so this is safe.
+    drainIterator(
+      validateAndApplyPropertyDescriptor(setSlot, key, extensible, descriptor, current, this.realm),
+    );
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    for (const [key, descr] of this._contents.entries()) {
+      if (isStaticJsValue(key)) {
+        key.mark(marks);
+      }
+
+      if (isStaticJsDataPropertyDescriptor(descr)) {
+        descr.value.mark(marks);
+      } else if (isStaticJsAccessorPropertyDescriptor(descr)) {
+        if (descr.get) {
+          descr.get.mark(marks);
+        }
+        if (descr.set) {
+          descr.set.mark(marks);
+        }
+      }
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    for (const key of this._contents.keys()) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
+      if (typeof key === "string") {
+        allocate(StaticJsMemoryAllocationTag.RawString, key);
+      }
+    }
+  }
+
   protected *_setPropertyDescriptorEvaluator(
     key: StaticJsPropertyKey,
     descriptor: StaticJsPropertyDescriptor,
   ): EvaluationGenerator<boolean> {
+    // TODO: Accept StaticJsStrings as property keys too and use that as a sign we do not need to allocate
+    if (!this._contents.has(key)) {
+      const memory = this.realm.memory;
+      memory.allocate(StaticJsMemoryAllocationTag.StaticJsObjectPropertyOverhead, key);
+      if (typeof key === "string") {
+        memory.allocate(StaticJsMemoryAllocationTag.RawString, key);
+      }
+    }
+
     // Note: At one point, we merged the descriptor with the existing one.
     // No longer; that's done in AbstractObject.definePropertyEvaluator according to the spec.
     this._contents.set(key, {
@@ -81,6 +177,7 @@ export abstract class StaticJsOrdinaryObjectImpl extends StaticJsAbstractObject 
   protected *_deleteConfigurablePropertyEvaluator(
     name: StaticJsPropertyKey,
   ): EvaluationGenerator<boolean> {
+    // We don't track deletions in memory; rely on sweep instead.
     return this._contents.delete(name);
   }
 }

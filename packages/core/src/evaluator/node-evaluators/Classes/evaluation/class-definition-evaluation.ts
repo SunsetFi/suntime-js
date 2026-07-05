@@ -15,7 +15,11 @@ import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementati
 import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "#grammar/private-bound-identifiers.js";
-import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
+import {
+  isStaticJsClassConstructorFunction,
+  type StaticJsClassConstructorFunction,
+} from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { StaticJsNativeClassConstructorFunction } from "#types/implementation/functions/StaticJsNativeClassConstructorFunction.js";
 import { isStaticJsFunction } from "#types/StaticJsFunction.js";
 import { isStaticJsNull, type StaticJsNull } from "#types/StaticJsNull.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
@@ -59,13 +63,16 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
   className: StaticJsPropertyKey | StaticJsPrivateName,
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.current;
-  const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment, scriptOrModule } = context;
-  const classEnv = new StaticJsDeclarativeEnvironmentRecord(env, realm);
+  const { lexicalEnv: env, realm, privateEnv: outerPrivateEnv, scriptOrModule } = context;
+  const classEnv = StaticJsDeclarativeEnvironmentRecord.create({ outerEnv: env, realm: realm });
   if (classBinding) {
     yield* classEnv.createImmutableBindingEvaluator(classBinding, true);
   }
 
-  const classPrivateEnvironment = new StaticJsPrivateEnvironmentRecord(outerPrivateEnvironment);
+  const classPrivateEnvironment = StaticJsPrivateEnvironmentRecord.create({
+    realm,
+    outerPrivateEnv,
+  });
   if (node.body.body.length > 0) {
     for (const dn of privateBoundIdentifiers(node.body)) {
       if (!classPrivateEnvironment.hasPrivateName(dn)) {
@@ -114,9 +121,9 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     if (!constructor) {
       // The entire class expression, apparently.
       // In the spec, this is passed in externally.
-      F = new StaticJsClassConstructorFunction(
+      F = StaticJsNativeClassConstructorFunction.create({
         realm,
-        function* (
+        construct: function* (
           _thisArg: StaticJsValue | undefined,
           newTarget: StaticJsObject | undefined,
           args: StaticJsValue[],
@@ -129,7 +136,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
           }
           // The spec is clear that it wants us to check the "current running function", but our system
           // requires it to be this type of function specifically
-          if (F instanceof StaticJsClassConstructorFunction === false) {
+          if (F instanceof StaticJsNativeClassConstructorFunction === false) {
             throw new StaticJsEngineError(
               "Cannot invoke a class default constructor on a current function that is not a StaticJsClassConstructorFunction",
             );
@@ -167,14 +174,11 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
           yield* Q(initializeInstanceElements(result, F));
           return result;
         },
-        // Set later
-        "",
-        proto,
-        // Aren't used for native ctor mode.
-        classEnv,
-        classPrivateEnvironment,
-        constructorParent,
-      );
+        homeObject: proto,
+        env: classEnv,
+        privateEnv: classPrivateEnvironment,
+        prototype: constructorParent,
+      });
 
       // CreateBuiltinFunction
       yield* setFunctionLength(F, 0);
@@ -183,7 +187,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     } else {
       const constructorInfo = yield* Q(defineMethod(constructor, proto, constructorParent));
 
-      if (constructorInfo.closure instanceof StaticJsClassConstructorFunction === false) {
+      if (!isStaticJsClassConstructorFunction(constructorInfo.closure)) {
         throw new StaticJsEngineError(
           "Class defineMethod on constructor did not result in a ClassConstructor function.",
         );
@@ -317,7 +321,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
       }
 
       if (Completion.Abrupt.is(result)) {
-        EvaluationContext.current.privateEnv = outerPrivateEnvironment;
+        EvaluationContext.current.privateEnv = outerPrivateEnv;
         return yield* Q(result);
       }
     }
@@ -326,6 +330,6 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
   } finally {
     const ctx = EvaluationContext.current;
     ctx.lexicalEnv = env;
-    ctx.privateEnv = outerPrivateEnvironment;
+    ctx.privateEnv = outerPrivateEnv;
   }
 });

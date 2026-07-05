@@ -15,6 +15,7 @@ import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import { compoundMarkable } from "#memory/implementation/compound-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
@@ -64,6 +65,7 @@ function* performPromiseAllSettled(
   const { realm } = EvaluationContext.current;
 
   const values: StaticJsValue[] = [];
+  const valuesMarkable = compoundMarkable(values);
 
   let remainingElementCount = 1;
   let index = 0;
@@ -85,46 +87,60 @@ function* performPromiseAllSettled(
 
     let alreadyCalled = false;
     const thisIndex = index;
-    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, value) {
-      if (alreadyCalled) {
+    const onFulfilled = StaticJsNativeFunctionImpl.create(
+      realm,
+      "",
+      function* (_thisArg, value) {
+        if (alreadyCalled) {
+          return realm.types.undefined;
+        }
+        alreadyCalled = true;
+
+        const obj = realm.types.object();
+        yield* createDataPropertyOrThrow(obj, "status", realm.types.string("fulfilled"));
+        yield* createDataPropertyOrThrow(obj, "value", value);
+        values[thisIndex] = obj;
+
+        remainingElementCount--;
+        if (remainingElementCount === 0) {
+          const valuesArray = realm.types.array(values);
+          yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
+        }
+
         return realm.types.undefined;
-      }
-      alreadyCalled = true;
+      },
+      {
+        captures: [resultCapability.resolve, valuesMarkable],
+      },
+    );
 
-      const obj = realm.types.object();
-      yield* createDataPropertyOrThrow(obj, "status", realm.types.string("fulfilled"));
-      yield* createDataPropertyOrThrow(obj, "value", value);
-      values[thisIndex] = obj;
+    const onRejected = StaticJsNativeFunctionImpl.create(
+      realm,
+      "",
+      function* (_thisArg, reason) {
+        if (alreadyCalled) {
+          return realm.types.undefined;
+        }
+        alreadyCalled = true;
 
-      remainingElementCount--;
-      if (remainingElementCount === 0) {
-        const valuesArray = realm.types.array(values);
-        yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
-      }
+        const obj = realm.types.object();
+        yield* createDataPropertyOrThrow(obj, "status", realm.types.string("rejected"));
+        yield* createDataPropertyOrThrow(obj, "reason", reason);
+        values[thisIndex] = obj;
 
-      return realm.types.undefined;
-    });
+        remainingElementCount--;
 
-    const onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, reason) {
-      if (alreadyCalled) {
+        if (remainingElementCount === 0) {
+          const valuesArray = realm.types.array(values);
+          yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
+        }
+
         return realm.types.undefined;
-      }
-      alreadyCalled = true;
-
-      const obj = realm.types.object();
-      yield* createDataPropertyOrThrow(obj, "status", realm.types.string("rejected"));
-      yield* createDataPropertyOrThrow(obj, "reason", reason);
-      values[thisIndex] = obj;
-
-      remainingElementCount--;
-
-      if (remainingElementCount === 0) {
-        const valuesArray = realm.types.array(values);
-        yield* call(resultCapability.resolve, realm.types.undefined, [valuesArray]);
-      }
-
-      return realm.types.undefined;
-    });
+      },
+      {
+        captures: [resultCapability.resolve, valuesMarkable],
+      },
+    );
 
     index++;
     remainingElementCount++;

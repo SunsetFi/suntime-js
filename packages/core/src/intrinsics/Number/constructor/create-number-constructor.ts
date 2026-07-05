@@ -33,7 +33,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 export function* createNumberConstructor(realm: StaticJsRealm, numberProto: StaticJsObject) {
   // FIXME: This is the casting function, but if it's invoked with 'new', we should
   // return the boxed version.
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Number",
     function* (_thisArg: StaticJsValue, value?: StaticJsValue) {
@@ -59,7 +59,7 @@ export function* createNumberConstructor(realm: StaticJsRealm, numberProto: Stat
           n = 0;
         }
 
-        return new StaticJsNumberBoxed(realm, n);
+        return StaticJsNumberBoxed.create({ realm, value: n });
       },
     },
   );

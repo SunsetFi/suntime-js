@@ -4,17 +4,27 @@ import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { allocated } from "#memory/allocated.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 import type { StaticJsModule } from "../StaticJsModule.js";
 import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
-import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
+import { StaticJsModuleBase, type StaticJsModuleBaseCreateParams } from "./StaticJsModuleBase.js";
+
+export interface StaticJsExternalModuleImplCreateParams extends StaticJsModuleBaseCreateParams {
+  obj: Record<string, unknown>;
+}
 
 export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements StaticJsModule {
   private readonly _exportKeys: readonly string[];
 
-  constructor(
+  static create(params: StaticJsExternalModuleImplCreateParams): StaticJsExternalModuleImpl {
+    const { name, obj, realm } = params;
+    return allocated(new StaticJsExternalModuleImpl(name, obj, realm));
+  }
+
+  protected constructor(
     name: string,
     private _obj: Record<string, unknown>,
     realm: StaticJsRealm,
@@ -85,7 +95,7 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
     const properties: Record<string, StaticJsPropertyDescriptor> = {};
     for (const key of this._exportKeys) {
       properties[key] = {
-        get: new StaticJsNativeFunctionImpl(this._realm, key, function* () {
+        get: StaticJsNativeFunctionImpl.create(this._realm, key, function* () {
           return types.toStaticJsValue(obj[key]);
         }),
         set: undefined,
@@ -95,5 +105,13 @@ export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements St
     }
 
     return this._realm.types.object(properties);
+  }
+
+  mark(): void {
+    // No-op
+  }
+
+  allocateSelf(): void {
+    // No-op
   }
 }

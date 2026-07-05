@@ -24,7 +24,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createArrayConstructor(realm: StaticJsRealm, proto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Array",
     function* (_thisArg, ...args) {

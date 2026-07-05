@@ -1,11 +1,14 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
-import { canonicalNumericStringIndex } from "#algorithms/canonical-numeric-string-index.js";
+import { canonicalNumericIndexString } from "#algorithms/canonical-numeric-index-string.js";
 import { definePropertyOrThrow } from "#algorithms/define-property-or-throw.js";
 import { isCompatiblePropertyDescriptor } from "#algorithms/is-compatible-property-descriptor.js";
 import { toIntegerOrInfinity } from "#algorithms/to-integer-or-infinity.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type {
@@ -13,14 +16,25 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isArrayIndex } from "../objects/is-array-index.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsStringExoticObjectCreateParams extends StaticJsAbstractObjectCreateParams {
+  value: string;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
-  constructor(
+  static create(params: StaticJsStringExoticObjectCreateParams): StaticJsStringExoticObject {
+    const { realm, value, prototype = realm.intrinsics["String.prototype"] } = params;
+    return allocated(new StaticJsStringExoticObject(realm, value, prototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _value: string,
     prototype: StaticJsObject = realm.intrinsics["String.prototype"],
@@ -126,7 +140,7 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
       return undefined;
     }
 
-    const index = yield* canonicalNumericStringIndex(propertyKey);
+    const index = yield* canonicalNumericIndexString(propertyKey);
     if (index === undefined || Math.round(index) !== index || index < 0) {
       return undefined;
     }
@@ -148,5 +162,21 @@ export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
       enumerable: true,
       configurable: false,
     };
+  }
+
+  override mark(marks: Set<StaticJsAllocation>) {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+
+    allocate(StaticJsMemoryAllocationTag.RawString, this._value);
   }
 }

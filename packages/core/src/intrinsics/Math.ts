@@ -153,7 +153,7 @@ function createMathNumericPropertyDeclaration(
         );
       }
 
-      return new StaticJsNumberImpl(realm, Math[key]);
+      return StaticJsNumberImpl.create({ realm: realm, value: Math[key] });
     },
   };
 }
@@ -239,7 +239,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createMath(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) {
-  const Math = new StaticJsPlainObjectImpl(realm);
+  const Math = StaticJsPlainObjectImpl.create({ realm });
 
   yield* applyIntrinsicProperties(realm, Math, declarations);
 

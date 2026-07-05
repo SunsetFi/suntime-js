@@ -1,19 +1,33 @@
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsString } from "../../StaticJsString.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
+import {
+  StaticJsAbstractPrimitive,
+  type StaticJsAbstractPrimitiveCreateParams,
+} from "../StaticJsAbstractPrimitive.js";
+
+export interface StaticJsStringImplCreateParams extends StaticJsAbstractPrimitiveCreateParams {
+  value: string;
+}
 
 export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements StaticJsString {
   private readonly _value: string;
 
-  constructor(realm: StaticJsRealm, value: string) {
+  static create(params: StaticJsStringImplCreateParams): StaticJsStringImpl {
+    return allocated(new StaticJsStringImpl(params.realm, params.value));
+  }
+
+  protected constructor(realm: StaticJsRealm, value: string) {
+    super(realm);
     if (typeof value !== "string") {
       throw new TypeError(`Cannot convert ${value} to StaticJsString: Expected string.`);
     }
-
-    super(realm);
     this._value = value;
   }
 
@@ -35,6 +49,21 @@ export class StaticJsStringImpl extends StaticJsAbstractPrimitive implements Sta
 
   get value() {
     return this._value;
+  }
+
+  mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+  }
+
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(StaticJsMemoryAllocationTag.StaticJsString, this);
+    allocate(StaticJsMemoryAllocationTag.RawString, this._value);
   }
 
   toNative() {

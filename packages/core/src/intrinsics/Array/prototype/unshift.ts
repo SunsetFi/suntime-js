@@ -3,7 +3,7 @@ import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
 import { set } from "#algorithms/set.js";
 import { toObject } from "#algorithms/to-object.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { MAX_ARRAY_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
+import { MAX_ARRAYLIKE_LENGTH_INCLUSIVE } from "#types/StaticJsArray.js";
 
 import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-properties.js";
 
@@ -16,7 +16,7 @@ export const arrayProtoUnshiftDeclaration: IntrinsicPropertyDeclaration = {
     // Set the new length
     const length = yield* lengthOfArrayLike(thisObj);
 
-    if (args.length + length > MAX_ARRAY_LENGTH_INCLUSIVE) {
+    if (args.length + length > MAX_ARRAYLIKE_LENGTH_INCLUSIVE) {
       // Note: Not exactly what NodeJs does, it says "invalid array length".
       // Not sure on the exact situations of when it says that though.
       throw yield* Completion.Throw.create(

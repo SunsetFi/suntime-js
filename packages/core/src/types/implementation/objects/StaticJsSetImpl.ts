@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -10,12 +11,15 @@ import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import { getIterator } from "#iterators/get-iterator.js";
 import { iteratorClose } from "#iterators/iterator-close.js";
 import { iteratorStepValue } from "#iterators/iterator-step-value.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import type { StaticJsSet } from "../../StaticJsSet.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsObject } from "../../StaticJsObject.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -25,11 +29,17 @@ import { StaticJsSetIteratorImpl } from "./StaticJsSetIteratorImpl.js";
 
 // TODO: Take shortcuts for difference and friends if otherSet is also a StaticJsSetImpl
 
+export type StaticJsSetImplCreateParams = StaticJsAbstractObjectCreateParams;
+
 export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements StaticJsSet {
   private _backingStore = new Set<unknown>();
 
-  constructor(realm: StaticJsRealm) {
-    super(realm, realm.intrinsics["Set.prototype"]);
+  static create(params: StaticJsSetImplCreateParams): StaticJsSetImpl {
+    return allocated(new StaticJsSetImpl(params.realm));
+  }
+
+  protected constructor(realm: StaticJsRealm) {
+    super(realm, realm.intrinsics["Set.prototype"], StaticJsMemoryAllocationTag.StaticJsSet);
   }
 
   override get [Symbol.toStringTag](): string {
@@ -77,7 +87,12 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   }
 
   *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key", this.realm);
+    return StaticJsSetIteratorImpl.create({
+      backingSet: this,
+      backingIterator: this._backingStore.values(),
+      kind: "key",
+      realm: this.realm,
+    });
   }
 
   entriesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -89,7 +104,12 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
   }
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
-    return new StaticJsSetIteratorImpl(this._backingStore.values(), "key+value", this.realm);
+    return StaticJsSetIteratorImpl.create({
+      backingSet: this,
+      backingIterator: this._backingStore.values(),
+      kind: "key+value",
+      realm: this.realm,
+    });
   }
 
   hasSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
@@ -115,7 +135,10 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *addValueEvaluator(value: StaticJsValue): EvaluationGenerator<void> {
     const unwrapped = toNativeUnwrap(value);
-    this._backingStore.add(unwrapped);
+    if (!this._backingStore.has(unwrapped)) {
+      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, undefined);
+      this._backingStore.add(unwrapped);
+    }
   }
 
   deleteValueSync(value: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
@@ -435,6 +458,35 @@ export class StaticJsSetImpl extends StaticJsOrdinaryObjectImpl implements Stati
     });
 
     return result;
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    for (const value of this._backingStore) {
+      if (isStaticJsValue(value)) {
+        value.mark(marks);
+      }
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+
+    for (const value of this._backingStore) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsSetEntryOverhead, undefined);
+      if (typeof value === "string") {
+        allocate(StaticJsMemoryAllocationTag.RawString, value);
+      } else if (typeof value === "number") {
+        allocate(StaticJsMemoryAllocationTag.RawNumber, value);
+      }
+    }
   }
 }
 

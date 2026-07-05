@@ -135,10 +135,10 @@ function* declareAccessorIntrinsic(
 ) {
   yield* obj.defineOwnPropertyEvaluator(key, {
     get: prop.get
-      ? new StaticJsNativeFunctionImpl(realm, "get", (thisArg) => prop.get!(realm, thisArg))
+      ? StaticJsNativeFunctionImpl.create(realm, "get", (thisArg) => prop.get!(realm, thisArg))
       : undefined,
     set: prop.set
-      ? new StaticJsNativeFunctionImpl(realm, "set", (thisArg, value) =>
+      ? StaticJsNativeFunctionImpl.create(realm, "set", (thisArg, value) =>
           prop.set!(realm, thisArg, value),
         )
       : undefined,
@@ -179,7 +179,7 @@ function* declareFunctionIntrinsic(
   const func = (thisArg: StaticJsValue, ...args: (StaticJsValue | undefined)[]) =>
     prop.func(realm, thisArg, ...args);
 
-  const nativeFunc = new StaticJsNativeFunctionImpl(realm, name ?? "anonymous", func);
+  const nativeFunc = StaticJsNativeFunctionImpl.create(realm, name ?? "anonymous", func);
   let lengthDecl: StaticJsPropertyDescriptorRecord;
   if (prop.length == null) {
     lengthDecl = {

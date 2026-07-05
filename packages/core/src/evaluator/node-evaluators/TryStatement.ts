@@ -44,7 +44,10 @@ function* runCatch(node: CatchClause, thrownValue: StaticJsValue): EvaluationGen
   const oldEnv = context.lexicalEnv;
 
   if (node.param) {
-    const catchEnv = new StaticJsDeclarativeEnvironmentRecord(oldEnv, realm);
+    const catchEnv = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: oldEnv,
+      realm: realm,
+    });
     for (const argName of boundNames(node.param)) {
       yield* catchEnv.createMutableBindingEvaluator(argName, false);
     }

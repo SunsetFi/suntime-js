@@ -19,7 +19,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createSymbolConstructor(realm: StaticJsRealm, symbolProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Symbol",
     function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {

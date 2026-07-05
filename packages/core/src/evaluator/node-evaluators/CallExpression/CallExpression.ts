@@ -16,7 +16,7 @@ import {
   isStaticJsPropertyReference,
   isStaticJsReferenceRecord,
 } from "#references/StaticJsReferenceRecord.js";
-import { StaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
+import { isStaticJsClassConstructorFunction } from "#types/implementation/functions/StaticJsClassConstructorFunction.js";
 import { isStaticJsFunction } from "#types/StaticJsFunction.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
@@ -99,7 +99,7 @@ function* callSuperEvaluator(node: CallExpression): EvaluationGenerator {
     );
   }
 
-  if (F instanceof StaticJsClassConstructorFunction === false) {
+  if (!isStaticJsClassConstructorFunction(F)) {
     throw new StaticJsEngineError(
       "Super call function environment record's function object is not a class constructor",
     );

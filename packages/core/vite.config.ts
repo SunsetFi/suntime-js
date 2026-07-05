@@ -11,7 +11,7 @@ export default defineConfig({
         test: {
           name: "spec",
           setupFiles: ["./tests/setup.ts"],
-          include: ["./src/**/*.spec.ts", "./tests/**/*.spec.ts"],
+          include: ["./src/**/*.spec.ts", "./tests/**/*.spec.ts", "./tools/**/*.spec.ts"],
         },
       },
       "./tests/e2e/vite.config.ts",

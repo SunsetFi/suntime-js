@@ -1,27 +1,37 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import { call } from "#algorithms/call.js";
 import { isCallable } from "#algorithms/is-callable.js";
 import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { toNativeUnwrap } from "#types/utils/to-native-unwrap.js";
 import { toRuntimeWrap } from "#types/utils/to-runtime-wrap.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsIterator } from "../../StaticJsIterator.js";
 import type { StaticJsMap } from "../../StaticJsMap.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsMapIteratorImpl } from "./StaticJsMapIteratorImpl.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
+
+export type StaticJsMapImplCreateParams = StaticJsAbstractObjectCreateParams;
 
 export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements StaticJsMap {
   private readonly _backingStore = new Map<unknown, StaticJsValue>();
 
-  constructor(realm: StaticJsRealm) {
-    super(realm, realm.intrinsics["Map.prototype"]);
+  static create(params: StaticJsMapImplCreateParams): StaticJsMapImpl {
+    return allocated(new StaticJsMapImpl(params.realm));
+  }
+
+  protected constructor(realm: StaticJsRealm) {
+    super(realm, realm.intrinsics["Map.prototype"], StaticJsMemoryAllocationTag.StaticJsMap);
   }
 
   override get [Symbol.toStringTag](): string {
@@ -58,7 +68,12 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *entriesEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(backingIterator, "key+value", this.realm);
+    return StaticJsMapIteratorImpl.create({
+      backingMap: this,
+      backingIterator,
+      kind: "key+value",
+      realm: this.realm,
+    });
   }
 
   keysSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -71,7 +86,12 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *keysEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(backingIterator, "key", this.realm);
+    return StaticJsMapIteratorImpl.create({
+      backingMap: this,
+      backingIterator,
+      kind: "key",
+      realm: this.realm,
+    });
   }
 
   valuesSync(opts?: StaticJsRunTaskOptions): StaticJsIterator {
@@ -84,7 +104,12 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *valuesEvaluator(): EvaluationGenerator<StaticJsIterator> {
     const backingIterator = this._backingStore.entries();
-    return new StaticJsMapIteratorImpl(backingIterator, "value", this.realm);
+    return StaticJsMapIteratorImpl.create({
+      backingMap: this,
+      backingIterator,
+      kind: "value",
+      realm: this.realm,
+    });
   }
 
   hasSync(key: StaticJsValue, opts?: StaticJsRunTaskOptions): boolean {
@@ -127,6 +152,13 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
   *setValueEvaluator(key: StaticJsValue, value: StaticJsValue): EvaluationGenerator<void> {
     const keyUnwrapped = toNativeUnwrap(key);
+    if (!this._backingStore.has(keyUnwrapped)) {
+      this.realm.memory.allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, undefined);
+      // The unwrapped key's own storage (string content, boxed number, etc.) is
+      // accounted for in mark(). At this point the caller still holds the
+      // StaticJsValue it was passed, which already charged for that storage, so
+      // charging it again here would double-count the same native value.
+    }
     this._backingStore.set(keyUnwrapped, value);
   }
 
@@ -183,6 +215,35 @@ export class StaticJsMapImpl extends StaticJsOrdinaryObjectImpl implements Stati
 
     for (const [key, value] of this._backingStore) {
       yield* call(callback, thisArg, [value, toRuntimeWrap(key, this.realm), this]);
+    }
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    for (const [key, value] of this._backingStore) {
+      if (isStaticJsValue(key)) {
+        key.mark(marks);
+      }
+      value.mark(marks);
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+    for (const key of this._backingStore.keys()) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead, undefined);
+      if (typeof key === "string") {
+        allocate(StaticJsMemoryAllocationTag.RawString, key);
+      } else if (typeof key === "number") {
+        allocate(StaticJsMemoryAllocationTag.RawNumber, key);
+      }
     }
   }
 }

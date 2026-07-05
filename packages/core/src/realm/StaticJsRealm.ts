@@ -2,6 +2,7 @@ import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmen
 import type { StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import type { RealmHooks } from "#hooks/index.js";
 import type { Intrinsics } from "#intrinsics/intrinsics.js";
+import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
@@ -34,6 +35,11 @@ export interface StaticJsRealm {
    * The type factory for the realm.
    */
   readonly types: StaticJsTypeFactory;
+
+  /**
+   * The memory manager for the realm.
+   */
+  readonly memory: StaticJsMemoryManager;
 
   /**
    * The intrinsics of the realm.

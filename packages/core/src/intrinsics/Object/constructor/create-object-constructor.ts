@@ -56,7 +56,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createObjectConstructor(realm: StaticJsRealm, objectProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Object",
     function* (_thisArg, arg) {

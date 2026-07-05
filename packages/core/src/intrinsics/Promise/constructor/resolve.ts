@@ -11,6 +11,6 @@ export const promiseCtorResolveDeclaration: IntrinsicPropertyDeclaration = {
     if (!isStaticJsObject(thisArg)) {
       throw yield* Completion.Throw.create("TypeError", "Promise.resolve called on non-object");
     }
-    return yield* promiseResolve(thisArg, value, realm);
+    return yield* promiseResolve(thisArg, value);
   },
 };

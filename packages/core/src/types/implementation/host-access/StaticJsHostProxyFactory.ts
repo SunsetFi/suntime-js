@@ -193,7 +193,7 @@ export class StaticJsHostProxyFactory {
       return builtin;
     }
 
-    const wrapper = new StaticJsExternalObject(this._realm, host, policy);
+    const wrapper = StaticJsExternalObject.create({ realm: this._realm, target: host, policy });
     this._putCached(host, policy, wrapper);
     return wrapper;
   }
@@ -215,12 +215,12 @@ export class StaticJsHostProxyFactory {
       return builtin as StaticJsFunction;
     }
 
-    const wrapper = new StaticJsExternalFunction(
-      this._realm,
-      host,
-      useSandboxThis ? undefined : homeObject,
+    const wrapper = StaticJsExternalFunction.create({
+      realm: this._realm,
+      target: host,
+      homeObject: useSandboxThis ? undefined : homeObject,
       policy,
-    );
+    });
     this._putCached(host, policy, wrapper);
     return wrapper;
   }
@@ -231,7 +231,7 @@ export class StaticJsHostProxyFactory {
     // is what we want.
     const values = host.map((v) => policy.wrapChild(v, false));
     // Safe: creates data properties on a new array instance.
-    const result = this._realm.invokeEvaluatorSync(createArrayFromList(values));
+    const result = createArrayFromList.safe(values, this._realm);
     return result;
   }
 
@@ -267,7 +267,7 @@ export class StaticJsHostProxyFactory {
   private _stubPromise(host: Promise<unknown>, policy: HostAccessPolicy): StaticJsObject {
     // Safe: Promise constructor.
     const capability = this._realm.invokeEvaluatorSync(
-      newPromiseCapability(this._realm.intrinsics.Promise, this._realm),
+      newPromiseCapability(this._realm.intrinsics.Promise),
     );
 
     let resolved = false;

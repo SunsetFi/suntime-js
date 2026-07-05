@@ -1,5 +1,6 @@
 import { isNode, type Node } from "@babel/types";
 
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -17,13 +18,15 @@ import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { createIteratorResultObject } from "#iterators/create-iterator-result-object.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
-import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
+import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 import { StaticJsNativeFunctionImpl } from "./StaticJsNativeFunctionImpl.js";
 
@@ -39,6 +42,12 @@ export type AsyncGeneratorState =
   | "draining-queue"
   | "completed";
 
+export interface StaticJsAsyncGeneratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  generatorBody: Node | EvaluationGenerator<Completion>;
+  generatorBrand: string | null;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsAsyncGeneratorImpl
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsAsyncGenerator
@@ -48,7 +57,14 @@ export class StaticJsAsyncGeneratorImpl
   private _asyncGeneratorContext: SuspendContext<StaticJsValue>;
   private _asyncGeneratorQueue: AsyncGeneratorRequest[] = [];
 
-  constructor(
+  static create(params: StaticJsAsyncGeneratorImplCreateParams): StaticJsAsyncGeneratorImpl {
+    const { realm, generatorBody, generatorBrand, prototype } = params;
+    return allocated(
+      new StaticJsAsyncGeneratorImpl(generatorBody, generatorBrand, realm, prototype),
+    );
+  }
+
+  protected constructor(
     generatorBody: Node | EvaluationGenerator<Completion>,
     private readonly _generatorBrand: string | null,
     realm: StaticJsRealm,
@@ -89,6 +105,7 @@ export class StaticJsAsyncGeneratorImpl
 
       yield* acGenerator._asyncGeneratorCompleteStep(result, true);
       yield* acGenerator._asyncGeneratorDrainQueue();
+
       return realm.types.undefined;
     }
 
@@ -292,6 +309,29 @@ export class StaticJsAsyncGeneratorImpl
     return yield* this._asyncGeneratorUnwrapYieldResumption(resumptionValue);
   }
 
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._asyncGeneratorContext.mark(marks);
+    for (const {
+      completion,
+      capability: { promise, reject, resolve },
+    } of this._asyncGeneratorQueue) {
+      const value = Completion.value(completion);
+      if (isStaticJsValue(value)) {
+        value.mark(marks);
+      }
+
+      promise.mark(marks);
+      reject.mark(marks);
+      resolve.mark(marks);
+    }
+  }
+
   private *_asyncGeneratorValidate(
     func: string,
     generatorBrand?: string | null,
@@ -320,11 +360,9 @@ export class StaticJsAsyncGeneratorImpl
       );
     }
 
-    const genContext = this._asyncGeneratorContext;
-
     this._generatorState = "executing";
-
-    yield* SuspendCommand.runSuspendedContext(genContext, completion);
+    const context = this._asyncGeneratorContext;
+    yield* SuspendCommand.runSuspendedContext(context, completion);
   }
 
   private *_asyncGeneratorCompleteStep(
@@ -438,31 +476,45 @@ export class StaticJsAsyncGeneratorImpl
     // oxlint-disable-next-line typescript/no-this-alias
     const generator = this;
 
-    const onFulfilled = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, value) {
-      if (generator._generatorState !== "draining-queue") {
-        throw new StaticJsEngineError(
-          "AsyncGenerator onFulfilled called when generator is not draining queue.",
-        );
-      }
+    const onFulfilled = StaticJsNativeFunctionImpl.create(
+      realm,
+      "",
+      function* (_thisArg, value) {
+        if (generator._generatorState !== "draining-queue") {
+          throw new StaticJsEngineError(
+            "AsyncGenerator onFulfilled called when generator is not draining queue.",
+          );
+        }
 
-      const result = Completion.Normal(value);
-      yield* generator._asyncGeneratorCompleteStep(result, true);
-      yield* generator._asyncGeneratorDrainQueue();
-      return realm.types.undefined;
-    });
+        const result = Completion.Normal(value);
+        yield* generator._asyncGeneratorCompleteStep(result, true);
+        yield* generator._asyncGeneratorDrainQueue();
+        return realm.types.undefined;
+      },
+      {
+        captures: [generator],
+      },
+    );
 
-    const onRejected = new StaticJsNativeFunctionImpl(realm, "", function* (_thisArg, reason) {
-      if (generator._generatorState !== "draining-queue") {
-        throw new StaticJsEngineError(
-          "AsyncGenerator onRejected called when generator is not draining queue.",
-        );
-      }
+    const onRejected = StaticJsNativeFunctionImpl.create(
+      realm,
+      "",
+      function* (_thisArg, reason) {
+        if (generator._generatorState !== "draining-queue") {
+          throw new StaticJsEngineError(
+            "AsyncGenerator onRejected called when generator is not draining queue.",
+          );
+        }
 
-      const result = Completion.Throw(reason);
-      yield* generator._asyncGeneratorCompleteStep(result, true);
-      yield* generator._asyncGeneratorDrainQueue();
-      return realm.types.undefined;
-    });
+        const result = Completion.Throw(reason);
+        yield* generator._asyncGeneratorCompleteStep(result, true);
+        yield* generator._asyncGeneratorDrainQueue();
+        return realm.types.undefined;
+      },
+      {
+        captures: [generator],
+      },
+    );
 
     yield* performPromiseThen(promise, onFulfilled, onRejected);
   }

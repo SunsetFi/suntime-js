@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -6,21 +7,35 @@ import { construct } from "#algorithms/construct.js";
 import { get } from "#algorithms/get.js";
 import { sameValue } from "#algorithms/same-value.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../StaticJsCallable.js";
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsBoundFunctionCreateParams extends StaticJsAbstractObjectCreateParams {
+  targetFunc: StaticJsCallable;
+  boundThis: StaticJsValue;
+  boundArgs: StaticJsValue[];
+  prototype?: StaticJsObject | StaticJsNull | null | undefined;
+}
+
 export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {
   private _initialName: string | null = null;
 
-  constructor(
+  static create(params: StaticJsBoundFunctionCreateParams): StaticJsBoundFunction {
+    const { realm, targetFunc, boundThis, boundArgs, prototype } = params;
+    return allocated(new StaticJsBoundFunction(realm, targetFunc, boundThis, boundArgs, prototype));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     public readonly targetFunc: StaticJsCallable,
     private readonly _boundThis: StaticJsValue,
@@ -138,6 +153,20 @@ export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements
 
   getNameSync(opts?: StaticJsRunTaskOptions): string {
     return this.realm.invokeEvaluatorSync(this._getNameEvaluator(), opts);
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this.targetFunc.mark(marks);
+    this._boundThis.mark(marks);
+    for (const arg of this._boundArgs) {
+      arg.mark(marks);
+    }
   }
 
   override toNative(

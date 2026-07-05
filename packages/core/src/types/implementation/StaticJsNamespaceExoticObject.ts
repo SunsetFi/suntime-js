@@ -5,6 +5,7 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import { sameValue } from "#algorithms/same-value.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 import { BindingNameNamespace } from "#modules/implementation/StaticJsResolvedBinding.js";
 
 import type { StaticJsObject } from "../StaticJsObject.js";
@@ -21,7 +22,15 @@ import { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 import { StaticJsAbstractObject } from "./StaticJsAbstractObject.js";
 
 export class StaticJsNamespaceExoticObject extends StaticJsAbstractObject {
-  constructor(
+  static create(
+    module: StaticJsModuleImplementation,
+    exports: string[],
+    realm: StaticJsRealm,
+  ): StaticJsNamespaceExoticObject {
+    return allocated(new StaticJsNamespaceExoticObject(module, exports, realm));
+  }
+
+  protected constructor(
     private readonly _module: StaticJsModuleImplementation,
     private readonly _exports: string[],
     realm: StaticJsRealm,

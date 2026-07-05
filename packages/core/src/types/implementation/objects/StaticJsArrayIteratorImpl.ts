@@ -1,18 +1,39 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { get } from "#algorithms/get.js";
 import { lengthOfArrayLike } from "#algorithms/length-of-array-like.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsIteratorImpl } from "./StaticJsIteratorImpl.js";
 
+export interface StaticJsArrayIteratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  iteratedArrayLike: StaticJsObject | null;
+  arrayLikeNextIndex: number;
+  arrayLikeIterationKind: "key" | "value" | "key+value";
+}
+
 export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
-  constructor(
+  static create(params: StaticJsArrayIteratorImplCreateParams): StaticJsArrayIteratorImpl {
+    const { iteratedArrayLike, arrayLikeNextIndex, arrayLikeIterationKind, realm } = params;
+    return allocated(
+      new StaticJsArrayIteratorImpl(
+        iteratedArrayLike,
+        arrayLikeNextIndex,
+        arrayLikeIterationKind,
+        realm,
+      ),
+    );
+  }
+
+  protected constructor(
     private _iteratedArrayLike: StaticJsObject | null,
     private _arrayLikeNextIndex: number,
     private readonly _arrayLikeIterationKind: "key" | "value" | "key+value",
@@ -66,5 +87,15 @@ export class StaticJsArrayIteratorImpl extends StaticJsIteratorImpl {
       value: result,
       done: false,
     };
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._iteratedArrayLike?.mark(marks);
   }
 }

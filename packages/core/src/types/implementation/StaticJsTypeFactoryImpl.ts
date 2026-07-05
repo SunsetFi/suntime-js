@@ -1,5 +1,7 @@
 import type { IntrinsicSymbols } from "#intrinsics/intrinsics.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsMap } from "#types/StaticJsMap.js";
+import type { StaticJsSet } from "#types/StaticJsSet.js";
 
 import { createArrayFromList } from "#algorithms/create-array-from-list.js";
 import { createNonEnumerableDataPropertyOrThrow } from "#algorithms/create-non-enumerable-data-property-or-throw.js";
@@ -43,7 +45,9 @@ import { StaticJsHostProxyFactory } from "./host-access/StaticJsHostProxyFactory
 import { getStaticJsObjectProxyOwner } from "./objects/create-object-proxy.js";
 import { StaticJsArrayImpl } from "./objects/StaticJsArrayImpl.js";
 import { StaticJsErrorImpl } from "./objects/StaticJsErrorImpl.js";
+import { StaticJsMapImpl } from "./objects/StaticJsMapImpl.js";
 import { StaticJsPlainObjectImpl } from "./objects/StaticJsPlainObjectImpl.js";
+import { StaticJsSetImpl } from "./objects/StaticJsSetImpl.js";
 import { StaticJsBooleanImpl } from "./primitives/StaticJsBooleanImpl.js";
 import { StaticJsNullImpl } from "./primitives/StaticJsNullImpl.js";
 import { StaticJsNumberImpl } from "./primitives/StaticJsNumberImpl.js";
@@ -54,9 +58,6 @@ import { buildIntrinsicSymbolRecord, getWellKnownSymbol } from "./well-known-sym
 
 export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   private readonly _symbols: IntrinsicSymbols;
-
-  // The registry for our local Symbol.for()
-  private readonly _symbolRegistry = new Map<string, StaticJsSymbol>();
 
   private readonly _zero: StaticJsNumber;
   private readonly _NaN: StaticJsNumber;
@@ -70,16 +71,19 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
   private readonly _hostProxyFactory: StaticJsHostProxyFactory;
 
-  constructor(private readonly _realm: StaticJsRealm) {
-    this._zero = new StaticJsNumberImpl(_realm, 0);
-    this._NaN = new StaticJsNumberImpl(_realm, NaN);
-    this._Infinity = new StaticJsNumberImpl(_realm, Infinity);
+  constructor(
+    private readonly _realm: StaticJsRealm,
+    private readonly _symbolRegistry: Map<string, StaticJsSymbol>,
+  ) {
+    this._zero = StaticJsNumberImpl.create({ realm: _realm, value: 0 });
+    this._NaN = StaticJsNumberImpl.create({ realm: _realm, value: NaN });
+    this._Infinity = StaticJsNumberImpl.create({ realm: _realm, value: Infinity });
 
-    this._false = new StaticJsBooleanImpl(_realm, false);
-    this._true = new StaticJsBooleanImpl(_realm, true);
+    this._false = StaticJsBooleanImpl.create({ realm: _realm, value: false });
+    this._true = StaticJsBooleanImpl.create({ realm: _realm, value: true });
 
-    this._null = new StaticJsNullImpl(_realm);
-    this._undefined = new StaticJsUndefinedImpl(_realm);
+    this._null = StaticJsNullImpl.create({ realm: _realm });
+    this._undefined = StaticJsUndefinedImpl.create({ realm: _realm });
 
     const intrinsics = _realm.intrinsics;
 
@@ -144,11 +148,11 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
 
     Object.values(properties ?? {}).forEach(validateStaticJsPropertyDescriptorRecord);
 
-    const obj = new StaticJsPlainObjectImpl(
-      this._realm,
-      isStaticJsNull(prototype) ? null : prototype,
+    const obj = StaticJsPlainObjectImpl.create({
+      realm: this._realm,
+      prototype: isStaticJsNull(prototype) ? null : prototype,
       properties,
-    );
+    });
 
     return obj;
   }
@@ -167,22 +171,53 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     }
 
     // FIXME: We should cache the symbols ourselves, not rely on this and getSymbolProxyOwner to do it for us.
-    return new StaticJsSymbolImpl(this._realm, description);
+    return StaticJsSymbolImpl.create({ realm: this._realm, descriptionOrSymbol: description });
   }
 
-  array(itemsOrLength?: StaticJsValue[] | number): StaticJsArray {
+  array(
+    itemsOrLength?: readonly StaticJsValue[] | Iterable<StaticJsValue> | number,
+  ): StaticJsArray {
     if (itemsOrLength === undefined || typeof itemsOrLength === "number") {
-      return new StaticJsArrayImpl(this._realm, itemsOrLength);
-    } else if (Array.isArray(itemsOrLength)) {
-      if (!itemsOrLength.every(isStaticJsValue)) {
-        throw new TypeError("All items in the array must be StaticJsValues");
-      }
-      return this._realm.invokeEvaluatorSync(createArrayFromList(itemsOrLength ?? []));
-    } else {
-      throw new TypeError(
-        "Invalid argument for array creation: Must be a number or an array of StaticJsValues",
-      );
+      return StaticJsArrayImpl.create({ realm: this._realm, length: itemsOrLength });
     }
+
+    const items = Array.from(itemsOrLength);
+    if (!items.every(isStaticJsValue)) {
+      throw new TypeError("All items must be StaticJsValue");
+    }
+
+    // This should be safe, as it never invokes sandboxed code.
+    return createArrayFromList.safe(items, this._realm);
+  }
+
+  set(items?: Iterable<StaticJsValue> | readonly StaticJsValue[]): StaticJsSet {
+    const set = StaticJsSetImpl.create({ realm: this._realm });
+
+    // We use the manual methods and do NOT check the prototype, so there is
+    // no chance of invoking sandbox code
+    if (items) {
+      for (const item of items) {
+        set.addValueSync(item);
+      }
+    }
+
+    return set;
+  }
+
+  map(
+    items?: Iterable<[StaticJsValue, StaticJsValue]> | readonly [StaticJsValue, StaticJsValue][],
+  ): StaticJsMap {
+    const map = StaticJsMapImpl.create({ realm: this._realm });
+
+    // We use the manual methods and do NOT check the prototype, so there is
+    // no chance of invoking sandbox code
+    if (items) {
+      for (const [key, value] of items) {
+        map.setValueSync(key, value);
+      }
+    }
+
+    return map;
   }
 
   function(
@@ -191,7 +226,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     opts: StaticJsFunctionTypeCreationOptions = {},
   ): StaticJsFunction {
     const realm = this._realm;
-    return new StaticJsNativeFunctionImpl(
+    return StaticJsNativeFunctionImpl.create(
       realm,
       name,
       function* (thisArg: StaticJsValue, ...args: StaticJsValue[]) {
@@ -264,7 +299,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
         break;
     }
 
-    const error = new StaticJsErrorImpl(this._realm, proto);
+    const error = StaticJsErrorImpl.create({ realm: this._realm, prototype: proto });
 
     // Safe: Invokes defineOwnProperty on our error object, which cannot be sandboxed code.
     this._realm.invokeEvaluatorSync(
@@ -345,11 +380,11 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   number(value: number): StaticJsNumber {
-    return new StaticJsNumberImpl(this._realm, value);
+    return StaticJsNumberImpl.create({ realm: this._realm, value: value });
   }
 
   string(value: string): StaticJsString {
-    return new StaticJsStringImpl(this._realm, value);
+    return StaticJsStringImpl.create({ realm: this._realm, value: value });
   }
 
   private _toStaticJsValueSymbol(value: symbol): StaticJsSymbol {
@@ -358,7 +393,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       return wellKnown;
     }
 
-    return new StaticJsSymbolImpl(this._realm, value);
+    return StaticJsSymbolImpl.create({ realm: this._realm, descriptionOrSymbol: value });
   }
 
   private _toStaticJsValueNull(): StaticJsNull {

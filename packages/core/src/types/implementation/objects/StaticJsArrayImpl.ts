@@ -1,19 +1,23 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { Writable } from "#ts-types/Writable.js";
+import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { toNumber } from "#algorithms/to-number.js";
 import { toUInt32 } from "#algorithms/to-uint-32.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 
-import type { StaticJsArray } from "../../StaticJsArray.js";
+import type { StaticJsObject } from "../../StaticJsObject.js";
 import type {
   StaticJsDataPropertyDescriptor,
   StaticJsPropertyDescriptor,
 } from "../../StaticJsPropertyDescriptor.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 import type { StaticJsObjectProxyTarget } from "./create-object-proxy.js";
 
+import { MAX_ARRAY_LENGTH_INCLUSIVE, type StaticJsArray } from "../../StaticJsArray.js";
 import { isStaticJsNumber } from "../../StaticJsNumber.js";
 import { isStaticJsDataPropertyDescriptor } from "../../StaticJsPropertyDescriptor.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
@@ -21,8 +25,22 @@ import { StaticJsNumberImpl } from "../primitives/StaticJsNumberImpl.js";
 import { isArrayIndex } from "./is-array-index.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsArrayImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  length?: number | undefined;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements StaticJsArray {
-  constructor(realm: StaticJsRealm, length = 0, prototype = realm.intrinsics["Array.prototype"]) {
+  static create(params: StaticJsArrayImplCreateParams): StaticJsArrayImpl {
+    const { realm, length = 0, prototype = realm.intrinsics["Array.prototype"] } = params;
+    return allocated(new StaticJsArrayImpl(realm, length, prototype));
+  }
+
+  protected constructor(
+    realm: StaticJsRealm,
+    length = 0,
+    prototype = realm.intrinsics["Array.prototype"],
+  ) {
     super(realm, prototype);
     realm.invokeEvaluatorSync(
       // Needs to explicitly be OrdinaryDefineOwnProperty, not our own
@@ -45,6 +63,54 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
 
   get runtimeTypeCode() {
     return StaticJsTypeCode.Array;
+  }
+
+  setIndexSafe(index: number, value: StaticJsValue): boolean {
+    if (!Number.isInteger(index) || index < 0 || index > MAX_ARRAY_LENGTH_INCLUSIVE) {
+      throw new RangeError("Invalid array index");
+    }
+
+    const lengthDesc = this.getOwnPropertyDescriptorSafe("length");
+    if (!lengthDesc) {
+      throw new StaticJsEngineError("Null length descriptor on array intrinsic");
+    }
+    if (lengthDesc.configurable) {
+      throw new StaticJsEngineError("Configurable length descriptor on array intrinsic");
+    }
+    if (!isStaticJsDataPropertyDescriptor(lengthDesc)) {
+      throw new StaticJsEngineError("Invalid length descriptor on array intrinsic");
+    }
+
+    const length = lengthDesc.value;
+    if (!isStaticJsNumber(length) || length.value < 0) {
+      throw new StaticJsEngineError("Invalid length value on array intrinsic");
+    }
+
+    if (index >= length.value && !lengthDesc.writable) {
+      return false;
+    }
+
+    if (
+      !this.isExtensibleSafe() &&
+      this.getOwnPropertyDescriptorSafe(index.toString()) === undefined
+    ) {
+      return false;
+    }
+
+    this.setOwnPropertyDescriptorSafe(index.toString(), {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value,
+    });
+
+    if (index >= length.value) {
+      this.setOwnPropertyDescriptorSafe("length", {
+        ...lengthDesc,
+        value: this.realm.types.number(index + 1),
+      });
+    }
+    return true;
   }
 
   protected override _createToNativeProxyTarget(): StaticJsObjectProxyTarget {
@@ -89,7 +155,7 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
       if (index >= length.value) {
         lengthDesc = {
           ...lengthDesc,
-          value: new StaticJsNumberImpl(this.realm, index + 1),
+          value: StaticJsNumberImpl.create({ realm: this.realm, value: index + 1 }),
         };
 
         const success = yield* super._setPropertyDescriptorEvaluator("length", lengthDesc);

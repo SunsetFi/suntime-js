@@ -4,6 +4,7 @@ export * from "./evaluation/index.js";
 export * from "./evaluator/index.js";
 export * from "./hooks/index.js";
 export * from "./intrinsics/index.js";
+export * from "./memory/index.js";
 export * from "./modules/index.js";
 export * from "./realm/index.js";
 export * from "./tasks/index.js";

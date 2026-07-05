@@ -8,6 +8,7 @@ import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "#types/HostAccessOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
+import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -34,6 +35,8 @@ import { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsSc
 import { type StaticJsEvaluator, invokeEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
+import { StaticJsMemoryManagerImpl } from "#memory/implementation/StaticJsMemoryManagerImpl.js";
+import { memoryWeights_Node_24_16_0 } from "#memory/weights/node_24.16.0.js";
 import { StaticJsAstModuleImpl } from "#modules/implementation/StaticJsAstModuleImpl.js";
 import { StaticJsExternalModuleImpl } from "#modules/implementation/StaticJsExternalModuleImpl.js";
 import { isStaticJsModule } from "#modules/StaticJsModule.js";
@@ -80,6 +83,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private readonly _objectEnv: StaticJsObjectEnvironmentRecord;
   private readonly _declarativeEnv: StaticJsDeclarativeEnvironmentRecord;
   private readonly _globalEnv: StaticJsGlobalEnvironmentRecord;
+
+  private readonly _memory: StaticJsMemoryManagerImpl;
   private readonly _typeFactory: StaticJsTypeFactory;
 
   private readonly _staticModules = new Map<string, StaticJsModuleImplementation | null>();
@@ -110,12 +115,22 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       runTask,
       runTaskSync,
       hostAccessDefaults,
+      maxMemorySize = Number.POSITIVE_INFINITY,
+      memoryHighWatermark = isFinite(maxMemorySize) ? Math.floor(maxMemorySize * 0.8) : Number.NaN,
+      memoryWeights = memoryWeights_Node_24_16_0,
     }: StaticJsRealmOptions,
     private readonly _hooks: RealmHooks,
   ) {
+    // Allocated here because we need to scan it for memory use, and I don't feel like
+    // we want to make StaticJsTypeFactory a markable.
+    const symbolRegistry = new Map<string, StaticJsSymbol>();
+
+    this._memory = new StaticJsMemoryManagerImpl(maxMemorySize, memoryHighWatermark, memoryWeights);
+
     this._externalResolveModule = resolveModule;
     this._defaultRunTask = runTask ?? synchronousDefaultTaskRunner;
     this._defaultRunTaskSync = runTaskSync ?? synchronousDefaultTaskRunner;
+
     const configObj: {
       runTask: StaticJsTaskRunner;
       runTaskSync: StaticJsTaskRunner;
@@ -132,7 +147,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const intrinsics: IntrinsicsRecord = {} as IntrinsicsRecord;
     this._intrinsics = intrinsics;
 
-    const typeFactory = new StaticJsTypeFactoryImpl(this);
+    const typeFactory = new StaticJsTypeFactoryImpl(this, symbolRegistry);
     // Set the type factory now, so the rest of the type instantiation can use it.
     // This is a little bit fiddly, but much of our systems rely on having a reference to the type factory
     // through us, so it needs to be available early.
@@ -146,24 +161,33 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._global = globalObjectResolved;
     this._globalThis = globalThisResolved;
 
-    this._objectEnv = new StaticJsObjectEnvironmentRecord(this._global, false, null, this);
-    this._declarativeEnv = new StaticJsDeclarativeEnvironmentRecord(null, this);
+    this._objectEnv = StaticJsObjectEnvironmentRecord.create({
+      obj: this._global,
+      isWithEnvironment: false,
+      outerEnv: null,
+      realm: this,
+    });
+    this._declarativeEnv = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: null,
+      realm: this,
+    });
 
-    this._globalEnv = new StaticJsGlobalEnvironmentRecord(
-      globalThisResolved,
-      this._declarativeEnv,
-      this._objectEnv,
-      this,
-    );
+    this._globalEnv = StaticJsGlobalEnvironmentRecord.create({
+      globalThis: globalThisResolved,
+      declarativeRecord: this._declarativeEnv,
+      objectRecord: this._objectEnv,
+      realm: this,
+    });
 
     drainIterator(populateGlobal(this, this._global));
+
+    this._memory.initialize(this._globalEnv, symbolRegistry);
+    this._boostrapping = false;
 
     for (const [name, moduleDef] of Object.entries(modules ?? {})) {
       const module = realmModuleToModule(this, name, moduleDef);
       this._staticModules.set(name, module);
     }
-
-    this._boostrapping = false;
   }
 
   [symbolInspect](): string {
@@ -204,6 +228,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
   get types() {
     return this._typeFactory;
+  }
+
+  get memory() {
+    return this._memory;
   }
 
   get hooks() {
@@ -306,7 +334,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     try {
       const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
       const parsed = parseModule(code, sourceName);
-      const module = new StaticJsAstModuleImpl(sourceName, code, parsed.program, this);
+      const module = StaticJsAstModuleImpl.create({
+        name: sourceName,
+        ecmaScriptSource: code,
+        ecmaScriptCode: parsed.program,
+        realm: this,
+      });
 
       // Bit weird that we link immediately instead of when we are ready to perform the task?
       await module.linkModules();
@@ -420,26 +453,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }: StaticJsRunTaskOptions & { calleeType?: StaticJsTaskCalleeType } = {},
   ): TReturn {
     if (this._boostrapping) {
+      // FIXME: No stack provider is set here, so certain things will fail.
+      // For example, trying to coerce a promise as part of a global object.
       return drainIterator(invokeEvaluator(evaluator));
     }
 
-    // oxlint-disable-next-line typescript/no-this-alias
-    const realm = this;
-    function* evaluate() {
-      // We may be ran from outside any active context, so bootstrap
-      // one if needed.
-      if (EvaluationContext.stack.length === 0 || EvaluationContext.current.realm !== realm) {
-        return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
-          function* () {
-            return yield* invokeEvaluator(evaluator);
-          },
-        );
-      }
-
-      return yield* invokeEvaluator(evaluator);
-    }
-
-    return this._invokeMacrotaskSync(evaluate, calleeType, { runTask });
+    return this._invokeMacrotaskSync(evaluator, calleeType, { runTask });
   }
 
   invokeEvaluatorAsync<TReturn>(
@@ -583,6 +602,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       throw new Error("Cannot invoke a task while another task is running.");
     }
 
+    // Now that we are actually committed to doing something, try to sweep.
+    this._memory.sweepIfWatermark();
+
     this._currentTask = task;
 
     // Invoke on the microtask queue, so that
@@ -605,13 +627,18 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): TReturn {
     const previousTask = this._currentTask;
 
+    if (!previousTask) {
+      // Only sweep if we weren't doing anything already.
+      this._memory.sweepIfWatermark();
+    }
+
     try {
       // oxlint-disable-next-line typescript/no-this-alias
       const realm = this;
       function* evaluate() {
         // We may be ran from outside any active context, so bootstrap
         // one if needed.
-        if (EvaluationContext.stack.length === 0) {
+        if (!EvaluationContext.entered(realm)) {
           return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
             function* () {
               return yield* invokeEvaluator(evaluator);
@@ -696,13 +723,18 @@ function realmModuleToModule(
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
     const parsed = parseModule(module, specifier);
-    return new StaticJsAstModuleImpl(specifier, module, parsed.program, realm);
+    return StaticJsAstModuleImpl.create({
+      name: specifier,
+      ecmaScriptSource: module,
+      ecmaScriptCode: parsed.program,
+      realm,
+    });
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {
     return staticJsModuleToImplementation(realm, module);
   } else if (module != null && "exports" in module) {
-    return new StaticJsExternalModuleImpl(specifier, module.exports, realm);
+    return StaticJsExternalModuleImpl.create({ name: specifier, obj: module.exports, realm });
   } else {
     throw new TypeError(
       `StaticJsRealm resolveModule for module ${specifier} did not return source code, a valid module, or an object with an exports property.`,

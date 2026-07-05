@@ -31,7 +31,10 @@ export function* ordinaryFunctionCreate(
 
   const strict = isStrict(body);
 
-  const func = new StaticJsAstFunction(realm, body, sourceText, {
+  const func = StaticJsAstFunction.create({
+    realm,
+    node: body,
+    sourceText,
     thisMode,
     env,
     privateEnv,

@@ -1,16 +1,36 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsObjectEnvironmentRecord } from "./StaticJsObjectEnvironmentRecord.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
+
+export interface StaticJsGlobalEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
+  globalThis: StaticJsValue;
+  declarativeRecord: StaticJsDeclarativeEnvironmentRecord;
+  objectRecord: StaticJsObjectEnvironmentRecord;
+}
 
 export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
-  constructor(
+  static create(
+    params: StaticJsGlobalEnvironmentRecordCreateParams,
+  ): StaticJsGlobalEnvironmentRecord {
+    const { globalThis: globalThisValue, declarativeRecord, objectRecord, realm } = params;
+    return allocated(
+      new StaticJsGlobalEnvironmentRecord(globalThisValue, declarativeRecord, objectRecord, realm),
+    );
+  }
+
+  protected constructor(
     private readonly _globalThis: StaticJsValue,
     private readonly _declarativeRecord: StaticJsDeclarativeEnvironmentRecord,
     private readonly _objectRecord: StaticJsObjectEnvironmentRecord,
@@ -124,6 +144,19 @@ export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBa
 
   *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
     return this._realm.types.undefined;
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._globalThis.mark(marks);
+    this._declarativeRecord.mark(marks);
+    // May include globalThis, but that's fine since mark is idempotent.
+    this._objectRecord.mark(marks);
   }
 
   private *_ensureDeclarativeBindingNotDeclared(name: string): EvaluationGenerator<void> {

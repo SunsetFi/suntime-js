@@ -24,7 +24,7 @@ const arrayProtoSymbolUnscopables: IntrinsicPropertyDeclaration = {
       "values",
     ];
 
-    const obj = new StaticJsPlainObjectImpl(realm, null);
+    const obj = StaticJsPlainObjectImpl.create({ realm, prototype: null });
     for (const key of unscopables) {
       obj.defineOwnPropertySync(key, {
         value: realm.types.true,

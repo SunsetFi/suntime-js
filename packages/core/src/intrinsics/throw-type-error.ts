@@ -6,7 +6,7 @@ import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 
 export function* createThrowTypeError(realm: StaticJsRealm): EvaluationGenerator<StaticJsFunction> {
-  const thrower = new StaticJsNativeFunctionImpl(realm, null, function* () {
+  const thrower = StaticJsNativeFunctionImpl.create(realm, null, function* () {
     throw yield* Completion.Throw.create(
       "TypeError",
       "Restricted function property cannot be accessed",

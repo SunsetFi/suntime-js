@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -6,15 +7,32 @@ import { get } from "#algorithms/get.js";
 import { set } from "#algorithms/set.js";
 import { toBoolean } from "#algorithms/to-boolean.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
 import { isStaticJsObject, type StaticJsObject } from "#types/StaticJsObject.js";
 import { isStaticJsSymbol } from "#types/StaticJsSymbol.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
+
+export interface StaticJsObjectEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
+  obj: StaticJsObject;
+  isWithEnvironment: boolean;
+  outerEnv: StaticJsEnvironmentRecord | null;
+}
 
 export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
-  constructor(
+  static create(
+    params: StaticJsObjectEnvironmentRecordCreateParams,
+  ): StaticJsObjectEnvironmentRecord {
+    const { obj, isWithEnvironment, outerEnv, realm } = params;
+    return allocated(new StaticJsObjectEnvironmentRecord(obj, isWithEnvironment, outerEnv, realm));
+  }
+
+  protected constructor(
     private readonly _obj: StaticJsObject,
     private readonly _isWithEnvironment: boolean,
     outerEnv: StaticJsEnvironmentRecord | null,
@@ -154,5 +172,15 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
       return this._obj;
     }
     return this._realm.types.undefined;
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._obj.mark(marks);
   }
 }

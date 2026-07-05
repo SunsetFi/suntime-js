@@ -1,4 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
+import type { StaticJsMemoryAllocationObjectTag } from "#memory/StaticJsMemoryWeights.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -7,6 +9,7 @@ import { toString } from "#algorithms/to-string.js";
 import { validateAndApplyPropertyDescriptor } from "#algorithms/validate-and-apply-property-descriptor.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { HostAccessArg } from "../HostAccessOptions.js";
 import type { StaticJsNull } from "../StaticJsNull.js";
@@ -44,6 +47,10 @@ import {
 } from "./objects/create-object-proxy.js";
 import { StaticJsAbstractPrimitive } from "./StaticJsAbstractPrimitive.js";
 
+export interface StaticJsAbstractObjectCreateParams {
+  realm: StaticJsRealm;
+}
+
 export abstract class StaticJsAbstractObject
   extends StaticJsAbstractPrimitive
   implements StaticJsObject
@@ -56,7 +63,11 @@ export abstract class StaticJsAbstractObject
   private readonly _accessNativeInterner = new PolicyKeyInterner();
   private readonly _accessNativeCache = new Map<PolicyKey, object>();
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | StaticJsNull | null) {
+  protected constructor(
+    realm: StaticJsRealm,
+    prototype: StaticJsObject | StaticJsNull | null,
+    private readonly _tag: StaticJsMemoryAllocationObjectTag = StaticJsMemoryAllocationTag.StaticJsObject,
+  ) {
     super(realm);
     if (isStaticJsNull(prototype)) {
       this._prototype = null;
@@ -125,6 +136,10 @@ export abstract class StaticJsAbstractObject
   }
 
   *isExtensibleEvaluator(_opts?: StaticJsRunTaskOptions): EvaluationGenerator<boolean> {
+    return this._extensible;
+  }
+
+  isExtensibleSafe() {
     return this._extensible;
   }
 
@@ -469,6 +484,41 @@ export abstract class StaticJsAbstractObject
     }
 
     this._privateElements.push(element);
+  }
+
+  mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    marks.add(this);
+
+    if (this._prototype) {
+      this._prototype.mark(marks);
+    }
+
+    for (const pe of this._privateElements) {
+      switch (pe.kind) {
+        case "field":
+        case "method":
+          pe.value.mark(marks);
+          break;
+        case "accessor":
+          if (pe.get) {
+            pe.get.mark(marks);
+          }
+          if (pe.set) {
+            pe.set.mark(marks);
+          }
+          break;
+      }
+    }
+  }
+
+  allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    allocate(this._tag, this as any);
   }
 
   /**

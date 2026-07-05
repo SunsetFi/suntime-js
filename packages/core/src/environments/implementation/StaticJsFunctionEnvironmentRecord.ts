@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
@@ -6,23 +7,37 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { allocated } from "#memory/allocated.js";
+import { isStaticJsMethodFunction } from "#types/implementation/functions/StaticJsMethodFunction.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
+import {
+  StaticJsDeclarativeEnvironmentRecord,
+  type StaticJsDeclarativeEnvironmentRecordCreateParams,
+} from "./StaticJsDeclarativeEnvironmentRecord.js";
 
-// Some circular reference with StaticJsMethodFunction.
-// How do we fix this?
-const HackFunctionMethodClassNames = new Set([
-  "StaticJsClassConstructorFunction",
-  "StaticJsMethodFunction",
-]);
+export interface StaticJsFunctionEnvironmentRecordCreateParams extends StaticJsDeclarativeEnvironmentRecordCreateParams {
+  functionObject: StaticJsFunction;
+  newTarget: StaticJsObject | null;
+  lexical: boolean;
+  outerEnv: StaticJsEnvironmentRecord;
+}
 
 export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
   private _thisBindingStatus: "lexical" | "initialized" | "uninitialized";
   private _thisValue: StaticJsValue | null;
 
-  constructor(
+  static override create(
+    params: StaticJsFunctionEnvironmentRecordCreateParams,
+  ): StaticJsFunctionEnvironmentRecord {
+    const { functionObject, newTarget, lexical, outerEnv, realm } = params;
+    return allocated(
+      new StaticJsFunctionEnvironmentRecord(functionObject, newTarget, lexical, outerEnv, realm),
+    );
+  }
+
+  protected constructor(
     private readonly _functionObject: StaticJsFunction,
     private readonly _newTarget: StaticJsObject | null,
     lexical: boolean,
@@ -82,14 +97,18 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
 
     const func = this._functionObject;
 
-    // HACK HACK HACK: Circular imports??
-    // if (func instanceof StaticJsMethodFunction === false) {
-    //   return false;
-    // }
-    if (!HackFunctionMethodClassNames.has(func.constructor.name)) {
-      return false;
+    return isStaticJsMethodFunction(func);
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
     }
 
-    return true;
+    super.mark(marks);
+
+    this._thisValue?.mark(marks);
+    this._functionObject.mark(marks);
+    this._newTarget?.mark(marks);
   }
 }

@@ -6,22 +6,32 @@ import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 
 import { toNumber } from "./to-number.js";
 
-export function* toIntegerOrInfinity(value: StaticJsValue): EvaluationGenerator<StaticJsNumber> {
+export function* toIntegerOrInfinity(
+  value: StaticJsValue | number | string,
+): EvaluationGenerator<StaticJsNumber> {
   const number = yield* toIntegerOrInfinity.js(value);
   return EvaluationContext.current.realm.types.number(number);
 }
 
-toIntegerOrInfinity.js = function* js(
+toIntegerOrInfinity.js = function* toIntegerOrInfinityJs(
   value: StaticJsValue | number | string,
 ): EvaluationGenerator<number> {
-  const number = typeof value === "number" ? value : yield* toNumber.js(value);
-  if (Number.isNaN(number) || number === 0) {
+  const number = yield* toNumber.js(value);
+  return toIntegerOrInfinity.native(number);
+};
+
+toIntegerOrInfinity.native = function toIntegerOrInfinityNative(value: number | string): number {
+  if (typeof value !== "number") {
+    value = Number(value);
+  }
+
+  if (Number.isNaN(value) || value === 0) {
     return 0;
   }
 
-  if (number === Infinity || number === -Infinity) {
-    return number;
+  if (value === Number.POSITIVE_INFINITY || value === Number.NEGATIVE_INFINITY) {
+    return value;
   }
 
-  return Math.trunc(number);
+  return Math.trunc(value);
 };

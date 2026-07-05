@@ -30,7 +30,7 @@ const declarations: IntrinsicPropertyDeclaration[] = [
 ];
 
 export function* createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsObject) {
-  const ctor = new StaticJsNativeFunctionImpl(
+  const ctor = StaticJsNativeFunctionImpl.create(
     realm,
     "Map",
     function* (_thisArg) {
@@ -38,7 +38,7 @@ export function* createMapConstructor(realm: StaticJsRealm, mapProto: StaticJsOb
     },
     {
       *construct(_thisArg, iterable) {
-        const map = new StaticJsMapImpl(realm);
+        const map = StaticJsMapImpl.create({ realm });
 
         if (!iterable || isStaticJsNull(iterable) || isStaticJsUndefined(iterable)) {
           return map;

@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsMarkFunction } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 
 import { setFunctionLength } from "#algorithms/set-function-length.js";
@@ -6,6 +7,7 @@ import { setFunctionName } from "#algorithms/set-function-name.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsFunction } from "../../StaticJsFunction.js";
@@ -25,6 +27,7 @@ export interface StaticJsNativeFunctionOptions {
         newTarget: StaticJsCallable,
         ...args: StaticJsValue[]
       ) => EvaluationGenerator<StaticJsObject>);
+  captures?: readonly StaticJsAllocation[];
 }
 
 export class StaticJsNativeFunctionImpl
@@ -38,16 +41,33 @@ export class StaticJsNativeFunctionImpl
       ) => EvaluationGenerator<StaticJsValue>)
     | null;
 
-  constructor(
+  private readonly _dependencyMark: StaticJsMarkFunction;
+
+  static create(
+    realm: StaticJsRealm,
+    name: StaticJsPropertyKey | null,
+    call: (thisArg: StaticJsValue, ...args: StaticJsValue[]) => EvaluationGenerator<StaticJsValue>,
+    opts: StaticJsNativeFunctionOptions = {},
+  ): StaticJsNativeFunctionImpl {
+    return allocated(new StaticJsNativeFunctionImpl(realm, name, call, opts));
+  }
+
+  protected constructor(
     realm: StaticJsRealm,
     private readonly _name: StaticJsPropertyKey | null,
     private readonly _call: (
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
     ) => EvaluationGenerator<StaticJsValue>,
-    { construct, length, prototype }: StaticJsNativeFunctionOptions = {},
+    { construct, length, prototype, captures: markables }: StaticJsNativeFunctionOptions = {},
   ) {
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
+
+    this._dependencyMark = function (this: StaticJsAllocation, marks) {
+      for (const markable of markables ?? []) {
+        markable.mark(marks);
+      }
+    };
 
     const resolvedLength = length ?? _call.length;
     realm.invokeEvaluatorSync(setFunctionLength(this, resolvedLength));
@@ -120,5 +140,15 @@ export class StaticJsNativeFunctionImpl
       );
     }
     return result;
+  }
+
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._dependencyMark(marks);
   }
 }

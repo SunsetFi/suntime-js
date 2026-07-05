@@ -12,7 +12,7 @@ const asyncGeneratorProtoThrowDeclaration: IntrinsicPropertyDeclaration = {
         "TypeError",
         "Generator throw called on incompatible receiver",
       );
-      return yield* promiseReject(error, realm);
+      return yield* promiseReject(error);
     }
 
     return yield* thisArg.throwEvaluator(value);

@@ -6,7 +6,7 @@ const numberCtorPositiveInfinityDeclaration: IntrinsicPropertyDeclaration = {
   key: "POSITIVE_INFINITY",
   value(realm) {
     // We can't use our prebaked value as that isn't initialized yet.
-    return new StaticJsNumberImpl(realm, Number.POSITIVE_INFINITY);
+    return StaticJsNumberImpl.create({ realm: realm, value: Number.POSITIVE_INFINITY });
   },
   writable: false,
   enumerable: false,

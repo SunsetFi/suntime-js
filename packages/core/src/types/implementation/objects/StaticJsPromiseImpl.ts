@@ -1,4 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
@@ -10,30 +11,46 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
+import { allocated } from "#memory/allocated.js";
+import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsCallable } from "../../StaticJsCallable.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromiseCapabilityRecord, StaticJsPromise } from "../../StaticJsPromise.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "./StaticJsOrdinaryObjectImpl.js";
 
-interface ReactionRecord {
+interface StaticJsReactionRecord {
   capability: StaticJsPromiseCapabilityRecord | null;
   handler: StaticJsCallable | null;
   type: "fulfill" | "reject";
 }
 
+export interface StaticJsPromiseImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  prototype?: StaticJsObject | null | undefined;
+}
+
 export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements StaticJsPromise {
   private _state: "pending" | "fulfilled" | "rejected" = "pending";
   private _result: StaticJsValue | null = null;
-  private _fulfullReactions: ReactionRecord[] = [];
-  private _rejectReactions: ReactionRecord[] = [];
+  private _fulfullReactions: StaticJsReactionRecord[] = [];
+  private _rejectReactions: StaticJsReactionRecord[] = [];
   private _clearUncaughtError: (() => void) | null = null;
 
-  constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
-    super(realm, prototype ?? realm.intrinsics["Promise.prototype"]);
+  static create(params: StaticJsPromiseImplCreateParams): StaticJsPromiseImpl {
+    const { realm, prototype = null } = params;
+    return allocated(new StaticJsPromiseImpl(realm, prototype));
+  }
+
+  protected constructor(realm: StaticJsRealm, prototype: StaticJsObject | null = null) {
+    super(
+      realm,
+      prototype ?? realm.intrinsics["Promise.prototype"],
+      StaticJsMemoryAllocationTag.StaticJsPromise,
+    );
   }
 
   override get [Symbol.toStringTag](): string {
@@ -124,7 +141,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     let capability: StaticJsPromiseCapabilityRecord | null = null;
     if (resultCapability === undefined || resultCapability === true) {
       const c = yield* speciesConstructor(this, this.realm.intrinsics.Promise, this.realm);
-      capability = yield* newPromiseCapability(c, this.realm);
+      capability = yield* newPromiseCapability(c);
     } else if (resultCapability !== false) {
       capability = resultCapability;
     }
@@ -132,23 +149,34 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     const fulfillHandler = isCallable(onFulfilled) ? onFulfilled : null;
     const rejectHandler = isCallable(onRejected) ? onRejected : null;
 
-    const fulfillReaction: ReactionRecord = {
+    const fulfillReaction: StaticJsReactionRecord = {
       type: "fulfill",
       handler: fulfillHandler,
       capability,
     };
 
-    const rejectReaction: ReactionRecord = {
+    const rejectReaction: StaticJsReactionRecord = {
       type: "reject",
       handler: rejectHandler,
       capability,
     };
 
     switch (this._state) {
-      case "pending":
+      case "pending": {
+        // Two retained reaction records (fulfill + reject).
+        const { memory } = this.realm;
+        memory.allocate(
+          StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
+          fulfillReaction,
+        );
         this._fulfullReactions.push(fulfillReaction);
+        memory.allocate(
+          StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead,
+          rejectReaction,
+        );
         this._rejectReactions.push(rejectReaction);
         break;
+      }
       case "fulfilled":
         queuePromiseReactionJob(this.realm, fulfillReaction, this._result!);
         break;
@@ -176,6 +204,38 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     return yield* this.thenEvaluator(undefined, onRejected, true);
   }
 
+  override mark(marks: Set<StaticJsAllocation>): void {
+    if (marks.has(this)) {
+      return;
+    }
+
+    super.mark(marks);
+
+    this._result?.mark(marks);
+
+    for (const reaction of this._fulfullReactions) {
+      markReaction(reaction, marks);
+    }
+
+    for (const reaction of this._rejectReactions) {
+      markReaction(reaction, marks);
+    }
+  }
+
+  override allocateSelf(
+    allocate: StaticJsAllocator = this.realm.memory.allocate.bind(this.realm.memory),
+  ): void {
+    super.allocateSelf(allocate);
+
+    for (const reaction of this._fulfullReactions) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead, reaction);
+    }
+
+    for (const reaction of this._rejectReactions) {
+      allocate(StaticJsMemoryAllocationTag.StaticJsPromiseReactionOverhead, reaction);
+    }
+  }
+
   override toNative(): Promise<unknown> {
     return super.toNative() as Promise<unknown>;
   }
@@ -183,7 +243,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
 
 function queuePromiseReactionJob(
   realm: StaticJsRealm,
-  reaction: ReactionRecord,
+  reaction: StaticJsReactionRecord,
   argument: StaticJsValue,
 ) {
   realm.enqueuePromiseJob(function* () {
@@ -207,7 +267,6 @@ function queuePromiseReactionJob(
       return;
     }
 
-    // FIXME: Spec says we return these...  Who to?
     if (Completion.Abrupt.is(handlerResult)) {
       const value = Completion.value(handlerResult);
       if (!isStaticJsValue(value)) {
@@ -218,4 +277,18 @@ function queuePromiseReactionJob(
       yield* Q(call(capability.resolve, realm.types.undefined, [handlerResult]));
     }
   });
+}
+
+function markReaction(reaction: StaticJsReactionRecord, marks: Set<StaticJsAllocation>) {
+  const { capability, handler } = reaction;
+
+  if (capability) {
+    capability.promise.mark(marks);
+    capability.resolve.mark(marks);
+    capability.reject.mark(marks);
+  }
+
+  if (handler) {
+    handler.mark(marks);
+  }
 }
