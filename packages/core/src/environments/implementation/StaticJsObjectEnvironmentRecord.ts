@@ -13,15 +13,22 @@ import { isStaticJsSymbol } from "#types/StaticJsSymbol.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
+
+export interface StaticJsObjectEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
+  obj: StaticJsObject;
+  isWithEnvironment: boolean;
+  outerEnv: StaticJsEnvironmentRecord | null;
+}
 
 export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static create(
-    obj: StaticJsObject,
-    isWithEnvironment: boolean,
-    outerEnv: StaticJsEnvironmentRecord | null,
-    realm: StaticJsRealm,
+    params: StaticJsObjectEnvironmentRecordCreateParams,
   ): StaticJsObjectEnvironmentRecord {
+    const { obj, isWithEnvironment, outerEnv, realm } = params;
     return allocated(new StaticJsObjectEnvironmentRecord(obj, isWithEnvironment, outerEnv, realm));
   }
 
@@ -173,6 +180,7 @@ export class StaticJsObjectEnvironmentRecord extends StaticJsEnvironmentRecordBa
     }
 
     super.mark(marks);
+
     this._obj.mark(marks);
   }
 }

@@ -7,13 +7,20 @@ import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag
 import type { StaticJsBoolean } from "../../StaticJsBoolean.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
+import {
+  StaticJsAbstractPrimitive,
+  type StaticJsAbstractPrimitiveCreateParams,
+} from "../StaticJsAbstractPrimitive.js";
+
+export interface StaticJsBooleanImplCreateParams extends StaticJsAbstractPrimitiveCreateParams {
+  value: boolean;
+}
 
 export class StaticJsBooleanImpl extends StaticJsAbstractPrimitive implements StaticJsBoolean {
   private readonly _value: boolean;
 
-  static create(realm: StaticJsRealm, value: boolean): StaticJsBooleanImpl {
-    return allocated(new StaticJsBooleanImpl(realm, value));
+  static create(params: StaticJsBooleanImplCreateParams): StaticJsBooleanImpl {
+    return allocated(new StaticJsBooleanImpl(params.realm, params.value));
   }
 
   protected constructor(realm: StaticJsRealm, value: boolean) {

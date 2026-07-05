@@ -13,22 +13,25 @@ import type { StaticJsCallable, StaticJsCallableToNativeOpts } from "../../Stati
 import type { StaticJsNull } from "../../StaticJsNull.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsFunction, type StaticJsFunction } from "../../StaticJsFunction.js";
 import { isStaticJsScalar } from "../../StaticJsScalar.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsBoundFunctionCreateParams extends StaticJsAbstractObjectCreateParams {
+  targetFunc: StaticJsCallable;
+  boundThis: StaticJsValue;
+  boundArgs: StaticJsValue[];
+  prototype?: StaticJsObject | StaticJsNull | null | undefined;
+}
+
 export class StaticJsBoundFunction extends StaticJsOrdinaryObjectImpl implements StaticJsFunction {
   private _initialName: string | null = null;
 
-  static create(
-    realm: StaticJsRealm,
-    targetFunc: StaticJsCallable,
-    boundThis: StaticJsValue,
-    boundArgs: StaticJsValue[],
-    prototype?: StaticJsObject | StaticJsNull | null,
-  ): StaticJsBoundFunction {
+  static create(params: StaticJsBoundFunctionCreateParams): StaticJsBoundFunction {
+    const { realm, targetFunc, boundThis, boundArgs, prototype } = params;
     return allocated(new StaticJsBoundFunction(realm, targetFunc, boundThis, boundArgs, prototype));
   }
 

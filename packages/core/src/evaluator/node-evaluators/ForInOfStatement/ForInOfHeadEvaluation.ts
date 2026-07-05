@@ -30,7 +30,10 @@ export default function* forInOfHeadEvaluation(
 
   try {
     if (uninitializedBoundNames.length > 0) {
-      const newEnv = StaticJsDeclarativeEnvironmentRecord.create(oldEnv, realm);
+      const newEnv = StaticJsDeclarativeEnvironmentRecord.create({
+        outerEnv: oldEnv,
+        realm: realm,
+      });
       for (const name of uninitializedBoundNames) {
         yield* newEnv.createMutableBindingEvaluator(name, false);
       }

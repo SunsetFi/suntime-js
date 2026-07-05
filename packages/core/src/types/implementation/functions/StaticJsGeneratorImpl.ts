@@ -21,22 +21,25 @@ import type { StaticJsGenerator } from "../../StaticJsGenerator.js";
 import type { StaticJsIteratorResult } from "../../StaticJsIterator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsValue } from "../../StaticJsValue.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
 export type GeneratorState = "suspended-start" | "suspended-yield" | "executing" | "completed";
 
+export interface StaticJsGeneratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  generatorBody: Node | EvaluationGenerator<Completion>;
+  generatorBrand: string | null;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements StaticJsGenerator {
   private _generatorState: GeneratorState = "suspended-start";
   private _generatorContext: SuspendContext<StaticJsObject>;
 
-  static create(
-    generatorBody: Node | EvaluationGenerator<Completion>,
-    generatorBrand: string | null,
-    realm: StaticJsRealm,
-    prototype?: StaticJsObject,
-  ): StaticJsGeneratorImpl {
+  static create(params: StaticJsGeneratorImplCreateParams): StaticJsGeneratorImpl {
+    const { realm, generatorBody, generatorBrand, prototype } = params;
     return allocated(new StaticJsGeneratorImpl(generatorBody, generatorBrand, realm, prototype));
   }
 
@@ -247,6 +250,7 @@ export class StaticJsGeneratorImpl extends StaticJsOrdinaryObjectImpl implements
     }
 
     super.mark(marks);
+
     this._generatorContext.mark(marks);
   }
 

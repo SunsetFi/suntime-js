@@ -23,6 +23,7 @@ import { allocated } from "#memory/allocated.js";
 import type { StaticJsAsyncGenerator } from "../../StaticJsAsyncGenerator.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "../../StaticJsPromise.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
@@ -41,6 +42,12 @@ export type AsyncGeneratorState =
   | "draining-queue"
   | "completed";
 
+export interface StaticJsAsyncGeneratorImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  generatorBody: Node | EvaluationGenerator<Completion>;
+  generatorBrand: string | null;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsAsyncGeneratorImpl
   extends StaticJsOrdinaryObjectImpl
   implements StaticJsAsyncGenerator
@@ -50,13 +57,11 @@ export class StaticJsAsyncGeneratorImpl
   private _asyncGeneratorContext: SuspendContext<StaticJsValue>;
   private _asyncGeneratorQueue: AsyncGeneratorRequest[] = [];
 
-  static create(
-    generatorBody: Node | EvaluationGenerator<Completion>,
-    generatorBrand: string | null,
-    realm: StaticJsRealm,
-    proto?: StaticJsObject,
-  ): StaticJsAsyncGeneratorImpl {
-    return allocated(new StaticJsAsyncGeneratorImpl(generatorBody, generatorBrand, realm, proto));
+  static create(params: StaticJsAsyncGeneratorImplCreateParams): StaticJsAsyncGeneratorImpl {
+    const { realm, generatorBody, generatorBrand, prototype } = params;
+    return allocated(
+      new StaticJsAsyncGeneratorImpl(generatorBody, generatorBrand, realm, prototype),
+    );
   }
 
   protected constructor(

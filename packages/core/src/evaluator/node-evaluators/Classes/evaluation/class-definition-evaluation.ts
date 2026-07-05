@@ -60,7 +60,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
 ): EvaluationGenerator<StaticJsValue> {
   const context = EvaluationContext.current;
   const { lexicalEnv: env, realm, privateEnv: outerPrivateEnvironment, scriptOrModule } = context;
-  const classEnv = StaticJsDeclarativeEnvironmentRecord.create(env, realm);
+  const classEnv = StaticJsDeclarativeEnvironmentRecord.create({ outerEnv: env, realm: realm });
   if (classBinding) {
     yield* classEnv.createImmutableBindingEvaluator(classBinding, true);
   }

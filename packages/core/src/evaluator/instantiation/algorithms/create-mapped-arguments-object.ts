@@ -25,7 +25,7 @@ export default function* createMappedArgumentsObject(
   const { realm } = EvaluationContext.current;
   const len = argumentsList.length;
   const map = realm.types.object();
-  const obj = StaticJsArgumentsExoticObject.create(map, realm);
+  const obj = StaticJsArgumentsExoticObject.create({ parameterMap: map, realm });
 
   const parameterNames = boundNames.ofParameters(formals);
   const numberOfParameters = parameterNames.length;

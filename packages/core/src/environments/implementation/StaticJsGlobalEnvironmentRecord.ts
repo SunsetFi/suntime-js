@@ -9,17 +9,24 @@ import { allocated } from "#memory/allocated.js";
 import type { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
 import type { StaticJsObjectEnvironmentRecord } from "./StaticJsObjectEnvironmentRecord.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
+
+export interface StaticJsGlobalEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
+  globalThis: StaticJsValue;
+  declarativeRecord: StaticJsDeclarativeEnvironmentRecord;
+  objectRecord: StaticJsObjectEnvironmentRecord;
+}
 
 export class StaticJsGlobalEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static create(
-    globalThis: StaticJsValue,
-    declarativeRecord: StaticJsDeclarativeEnvironmentRecord,
-    objectRecord: StaticJsObjectEnvironmentRecord,
-    realm: StaticJsRealm,
+    params: StaticJsGlobalEnvironmentRecordCreateParams,
   ): StaticJsGlobalEnvironmentRecord {
+    const { globalThis: globalThisValue, declarativeRecord, objectRecord, realm } = params;
     return allocated(
-      new StaticJsGlobalEnvironmentRecord(globalThis, declarativeRecord, objectRecord, realm),
+      new StaticJsGlobalEnvironmentRecord(globalThisValue, declarativeRecord, objectRecord, realm),
     );
   }
 

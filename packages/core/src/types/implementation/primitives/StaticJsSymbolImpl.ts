@@ -6,6 +6,7 @@ import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag
 
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsSymbol } from "../../StaticJsSymbol.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
@@ -21,15 +22,17 @@ export function getSymbolProxyOwner(sym: unknown): StaticJsSymbol | null {
   return proxySymbolOwners.get(sym as unknown as object) ?? null;
 }
 
+export interface StaticJsSymbolImplCreateParams extends StaticJsAbstractObjectCreateParams {
+  descriptionOrSymbol: string | symbol | undefined;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements StaticJsSymbol {
   private _description: string | undefined = undefined;
   private _nativeSymbol: symbol;
 
-  static create(
-    realm: StaticJsRealm,
-    descriptionOrSymbol: string | symbol | undefined,
-    prototype?: StaticJsObject | undefined,
-  ): StaticJsSymbolImpl {
+  static create(params: StaticJsSymbolImplCreateParams): StaticJsSymbolImpl {
+    const { realm, descriptionOrSymbol, prototype } = params;
     return allocated(new StaticJsSymbolImpl(realm, descriptionOrSymbol, prototype));
   }
 
@@ -86,6 +89,7 @@ export class StaticJsSymbolImpl extends StaticJsOrdinaryObjectImpl implements St
     if (marks.has(this)) {
       return;
     }
+
     super.mark(marks);
   }
 

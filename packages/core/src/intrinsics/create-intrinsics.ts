@@ -111,7 +111,7 @@ export function* populateIntrinsics(
     prototype: asyncIteratorProto,
   });
 
-  const functionProto = StaticJsFunctionPrototypeImpl.create(realm, objectProto);
+  const functionProto = StaticJsFunctionPrototypeImpl.create({ realm, prototype: objectProto });
   intrinsics["Function.prototype"] = functionProto;
   intrinsics["AsyncFunction.prototype"] = StaticJsPlainObjectImpl.create({
     realm,

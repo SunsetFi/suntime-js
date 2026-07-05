@@ -382,6 +382,7 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     }
 
     super.mark(marks);
+
     this._environment.mark(marks);
   }
 
@@ -491,7 +492,12 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
 
     const proto = yield* getPrototypeFromConstructor(this, "AsyncGeneratorPrototype");
     const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
-    const generator = StaticJsAsyncGeneratorImpl.create(evaluator, null, realm, proto);
+    const generator = StaticJsAsyncGeneratorImpl.create({
+      generatorBody: evaluator,
+      generatorBrand: null,
+      realm,
+      prototype: proto,
+    });
     return Completion.Return(generator);
   }
 
@@ -507,7 +513,12 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
     const evaluator = Q(this._evaluateFunctionBodyNode(node.body));
 
     const proto = yield* getPrototypeFromConstructor(this, "GeneratorPrototype");
-    const generator = StaticJsGeneratorImpl.create(evaluator, null, realm, proto);
+    const generator = StaticJsGeneratorImpl.create({
+      generatorBody: evaluator,
+      generatorBrand: null,
+      realm,
+      prototype: proto,
+    });
 
     return Completion.Return(generator);
   }
@@ -652,13 +663,13 @@ export class StaticJsAstFunction extends StaticJsAbstractFunction {
   protected *_newFunctionEnvironment(
     newTarget: StaticJsObject | null,
   ): EvaluationGenerator<StaticJsFunctionEnvironmentRecord> {
-    const env = StaticJsFunctionEnvironmentRecord.create(
-      this,
+    const env = StaticJsFunctionEnvironmentRecord.create({
+      functionObject: this,
       newTarget,
-      this._thisMode === "lexical",
-      this._environment,
-      this.realm,
-    );
+      lexical: this._thisMode === "lexical",
+      outerEnv: this._environment,
+      realm: this.realm,
+    });
     return env;
   }
 }

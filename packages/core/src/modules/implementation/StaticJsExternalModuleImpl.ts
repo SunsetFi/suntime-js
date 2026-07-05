@@ -10,16 +10,17 @@ import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/Stat
 import type { StaticJsModule } from "../StaticJsModule.js";
 import type { StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
-import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
+import { StaticJsModuleBase, type StaticJsModuleBaseCreateParams } from "./StaticJsModuleBase.js";
+
+export interface StaticJsExternalModuleImplCreateParams extends StaticJsModuleBaseCreateParams {
+  obj: Record<string, unknown>;
+}
 
 export class StaticJsExternalModuleImpl extends StaticJsModuleBase implements StaticJsModule {
   private readonly _exportKeys: readonly string[];
 
-  static create(
-    name: string,
-    obj: Record<string, unknown>,
-    realm: StaticJsRealm,
-  ): StaticJsExternalModuleImpl {
+  static create(params: StaticJsExternalModuleImplCreateParams): StaticJsExternalModuleImpl {
+    const { name, obj, realm } = params;
     return allocated(new StaticJsExternalModuleImpl(name, obj, realm));
   }
 

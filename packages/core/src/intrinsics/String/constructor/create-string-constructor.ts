@@ -34,7 +34,7 @@ export function* createStringConstructor(realm: StaticJsRealm, stringProto: Stat
         const str = yield* toString.js(value ?? realm.types.string(""));
         // FIXME: Need newTarget for this
         // const proto = yield* getPrototypeFromConstructor()
-        return StaticJsStringExoticObject.create(realm, str);
+        return StaticJsStringExoticObject.create({ realm: realm, value: str });
       },
     },
   );

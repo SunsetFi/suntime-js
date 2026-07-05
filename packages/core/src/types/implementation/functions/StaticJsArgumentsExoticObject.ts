@@ -8,6 +8,7 @@ import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsObject, StaticJsObjectPropertyAccessOptions } from "../../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import {
   isStaticJsAccessorPropertyDescriptor,
@@ -19,9 +20,13 @@ import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isStaticJsValue, type StaticJsValue } from "../../StaticJsValue.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsArgumentsExoticObjectCreateParams extends StaticJsAbstractObjectCreateParams {
+  parameterMap: StaticJsObject;
+}
+
 export class StaticJsArgumentsExoticObject extends StaticJsOrdinaryObjectImpl {
-  static create(parameterMap: StaticJsObject, realm: StaticJsRealm): StaticJsArgumentsExoticObject {
-    return allocated(new StaticJsArgumentsExoticObject(parameterMap, realm));
+  static create(params: StaticJsArgumentsExoticObjectCreateParams): StaticJsArgumentsExoticObject {
+    return allocated(new StaticJsArgumentsExoticObject(params.parameterMap, params.realm));
   }
 
   protected constructor(

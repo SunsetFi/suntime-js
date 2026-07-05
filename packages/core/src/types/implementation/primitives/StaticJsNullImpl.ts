@@ -5,12 +5,15 @@ import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsNull } from "../../StaticJsNull.js";
+import type { StaticJsAbstractPrimitiveCreateParams } from "../StaticJsAbstractPrimitive.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
+export type StaticJsNullImplCreateParams = StaticJsAbstractPrimitiveCreateParams;
+
 export class StaticJsNullImpl implements StaticJsNull {
-  static create(realm: StaticJsRealm): StaticJsNullImpl {
-    return allocated(new StaticJsNullImpl(realm));
+  static create(params: StaticJsNullImplCreateParams): StaticJsNullImpl {
+    return allocated(new StaticJsNullImpl(params.realm));
   }
 
   protected constructor(private readonly _realm: StaticJsRealm) {}

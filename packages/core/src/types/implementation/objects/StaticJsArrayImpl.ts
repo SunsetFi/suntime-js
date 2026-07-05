@@ -155,7 +155,7 @@ export class StaticJsArrayImpl extends StaticJsOrdinaryObjectImpl implements Sta
       if (index >= length.value) {
         lengthDesc = {
           ...lengthDesc,
-          value: StaticJsNumberImpl.create(this.realm, index + 1),
+          value: StaticJsNumberImpl.create({ realm: this.realm, value: index + 1 }),
         };
 
         const success = yield* super._setPropertyDescriptorEvaluator("length", lengthDesc);

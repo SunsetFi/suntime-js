@@ -6,6 +6,10 @@ import { symbolInspect } from "#utils/symbol-inspect.js";
 import type { StaticJsPrimitive } from "../StaticJsPrimitive.js";
 import type { StaticJsTypeCode } from "../StaticJsTypeCode.js";
 
+export interface StaticJsAbstractPrimitiveCreateParams {
+  realm: StaticJsRealm;
+}
+
 export abstract class StaticJsAbstractPrimitive implements StaticJsPrimitive {
   protected constructor(private readonly _realm: StaticJsRealm) {}
 

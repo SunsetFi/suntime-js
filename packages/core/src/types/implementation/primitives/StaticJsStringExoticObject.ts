@@ -16,19 +16,22 @@ import type {
   StaticJsPropertyDescriptorRecord,
 } from "../../StaticJsPropertyDescriptor.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
+import type { StaticJsAbstractObjectCreateParams } from "../StaticJsAbstractObject.js";
 
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 import { isArrayIndex } from "../objects/is-array-index.js";
 import { StaticJsOrdinaryObjectImpl } from "../objects/StaticJsOrdinaryObjectImpl.js";
 
+export interface StaticJsStringExoticObjectCreateParams extends StaticJsAbstractObjectCreateParams {
+  value: string;
+  prototype?: StaticJsObject | undefined;
+}
+
 export class StaticJsStringExoticObject extends StaticJsOrdinaryObjectImpl {
-  static create(
-    realm: StaticJsRealm,
-    _value: string,
-    prototype: StaticJsObject = realm.intrinsics["String.prototype"],
-  ): StaticJsStringExoticObject {
-    return allocated(new StaticJsStringExoticObject(realm, _value, prototype));
+  static create(params: StaticJsStringExoticObjectCreateParams): StaticJsStringExoticObject {
+    const { realm, value, prototype = realm.intrinsics["String.prototype"] } = params;
+    return allocated(new StaticJsStringExoticObject(realm, value, prototype));
   }
 
   protected constructor(

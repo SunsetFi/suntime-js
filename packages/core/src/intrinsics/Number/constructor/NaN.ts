@@ -6,7 +6,7 @@ const numberCtorNanDeclaration: IntrinsicPropertyDeclaration = {
   key: "NaN",
   value(realm) {
     // We can't use our prebaked NaN as that isn't initialized yet.
-    return StaticJsNumberImpl.create(realm, NaN);
+    return StaticJsNumberImpl.create({ realm: realm, value: NaN });
   },
   writable: false,
   enumerable: false,

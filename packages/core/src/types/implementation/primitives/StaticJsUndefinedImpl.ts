@@ -5,12 +5,15 @@ import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsUndefined } from "../../StaticJsUndefined.js";
+import type { StaticJsAbstractPrimitiveCreateParams } from "../StaticJsAbstractPrimitive.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
 
+export type StaticJsUndefinedImplCreateParams = StaticJsAbstractPrimitiveCreateParams;
+
 export class StaticJsUndefinedImpl implements StaticJsUndefined {
-  static create(realm: StaticJsRealm): StaticJsUndefinedImpl {
-    return allocated(new StaticJsUndefinedImpl(realm));
+  static create(params: StaticJsUndefinedImplCreateParams): StaticJsUndefinedImpl {
+    return allocated(new StaticJsUndefinedImpl(params.realm));
   }
 
   protected constructor(private readonly _realm: StaticJsRealm) {}

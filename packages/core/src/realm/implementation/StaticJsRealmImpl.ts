@@ -161,15 +161,23 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     this._global = globalObjectResolved;
     this._globalThis = globalThisResolved;
 
-    this._objectEnv = StaticJsObjectEnvironmentRecord.create(this._global, false, null, this);
-    this._declarativeEnv = StaticJsDeclarativeEnvironmentRecord.create(null, this);
+    this._objectEnv = StaticJsObjectEnvironmentRecord.create({
+      obj: this._global,
+      isWithEnvironment: false,
+      outerEnv: null,
+      realm: this,
+    });
+    this._declarativeEnv = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: null,
+      realm: this,
+    });
 
-    this._globalEnv = StaticJsGlobalEnvironmentRecord.create(
-      globalThisResolved,
-      this._declarativeEnv,
-      this._objectEnv,
-      this,
-    );
+    this._globalEnv = StaticJsGlobalEnvironmentRecord.create({
+      globalThis: globalThisResolved,
+      declarativeRecord: this._declarativeEnv,
+      objectRecord: this._objectEnv,
+      realm: this,
+    });
 
     drainIterator(populateGlobal(this, this._global));
 
@@ -326,7 +334,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     try {
       const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
       const parsed = parseModule(code, sourceName);
-      const module = StaticJsAstModuleImpl.create(sourceName, code, parsed.program, this);
+      const module = StaticJsAstModuleImpl.create({
+        name: sourceName,
+        ecmaScriptSource: code,
+        ecmaScriptCode: parsed.program,
+        realm: this,
+      });
 
       // Bit weird that we link immediately instead of when we are ready to perform the task?
       await module.linkModules();
@@ -710,13 +723,18 @@ function realmModuleToModule(
 ): StaticJsModuleImplementation {
   if (typeof module === "string") {
     const parsed = parseModule(module, specifier);
-    return StaticJsAstModuleImpl.create(specifier, module, parsed.program, realm);
+    return StaticJsAstModuleImpl.create({
+      name: specifier,
+      ecmaScriptSource: module,
+      ecmaScriptCode: parsed.program,
+      realm,
+    });
   } else if (isStaticJsModuleImplementation(module)) {
     return module;
   } else if (isStaticJsModule(module)) {
     return staticJsModuleToImplementation(realm, module);
   } else if (module != null && "exports" in module) {
-    return StaticJsExternalModuleImpl.create(specifier, module.exports, realm);
+    return StaticJsExternalModuleImpl.create({ name: specifier, obj: module.exports, realm });
   } else {
     throw new TypeError(
       `StaticJsRealm resolveModule for module ${specifier} did not return source code, a valid module, or an object with an exports property.`,

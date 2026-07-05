@@ -11,7 +11,10 @@ import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import { StaticJsEnvironmentRecordBase } from "./StaticJsEnvironmentRecordBase.js";
+import {
+  StaticJsEnvironmentRecordBase,
+  type StaticJsEnvironmentRecordBaseCreateParams,
+} from "./StaticJsEnvironmentRecordBase.js";
 
 interface DeclarativeBinding {
   readonly name: string;
@@ -20,34 +23,24 @@ interface DeclarativeBinding {
   readonly isDeletable: boolean;
   value: StaticJsValue | null;
 }
+
+export interface StaticJsDeclarativeEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
+  outerEnv: StaticJsEnvironmentRecord | null;
+}
+
 export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRecordBase {
   static from(context: EvaluationContext) {
-    return StaticJsDeclarativeEnvironmentRecord.create(context.lexicalEnv, context.realm);
+    return StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: context.lexicalEnv,
+      realm: context.realm,
+    });
   }
 
-  // NOTE: the parameters are typed as `unknown` (not their real
-  // `StaticJsEnvironmentRecord | null` / `StaticJsRealm` types) because this
-  // class is subclassed by StaticJsFunctionEnvironmentRecord, which declares its
-  // own `static create` with a completely different parameter shape
-  // (functionObject, newTarget, lexical, outerEnv, realm). TypeScript requires
-  // `typeof Subclass` to be assignable to `typeof StaticJsDeclarativeEnvironmentRecord`
-  // for `extends` to typecheck (TS2417), so the base's `create` must accept the
-  // subclass's arity/shape. Widening to `unknown` (as fixed optional positional
-  // params, so arity is still checked) resolves the conflict; the casts below
-  // reconstruct the real parameter shape, so runtime behavior is unchanged.
   static create(
-    outerEnv?: unknown,
-    realm?: unknown,
-    _arg3?: unknown,
-    _arg4?: unknown,
-    _arg5?: unknown,
+    params: StaticJsDeclarativeEnvironmentRecordCreateParams,
   ): StaticJsDeclarativeEnvironmentRecord {
-    return allocated(
-      new StaticJsDeclarativeEnvironmentRecord(
-        outerEnv as StaticJsEnvironmentRecord | null,
-        realm as StaticJsRealm,
-      ),
-    );
+    const { outerEnv, realm } = params;
+    return allocated(new StaticJsDeclarativeEnvironmentRecord(outerEnv, realm));
   }
 
   private readonly _bindings: Map<string, DeclarativeBinding> = new Map();
@@ -225,6 +218,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   override allocateSelf(
     allocate: StaticJsAllocator = this._realm.memory.allocate.bind(this._realm.memory),
   ): void {
+    super.allocateSelf(allocate);
     for (const name of this._bindings.keys()) {
       allocate(StaticJsMemoryAllocationTag.RawString, name);
     }

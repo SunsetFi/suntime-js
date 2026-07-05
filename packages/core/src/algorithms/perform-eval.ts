@@ -116,11 +116,17 @@ export function* performEval(
   let varEnv: StaticJsEnvironmentRecord;
   let privateEnv: StaticJsPrivateEnvironmentRecord | null;
   if (direct) {
-    lexEnv = StaticJsDeclarativeEnvironmentRecord.create(runningContext.lexicalEnv, evalRealm);
+    lexEnv = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: runningContext.lexicalEnv,
+      realm: evalRealm,
+    });
     varEnv = runningContext.variableEnv;
     privateEnv = runningContext.privateEnv;
   } else {
-    lexEnv = StaticJsDeclarativeEnvironmentRecord.create(evalRealm.globalEnv, evalRealm);
+    lexEnv = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: evalRealm.globalEnv,
+      realm: evalRealm,
+    });
     varEnv = evalRealm.globalEnv;
     privateEnv = null;
   }

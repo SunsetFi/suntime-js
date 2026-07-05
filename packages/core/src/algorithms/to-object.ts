@@ -39,7 +39,10 @@ export function* toObject(
   }
 
   if (isStaticJsString(value)) {
-    return StaticJsStringExoticObject.create(realm ?? EvaluationContext.current.realm, value.value);
+    return StaticJsStringExoticObject.create({
+      realm: realm ?? EvaluationContext.current.realm,
+      value: value.value,
+    });
   }
 
   if (isStaticJsSymbol(value)) {

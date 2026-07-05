@@ -7,13 +7,20 @@ import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag
 import type { StaticJsNumber } from "../../StaticJsNumber.js";
 
 import { StaticJsTypeCode } from "../../StaticJsTypeCode.js";
-import { StaticJsAbstractPrimitive } from "../StaticJsAbstractPrimitive.js";
+import {
+  StaticJsAbstractPrimitive,
+  type StaticJsAbstractPrimitiveCreateParams,
+} from "../StaticJsAbstractPrimitive.js";
+
+export interface StaticJsNumberImplCreateParams extends StaticJsAbstractPrimitiveCreateParams {
+  value: number;
+}
 
 export class StaticJsNumberImpl extends StaticJsAbstractPrimitive implements StaticJsNumber {
   private readonly _value: number;
 
-  static create(realm: StaticJsRealm, value: number): StaticJsNumberImpl {
-    return allocated(new StaticJsNumberImpl(realm, value));
+  static create(params: StaticJsNumberImplCreateParams): StaticJsNumberImpl {
+    return allocated(new StaticJsNumberImpl(params.realm, params.value));
   }
 
   protected constructor(realm: StaticJsRealm, value: number) {

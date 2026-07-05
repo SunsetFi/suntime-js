@@ -11,7 +11,10 @@ import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
 
-import { StaticJsDeclarativeEnvironmentRecord } from "./StaticJsDeclarativeEnvironmentRecord.js";
+import {
+  StaticJsDeclarativeEnvironmentRecord,
+  type StaticJsDeclarativeEnvironmentRecordCreateParams,
+} from "./StaticJsDeclarativeEnvironmentRecord.js";
 
 // Some circular reference with StaticJsMethodFunction.
 // How do we fix this?
@@ -20,17 +23,21 @@ const HackFunctionMethodClassNames = new Set([
   "StaticJsMethodFunction",
 ]);
 
+export interface StaticJsFunctionEnvironmentRecordCreateParams extends StaticJsDeclarativeEnvironmentRecordCreateParams {
+  functionObject: StaticJsFunction;
+  newTarget: StaticJsObject | null;
+  lexical: boolean;
+  outerEnv: StaticJsEnvironmentRecord;
+}
+
 export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
   private _thisBindingStatus: "lexical" | "initialized" | "uninitialized";
   private _thisValue: StaticJsValue | null;
 
   static override create(
-    functionObject: StaticJsFunction,
-    newTarget: StaticJsObject | null,
-    lexical: boolean,
-    outerEnv: StaticJsEnvironmentRecord,
-    realm: StaticJsRealm,
+    params: StaticJsFunctionEnvironmentRecordCreateParams,
   ): StaticJsFunctionEnvironmentRecord {
+    const { functionObject, newTarget, lexical, outerEnv, realm } = params;
     return allocated(
       new StaticJsFunctionEnvironmentRecord(functionObject, newTarget, lexical, outerEnv, realm),
     );
@@ -113,6 +120,7 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
     }
 
     super.mark(marks);
+
     this._thisValue?.mark(marks);
     this._functionObject.mark(marks);
     this._newTarget?.mark(marks);

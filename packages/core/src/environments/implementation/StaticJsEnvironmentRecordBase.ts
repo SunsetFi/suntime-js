@@ -1,8 +1,13 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
+
+export interface StaticJsEnvironmentRecordBaseCreateParams {
+  realm: StaticJsRealm;
+}
 
 export abstract class StaticJsEnvironmentRecordBase
   implements StaticJsEnvironmentRecord, StaticJsAllocation

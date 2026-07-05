@@ -17,6 +17,11 @@ import type {
 
 import { BindingNameNamespace, type StaticJsResolvedBinding } from "./StaticJsResolvedBinding.js";
 
+export interface StaticJsModuleBaseCreateParams {
+  name: string;
+  realm: StaticJsRealm;
+}
+
 export abstract class StaticJsModuleBase implements StaticJsModule, StaticJsModuleImplementation {
   private _cachedNamespaceObject: StaticJsObject | null = null;
 

@@ -40,12 +40,17 @@ import {
   ImportAllButDefault,
 } from "./StaticJsExportEntry.js";
 import { NamespaceImportName, type StaticJsImportEntry } from "./StaticJsImportEntry.js";
-import { StaticJsModuleBase } from "./StaticJsModuleBase.js";
+import { StaticJsModuleBase, type StaticJsModuleBaseCreateParams } from "./StaticJsModuleBase.js";
 import {
   BindingNameNamespace,
   type StaticJsModuleResolvedBinding,
   type StaticJsResolvedBinding,
 } from "./StaticJsResolvedBinding.js";
+
+export interface StaticJsAstModuleImplCreateParams extends StaticJsModuleBaseCreateParams {
+  ecmaScriptSource: string;
+  ecmaScriptCode: Program;
+}
 
 export class StaticJsAstModuleImpl extends StaticJsModuleBase {
   private _linked = false;
@@ -69,12 +74,8 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
 
   private _evaluationPromise: Promise<void> | null = null;
 
-  static create(
-    name: string,
-    ecmaScriptSource: string,
-    ecmaScriptCode: Program,
-    realm: StaticJsRealm,
-  ): StaticJsAstModuleImpl {
+  static create(params: StaticJsAstModuleImplCreateParams): StaticJsAstModuleImpl {
+    const { name, ecmaScriptSource, ecmaScriptCode, realm } = params;
     return allocated(new StaticJsAstModuleImpl(name, ecmaScriptSource, ecmaScriptCode, realm));
   }
 
@@ -501,8 +502,11 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
       }
     }
 
-    this._moduleEnv = StaticJsModuleEnvironmentRecord.create(this._realm);
-    this._envRec = StaticJsDeclarativeEnvironmentRecord.create(this._moduleEnv, this._realm);
+    this._moduleEnv = StaticJsModuleEnvironmentRecord.create({ realm: this._realm });
+    this._envRec = StaticJsDeclarativeEnvironmentRecord.create({
+      outerEnv: this._moduleEnv,
+      realm: this._realm,
+    });
 
     for (const entry of this._importEntries) {
       const importedModule = this._linkedModules.get(entry.moduleRequest);

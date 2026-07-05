@@ -19,12 +19,12 @@ export function* createIteratorFromClosure(
     callerContext.realm,
   );
   EvaluationContext.push(calleeContext);
-  const generator = StaticJsGeneratorImpl.create(
-    closure,
+  const generator = StaticJsGeneratorImpl.create({
+    generatorBody: closure,
     generatorBrand,
     realm,
-    generatorPrototype,
-  );
+    prototype: generatorPrototype,
+  });
   EvaluationContext.pop();
   return generator;
 }

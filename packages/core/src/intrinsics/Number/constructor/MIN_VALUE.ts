@@ -5,7 +5,7 @@ import type { IntrinsicPropertyDeclaration } from "../../apply-intrinsic-propert
 const numberCtorMinValueDeclaration: IntrinsicPropertyDeclaration = {
   key: "MIN_VALUE",
   value(realm) {
-    return StaticJsNumberImpl.create(realm, Number.MIN_VALUE);
+    return StaticJsNumberImpl.create({ realm: realm, value: Number.MIN_VALUE });
   },
   writable: false,
   enumerable: false,

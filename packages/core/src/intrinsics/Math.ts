@@ -153,7 +153,7 @@ function createMathNumericPropertyDeclaration(
         );
       }
 
-      return StaticJsNumberImpl.create(realm, Math[key]);
+      return StaticJsNumberImpl.create({ realm: realm, value: Math[key] });
     },
   };
 }

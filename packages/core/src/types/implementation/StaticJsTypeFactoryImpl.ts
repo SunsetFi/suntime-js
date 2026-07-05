@@ -75,15 +75,15 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     private readonly _realm: StaticJsRealm,
     private readonly _symbolRegistry: Map<string, StaticJsSymbol>,
   ) {
-    this._zero = StaticJsNumberImpl.create(_realm, 0);
-    this._NaN = StaticJsNumberImpl.create(_realm, NaN);
-    this._Infinity = StaticJsNumberImpl.create(_realm, Infinity);
+    this._zero = StaticJsNumberImpl.create({ realm: _realm, value: 0 });
+    this._NaN = StaticJsNumberImpl.create({ realm: _realm, value: NaN });
+    this._Infinity = StaticJsNumberImpl.create({ realm: _realm, value: Infinity });
 
-    this._false = StaticJsBooleanImpl.create(_realm, false);
-    this._true = StaticJsBooleanImpl.create(_realm, true);
+    this._false = StaticJsBooleanImpl.create({ realm: _realm, value: false });
+    this._true = StaticJsBooleanImpl.create({ realm: _realm, value: true });
 
-    this._null = StaticJsNullImpl.create(_realm);
-    this._undefined = StaticJsUndefinedImpl.create(_realm);
+    this._null = StaticJsNullImpl.create({ realm: _realm });
+    this._undefined = StaticJsUndefinedImpl.create({ realm: _realm });
 
     const intrinsics = _realm.intrinsics;
 
@@ -171,7 +171,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
     }
 
     // FIXME: We should cache the symbols ourselves, not rely on this and getSymbolProxyOwner to do it for us.
-    return StaticJsSymbolImpl.create(this._realm, description);
+    return StaticJsSymbolImpl.create({ realm: this._realm, descriptionOrSymbol: description });
   }
 
   array(
@@ -380,11 +380,11 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
   }
 
   number(value: number): StaticJsNumber {
-    return StaticJsNumberImpl.create(this._realm, value);
+    return StaticJsNumberImpl.create({ realm: this._realm, value: value });
   }
 
   string(value: string): StaticJsString {
-    return StaticJsStringImpl.create(this._realm, value);
+    return StaticJsStringImpl.create({ realm: this._realm, value: value });
   }
 
   private _toStaticJsValueSymbol(value: symbol): StaticJsSymbol {
@@ -393,7 +393,7 @@ export class StaticJsTypeFactoryImpl implements StaticJsTypeFactory {
       return wellKnown;
     }
 
-    return StaticJsSymbolImpl.create(this._realm, value);
+    return StaticJsSymbolImpl.create({ realm: this._realm, descriptionOrSymbol: value });
   }
 
   private _toStaticJsValueNull(): StaticJsNull {
