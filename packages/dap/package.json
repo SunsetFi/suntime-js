@@ -63,6 +63,5 @@
     "tsx": "^4.21.0",
     "typescript": "catalog:tsLegacy",
     "vitest": "catalog:"
-  },
-  "packageManager": "pnpm@11.5.2"
+  }
 }
