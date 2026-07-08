@@ -4,6 +4,10 @@
   "minimumReleaseAge": "1 day",
   "packageRules": [
     {
+      "matchPackageNames": ["pnpm"],
+      "groupName": "PNPM package manager"
+    },
+    {
       "matchPackageNames": ["@codingame/**"],
       "groupName": "Codingame VSCode for Web"
     },
