@@ -8,10 +8,6 @@
       "groupName": "PNPM package manager"
     },
     {
-      "matchPackageNames": ["@codingame/**"],
-      "groupName": "Codingame VSCode for Web"
-    },
-    {
       "matchFileNames": ["docs/package.json"],
       "groupName": "Documentation site dependencies"
     },
