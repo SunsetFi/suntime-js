@@ -34,7 +34,7 @@ jobs:
         run: pnpm run --filter @suntime-js/docs build
 
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           name: docs
           path: docs/build
