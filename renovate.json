@@ -6,6 +6,29 @@
     {
       "matchPackageNames": ["@codingame/**"],
       "groupName": "Codingame VSCode for Web"
+    },
+    {
+      "matchFileNames": ["docs/package.json"],
+      "groupName": "Documentation site dependencies"
+    },
+    {
+      "matchFileNames": ["playground/package.json"],
+      "groupName": "Playground dependencies"
+    },
+    {
+      "matchFileNames": ["packages/*/package.json"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "Package devDependencies"
+    },
+    {
+      "matchFileNames": ["packages/*/package.json"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Package dependencies"
+    },
+    {
+      "matchFileNames": ["packages/*/package.json"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Package major dependencies"
     }
   ]
 }
