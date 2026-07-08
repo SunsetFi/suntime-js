@@ -1,4 +1,4 @@
-import ts from "typescript";
+import ts from "typescript-api";
 
 // .ts extension required: oxlint loads this via Node's native TS stripping, which (unlike tsc) does not remap .js -> .ts.
 import {

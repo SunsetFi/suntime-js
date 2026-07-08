@@ -1,4 +1,4 @@
-import ts from "typescript";
+import ts from "typescript-api";
 
 export const LAUNDERER_NAMES: ReadonlySet<string> = new Set([
   "containerMarkable",

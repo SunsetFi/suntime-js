@@ -1,4 +1,4 @@
-import ts from "typescript";
+import ts from "typescript-api";
 
 /** Minimal type stubs mirroring the real markable/native-function surface. */
 export const STUBS = `

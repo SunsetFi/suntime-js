@@ -1,7 +1,7 @@
 import { definePlugin, defineRule } from "@oxlint/plugins";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import ts from "typescript";
+import ts from "typescript-api";
 
 import { analyzeAllocateSelf } from "./allocate-self-analysis.ts";
 // .ts extension required: oxlint loads this via Node's native TS stripping, which (unlike tsc) does not remap .js -> .ts.

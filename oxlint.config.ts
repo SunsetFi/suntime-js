@@ -7,5 +7,7 @@ export default defineConfig({
     "require-yield": "off",
     // Also mirrored by the typescript setting.
     "no-unused-vars": "error",
+    // Suddenly this is having massive amounts of false positives on very simple things.
+    "no-unreachable": "off",
   },
 });

@@ -1,4 +1,4 @@
-import ts from "typescript";
+import ts from "typescript-api";
 import { describe, expect, it } from "vitest";
 
 import { STUBS, createProgram } from "./program-fixture.js";

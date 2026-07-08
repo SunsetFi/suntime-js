@@ -549,21 +549,23 @@ function main(): void {
   // Pending promise: ordinary object + state/result fields + two (empty) reaction
   // arrays. The result value, when settled, is a separate StaticJsValue charged on
   // its own, so a pending promise is the ambient cost in isolation.
-  const promiseAmbient = bytesPerItem(() => new StaticJsPromiseImpl(realm));
+  const promiseAmbient = bytesPerItem(() => StaticJsPromiseImpl.create({ realm }));
   reportFixed("promise (pending)", promiseAmbient);
 
   // AST function: ordinary object + the instance's env/node/params/flags fields. The
   // node is shared across all instances and sourceText is empty, so neither the AST
   // (StaticJsAstFunctionNode weight) nor the source text (RawStringCharacter) is counted.
   const fnNode = parseFunctionNode("function f(){}") as StaticJsAstFunctionNode;
-  const astFnAmbient = bytesPerItem(
-    () =>
-      new StaticJsAstFunction(realm, fnNode, "", {
-        thisMode: "non-lexical-this",
-        strict: false,
-        env: realm.globalEnv,
-        scriptOrModule: null,
-      }),
+  const astFnAmbient = bytesPerItem(() =>
+    StaticJsAstFunction.create({
+      realm,
+      node: fnNode,
+      sourceText: "",
+      thisMode: "non-lexical-this",
+      strict: false,
+      env: realm.globalEnv,
+      scriptOrModule: null,
+    }),
   );
   reportFixed("ast function (no props)", astFnAmbient);
 
