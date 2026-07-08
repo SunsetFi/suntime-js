@@ -14,15 +14,38 @@ catalog:
   "@babel/types": ^7.29.0
   "@types/babel__traverse": ^7.28.0
   "@types/node": "^25.9.3"
-  "@typescript/native-preview": "7.0.0-dev.20260421.2"
+  "@typescript/native": "npm:typescript@^7.0.2"
+  "typescript": "npm:@typescript/typescript6@^6.0.2"
   "@vitest/ui": ^4.1.9
-  "typescript": 6.0.3
   "vite": ^8.0.16
   "vitest": ^4.1.9
 
 catalogs:
-  tsLegacy:
-    typescript: 5.9.3
+  docusaurus:
+    typescript: ^6.0.3
+
+minimumReleaseAgeExclude:
+  - "@typescript/typescript-aix-ppc64@7.0.2"
+  - "@typescript/typescript-darwin-arm64@7.0.2"
+  - "@typescript/typescript-darwin-x64@7.0.2"
+  - "@typescript/typescript-freebsd-arm64@7.0.2"
+  - "@typescript/typescript-freebsd-x64@7.0.2"
+  - "@typescript/typescript-linux-arm64@7.0.2"
+  - "@typescript/typescript-linux-arm@7.0.2"
+  - "@typescript/typescript-linux-loong64@7.0.2"
+  - "@typescript/typescript-linux-mips64el@7.0.2"
+  - "@typescript/typescript-linux-ppc64@7.0.2"
+  - "@typescript/typescript-linux-riscv64@7.0.2"
+  - "@typescript/typescript-linux-s390x@7.0.2"
+  - "@typescript/typescript-linux-x64@7.0.2"
+  - "@typescript/typescript-netbsd-arm64@7.0.2"
+  - "@typescript/typescript-netbsd-x64@7.0.2"
+  - "@typescript/typescript-openbsd-arm64@7.0.2"
+  - "@typescript/typescript-openbsd-x64@7.0.2"
+  - "@typescript/typescript-sunos-x64@7.0.2"
+  - "@typescript/typescript-win32-arm64@7.0.2"
+  - "@typescript/typescript-win32-x64@7.0.2"
+  - typescript@7.0.2
 
 patchedDependencies:
   "@changesets/assemble-release-plan": patches/@changesets__assemble-release-plan.patch

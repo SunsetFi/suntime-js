@@ -9,7 +9,7 @@ import {
 
 export function serialize(value: StaticJsValue | StaticJsModule | unknown): string {
   if (isStaticJsModule(value)) {
-    return `[Module: ${value.name}]`;
+    return `[Module: ${value.specifier}]`;
   }
 
   if (isStaticJsValue(value)) {
