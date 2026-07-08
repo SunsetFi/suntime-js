@@ -45,7 +45,7 @@
   },
   "scripts": {
     "clean": "rimraf dist tsconfig.lib.tsbuildinfo",
-    "build": "tsc6 -p tsconfig.lib.json",
+    "build": "tsc -p tsconfig.lib.json",
     "typecheck": "pnpm typecheck:lib && pnpm typecheck:tests",
     "typecheck:lib": "tsc -p tsconfig.lib.json --noEmit",
     "typecheck:tests": "tsc -p tsconfig.tests.json --noEmit",
@@ -74,7 +74,6 @@
     "@oxlint/plugins": "^1.66.0",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
-    "@typescript/native": "catalog:",
     "@vitest/ui": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",

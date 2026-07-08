@@ -21,15 +21,12 @@ catalogs:
     '@types/node':
       specifier: ^25.9.3
       version: 25.9.4
-    '@typescript/native':
-      specifier: npm:typescript@^7.0.2
-      version: 7.0.2
     '@vitest/ui':
       specifier: ^4.1.9
       version: 4.1.10
     typescript:
-      specifier: npm:@typescript/typescript6@^6.0.2
-      version: 6.0.2
+      specifier: ^7.0.2
+      version: 7.0.2
     vite:
       specifier: ^8.0.16
       version: 8.0.16
@@ -191,9 +188,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.4
-      '@typescript/native':
-        specifier: 'catalog:'
-        version: typescript@7.0.2
       '@vitest/ui':
         specifier: 'catalog:'
         version: 4.1.10(vitest@4.1.10)
@@ -208,7 +202,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: '@typescript/typescript6@6.0.2'
+        version: 7.0.2
       vite:
         specifier: 'catalog:'
         version: 8.0.16(@types/node@25.9.4)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0)
@@ -237,9 +231,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.4
-      '@typescript/native':
-        specifier: 'catalog:'
-        version: typescript@7.0.2
       '@vscode/debugadapter-testsupport':
         specifier: ^1.68.0
         version: 1.68.0
@@ -251,7 +242,7 @@ importers:
         version: 4.23.0
       typescript:
         specifier: 'catalog:'
-        version: '@typescript/typescript6@6.0.2'
+        version: 7.0.2
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@25.9.4)(@vitest/ui@4.1.10)(vite@8.0.16(@types/node@25.9.4)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0))
@@ -280,15 +271,12 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.4
-      '@typescript/native':
-        specifier: 'catalog:'
-        version: typescript@7.0.2
       rimraf:
         specifier: ^6.1.3
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: '@typescript/typescript6@6.0.2'
+        version: 7.0.2
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@25.9.4)(@vitest/ui@4.1.10)(vite@8.0.16(@types/node@25.9.4)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0))
@@ -365,9 +353,9 @@ importers:
         specifier: npm:@codingame/monaco-vscode-extension-api@^34.1.3
         version: '@codingame/monaco-vscode-extension-api@34.1.3'
     devDependencies:
-      '@typescript/native':
+      typescript:
         specifier: 'catalog:'
-        version: typescript@7.0.2
+        version: 7.0.2
       vite:
         specifier: 'catalog:'
         version: 8.0.16(@types/node@26.1.0)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0)
@@ -3306,10 +3294,6 @@ packages:
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [win32]
-
-  '@typescript/typescript6@6.0.2':
-    resolution: {integrity: sha512-mbCddXd+jm7hfx7w2YU64/Av4/NqqeG3GoRZgxPcgoTxYjhrcfJRw9ULch71SS4G+Q3bOXFhRvPqjguN0Hyp5w==}
-    hasBin: true
 
   '@typescript/vfs@1.6.4':
     resolution: {integrity: sha512-PJFXFS4ZJKiJ9Qiuix6Dz/OwEIqHD7Dme1UwZhTK11vR+5dqW2ACbdndWQexBzCx+CPuMe5WBYQWCsFyGlQLlQ==}
@@ -11714,10 +11698,6 @@ snapshots:
 
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
-
-  '@typescript/typescript6@6.0.2':
-    dependencies:
-      '@typescript/old': typescript@6.0.3
 
   '@typescript/vfs@1.6.4(typescript@6.0.3)':
     dependencies:
