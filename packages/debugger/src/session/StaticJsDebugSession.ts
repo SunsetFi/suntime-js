@@ -10,6 +10,7 @@ import type { StaticJsDebugFrame } from "#stack/StaticJsDebugFrame.js";
 import type { StaticJsDebugScope } from "#stack/StaticJsDebugScope.js";
 import type { StaticJsDebugSnapshot } from "#stack/StaticJsDebugSnapshot.js";
 import type { StaticJsDebugVariable } from "#stack/StaticJsDebugVariable.js";
+
 import type { StaticJsDebugSessionState } from "./StaticJsDebugSessionState.js";
 
 export interface StaticJsDebugSession {

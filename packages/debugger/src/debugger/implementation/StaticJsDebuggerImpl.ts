@@ -4,10 +4,12 @@ import {
   synchronousDefaultTaskRunner,
 } from "@suntime-js/core";
 
-import { StaticJsAttachDebugSession } from "#session/implementation/StaticJsAttachDebugSession.js";
-import { StaticJsLaunchDebugSession } from "#session/implementation/StaticJsLaunchDebugSession.js";
 import type { StaticJsDebugSession } from "#session/StaticJsDebugSession.js";
 import type { StaticJsDebugSessionOptions } from "#session/StaticJsDebugSessionOptions.js";
+
+import { StaticJsAttachDebugSession } from "#session/implementation/StaticJsAttachDebugSession.js";
+import { StaticJsLaunchDebugSession } from "#session/implementation/StaticJsLaunchDebugSession.js";
+
 import type { StaticJsDebugger } from "../StaticJsDebugger.js";
 
 export class StaticJsDebuggerImpl implements StaticJsDebugger {

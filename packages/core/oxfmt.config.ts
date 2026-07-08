@@ -1,16 +1,8 @@
 import { defineConfig } from "oxfmt";
 
+import baseConfig from "../../oxfmt.config.ts";
+
 export default defineConfig({
+  extends: baseConfig,
   ignorePatterns: ["/tests/test262/repo", "/tests/test262/tests"],
-  sortImports: {
-    groups: [
-      "type-import",
-      ["value-builtin", "value-external"],
-      "type-internal",
-      "value-internal",
-      ["type-parent", "type-sibling", "type-index"],
-      ["value-parent", "value-sibling", "value-index"],
-      "unknown",
-    ],
-  },
 });

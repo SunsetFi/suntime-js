@@ -1,27 +1,28 @@
-import { StaticJsRealm } from "@suntime-js/core";
-
 import type { DebugProtocol } from "@vscode/debugprotocol";
 
-import { normalizeLaunchRequestArguments } from "../adapter/StaticJsLaunchRequestArguments.js";
-import { StaticJsDebugAdapterErrorCode } from "../adapter/StaticJsDebugAdapterErrorCode.js";
+import { StaticJsRealm } from "@suntime-js/core";
+
 import type { NormalizedStaticJsLaunchRequestArguments } from "../adapter/types/NormalizedStaticJsLaunchRequestArguments.js";
 import type { StaticJsLaunchRequestArguments } from "../adapter/types/StaticJsLaunchRequestArguments.js";
+import type { StaticJsWebDebugAdapterOptions } from "./createStaticJsWebDebugAdapter.js";
+import type { StaticJsWebDebugAdapter } from "./types/StaticJsWebDebugAdapter.js";
+import type { StaticJsWebDebugAdapterMessageListener } from "./types/StaticJsWebDebugAdapterMessageListener.js";
+
+import { StaticJsDebugAdapterErrorCode } from "../adapter/StaticJsDebugAdapterErrorCode.js";
+import { normalizeLaunchRequestArguments } from "../adapter/StaticJsLaunchRequestArguments.js";
 import { toDapBreakpoint } from "../dap/toDapBreakpoint.js";
 import { toDapScope } from "../dap/toDapScope.js";
 import { toDapStackFrame } from "../dap/toDapStackFrame.js";
 import { toDapStoppedEvent } from "../dap/toDapStoppedEvent.js";
 import { toDapVariable } from "../dap/toDapVariable.js";
+import { createAdapterSessionState } from "../session/AdapterSessionState.js";
 import {
   createAdapterSession,
   type CreatedAdapterSession,
 } from "../session/createAdapterSession.js";
-import { createAdapterSessionState } from "../session/AdapterSessionState.js";
 import { getStaticJsDebugAdapterErrorMessage } from "../utils/getStaticJsDebugAdapterErrorMessage.js";
 import { getSourceNameFromDapSource } from "./getSourceNameFromDapSource.js";
 import { StaticJsWebDebugAdapterMessageBus } from "./StaticJsWebDebugAdapterMessageBus.js";
-import type { StaticJsWebDebugAdapterOptions } from "./createStaticJsWebDebugAdapter.js";
-import type { StaticJsWebDebugAdapter } from "./types/StaticJsWebDebugAdapter.js";
-import type { StaticJsWebDebugAdapterMessageListener } from "./types/StaticJsWebDebugAdapterMessageListener.js";
 
 const MAIN_THREAD_ID = 1;
 

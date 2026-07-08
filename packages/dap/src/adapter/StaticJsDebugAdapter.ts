@@ -1,3 +1,5 @@
+import type { DebugProtocol } from "@vscode/debugprotocol";
+
 import {
   ContinuedEvent,
   DebugSession,
@@ -7,23 +9,21 @@ import {
   TerminatedEvent,
   Thread,
 } from "@vscode/debugadapter";
-import type { DebugProtocol } from "@vscode/debugprotocol";
+
+import type { NormalizedStaticJsLaunchRequestArguments } from "./types/NormalizedStaticJsLaunchRequestArguments.js";
+import type { StaticJsLaunchRequestArguments } from "./types/StaticJsLaunchRequestArguments.js";
 
 import { toDapBreakpoint } from "../dap/toDapBreakpoint.js";
 import { toDapStackFrame } from "../dap/toDapStackFrame.js";
 import { toDapStoppedEvent } from "../dap/toDapStoppedEvent.js";
-import { getStaticJsDebugAdapterErrorMessage } from "../utils/getStaticJsDebugAdapterErrorMessage.js";
-
+import { createAdapterSessionState } from "../session/AdapterSessionState.js";
 import {
   createAdapterSession,
   type CreatedAdapterSession,
 } from "../session/createAdapterSession.js";
-import { createAdapterSessionState } from "../session/AdapterSessionState.js";
-
-import { normalizeLaunchRequestArguments } from "./StaticJsLaunchRequestArguments.js";
+import { getStaticJsDebugAdapterErrorMessage } from "../utils/getStaticJsDebugAdapterErrorMessage.js";
 import { StaticJsDebugAdapterErrorCode } from "./StaticJsDebugAdapterErrorCode.js";
-import type { NormalizedStaticJsLaunchRequestArguments } from "./types/NormalizedStaticJsLaunchRequestArguments.js";
-import type { StaticJsLaunchRequestArguments } from "./types/StaticJsLaunchRequestArguments.js";
+import { normalizeLaunchRequestArguments } from "./StaticJsLaunchRequestArguments.js";
 
 const MAIN_THREAD_ID = 1;
 

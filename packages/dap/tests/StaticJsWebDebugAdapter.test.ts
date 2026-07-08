@@ -1,8 +1,10 @@
 import type { DebugProtocol } from "@vscode/debugprotocol";
+
 import { StaticJsRealm } from "@suntime-js/core";
 import { afterEach, describe, expect, it } from "vitest";
 
 import type { StaticJsWebDebugAdapter } from "../src/web/index.js";
+
 import { MAIN_THREAD_ID, createScriptLaunchArgs } from "./utils/staticJsTestUtils.js";
 import {
   createWebAdapterTestSession,

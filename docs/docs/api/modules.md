@@ -139,10 +139,7 @@ const realm = StaticJsRealm({
 
 ```ts
 type StaticJsModuleResolution =
-  | StaticJsRealmModuleExports
-  | StaticJsModule
-  | StaticJsModuleImplementation
-  | string;
+  StaticJsRealmModuleExports | StaticJsModule | StaticJsModuleImplementation | string;
 ```
 
 The union of all values accepted by `StaticJsRealm`'s `modules` map and returned from `resolveImportedModule`.

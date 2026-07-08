@@ -1,6 +1,7 @@
 import type { StaticJsRealm, StaticJsTaskRunner } from "@suntime-js/core";
 
 import type { StaticJsWebDebugAdapter } from "./types/StaticJsWebDebugAdapter.js";
+
 import { StaticJsWebDebugAdapterImpl } from "./StaticJsWebDebugAdapterImpl.js";
 
 export const STATIC_JS_DEBUGGER_TYPE = "staticjs";
