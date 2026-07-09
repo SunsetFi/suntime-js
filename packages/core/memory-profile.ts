@@ -44,9 +44,9 @@ import { StaticJsPromiseImpl } from "./src/types/implementation/objects/StaticJs
 // --------------------------------------------------------------------------
 
 /** Number of instances to allocate per measurement (override with COUNT env). */
-const COUNT = Number(process.env.COUNT) || 1_000_000;
+const COUNT = Number(process.env["COUNT"]) || 1_000_000;
 /** Trials per measurement; the median is reported (override with TRIALS env). */
-const TRIALS = Number(process.env.TRIALS) || 3;
+const TRIALS = Number(process.env["TRIALS"]) || 3;
 /**
  * Reduced count for types backed by a full object (symbols), which cost
  * hundreds of bytes each and would otherwise exhaust the heap at COUNT scale.
