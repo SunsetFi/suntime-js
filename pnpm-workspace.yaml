@@ -22,7 +22,7 @@ catalog:
 
 catalogs:
   docusaurus:
-    typescript: ^6.0.3
+    typescript: "npm:@typescript/typescript6@6.0.2"
 
 minimumReleaseAgeExclude:
   - "@typescript/typescript-aix-ppc64@7.0.2"
