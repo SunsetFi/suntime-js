@@ -277,7 +277,7 @@ Three forms are accepted for `global` and `globalThis`:
 }
 ```
 
-Each property is either a data descriptor (`value`, `writable?`, `enumerable?`, `configurable?`) or an accessor descriptor (`get?`, `set?`, `enumerable?`, `configurable?`). Accessor `get`/`set` may return a [StaticJsValue](./types/value.md), a native value [to coerce](../04-type-coercion.md), or be an [`EvaluationGenerator`](../09-evaluators.md#evaluationgenerator).
+Each property is either a data descriptor (`value`, `writable?`, `enumerable?`, `configurable?`) or an accessor descriptor (`get?`, `set?`, `enumerable?`, `configurable?`). Accessor `get`/`set` may return a [StaticJsValue](./types/value.md), a native value [to coerce](../04-type-coercion.md), or be an [`EvaluationGenerator`](../09-evaluators.md).
 
 Values and accessors may either be [StaticJsValue](./types/value.md) instances, or native host values and functions. If native, they will be coerced according to the [Type Coercion Rules](../04-type-coercion.md).
 

@@ -8,6 +8,7 @@ import { type Extension } from "@codemirror/state";
 import { EditorView, hoverTooltip, keymap } from "@codemirror/view";
 
 import type { BlockLanguageService } from "./block-language-service";
+
 import {
   inBufferDefinitionRange,
   quickInfoAt,

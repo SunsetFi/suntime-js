@@ -41,6 +41,9 @@ catalogs:
       specifier: npm:@typescript/typescript6@6.0.2
       version: 6.0.2
 
+overrides:
+  dts-bundle-generator>typescript: npm:@typescript/typescript6@6.0.2
+
 patchedDependencies:
   '@changesets/assemble-release-plan': 6bfb307d25853de3df4b76c71c8486fe6f369ab5cf1f113c54d2fca5c2b5da3c
 
@@ -12893,7 +12896,7 @@ snapshots:
 
   dts-bundle-generator@9.5.1:
     dependencies:
-      typescript: 7.0.2
+      typescript: '@typescript/typescript6@6.0.2'
       yargs: 17.7.2
 
   dunder-proto@1.0.1:

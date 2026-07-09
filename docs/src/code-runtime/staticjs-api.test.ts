@@ -2,7 +2,6 @@ import { createTimeBoundTaskRunner, StaticJsRealm } from "@suntime-js/core";
 import { it, expect, vi } from "vitest";
 
 import isDebuggerActive from "../env/is-debugger-active";
-
 import { createStaticJsRealmApi } from "./staticjs-api";
 
 // Builds an outer realm with the full API injected into its global scope.

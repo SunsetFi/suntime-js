@@ -7,7 +7,6 @@ import { EditorView } from "@codemirror/view";
 import React, { useEffect, useRef, type ReactNode } from "react";
 
 import { useDocusaurusTheme } from "../useDocusaurusTheme";
-
 import styles from "./QuickInfoTooltip.module.css";
 
 /**

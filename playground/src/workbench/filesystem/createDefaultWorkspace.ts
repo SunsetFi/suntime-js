@@ -1,5 +1,6 @@
-import { ENTRY_FILE_PATH, LAUNCH_CONFIG_PATH, WORKSPACE_ROOT } from "../config/paths.js";
 import type { WorkbenchWorkspace } from "../types/index.js";
+
+import { ENTRY_FILE_PATH, LAUNCH_CONFIG_PATH, WORKSPACE_ROOT } from "../config/paths.js";
 
 const DEFAULT_LAUNCH_CONFIG = JSON.stringify(
   {

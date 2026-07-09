@@ -75,7 +75,7 @@ const value = (await realm.evaluateScript(`
 const keys = await value.ownEnumerableKeysAsync();
 ```
 
-Additionally, you may pass a custom `runTask` option to any Sync or Async function of StaticJs, through [StaticJsRunTaskOptions](./05-realms.md#staticjsruntaskoptions).
+Additionally, you may pass a custom `runTask` option to any Sync or Async function of StaticJs, through [StaticJsRunTaskOptions](./api/realm.md#staticjsruntaskoptions).
 
 #### With Coercion
 

@@ -22,8 +22,9 @@ import "@codingame/monaco-vscode-theme-defaults-default-extension";
 // Required: sets up the in-process extension host before initialize() is called.
 import "vscode/localExtensionHost";
 
-import { VirtualFileSystem } from "../filesystem/VirtualFileSystem.js";
 import type { WorkbenchBootstrapContext } from "../types/index.js";
+
+import { VirtualFileSystem } from "../filesystem/VirtualFileSystem.js";
 
 export async function initializeWorkbenchServices(
   context: WorkbenchBootstrapContext,

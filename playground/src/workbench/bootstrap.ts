@@ -1,6 +1,3 @@
-import { registerDebugExtension } from "./extensions/debugExtension.js";
-import { createDefaultWorkspace } from "./filesystem/createDefaultWorkspace.js";
-import { initializeWorkbenchServices } from "./services/initialize.js";
 import type {
   WorkbenchApiOptions,
   WorkbenchBootstrapContext,
@@ -8,6 +5,10 @@ import type {
   WorkbenchBootstrapRuntime,
   WorkbenchBootstrapSnapshot,
 } from "./types/index.js";
+
+import { registerDebugExtension } from "./extensions/debugExtension.js";
+import { createDefaultWorkspace } from "./filesystem/createDefaultWorkspace.js";
+import { initializeWorkbenchServices } from "./services/initialize.js";
 import { createWorkerRegistry } from "./workers/WorkerRegistry.js";
 
 export type { VirtualFileSystem } from "./filesystem/VirtualFileSystem.js";

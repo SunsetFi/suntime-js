@@ -1,7 +1,8 @@
 import { useContext } from "react";
 
-import { PortalContext } from "./portal-context";
 import type { PortalStore } from "./portal-store";
+
+import { PortalContext } from "./portal-context";
 
 /**
  * Access the app-wide portal store. Throws if no {@link PortalProvider} is an

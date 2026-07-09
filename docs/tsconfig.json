@@ -13,5 +13,5 @@
     },
     "strict": true
   },
-  "exclude": [".docusaurus", "build", "static/playground-embed"]
+  "exclude": [".docusaurus", "build", "static/playground-embed", "oxfmt.config.mts"]
 }

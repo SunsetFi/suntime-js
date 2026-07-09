@@ -24,6 +24,9 @@ catalogs:
   docusaurus:
     typescript: "npm:@typescript/typescript6@6.0.2"
 
+overrides:
+  "dts-bundle-generator>typescript": "npm:@typescript/typescript6@6.0.2"
+
 minimumReleaseAgeExclude:
   - "@typescript/typescript-aix-ppc64@7.0.2"
   - "@typescript/typescript-darwin-arm64@7.0.2"
