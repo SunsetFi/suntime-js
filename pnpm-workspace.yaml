@@ -9,9 +9,9 @@ allowBuilds:
   esbuild: false
 
 catalog:
-  "@babel/parser": ^7.29.3
-  "@babel/traverse": ^7.29.0
-  "@babel/types": ^7.29.0
+  "@babel/parser": ^8.0.0
+  "@babel/traverse": ^8.0.0
+  "@babel/types": ^8.0.0
   "@types/babel__traverse": ^7.28.0
   "@types/node": ^25.9.3
   "typescript": ^7.0.2
