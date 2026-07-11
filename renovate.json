@@ -6,15 +6,25 @@
   "packageRules": [
     {
       "matchPackageNames": ["pnpm"],
-      "groupName": "PNPM package manager"
+      "groupName": "PNPM"
     },
     {
       "matchFileNames": ["docs/package.json"],
-      "groupName": "Documentation site dependencies"
+      "matchPackageNames": ["@codemirror/*"],
+      "groupName": "Docs CodeMirror"
+    },
+    {
+      "matchFileNames": ["docs/package.json"],
+      "matchPackageNames": ["@docusaurus/*"],
+      "groupName": "Docs Engine"
+    },
+    {
+      "matchFileNames": ["docs/package.json"],
+      "groupName": "Docs"
     },
     {
       "matchFileNames": ["playground/package.json"],
-      "groupName": "Playground dependencies"
+      "groupName": "Playground"
     },
     {
       "matchFileNames": ["packages/*/package.json"],
