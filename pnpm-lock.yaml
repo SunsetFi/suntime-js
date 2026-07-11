@@ -19,7 +19,7 @@ catalogs:
       specifier: ^7.28.0
       version: 7.28.0
     '@types/node':
-      specifier: ^25.9.3
+      specifier: ^25.9.4
       version: 25.9.4
     '@vitest/ui':
       specifier: ^4.1.9
@@ -11783,7 +11783,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@26.1.0)(@vitest/ui@4.1.10)(vite@8.1.4(@types/node@26.1.0)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@25.9.4)(@vitest/ui@4.1.10)(vite@8.1.4(@types/node@25.9.4)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0))
 
   '@vitest/utils@4.1.10':
     dependencies:

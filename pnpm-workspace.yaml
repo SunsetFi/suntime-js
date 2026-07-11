@@ -13,7 +13,7 @@ catalog:
   "@babel/traverse": ^7.29.0
   "@babel/types": ^7.29.0
   "@types/babel__traverse": ^7.28.0
-  "@types/node": ^25.9.3
+  "@types/node": ^25.9.4
   "typescript": ^7.0.2
   "typescript-api": "npm:@typescript/typescript6@6.0.2"
   "@vitest/ui": ^4.1.9
