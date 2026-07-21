@@ -1,5 +1,13 @@
 # @suntime-js/core
 
+## 0.11.0
+
+### Minor Changes
+
+- 7f8bf5c: Add Promise.withResolvers
+- f248aa0: Memory tracking and max heap space enforcement
+- 1721c9e: StaticJsRealm module manager
+
 ## 0.10.2
 
 ### Patch Changes
