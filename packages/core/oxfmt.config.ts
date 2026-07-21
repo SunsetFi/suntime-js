@@ -5,4 +5,6 @@ import baseConfig from "../../oxfmt.config.ts";
 export default defineConfig({
   extends: baseConfig,
   ignorePatterns: ["/tests/test262/repo", "/tests/test262/tests"],
+  // This is not working with extends for some reason...
+  sortImports: baseConfig.sortImports,
 });

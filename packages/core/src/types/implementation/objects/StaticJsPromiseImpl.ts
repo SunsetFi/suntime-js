@@ -38,6 +38,8 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
   private _result: StaticJsValue | null = null;
   private _fulfullReactions: StaticJsReactionRecord[] = [];
   private _rejectReactions: StaticJsReactionRecord[] = [];
+
+  private _promiseIsHandled = false;
   private _clearUncaughtError: (() => void) | null = null;
 
   static create(params: StaticJsPromiseImplCreateParams): StaticJsPromiseImpl {
@@ -65,6 +67,24 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     return StaticJsTypeCode.Promise;
   }
 
+  get promiseState() {
+    return this._state;
+  }
+
+  get promiseResult() {
+    return this._result;
+  }
+
+  get promiseIsHandled() {
+    return this._promiseIsHandled;
+  }
+
+  markRejectionHandled() {
+    this._promiseIsHandled = true;
+    this._clearUncaughtError?.();
+    this._clearUncaughtError = null;
+  }
+
   resolve(value: StaticJsValue) {
     if (this._state !== "pending") {
       return;
@@ -89,7 +109,7 @@ export class StaticJsPromiseImpl extends StaticJsOrdinaryObjectImpl implements S
     this._state = "rejected";
     this._result = reason;
 
-    if (this._rejectReactions.length === 0) {
+    if (this._rejectReactions.length === 0 && !this._promiseIsHandled) {
       this._clearUncaughtError = this.realm.raiseUnhandledRejection(reason);
     } else {
       for (const reaction of this._rejectReactions) {

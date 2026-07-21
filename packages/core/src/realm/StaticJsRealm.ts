@@ -3,6 +3,7 @@ import type { StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import type { RealmHooks } from "#hooks/index.js";
 import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
+import type { StaticJsLoadedModuleRequest } from "#modules/implementation-v2/StaticJsLoadedModuleRequest.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
@@ -146,6 +147,22 @@ export interface StaticJsRealm {
    * @internal
    */
   readonly hooks: RealmHooks;
+
+  /**
+   * The list of modules that have been loaded by the realm.
+   * This is not an exhaustive collection of all modules that exist in the realm,
+   * and is spec-defined.
+   *
+   * You probably want {@link modules} instead.
+   * @internal
+   */
+  readonly loadedModules: StaticJsLoadedModuleRequest[];
+
+  /**
+   * Gets a number to represent a module's async evaluation.
+   * @internal
+   */
+  incrementModuleAsyncEvaluationCount(): number;
 
   /**
    * Raises an uncaught error in the realm.

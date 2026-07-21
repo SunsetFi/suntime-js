@@ -59,12 +59,12 @@ export class StaticJsNativeFunctionImpl
       thisArg: StaticJsValue,
       ...args: StaticJsValue[]
     ) => EvaluationGenerator<StaticJsValue>,
-    { construct, length, prototype, captures: markables }: StaticJsNativeFunctionOptions = {},
+    { construct, length, prototype, captures }: StaticJsNativeFunctionOptions = {},
   ) {
     super(realm, prototype ?? realm.intrinsics["Function.prototype"]);
 
     this._dependencyMark = function (this: StaticJsAllocation, marks) {
-      for (const markable of markables ?? []) {
+      for (const markable of captures ?? []) {
         markable.mark(marks);
       }
     };

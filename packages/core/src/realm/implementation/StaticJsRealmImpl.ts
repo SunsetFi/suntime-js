@@ -83,6 +83,8 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _currentTask: EvaluationTask | null = null;
   private _taskQueueDrainScheduled = false;
 
+  private _asyncModuleEvaluationCount = 0;
+
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
 
@@ -406,6 +408,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     }
 
     throw new StaticJsUnhandledRejectionError(error);
+  }
+
+  incrementModuleAsyncEvaluationCount() {
+    return ++this._asyncModuleEvaluationCount;
   }
 
   resolveImportedModule(

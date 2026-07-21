@@ -1,5 +1,9 @@
 # TODO:
 
+## Really immediate this is getting silly
+
+- [ ] Make an assert() function for all StaticJsEngineError cases.
+
 ## Memory tracking
 
 - [ ] Account for creating native symbols for SymbolImpl

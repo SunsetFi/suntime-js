@@ -16,6 +16,11 @@ export interface StaticJsPromiseCapabilityRecord {
 export interface StaticJsPromise extends StaticJsObject {
   readonly runtimeTypeOf: "promise";
 
+  readonly promiseState: "pending" | "fulfilled" | "rejected";
+  readonly promiseResult: StaticJsValue | null;
+
+  markRejectionHandled(): void;
+
   resolve(value: StaticJsValue): void;
   reject(reason: StaticJsValue): void;
 
