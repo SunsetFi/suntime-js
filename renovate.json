@@ -27,6 +27,10 @@
       "groupName": "Playground"
     },
     {
+      "matchFileNames": ["package.json"],
+      "groupName": "Tooling"
+    },
+    {
       "matchFileNames": ["packages/*/package.json"],
       "matchDepTypes": ["devDependencies"],
       "groupName": "Package devDependencies"
