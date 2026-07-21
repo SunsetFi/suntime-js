@@ -1,5 +1,15 @@
 # @suntime-js/dap
 
+## 0.11.0
+
+### Patch Changes
+
+- Updated dependencies [7f8bf5c]
+- Updated dependencies [f248aa0]
+- Updated dependencies [1721c9e]
+  - @suntime-js/core@0.11.0
+  - @suntime-js/debugger@0.11.0
+
 ## 0.10.1
 
 ### Patch Changes
