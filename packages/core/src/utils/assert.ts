@@ -19,15 +19,32 @@ export function assert(
   }
 }
 
-assert.numeric = function (value: unknown, message: string): asserts value is number {
+assert.isNumeric = function (value: unknown, message: string): asserts value is number {
   if (typeof value !== "number") {
     throw new StaticJsEngineError(`Assert failure: ${message}`);
   }
 };
 
-// Doesn't work...
-// assert.instance = function <T>(value: unknown, instance: T, message: string): asserts value is T {
-//   if (!(value instanceof (instance as any))) {
-//     throw new StaticJsEngineError(`Assert failure: ${message}`);
-//   }
-// };
+assert.isString = function (value: unknown, message: string): asserts value is string {
+  if (typeof value !== "string") {
+    throw new StaticJsEngineError(`Assert failure: ${message}`);
+  }
+};
+
+assert.notNull = function <T>(value: T | null | undefined, message: string): asserts value is T {
+  if (value === null || value === undefined) {
+    throw new StaticJsEngineError(`Assert failure: ${message}`);
+  }
+};
+
+// Inferring T from `prototype` rather than a construct signature, so this also
+// works for abstract classes and classes with protected/private constructors.
+assert.instance = function <T>(
+  value: unknown,
+  ctor: Function & { prototype: T },
+  message: string,
+): asserts value is T {
+  if (!(value instanceof ctor)) {
+    throw new StaticJsEngineError(`Assert failure: ${message}`);
+  }
+};

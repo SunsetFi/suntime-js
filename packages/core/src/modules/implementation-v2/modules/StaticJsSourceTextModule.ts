@@ -1,3 +1,3 @@
-import { StaticJsCyclicModule } from "./StaticJsCyclicModule.js";
+import { StaticJsCyclicModuleRecord } from "./StaticJsCyclicModuleRecord.js";
 
-export class StaticJsSourceTextModule extends StaticJsCyclicModule {}
+export class StaticJsSourceTextModule extends StaticJsCyclicModuleRecord {}

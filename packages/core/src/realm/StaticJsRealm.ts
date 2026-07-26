@@ -3,7 +3,7 @@ import type { StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import type { RealmHooks } from "#hooks/index.js";
 import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
-import type { StaticJsLoadedModuleRequest } from "#modules/implementation-v2/StaticJsLoadedModuleRequest.js";
+import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation-v2/StaticJsLoadedModuleRequestRecord.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
@@ -156,7 +156,7 @@ export interface StaticJsRealm {
    * You probably want {@link modules} instead.
    * @internal
    */
-  readonly loadedModules: StaticJsLoadedModuleRequest[];
+  readonly loadedModules: StaticJsLoadedModuleRequestRecord[];
 
   /**
    * Gets a number to represent a module's async evaluation.

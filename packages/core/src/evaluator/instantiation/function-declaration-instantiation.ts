@@ -14,10 +14,10 @@ import { createListIteratorRecord } from "#iterators/create-list-iterator-record
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { boundNames } from "../../grammar/bound-names.js";
 import { iteratorBindingInitialization } from "../bindings/iterator-binding-initialization.js";
 import { Q } from "../completions/Q.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import boundNames from "./algorithms/bound-names.js";
 import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";
 import createMappedArgumentsObject from "./algorithms/create-mapped-arguments-object.js";
 import createUnmappedArgumentsObject from "./algorithms/create-unmapped-arguments-object.js";

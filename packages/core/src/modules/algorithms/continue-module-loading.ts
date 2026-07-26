@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModule } from "#modules/implementation-v2/modules/StaticJsModule.js";
+import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation-v2/StaticJsGraphLoadingState.js";
 
 import { call } from "#algorithms/call.js";
@@ -11,7 +11,7 @@ import { innerModuleLoading } from "./inner-module-loading.js";
 
 export function* continueModuleLoading(
   state: StaticJsGraphLoadingState,
-  moduleCompletion: StaticJsModule | Completion.Throw,
+  moduleCompletion: StaticJsModuleRecord | Completion.Throw,
 ): EvaluationGenerator<void> {
   const realm = EvaluationContext.current.realm;
 

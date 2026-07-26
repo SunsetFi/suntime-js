@@ -17,10 +17,10 @@ import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js"
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import boundNames from "#evaluator/instantiation/algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
 import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { StaticJsModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsModuleRecord.js";
+import { boundNames } from "#grammar/bound-names.js";
 import { allocated } from "#memory/allocated.js";
 import { containerMarkable } from "#memory/implementation/container-markable.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
@@ -538,7 +538,7 @@ export class StaticJsAstModuleImpl extends StaticJsModuleBase {
           yield* this._envRec.createImmutableBindingEvaluator(entry.localName, true);
           yield* this._envRec.initializeBindingEvaluator(entry.localName, namespace);
         } else {
-          yield* this._moduleEnv.createImportBindingEvaluator(
+          yield* this._moduleEnv.createImportBinding(
             entry.localName,
             resolved.module,
             resolved.bindingName,

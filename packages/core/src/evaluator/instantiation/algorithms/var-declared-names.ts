@@ -1,6 +1,6 @@
 import type { Node, Statement } from "@babel/types";
 
-import boundNames from "./bound-names.js";
+import { boundNames } from "../../../grammar/bound-names.js";
 
 export default function varDeclaredNames(node: Node): string[] {
   switch (node.type) {

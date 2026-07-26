@@ -1,12 +1,12 @@
 import type { Node } from "@babel/types";
 
-import type { StaticJsLoadedModuleRequest } from "#modules/implementation-v2/StaticJsLoadedModuleRequest.js";
+import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation-v2/StaticJsLoadedModuleRequestRecord.js";
 
 export interface StaticJsScriptRecord {
   type: "script";
   ecmaScriptCode: Node;
   ecmaScriptSource: string;
-  loadedModules: StaticJsLoadedModuleRequest[];
+  loadedModules: StaticJsLoadedModuleRequestRecord[];
 }
 
 export function StaticJsScriptRecord(

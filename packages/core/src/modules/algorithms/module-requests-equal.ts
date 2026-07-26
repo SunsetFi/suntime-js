@@ -1,7 +1,10 @@
 import type { StaticJsImportAttribute } from "#modules/implementation-v2/StaticJsImportAttribute.js";
-import type { StaticJsModuleRequest } from "#modules/implementation-v2/StaticJsModuleRequest.js";
+import type { StaticJsModuleRequestRecord } from "#modules/implementation-v2/StaticJsModuleRequestRecord.js";
 
-export function moduleRequestsEqual(x: StaticJsModuleRequest, y: StaticJsModuleRequest): boolean {
+export function moduleRequestsEqual(
+  x: StaticJsModuleRequestRecord,
+  y: StaticJsModuleRequestRecord,
+): boolean {
   if (x.specifier !== y.specifier) {
     return false;
   }

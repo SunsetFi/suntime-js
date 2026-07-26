@@ -1,3 +1,5 @@
+import { symbolFor } from "#utils/symbol-for.js";
+
 import type { HostAccessArg } from "../../HostAccessOptions.js";
 import type { StaticJsObject } from "../../StaticJsObject.js";
 import type { StaticJsPropertyKey } from "../../StaticJsPropertyKey.js";
@@ -10,7 +12,7 @@ import {
 } from "../../StaticJsPropertyDescriptor.js";
 import { isStaticJsSymbol } from "../../StaticJsSymbol.js";
 
-const ProxyOwnerKey = Symbol.for("@suntime-js/core::StaticJsObjectProxyOwner");
+const ProxyOwnerKey = symbolFor("StaticJsObjectProxyOwner");
 
 export type StaticJsObjectProxyTarget = (object | ((...args: unknown[]) => unknown)) & {
   [key: PropertyKey]: unknown;

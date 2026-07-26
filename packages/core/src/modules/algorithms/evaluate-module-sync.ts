@@ -1,15 +1,15 @@
-import type { StaticJsModule } from "#modules/implementation-v2/modules/StaticJsModule.js";
+import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
-import { StaticJsCyclicModule } from "#modules/implementation-v2/modules/StaticJsCyclicModule.js";
+import { StaticJsCyclicModuleRecord } from "#modules/implementation-v2/modules/StaticJsCyclicModuleRecord.js";
 import { assert } from "#utils/assert.js";
 
 export const evaluateModuleSync = Q.makeReceiver(function* evaluateModuleSync(
-  module: StaticJsModule,
+  module: StaticJsModuleRecord,
 ) {
-  if (module instanceof StaticJsCyclicModule) {
+  if (module instanceof StaticJsCyclicModuleRecord) {
     throw new StaticJsEngineError("Unexpected cyclic module in evaluateModuleSync");
   }
 

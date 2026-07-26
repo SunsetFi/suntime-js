@@ -2,7 +2,7 @@ import type { FunctionParameter, Node } from "@babel/types";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
-export default function boundNames(node: Node | Node[]): string[] {
+export function boundNames(node: Node | Node[]): string[] {
   if (Array.isArray(node)) {
     return node.flatMap(boundNames);
   }
@@ -56,13 +56,12 @@ export default function boundNames(node: Node | Node[]): string[] {
     case "ClassDeclaration":
       return node.id ? [node.id.name] : ["*default*"];
 
-    case "ImportDeclaration": {
-      const names: string[] = [];
-      for (const specifier of node.specifiers) {
-        names.push(specifier.local.name);
-      }
-      return names;
-    }
+    case "ImportDeclaration":
+      return node.specifiers.flatMap(boundNames);
+    case "ImportDefaultSpecifier":
+    case "ImportNamespaceSpecifier":
+    case "ImportSpecifier":
+      return [node.local.name];
 
     case "ExportNamedDeclaration": {
       if (node.declaration) {

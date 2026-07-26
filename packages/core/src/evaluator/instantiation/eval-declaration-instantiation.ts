@@ -10,9 +10,9 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { boundNames } from "../../grammar/bound-names.js";
 import { Completion } from "../completions/Completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import boundNames from "./algorithms/bound-names.js";
 import canDeclareGlobalFunction from "./algorithms/can-declare-global-function.js";
 import canDeclareGlobalVar from "./algorithms/can-declare-global-var.js";
 import collectAnnexBFunctionDeclarations from "./algorithms/collect-annex-b-function-declarations.js";

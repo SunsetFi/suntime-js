@@ -1,0 +1,130 @@
+import type { Node } from "@babel/types";
+
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { boundNames } from "#grammar/bound-names.js";
+import isAssignmentGrammar from "#grammar/is-assignment-grammar.js";
+import { StringValue } from "#grammar/stirng-value.js";
+import { assert } from "#utils/assert.js";
+
+import type { StaticJsModuleRequestRecord } from "../StaticJsModuleRequestRecord.js";
+
+import {
+  ExportEntryImportNameAllButDefault,
+  ExportEntryImportNameNamespace,
+  type StaticJsExportEntryRecord,
+} from "../modules/SourceTextModule/StaticJsExportEntryRecord.js";
+import { moduleRequests } from "./module-requests.js";
+
+export function exportEntries(node: Node): StaticJsExportEntryRecord[] {
+  switch (node.type) {
+    case "Program":
+      if (node.sourceType !== "module") {
+        return [];
+      }
+      return node.body.flatMap(exportEntries);
+    case "ExportAllDeclaration":
+      const [module] = moduleRequests(node);
+      return exportEntriesForModule(node, module);
+    case "ExportNamedDeclaration":
+      if (node.declaration) {
+        const entries: StaticJsExportEntryRecord[] = [];
+        const names = boundNames(node.declaration);
+        for (const name of names) {
+          entries.push({
+            moduleRequest: null,
+            importName: null,
+            localName: name,
+            exportName: name,
+          });
+        }
+        return entries;
+      }
+      if (node.specifiers.length > 0) {
+        const [module] = moduleRequests(node);
+        return node.specifiers.flatMap((specifier) =>
+          exportEntriesForModule(specifier, module ?? null),
+        );
+      }
+      return [];
+    case "ExportDefaultDeclaration":
+      if (node.declaration) {
+        if (isAssignmentGrammar(node.declaration)) {
+          return [
+            {
+              moduleRequest: null,
+              importName: null,
+              localName: "*default*",
+              exportName: "default",
+            },
+          ];
+        } else {
+          const localName = boundNames.soleElementOf(node.declaration);
+          return [
+            {
+              moduleRequest: null,
+              importName: null,
+              localName,
+              exportName: "default",
+            },
+          ];
+        }
+      }
+  }
+  return [];
+}
+
+function exportEntriesForModule(
+  node: Node,
+  module: StaticJsModuleRequestRecord | null,
+): StaticJsExportEntryRecord[] {
+  switch (node.type) {
+    case "ExportDefaultSpecifier":
+      throw new StaticJsEngineError(
+        "What on earth are ExportDefaultSpecifiers and how can babel create these nodes?",
+      );
+    case "ExportAllDeclaration":
+      assert.notNull(module, "ExportAllDeclaration requires a module");
+      return [
+        {
+          moduleRequest: module,
+          importName: ExportEntryImportNameAllButDefault,
+          localName: null,
+          exportName: null,
+        },
+      ];
+    case "ExportNamespaceSpecifier":
+      const exportName = StringValue(node.exported);
+      assert.notNull(module, "ExportAllDeclaration requires a module");
+      return [
+        {
+          moduleRequest: module,
+          importName: ExportEntryImportNameNamespace,
+          localName: null,
+          exportName: exportName,
+        },
+      ];
+    case "ExportSpecifier":
+      const sourceName = StringValue(node.exported);
+      if (module == null) {
+        return [
+          {
+            moduleRequest: module,
+            localName: sourceName,
+            importName: null,
+            exportName: sourceName,
+          },
+        ];
+      } else {
+        return [
+          {
+            moduleRequest: module,
+            localName: null,
+            importName: sourceName,
+            exportName: sourceName,
+          },
+        ];
+      }
+  }
+
+  return [];
+}

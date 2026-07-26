@@ -1,13 +1,13 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
-import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
+import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
+import { assert } from "#utils/assert.js";
 
 import {
   StaticJsEnvironmentRecordBase,
@@ -15,7 +15,7 @@ import {
 } from "./StaticJsEnvironmentRecordBase.js";
 
 interface ModuleBinding {
-  module: StaticJsModuleImplementation;
+  module: StaticJsModuleRecord;
   bindingName: string;
 }
 
@@ -37,7 +37,12 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
   *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
     const result: Record<string, StaticJsValue | null> = {};
     for (const [name, { module, bindingName }] of this._moduleBindings.entries()) {
-      result[name] = yield* module.getOwnBindingValueEvaluator(bindingName);
+      assert.notNull(
+        module.environment,
+        "Module environment should not be null in StaticJsModuleEnvironmentRecord inspectBindingsEvaluator",
+      );
+      const value = yield* module.environment.getBindingValueEvaluator(bindingName, true);
+      result[name] = value;
     }
     return result;
   }
@@ -105,11 +110,12 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     }
 
     const { module, bindingName } = binding;
-    const value = yield* module.getOwnBindingValueEvaluator(bindingName);
-    if (value == null) {
-      throw new StaticJsEngineError(`Export ${name} not found in module ${module.specifier}.`);
-    }
-    return value;
+    assert.notNull(
+      module.environment,
+      "Module environment should not be null in StaticJsModuleEnvironmentRecord getBindingValueEvaluator",
+    );
+
+    return yield* module.environment.getBindingValueEvaluator(bindingName, true);
   }
 
   *deleteBindingEvaluator(_name: string): EvaluationGenerator<boolean> {
@@ -135,11 +141,7 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._realm.types.undefined;
   }
 
-  *createImportBindingEvaluator(
-    name: string,
-    module: StaticJsModuleImplementation,
-    bindingName: string,
-  ): EvaluationGenerator<void> {
+  createImportBinding(name: string, module: StaticJsModuleRecord, bindingName: string): void {
     this._moduleBindings.set(name, { module, bindingName });
   }
 

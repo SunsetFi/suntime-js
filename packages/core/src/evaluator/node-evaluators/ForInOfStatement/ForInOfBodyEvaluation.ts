@@ -28,6 +28,7 @@ import { isStaticJsObject } from "#types/StaticJsObject.js";
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
+import { boundNames } from "../../../grammar/bound-names.js";
 import bindingInitialization from "../../bindings/binding-initialization.js";
 import destructuringAssignmentEvaluation from "../../bindings/destructuring-assignment-evaluation.js";
 import initializeReferencedBinding from "../../bindings/initialize-referenced-binding.js";
@@ -37,7 +38,6 @@ import { Completion } from "../../completions/Completion.js";
 import { Q } from "../../completions/Q.js";
 import { X } from "../../completions/X.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import boundNames from "../../instantiation/algorithms/bound-names.js";
 import forDeclarationBindingInitialization from "./for-declaration-binding-initialization.js";
 import forDeclarationBindingInstantiation from "./for-declaration-binding-instantiation.js";
 import isDestructuring from "./is-destructuring.js";

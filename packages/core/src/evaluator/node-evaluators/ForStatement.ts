@@ -7,13 +7,13 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { boundNames } from "../../grammar/bound-names.js";
 import { EvaluateNodeCommand } from "../commands/EvaluateNodeCommand.js";
 import { captureThrownCompletion } from "../completions/capture-thrown-completion.js";
 import { Completion } from "../completions/Completion.js";
 import { Q } from "../completions/Q.js";
 import { rethrowCompletion } from "../completions/rethrow-completion.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import boundNames from "../instantiation/algorithms/bound-names.js";
 import breakableStatementEvaluation from "./BreakableStatementEvaluation.js";
 import labelledIterationStatementEvaluation from "./LabelledIterationStatementEvaluation.js";
 

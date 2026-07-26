@@ -13,8 +13,8 @@ import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/Stat
 
 import type { EvaluationGenerator } from "../../EvaluationGenerator.js";
 
+import { boundNames } from "../../../grammar/bound-names.js";
 import { EvaluationContext } from "../../EvaluationContext.js";
-import boundNames from "./bound-names.js";
 
 export default function* createMappedArgumentsObject(
   func: StaticJsFunction,

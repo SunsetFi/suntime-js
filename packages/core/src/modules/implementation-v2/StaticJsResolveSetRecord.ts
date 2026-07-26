@@ -1,6 +1,6 @@
-import type { StaticJsModule } from "./modules/StaticJsModule.js";
+import type { StaticJsModuleRecord } from "./modules/StaticJsModuleRecord.js";
 
 export interface StaticJsResolveSetRecord {
-  readonly module: StaticJsModule;
+  readonly module: StaticJsModuleRecord;
   readonly exportName: string;
 }

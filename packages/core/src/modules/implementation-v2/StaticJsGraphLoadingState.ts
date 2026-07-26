@@ -1,12 +1,12 @@
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
-import type { StaticJsModule } from "./modules/StaticJsModule.js";
+import type { StaticJsModuleRecord } from "./modules/StaticJsModuleRecord.js";
 
 export interface StaticJsGraphLoadingState {
   readonly promiseCapability: StaticJsPromiseCapabilityRecord;
   isLoading: boolean;
   pendingModulesCount: number;
-  readonly visited: Set<StaticJsModule>;
+  readonly visited: Set<StaticJsModuleRecord>;
 }
 
 export function isStaticJsGraphLoadingState(x: unknown): x is StaticJsGraphLoadingState {

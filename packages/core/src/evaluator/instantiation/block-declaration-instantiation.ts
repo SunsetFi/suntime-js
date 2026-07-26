@@ -6,8 +6,8 @@ import { instantiateFunctionObject } from "#algorithms/instantiate-function-obje
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
+import { boundNames } from "../../grammar/bound-names.js";
 import { EvaluationContext } from "../EvaluationContext.js";
-import boundNames from "./algorithms/bound-names.js";
 import lexicallyScopedDeclarations from "./algorithms/lexically-scoped-declarations.js";
 
 export default function* blockDeclarationInstantiation(

@@ -1,16 +1,15 @@
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsCyclicModule } from "#modules/implementation-v2/modules/StaticJsCyclicModule.js";
-import type { StaticJsModule } from "#modules/implementation-v2/modules/StaticJsModule.js";
-import type { StaticJsModuleRequest } from "#modules/implementation-v2/StaticJsModuleRequest.js";
+import type { StaticJsCyclicModuleRecord } from "#modules/implementation-v2/modules/StaticJsCyclicModuleRecord.js";
+import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleRequestRecord } from "#modules/implementation-v2/StaticJsModuleRequestRecord.js";
 
 import { assert } from "#utils/assert.js";
 
 import { moduleRequestsEqual } from "./module-requests-equal.js";
 
-export function* getImportedModule(
-  referrer: StaticJsCyclicModule,
-  request: StaticJsModuleRequest,
-): EvaluationGenerator<StaticJsModule> {
+export function getImportedModule(
+  referrer: StaticJsCyclicModuleRecord,
+  request: StaticJsModuleRequestRecord,
+): StaticJsModuleRecord {
   const records = referrer.loadedModules.filter((r) => moduleRequestsEqual(r, request));
   assert(
     records.length === 1,
