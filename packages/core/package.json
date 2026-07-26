@@ -78,7 +78,6 @@
     "@types/node": "catalog:",
     "@vitest/ui": "catalog:",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.0",
     "rimraf": "^6.1.3",
     "typescript": "catalog:",
     "typescript-api": "catalog:",
