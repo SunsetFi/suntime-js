@@ -1,9 +1,9 @@
-import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 
-import { StaticJsCyclicModuleRecord } from "#modules/implementation-v2/modules/StaticJsCyclicModuleRecord.js";
-import { StaticJsNamespaceExoticObject } from "#modules/implementation-v2/modules/StaticJsNamespaceExoticObject.js";
-import { isStaticJsResolvedBindingRecord } from "#modules/implementation-v2/StaticJsResolvedBinding.js";
+import { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import { StaticJsNamespaceExoticObject } from "#modules/implementation/modules/StaticJsNamespaceExoticObject.js";
+import { isStaticJsResolvedBindingRecord } from "#modules/implementation/StaticJsResolvedBinding.js";
 import { assert } from "#utils/assert.js";
 
 export function getModuleNamespace(module: StaticJsModuleRecord): StaticJsObject {

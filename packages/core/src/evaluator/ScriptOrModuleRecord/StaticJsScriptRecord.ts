@@ -1,6 +1,6 @@
 import type { Node } from "@babel/types";
 
-import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation-v2/StaticJsLoadedModuleRequestRecord.js";
+import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation/StaticJsLoadedModuleRequestRecord.js";
 
 export interface StaticJsScriptRecord {
   type: "script";

@@ -1,4 +1,4 @@
-import type { StaticJsCyclicModuleRecord } from "#modules/implementation-v2/modules/StaticJsCyclicModuleRecord.js";
+import type { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
 
 import { assert } from "#utils/assert.js";
 

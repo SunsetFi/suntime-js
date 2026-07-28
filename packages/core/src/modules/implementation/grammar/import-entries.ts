@@ -3,12 +3,10 @@ import type { Node } from "@babel/types";
 import { boundNames } from "#grammar/bound-names.js";
 import { StringValue } from "#grammar/stirng-value.js";
 
-import type { StaticJsModuleRequestRecord } from "../StaticJsModuleRequestRecord.js";
+import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
 
-import {
-  ImportEntryRecordImportNameNamespace,
-  type StaticJsImportEntryRecord,
-} from "../modules/SourceTextModule/StaticJsImportEntryRecord.js";
+import { type StaticJsImportEntryRecord } from "../modules/StaticJsImportEntryRecord.js";
+import { Namespace } from "../symbols/Namespace.js";
 import { moduleRequests } from "./module-requests.js";
 
 export function importEntries(node: Node): StaticJsImportEntryRecord[] {
@@ -31,7 +29,7 @@ export function importEntries(node: Node): StaticJsImportEntryRecord[] {
 
 function importEntriesForModule(
   node: Node | Node[],
-  module: StaticJsModuleRequestRecord,
+  module: StaticJsModuleRequest,
 ): StaticJsImportEntryRecord[] {
   if (Array.isArray(node)) {
     return node.flatMap((n) => importEntriesForModule(n, module));
@@ -46,7 +44,7 @@ function importEntriesForModule(
       return [
         {
           moduleRequest: module,
-          importName: ImportEntryRecordImportNameNamespace,
+          importName: Namespace,
           localName,
         },
       ];

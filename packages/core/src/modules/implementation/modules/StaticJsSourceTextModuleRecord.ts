@@ -1,7 +1,7 @@
 import type { Program } from "@babel/types";
 
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsResolveSetRecord } from "#modules/implementation-v2/StaticJsResolveSetRecord.js";
+import type { StaticJsResolveSetRecord } from "#modules/implementation/StaticJsResolveSetRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
@@ -16,32 +16,35 @@ import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lex
 import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scoped-declarations.js";
 import { boundNames } from "#grammar/bound-names.js";
 import { isConstantDeclaration } from "#grammar/is-constant-declaration.js";
+import { allocated } from "#memory/allocated.js";
 import { createImportBinding } from "#modules/algorithms/create-import-binding.js";
 import { getImportedModule } from "#modules/algorithms/get-imported-module.js";
 import { getModuleNamespace } from "#modules/algorithms/get-module-namespace.js";
 import { importedLocalNames } from "#modules/algorithms/imported-local-names.js";
-import { exportEntries as exportEntriesGrammar } from "#modules/implementation-v2/grammar/export-entries.js";
-import { importEntries as ImportEntriesGrammar } from "#modules/implementation-v2/grammar/import-entries.js";
-import { moduleRequests } from "#modules/implementation-v2/grammar/module-requests.js";
-import { AllButDefault } from "#modules/implementation-v2/symbols/AllButDefault.js";
-import { Namespace } from "#modules/implementation-v2/symbols/Namespace.js";
+import { exportEntries as exportEntriesGrammar } from "#modules/implementation/grammar/export-entries.js";
+import { importEntries as ImportEntriesGrammar } from "#modules/implementation/grammar/import-entries.js";
+import { moduleRequests } from "#modules/implementation/grammar/module-requests.js";
+import { AllButDefault } from "#modules/implementation/symbols/AllButDefault.js";
+import { Namespace } from "#modules/implementation/symbols/Namespace.js";
 import { findTopLevelAwait } from "#parser/find-top-level-await.js";
 import { parseModule } from "#parser/parse-module.js";
 import { assert } from "#utils/assert.js";
 import { isTaggedSymbol } from "#utils/symbol-for.js";
 
-import { type StaticJsResolvedBindingRecord } from "../../StaticJsResolvedBinding.js";
+import type { StaticJsModuleRecord } from "./StaticJsModuleRecord.js";
+
+import { type StaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
 import {
   StaticJsCyclicModuleRecord,
-  type StaticJsCyclicModuleCreateOptions,
-} from "../StaticJsCyclicModuleRecord.js";
+  type StaticJsCyclicModuleCreateParams,
+} from "./StaticJsCyclicModuleRecord.js";
 import {
   type StaticJsExportEntryRecord,
   type StaticJsLocalExportEntryRecord,
 } from "./StaticJsExportEntryRecord.js";
 import { type StaticJsImportEntryRecord } from "./StaticJsImportEntryRecord.js";
 
-interface StaticJsSourceTextModuleCreateOptions extends StaticJsCyclicModuleCreateOptions {
+interface StaticJsSourceTextModuleCreateParams extends StaticJsCyclicModuleCreateParams {
   ecmaScriptCode: Program;
   importEntries: readonly StaticJsImportEntryRecord[];
   localExportEntries: readonly StaticJsLocalExportEntryRecord[];
@@ -50,8 +53,8 @@ interface StaticJsSourceTextModuleCreateOptions extends StaticJsCyclicModuleCrea
 }
 
 export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
-  static parse(sourceText: string, realm: StaticJsRealm) {
-    const file = parseModule(sourceText, "<TODO source text module name>");
+  static parse(sourceText: string, specifier: string, realm: StaticJsRealm) {
+    const file = parseModule(sourceText, specifier);
     const body = file.program;
 
     const requestedModules = moduleRequests(body);
@@ -96,7 +99,8 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
 
     const async = findTopLevelAwait(body) !== null;
 
-    return new StaticJsSourceTextModuleRecord({
+    return StaticJsSourceTextModuleRecord.create({
+      specifier,
       realm,
       hasTLA: async,
       ecmaScriptCode: body,
@@ -108,6 +112,10 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
     });
   }
 
+  static create(params: StaticJsSourceTextModuleCreateParams): StaticJsSourceTextModuleRecord {
+    return allocated(new StaticJsSourceTextModuleRecord(params));
+  }
+
   protected constructor({
     ecmaScriptCode,
     importEntries,
@@ -115,7 +123,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
     indirectExportEntries,
     starExportEntries,
     ...rootOpts
-  }: StaticJsSourceTextModuleCreateOptions) {
+  }: StaticJsSourceTextModuleCreateParams) {
     super(rootOpts);
     this.ecmaScriptCode = ecmaScriptCode;
     this.importEntries = importEntries;
@@ -133,7 +141,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
 
   context: EvaluationContext | null = null;
 
-  override getExportedNames(exportStarSet?: Set<StaticJsSourceTextModuleRecord>) {
+  override getExportedNames(exportStarSet?: Set<StaticJsModuleRecord>) {
     assert(this.status !== "new", "Module must be linked to get exported names.");
     if (!exportStarSet) {
       exportStarSet = new Set();
@@ -288,7 +296,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
       if (resolution === null || resolution === "ambiguous") {
         throw Completion.Throw.create(
           "SyntaxError",
-          `Failed to resolve export: ${exportEntry.exportName}`,
+          `Failed to resolve export ${exportEntry.exportName} of ${this.specifier}`,
         );
       }
     }
@@ -312,7 +320,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
         if (resolution === null || resolution === "ambiguous") {
           throw Completion.Throw.create(
             "SyntaxError",
-            `Failed to resolve import: ${importEntry.importName}`,
+            `Failed to resolve import ${importEntry.importName} of ${this.specifier}`,
           );
         }
 
@@ -331,7 +339,12 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
       }
     }
 
-    const moduleContext = EvaluationContext.createRootContext(this, true, realm, envRecord);
+    const moduleContext = EvaluationContext.createRootContext({
+      scriptOrModule: this,
+      strict: true,
+      realm,
+      env: envRecord,
+    });
     this.context = moduleContext;
 
     EvaluationContext.push(moduleContext);

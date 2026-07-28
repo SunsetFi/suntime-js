@@ -2,9 +2,9 @@ import type { Node } from "@babel/types";
 
 import { StringValue } from "#grammar/stirng-value.js";
 
-import type { StaticJsModuleRequestRecord } from "../StaticJsModuleRequestRecord.js";
+import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
 
-export function moduleRequests(node: Node): StaticJsModuleRequestRecord[] {
+export function moduleRequests(node: Node): StaticJsModuleRequest[] {
   switch (node.type) {
     case "Program":
       if (node.sourceType !== "module") {

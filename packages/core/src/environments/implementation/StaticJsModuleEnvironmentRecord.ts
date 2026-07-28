@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
-import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 

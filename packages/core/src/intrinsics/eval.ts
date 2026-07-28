@@ -21,7 +21,11 @@ export function* createEval(realm: StaticJsRealm, intrinsics: IntrinsicsRecord) 
       // Presumably it is captured by the function on function declaration?
       // Are all our intrinsics supposed to capture and use the global context?
 
-      const globalContext = EvaluationContext.createRootContext(null, false, realm);
+      const globalContext = EvaluationContext.createRootContext({
+        scriptOrModule: null,
+        strict: false,
+        realm,
+      });
       return yield* globalContext.run(() => performEval(source, false, false));
     },
     {

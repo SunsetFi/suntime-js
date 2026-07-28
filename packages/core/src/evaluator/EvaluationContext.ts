@@ -76,6 +76,13 @@ export interface EvaluationContext extends Required<EvaluationContextAutoDefProp
   clone(properties?: EvaluationContextOptions): EvaluationContext;
 }
 
+export interface CreateRootContextParams {
+  scriptOrModule: StaticJsScriptOrModuleRecord | null;
+  strict: boolean;
+  realm: StaticJsRealm;
+  env?: StaticJsEnvironmentRecord;
+}
+
 let _currentStackProvider: EvaluationContextStackProvider | null = null;
 let _realmProvider: RealmOnlyEvaluationContext | null = null;
 export const EvaluationContext = {
@@ -195,12 +202,12 @@ export const EvaluationContext = {
     }
   },
 
-  createRootContext(
-    scriptOrModule: StaticJsScriptOrModuleRecord | null,
-    strict: boolean,
-    realm: StaticJsRealm,
-    env: StaticJsEnvironmentRecord = realm.globalEnv,
-  ): EvaluationContext {
+  createRootContext({
+    scriptOrModule,
+    strict,
+    realm,
+    env = realm.globalEnv,
+  }: CreateRootContextParams): EvaluationContext {
     return new EvaluationContextImpl(realm, null, {
       scriptOrModule,
       strict,
@@ -235,7 +242,7 @@ export const EvaluationContext = {
       return yield* generator;
     }
 
-    const root = this.createRootContext(null, true, realm);
+    const root = this.createRootContext({ scriptOrModule: null, strict: true, realm });
     return yield* root.run(function* () {
       return yield* generator;
     });

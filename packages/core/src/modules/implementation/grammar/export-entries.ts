@@ -6,13 +6,11 @@ import isAssignmentGrammar from "#grammar/is-assignment-grammar.js";
 import { StringValue } from "#grammar/stirng-value.js";
 import { assert } from "#utils/assert.js";
 
-import type { StaticJsModuleRequestRecord } from "../StaticJsModuleRequestRecord.js";
+import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
 
-import {
-  ExportEntryImportNameAllButDefault,
-  ExportEntryImportNameNamespace,
-  type StaticJsExportEntryRecord,
-} from "../modules/SourceTextModule/StaticJsExportEntryRecord.js";
+import { type StaticJsExportEntryRecord } from "../modules/StaticJsExportEntryRecord.js";
+import { AllButDefault } from "../symbols/AllButDefault.js";
+import { Namespace } from "../symbols/Namespace.js";
 import { moduleRequests } from "./module-requests.js";
 
 export function exportEntries(node: Node): StaticJsExportEntryRecord[] {
@@ -75,7 +73,7 @@ export function exportEntries(node: Node): StaticJsExportEntryRecord[] {
 
 function exportEntriesForModule(
   node: Node,
-  module: StaticJsModuleRequestRecord | null,
+  module: StaticJsModuleRequest | null,
 ): StaticJsExportEntryRecord[] {
   switch (node.type) {
     case "ExportDefaultSpecifier":
@@ -87,7 +85,7 @@ function exportEntriesForModule(
       return [
         {
           moduleRequest: module,
-          importName: ExportEntryImportNameAllButDefault,
+          importName: AllButDefault,
           localName: null,
           exportName: null,
         },
@@ -98,7 +96,7 @@ function exportEntriesForModule(
       return [
         {
           moduleRequest: module,
-          importName: ExportEntryImportNameNamespace,
+          importName: Namespace,
           localName: null,
           exportName: exportName,
         },

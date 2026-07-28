@@ -13,11 +13,11 @@ export function* createIteratorFromClosure(
   realm: StaticJsRealm,
 ): EvaluationGenerator<StaticJsGenerator> {
   const callerContext = EvaluationContext.current;
-  const calleeContext = EvaluationContext.createRootContext(
-    callerContext.scriptOrModule,
-    callerContext.strict,
-    callerContext.realm,
-  );
+  const calleeContext = EvaluationContext.createRootContext({
+    scriptOrModule: callerContext.scriptOrModule,
+    strict: callerContext.strict,
+    realm: callerContext.realm,
+  });
   EvaluationContext.push(calleeContext);
   const generator = StaticJsGeneratorImpl.create({
     generatorBody: closure,

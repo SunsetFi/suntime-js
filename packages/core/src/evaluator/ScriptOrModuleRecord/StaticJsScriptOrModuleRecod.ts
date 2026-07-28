@@ -1,4 +1,4 @@
-import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
 
 import type { StaticJsScriptRecord } from "./StaticJsScriptRecord.js";
 

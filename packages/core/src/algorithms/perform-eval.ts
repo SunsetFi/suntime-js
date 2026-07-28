@@ -135,12 +135,12 @@ export function* performEval(
     varEnv = lexEnv;
   }
 
-  const evalContext = EvaluationContext.createRootContext(
-    runningContext.scriptOrModule,
-    strictEval,
-    evalRealm,
-    lexEnv,
-  );
+  const evalContext = EvaluationContext.createRootContext({
+    scriptOrModule: runningContext.scriptOrModule,
+    strict: strictEval,
+    realm: evalRealm,
+    env: lexEnv,
+  });
   evalContext.variableEnv = varEnv;
   evalContext.lexicalEnv = lexEnv;
   evalContext.privateEnv = privateEnv;

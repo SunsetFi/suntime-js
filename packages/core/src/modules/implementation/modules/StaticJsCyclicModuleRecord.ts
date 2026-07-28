@@ -11,11 +11,14 @@ import { innerModuleLinking } from "#modules/algorithms/inner-module-linking.js"
 import { innerModuleLoading } from "#modules/algorithms/inner-module-loading.js";
 import { assert } from "#utils/assert.js";
 
+import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
 import type { StaticJsGraphLoadingState } from "../StaticJsGraphLoadingState.js";
 import type { StaticJsLoadedModuleRequestRecord } from "../StaticJsLoadedModuleRequestRecord.js";
-import type { StaticJsModuleRequestRecord } from "../StaticJsModuleRequestRecord.js";
 
-import { StaticJsModuleRecord, type StaticJsModuleCreateOptions } from "./StaticJsModuleRecord.js";
+import {
+  StaticJsModuleRecord,
+  type StaticJsModuleRecordCreateParams,
+} from "./StaticJsModuleRecord.js";
 
 export type StaticJsCyclicModuleStatus =
   | "new"
@@ -26,8 +29,8 @@ export type StaticJsCyclicModuleStatus =
   | "evaluating-async"
   | "evaluated";
 
-export interface StaticJsCyclicModuleCreateOptions extends StaticJsModuleCreateOptions {
-  requestedModules: readonly StaticJsModuleRequestRecord[];
+export interface StaticJsCyclicModuleCreateParams extends StaticJsModuleRecordCreateParams {
+  requestedModules: readonly StaticJsModuleRequest[];
   hasTLA: boolean;
 }
 
@@ -72,7 +75,7 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
     requestedModules,
     hasTLA,
     ...options
-  }: StaticJsCyclicModuleCreateOptions) {
+  }: StaticJsCyclicModuleCreateParams) {
     super(options);
     this.requestedModules = requestedModules;
     this.hasTLA = hasTLA;
@@ -84,7 +87,7 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
 
   dfsAncestorIndex: number | null = null;
 
-  readonly requestedModules: readonly StaticJsModuleRequestRecord[];
+  readonly requestedModules: readonly StaticJsModuleRequest[];
   readonly loadedModules: StaticJsLoadedModuleRequestRecord[] = [];
 
   cycleRoot: StaticJsCyclicModuleRecord | null = null;

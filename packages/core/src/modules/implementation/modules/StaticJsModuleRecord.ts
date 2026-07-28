@@ -2,31 +2,48 @@ import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmen
 import type { Completion } from "#evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
+import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPromise } from "#types/StaticJsPromise.js";
 
 import type { StaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
 import type { StaticJsResolveSetRecord } from "../StaticJsResolveSetRecord.js";
-import type { StaticJsSourceTextModule } from "./StaticJsSourceTextModule.js";
 
-export interface StaticJsModuleCreateOptions {
+import { StaticJsModuleImpl } from "../StaticJsModuleImpl.js";
+
+export interface StaticJsModuleRecordCreateParams {
   realm: StaticJsRealm;
+  specifier: string;
 }
 
 export abstract class StaticJsModuleRecord implements StaticJsAllocation {
   readonly realm: StaticJsRealm;
 
-  protected constructor({ realm }: StaticJsModuleCreateOptions) {
+  protected constructor({ realm, specifier }: StaticJsModuleRecordCreateParams) {
     this.realm = realm;
+    this.specifier = specifier;
   }
+
+  private _module: StaticJsModule | null = null;
+  get module(): StaticJsModule {
+    if (!this._module) {
+      this._module = new StaticJsModuleImpl(this);
+    }
+    return this._module;
+  }
+
+  /**
+   * NOT in the spec.
+   */
+  readonly specifier: string;
 
   environment: StaticJsEnvironmentRecord | null = null;
   namespace: StaticJsObject | null = null;
 
   abstract loadRequestedModules(): EvaluationGenerator<StaticJsPromise>;
 
-  abstract getExportedNames(exportedStarSet?: Set<StaticJsSourceTextModule>): string[];
+  abstract getExportedNames(exportedStarSet?: Set<StaticJsModuleRecord>): readonly string[];
 
   abstract resolveExport(
     exportName: string,

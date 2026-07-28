@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
-import type { StaticJsGraphLoadingState } from "#modules/implementation-v2/StaticJsGraphLoadingState.js";
+import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
 
 import { call } from "#algorithms/call.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
@@ -8,7 +8,7 @@ import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import { StaticJsCyclicModuleRecord } from "#modules/implementation-v2/modules/StaticJsCyclicModuleRecord.js";
+import { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
 import { assert } from "#utils/assert.js";
 
 import { allImportAttributesSupported } from "./all-import-attributes-supported.js";

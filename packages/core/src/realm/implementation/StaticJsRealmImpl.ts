@@ -235,6 +235,10 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return this._hooks;
   }
 
+  get loadedModules() {
+    return this._modules.loadedModules;
+  }
+
   evaluateExpression(
     expression: string,
     opts?: StaticJsRealmEvaluateSourceOptions,
@@ -325,57 +329,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async evaluateModule(
-    code: string,
-    opts?: StaticJsRealmEvaluateSourceOptions,
+    _code: string,
+    _opts?: StaticJsRealmEvaluateSourceOptions,
   ): Promise<StaticJsModule> {
-    try {
-      const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
-      this._modules.add(sourceName, code);
-
-      const moduleResolved = await this._modules.resolve(sourceName, this);
-      if (!moduleResolved) {
-        throw new StaticJsEngineError(
-          `Failed to resolve module ${sourceName} after adding it to the module manager.`,
-        );
-      }
-      // Typescript seems to have gotten worse with recent updates...
-      // There's no way in hell this can be undefined, as its const and checked, but ts
-      // still complains inside the evaluate function.
-      const module = moduleResolved;
-
-      // Bit weird that we link immediately instead of when we are ready to perform the task?
-      await module.linkModules();
-
-      const { promise: moduleEvaluated, resolve } = createDeferred<StaticJsModule>();
-      function* evaluate() {
-        yield* module.moduleDeclarationInstantiationEvaluator();
-        const resolutionPromise = yield* module.moduleEvaluationEvaluator();
-        resolve(
-          resolutionPromise?.then(
-            () => module,
-            (err) => {
-              Completion.handleRuntime(err);
-              throw err;
-            },
-          ) ?? module,
-        );
-      }
-
-      try {
-        const [, module] = await Promise.all([
-          this._enqueueMacrotask(evaluate, "evaluate", opts),
-          moduleEvaluated,
-        ]);
-        return module;
-      } catch (e) {
-        Completion.handleRuntime(e);
-
-        throw e;
-      }
-    } catch (e) {
-      Completion.handleRuntime(e);
-      throw e;
-    }
+    // const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
+    throw new Error("Not implemented");
   }
 
   async awaitCurrentTask() {
@@ -435,7 +393,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     const realm = this;
     const scriptOrModule = EvaluationContext.scriptOrModule;
     function* evaluate() {
-      const context = EvaluationContext.createRootContext(scriptOrModule, false, realm);
+      const context = EvaluationContext.createRootContext({
+        scriptOrModule,
+        strict: false,
+        realm,
+      });
       return yield* context.run(() => invokeEvaluator(evaluator));
     }
 
@@ -465,7 +427,11 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     // oxlint-disable-next-line typescript/no-this-alias
     const realm = this;
     function* evaluate() {
-      const context = EvaluationContext.createRootContext(null, false, realm);
+      const context = EvaluationContext.createRootContext({
+        scriptOrModule: null,
+        strict: false,
+        realm,
+      });
       return yield* context.run(() => invokeEvaluator(evaluator));
     }
 
@@ -636,11 +602,13 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         // We may be ran from outside any active context, so bootstrap
         // one if needed.
         if (!EvaluationContext.entered(realm)) {
-          return yield* EvaluationContext.createRootContext(null, false, realm).run<TReturn>(
-            function* () {
-              return yield* invokeEvaluator(evaluator);
-            },
-          );
+          return yield* EvaluationContext.createRootContext({
+            scriptOrModule: null,
+            strict: false,
+            realm,
+          }).run<TReturn>(function* () {
+            return yield* invokeEvaluator(evaluator);
+          });
         }
 
         return yield* invokeEvaluator(evaluator);
@@ -746,7 +714,11 @@ function* doEvaluateScript(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
+  const context = EvaluationContext.createRootContext({
+    scriptOrModule: scriptRecord,
+    strict: strict ?? false,
+    realm,
+  });
   return yield* context.run(function* () {
     try {
       yield* globalDeclarationInstantiation(
@@ -772,7 +744,11 @@ function* doEvaluateScriptAsync(
   realm: StaticJsRealm,
   strict?: boolean,
 ): EvaluationGenerator<StaticJsValue> {
-  const context = EvaluationContext.createRootContext(scriptRecord, strict ?? false, realm);
+  const context = EvaluationContext.createRootContext({
+    scriptOrModule: scriptRecord,
+    strict: strict ?? false,
+    realm,
+  });
   return yield* context.run(function* () {
     try {
       const promiseCapability = yield* newPromiseCapability(realm.intrinsics.Promise);

@@ -1,6 +1,6 @@
-import type { StaticJsModuleRequestRecord } from "#modules/implementation-v2/StaticJsModuleRequestRecord.js";
-import type { AllButDefault } from "#modules/implementation-v2/symbols/AllButDefault.js";
-import type { Namespace } from "#modules/implementation-v2/symbols/Namespace.js";
+import type { AllButDefault } from "#modules/implementation/symbols/AllButDefault.js";
+import type { Namespace } from "#modules/implementation/symbols/Namespace.js";
+import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 
 export interface StaticJsLocalExportEntryRecord {
   readonly exportName: string | null;
@@ -11,7 +11,7 @@ export interface StaticJsLocalExportEntryRecord {
 
 export interface StaticJsExternalExportEntryRecord {
   readonly exportName: string | null;
-  readonly moduleRequest: StaticJsModuleRequestRecord;
+  readonly moduleRequest: StaticJsModuleRequest;
   readonly importName: string | null | Namespace | AllButDefault;
   readonly localName: string | null;
 }

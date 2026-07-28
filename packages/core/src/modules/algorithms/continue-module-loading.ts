@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModuleRecord } from "#modules/implementation-v2/modules/StaticJsModuleRecord.js";
-import type { StaticJsGraphLoadingState } from "#modules/implementation-v2/StaticJsGraphLoadingState.js";
+import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
 
 import { call } from "#algorithms/call.js";
 import { Completion } from "#evaluator/completions/Completion.js";

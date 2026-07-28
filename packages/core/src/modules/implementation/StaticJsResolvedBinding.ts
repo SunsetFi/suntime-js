@@ -1,18 +1,13 @@
-import type { StaticJsModuleImplementation } from "../StaticJsModuleImplementation.js";
+import type { StaticJsModuleRecord } from "./modules/StaticJsModuleRecord.js";
+import type { Namespace } from "./symbols/Namespace.js";
 
-export const BindingNameNamespace = Symbol("namespace");
-export type BindingNameNamespace = typeof BindingNameNamespace;
-export interface StaticJsModuleResolvedBinding {
-  module: StaticJsModuleImplementation;
-  bindingName: string | BindingNameNamespace;
-}
-export function isStaticJsModuleResolvedBinding(x: unknown): x is StaticJsModuleResolvedBinding {
-  if (typeof x !== "object" || x === null) {
-    return false;
-  }
-
-  const binding = x as StaticJsModuleResolvedBinding;
-  return binding.module != null && typeof binding.module === "object" && "bindingName" in binding;
+export interface StaticJsResolvedBindingRecord {
+  module: StaticJsModuleRecord;
+  bindingName: string | Namespace;
 }
 
-export type StaticJsResolvedBinding = StaticJsModuleResolvedBinding | "ambiguous" | null;
+export function isStaticJsResolvedBindingRecord(
+  value: any,
+): value is StaticJsResolvedBindingRecord {
+  return value !== null && typeof value === "object" && "module" in value && "bindingName" in value;
+}

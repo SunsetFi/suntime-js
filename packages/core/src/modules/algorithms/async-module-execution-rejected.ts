@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsCyclicModuleRecord } from "#modules/implementation-v2/modules/StaticJsCyclicModuleRecord.js";
+import type { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { call } from "#algorithms/call.js";

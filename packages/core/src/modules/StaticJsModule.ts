@@ -1,17 +1,19 @@
+import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 export interface StaticJsModule {
+  readonly realm: StaticJsRealm;
   readonly specifier: string;
 
-  getExportedNames(opts?: StaticJsRunTaskOptions): string[];
+  getExportedNames(): string[];
 
   getExportAsync(exportName: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue | null>;
-  getExportJsSync(exportName: string, opts?: StaticJsRunTaskOptions): unknown;
+  getExportSync(exportName: string, opts?: StaticJsRunTaskOptions): StaticJsValue | null;
 
   getModuleNamespaceAsync(): Promise<StaticJsObject>;
-  getModuleNamespaceJsSync(opts?: StaticJsRunTaskOptions): Record<string, unknown>;
+  getModuleNamespaceSync(opts?: StaticJsRunTaskOptions): StaticJsObject;
 }
 
 export function isStaticJsModule(x: unknown): x is StaticJsModule {
@@ -19,9 +21,10 @@ export function isStaticJsModule(x: unknown): x is StaticJsModule {
   return (
     module &&
     typeof module === "object" &&
+    typeof module.realm === "object" &&
     typeof module.specifier === "string" &&
     typeof module.getExportedNames === "function" &&
-    typeof module.getExportJsSync === "function" &&
-    typeof module.getModuleNamespaceJsSync === "function"
+    typeof module.getExportSync === "function" &&
+    typeof module.getModuleNamespaceSync === "function"
   );
 }
