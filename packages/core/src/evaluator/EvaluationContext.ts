@@ -1,5 +1,6 @@
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsScriptOrModuleRecord } from "#StaticJsScriptOrModuleRecord.js";
 import type { StaticJsAsyncGenerator } from "#types/StaticJsAsyncGenerator.js";
 import type { StaticJsCallable } from "#types/StaticJsCallable.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
@@ -9,8 +10,6 @@ import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/S
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { dropUndefined } from "#utils/drop-undefined.js";
 import { typedEntries } from "#utils/typed-entries.js";
-
-import type { StaticJsScriptOrModuleRecord } from "./ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 
 import { EvaluationGenerator } from "./EvaluationGenerator.js";
 

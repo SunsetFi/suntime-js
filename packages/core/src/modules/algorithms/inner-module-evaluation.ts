@@ -1,12 +1,12 @@
 import type { Completion } from "#evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 
 import { Q } from "#evaluator/completions/Q.js";
 import {
-  StaticJsCyclicModuleRecord,
+  StaticJsCyclicModuleImpl,
   type StaticJsCyclicModuleStatus,
-} from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+} from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import { assert } from "#utils/assert.js";
 
 import { evaluateModuleSync } from "./evaluate-module-sync.js";
@@ -26,11 +26,11 @@ const EvaluatingOrEvaluatedStatusAssert = new Set<StaticJsCyclicModuleStatus>([
 ]);
 
 export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluation(
-  module: StaticJsModuleRecord,
-  stack: StaticJsModuleRecord[],
+  module: StaticJsModuleImpl,
+  stack: StaticJsModuleImpl[],
   index: number,
 ): EvaluationGenerator<number | Completion.Throw> {
-  if (module instanceof StaticJsCyclicModuleRecord === false) {
+  if (module instanceof StaticJsCyclicModuleImpl === false) {
     yield* evaluateModuleSync(module);
     return index;
   }
@@ -56,14 +56,14 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
   stack.push(module);
 
   for (const request of module.requestedModules) {
-    let requiredModule: StaticJsModuleRecord = getImportedModule(module, request);
+    let requiredModule: StaticJsModuleImpl = getImportedModule(module, request);
     index = yield* Q(innerModuleEvaluation(requiredModule, stack, index));
 
     // Nasty hack for typescript reasons.
     // Typescript will erase our requiredModule instanceof check here
     // even if we assign it to a different StaticJsCyclicModule reference
     let _requiredModule = requiredModule;
-    if (_requiredModule instanceof StaticJsCyclicModuleRecord) {
+    if (_requiredModule instanceof StaticJsCyclicModuleImpl) {
       // Create a new variable reference so typescript doesn't erase
       // the StaticJsCyclicModule cast.
       let requiredModule = _requiredModule;
@@ -142,7 +142,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
 
       assert.instance(
         requiredModule,
-        StaticJsCyclicModuleRecord,
+        StaticJsCyclicModuleImpl,
         `Expected required module to be an instance of StaticJsCyclicModuleRecord`,
       );
 

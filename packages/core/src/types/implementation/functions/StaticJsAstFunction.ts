@@ -17,9 +17,9 @@ import {
 
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsScriptOrModuleRecord } from "#StaticJsScriptOrModuleRecord.js";
 
 import { asyncFunctionStart } from "#algorithms/async-function-start.js";
 import { call } from "#algorithms/call.js";

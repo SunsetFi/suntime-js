@@ -7,6 +7,7 @@ import type { StaticJsPropertyKey } from "#types/StaticJsPropertyKey.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 
 import { definePropertyOrThrow } from "./define-property-or-throw.js";
 import { ordinaryFunctionCreate } from "./ordinary-function-create.js";
@@ -40,7 +41,7 @@ function* instantiateOrdinaryFunctionExpression(
   }
 
   const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceText = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const closure = yield* ordinaryFunctionCreate(
     realm.intrinsics["Function.prototype"],
     sourceText,
@@ -69,7 +70,7 @@ function* instantiateGeneratorFunctionExpression(
   }
 
   const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceText = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const closure = yield* ordinaryFunctionCreate(
     realm.intrinsics["GeneratorFunction.prototype"],
     sourceText,
@@ -104,7 +105,7 @@ function* instantiateAsyncGeneratorFunctionExpression(
   }
 
   const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceText = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const closure = yield* ordinaryFunctionCreate(
     realm.intrinsics["AsyncGeneratorFunction.prototype"],
     sourceText,
@@ -139,7 +140,7 @@ function* instantiateAsyncFunctionExpression(
   }
 
   const { realm, lexicalEnv: env, privateEnv, scriptOrModule } = EvaluationContext.current;
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceText = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const closure = yield* ordinaryFunctionCreate(
     realm.intrinsics["AsyncFunction.prototype"],
     sourceText,

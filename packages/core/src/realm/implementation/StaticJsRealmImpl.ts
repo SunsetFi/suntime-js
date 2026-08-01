@@ -1,12 +1,17 @@
 import type { RealmHooks } from "#hooks/hooks.js";
 import type { Intrinsics, IntrinsicsRecord } from "#intrinsics/intrinsics.js";
+import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
+import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation/StaticJsLoadedModuleRequestRecord.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
+import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
+import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
+import type { StaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsTaskCalleeType } from "#tasks/StaticJsTaskCalleeType.js";
 import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { HostAccessOptions } from "#types/HostAccessOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 import type { StaticJsPropertyDescriptor } from "#types/StaticJsPropertyDescriptor.js";
 import type { StaticJsSymbol } from "#types/StaticJsSymbol.js";
 import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
@@ -31,7 +36,6 @@ import {
   type MaybeEvaluationGenerator,
 } from "#evaluator/EvaluationGenerator.js";
 import { globalDeclarationInstantiation } from "#evaluator/instantiation/global-declaration-instantiation.js";
-import { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 import { type StaticJsEvaluator, invokeEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import { populateIntrinsics } from "#intrinsics/create-intrinsics.js";
 import { populateGlobal } from "#intrinsics/populate-global.js";
@@ -41,13 +45,13 @@ import { StaticJsModuleManagerImpl } from "#modules/implementation/StaticJsModul
 import { findTopLevelAwait } from "#parser/find-top-level-await.js";
 import { parseExpression } from "#parser/parse-expression.js";
 import { parseScript } from "#parser/parse-script.js";
+import { StaticJsScriptRecordImpl } from "#scripts/implementation/StaticJsScriptRecord.js";
 import { synchronousDefaultTaskRunner } from "#tasks/task-runners/synchronous-default.js";
 import { StaticJsTypeFactoryImpl } from "#types/implementation/StaticJsTypeFactoryImpl.js";
 import {
   type StaticJsPropertyDescriptorRecord,
   validateStaticJsPropertyDescriptorRecord,
 } from "#types/StaticJsPropertyDescriptor.js";
-import { createDeferred } from "#utils/create-deferred.js";
 import { drainIterator } from "#utils/drain-iterator.js";
 import { hasOwnProperty } from "#utils/has-own-property.js";
 import { symbolInspect } from "#utils/symbol-inspect.js";
@@ -84,6 +88,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   private _taskQueueDrainScheduled = false;
 
   private _asyncModuleEvaluationCount = 0;
+  private readonly _loadedModules: StaticJsLoadedModuleRequestRecord[] = [];
 
   private readonly _defaultRunTask: StaticJsTaskRunner;
   private readonly _defaultRunTaskSync: StaticJsTaskRunner;
@@ -236,19 +241,22 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   get loadedModules() {
-    return this._modules.loadedModules;
+    return this._loadedModules;
   }
 
   evaluateExpression(
     expression: string,
     opts?: StaticJsRealmEvaluateSourceOptions,
   ): Promise<StaticJsValue> {
+    const sourceName = opts?.sourceName ?? this._createInlineSourceName();
     try {
-      const parsed = parseExpression(
-        expression,
-        opts?.sourceName ?? this._createInlineSourceName(),
-      );
-      const record = StaticJsScriptRecord(parsed, expression);
+      const parsed = parseExpression(expression, sourceName);
+      const record = new StaticJsScriptRecordImpl({
+        realm: this,
+        sourceName,
+        ecmaScriptCode: parsed,
+        ecmaScriptSource: expression,
+      });
       const evaluator = doEvaluateScript(record, this);
       return this._enqueueMacrotask(evaluator, "evaluate", opts);
     } catch (e) {
@@ -266,8 +274,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       );
     }
 
-    const parsed = parseExpression(expression, opts?.sourceName ?? this._createInlineSourceName());
-    const record = StaticJsScriptRecord(parsed, expression);
+    const sourceName = opts?.sourceName ?? this._createInlineSourceName();
+    const parsed = parseExpression(expression, sourceName);
+    const record = new StaticJsScriptRecordImpl({
+      realm: this,
+      sourceName,
+      ecmaScriptCode: parsed,
+      ecmaScriptSource: expression,
+    });
     const evaluator = doEvaluateScript(record, this);
     return this._invokeMacrotaskSync(evaluator, "evaluate", opts);
   }
@@ -276,8 +290,9 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     script: string,
     opts?: StaticJsRealmEvaluateScriptOptions,
   ): Promise<StaticJsValue> {
+    const sourceName = opts?.sourceName ?? this._createInlineSourceName();
     try {
-      const parsed = parseScript(script, opts?.sourceName ?? this._createInlineSourceName(), {
+      const parsed = parseScript(script, sourceName, {
         topLevelAwait: Boolean(opts?.topLevelAwait),
         strictMode: Boolean(opts?.strict),
       });
@@ -285,7 +300,12 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
         (directive) => directive.value.value === "use strict",
       );
 
-      const record = StaticJsScriptRecord(parsed, script);
+      const record = new StaticJsScriptRecordImpl({
+        realm: this,
+        sourceName,
+        ecmaScriptCode: parsed,
+        ecmaScriptSource: script,
+      });
 
       let evaluator: StaticJsEvaluator<StaticJsValue>;
 
@@ -310,12 +330,18 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   evaluateScriptSync(script: string, opts?: StaticJsRealmEvaluateScriptSyncOptions): StaticJsValue {
-    const parsed = parseScript(script, opts?.sourceName ?? this._createInlineModuleSourceName());
+    const sourceName = opts?.sourceName ?? this._createInlineSourceName();
+    const parsed = parseScript(script, sourceName);
     const strict = parsed.program.directives.some(
       (directive) => directive.value.value === "use strict",
     );
 
-    const record = StaticJsScriptRecord(parsed, script);
+    const record = new StaticJsScriptRecordImpl({
+      realm: this,
+      sourceName,
+      ecmaScriptCode: parsed,
+      ecmaScriptSource: script,
+    });
 
     if (this._currentTask) {
       if (!this._currentTask.entered) {
@@ -332,7 +358,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     _code: string,
     _opts?: StaticJsRealmEvaluateSourceOptions,
   ): Promise<StaticJsModule> {
-    // const sourceName = opts?.sourceName ?? this._createInlineModuleSourceName();
+    const _sourceName = _opts?.sourceName ?? this._createInlineModuleSourceName();
     throw new Error("Not implemented");
   }
 
@@ -372,11 +398,16 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     return ++this._asyncModuleEvaluationCount;
   }
 
-  resolveImportedModule(
-    specifier: string,
-    referencingModule: StaticJsModule,
-  ): Promise<StaticJsModuleImplementation | null> {
-    return this._modules.resolve(specifier, referencingModule);
+  _pushLoadedModule(module: StaticJsLoadedModuleRequestRecord): void {
+    this._loadedModules.push(module);
+  }
+
+  loadImportedModule(
+    referrer: StaticJsModuleReferrer,
+    moduleRequest: StaticJsModuleRequest,
+    payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
+  ): void {
+    this._modules.loadImportedModule(referrer, moduleRequest, payload);
   }
 
   enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {

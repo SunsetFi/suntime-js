@@ -1,6 +1,6 @@
 import type { StaticJsModuleRequest } from "../StaticJsModuleRequest.js";
-import type { StaticJsModuleRecord } from "./modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "./modules/StaticJsModuleImpl.js";
 
 export interface StaticJsLoadedModuleRequestRecord extends StaticJsModuleRequest {
-  readonly module: StaticJsModuleRecord;
+  readonly module: StaticJsModuleImpl;
 }

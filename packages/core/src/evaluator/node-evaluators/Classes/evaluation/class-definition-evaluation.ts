@@ -15,6 +15,7 @@ import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementati
 import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { privateBoundIdentifiers } from "#grammar/private-bound-identifiers.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 import {
   isStaticJsClassConstructorFunction,
   type StaticJsClassConstructorFunction,
@@ -199,7 +200,7 @@ export const classDefinitionEvaluation = Q.makeReceiver(function* classDefinitio
     }
 
     // This is supposed to be sourced by grammer productions outside of this algorithm.
-    const sourceText = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+    const sourceText = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
     F.sourceText = sourceText;
 
     yield* F.makeConstructor(false, proto);

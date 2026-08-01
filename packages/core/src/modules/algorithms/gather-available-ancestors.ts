@@ -1,10 +1,10 @@
-import type { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import type { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 
 import { assert } from "#utils/assert.js";
 
 export function gatherAvailableAncestors(
-  module: StaticJsCyclicModuleRecord,
-  execList: Set<StaticJsCyclicModuleRecord>,
+  module: StaticJsCyclicModuleImpl,
+  execList: Set<StaticJsCyclicModuleImpl>,
 ) {
   for (const ancestorModule of module.asyncParentModules) {
     // Spec weirdness: Shouldn't these all have the same cycleRoot?  And nothing we

@@ -1,13 +1,14 @@
+import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
-export interface StaticJsModule {
+export interface StaticJsModule extends StaticJsAllocation {
   readonly realm: StaticJsRealm;
   readonly specifier: string;
 
-  getExportedNames(): string[];
+  getExportedNames(): readonly string[];
 
   getExportAsync(exportName: string, opts?: StaticJsRunTaskOptions): Promise<StaticJsValue | null>;
   getExportSync(exportName: string, opts?: StaticJsRunTaskOptions): StaticJsValue | null;

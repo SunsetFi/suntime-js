@@ -17,6 +17,7 @@ import {
   type EvaluationContextStackProvider,
 } from "#evaluator/EvaluationContext.js";
 import { invokeEvaluator, type StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
+import { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import { StaticJsAbstractFunction } from "#types/implementation/functions/StaticJsAbstractFunction.js";
 
 import type { StaticJsRunTaskOptions } from "../StaticJsRunTaskOptions.js";
@@ -338,8 +339,8 @@ function environmentRecordToTaskScopeFrame(
     name = "Global";
     type = "global";
   } else if (env instanceof StaticJsModuleEnvironmentRecord) {
-    if (context.scriptOrModule?.type === "module") {
-      const moduleName = context.scriptOrModule.module.specifier;
+    if (context.scriptOrModule instanceof StaticJsModuleImpl) {
+      const moduleName = context.scriptOrModule.specifier;
       name = `${moduleName} [module]`;
     } else {
       name = "<module>";

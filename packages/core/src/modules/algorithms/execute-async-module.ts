@@ -1,8 +1,8 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type {
-  StaticJsCyclicModuleRecord,
+  StaticJsCyclicModuleImpl,
   StaticJsCyclicModuleStatus,
-} from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+} from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
 import { performPromiseThen } from "#algorithms/perform-promise-then.js";
@@ -10,6 +10,9 @@ import { Q } from "#evaluator/completions/Q.js";
 import { X } from "#evaluator/completions/X.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { assert } from "#utils/assert.js";
+
+import { asyncModuleExecutionFulfilled } from "./async-module-execution-fulfilled.js";
+import { asyncModuleExecutionRejected } from "./async-module-execution-rejected.js";
 
 /**
  * "evaluating" | "evaluating-async"
@@ -20,11 +23,11 @@ const EvaluatingStatusAssert = new Set<StaticJsCyclicModuleStatus>([
 ]);
 
 export const executeAsyncModule = Q.makeReceiver(function* executeAsyncModule(
-  module: StaticJsCyclicModuleRecord,
+  module: StaticJsCyclicModuleImpl,
 ): EvaluationGenerator<void> {
   assert(
     EvaluatingStatusAssert.has(module.status),
-    `Expected cyclic module to be in an evaluating state for async execution, but it is ${this.status}`,
+    `Expected cyclic module to be in an evaluating state for async execution, but it is ${module.status}`,
   );
 
   assert(module.hasTLA, `Expected cyclic module to have a top-level await for async execution`);
@@ -46,7 +49,7 @@ export const executeAsyncModule = Q.makeReceiver(function* executeAsyncModule(
     module.realm,
     "",
     function* (reason) {
-      yield* module._asyncModuleExecutionRejected(reason);
+      yield* asyncModuleExecutionRejected(module, reason);
       return module.realm.types.undefined;
     },
     {

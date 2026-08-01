@@ -1,6 +1,9 @@
-import type { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
 
-import type { StaticJsModule } from "./StaticJsModule.js";
+import type { StaticJsCyclicModuleImpl } from "./implementation/modules/StaticJsCyclicModuleImpl.js";
 
-export type StaticJsModuleReferrer = StaticJsScriptRecord | StaticJsModule | StaticJsRealm;
+export type StaticJsModuleReferrer =
+  | StaticJsScriptRecord
+  | StaticJsCyclicModuleImpl
+  | StaticJsRealm;

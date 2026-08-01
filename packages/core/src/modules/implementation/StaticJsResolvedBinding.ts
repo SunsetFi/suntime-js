@@ -1,8 +1,8 @@
-import type { StaticJsModuleRecord } from "./modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "./modules/StaticJsModuleImpl.js";
 import type { Namespace } from "./symbols/Namespace.js";
 
 export interface StaticJsResolvedBindingRecord {
-  module: StaticJsModuleRecord;
+  module: StaticJsModuleImpl;
   bindingName: string | Namespace;
 }
 

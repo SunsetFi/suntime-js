@@ -22,14 +22,14 @@ import { isStaticJsValue, type StaticJsValue } from "#types/StaticJsValue.js";
 import { assert } from "#utils/assert.js";
 import { isTaggedSymbol } from "#utils/symbol-for.js";
 
-import type { StaticJsModuleRecord } from "./StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "./StaticJsModuleImpl.js";
 
 import { isStaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
 import { Namespace } from "../symbols/Namespace.js";
 
 export class StaticJsNamespaceExoticObject extends StaticJsOrdinaryObjectImpl {
   static create(
-    module: StaticJsModuleRecord,
+    module: StaticJsModuleImpl,
     exports: string[],
     realm: StaticJsRealm,
   ): StaticJsNamespaceExoticObject {
@@ -37,7 +37,7 @@ export class StaticJsNamespaceExoticObject extends StaticJsOrdinaryObjectImpl {
   }
 
   protected constructor(
-    private readonly _module: StaticJsModuleRecord,
+    private readonly _module: StaticJsModuleImpl,
     private readonly _exports: string[],
     realm: StaticJsRealm,
   ) {

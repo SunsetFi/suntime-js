@@ -1,4 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation/StaticJsLoadedModuleRequestRecord.js";
+import type { StaticJsCyclicModuleRecord } from "#modules/StaticJsCyclicModuleRecord.js";
 import type { StaticJsPromise, StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
 import { call } from "#algorithms/call.js";
@@ -13,12 +15,8 @@ import { assert } from "#utils/assert.js";
 
 import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
 import type { StaticJsGraphLoadingState } from "../StaticJsGraphLoadingState.js";
-import type { StaticJsLoadedModuleRequestRecord } from "../StaticJsLoadedModuleRequestRecord.js";
 
-import {
-  StaticJsModuleRecord,
-  type StaticJsModuleRecordCreateParams,
-} from "./StaticJsModuleRecord.js";
+import { StaticJsModuleImpl, type StaticJsModuleImplCreateParams } from "./StaticJsModuleImpl.js";
 
 export type StaticJsCyclicModuleStatus =
   | "new"
@@ -29,7 +27,7 @@ export type StaticJsCyclicModuleStatus =
   | "evaluating-async"
   | "evaluated";
 
-export interface StaticJsCyclicModuleCreateParams extends StaticJsModuleRecordCreateParams {
+export interface StaticJsCyclicModuleCreateParams extends StaticJsModuleImplCreateParams {
   requestedModules: readonly StaticJsModuleRequest[];
   hasTLA: boolean;
 }
@@ -70,7 +68,10 @@ const PostEvaluateStatusAssert = new Set<StaticJsCyclicModuleStatus>([
   "evaluated",
 ]);
 
-export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
+export abstract class StaticJsCyclicModuleImpl
+  extends StaticJsModuleImpl
+  implements StaticJsCyclicModuleRecord
+{
   protected constructor({
     requestedModules,
     hasTLA,
@@ -88,9 +89,16 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
   dfsAncestorIndex: number | null = null;
 
   readonly requestedModules: readonly StaticJsModuleRequest[];
-  readonly loadedModules: StaticJsLoadedModuleRequestRecord[] = [];
+  private readonly _loadedModules: StaticJsLoadedModuleRequestRecord[] = [];
+  get loadedModules(): readonly StaticJsLoadedModuleRequestRecord[] {
+    return this._loadedModules;
+  }
 
-  cycleRoot: StaticJsCyclicModuleRecord | null = null;
+  _pushLoadedModule(module: StaticJsLoadedModuleRequestRecord) {
+    this._loadedModules.push(module);
+  }
+
+  cycleRoot: StaticJsCyclicModuleImpl | null = null;
 
   readonly hasTLA: boolean;
 
@@ -98,7 +106,7 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
 
   topLevelCapability: StaticJsPromiseCapabilityRecord | null = null;
 
-  readonly asyncParentModules: StaticJsCyclicModuleRecord[] = [];
+  readonly asyncParentModules: StaticJsCyclicModuleImpl[] = [];
   pendingAsyncDependencies: number | null = null;
 
   override *loadRequestedModules(): EvaluationGenerator<StaticJsPromise> {
@@ -127,11 +135,11 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
       `Cyclic module status is not in a linkable state: ${this.status}`,
     );
 
-    const stack: StaticJsModuleRecord[] = [];
+    const stack: StaticJsModuleImpl[] = [];
     const result = yield* innerModuleLinking(this, stack, 0);
     if (Completion.Abrupt.is(result)) {
       for (const requiredModule of stack) {
-        if (requiredModule instanceof StaticJsCyclicModuleRecord) {
+        if (requiredModule instanceof StaticJsCyclicModuleImpl) {
           assert(
             requiredModule.status === "linking",
             `Expected required module status to be "linking" before checking for unlinked state, but it is ${requiredModule.status}`,
@@ -166,7 +174,7 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
     const { types, intrinsics } = this.realm;
 
     // oxlint-disable-next-line typescript/no-this-alias
-    let module: StaticJsCyclicModuleRecord = this;
+    let module: StaticJsCyclicModuleImpl = this;
     if (status === "evaluating-async" || status === "evaluated") {
       if (this.cycleRoot !== null) {
         // Spec says we change our module target here.
@@ -185,7 +193,7 @@ export abstract class StaticJsCyclicModuleRecord extends StaticJsModuleRecord {
       return module.topLevelCapability.promise;
     }
 
-    const stack: StaticJsCyclicModuleRecord[] = [];
+    const stack: StaticJsCyclicModuleImpl[] = [];
     const promiseCapability = yield* newPromiseCapability(intrinsics.Promise);
     const result = yield* innerModuleEvaluation(module, stack, 0);
     if (Completion.Throw.is(result)) {

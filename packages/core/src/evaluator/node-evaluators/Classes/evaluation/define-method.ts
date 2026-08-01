@@ -9,6 +9,7 @@ import { expectedArgumentCount } from "#algorithms/expected-argument-count.js";
 import { setFunctionLength } from "#algorithms/set-function-length.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 import { StaticJsAstClassConstructorFunction } from "#types/implementation/functions/StaticJsAstClassConstructorFunction.js";
 import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 
@@ -33,7 +34,8 @@ export const defineMethod = Q.makeReceiver(function* defineMethod(
   const propKey = yield* Q(classElementNameNodeEvaluator(method));
   const { lexicalEnv: env, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
 
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(method.start!, method.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(method.start!, method.end!) ?? "";
 
   if (!functionPrototype) {
     functionPrototype = realm.intrinsics["Function.prototype"];

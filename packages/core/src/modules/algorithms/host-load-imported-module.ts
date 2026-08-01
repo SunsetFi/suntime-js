@@ -1,12 +1,14 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
+import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
 import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 
+import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+
 export function* hostLoadImportedModule(
-  module: StaticJsModuleRecord,
+  referrer: StaticJsModuleReferrer,
   request: StaticJsModuleRequest,
   state: StaticJsGraphLoadingState,
 ): EvaluationGenerator<void> {
-  // TODO: Call finishLoadingImportedModule when we get a module record.
+  EvaluationContext.current.realm.loadImportedModule(referrer, request, state);
 }

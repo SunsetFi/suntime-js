@@ -1,6 +1,6 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -15,7 +15,7 @@ import {
 } from "./StaticJsEnvironmentRecordBase.js";
 
 interface ModuleBinding {
-  module: StaticJsModuleRecord;
+  module: StaticJsModuleImpl;
   bindingName: string;
 }
 
@@ -141,7 +141,7 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBa
     return this._realm.types.undefined;
   }
 
-  createImportBinding(name: string, module: StaticJsModuleRecord, bindingName: string): void {
+  createImportBinding(name: string, module: StaticJsModuleImpl, bindingName: string): void {
     this._moduleBindings.set(name, { module, bindingName });
   }
 

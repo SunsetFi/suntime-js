@@ -7,6 +7,7 @@ import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/S
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 
 import { ordinaryFunctionCreate } from "./ordinary-function-create.js";
 import { setFunctionName } from "./set-function-name.js";
@@ -38,7 +39,7 @@ function* instantiateOrdinaryFunctionObject(
 
   verifyNoTsParameterProperties(node.params);
 
-  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceString = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["Function.prototype"],
     sourceString,
@@ -66,10 +67,9 @@ function* instantiateGeneratorFunctionObject(
   privateEnv: StaticJsPrivateEnvironmentRecord | null,
 ): EvaluationGenerator<StaticJsFunction> {
   const { realm, scriptOrModule } = EvaluationContext.current;
-
   verifyNoTsParameterProperties(node.params);
 
-  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceString = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["GeneratorFunction.prototype"],
     sourceString,
@@ -105,7 +105,7 @@ function* instantiateAsyncGeneratorFunctionObject(
 
   verifyNoTsParameterProperties(node.params);
 
-  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceString = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["AsyncGeneratorFunction.prototype"],
     sourceString,
@@ -143,7 +143,7 @@ function* instantiateAsyncFunctionObject(
 
   verifyNoTsParameterProperties(node.params);
 
-  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceString = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     realm.intrinsics["AsyncFunction.prototype"],
     sourceString,

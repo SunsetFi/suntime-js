@@ -7,5 +7,8 @@ export * from "./intrinsics/index.js";
 export * from "./memory/index.js";
 export * from "./modules/index.js";
 export * from "./realm/index.js";
+export * from "./scripts/index.js";
+export * from "./sources/index.js";
 export * from "./tasks/index.js";
 export * from "./types/index.js";
+export * from "./StaticJsScriptOrModuleRecord.js";

@@ -1,13 +1,12 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
-import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import {
   isStaticJsGraphLoadingState,
   type StaticJsGraphLoadingState,
@@ -18,10 +17,10 @@ import { continueModuleLoading } from "./continue-module-loading.js";
 import { moduleRequestsEqual } from "./module-requests-equal.js";
 
 export function* finishLoadingImportedModule(
-  referrer: StaticJsScriptRecord | StaticJsCyclicModuleRecord | StaticJsRealm,
+  referrer: StaticJsScriptRecord | StaticJsCyclicModuleImpl | StaticJsRealm,
   moduleRequest: StaticJsModuleRequest,
   payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
-  result: StaticJsModuleRecord | Completion.Throw,
+  result: StaticJsModuleImpl | Completion.Throw,
 ): EvaluationGenerator<void> {
   if (!Completion.Throw.is(result)) {
     const foundRecord = referrer.loadedModules.find((record) =>
@@ -29,7 +28,7 @@ export function* finishLoadingImportedModule(
     );
     if (foundRecord) {
       assert(foundRecord.module === result, "Found record's module should match the result");
-      referrer.loadedModules.push({
+      referrer._pushLoadedModule({
         specifier: moduleRequest.specifier,
         attributes: moduleRequest.attributes,
         module: result,
@@ -39,6 +38,7 @@ export function* finishLoadingImportedModule(
   if (isStaticJsGraphLoadingState(payload)) {
     yield* continueModuleLoading(payload, result);
   } else {
-    yield* continueDynamicImport(payload, result);
+    // TODO: Dynamic import keyword.
+    // yield* continueDynamicImport(payload, result);
   }
 }

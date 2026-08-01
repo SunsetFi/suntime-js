@@ -10,31 +10,33 @@ import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-c
 import { Completion } from "#evaluator/completions/Completion.js";
 import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import { invokeEvaluator, type StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
+import { invokeEvaluator, type StaticJsMemberEvaluator } from "#evaluator/StaticJsEvaluator.js";
+import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
 
-import {
-  StaticJsModuleRecord,
-  type StaticJsModuleRecordCreateParams,
-} from "./StaticJsModuleRecord.js";
+import { StaticJsModuleImpl, type StaticJsModuleImplCreateParams } from "./StaticJsModuleImpl.js";
 
-export interface StaticJsSyntheticModuleRecordCreateParams extends StaticJsModuleRecordCreateParams {
+export interface StaticJsSyntheticModuleImplCreateParams extends StaticJsModuleImplCreateParams {
   exportNames: readonly string[];
-  evaluationSteps: StaticJsEvaluator<void>;
+  evaluationSteps: StaticJsMemberEvaluator<StaticJsSyntheticModuleImpl, void>;
 }
 
-export class StaticJsSyntheticModuleRecord extends StaticJsModuleRecord {
+export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
   private readonly _exportNames: readonly string[];
-  private readonly _evaluationSteps: StaticJsEvaluator<void>;
+  private readonly _evaluationSteps: StaticJsMemberEvaluator<StaticJsSyntheticModuleImpl, void>;
+
+  static create(params: StaticJsSyntheticModuleImplCreateParams) {
+    return allocated(new StaticJsSyntheticModuleImpl(params));
+  }
 
   protected constructor({
     exportNames,
     evaluationSteps,
     ...restParams
-  }: StaticJsSyntheticModuleRecordCreateParams) {
+  }: StaticJsSyntheticModuleImplCreateParams) {
     super(restParams);
-    this._exportNames = exportNames;
+    this._exportNames = Object.freeze([...exportNames]);
     this._evaluationSteps = evaluationSteps;
   }
 
@@ -94,10 +96,12 @@ export class StaticJsSyntheticModuleRecord extends StaticJsModuleRecord {
     EvaluationContext.push(moduleContext);
     let result: Completion.Abrupt | void;
     try {
-      result = yield* captureThrownCompletion(invokeEvaluator(this._evaluationSteps));
+      result = yield* captureThrownCompletion(invokeEvaluator(this._evaluationSteps, this));
     } finally {
       EvaluationContext.pop();
     }
+
+    // Interestingly, the spec says we never unset evaluationSteps, so we hold the reference forever.
 
     const { types, intrinsics } = this.realm;
 

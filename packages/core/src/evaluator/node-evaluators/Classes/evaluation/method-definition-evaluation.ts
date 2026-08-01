@@ -9,6 +9,7 @@ import { expectedArgumentCount } from "#algorithms/expected-argument-count.js";
 import { setFunctionLength } from "#algorithms/set-function-length.js";
 import { setFunctionName } from "#algorithms/set-function-name.js";
 import { verifyNoTsParameterProperties } from "#grammar/verify-no-ts-parameter-properties.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 import { isStaticJsPrivateName } from "#types/StaticJsPrivateName.js";
 
@@ -59,7 +60,8 @@ function* getterMethodDefinitionEvaluation(
   const propKey = yield* classElementNameNodeEvaluator(element);
 
   // OrdinaryFunctionCreate
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(element.start!, element.end!) ?? "";
   const closure = StaticJsAstMethodFunction.create({
     realm,
     node: element,
@@ -105,7 +107,8 @@ function* setterMethodDefinitionEvaluation(
   const propKey = yield* classElementNameNodeEvaluator(element);
 
   // OrdinaryFunctionCreate
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(element.start!, element.end!) ?? "";
   const closure = StaticJsAstMethodFunction.create({
     realm,
     node: element,
@@ -150,7 +153,8 @@ function* asyncGeneratorMethodDefinitionEvaluation(
 
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(element.start!, element.end!) ?? "";
   const closure = StaticJsAstMethodFunction.create({
     realm,
     node: element,
@@ -184,7 +188,8 @@ function* asyncMethodDefinitionEvaluation(
 
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(element.start!, element.end!) ?? "";
   const closure = StaticJsAstMethodFunction.create({
     realm,
     node: element,
@@ -211,7 +216,8 @@ function* generatorMethodDefinitionEvaluation(
 
   const propertyKey = yield* classElementNameNodeEvaluator(element);
 
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(element.start!, element.end!) ?? "";
   const closure = StaticJsAstMethodFunction.create({
     realm,
     node: element,

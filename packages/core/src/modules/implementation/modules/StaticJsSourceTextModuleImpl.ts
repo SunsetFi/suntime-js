@@ -3,6 +3,7 @@ import type { Program } from "@babel/types";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsResolveSetRecord } from "#modules/implementation/StaticJsResolveSetRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsSourceRecord } from "#sources/StaticJsSourceRecord.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
 import { asyncBlockStart } from "#algorithms/async-block-start.js";
@@ -31,13 +32,13 @@ import { parseModule } from "#parser/parse-module.js";
 import { assert } from "#utils/assert.js";
 import { isTaggedSymbol } from "#utils/symbol-for.js";
 
-import type { StaticJsModuleRecord } from "./StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "./StaticJsModuleImpl.js";
 
 import { type StaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
 import {
-  StaticJsCyclicModuleRecord,
+  StaticJsCyclicModuleImpl,
   type StaticJsCyclicModuleCreateParams,
-} from "./StaticJsCyclicModuleRecord.js";
+} from "./StaticJsCyclicModuleImpl.js";
 import {
   type StaticJsExportEntryRecord,
   type StaticJsLocalExportEntryRecord,
@@ -45,6 +46,7 @@ import {
 import { type StaticJsImportEntryRecord } from "./StaticJsImportEntryRecord.js";
 
 interface StaticJsSourceTextModuleCreateParams extends StaticJsCyclicModuleCreateParams {
+  ecmaScriptSource: string;
   ecmaScriptCode: Program;
   importEntries: readonly StaticJsImportEntryRecord[];
   localExportEntries: readonly StaticJsLocalExportEntryRecord[];
@@ -52,7 +54,10 @@ interface StaticJsSourceTextModuleCreateParams extends StaticJsCyclicModuleCreat
   starExportEntries: readonly StaticJsExportEntryRecord[];
 }
 
-export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
+export class StaticJsSourceTextModuleImpl
+  extends StaticJsCyclicModuleImpl
+  implements StaticJsSourceRecord
+{
   static parse(sourceText: string, specifier: string, realm: StaticJsRealm) {
     const file = parseModule(sourceText, specifier);
     const body = file.program;
@@ -99,10 +104,11 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
 
     const async = findTopLevelAwait(body) !== null;
 
-    return StaticJsSourceTextModuleRecord.create({
+    return StaticJsSourceTextModuleImpl.create({
       specifier,
       realm,
       hasTLA: async,
+      ecmaScriptSource: sourceText,
       ecmaScriptCode: body,
       requestedModules,
       importEntries,
@@ -112,11 +118,12 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
     });
   }
 
-  static create(params: StaticJsSourceTextModuleCreateParams): StaticJsSourceTextModuleRecord {
-    return allocated(new StaticJsSourceTextModuleRecord(params));
+  static create(params: StaticJsSourceTextModuleCreateParams): StaticJsSourceTextModuleImpl {
+    return allocated(new StaticJsSourceTextModuleImpl(params));
   }
 
   protected constructor({
+    ecmaScriptSource,
     ecmaScriptCode,
     importEntries,
     localExportEntries,
@@ -125,6 +132,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
     ...rootOpts
   }: StaticJsSourceTextModuleCreateParams) {
     super(rootOpts);
+    this.ecmaScriptSource = ecmaScriptSource;
     this.ecmaScriptCode = ecmaScriptCode;
     this.importEntries = importEntries;
     this.localExportEntries = localExportEntries;
@@ -132,6 +140,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
     this.starExportEntries = starExportEntries;
   }
 
+  readonly ecmaScriptSource: string;
   readonly ecmaScriptCode: Program;
   readonly importMeta: Record<string, string> | null = null;
   readonly importEntries: readonly StaticJsImportEntryRecord[];
@@ -141,7 +150,7 @@ export class StaticJsSourceTextModuleRecord extends StaticJsCyclicModuleRecord {
 
   context: EvaluationContext | null = null;
 
-  override getExportedNames(exportStarSet?: Set<StaticJsModuleRecord>) {
+  override getExportedNames(exportStarSet?: Set<StaticJsModuleImpl>) {
     assert(this.status !== "new", "Module must be linked to get exported names.");
     if (!exportStarSet) {
       exportStarSet = new Set();

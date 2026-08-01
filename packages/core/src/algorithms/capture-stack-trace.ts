@@ -6,6 +6,8 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import { containerMarkable } from "#memory/implementation/container-markable.js";
+import { isStaticJsModule } from "#modules/StaticJsModule.js";
+import { isStaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
 import { StaticJsAstFunction } from "#types/implementation/functions/StaticJsAstFunction.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { isStaticJsFunction } from "#types/StaticJsFunction.js";
@@ -89,10 +91,13 @@ export function* captureStackTrace(
       // Note scriptOrModule will be populated for every frame, but we are only interested in capturing it for the entrypoint script,
       // and only if we are not a function.
       // NOTE: Will this include the value for host-ran StaticJsCallable.call?
-      const loc = frame.scriptOrModule?.ecmaScriptCode.loc;
-      if (loc) {
-        // TODO: Use the line and column of the current node.
-        line += `at ${captureStackLocation(loc)}`;
+      const { scriptOrModule } = frame;
+      if (isStaticJsScriptRecord(scriptOrModule)) {
+        if (scriptOrModule.ecmaScriptCode.loc) {
+          line += `at ${captureStackLocation(scriptOrModule.ecmaScriptCode.loc)}`;
+        }
+      } else if (isStaticJsModule(scriptOrModule)) {
+        line += `at ${scriptOrModule.specifier}`;
       }
     }
 

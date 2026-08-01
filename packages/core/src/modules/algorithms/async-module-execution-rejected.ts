@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import type { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { call } from "#algorithms/call.js";
@@ -8,7 +8,7 @@ import { X } from "#evaluator/completions/X.js";
 import { assert } from "#utils/assert.js";
 
 export function* asyncModuleExecutionRejected(
-  module: StaticJsCyclicModuleRecord,
+  module: StaticJsCyclicModuleImpl,
   error: StaticJsValue,
 ): EvaluationGenerator<void> {
   if (module.status === "evaluated") {

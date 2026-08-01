@@ -1,12 +1,12 @@
 import type { Completion } from "#evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 
 import { Q } from "#evaluator/completions/Q.js";
 import {
-  StaticJsCyclicModuleRecord,
+  StaticJsCyclicModuleImpl,
   type StaticJsCyclicModuleStatus,
-} from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+} from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import { assert } from "#utils/assert.js";
 
 import { getImportedModule } from "./get-imported-module.js";
@@ -22,11 +22,11 @@ const LinkingOrPostLinkStatus = new Set<StaticJsCyclicModuleStatus>([
 ]);
 
 export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
-  module: StaticJsModuleRecord,
-  stack: StaticJsModuleRecord[],
+  module: StaticJsModuleImpl,
+  stack: StaticJsModuleImpl[],
   index: number,
 ): EvaluationGenerator<number | Completion.Throw> {
-  if (module instanceof StaticJsCyclicModuleRecord === false) {
+  if (module instanceof StaticJsCyclicModuleImpl === false) {
     yield* Q(module.link());
     return index;
   }
@@ -47,9 +47,9 @@ export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
   stack.push(module);
 
   for (const request of module.requestedModules) {
-    const requiredModule: StaticJsModuleRecord = getImportedModule(module, request);
+    const requiredModule: StaticJsModuleImpl = getImportedModule(module, request);
     index = yield* Q(innerModuleLinking(requiredModule, stack, index));
-    if (requiredModule instanceof StaticJsCyclicModuleRecord) {
+    if (requiredModule instanceof StaticJsCyclicModuleImpl) {
       assert(
         LinkingOrPostLinkStatus.has(requiredModule.status),
         `Cyclic module required module status is not in a post-linkable state: ${requiredModule.status}`,
@@ -92,7 +92,7 @@ export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
       const requiredModule = stack.pop();
       assert.instance(
         requiredModule,
-        StaticJsCyclicModuleRecord,
+        StaticJsCyclicModuleImpl,
         `Cyclic module required module is not a cyclic module`,
       );
       requiredModule.status = "linked";

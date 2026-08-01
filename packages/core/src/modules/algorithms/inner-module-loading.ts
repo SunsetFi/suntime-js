@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
 
 import { call } from "#algorithms/call.js";
@@ -8,7 +8,7 @@ import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import { assert } from "#utils/assert.js";
 
 import { allImportAttributesSupported } from "./all-import-attributes-supported.js";
@@ -18,14 +18,14 @@ import { moduleRequestsEqual } from "./module-requests-equal.js";
 
 export const innerModuleLoading = Q.makeReceiver(function* innerModuleLoading(
   state: StaticJsGraphLoadingState,
-  module: StaticJsModuleRecord,
+  module: StaticJsModuleImpl,
 ): EvaluationGenerator<void> {
   if (!state.isLoading) {
     throw new StaticJsEngineError("Module loading is not in progress");
   }
 
   if (
-    module instanceof StaticJsCyclicModuleRecord &&
+    module instanceof StaticJsCyclicModuleImpl &&
     module.status === "new" &&
     !state.visited.has(module)
   ) {
@@ -64,7 +64,7 @@ export const innerModuleLoading = Q.makeReceiver(function* innerModuleLoading(
   if (state.pendingModulesCount === 0) {
     state.isLoading = false;
     for (const loaded of state.visited) {
-      if (loaded instanceof StaticJsCyclicModuleRecord && loaded.status === "new") {
+      if (loaded instanceof StaticJsCyclicModuleImpl && loaded.status === "new") {
         loaded.status = "unlinked";
       }
     }

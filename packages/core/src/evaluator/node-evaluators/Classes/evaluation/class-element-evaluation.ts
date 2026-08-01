@@ -12,6 +12,7 @@ import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPrivateElement } from "#types/StaticJsPrivateElement.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 import { StaticJsAstMethodFunction } from "#types/implementation/functions/StaticJsAstMethodFunction.js";
 
 import type { StaticJsClassFieldDefinitionRecord } from "../ClassFieldDefinitionRecord.js";
@@ -63,7 +64,8 @@ function* classFieldDefinitionEvaluation(
 
     // By spec, OrdinaryFunctionCreate
     const sourceText =
-      scriptOrModule?.ecmaScriptSource.slice(element.value.start!, element.value.end!) ?? "";
+      getScriptOrModuleSource(scriptOrModule)?.slice(element.value.start!, element.value.end!) ??
+      "";
     initializer = StaticJsAstMethodFunction.create({
       realm,
       // Spec wants this to be an assignment expression, but to us that means
@@ -96,7 +98,8 @@ function* classStaticBlockDefinitionEvaluation(
   object: StaticJsObject,
 ): EvaluationGenerator<StaticJsClassStaticBlockDefinitionRecord | Completion.Abrupt> {
   const { lexicalEnv: lex, privateEnv, realm, scriptOrModule } = EvaluationContext.current;
-  const sourceText = scriptOrModule?.ecmaScriptSource.slice(element.start!, element.end!) ?? "";
+  const sourceText =
+    getScriptOrModuleSource(scriptOrModule)?.slice(element.start!, element.end!) ?? "";
   const bodyFunction = StaticJsAstMethodFunction.create({
     realm,
     node: element,

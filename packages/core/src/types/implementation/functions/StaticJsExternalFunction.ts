@@ -1,7 +1,7 @@
 import type { Node } from "@babel/types";
 
-import type { StaticJsScriptOrModuleRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptOrModuleRecod.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
+import type { StaticJsScriptOrModuleRecord } from "#StaticJsScriptOrModuleRecord.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";

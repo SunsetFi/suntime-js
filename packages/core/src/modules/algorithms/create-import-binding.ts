@@ -1,10 +1,10 @@
 import type { StaticJsModuleEnvironmentRecord } from "#environments/implementation/StaticJsModuleEnvironmentRecord.js";
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 
 export function createImportBinding(
   envRecord: StaticJsModuleEnvironmentRecord,
   name: string,
-  targetModule: StaticJsModuleRecord,
+  targetModule: StaticJsModuleImpl,
   targetName: string,
 ) {
   envRecord.createImportBinding(name, targetModule, targetName);

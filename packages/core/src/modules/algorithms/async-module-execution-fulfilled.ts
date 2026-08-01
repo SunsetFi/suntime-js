@@ -1,5 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import type { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 
 import { call } from "#algorithms/call.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
@@ -13,7 +13,7 @@ import { executeAsyncModule } from "./execute-async-module.js";
 import { gatherAvailableAncestors } from "./gather-available-ancestors.js";
 
 export const asyncModuleExecutionFulfilled = Q.makeReceiver(function* asyncModuleExecutionFulfilled(
-  module: StaticJsCyclicModuleRecord,
+  module: StaticJsCyclicModuleImpl,
 ): EvaluationGenerator<void> {
   const { types } = module.realm;
   const { status } = module;
@@ -48,7 +48,7 @@ export const asyncModuleExecutionFulfilled = Q.makeReceiver(function* asyncModul
     yield* X(call(module.topLevelCapability.resolve, types.undefined, [types.undefined]));
   }
 
-  const execList = new Set<StaticJsCyclicModuleRecord>();
+  const execList = new Set<StaticJsCyclicModuleImpl>();
   gatherAvailableAncestors(module, execList);
   assert(() => {
     for (const ancestorModule of execList) {

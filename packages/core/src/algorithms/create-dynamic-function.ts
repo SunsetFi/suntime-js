@@ -13,6 +13,7 @@ import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { isStaticJsModule } from "#modules/StaticJsModule.js";
 import { parseFunctionBody } from "#parser/parse-function-body.js";
 import { parseParameters } from "#parser/parse-parameters.js";
 
@@ -89,7 +90,7 @@ export function* createDynamicFunction(
     body = parseFunctionBody(bodyParseString, {
       async,
       generator,
-      module: scriptOrModule?.type === "module",
+      module: isStaticJsModule(scriptOrModule),
     });
   } catch (e) {
     if (e instanceof StaticJsSyntaxError) {

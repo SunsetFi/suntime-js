@@ -1,14 +1,14 @@
-import type { StaticJsModuleRecord } from "#modules/implementation/modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 
-import { StaticJsCyclicModuleRecord } from "#modules/implementation/modules/StaticJsCyclicModuleRecord.js";
+import { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import { StaticJsNamespaceExoticObject } from "#modules/implementation/modules/StaticJsNamespaceExoticObject.js";
 import { isStaticJsResolvedBindingRecord } from "#modules/implementation/StaticJsResolvedBinding.js";
 import { assert } from "#utils/assert.js";
 
-export function getModuleNamespace(module: StaticJsModuleRecord): StaticJsObject {
+export function getModuleNamespace(module: StaticJsModuleImpl): StaticJsObject {
   assert(() => {
-    if (module instanceof StaticJsCyclicModuleRecord) {
+    if (module instanceof StaticJsCyclicModuleImpl) {
       const { status } = module;
       assert(status !== "new" && status !== "unlinked");
     }

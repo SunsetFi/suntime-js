@@ -6,6 +6,7 @@ import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 import { StaticJsPrivateEnvironmentRecord } from "#environments/implementation/StaticJsPrivateEnvironmentRecord.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
+import { getScriptOrModuleSource } from "#sources/utils/get-script-or-module-source.js";
 
 import { ordinaryFunctionCreate } from "./ordinary-function-create.js";
 import { setFunctionName, type StaticJsFunctionNameable } from "./set-function-name.js";
@@ -26,7 +27,7 @@ export function* instantiateArrowFunctionExpression(
     ? realm.intrinsics["AsyncFunction.prototype"]
     : realm.intrinsics["Function.prototype"];
 
-  const sourceString = scriptOrModule?.ecmaScriptSource.slice(node.start!, node.end!) ?? "";
+  const sourceString = getScriptOrModuleSource(scriptOrModule)?.slice(node.start!, node.end!) ?? "";
   const func = yield* ordinaryFunctionCreate(
     proto,
     sourceString,

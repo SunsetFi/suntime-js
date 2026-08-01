@@ -3,12 +3,15 @@ import type { StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import type { RealmHooks } from "#hooks/index.js";
 import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
-import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation/StaticJsLoadedModuleRequestRecord.js";
+import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
+import type { StaticJsModuleLoadTarget } from "#modules/implementation/StaticJsModuleLoadTarget.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
-import type { StaticJsModuleImplementation } from "#modules/StaticJsModuleImplementation.js";
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
+import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
+import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
+import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
@@ -27,7 +30,7 @@ import type { StaticJsRealmEvaluateSourceOptions } from "./StaticJsRealmEvaluate
  * This class is analogous to a [Realm](https://tc39.es/ecma262/#sec-code-realms) in the ECMAScript specification.
  * @public
  */
-export interface StaticJsRealm {
+export interface StaticJsRealm extends StaticJsModuleLoadTarget {
   /**
    * Configuration options the realm was instantiated with.
    */
@@ -149,22 +152,6 @@ export interface StaticJsRealm {
   readonly hooks: RealmHooks;
 
   /**
-   * The list of modules that have been loaded by the realm.
-   * This is not an exhaustive collection of all modules that exist in the realm,
-   * and is spec-defined.
-   *
-   * You probably want {@link modules} instead.
-   * @internal
-   */
-  readonly loadedModules: readonly StaticJsLoadedModuleRequestRecord[];
-
-  /**
-   * Gets a number to represent a module's async evaluation.
-   * @internal
-   */
-  incrementModuleAsyncEvaluationCount(): number;
-
-  /**
    * Raises an uncaught error in the realm.
    * @internal
    * @param error The error to raise.
@@ -173,17 +160,24 @@ export interface StaticJsRealm {
   raiseUnhandledRejection(error: StaticJsValue): () => void;
 
   /**
-   * A function to resolve an imported ECMAScript Module given a referencing module
-   * and a specifier.
+   * Gets a number to represent a module's async evaluation.
    * @internal
-   * @param specifier The module specifier.
-   * @param referencingModule The module that is importing the specifier.
-   * @returns A promise that resolves to the module implementation, or null if the module could not be resolved.
    */
-  resolveImportedModule(
-    specifier: string,
-    referencingModule: StaticJsModule,
-  ): Promise<StaticJsModuleImplementation | null>;
+  incrementModuleAsyncEvaluationCount(): number;
+
+  /**
+   * Triggers a load of the imported module.
+   * This is an internal spec implementation.  It should not be called by library consumers.
+   * @param referrer The referrer that is importing the requested module.
+   * @param moduleRequest The module request to load.
+   * @param payload The payload associated with the module loading.
+   * @internal
+   */
+  loadImportedModule(
+    referrer: StaticJsModuleReferrer,
+    moduleRequest: StaticJsModuleRequest,
+    payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
+  ): void;
 
   /**
    * Enqueues a promise job to be executed.
@@ -228,8 +222,8 @@ export function isStaticJsRealm(value: unknown): value is StaticJsRealm {
     typeof value.evaluateScript === "function" &&
     "evaluateModule" in value &&
     typeof value.evaluateModule === "function" &&
-    "resolveImportedModule" in value &&
-    typeof value.resolveImportedModule === "function" &&
+    "loadImportedModule" in value &&
+    typeof value.loadImportedModule === "function" &&
     "enqueuePromiseJob" in value &&
     typeof value.enqueuePromiseJob === "function"
   );

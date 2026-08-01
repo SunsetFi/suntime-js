@@ -1,20 +1,25 @@
-import type { StaticJsScriptRecord } from "#evaluator/ScriptOrModuleRecord/StaticJsScriptRecord.js";
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
+import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
 import type { StaticJsModuleResolution } from "#modules/StaticJsModuleResolution.js";
 import type { StaticJsModuleResolver } from "#modules/StaticJsModuleResolver.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
+import { X } from "#evaluator/completions/X.js";
+import { finishLoadingImportedModule } from "#modules/algorithms/finish-loading-imported-module.js";
 import { isStaticJsModule, type StaticJsModule } from "#modules/StaticJsModule.js";
+import { isStaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
+import { isEntryValueNotNull } from "#utils/is-entry-value-not-null.js";
 import { isNotNull } from "#utils/is-not-null.js";
+import typedKeys from "#utils/typed-keys.js";
 
 import type { StaticJsModuleRequest } from "../StaticJsModuleRequest.js";
-import type { StaticJsCyclicModuleRecord } from "./modules/StaticJsCyclicModuleRecord.js";
-import type { StaticJsModuleRecord } from "./modules/StaticJsModuleRecord.js";
+import type { StaticJsModuleImpl } from "./modules/StaticJsModuleImpl.js";
 import type { StaticJsGraphLoadingState } from "./StaticJsGraphLoadingState.js";
 import type { StaticJsLoadedModuleRequestRecord } from "./StaticJsLoadedModuleRequestRecord.js";
 
-import { StaticJsSourceTextModuleRecord } from "./modules/StaticJsSourceTextModuleRecord.js";
+import { StaticJsSourceTextModuleImpl } from "./modules/StaticJsSourceTextModuleImpl.js";
+import { StaticJsSyntheticModuleImpl } from "./modules/StaticJsSyntheticModuleImpl.js";
 
 export interface StaticJsModuleManagerImplOptions {
   resolveExternalModule: StaticJsModuleResolver;
@@ -23,7 +28,8 @@ export interface StaticJsModuleManagerImplOptions {
 export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
   private readonly _resolveExternalModule: StaticJsModuleResolver;
 
-  private readonly _resolvedModules = new Map<string, StaticJsModuleRecord | null>();
+  private readonly _pendingResolutions = new Map<string, Promise<StaticJsModuleImpl | null>>();
+  private readonly _resolvedModules = new Map<string, StaticJsModuleImpl | null>();
 
   constructor(
     private readonly _realm: StaticJsRealm,
@@ -41,29 +47,120 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
   }
 
   values(): Iterable<StaticJsModule> {
-    return this._resolvedModules
-      .values()
-      .filter(isNotNull)
-      .map((record) => record.module);
+    return this._resolvedModules.values().filter(isNotNull);
   }
 
   entries(): Iterable<[string, StaticJsModule]> {
-    return this._resolvedModules
-      .entries()
-      .filter(([_, value]) => value !== null)
-      .map(([key, value]) => [key, value!.module]);
+    return this._resolvedModules.entries().filter(isEntryValueNotNull);
   }
 
   has(specifier: string): boolean {
     return this._resolvedModules.has(specifier);
   }
 
+  add(specifier: string, resolution: StaticJsModuleResolution): void {
+    const module = this._resolutionToModule(resolution, specifier);
+    this._resolvedModules.set(specifier, module);
+  }
+
   loadImportedModule(
-    referrer: StaticJsScriptRecord | StaticJsCyclicModuleRecord | StaticJsRealm,
+    referrer: StaticJsModuleReferrer,
     moduleRequest: StaticJsModuleRequest,
     payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   ) {
+    let rootPath: string = "/";
+    if (isStaticJsModule(referrer)) {
+      rootPath = referrer.specifier;
+    } else if (isStaticJsScriptRecord(referrer)) {
+      rootPath = referrer.sourceName;
+    }
+
+    const path = this._resolvePath(rootPath, moduleRequest.specifier);
+
+    let load: Promise<StaticJsModuleImpl | null> | null = null;
+    const current = this._resolvedModules.get(path);
+    if (current) {
+      load = Promise.resolve(current);
+    }
+
+    if (!load) {
+      const pending = this._pendingResolutions.get(path);
+      if (pending) {
+        load = pending;
+      }
+    }
+
+    if (!load) {
+      const module = this._resolvedModules.get(path);
+      if (module) {
+        load = Promise.resolve(module);
+      }
+    }
+
+    if (!load) {
+      load = (async () => {
+        const resolved = await this._resolveExternalModule(moduleRequest, referrer);
+        if (resolved) {
+          const module = this._resolutionToModule(resolved, path);
+          this._resolvedModules.set(path, module);
+          return module;
+        } else {
+          this._resolvedModules.set(path, null);
+          return null;
+        }
+      })();
+
+      this._pendingResolutions.set(path, load);
+    }
+
+    load.then((module) => {
+      this._realm.enqueuePromiseJob(function* () {
+        if (module) {
+          yield* finishLoadingImportedModule(referrer, moduleRequest, payload, module);
+        }
+      });
+    });
+
     // TODO: MUST cache for [referrer, moduleRequest] pairs
     // TODO: Call FinishLoadingImportedModule(referrer, moduleRequest, Completion.Normal(StaticJsModuleRecord))
+  }
+
+  private _resolutionToModule(
+    resolution: StaticJsModuleResolution,
+    path: string,
+  ): StaticJsModuleImpl | null {
+    if (typeof resolution === "string") {
+      return StaticJsSourceTextModuleImpl.parse(resolution, path, this._realm);
+    } else if (isStaticJsModule(resolution)) {
+      // FIXME: Previously we had shims if this wasnt perfect.
+      // This is a nasty result of trying to hide the implementation...
+      return resolution as StaticJsModuleImpl;
+    } else {
+      return StaticJsSyntheticModuleImpl.create({
+        specifier: path,
+        exportNames: Object.keys(resolution),
+        evaluationSteps: function* () {
+          for (const exportName of typedKeys(resolution)) {
+            yield* X(this.environment!.createMutableBindingEvaluator(exportName, false));
+            yield* X(
+              this.environment!.initializeBindingEvaluator(exportName, resolution[exportName]),
+            );
+          }
+        },
+        realm: this._realm,
+      });
+    }
+  }
+
+  private _resolvePath(...parts: string[]): string {
+    // TODO: Handle ../
+    const sanitized = parts.map((part) => {
+      if (part.startsWith("/")) {
+        return part.slice(1);
+      }
+      return part;
+    });
+
+    return sanitized.join("/");
   }
 }
