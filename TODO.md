@@ -3,6 +3,11 @@
 ## Really immediate this is getting silly
 
 - [ ] Make an assert() function for all StaticJsEngineError cases.
+- [ ] Take captureThrownCompletion and make that Completion() as a function to match spec
+- [ ] Rename EvaluationContext to ExecutionContext
+- [ ] Use StaticJsNull for object proto instead of real null.
+- [ ] StaticJsPromiseCapabilityRecord needs to be a StaticJsAllocation as it stores 3 different allocatable objects!
+      There must be a ton of native functions that don't appropriately capture these
 
 ## Memory tracking
 

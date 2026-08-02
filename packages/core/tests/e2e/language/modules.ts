@@ -6,6 +6,7 @@ import {
   evaluateModule,
   type StaticJsTaskIterator,
 } from "../../../src/index.js";
+import { expectStaticJsNumber, expectStaticJsObject } from "../utils/expect-staticjs.js";
 
 describe("E2E: Modules", () => {
   it("Throws ReferenceError when a module is not found", async () => {
@@ -177,9 +178,18 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      expect(module.getModuleNamespaceJsSync()).toEqual({
-        bar: 64,
-      });
+
+      const ns = module.getModuleNamespaceSync();
+      expectStaticJsObject(ns);
+      expect(ns.ownPropertyKeysSync()).toEqual(["default", "bar"]);
+
+      const def = ns.getSync("default");
+      expectStaticJsNumber(def);
+      expect(def.value).toBe(42);
+
+      const bar = ns.getSync("bar");
+      expectStaticJsNumber(bar);
+      expect(bar.value).toBe(64);
     });
 
     it("Obtains a live namespace", async () => {
@@ -192,7 +202,7 @@ describe("E2E: Modules", () => {
       const realm = StaticJsRealm();
 
       const module = await evaluateModule(moduleCode, { realm });
-      const ns = module.getModuleNamespaceJsSync() as {
+      const ns = module.getModuleNamespaceSync().toNative() as {
         value: number;
         setValue: (x: number) => void;
       };

@@ -7,10 +7,10 @@ settings:
 catalogs:
   default:
     '@babel/parser':
-      specifier: ^7.29.3
+      specifier: ^7.29.7
       version: 7.29.7
     '@babel/traverse':
-      specifier: ^7.29.0
+      specifier: ^7.29.7
       version: 7.29.7
     '@babel/types':
       specifier: ^7.29.0
@@ -30,6 +30,9 @@ catalogs:
     typescript-api:
       specifier: npm:@typescript/typescript6@6.0.2
       version: 6.0.2
+    vite:
+      specifier: ^8.0.16
+      version: 8.1.5
     vitest:
       specifier: ^4.1.9
       version: 4.1.10
@@ -173,15 +176,15 @@ importers:
   packages/core:
     dependencies:
       '@babel/parser':
-        specifier: ^7.29.3
+        specifier: 'catalog:'
         version: 7.29.7
       '@babel/traverse':
-        specifier: ^7.29.0
+        specifier: 'catalog:'
         version: 7.29.7(supports-color@8.1.1)
     devDependencies:
       '@babel/types':
-        specifier: 'catalog:'
-        version: 7.29.7
+        specifier: 7.29.8
+        version: 7.29.8
       '@oxlint/plugins':
         specifier: ^1.66.0
         version: 1.74.0
@@ -1032,6 +1035,10 @@ packages:
 
   '@babel/types@7.29.7':
     resolution: {integrity: sha512-4zBIxpPzowiZpusoFkyGVwakdRJUyuH5PxQ/PrqghfdFWWasvnCdPfQXHrenDai+gyLARulZjZowCOj6fjT4pA==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.29.8':
+    resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
 
   '@braintree/sanitize-url@7.1.2':
@@ -7953,7 +7960,7 @@ snapshots:
   '@babel/generator@7.29.7':
     dependencies:
       '@babel/parser': 7.29.7
-      '@babel/types': 7.29.7
+      '@babel/types': 7.29.8
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
       jsesc: 3.1.0
@@ -8078,7 +8085,7 @@ snapshots:
 
   '@babel/parser@7.29.7':
     dependencies:
-      '@babel/types': 7.29.7
+      '@babel/types': 7.29.8
 
   '@babel/plugin-bugfix-firefox-class-in-computed-class-key@7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)':
     dependencies:
@@ -8661,7 +8668,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.29.7
       '@babel/parser': 7.29.7
-      '@babel/types': 7.29.7
+      '@babel/types': 7.29.8
 
   '@babel/traverse@7.29.7(supports-color@8.1.1)':
     dependencies:
@@ -8670,12 +8677,17 @@ snapshots:
       '@babel/helper-globals': 7.29.7
       '@babel/parser': 7.29.7
       '@babel/template': 7.29.7
-      '@babel/types': 7.29.7
+      '@babel/types': 7.29.8
       debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
   '@babel/types@7.29.7':
+    dependencies:
+      '@babel/helper-string-parser': 7.29.7
+      '@babel/helper-validator-identifier': 7.29.7
+
+  '@babel/types@7.29.8':
     dependencies:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
@@ -11375,7 +11387,7 @@ snapshots:
 
   '@types/babel__traverse@7.28.0':
     dependencies:
-      '@babel/types': 7.29.7
+      '@babel/types': 7.29.8
 
   '@types/body-parser@1.19.6':
     dependencies:
@@ -11802,7 +11814,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@26.1.0)(@vitest/ui@4.1.10)(vite@8.1.5(@types/node@26.1.0)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.1)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@25.9.4)(@vitest/ui@4.1.10)(vite@8.1.5(@types/node@25.9.4)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.48.0)(tsx@4.23.1)(yaml@2.9.0))
 
   '@vitest/utils@4.1.10':
     dependencies:

@@ -80,7 +80,7 @@ function exportEntriesForModule(
       throw new StaticJsEngineError(
         "What on earth are ExportDefaultSpecifiers and how can babel create these nodes?",
       );
-    case "ExportAllDeclaration":
+    case "ExportAllDeclaration": {
       assert.notNull(module, "ExportAllDeclaration requires a module");
       return [
         {
@@ -90,7 +90,8 @@ function exportEntriesForModule(
           exportName: null,
         },
       ];
-    case "ExportNamespaceSpecifier":
+    }
+    case "ExportNamespaceSpecifier": {
       const exportName = StringValue(node.exported);
       assert.notNull(module, "ExportAllDeclaration requires a module");
       return [
@@ -101,15 +102,17 @@ function exportEntriesForModule(
           exportName: exportName,
         },
       ];
-    case "ExportSpecifier":
-      const sourceName = StringValue(node.exported);
+    }
+    case "ExportSpecifier": {
+      const sourceName = StringValue(node.local);
+      const exportName = StringValue(node.exported);
       if (module == null) {
         return [
           {
             moduleRequest: module,
             localName: sourceName,
             importName: null,
-            exportName: sourceName,
+            exportName,
           },
         ];
       } else {
@@ -118,10 +121,11 @@ function exportEntriesForModule(
             moduleRequest: module,
             localName: null,
             importName: sourceName,
-            exportName: sourceName,
+            exportName,
           },
         ];
       }
+    }
   }
 
   return [];
