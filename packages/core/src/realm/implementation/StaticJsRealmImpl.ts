@@ -1,6 +1,7 @@
 import type { RealmHooks } from "#hooks/hooks.js";
 import type { Intrinsics, IntrinsicsRecord } from "#intrinsics/intrinsics.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
+import type { StaticJsHostLoadModuleState } from "#modules/implementation/StaticJsHostLoadModuleState.js";
 import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation/StaticJsLoadedModuleRequestRecord.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
@@ -25,6 +26,7 @@ import { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/St
 import { StaticJsObjectEnvironmentRecord } from "#environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { StaticJsConcurrentEvaluationError } from "#errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
+import { StaticJsModuleError } from "#errors/StaticJsModuleError.js";
 import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
 import { StaticJsUnhandledRejectionError } from "#errors/StaticJsUnhandledRejectionError.js";
 import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js";
@@ -54,6 +56,7 @@ import {
 } from "#types/StaticJsPropertyDescriptor.js";
 import { drainIterator } from "#utils/drain-iterator.js";
 import { hasOwnProperty } from "#utils/has-own-property.js";
+import { promiseWithResolvers } from "#utils/promise-with-resolvers.js";
 import { symbolInspect } from "#utils/symbol-inspect.js";
 
 import type { StaticJsRealmOptions } from "../factories/StaticJsRealm.js";
@@ -355,11 +358,52 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   async evaluateModule(
-    _code: string,
-    _opts?: StaticJsRealmEvaluateSourceOptions,
+    code: string,
+    opts?: StaticJsRealmEvaluateSourceOptions,
   ): Promise<StaticJsModule> {
-    const _sourceName = _opts?.sourceName ?? this._createInlineModuleSourceName();
-    throw new Error("Not implemented");
+    const specifier = opts?.sourceName ?? this._createInlineModuleSourceName();
+    if (this._modules.has(specifier)) {
+      throw new StaticJsModuleError(
+        `Cannot evaluate module with name ${specifier} as the name is already used by another module.`,
+      );
+    }
+
+    this._modules.add(specifier, code);
+
+    const { promise: loadImportedModuleRejecter, ...loadImportedModuleResolvers } =
+      promiseWithResolvers<void>();
+
+    // oxlint-disable-next-line typescript/no-this-alias
+    const realm = this;
+    function* loadTask() {
+      const context = EvaluationContext.createRootContext({
+        scriptOrModule: null,
+        realm,
+        strict: true,
+      });
+      return yield* context.run(function* () {
+        const promiseCapability = yield* newPromiseCapability(realm.intrinsics.Promise);
+        realm.loadImportedModule(
+          realm,
+          { specifier, attributes: [] },
+          loadImportedModuleResolvers,
+          promiseCapability,
+        );
+        return promiseCapability.promise;
+      });
+    }
+
+    const namespacePromise = await this._enqueueMacrotask(loadTask, "evaluate", opts);
+
+    // Note: loadImportedModuleRejecter never
+    await Promise.race([namespacePromise.toNative(), loadImportedModuleRejecter]);
+
+    const result = this._modules.get(specifier);
+    if (!result) {
+      throw new StaticJsEngineError(`Could not find module ${specifier} after module evaluation`);
+    }
+
+    return result;
   }
 
   async awaitCurrentTask() {
@@ -405,9 +449,14 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   loadImportedModule(
     referrer: StaticJsModuleReferrer,
     moduleRequest: StaticJsModuleRequest,
+    hostDefined: StaticJsHostLoadModuleState | undefined,
     payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   ): void {
-    this._modules.loadImportedModule(referrer, moduleRequest, payload);
+    this._modules.loadImportedModule(referrer, moduleRequest, hostDefined, payload);
+  }
+
+  enqueueGenericJob(evaluator: StaticJsEvaluator<void>): Promise<void> {
+    return this._enqueueMacrotask(evaluator, "evaluate");
   }
 
   enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {

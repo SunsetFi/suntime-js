@@ -3,27 +3,17 @@ import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 
 import { Q } from "#evaluator/completions/Q.js";
-import {
-  StaticJsCyclicModuleImpl,
-  type StaticJsCyclicModuleStatus,
-} from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
+import { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import { assert } from "#utils/assert.js";
 
+import {
+  AsyncEvaluatingOrEvaluatedStatus,
+  EvaluatingOrEvaluatedStatus,
+} from "../StaticJsCyclicModuleStatus.js";
 import { evaluateModuleSync } from "./evaluate-module-sync.js";
 import { executeAsyncModule } from "./execute-async-module.js";
 import { getImportedModule } from "./get-imported-module.js";
 import { incrementModuleAsyncEvaluationCount } from "./increment-module-async-evalutaion-count.js";
-
-const PostEvaluateStatus = new Set<StaticJsCyclicModuleStatus>(["evaluating-async", "evaluated"]);
-
-/**
- * "evaluating" | "evaluating-async" | "evaluated"
- */
-const EvaluatingOrEvaluatedStatusAssert = new Set<StaticJsCyclicModuleStatus>([
-  "evaluating",
-  "evaluating-async",
-  "evaluated",
-]);
 
 export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluation(
   module: StaticJsModuleImpl,
@@ -35,7 +25,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
     return index;
   }
 
-  if (PostEvaluateStatus.has(module.status)) {
+  if (AsyncEvaluatingOrEvaluatedStatus.has(module.status)) {
     if (module.evaluationError === null) {
       return index;
     }
@@ -69,7 +59,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
       let requiredModule = _requiredModule;
 
       assert(
-        EvaluatingOrEvaluatedStatusAssert.has(requiredModule.status),
+        EvaluatingOrEvaluatedStatus.has(requiredModule.status),
         `Invalid inner module evaluation requested module status ${requiredModule.status}`,
       );
 
@@ -97,7 +87,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
         requiredModule = cycleRoot;
 
         assert(
-          PostEvaluateStatus.has(requiredModule.status),
+          AsyncEvaluatingOrEvaluatedStatus.has(requiredModule.status),
           `Expected required module to have a post-evaluate status`,
         );
 
@@ -126,7 +116,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
   }
 
   assert(
-    stack.indexOf(module) !== stack.lastIndexOf(module),
+    stack.indexOf(module) === stack.lastIndexOf(module),
     "Expected innerModuleEvaluation module to appear at most once in the stack",
   );
 

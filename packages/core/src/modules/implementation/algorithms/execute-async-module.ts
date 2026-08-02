@@ -1,8 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
-import type {
-  StaticJsCyclicModuleImpl,
-  StaticJsCyclicModuleStatus,
-} from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
+import type { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
 import { performPromiseThen } from "#algorithms/perform-promise-then.js";
@@ -11,22 +8,15 @@ import { X } from "#evaluator/completions/X.js";
 import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { assert } from "#utils/assert.js";
 
+import { EvaluatingStatus } from "../StaticJsCyclicModuleStatus.js";
 import { asyncModuleExecutionFulfilled } from "./async-module-execution-fulfilled.js";
 import { asyncModuleExecutionRejected } from "./async-module-execution-rejected.js";
-
-/**
- * "evaluating" | "evaluating-async"
- */
-const EvaluatingStatusAssert = new Set<StaticJsCyclicModuleStatus>([
-  "evaluating",
-  "evaluating-async",
-]);
 
 export const executeAsyncModule = Q.makeReceiver(function* executeAsyncModule(
   module: StaticJsCyclicModuleImpl,
 ): EvaluationGenerator<void> {
   assert(
-    EvaluatingStatusAssert.has(module.status),
+    () => EvaluatingStatus.has(module.status),
     `Expected cyclic module to be in an evaluating state for async execution, but it is ${module.status}`,
   );
 

@@ -18,10 +18,10 @@ import varScopedDeclarations from "#evaluator/instantiation/algorithms/var-scope
 import { boundNames } from "#grammar/bound-names.js";
 import { isConstantDeclaration } from "#grammar/is-constant-declaration.js";
 import { allocated } from "#memory/allocated.js";
-import { createImportBinding } from "#modules/algorithms/create-import-binding.js";
-import { getImportedModule } from "#modules/algorithms/get-imported-module.js";
-import { getModuleNamespace } from "#modules/algorithms/get-module-namespace.js";
-import { importedLocalNames } from "#modules/algorithms/imported-local-names.js";
+import { createImportBinding } from "#modules/implementation/algorithms/create-import-binding.js";
+import { getImportedModule } from "#modules/implementation/algorithms/get-imported-module.js";
+import { getModuleNamespace } from "#modules/implementation/algorithms/get-module-namespace.js";
+import { importedLocalNames } from "#modules/implementation/algorithms/imported-local-names.js";
 import { exportEntries as exportEntriesGrammar } from "#modules/implementation/grammar/export-entries.js";
 import { importEntries as ImportEntriesGrammar } from "#modules/implementation/grammar/import-entries.js";
 import { moduleRequests } from "#modules/implementation/grammar/module-requests.js";
@@ -102,7 +102,7 @@ export class StaticJsSourceTextModuleImpl
       }
     }
 
-    const async = findTopLevelAwait(body) !== null;
+    const async = findTopLevelAwait(file) !== null;
 
     return StaticJsSourceTextModuleImpl.create({
       specifier,
@@ -311,7 +311,7 @@ export class StaticJsSourceTextModuleImpl
     }
 
     const realm = this.realm;
-    const envRecord = StaticJsModuleEnvironmentRecord.create({ realm });
+    const envRecord = StaticJsModuleEnvironmentRecord.create({ realm, outerEnv: realm.globalEnv });
     this.environment = envRecord;
 
     for (const importEntry of this.importEntries) {
@@ -373,7 +373,7 @@ export class StaticJsSourceTextModuleImpl
         }
       }
 
-      const lexicalDecls = lexicallyScopedDeclarations(code);
+      const lexicalDecls = lexicallyScopedDeclarations.forModule(code);
       let privateEnv = null;
       for (const lexicalDecl of lexicalDecls) {
         for (const name of boundNames(lexicalDecl)) {
@@ -396,7 +396,13 @@ export class StaticJsSourceTextModuleImpl
   override *executeModule(
     capability?: StaticJsPromiseCapabilityRecord,
   ): EvaluationGenerator<void | Completion.Throw> {
-    assert(this.status === "linked", "Module must be linked before execution.");
+    // assert(() => PostLink, "Module must be linked before execution.");
+    // Spec says to assert "module has been linked and declarations are instantiated"
+    assert.notNull(
+      this.environment,
+      "StaticJsSourceTextModule environment must be initialized before execution.",
+    );
+
     const moduleContext = this.context!;
     if (!this.hasTLA) {
       assert(capability == null, "Capability must be null for modules without top-level await.");

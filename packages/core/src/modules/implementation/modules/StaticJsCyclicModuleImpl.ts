@@ -8,24 +8,20 @@ import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { X } from "#evaluator/completions/X.js";
-import { innerModuleEvaluation } from "#modules/algorithms/inner-module-evaluation.js";
-import { innerModuleLinking } from "#modules/algorithms/inner-module-linking.js";
-import { innerModuleLoading } from "#modules/algorithms/inner-module-loading.js";
+import { innerModuleEvaluation } from "#modules/implementation/algorithms/inner-module-evaluation.js";
+import { innerModuleLinking } from "#modules/implementation/algorithms/inner-module-linking.js";
+import { innerModuleLoading } from "#modules/implementation/algorithms/inner-module-loading.js";
 import { assert } from "#utils/assert.js";
 
 import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
 import type { StaticJsGraphLoadingState } from "../StaticJsGraphLoadingState.js";
 
+import {
+  AtLeastLinkedStatus,
+  EvaluatingAsyncOrEvaluatedStatus,
+  type StaticJsCyclicModuleStatus,
+} from "../StaticJsCyclicModuleStatus.js";
 import { StaticJsModuleImpl, type StaticJsModuleImplCreateParams } from "./StaticJsModuleImpl.js";
-
-export type StaticJsCyclicModuleStatus =
-  | "new"
-  | "unlinked"
-  | "linking"
-  | "linked"
-  | "evaluating"
-  | "evaluating-async"
-  | "evaluated";
 
 export interface StaticJsCyclicModuleCreateParams extends StaticJsModuleImplCreateParams {
   requestedModules: readonly StaticJsModuleRequest[];
@@ -35,35 +31,9 @@ export interface StaticJsCyclicModuleCreateParams extends StaticJsModuleImplCrea
 /**
  * "unlinked" | "linked" | "evaluating-async" | "evaluated"
  */
-const LinkStatusAssert = new Set<StaticJsCyclicModuleStatus>([
+const ReadyForLinkStatusAssert = new Set<StaticJsCyclicModuleStatus>([
   "unlinked",
   "linked",
-  "evaluating-async",
-  "evaluated",
-]);
-
-/**
- * "linked" | "evaluating-async" | "evaluated"
- */
-const PostLinkStatusAssert = new Set<StaticJsCyclicModuleStatus>([
-  "linked",
-  "evaluating-async",
-  "evaluated",
-]);
-
-/**
- * "linked" | "evaluating-async" | "evaluated"
- */
-const PreEvaluateStatusAssert = new Set<StaticJsCyclicModuleStatus>([
-  "linked",
-  "evaluating-async",
-  "evaluated",
-]);
-
-/**
- * "evaluating-async" | "evaluated"
- */
-const PostEvaluateStatusAssert = new Set<StaticJsCyclicModuleStatus>([
   "evaluating-async",
   "evaluated",
 ]);
@@ -131,7 +101,7 @@ export abstract class StaticJsCyclicModuleImpl
 
   override *link(): EvaluationGenerator<null | Completion.Throw> {
     assert(
-      LinkStatusAssert.has(this.status),
+      ReadyForLinkStatusAssert.has(this.status),
       `Cyclic module status is not in a linkable state: ${this.status}`,
     );
 
@@ -156,7 +126,7 @@ export abstract class StaticJsCyclicModuleImpl
     }
 
     assert(
-      PostLinkStatusAssert.has(this.status),
+      AtLeastLinkedStatus.has(this.status),
       `Cyclic module status is not in a post-linkable state: ${this.status}`,
     );
 
@@ -167,7 +137,7 @@ export abstract class StaticJsCyclicModuleImpl
     const { status } = this;
 
     assert(
-      PreEvaluateStatusAssert.has(status),
+      AtLeastLinkedStatus.has(status),
       `Cyclic module status is not in a pre-evaluable state: ${this.status}`,
     );
 
@@ -218,7 +188,7 @@ export abstract class StaticJsCyclicModuleImpl
       yield* X(call(promiseCapability.promise, types.undefined, [result.value]));
     } else {
       assert(
-        PostEvaluateStatusAssert.has(module.status),
+        EvaluatingAsyncOrEvaluatedStatus.has(module.status),
         `Cyclic module status is not in a post-evaluable state: ${module.status}`,
       );
 
@@ -232,7 +202,7 @@ export abstract class StaticJsCyclicModuleImpl
           module.asyncEvaluationOrder === null || module.asyncEvaluationOrder === "done",
           `Expected successful cyclic innerModuleEvaluation module to have asyncEvaluationOrder done or null`,
         );
-        yield* X(call(promiseCapability.promise, types.undefined, []));
+        yield* X(call(promiseCapability.resolve, types.undefined, []));
       }
 
       assert(stack.length === 0, `Expected stack to be empty after evaluation`);

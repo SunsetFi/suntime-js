@@ -39,17 +39,15 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   static create(
     params: StaticJsDeclarativeEnvironmentRecordCreateParams,
   ): StaticJsDeclarativeEnvironmentRecord {
-    const { outerEnv, realm } = params;
-    return allocated(new StaticJsDeclarativeEnvironmentRecord(outerEnv, realm));
+    return allocated(new StaticJsDeclarativeEnvironmentRecord(params));
   }
 
-  private readonly _bindings: Map<string, DeclarativeBinding> = new Map();
+  protected readonly _realm: StaticJsRealm;
+  protected readonly _bindings: Map<string, DeclarativeBinding> = new Map();
 
-  protected constructor(
-    outerEnv: StaticJsEnvironmentRecord | null,
-    protected readonly _realm: StaticJsRealm,
-  ) {
+  protected constructor({ outerEnv, realm }: StaticJsDeclarativeEnvironmentRecordCreateParams) {
     super(outerEnv);
+    this._realm = realm;
   }
 
   *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {

@@ -45,7 +45,7 @@ export const innerModuleLoading = Q.makeReceiver(function* innerModuleLoading(
         if (record) {
           yield* innerModuleLoading(state, record.module);
         } else {
-          yield* hostLoadImportedModule(module, request, state);
+          yield* hostLoadImportedModule(module, request, state.hostDefined, state);
         }
       }
 

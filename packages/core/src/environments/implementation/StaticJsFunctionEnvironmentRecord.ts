@@ -1,6 +1,5 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
@@ -31,20 +30,21 @@ export class StaticJsFunctionEnvironmentRecord extends StaticJsDeclarativeEnviro
   static override create(
     params: StaticJsFunctionEnvironmentRecordCreateParams,
   ): StaticJsFunctionEnvironmentRecord {
-    const { functionObject, newTarget, lexical, outerEnv, realm } = params;
-    return allocated(
-      new StaticJsFunctionEnvironmentRecord(functionObject, newTarget, lexical, outerEnv, realm),
-    );
+    return allocated(new StaticJsFunctionEnvironmentRecord(params));
   }
 
-  protected constructor(
-    private readonly _functionObject: StaticJsFunction,
-    private readonly _newTarget: StaticJsObject | null,
-    lexical: boolean,
-    outerEnv: StaticJsEnvironmentRecord,
-    realm: StaticJsRealm,
-  ) {
-    super(outerEnv, realm);
+  private readonly _functionObject: StaticJsFunction;
+  private readonly _newTarget: StaticJsObject | null;
+
+  protected constructor({
+    functionObject,
+    newTarget,
+    lexical,
+    ...rest
+  }: StaticJsFunctionEnvironmentRecordCreateParams) {
+    super(rest);
+    this._functionObject = functionObject;
+    this._newTarget = newTarget;
     this._thisBindingStatus = lexical ? "lexical" : "uninitialized";
     this._thisValue = null;
   }

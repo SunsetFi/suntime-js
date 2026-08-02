@@ -1,5 +1,4 @@
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
-import type { Completion } from "#evaluator/completions/Completion.js";
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation } from "#memory/StaticJsAllocation.js";
 import type { StaticJsModuleRecord } from "#modules/StaticJsModuleRecord.js";
@@ -10,7 +9,8 @@ import type { StaticJsPromise } from "#types/StaticJsPromise.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { getModuleNamespace } from "#modules/algorithms/get-module-namespace.js";
+import { Completion } from "#evaluator/completions/Completion.js";
+import { getModuleNamespace } from "#modules/implementation/algorithms/get-module-namespace.js";
 import { isTaggedSymbol } from "#utils/symbol-for.js";
 
 import type { StaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
@@ -81,7 +81,12 @@ export abstract class StaticJsModuleImpl implements StaticJsModuleRecord {
       throw new StaticJsEngineError("Module has not yet been initialized");
     }
 
-    return yield* moduleEnv.getBindingValueEvaluator(bindingName, true);
+    try {
+      return yield* moduleEnv.getBindingValueEvaluator(bindingName, true);
+    } catch (e) {
+      Completion.handleRuntime(e);
+      throw e;
+    }
   }
 
   async getModuleNamespaceAsync(): Promise<StaticJsObject> {

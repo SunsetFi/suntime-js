@@ -4,6 +4,7 @@ import type { RealmHooks } from "#hooks/index.js";
 import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
+import type { StaticJsHostLoadModuleState } from "#modules/implementation/StaticJsHostLoadModuleState.js";
 import type { StaticJsModuleLoadTarget } from "#modules/implementation/StaticJsModuleLoadTarget.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
@@ -176,8 +177,15 @@ export interface StaticJsRealm extends StaticJsModuleLoadTarget {
   loadImportedModule(
     referrer: StaticJsModuleReferrer,
     moduleRequest: StaticJsModuleRequest,
+    hostDefined: StaticJsHostLoadModuleState | undefined,
     payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   ): void;
+
+  /**
+   * Enqueues a generic job to run when the realm is free.
+   * @param evaluator The evaluator to enqueue
+   */
+  enqueueGenericJob(evaluator: StaticJsEvaluator<void>): Promise<void>;
 
   /**
    * Enqueues a promise job to be executed.

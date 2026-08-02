@@ -1,10 +1,13 @@
-import type { AwaitExpression, Node } from "@babel/types";
+import type { AwaitExpression, File } from "@babel/types";
 
 import { traverse } from "./traverse.js";
 
-export function findTopLevelAwait(node: Node): AwaitExpression | null {
+export function findTopLevelAwait(file: File): AwaitExpression | null {
   let found: AwaitExpression | null = null;
-  traverse(node, {
+  // Note: This crashes in mysterious ways in certain AST formations if we pass anything
+  // but a top-level File.
+  // Seen with an export default function on a module.
+  traverse(file, {
     AwaitExpression(path) {
       path.stop();
       found = path.node;

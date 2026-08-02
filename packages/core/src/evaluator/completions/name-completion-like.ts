@@ -1,4 +1,10 @@
+import { Completion } from "./Completion.js";
+
 export function nameCompletionLike(value: unknown): string {
+  if (Completion.Abrupt.is(value)) {
+    return `AbruptCompletion [${value.type}]`;
+  }
+
   if (value instanceof Error) {
     return value.name;
   }

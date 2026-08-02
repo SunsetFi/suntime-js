@@ -28,11 +28,19 @@ export function* newPromiseCapability(
     "resolver",
     function* (_thisArg, resolve, reject) {
       if (resolveFunc !== null || rejectFunc !== null) {
-        throw yield* Completion.Throw.create("TypeError", "Promise resolver called multiple times");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Promise resolver called multiple times",
+          realm,
+        );
       }
 
       if (!isCallable(resolve) || !isCallable(reject)) {
-        throw yield* Completion.Throw.create("TypeError", "Resolve and reject must be functions");
+        throw yield* Completion.Throw.create(
+          "TypeError",
+          "Resolve and reject must be functions",
+          realm,
+        );
       }
 
       resolveFunc = resolve;
@@ -44,7 +52,7 @@ export function* newPromiseCapability(
 
   const promise = yield* construct(constructor, [resolver]);
   if (resolveFunc == null || rejectFunc == null) {
-    throw yield* Completion.Throw.create("TypeError", "Promise resolver did not get called");
+    throw yield* Completion.Throw.create("TypeError", "Promise resolver did not get called", realm);
   }
 
   // Our 'regular' constructor replaces the object instance with itself,

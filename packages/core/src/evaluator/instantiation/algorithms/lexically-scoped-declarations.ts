@@ -34,20 +34,6 @@ export default function lexicallyScopedDeclarations(node: Node): LexicallyScoped
       return node.kind === "var" ? [] : [node];
     case "SwitchCase":
       return node.consequent.flatMap(blockContextStatementListItemLexicallyScopedDeclarations);
-    case "ExportNamedDeclaration": {
-      if (node.declaration?.type === "VariableDeclaration" && node.declaration.kind === "var") {
-        return [];
-      }
-      return [node];
-    }
-    case "ExportDefaultDeclaration": {
-      const { declaration } = node;
-      if (declaration.type === "TSDeclareFunction") {
-        return [];
-      }
-
-      return [node];
-    }
   }
   return [];
 }
@@ -114,6 +100,7 @@ function topLevelStatementListItemLexicallyScopedDeclarations(
 // For File, Program (script or module), or a function body node.
 // Scripts and function bodies use TopLevelLexicallyScopedDeclarations per item;
 // modules use LexicallyScopedDeclarations (block-like) per item.
+
 function lexicallyScopedDeclarationsForScriptOrFunction(node: Node): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "File":
@@ -138,10 +125,11 @@ function lexicallyScopedDeclarationsForScriptOrFunction(node: Node): LexicallySc
   }
   return [];
 }
+lexicallyScopedDeclarations.forScriptOrFunction = lexicallyScopedDeclarationsForScriptOrFunction;
 
 // For a BlockStatement or SwitchStatement node (used by BlockDeclarationInstantiation).
 // Uses block context: function declarations ARE lexically declared.
-function lexicallyScopedDeclarationsForBlock(
+lexicallyScopedDeclarations.forBlock = function lexicallyScopedDeclarationsForBlock(
   node: BlockStatement | SwitchStatement,
 ): LexicallyScopedDeclNode[] {
   if (node.type === "BlockStatement") {
@@ -150,7 +138,48 @@ function lexicallyScopedDeclarationsForBlock(
   return node.cases.flatMap((c) =>
     c.consequent.flatMap(blockContextStatementListItemLexicallyScopedDeclarations),
   );
-}
+};
 
-lexicallyScopedDeclarations.forScriptOrFunction = lexicallyScopedDeclarationsForScriptOrFunction;
-lexicallyScopedDeclarations.forBlock = lexicallyScopedDeclarationsForBlock;
+function lexicallyScopedDeclarationsForModule(node: Node): LexicallyScopedDeclNode[] {
+  switch (node.type) {
+    case "File":
+      return lexicallyScopedDeclarationsForModule(node.program);
+    case "Program":
+      return node.body.flatMap(lexicallyScopedDeclarationsForModule);
+    case "ExportNamedDeclaration": {
+      const { declaration } = node;
+      if (!declaration) {
+        return [];
+      }
+
+      switch (declaration.type) {
+        case "VariableDeclaration":
+          if (declaration.kind === "var") {
+            return [];
+          }
+          return [declaration];
+        case "ClassDeclaration":
+          return [declaration];
+        case "FunctionDeclaration":
+          return [declaration];
+      }
+
+      return [];
+    }
+    case "ExportDefaultDeclaration": {
+      const { declaration } = node;
+      switch (declaration.type) {
+        case "FunctionDeclaration":
+          return [declaration];
+        case "ClassDeclaration":
+          return [declaration];
+        case "Identifier":
+          return [node];
+      }
+      return [];
+    }
+  }
+
+  return lexicallyScopedDeclarations(node);
+}
+lexicallyScopedDeclarations.forModule = lexicallyScopedDeclarationsForModule;

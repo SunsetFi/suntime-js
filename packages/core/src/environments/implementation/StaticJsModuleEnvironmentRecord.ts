@@ -1,148 +1,100 @@
 import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsAllocation, StaticJsAllocator } from "#memory/StaticJsAllocation.js";
 import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
-import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsValue } from "#types/StaticJsValue.js";
 
+import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
 import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 import { assert } from "#utils/assert.js";
 
 import {
-  StaticJsEnvironmentRecordBase,
-  type StaticJsEnvironmentRecordBaseCreateParams,
-} from "./StaticJsEnvironmentRecordBase.js";
+  StaticJsDeclarativeEnvironmentRecord,
+  type StaticJsDeclarativeEnvironmentRecordCreateParams,
+} from "./StaticJsDeclarativeEnvironmentRecord.js";
 
 interface ModuleBinding {
   module: StaticJsModuleImpl;
-  bindingName: string;
+  targetName: string;
 }
 
-export type StaticJsModuleEnvironmentRecordCreateParams = StaticJsEnvironmentRecordBaseCreateParams;
+export type StaticJsModuleEnvironmentRecordCreateParams =
+  StaticJsDeclarativeEnvironmentRecordCreateParams;
 
-export class StaticJsModuleEnvironmentRecord extends StaticJsEnvironmentRecordBase {
-  private readonly _moduleBindings = new Map<string, ModuleBinding>();
-
-  static create(
+export class StaticJsModuleEnvironmentRecord extends StaticJsDeclarativeEnvironmentRecord {
+  static override create(
     params: StaticJsModuleEnvironmentRecordCreateParams,
   ): StaticJsModuleEnvironmentRecord {
-    return allocated(new StaticJsModuleEnvironmentRecord(params.realm));
+    return allocated(new StaticJsModuleEnvironmentRecord(params));
   }
 
-  protected constructor(private readonly _realm: StaticJsRealm) {
-    super(_realm.globalEnv);
+  protected constructor(params: StaticJsModuleEnvironmentRecordCreateParams) {
+    super(params);
   }
 
-  *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
-    const result: Record<string, StaticJsValue | null> = {};
-    for (const [name, { module, bindingName }] of this._moduleBindings.entries()) {
-      assert.notNull(
-        module.environment,
-        "Module environment should not be null in StaticJsModuleEnvironmentRecord inspectBindingsEvaluator",
-      );
-      const value = yield* module.environment.getBindingValueEvaluator(bindingName, true);
-      result[name] = value;
+  private readonly _moduleBindings = new Map<string, ModuleBinding>();
+
+  override *getBindingValueEvaluator(
+    name: string,
+    strict: boolean,
+  ): EvaluationGenerator<StaticJsValue> {
+    assert(
+      strict,
+      "Strict must always be true for StaticJsModuleEnvironmentRecord.getBindingValueEvaluator",
+    );
+    const indirectBinding = this._moduleBindings.get(name);
+    if (indirectBinding) {
+      const { module, targetName } = indirectBinding;
+      const targetEnv = module.environment;
+      if (targetEnv == null) {
+        throw yield* Completion.Throw.create(
+          "ReferenceError",
+          `Module binding ${name} of module ${module.specifier} accessed before module was initialized.`,
+        );
+      }
+      return yield* Q(targetEnv.getBindingValueEvaluator(targetName, true));
     }
-    return result;
-  }
 
-  *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
-    return this._moduleBindings.has(name);
-  }
+    const binding = this._bindings.get(name);
+    assert.notNull(
+      binding,
+      "StaticJsModuleEnvironmentRecord should never have getBindingValueEvaluator called with a non-existent binding",
+    );
 
-  *isInitializedEvaluator(name: string): EvaluationGenerator<boolean> {
-    const binding = this._moduleBindings.get(name);
-    if (!binding) {
+    if (binding.value == null) {
       throw yield* Completion.Throw.create(
         "ReferenceError",
-        `Binding ${name} does not exist in this module environment`,
+        `Cannot get value of uninitialized binding ${name}`,
       );
     }
 
-    // Module bindings are always initialized.
+    return binding.value;
+  }
+
+  override *deleteBindingEvaluator(): EvaluationGenerator<boolean> {
+    // Should not be used
+    throw new StaticJsEngineError(
+      "StaticJsModuleEnvironmentRecord.deleteBindingEvaluator should not be used",
+    );
+  }
+
+  override *hasThisBindingEvaluator() {
     return true;
   }
 
-  *createMutableBindingEvaluator(_name: string, _deletable: boolean) {
-    throw yield* Completion.Throw.create(
-      "TypeError",
-      "Cannot create mutable bindings in a module environment record",
-    );
-  }
-
-  *createImmutableBindingEvaluator(_name: string, _strict: boolean) {
-    throw yield* Completion.Throw.create(
-      "TypeError",
-      "Cannot create immutable bindings in a module environment recor",
-    );
-  }
-
-  *initializeBindingEvaluator(_name: string, _value: StaticJsValue): EvaluationGenerator<void> {
-    throw yield* Completion.Throw.create(
-      "TypeError",
-      "Cannot initialize bindings in a module environment record",
-    );
-  }
-
-  *setMutableBindingEvaluator(
-    name: string,
-    _value: StaticJsValue,
-    _strict: boolean,
-  ): EvaluationGenerator<void> {
-    if (this._moduleBindings.has(name)) {
-      throw yield* Completion.Throw.create("TypeError", "Assignment to constant");
-    }
-
-    throw yield* Completion.Throw.create(
-      "ReferenceError",
-      `Binding ${name} does not exist in this module environment`,
-    );
-  }
-
-  *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
-    const binding = this._moduleBindings.get(name);
-    if (!binding) {
-      throw yield* Completion.Throw.create(
-        "ReferenceError",
-        `Binding ${name} does not exist in this module environment`,
-      );
-    }
-
-    const { module, bindingName } = binding;
-    assert.notNull(
-      module.environment,
-      "Module environment should not be null in StaticJsModuleEnvironmentRecord getBindingValueEvaluator",
-    );
-
-    return yield* module.environment.getBindingValueEvaluator(bindingName, true);
-  }
-
-  *deleteBindingEvaluator(_name: string): EvaluationGenerator<boolean> {
-    throw yield* Completion.Throw.create(
-      "TypeError",
-      "Cannot delete bindings in a module environment record.",
-    );
-  }
-
-  *hasThisBindingEvaluator(): EvaluationGenerator<boolean> {
-    return false;
-  }
-
-  *getThisBindingEvaluator(): EvaluationGenerator<StaticJsValue> {
-    return this._realm.types.undefined;
-  }
-
-  *hasSuperBindingEvaluator(): EvaluationGenerator<boolean> {
-    return false;
-  }
-
-  *withBaseObjectEvaluator(): EvaluationGenerator<StaticJsValue> {
+  override *getThisBindingEvaluator() {
     return this._realm.types.undefined;
   }
 
   createImportBinding(name: string, module: StaticJsModuleImpl, bindingName: string): void {
-    this._moduleBindings.set(name, { module, bindingName });
+    assert(
+      () => !this._bindings.has(name) && !this._moduleBindings.has(name),
+      `StaticJsModuleEnvironmentRecord createImportBinding called with duplicate binding ${name}`,
+    );
+
+    this._moduleBindings.set(name, { module, targetName: bindingName });
   }
 
   override mark(marks: Set<StaticJsAllocation>): void {

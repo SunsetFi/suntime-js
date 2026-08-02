@@ -9,7 +9,7 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
 import { Q } from "#evaluator/completions/Q.js";
 import { allocated } from "#memory/allocated.js";
-import { getModuleNamespace } from "#modules/algorithms/get-module-namespace.js";
+import { getModuleNamespace } from "#modules/implementation/algorithms/get-module-namespace.js";
 import { StaticJsOrdinaryObjectImpl } from "#types/implementation/objects/StaticJsOrdinaryObjectImpl.js";
 import {
   isStaticJsAccessorPropertyDescriptor,

@@ -5,8 +5,9 @@ import type { StaticJsModuleResolver } from "#modules/StaticJsModuleResolver.js"
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
+import { Completion } from "#evaluator/completions/Completion.js";
 import { X } from "#evaluator/completions/X.js";
-import { finishLoadingImportedModule } from "#modules/algorithms/finish-loading-imported-module.js";
+import { finishLoadingImportedModule } from "#modules/implementation/algorithms/finish-loading-imported-module.js";
 import { isStaticJsModule, type StaticJsModule } from "#modules/StaticJsModule.js";
 import { isStaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
 import { isEntryValueNotNull } from "#utils/is-entry-value-not-null.js";
@@ -16,6 +17,7 @@ import typedKeys from "#utils/typed-keys.js";
 import type { StaticJsModuleRequest } from "../StaticJsModuleRequest.js";
 import type { StaticJsModuleImpl } from "./modules/StaticJsModuleImpl.js";
 import type { StaticJsGraphLoadingState } from "./StaticJsGraphLoadingState.js";
+import type { StaticJsHostLoadModuleState } from "./StaticJsHostLoadModuleState.js";
 import type { StaticJsLoadedModuleRequestRecord } from "./StaticJsLoadedModuleRequestRecord.js";
 
 import { StaticJsSourceTextModuleImpl } from "./modules/StaticJsSourceTextModuleImpl.js";
@@ -55,17 +57,28 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
   }
 
   has(specifier: string): boolean {
-    return this._resolvedModules.has(specifier);
+    const module = this._resolvedModules.get(specifier);
+    // Can't use 'has' as we cache not-founds.
+    return module != null;
+  }
+
+  get(specifier: string): StaticJsModule | undefined {
+    const path = this._resolvePath(specifier);
+    const module = this._resolvedModules.get(path);
+    // We may cache not-found as null
+    return module ?? undefined;
   }
 
   add(specifier: string, resolution: StaticJsModuleResolution): void {
-    const module = this._resolutionToModule(resolution, specifier);
-    this._resolvedModules.set(specifier, module);
+    const path = this._resolvePath(specifier);
+    const module = this._resolutionToModule(resolution, path);
+    this._resolvedModules.set(path, module);
   }
 
   loadImportedModule(
     referrer: StaticJsModuleReferrer,
     moduleRequest: StaticJsModuleRequest,
+    hostDefined: StaticJsHostLoadModuleState | undefined,
     payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   ) {
     let rootPath: string = "/";
@@ -113,16 +126,35 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
       this._pendingResolutions.set(path, load);
     }
 
-    load.then((module) => {
-      this._realm.enqueuePromiseJob(function* () {
-        if (module) {
-          yield* finishLoadingImportedModule(referrer, moduleRequest, payload, module);
-        }
+    load
+      .then(
+        (module) => {
+          return this._realm.enqueueGenericJob(function* () {
+            if (module) {
+              yield* finishLoadingImportedModule(referrer, moduleRequest, payload, module);
+            }
+          });
+        },
+        (err) => {
+          return this._realm.enqueueGenericJob(function* () {
+            if (!Completion.Throw.is(err)) {
+              err = yield* Completion.Throw.create(
+                "Error",
+                `Failed to load module ${moduleRequest.specifier}`,
+              );
+            }
+            yield* finishLoadingImportedModule(referrer, moduleRequest, payload, err);
+          });
+        },
+      )
+      .then(() => {
+        hostDefined?.resolve();
+      })
+      .catch((err) => {
+        // Normal errors go through the promiseCapability, but engine errors
+        // like asserts end up here.
+        hostDefined?.reject(err);
       });
-    });
-
-    // TODO: MUST cache for [referrer, moduleRequest] pairs
-    // TODO: Call FinishLoadingImportedModule(referrer, moduleRequest, Completion.Normal(StaticJsModuleRecord))
   }
 
   private _resolutionToModule(
@@ -161,6 +193,11 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
       return part;
     });
 
-    return sanitized.join("/");
+    let path = sanitized.join("/");
+    if (!path.startsWith("/")) {
+      path = "/" + path;
+    }
+
+    return path;
   }
 }

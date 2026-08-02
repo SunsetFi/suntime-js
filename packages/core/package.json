@@ -68,11 +68,11 @@
     "prepublishOnly": "node ../../scripts/verify-build.mjs"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.3",
-    "@babel/traverse": "^7.29.0"
+    "@babel/parser": "catalog:",
+    "@babel/traverse": "catalog:"
   },
   "devDependencies": {
-    "@babel/types": "catalog:",
+    "@babel/types": "7.29.8",
     "@oxlint/plugins": "^1.66.0",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",

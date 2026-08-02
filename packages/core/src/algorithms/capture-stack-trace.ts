@@ -34,8 +34,21 @@ export function* captureStackTrace(
   obj: StaticJsObject,
   constructor?: StaticJsValue | undefined,
 ): EvaluationGenerator<void> {
-  const lines: string[] = [];
+  const message = yield* captureStackTraceMessageLine(obj);
 
+  let trace: string[] = [];
+  if (EvaluationContext.entered()) {
+    trace = yield* captureStackTraceTrace(constructor);
+  }
+
+  // Note: v8 avoids formatting the strings until the first stack access.
+
+  const stackValue = [message, ...trace].join("\n");
+
+  yield* setErrorStack(obj, EvaluationContext.current.realm.types.string(stackValue));
+}
+
+function* captureStackTraceMessageLine(obj: StaticJsObject) {
   let nameStr = "Error";
   let message: string | null = null;
 
@@ -49,7 +62,11 @@ export function* captureStackTrace(
     message = yield* toString.js(messageValue);
   }
 
-  lines.push(nameStr + (message ? `: ${message}` : ""));
+  return nameStr + (message ? `: ${message}` : "");
+}
+
+function* captureStackTraceTrace(constructor?: StaticJsValue | undefined) {
+  const lines: string[] = [];
 
   let seenConstructor = constructor ? false : true;
 
@@ -103,10 +120,7 @@ export function* captureStackTrace(
 
     lines.push(line);
   }
-
-  // Note: v8 avoids formatting the strings until the first stack access.
-
-  yield* setErrorStack(obj, EvaluationContext.current.realm.types.string(lines.join("\n")));
+  return lines;
 }
 
 function captureStackLocation(loc: SourceLocation): string {

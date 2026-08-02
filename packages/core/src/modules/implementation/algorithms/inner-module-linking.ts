@@ -3,23 +3,11 @@ import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 
 import { Q } from "#evaluator/completions/Q.js";
-import {
-  StaticJsCyclicModuleImpl,
-  type StaticJsCyclicModuleStatus,
-} from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
+import { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import { assert } from "#utils/assert.js";
 
+import { AtLeastLinkingStatus } from "../StaticJsCyclicModuleStatus.js";
 import { getImportedModule } from "./get-imported-module.js";
-
-/**
- * "linking" | "linked" | "evaluating-async" | "evaluated"
- */
-const LinkingOrPostLinkStatus = new Set<StaticJsCyclicModuleStatus>([
-  "linking",
-  "linked",
-  "evaluating-async",
-  "evaluated",
-]);
 
 export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
   module: StaticJsModuleImpl,
@@ -31,7 +19,7 @@ export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
     return index;
   }
 
-  if (LinkingOrPostLinkStatus.has(module.status)) {
+  if (AtLeastLinkingStatus.has(module.status)) {
     return index;
   }
 
@@ -51,7 +39,7 @@ export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
     index = yield* Q(innerModuleLinking(requiredModule, stack, index));
     if (requiredModule instanceof StaticJsCyclicModuleImpl) {
       assert(
-        LinkingOrPostLinkStatus.has(requiredModule.status),
+        AtLeastLinkingStatus.has(requiredModule.status),
         `Cyclic module required module status is not in a post-linkable state: ${requiredModule.status}`,
       );
 

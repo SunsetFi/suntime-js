@@ -5,4 +5,5 @@ export interface StaticJsModuleManager {
   values(): Iterable<StaticJsModule>;
   entries(): Iterable<[string, StaticJsModule]>;
   has(specifier: string): boolean;
+  get(specifier: string): StaticJsModule | undefined;
 }

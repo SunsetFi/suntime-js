@@ -76,7 +76,7 @@ export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
 
   override *link() {
     const realm = this.realm;
-    const envRecord = StaticJsModuleEnvironmentRecord.create({ realm });
+    const envRecord = StaticJsModuleEnvironmentRecord.create({ realm, outerEnv: realm.globalEnv });
     this.environment = envRecord;
     for (const exportName of this._exportNames) {
       yield* X(envRecord.createMutableBindingEvaluator(exportName, false));
