@@ -185,7 +185,7 @@ export abstract class StaticJsCyclicModuleImpl
         module.evaluationError === result,
         `Expected failing cyclic innerModuleEvaluation module to have the evaluation error result`,
       );
-      yield* X(call(promiseCapability.promise, types.undefined, [result.value]));
+      yield* X(call(promiseCapability.reject, types.undefined, [result.value]));
     } else {
       assert(
         EvaluatingAsyncOrEvaluatedStatus.has(module.status),

@@ -83,9 +83,9 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
   ) {
     let rootPath: string = "/";
     if (isStaticJsModule(referrer)) {
-      rootPath = referrer.specifier;
+      rootPath = this._moduleDirname(referrer.specifier);
     } else if (isStaticJsScriptRecord(referrer)) {
-      rootPath = referrer.sourceName;
+      rootPath = this._moduleDirname(referrer.sourceName);
     }
 
     const path = this._resolvePath(rootPath, moduleRequest.specifier);
@@ -132,6 +132,12 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
           return this._realm.enqueueGenericJob(function* () {
             if (module) {
               yield* finishLoadingImportedModule(referrer, moduleRequest, payload, module);
+            } else {
+              const err = yield* Completion.Throw.create(
+                "Error",
+                `Failed to load module ${moduleRequest.specifier}`,
+              );
+              yield* finishLoadingImportedModule(referrer, moduleRequest, payload, err);
             }
           });
         },
@@ -147,12 +153,10 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
           });
         },
       )
-      .then(() => {
-        hostDefined?.resolve();
-      })
       .catch((err) => {
         // Normal errors go through the promiseCapability, but engine errors
         // like asserts end up here.
+        // FIXME: This does not tunnel deeper in!  At least, not for import().
         hostDefined?.reject(err);
       });
   }
@@ -182,6 +186,14 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
         realm: this._realm,
       });
     }
+  }
+
+  private _moduleDirname(specifier: string): string {
+    const parts = specifier.split("/");
+    if (parts.length <= 1) {
+      return "/";
+    }
+    return parts.slice(0, -1).join("/");
   }
 
   private _resolvePath(...parts: string[]): string {

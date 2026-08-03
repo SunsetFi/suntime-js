@@ -36,6 +36,17 @@ export class StaticJsModuleEnvironmentRecord extends StaticJsDeclarativeEnvironm
 
   private readonly _moduleBindings = new Map<string, ModuleBinding>();
 
+  // These things are specified in the spec in a way that is weirdly self-referential, so
+  // while ModuleEnvironmentRecord doesn't specify it overrides this, it still needs to,
+  // as DeclarativeEnvironmentRecord declares hasBinding tautologically.
+
+  override *hasBindingEvaluator(name: string): EvaluationGenerator<boolean> {
+    if (this._moduleBindings.has(name)) {
+      return true;
+    }
+    return yield* super.hasBindingEvaluator(name);
+  }
+
   override *getBindingValueEvaluator(
     name: string,
     strict: boolean,

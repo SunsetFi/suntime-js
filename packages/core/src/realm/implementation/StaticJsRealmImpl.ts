@@ -21,12 +21,14 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { asyncBlockStart } from "#algorithms/async-block-start.js";
 import { getValue } from "#algorithms/get-value.js";
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
+import { performPromiseThen } from "#algorithms/perform-promise-then.js";
 import { StaticJsDeclarativeEnvironmentRecord } from "#environments/implementation/StaticJsDeclarativeEnvironmentRecord.js";
 import { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/StaticJsGlobalEnvironmentRecord.js";
 import { StaticJsObjectEnvironmentRecord } from "#environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { StaticJsConcurrentEvaluationError } from "#errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { StaticJsModuleError } from "#errors/StaticJsModuleError.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
 import { StaticJsUnhandledRejectionError } from "#errors/StaticJsUnhandledRejectionError.js";
 import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js";
@@ -49,6 +51,7 @@ import { parseExpression } from "#parser/parse-expression.js";
 import { parseScript } from "#parser/parse-script.js";
 import { StaticJsScriptRecordImpl } from "#scripts/implementation/StaticJsScriptRecord.js";
 import { synchronousDefaultTaskRunner } from "#tasks/task-runners/synchronous-default.js";
+import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/StaticJsNativeFunctionImpl.js";
 import { StaticJsTypeFactoryImpl } from "#types/implementation/StaticJsTypeFactoryImpl.js";
 import {
   type StaticJsPropertyDescriptorRecord,
@@ -370,7 +373,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
 
     this._modules.add(specifier, code);
 
-    const { promise: loadImportedModuleRejecter, ...loadImportedModuleResolvers } =
+    const { promise: moduleLoadedPromise, ...loadImportedModuleResolvers } =
       promiseWithResolvers<void>();
 
     // oxlint-disable-next-line typescript/no-this-alias
@@ -383,20 +386,34 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       });
       return yield* context.run(function* () {
         const promiseCapability = yield* newPromiseCapability(realm.intrinsics.Promise);
+
+        const onFulfilled = StaticJsNativeFunctionImpl.create(realm, "", function* () {
+          loadImportedModuleResolvers.resolve();
+          return realm.types.undefined;
+        });
+        const onRejected = StaticJsNativeFunctionImpl.create(
+          realm,
+          "",
+          function* (_thisArg, reason) {
+            loadImportedModuleResolvers.reject(new StaticJsRuntimeError(reason));
+            return realm.types.undefined;
+          },
+        );
+
+        yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);
+
         realm.loadImportedModule(
           realm,
           { specifier, attributes: [] },
           loadImportedModuleResolvers,
           promiseCapability,
         );
-        return promiseCapability.promise;
       });
     }
 
-    const namespacePromise = await this._enqueueMacrotask(loadTask, "evaluate", opts);
+    const loadModulePromise = await this._enqueueMacrotask(loadTask, "evaluate", opts);
 
-    // Note: loadImportedModuleRejecter never
-    await Promise.race([namespacePromise.toNative(), loadImportedModuleRejecter]);
+    await Promise.all([loadModulePromise, moduleLoadedPromise]);
 
     const result = this._modules.get(specifier);
     if (!result) {
@@ -456,7 +473,19 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   }
 
   enqueueGenericJob(evaluator: StaticJsEvaluator<void>): Promise<void> {
-    return this._enqueueMacrotask(evaluator, "evaluate");
+    // oxlint-disable-next-line typescript/no-this-alias
+    const realm = this;
+    const scriptOrModule = EvaluationContext.scriptOrModule;
+    function* evaluate() {
+      const context = EvaluationContext.createRootContext({
+        scriptOrModule,
+        strict: false,
+        realm,
+      });
+      return yield* context.run(() => invokeEvaluator(evaluator));
+    }
+
+    return this._enqueueMacrotask(evaluate, "evaluate");
   }
 
   enqueuePromiseJob(evaluator: StaticJsEvaluator<void>): void {

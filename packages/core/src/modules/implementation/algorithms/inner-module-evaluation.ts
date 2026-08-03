@@ -15,7 +15,7 @@ import { executeAsyncModule } from "./execute-async-module.js";
 import { getImportedModule } from "./get-imported-module.js";
 import { incrementModuleAsyncEvaluationCount } from "./increment-module-async-evalutaion-count.js";
 
-export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluation(
+export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluationBody(
   module: StaticJsModuleImpl,
   stack: StaticJsModuleImpl[],
   index: number,
@@ -97,8 +97,8 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
       }
       if (requiredModule.asyncEvaluationOrder !== null) {
         module.pendingAsyncDependencies += 1;
+        requiredModule.asyncParentModules.push(module);
       }
-      requiredModule.asyncParentModules.push(module);
     }
   }
 

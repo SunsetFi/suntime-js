@@ -11,6 +11,7 @@ import { instantiateFunctionObject } from "#algorithms/instantiate-function-obje
 import { StaticJsModuleEnvironmentRecord } from "#environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { EvaluateNodeCommand } from "#evaluator/commands/EvaluateNodeCommand.js";
 import { Completion } from "#evaluator/completions/Completion.js";
+import { Q } from "#evaluator/completions/Q.js";
 import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 import lexicallyScopedDeclarations from "#evaluator/instantiation/algorithms/lexically-scoped-declarations.js";
@@ -419,7 +420,7 @@ export class StaticJsSourceTextModuleImpl
         EvaluationContext.pop();
       }
       if (Completion.Throw.is(result)) {
-        return result;
+        return yield* Q(result);
       }
     } else {
       assert.notNull(capability, "Capability must not be null for modules with top-level await.");

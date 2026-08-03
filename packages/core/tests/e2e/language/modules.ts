@@ -5,6 +5,7 @@ import {
   StaticJsSyntaxError,
   evaluateModule,
   type StaticJsTaskIterator,
+  type StaticJsModuleResolution,
 } from "../../../src/index.js";
 import { expectStaticJsNumber, expectStaticJsObject } from "../utils/expect-staticjs.js";
 
@@ -537,11 +538,11 @@ describe("E2E: Modules", () => {
         });
 
         const code = `
-        import { foo } from "module-1.js";
-        let a = 1;
-        let b = 2;
-        let c = a + b;
-        export { c };
+          import { foo } from "module-1.js";
+          let a = 1;
+          let b = 2;
+          let c = a + b;
+          export { c };
         `;
 
         await evaluateModule(code, { realm, sourceName: "test.js" });
@@ -587,12 +588,10 @@ describe("E2E: Modules", () => {
             setValue: receiver,
           },
         },
-        async resolveImportedModule() {
+        async resolveImportedModule(): Promise<StaticJsModuleResolution> {
           await delay(100);
           return {
-            exports: {
-              value: 42,
-            },
+            value: realm.types.number(42),
           };
         },
       });
