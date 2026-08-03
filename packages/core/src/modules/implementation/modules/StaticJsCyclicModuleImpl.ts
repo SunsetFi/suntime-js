@@ -165,6 +165,7 @@ export abstract class StaticJsCyclicModuleImpl
 
     const stack: StaticJsCyclicModuleImpl[] = [];
     const promiseCapability = yield* newPromiseCapability(intrinsics.Promise);
+    module.topLevelCapability = promiseCapability;
     const result = yield* innerModuleEvaluation(module, stack, 0);
     if (Completion.Throw.is(result)) {
       for (const requiredModule of stack) {

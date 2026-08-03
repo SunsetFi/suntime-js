@@ -64,7 +64,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
       );
 
       assert(
-        requiredModule.status !== "evaluating" || !stack.includes(requiredModule),
+        requiredModule.status !== "evaluating" || stack.includes(requiredModule),
         `Inner module evaluation required module is evaluating but not in the stack`,
       );
 

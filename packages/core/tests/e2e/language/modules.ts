@@ -500,6 +500,8 @@ describe("E2E: Modules", () => {
         resolver!();
 
         await delay(0);
+        await delay(0);
+        await delay(100);
 
         expect(moduleResolved).toBe(true);
         expect(receiver).toHaveBeenCalledWith(42);
