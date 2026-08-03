@@ -24,7 +24,7 @@ export function* continueDynamicImport(
   }
 
   const module = moduleCompletion;
-  const loadPromise = yield* module.loadRequestedModules();
+  const loadPromise = yield* module.loadRequestedModulesEvaluator();
 
   const onRejected = StaticJsNativeFunctionImpl.create(realm, "", function* (_thisArg, reason) {
     yield* X(call(promiseCapability.reject, types.undefined, [reason]));
@@ -35,13 +35,13 @@ export function* continueDynamicImport(
     realm,
     "",
     function* () {
-      const link = yield* captureThrownCompletion(module.link());
+      const link = yield* captureThrownCompletion(module.linkEvaluator());
       if (Completion.Abrupt.is(link)) {
         yield* X(call(promiseCapability.reject, types.undefined, [Completion.value(link)]));
         return types.undefined;
       }
 
-      const evaluatePromise = yield* module.evaluate();
+      const evaluatePromise = yield* module.evaluateEvaluator();
 
       const onFulfilled = StaticJsNativeFunctionImpl.create(realm, "", function* () {
         const namespace = getModuleNamespace(module);

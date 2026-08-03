@@ -28,7 +28,12 @@ export class StaticJsModuleDeclarativeBinding extends StaticJsDeclarativeBinding
   private readonly _module: StaticJsModuleImpl;
   private readonly _targetName: string;
 
-  constructor({ realm, name, module, targetName }: StaticJsModuleDeclarativeBindingCreateParams) {
+  protected constructor({
+    realm,
+    name,
+    module,
+    targetName,
+  }: StaticJsModuleDeclarativeBindingCreateParams) {
     super({
       realm,
       name,

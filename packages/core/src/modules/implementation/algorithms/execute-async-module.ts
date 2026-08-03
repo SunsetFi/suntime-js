@@ -48,5 +48,5 @@ export const executeAsyncModule = Q.makeReceiver(function* executeAsyncModule(
   );
 
   yield* performPromiseThen(promiseCapability.promise, onFulfilled, onRejected);
-  yield* X(module.executeModule(promiseCapability));
+  yield* X(module.executeModuleEvaluator(promiseCapability));
 });

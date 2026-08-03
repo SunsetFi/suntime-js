@@ -1,19 +1,23 @@
 import { describe, it, expect, vitest } from "vitest";
 
+import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
+
 import {
   StaticJsRealm,
   StaticJsSyntaxError,
   evaluateModule,
   type StaticJsTaskIterator,
-  type StaticJsModuleResolution,
 } from "../../../src/index.js";
 import { expectStaticJsNumber, expectStaticJsObject } from "../utils/expect-staticjs.js";
 
 describe("E2E: Modules", () => {
   it("Throws ReferenceError when a module is not found", async () => {
     const realm = StaticJsRealm();
-    await expect(evaluateModule('import { foo } from "not-found";', { realm })).rejects.toThrow(
-      /not found/,
+    await expect(realm.evaluateModule('import { foo } from "not-found";')).rejects.toThrow(
+      expect.objectContaining({
+        name: "StaticJsRuntimeError",
+        message: "Failed to load module 'not-found': Module not found",
+      }),
     );
   });
 
@@ -23,8 +27,12 @@ describe("E2E: Modules", () => {
         "module-1": `import { foo } from "bar"; export const test = 42;`,
       },
     });
-    await expect(evaluateModule('import { test } from "module-1";', { realm })).rejects.toThrow(
-      /not found/,
+
+    await expect(realm.evaluateModule('import { test } from "module-1";')).rejects.toThrow(
+      expect.objectContaining({
+        name: "StaticJsRuntimeError",
+        message: "Failed to load module 'bar': Module not found",
+      }),
     );
   });
 
@@ -38,11 +46,9 @@ describe("E2E: Modules", () => {
           },
         },
         modules: {
-          "my-module": {
-            exports: {
-              add: (a: number, b: number) => a + b,
-            },
-          },
+          "my-module": (realm) => ({
+            add: realm.types.toStaticJsValue((a: number, b: number) => a + b),
+          }),
         },
       });
 
@@ -65,11 +71,9 @@ describe("E2E: Modules", () => {
           },
         },
         modules: {
-          "my-module": {
-            exports: {
-              default: (a: number, b: number) => a + b,
-            },
-          },
+          "my-module": (realm) => ({
+            default: realm.types.toStaticJsValue((a: number, b: number) => a + b),
+          }),
         },
       });
 
@@ -562,16 +566,19 @@ describe("E2E: Modules", () => {
     it("Supports strings", async () => {
       const receiver = vitest.fn();
       const moduleCode = `export const value = 42`;
+
+      const resolveImportedModule = vitest.fn(async (_request: StaticJsModuleRequest) => {
+        await delay(100);
+        return moduleCode;
+      });
+
       const realm = StaticJsRealm({
         global: {
           value: {
             setValue: receiver,
           },
         },
-        async resolveImportedModule() {
-          await delay(100);
-          return moduleCode;
-        },
+        resolveImportedModule,
       });
 
       const code = `
@@ -579,23 +586,34 @@ describe("E2E: Modules", () => {
       setValue(value);
       `;
       await evaluateModule(code, { realm });
-      await expect(receiver).toHaveBeenCalledWith(42);
+
+      expect(resolveImportedModule).toHaveBeenCalledOnce();
+      expect(resolveImportedModule).toHaveBeenCalledWith(
+        expect.objectContaining({ specifier: "module-1" }),
+        expect.any(Object),
+      );
+      expect(receiver).toHaveBeenCalledWith(42);
     });
 
     it("Supports external objects", async () => {
       const receiver = vitest.fn();
+
+      const resolveImportedModule = vitest.fn();
+
       const realm = StaticJsRealm({
         global: {
           value: {
             setValue: receiver,
           },
         },
-        async resolveImportedModule(): Promise<StaticJsModuleResolution> {
-          await delay(100);
-          return {
-            value: realm.types.number(42),
-          };
-        },
+        resolveImportedModule,
+      });
+
+      resolveImportedModule.mockImplementation(async (_request: StaticJsModuleRequest) => {
+        await delay(100);
+        return {
+          value: realm.types.number(42),
+        };
       });
 
       const code = `
@@ -603,7 +621,13 @@ describe("E2E: Modules", () => {
       setValue(value);
       `;
       await evaluateModule(code, { realm });
-      await expect(receiver).toHaveBeenCalledWith(42);
+
+      expect(resolveImportedModule).toHaveBeenCalledOnce();
+      expect(resolveImportedModule).toHaveBeenCalledWith(
+        expect.objectContaining({ specifier: "module-1" }),
+        expect.any(Object),
+      );
+      expect(receiver).toHaveBeenCalledWith(42);
     });
   });
 });

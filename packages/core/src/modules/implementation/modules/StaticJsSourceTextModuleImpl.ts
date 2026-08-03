@@ -299,7 +299,7 @@ export class StaticJsSourceTextModuleImpl
     return starResolution;
   }
 
-  override *initializeEnvironment() {
+  override *initializeEnvironmentEvaluator() {
     for (const exportEntry of this.indirectExportEntries) {
       assert.notNull(exportEntry.exportName, "Indirect export entries must have export names.");
       const resolution = this.resolveExport(exportEntry.exportName);
@@ -394,7 +394,7 @@ export class StaticJsSourceTextModuleImpl
     }
   }
 
-  override *executeModule(
+  override *executeModuleEvaluator(
     capability?: StaticJsPromiseCapabilityRecord,
   ): EvaluationGenerator<void | Completion.Throw> {
     // assert(() => PostLink, "Module must be linked before execution.");

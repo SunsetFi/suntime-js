@@ -15,7 +15,7 @@ export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
   index: number,
 ): EvaluationGenerator<number | Completion.Throw> {
   if (module instanceof StaticJsCyclicModuleImpl === false) {
-    yield* Q(module.link());
+    yield* Q(module.linkEvaluator());
     return index;
   }
 
@@ -62,7 +62,7 @@ export const innerModuleLinking = Q.makeReceiver(function* innerModuleLinking(
     }
   }
 
-  yield* Q(module.initializeEnvironment());
+  yield* Q(module.initializeEnvironmentEvaluator());
 
   assert(
     stack.indexOf(module) === stack.lastIndexOf(module),

@@ -6,7 +6,6 @@ import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
 import { Completion } from "#evaluator/completions/Completion.js";
-import { X } from "#evaluator/completions/X.js";
 import { finishLoadingImportedModule } from "#modules/implementation/algorithms/finish-loading-imported-module.js";
 import { isStaticJsModule, type StaticJsModule } from "#modules/StaticJsModule.js";
 import { isStaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
@@ -135,7 +134,7 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
             } else {
               const err = yield* Completion.Throw.create(
                 "Error",
-                `Failed to load module ${moduleRequest.specifier}`,
+                `Failed to load module '${moduleRequest.specifier}': Module not found`,
               );
               yield* finishLoadingImportedModule(referrer, moduleRequest, payload, err);
             }
@@ -143,13 +142,12 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
         },
         (err) => {
           return this._realm.enqueueGenericJob(function* () {
-            if (!Completion.Throw.is(err)) {
-              err = yield* Completion.Throw.create(
-                "Error",
-                `Failed to load module ${moduleRequest.specifier}`,
-              );
+            if (Completion.Throw.is(err)) {
+              yield* finishLoadingImportedModule(referrer, moduleRequest, payload, err);
+            } else {
+              // Deferr to the hostDefined catch.
+              throw err;
             }
-            yield* finishLoadingImportedModule(referrer, moduleRequest, payload, err);
           });
         },
       )
@@ -169,6 +167,10 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
     resolution: StaticJsModuleResolution,
     path: string,
   ): StaticJsModuleImpl | null {
+    if (typeof resolution === "function") {
+      resolution = resolution(this._realm);
+    }
+
     if (typeof resolution === "string") {
       return StaticJsSourceTextModuleImpl.parse(resolution, path, this._realm);
     } else if (isStaticJsModule(resolution)) {
@@ -179,12 +181,9 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
       return StaticJsSyntheticModuleImpl.create({
         specifier: path,
         exportNames: Object.keys(resolution),
-        evaluationSteps: function* () {
+        evaluationSteps: function* (module) {
           for (const exportName of typedKeys(resolution)) {
-            yield* X(this.environment!.createMutableBindingEvaluator(exportName, false));
-            yield* X(
-              this.environment!.initializeBindingEvaluator(exportName, resolution[exportName]),
-            );
+            yield* module.setSyntheticModuleExportEvaluator(exportName, resolution[exportName]);
           }
         },
         realm: this._realm,
@@ -195,7 +194,7 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
   private _moduleDirname(specifier: string): string {
     const parts = specifier.split("/");
     if (parts.length <= 1) {
-      return "/";
+      return "";
     }
     return parts.slice(0, -1).join("/");
   }
@@ -210,8 +209,8 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
     });
 
     let path = sanitized.join("/");
-    if (!path.startsWith("/")) {
-      path = "/" + path;
+    if (path.startsWith("/")) {
+      path = path.slice(1);
     }
 
     return path;

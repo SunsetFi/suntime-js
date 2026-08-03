@@ -10,7 +10,6 @@ import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-c
 import { Completion } from "#evaluator/completions/Completion.js";
 import { X } from "#evaluator/completions/X.js";
 import { EvaluationContext } from "#evaluator/EvaluationContext.js";
-import { invokeEvaluator, type StaticJsMemberEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import { allocated } from "#memory/allocated.js";
 
 import type { StaticJsResolvedBindingRecord } from "../StaticJsResolvedBinding.js";
@@ -19,12 +18,14 @@ import { StaticJsModuleImpl, type StaticJsModuleImplCreateParams } from "./Stati
 
 export interface StaticJsSyntheticModuleImplCreateParams extends StaticJsModuleImplCreateParams {
   exportNames: readonly string[];
-  evaluationSteps: StaticJsMemberEvaluator<StaticJsSyntheticModuleImpl, void>;
+  evaluationSteps: (module: StaticJsSyntheticModuleImpl) => EvaluationGenerator<void>;
 }
 
 export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
   private readonly _exportNames: readonly string[];
-  private readonly _evaluationSteps: StaticJsMemberEvaluator<StaticJsSyntheticModuleImpl, void>;
+  private readonly _evaluationSteps: (
+    module: StaticJsSyntheticModuleImpl,
+  ) => EvaluationGenerator<void>;
 
   static create(params: StaticJsSyntheticModuleImplCreateParams) {
     return allocated(new StaticJsSyntheticModuleImpl(params));
@@ -40,7 +41,7 @@ export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
     this._evaluationSteps = evaluationSteps;
   }
 
-  *setSyntheticModuleExport(
+  *setSyntheticModuleExportEvaluator(
     exportName: string,
     exportValue: StaticJsValue,
   ): EvaluationGenerator<void> {
@@ -56,7 +57,7 @@ export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
     yield* X(envRecord.setMutableBindingEvaluator(exportName, exportValue, true));
   }
 
-  override *loadRequestedModules() {
+  override *loadRequestedModulesEvaluator() {
     return yield* X(promiseResolve(this.realm.intrinsics.Promise, this.realm.types.undefined));
   }
 
@@ -74,7 +75,7 @@ export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
     };
   }
 
-  override *link() {
+  override *linkEvaluator() {
     const realm = this.realm;
     const envRecord = StaticJsModuleEnvironmentRecord.create({ realm, outerEnv: realm.globalEnv });
     this.environment = envRecord;
@@ -85,18 +86,25 @@ export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
     return null;
   }
 
-  override *evaluate() {
+  override *evaluateEvaluator() {
+    const env = this.environment;
+    if (!env) {
+      throw new StaticJsEngineError(
+        "Cannot evaluate a synthetic module before its environment is initialized.",
+      );
+    }
+
     const moduleContext = EvaluationContext.createRootContext({
       scriptOrModule: this,
       strict: true,
       realm: this.realm,
-      env: this.environment!,
+      env,
     });
 
     EvaluationContext.push(moduleContext);
     let result: Completion.Abrupt | void;
     try {
-      result = yield* captureThrownCompletion(invokeEvaluator(this._evaluationSteps, this));
+      result = yield* captureThrownCompletion(this._evaluationSteps(this));
     } finally {
       EvaluationContext.pop();
     }

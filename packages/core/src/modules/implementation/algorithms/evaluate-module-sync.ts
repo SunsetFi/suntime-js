@@ -13,10 +13,10 @@ export const evaluateModuleSync = Q.makeReceiver(function* evaluateModuleSync(
     throw new StaticJsEngineError("Unexpected cyclic module in evaluateModuleSync");
   }
 
-  const promise = yield* module.evaluate();
+  const promise = yield* module.evaluateEvaluator();
   assert(
-    promise.promiseState !== "fulfilled" && promise.promiseState !== "rejected",
-    "Promise should not be in a terminal state here",
+    promise.promiseState === "fulfilled" || promise.promiseState === "rejected",
+    "evaluateModuleSync evaluate should result in a terminal promise.",
   );
 
   if (promise.promiseState === "rejected") {

@@ -112,7 +112,7 @@ export const innerModuleEvaluation = Q.makeReceiver(function* innerModuleEvaluat
       yield* executeAsyncModule(module);
     }
   } else {
-    yield* Q(module.executeModule());
+    yield* Q(module.executeModuleEvaluator());
   }
 
   assert(

@@ -79,7 +79,7 @@ export const asyncModuleExecutionFulfilled = Q.makeReceiver(function* asyncModul
     } else if (ancestorModule.hasTLA) {
       yield* executeAsyncModule(ancestorModule);
     } else {
-      const result = yield* captureThrownCompletion(ancestorModule.executeModule());
+      const result = yield* captureThrownCompletion(ancestorModule.executeModuleEvaluator());
       if (Completion.Abrupt.is(result)) {
         yield* asyncModuleExecutionRejected(module, Completion.value(result));
       } else {

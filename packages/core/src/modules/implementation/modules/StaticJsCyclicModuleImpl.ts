@@ -79,7 +79,7 @@ export abstract class StaticJsCyclicModuleImpl
   readonly asyncParentModules: StaticJsCyclicModuleImpl[] = [];
   pendingAsyncDependencies: number | null = null;
 
-  override *loadRequestedModules(): EvaluationGenerator<StaticJsPromise> {
+  override *loadRequestedModulesEvaluator(): EvaluationGenerator<StaticJsPromise> {
     const promiseCapability = yield* newPromiseCapability(this.realm.intrinsics.Promise);
     const state: StaticJsGraphLoadingState = {
       isLoading: true,
@@ -93,13 +93,13 @@ export abstract class StaticJsCyclicModuleImpl
     return promiseCapability.promise;
   }
 
-  abstract initializeEnvironment(): EvaluationGenerator<void>;
+  abstract initializeEnvironmentEvaluator(): EvaluationGenerator<void>;
 
-  abstract executeModule(
+  abstract executeModuleEvaluator(
     capability?: StaticJsPromiseCapabilityRecord,
   ): EvaluationGenerator<void | Completion.Throw>;
 
-  override *link(): EvaluationGenerator<null | Completion.Throw> {
+  override *linkEvaluator(): EvaluationGenerator<null | Completion.Throw> {
     assert(
       ReadyForLinkStatusAssert.has(this.status),
       `Cyclic module status is not in a linkable state: ${this.status}`,
@@ -133,7 +133,7 @@ export abstract class StaticJsCyclicModuleImpl
     return null;
   }
 
-  override *evaluate(): EvaluationGenerator<StaticJsPromise> {
+  override *evaluateEvaluator(): EvaluationGenerator<StaticJsPromise> {
     const { status } = this;
 
     assert(

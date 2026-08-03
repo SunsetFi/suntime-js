@@ -39,7 +39,7 @@ export abstract class StaticJsModuleImpl implements StaticJsModuleRecord {
   environment: StaticJsEnvironmentRecord | null = null;
   namespace: StaticJsObject | null = null;
 
-  abstract loadRequestedModules(): EvaluationGenerator<StaticJsPromise>;
+  abstract loadRequestedModulesEvaluator(): EvaluationGenerator<StaticJsPromise>;
 
   abstract getExportedNames(exportedStarSet?: Set<StaticJsModuleImpl>): readonly string[];
 
@@ -48,9 +48,9 @@ export abstract class StaticJsModuleImpl implements StaticJsModuleRecord {
     resolveSet?: readonly StaticJsResolveSetRecord[],
   ): StaticJsResolvedBindingRecord | null | "ambiguous";
 
-  abstract link(): EvaluationGenerator<null | Completion.Throw>;
+  abstract linkEvaluator(): EvaluationGenerator<null | Completion.Throw>;
 
-  abstract evaluate(): EvaluationGenerator<StaticJsPromise>;
+  abstract evaluateEvaluator(): EvaluationGenerator<StaticJsPromise>;
 
   async getExportAsync(
     exportName: string,
