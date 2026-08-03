@@ -10,19 +10,13 @@ import { allocated } from "#memory/allocated.js";
 import { StaticJsMemoryAllocationTag } from "#memory/StaticJsMemoryAllocationTag.js";
 
 import type { StaticJsEnvironmentRecord } from "../StaticJsEnvironmentRecord.js";
+import type { StaticJsDeclarativeBinding } from "./StaticJsDeclarativeBinding.js";
 
 import {
   StaticJsEnvironmentRecordBase,
   type StaticJsEnvironmentRecordBaseCreateParams,
 } from "./StaticJsEnvironmentRecordBase.js";
-
-interface DeclarativeBinding {
-  readonly name: string;
-  readonly isMutable: boolean;
-  readonly isStrict: boolean;
-  readonly isDeletable: boolean;
-  value: StaticJsValue | null;
-}
+import { StaticJsValueDeclarativeBinding } from "./StaticJsValueDeclarativeBinding.js";
 
 export interface StaticJsDeclarativeEnvironmentRecordCreateParams extends StaticJsEnvironmentRecordBaseCreateParams {
   outerEnv: StaticJsEnvironmentRecord | null;
@@ -43,7 +37,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   }
 
   protected readonly _realm: StaticJsRealm;
-  protected readonly _bindings: Map<string, DeclarativeBinding> = new Map();
+  protected readonly _bindings: Map<string, StaticJsDeclarativeBinding> = new Map();
 
   protected constructor({ outerEnv, realm }: StaticJsDeclarativeEnvironmentRecordCreateParams) {
     super(outerEnv);
@@ -53,7 +47,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
   *inspectBindingsEvaluator(): EvaluationGenerator<Record<string, StaticJsValue | null>> {
     const result: Record<string, StaticJsValue | null> = {};
     for (const [name, binding] of this._bindings.entries()) {
-      result[name] = binding.value;
+      result[name] = yield* binding.get();
     }
     return result;
   }
@@ -71,7 +65,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       );
     }
 
-    return binding.value !== null;
+    return yield* binding.isInitialized();
   }
 
   *initializeBindingEvaluator(name: string, value: StaticJsValue): EvaluationGenerator<void> {
@@ -83,11 +77,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       );
     }
 
-    if (binding.value) {
-      throw new Error(`Cannot initialize binding ${name}: Already initialized`);
-    }
-
-    binding.value = value;
+    yield* binding.initialize(value);
   }
 
   *createMutableBindingEvaluator(name: string, deletable: boolean): EvaluationGenerator<void> {
@@ -96,13 +86,16 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     // Note: Our set entry and extranious data costs something too...
     this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, name);
 
-    this._bindings.set(name, {
+    this._bindings.set(
       name,
-      isMutable: true,
-      isStrict: false,
-      isDeletable: deletable,
-      value: null,
-    });
+      StaticJsValueDeclarativeBinding.create({
+        realm: this._realm,
+        name,
+        isMutable: true,
+        isStrict: false,
+        isDeletable: deletable,
+      }),
+    );
   }
 
   *createImmutableBindingEvaluator(name: string, strict: boolean): EvaluationGenerator<void> {
@@ -112,13 +105,16 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
     // Note: Our set entry and extranious data costs something too...
     this._realm.memory.allocate(StaticJsMemoryAllocationTag.RawString, name);
 
-    this._bindings.set(name, {
+    this._bindings.set(
       name,
-      isMutable: false,
-      isStrict: strict,
-      isDeletable: false,
-      value: null,
-    });
+      StaticJsValueDeclarativeBinding.create({
+        realm: this._realm,
+        name,
+        isMutable: false,
+        isStrict: strict,
+        isDeletable: false,
+      }),
+    );
   }
 
   *setMutableBindingEvaluator(
@@ -141,16 +137,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       strict = true;
     }
 
-    if (!binding.value) {
-      throw yield* Completion.Throw.create(
-        "ReferenceError",
-        `Cannot set value of uninitialized binding ${name}`,
-      );
-    } else if (binding.isMutable) {
-      binding.value = value;
-    } else if (strict) {
-      throw yield* Completion.Throw.create("TypeError", `Assignment to constant variable`);
-    }
+    yield* binding.set(value, strict);
   }
 
   *getBindingValueEvaluator(name: string, _strict: boolean): EvaluationGenerator<StaticJsValue> {
@@ -159,14 +146,7 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
       throw yield* Completion.Throw.create("ReferenceError", `${name} is not defined`);
     }
 
-    if (binding.value == null) {
-      throw yield* Completion.Throw.create(
-        "ReferenceError",
-        `Cannot get value of uninitialized binding ${name}`,
-      );
-    }
-
-    return binding.value;
+    return yield* binding.get();
   }
 
   *deleteBindingEvaluator(name: string): EvaluationGenerator<boolean> {
@@ -206,10 +186,8 @@ export class StaticJsDeclarativeEnvironmentRecord extends StaticJsEnvironmentRec
 
     super.mark(marks);
 
-    for (const { value } of this._bindings.values()) {
-      if (value) {
-        value.mark(marks);
-      }
+    for (const binding of this._bindings.values()) {
+      binding.mark(marks);
     }
   }
 

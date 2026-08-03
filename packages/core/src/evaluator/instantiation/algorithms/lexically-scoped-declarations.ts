@@ -41,7 +41,7 @@ export default function lexicallyScopedDeclarations(node: Node): LexicallyScoped
 // LexicallyScopedDeclarations of StatementListItem in block or module context.
 // FunctionDeclarations (including via LabelledStatement) ARE lexically declared here.
 function blockContextStatementListItemLexicallyScopedDeclarations(
-  node: Statement,
+  node: Node,
 ): LexicallyScopedDeclNode[] {
   switch (node.type) {
     case "FunctionDeclaration":
@@ -107,7 +107,7 @@ function lexicallyScopedDeclarationsForScriptOrFunction(node: Node): LexicallySc
       return lexicallyScopedDeclarationsForScriptOrFunction(node.program);
     case "Program":
       if (node.sourceType === "module") {
-        return node.body.flatMap(blockContextStatementListItemLexicallyScopedDeclarations);
+        return node.body.flatMap(lexicallyScopedDeclarationsForModule);
       }
       return node.body.flatMap(topLevelStatementListItemLexicallyScopedDeclarations);
     case "FunctionDeclaration":
@@ -180,6 +180,6 @@ function lexicallyScopedDeclarationsForModule(node: Node): LexicallyScopedDeclNo
     }
   }
 
-  return lexicallyScopedDeclarations(node);
+  return blockContextStatementListItemLexicallyScopedDeclarations(node);
 }
 lexicallyScopedDeclarations.forModule = lexicallyScopedDeclarationsForModule;

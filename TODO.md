@@ -8,6 +8,8 @@
 - [ ] Use StaticJsNull for object proto instead of real null.
 - [ ] StaticJsPromiseCapabilityRecord needs to be a StaticJsAllocation as it stores 3 different allocatable objects!
       There must be a ton of native functions that don't appropriately capture these
+- [ ] loadRequestedModules through import() can asyncronously throw assert errors that don't get caught
+      Apparently it can take a hostDefined, which we are using elsewhere to store a reject handler.
 
 ## Memory tracking
 

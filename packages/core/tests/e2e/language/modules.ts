@@ -387,7 +387,7 @@ describe("E2E: Modules", () => {
       });
 
       await expect(evaluateModule(programCode, { realm })).rejects.toThrow(
-        /Assignment to constant/,
+        /Assignment to module import/,
       );
     });
 

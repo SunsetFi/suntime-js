@@ -157,7 +157,11 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
         // Normal errors go through the promiseCapability, but engine errors
         // like asserts end up here.
         // FIXME: This does not tunnel deeper in!  At least, not for import().
-        hostDefined?.reject(err);
+        if (hostDefined) {
+          hostDefined.reject(err);
+        } else {
+          throw err;
+        }
       });
   }
 
