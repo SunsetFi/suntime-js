@@ -1,5 +1,10 @@
-import { join } from "node:path";
+import { readFile } from "node:fs/promises";
+import { join, dirname, resolve } from "node:path";
 import { expect } from "vitest";
+
+import type {} from "#modules/StaticJsModuleRequest.js";
+
+import { isStaticJsModule } from "#modules/StaticJsModule.js";
 
 import {
   StaticJsRealm,
@@ -9,6 +14,9 @@ import {
   StaticJsSyntaxError,
   isStaticJsString,
   type StaticJsValue,
+  type StaticJsModuleResolution,
+  type StaticJsModuleRequest,
+  type StaticJsModuleReferrer,
 } from "../../src/index.js";
 import isDebuggerActive from "../env/is-debugger-active.js";
 import addTestHarness from "./add-test-harness.js";
@@ -25,21 +33,33 @@ export function createTestHandler(testRelativePath: string) {
     const perf = getPerf();
 
     const testPath = getTest262Path(join("test", testRelativePath));
-    // const testDir = dirname(testPath);
+    const testDir = dirname(testPath);
     const test = Test262File.fromFile(testPath);
 
-    // async function resolveImportedModule(specifier: string): Promise<string> {
-    //   if (!test.flags.module) {
-    //     throw new Error("Module resolution is only supported for module tests");
-    //   }
+    async function resolveImportedModule(
+      request: StaticJsModuleRequest,
+      referrer: StaticJsModuleReferrer,
+    ): Promise<StaticJsModuleResolution> {
+      if (!test.flags.module) {
+        throw new Error("Module resolution is only supported for module tests");
+      }
 
-    //   try {
-    //     const contents = await readFile(join(testDir, specifier), "utf-8");
-    //     return contents;
-    //   } catch (e) {
-    //     throw new Error(`Failed to resolve module ${specifier}: ${e}`);
-    //   }
-    // }
+      let referrerDir = testDir;
+      if (isStaticJsModule(referrer)) {
+        // Modules have the testDir included in their full source name.
+        referrerDir = dirname(referrer.specifier);
+      }
+
+      const fullPath = resolve(referrerDir, request.specifier);
+      try {
+        const contents = await readFile(fullPath, "utf-8");
+        return contents;
+      } catch (e) {
+        // FIXME: If this throws, it hangs forever, as this is never forwarded
+        // to the evaluation promise.
+        throw new Error(`Failed to resolve module ${request.specifier}: ${e}`);
+      }
+    }
 
     const runner = isDebuggerActive
       ? undefined
@@ -47,7 +67,7 @@ export function createTestHandler(testRelativePath: string) {
     const realm = StaticJsRealm({
       runTask: runner,
       runTaskSync: runner,
-      // resolveImportedModule,
+      resolveImportedModule,
     });
 
     await createHostApi(realm);
@@ -78,13 +98,14 @@ export function createTestHandler(testRelativePath: string) {
     }
 
     let evaluatePromise: Promise<unknown>;
+    const sourceName = testPath.endsWith(".js") ? testPath : `${testPath}.js`;
     if (test.flags.module) {
       evaluatePromise = realm.evaluateModule(code, {
-        sourceName: `${test.testPath}.mjs`,
+        sourceName,
       });
     } else {
       evaluatePromise = realm.evaluateScript(code, {
-        sourceName: `${test.testPath}.js`,
+        sourceName,
       });
     }
 

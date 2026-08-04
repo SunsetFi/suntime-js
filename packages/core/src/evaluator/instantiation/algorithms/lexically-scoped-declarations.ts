@@ -11,6 +11,8 @@ import type {
   ExportNamedDeclaration,
 } from "@babel/types";
 
+import { isDeclarationGrammar } from "#grammar/is-declaration-gramar.js";
+
 export type LexicallyScopedDeclNode =
   | VariableDeclaration
   | FunctionDeclaration
@@ -168,15 +170,11 @@ function lexicallyScopedDeclarationsForModule(node: Node): LexicallyScopedDeclNo
     }
     case "ExportDefaultDeclaration": {
       const { declaration } = node;
-      switch (declaration.type) {
-        case "FunctionDeclaration":
-          return [declaration];
-        case "ClassDeclaration":
-          return [declaration];
-        case "Identifier":
-          return [node];
+      if (isDeclarationGrammar(declaration)) {
+        return [declaration];
       }
-      return [];
+
+      return [node];
     }
   }
 

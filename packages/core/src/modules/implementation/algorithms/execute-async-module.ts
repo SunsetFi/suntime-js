@@ -38,7 +38,7 @@ export const executeAsyncModule = Q.makeReceiver(function* executeAsyncModule(
   const onRejected = StaticJsNativeFunctionImpl.create(
     module.realm,
     "",
-    function* (reason) {
+    function* (_thisArg, reason) {
       yield* asyncModuleExecutionRejected(module, reason);
       return module.realm.types.undefined;
     },

@@ -2,7 +2,7 @@ import type { Node } from "@babel/types";
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { boundNames } from "#grammar/bound-names.js";
-import isAssignmentGrammar from "#grammar/is-assignment-grammar.js";
+import { isDeclarationGrammar } from "#grammar/is-declaration-gramar.js";
 import { StringValue } from "#grammar/stirng-value.js";
 import { assert } from "#utils/assert.js";
 
@@ -44,29 +44,30 @@ export function exportEntries(node: Node): StaticJsExportEntryRecord[] {
         );
       }
       return [];
-    case "ExportDefaultDeclaration":
-      if (node.declaration) {
-        if (isAssignmentGrammar(node.declaration)) {
-          return [
-            {
-              moduleRequest: null,
-              importName: null,
-              localName: "*default*",
-              exportName: "default",
-            },
-          ];
-        } else {
-          const localName = boundNames.soleElementOf(node.declaration);
-          return [
-            {
-              moduleRequest: null,
-              importName: null,
-              localName,
-              exportName: "default",
-            },
-          ];
-        }
+    case "ExportDefaultDeclaration": {
+      // Note: isAssignmentGrammar is a pain to fully model with babel, so let's flip it
+      // if (isAssignmentGrammar(node.declaration)) {
+      if (!isDeclarationGrammar(node.declaration)) {
+        return [
+          {
+            moduleRequest: null,
+            importName: null,
+            localName: "*default*",
+            exportName: "default",
+          },
+        ];
+      } else {
+        const localName = boundNames.soleElementOf(node.declaration);
+        return [
+          {
+            moduleRequest: null,
+            importName: null,
+            localName,
+            exportName: "default",
+          },
+        ];
       }
+    }
   }
   return [];
 }

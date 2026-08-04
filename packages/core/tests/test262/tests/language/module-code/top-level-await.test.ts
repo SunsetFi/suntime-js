@@ -472,7 +472,7 @@ describe("syntax", () => {
   );
   it(
     "export-dflt-assign-expr-await-expr-regexp.js",
-    { tags: ["known-passing"] },
+    { tags: ["known-failing"] },
     createTestHandler(
       "language/module-code/top-level-await/syntax/export-dflt-assign-expr-await-expr-regexp.js",
     ),

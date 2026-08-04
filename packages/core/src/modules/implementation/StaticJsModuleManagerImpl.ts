@@ -62,14 +62,22 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
   }
 
   get(specifier: string): StaticJsModule | undefined {
-    const path = this._resolvePath(specifier);
+    const path = this._resolvePath("/", specifier);
+    if (!path) {
+      throw new RangeError(`Invalid module specifier: ${specifier}`);
+    }
+
     const module = this._resolvedModules.get(path);
     // We may cache not-found as null
     return module ?? undefined;
   }
 
   add(specifier: string, resolution: StaticJsModuleResolution): void {
-    const path = this._resolvePath(specifier);
+    const path = this._resolvePath("/", specifier);
+    if (!path) {
+      throw new RangeError(`Invalid module specifier: ${specifier}`);
+    }
+
     const module = this._resolutionToModule(resolution, path);
     this._resolvedModules.set(path, module);
   }
@@ -80,7 +88,7 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
     hostDefined: StaticJsHostLoadModuleState | undefined,
     payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   ) {
-    let rootPath: string = "/";
+    let rootPath: string = "";
     if (isStaticJsModule(referrer)) {
       rootPath = this._moduleDirname(referrer.specifier);
     } else if (isStaticJsScriptRecord(referrer)) {
@@ -90,39 +98,43 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
     const path = this._resolvePath(rootPath, moduleRequest.specifier);
 
     let load: Promise<StaticJsModuleImpl | null> | null = null;
-    const current = this._resolvedModules.get(path);
-    if (current) {
-      load = Promise.resolve(current);
-    }
-
-    if (!load) {
-      const pending = this._pendingResolutions.get(path);
-      if (pending) {
-        load = pending;
+    if (!path) {
+      load = Promise.resolve(null);
+    } else {
+      const current = this._resolvedModules.get(path);
+      if (current) {
+        load = Promise.resolve(current);
       }
-    }
 
-    if (!load) {
-      const module = this._resolvedModules.get(path);
-      if (module) {
-        load = Promise.resolve(module);
-      }
-    }
-
-    if (!load) {
-      load = (async () => {
-        const resolved = await this._resolveExternalModule(moduleRequest, referrer);
-        if (resolved) {
-          const module = this._resolutionToModule(resolved, path);
-          this._resolvedModules.set(path, module);
-          return module;
-        } else {
-          this._resolvedModules.set(path, null);
-          return null;
+      if (!load) {
+        const pending = this._pendingResolutions.get(path);
+        if (pending) {
+          load = pending;
         }
-      })();
+      }
 
-      this._pendingResolutions.set(path, load);
+      if (!load) {
+        const module = this._resolvedModules.get(path);
+        if (module) {
+          load = Promise.resolve(module);
+        }
+      }
+
+      if (!load) {
+        load = (async () => {
+          const resolved = await this._resolveExternalModule(moduleRequest, referrer);
+          if (resolved) {
+            const module = this._resolutionToModule(resolved, path);
+            this._resolvedModules.set(path, module);
+            return module;
+          } else {
+            this._resolvedModules.set(path, null);
+            return null;
+          }
+        })();
+
+        this._pendingResolutions.set(path, load);
+      }
     }
 
     load
@@ -199,20 +211,39 @@ export class StaticJsModuleManagerImpl implements StaticJsModuleManager {
     return parts.slice(0, -1).join("/");
   }
 
-  private _resolvePath(...parts: string[]): string {
-    // TODO: Handle ../
-    const sanitized = parts.map((part) => {
-      if (part.startsWith("/")) {
-        return part.slice(1);
-      }
-      return part;
-    });
-
-    let path = sanitized.join("/");
+  private _resolvePath(dir: string, path: string): string | null {
     if (path.startsWith("/")) {
-      path = path.slice(1);
+      return path;
     }
 
-    return path;
+    const dirParts = dir.split("/").filter((part) => part.length > 0);
+    const pathParts = path.split("/").filter((part) => part.length > 0);
+
+    const final: string[] = [];
+    for (const part of [...dirParts, ...pathParts]) {
+      if (part === ".") {
+        continue;
+      }
+
+      if (part === "..") {
+        if (final.length > 0) {
+          final.pop();
+        } else {
+          return null;
+        }
+        continue;
+      }
+
+      final.push(part);
+    }
+
+    let finalPath = final.join("/");
+
+    // If the dir is rooted, preserve the root.
+    if (dir.startsWith("/")) {
+      finalPath = `/${finalPath}`;
+    }
+
+    return finalPath;
   }
 }

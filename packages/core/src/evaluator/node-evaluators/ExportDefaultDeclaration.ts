@@ -1,6 +1,6 @@
 import type { ExportDefaultDeclaration } from "@babel/types";
 
-import isAssignmentGrammar from "#grammar/is-assignment-grammar.js";
+import { isDeclarationGrammar } from "#grammar/is-declaration-gramar.js";
 
 import type { EvaluationGenerator } from "../EvaluationGenerator.js";
 
@@ -16,7 +16,9 @@ function* exportDefaultDeclarationNodeEvaluator(
     return yield* Q(EvaluateNodeCommand(node.declaration));
   }
 
-  if (isAssignmentGrammar(node.declaration)) {
+  // Note: isAssignmentGrammar is a pain to fully model with babel, so let's flip it
+  // if (isAssignmentGrammar(node.declaration)) {
+  if (!isDeclarationGrammar(node.declaration)) {
     const rhs = yield* Q.val(EvaluateNodeCommand(node.declaration));
 
     yield* lexicalEnv.initializeBindingEvaluator("*default*", rhs);

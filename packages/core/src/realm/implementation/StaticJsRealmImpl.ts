@@ -27,7 +27,6 @@ import { StaticJsGlobalEnvironmentRecord } from "#environments/implementation/St
 import { StaticJsObjectEnvironmentRecord } from "#environments/implementation/StaticJsObjectEnvironmentRecord.js";
 import { StaticJsConcurrentEvaluationError } from "#errors/StaticJsConcurrentEvaluationError.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
-import { StaticJsModuleError } from "#errors/StaticJsModuleError.js";
 import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import { StaticJsSyntaxError } from "#errors/StaticJsSyntaxError.js";
 import { StaticJsUnhandledRejectionError } from "#errors/StaticJsUnhandledRejectionError.js";
@@ -113,7 +112,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
       global: globalObject,
       globalThis: globalThisOpt,
       modules,
-      resolveImportedModule: resolveModule,
+      resolveImportedModule,
       runTask,
       runTaskSync,
       hostAccessDefaults,
@@ -183,7 +182,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
     drainIterator(populateGlobal(this, this._global));
 
     this._modules = new StaticJsModuleManagerImpl(this, {
-      resolveExternalModule: resolveModule ?? (() => Promise.resolve(null)),
+      resolveExternalModule: resolveImportedModule ?? (() => Promise.resolve(null)),
     });
 
     this._memory.initialize(this._globalEnv, symbolRegistry, this._modules);
@@ -366,7 +365,7 @@ export default class StaticJsRealmImpl implements StaticJsRealm {
   ): Promise<StaticJsModule> {
     const specifier = opts?.sourceName ?? this._createInlineModuleSourceName();
     if (this._modules.has(specifier)) {
-      throw new StaticJsModuleError(
+      throw new RangeError(
         `Cannot evaluate module with name ${specifier} as the name is already used by another module.`,
       );
     }
