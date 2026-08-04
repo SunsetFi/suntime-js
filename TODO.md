@@ -10,6 +10,10 @@
       There must be a ton of native functions that don't appropriately capture these
 - [ ] loadRequestedModules through import() can asyncronously throw assert errors that don't get caught
       Apparently it can take a hostDefined, which we are using elsewhere to store a reject handler.
+      This hangs the test262 module tests due to the throw Error when we can't resolve
+      a module.
+  - [ ] Tons of module test are timing out due to the above.
+        Example: packages/core/tests/test262/tests/language/module-code/instn-named-bndng-let.test.ts
 
 ## Memory tracking
 
