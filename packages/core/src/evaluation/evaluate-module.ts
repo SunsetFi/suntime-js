@@ -29,7 +29,7 @@ export async function evaluateModule(
   }
 
   try {
-    return await realm.evaluateModule(code, dropUndefined({ sourceName }));
+    return await realm.evaluateModule(code, dropUndefined({ sourceName, runTask }));
   } catch (e) {
     let error = e;
 

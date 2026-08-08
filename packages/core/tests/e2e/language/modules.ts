@@ -539,7 +539,8 @@ describe("E2E: Modules", () => {
         const realm = StaticJsRealm({
           runTask,
           modules: {
-            "module-1.js": `export const foo = 42;`,
+            "module-2.js": `export const foo = 42;`,
+            "module-1.js": `export { foo } from "module-2.js";`,
           },
         });
 
@@ -558,6 +559,7 @@ describe("E2E: Modules", () => {
         const names = Array.from(sourceNames);
         expect(names).toContain("test.js");
         expect(names).toContain("module-1.js");
+        expect(names).toContain("module-2.js");
       });
 
       it("Uses the task runner across all module loads", async () => {
@@ -588,7 +590,7 @@ describe("E2E: Modules", () => {
 
         await evaluateModule(code, { realm, runTask });
 
-        expect(runTask).toHaveBeenCalledTimes(3);
+        expect(runTask).toHaveBeenCalledTimes(1);
       });
     });
   });

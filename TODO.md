@@ -2,7 +2,6 @@
 
 ## Really immediate this is getting silly
 
-- [ ] Make an assert() function for all StaticJsEngineError cases.
 - [ ] Take captureThrownCompletion and make that Completion() as a function to match spec
 - [ ] Rename EvaluationContext to ExecutionContext
 - [ ] Use StaticJsNull for object proto instead of real null.
@@ -12,8 +11,13 @@
       Apparently it can take a hostDefined, which we are using elsewhere to store a reject handler.
       This hangs the test262 module tests due to the throw Error when we can't resolve
       a module.
+      Wrapper fn that takes a rejector from args and wraps the func in a try catch
+      Needs for load, link, and evaluate
+      Persistent state object for the entire module load lifecycle
+      Or replace the js promises for it with native promises, but we still need the allocation stuff...
   - [ ] Tons of module test are timing out due to the above.
         Example: packages/core/tests/test262/tests/language/module-code/instn-named-bndng-let.test.ts
+- [ ] Ensure the module evaluation's runTask is inherited across async loads
 
 ## Memory tracking
 
@@ -21,7 +25,7 @@
 - [x] Account for private env names
 - [x] Account for module environments on the current realm
 - [x] Object param create methods to stop type jank.
-- [ ] Account for enqueued promise resolution tasks.
+- [ ] Account for enqueued promise resolution tasks and generic jobs (modules await with realm promises for import() which don't get tracked.)
 - [ ] Weigh true cost of ast function nodes, use length-based as estimate only.
 - [ ] Document memory stuff
 
@@ -47,6 +51,7 @@ See array setIndexSafe
 
 ## General
 
+- [ ] Make an assert() function for all StaticJsEngineError cases.
 - [ ] Clean up StaticJsMethodFunction and StaticJsClassConstructorFunction
       Currently duplicate some properties from StaticJsAstFunction.
   - [ ] Add missing properties to StaticJsFunction (constructorKind, sourceText)
