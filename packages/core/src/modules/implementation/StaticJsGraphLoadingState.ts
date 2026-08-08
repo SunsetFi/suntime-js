@@ -1,14 +1,31 @@
-import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
+import {
+  promiseWithResolvers,
+  type PromiseRejectFn,
+  type PromiseResolveFn,
+} from "#utils/promise-with-resolvers.js";
 
 import type { StaticJsModuleImpl } from "./modules/StaticJsModuleImpl.js";
-import type { StaticJsHostLoadModuleState } from "./StaticJsHostLoadModuleState.js";
 
 export interface StaticJsGraphLoadingState {
-  readonly promiseCapability: StaticJsPromiseCapabilityRecord;
+  // Note: The spec wants an engine promise capability here, but we want to capture
+  // native errors thrown by the consumer's module resolution function.
+  readonly promiseCapability: {
+    readonly promise: Promise<void>;
+    readonly resolve: PromiseResolveFn<void>;
+    readonly reject: PromiseRejectFn;
+  };
   isLoading: boolean;
   pendingModulesCount: number;
   readonly visited: Set<StaticJsModuleImpl>;
-  readonly hostDefined?: StaticJsHostLoadModuleState;
+}
+
+export function StaticJsGraphLoadingState(): StaticJsGraphLoadingState {
+  return {
+    promiseCapability: promiseWithResolvers<void>(),
+    isLoading: true,
+    pendingModulesCount: 1,
+    visited: new Set<StaticJsModuleImpl>(),
+  };
 }
 
 export function isStaticJsGraphLoadingState(x: unknown): x is StaticJsGraphLoadingState {

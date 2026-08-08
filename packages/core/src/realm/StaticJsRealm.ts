@@ -4,13 +4,14 @@ import type { RealmHooks } from "#hooks/index.js";
 import type { Intrinsics } from "#intrinsics/intrinsics.js";
 import type { StaticJsMemoryManager } from "#memory/StaticJsMemoryManager.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
-import type { StaticJsHostLoadModuleState } from "#modules/implementation/StaticJsHostLoadModuleState.js";
+import type { StaticJsHostLoadImportedModuleHostDefined } from "#modules/implementation/StaticJsHostLoadImportedModuleHostDefined.js";
 import type { StaticJsModuleLoadTarget } from "#modules/implementation/StaticJsModuleLoadTarget.js";
 import type { StaticJsModule } from "#modules/StaticJsModule.js";
 import type { StaticJsModuleManager } from "#modules/StaticJsModuleManager.js";
 import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
 import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 import type { StaticJsRunTaskOptions } from "#tasks/StaticJsRunTaskOptions.js";
+import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { StaticJsObject } from "#types/StaticJsObject.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 import type { StaticJsTypeFactory } from "#types/StaticJsTypeFactory.js";
@@ -177,15 +178,19 @@ export interface StaticJsRealm extends StaticJsModuleLoadTarget {
   loadImportedModule(
     referrer: StaticJsModuleReferrer,
     moduleRequest: StaticJsModuleRequest,
-    hostDefined: StaticJsHostLoadModuleState | undefined,
+    hostDefined: StaticJsHostLoadImportedModuleHostDefined,
     payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   ): void;
 
   /**
    * Enqueues a generic job to run when the realm is free.
    * @param evaluator The evaluator to enqueue
+   * @param runTask An optional task runner to run the job in.  If not provided, the job will be run in the current task.
    */
-  enqueueGenericJob(evaluator: StaticJsEvaluator<void>): Promise<void>;
+  enqueueGenericJob(
+    evaluator: StaticJsEvaluator<void>,
+    runTask?: StaticJsTaskRunner,
+  ): Promise<void>;
 
   /**
    * Enqueues a promise job to be executed.

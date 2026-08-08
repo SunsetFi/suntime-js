@@ -39,7 +39,7 @@ export abstract class StaticJsModuleImpl implements StaticJsModuleRecord {
   environment: StaticJsEnvironmentRecord | null = null;
   namespace: StaticJsObject | null = null;
 
-  abstract loadRequestedModulesEvaluator(): EvaluationGenerator<StaticJsPromise>;
+  abstract loadRequestedModules(): Promise<void>;
 
   abstract getExportedNames(exportedStarSet?: Set<StaticJsModuleImpl>): readonly string[];
 

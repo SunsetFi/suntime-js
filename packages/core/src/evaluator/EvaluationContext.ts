@@ -1,6 +1,7 @@
 import type { StaticJsEnvironmentRecord } from "#environments/StaticJsEnvironmentRecord.js";
 import type { StaticJsRealm } from "#realm/StaticJsRealm.js";
 import type { StaticJsScriptOrModuleRecord } from "#StaticJsScriptOrModuleRecord.js";
+import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { StaticJsAsyncGenerator } from "#types/StaticJsAsyncGenerator.js";
 import type { StaticJsCallable } from "#types/StaticJsCallable.js";
 import type { StaticJsFunction } from "#types/StaticJsFunction.js";
@@ -13,13 +14,14 @@ import { typedEntries } from "#utils/typed-entries.js";
 
 import { EvaluationGenerator } from "./EvaluationGenerator.js";
 
-export interface EvaluationContextStackProvider {
+export interface EvaluationContextProvider {
   enter(): void;
   exit(): void;
   pushContext(context: EvaluationContext): void;
   popContext(): void;
   getCurrentContext(): EvaluationContext | null;
   getContextStack(): readonly EvaluationContext[];
+  taskRunner: StaticJsTaskRunner;
 }
 
 export interface EvaluationContextOptions {
@@ -82,10 +84,10 @@ export interface CreateRootContextParams {
   env?: StaticJsEnvironmentRecord;
 }
 
-let _currentStackProvider: EvaluationContextStackProvider | null = null;
+let _currentStackProvider: EvaluationContextProvider | null = null;
 let _realmProvider: RealmOnlyEvaluationContext | null = null;
 export const EvaluationContext = {
-  withStackProvider<T>(provider: EvaluationContextStackProvider, callback: () => T): T {
+  withStackProvider<T>(provider: EvaluationContextProvider, callback: () => T): T {
     // Note: We need to support re-entrancy here, particularly for test262, which can bootstrap
     // a new realm while in the process of evaluating code in an existing realm.  See $262.createRealm
     const previousStackProvider = _currentStackProvider;
@@ -123,7 +125,7 @@ export const EvaluationContext = {
     return this.hasStackProvider && !!_currentStackProvider!.getCurrentContext();
   },
 
-  get stackProvider(): EvaluationContextStackProvider {
+  get stackProvider(): EvaluationContextProvider {
     if (!_currentStackProvider) {
       throw new StaticJsEngineError("No evaluation context stack provider is set.");
     }
@@ -145,6 +147,18 @@ export const EvaluationContext = {
     }
 
     throw new StaticJsEngineError("No evaluation context stack provider is set.");
+  },
+
+  get currentTaskRunner(): StaticJsTaskRunner {
+    if (!_currentStackProvider) {
+      if (_realmProvider) {
+        return _realmProvider.realm.config.runTask;
+      }
+
+      throw new StaticJsEngineError("No evaluation context stack provider is set.");
+    }
+
+    return _currentStackProvider.taskRunner;
   },
 
   get stack(): readonly EvaluationContext[] {

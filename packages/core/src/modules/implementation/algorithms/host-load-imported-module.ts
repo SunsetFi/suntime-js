@@ -1,16 +1,23 @@
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
-import type { StaticJsHostLoadModuleState } from "#modules/implementation/StaticJsHostLoadModuleState.js";
 import type { StaticJsModuleReferrer } from "#modules/StaticJsModuleReferrer.js";
 import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 
-import { EvaluationContext } from "#evaluator/EvaluationContext.js";
+import { isStaticJsRealm, type StaticJsRealm } from "#realm/StaticJsRealm.js";
 
-export function* hostLoadImportedModule(
+import type { StaticJsHostLoadImportedModuleHostDefined } from "../StaticJsHostLoadImportedModuleHostDefined.js";
+
+export function hostLoadImportedModule(
   referrer: StaticJsModuleReferrer,
   moduleRequest: StaticJsModuleRequest,
-  hostDefined: StaticJsHostLoadModuleState | undefined,
+  hostDefined: StaticJsHostLoadImportedModuleHostDefined,
   payload: StaticJsGraphLoadingState,
-): EvaluationGenerator<void> {
-  EvaluationContext.current.realm.loadImportedModule(referrer, moduleRequest, hostDefined, payload);
+): void {
+  let realm: StaticJsRealm;
+  if (isStaticJsRealm(referrer)) {
+    realm = referrer;
+  } else {
+    realm = referrer.realm;
+  }
+
+  realm.loadImportedModule(referrer, moduleRequest, hostDefined, payload);
 }

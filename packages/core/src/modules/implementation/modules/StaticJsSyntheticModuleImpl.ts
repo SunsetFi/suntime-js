@@ -3,7 +3,6 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 
 import { call } from "#algorithms/call.js";
 import { newPromiseCapability } from "#algorithms/new-promise-capability.js";
-import { promiseResolve } from "#algorithms/promise-resolve.js";
 import { StaticJsModuleEnvironmentRecord } from "#environments/implementation/StaticJsModuleEnvironmentRecord.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { captureThrownCompletion } from "#evaluator/completions/capture-thrown-completion.js";
@@ -57,8 +56,8 @@ export class StaticJsSyntheticModuleImpl extends StaticJsModuleImpl {
     yield* X(envRecord.setMutableBindingEvaluator(exportName, exportValue, true));
   }
 
-  override *loadRequestedModulesEvaluator() {
-    return yield* X(promiseResolve(this.realm.intrinsics.Promise, this.realm.types.undefined));
+  override loadRequestedModules() {
+    return Promise.resolve();
   }
 
   override getExportedNames() {

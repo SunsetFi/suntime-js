@@ -12,10 +12,7 @@ import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { StaticJsTaskAbortedError } from "#errors/StaticJsTaskAbortedError.js";
 import { StaticJsTaskCompletedError } from "#errors/StaticJsTaskCompletedError.js";
 import { evaluateCommands } from "#evaluator/evaluate-commands.js";
-import {
-  EvaluationContext,
-  type EvaluationContextStackProvider,
-} from "#evaluator/EvaluationContext.js";
+import { EvaluationContext, type EvaluationContextProvider } from "#evaluator/EvaluationContext.js";
 import { invokeEvaluator, type StaticJsEvaluator } from "#evaluator/StaticJsEvaluator.js";
 import { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import { StaticJsAbstractFunction } from "#types/implementation/functions/StaticJsAbstractFunction.js";
@@ -63,7 +60,7 @@ export class StaticJsTaskIteratorImpl implements StaticJsTaskIterator {
     private readonly _calleeType: StaticJsTaskCalleeType,
     private readonly _async: boolean,
     private readonly _taskIterator: Iterator<StaticJsIteratedTask>,
-    private readonly _stackProvider: EvaluationContextStackProvider,
+    private readonly _stackProvider: EvaluationContextProvider,
   ) {
     // We start in the running state, so the values of the current operation are
     // populated immediately.

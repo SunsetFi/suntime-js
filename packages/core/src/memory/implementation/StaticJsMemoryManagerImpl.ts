@@ -184,14 +184,11 @@ export class StaticJsMemoryManagerImpl implements StaticJsMemoryManager {
       }
 
       this._globalEnv.mark(marks);
+      this._modules.mark(marks);
 
       for (const [name, symbol] of this._symbolRegistry.entries()) {
         allocate(StaticJsMemoryAllocationTag.RawString, name);
         symbol.mark(marks);
-      }
-
-      for (const module of this._modules.values()) {
-        module.mark(marks);
       }
 
       for (const mark of marks) {

@@ -524,7 +524,7 @@ describe("E2E: Modules", () => {
     });
 
     describe("Tasks", () => {
-      it("Task provides the correct source names", async () => {
+      it("Provides the correct source names", async () => {
         const sourceNames = new Set<string>();
         const runTask = vitest.fn((task: StaticJsTaskIterator) => {
           while (!task.done) {
@@ -558,6 +558,37 @@ describe("E2E: Modules", () => {
         const names = Array.from(sourceNames);
         expect(names).toContain("test.js");
         expect(names).toContain("module-1.js");
+      });
+
+      it("Uses the task runner across all module loads", async () => {
+        const runTask = vitest.fn((task: StaticJsTaskIterator) => {
+          while (!task.done) {
+            task.next();
+          }
+        });
+
+        const realm = StaticJsRealm({
+          async resolveImportedModule(request) {
+            await delay(100);
+            switch (request.specifier) {
+              case "module-1.js":
+                return `export const foo = 42;`;
+              case "module-2.js":
+                return `import { foo } from "module-1.js"; export const bar = foo + 1;`;
+              default:
+                throw new Error(`Unknown module: ${request.specifier}`);
+            }
+          },
+        });
+
+        const code = `
+          import { bar } from "module-2.js";
+          export const result = bar;
+        `;
+
+        await evaluateModule(code, { realm, runTask });
+
+        expect(runTask).toHaveBeenCalledTimes(3);
       });
     });
   });

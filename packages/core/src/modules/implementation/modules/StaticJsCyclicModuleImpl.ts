@@ -14,13 +14,13 @@ import { innerModuleLoading } from "#modules/implementation/algorithms/inner-mod
 import { assert } from "#utils/assert.js";
 
 import type { StaticJsModuleRequest } from "../../StaticJsModuleRequest.js";
-import type { StaticJsGraphLoadingState } from "../StaticJsGraphLoadingState.js";
 
 import {
   AtLeastLinkedStatus,
   EvaluatingAsyncOrEvaluatedStatus,
   type StaticJsCyclicModuleStatus,
 } from "../StaticJsCyclicModuleStatus.js";
+import { StaticJsGraphLoadingState } from "../StaticJsGraphLoadingState.js";
 import { StaticJsModuleImpl, type StaticJsModuleImplCreateParams } from "./StaticJsModuleImpl.js";
 
 export interface StaticJsCyclicModuleCreateParams extends StaticJsModuleImplCreateParams {
@@ -79,18 +79,12 @@ export abstract class StaticJsCyclicModuleImpl
   readonly asyncParentModules: StaticJsCyclicModuleImpl[] = [];
   pendingAsyncDependencies: number | null = null;
 
-  override *loadRequestedModulesEvaluator(): EvaluationGenerator<StaticJsPromise> {
-    const promiseCapability = yield* newPromiseCapability(this.realm.intrinsics.Promise);
-    const state: StaticJsGraphLoadingState = {
-      isLoading: true,
-      pendingModulesCount: 1,
-      visited: new Set(),
-      promiseCapability,
-    };
+  override loadRequestedModules(): Promise<void> {
+    const state = StaticJsGraphLoadingState();
 
-    yield* innerModuleLoading(state, this);
+    innerModuleLoading(state, this);
 
-    return promiseCapability.promise;
+    return state.promiseCapability.promise;
   }
 
   abstract initializeEnvironmentEvaluator(): EvaluationGenerator<void>;

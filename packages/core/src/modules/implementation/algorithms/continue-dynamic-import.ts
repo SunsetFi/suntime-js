@@ -1,4 +1,5 @@
 import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
+import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
 import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js";
 
 import { call } from "#algorithms/call.js";
@@ -11,51 +12,63 @@ import { StaticJsNativeFunctionImpl } from "#types/implementation/functions/Stat
 
 import { getModuleNamespace } from "./get-module-namespace.js";
 
-export function* continueDynamicImport(
+export function continueDynamicImport(
   promiseCapability: StaticJsPromiseCapabilityRecord,
   moduleCompletion: StaticJsModuleImpl | Completion.Throw,
+  runTask: StaticJsTaskRunner,
 ) {
   const realm = EvaluationContext.current.realm;
   const { types } = realm;
 
   if (Completion.Abrupt.is(moduleCompletion)) {
-    yield* X(call(promiseCapability.reject, types.undefined, [Completion.value(moduleCompletion)]));
+    promiseCapability.reject.callAsync(types.undefined, [Completion.value(moduleCompletion)], {
+      runTask,
+    });
     return;
   }
 
   const module = moduleCompletion;
-  const loadPromise = yield* module.loadRequestedModulesEvaluator();
+  const loadPromise = module.loadRequestedModules();
 
-  const onRejected = StaticJsNativeFunctionImpl.create(realm, "", function* (_thisArg, reason) {
-    yield* X(call(promiseCapability.reject, types.undefined, [reason]));
-    return types.undefined;
-  });
+  loadPromise.then(
+    () => {
+      realm.enqueueGenericJob(function* () {
+        const link = yield* captureThrownCompletion(module.linkEvaluator());
+        if (Completion.Abrupt.is(link)) {
+          yield* X(call(promiseCapability.reject, types.undefined, [Completion.value(link)]));
+          return;
+        }
 
-  const linkAndEvaluate = StaticJsNativeFunctionImpl.create(
-    realm,
-    "",
-    function* () {
-      const link = yield* captureThrownCompletion(module.linkEvaluator());
-      if (Completion.Abrupt.is(link)) {
-        yield* X(call(promiseCapability.reject, types.undefined, [Completion.value(link)]));
-        return types.undefined;
+        const evaluatePromise = yield* module.evaluateEvaluator();
+
+        const onFulfilled = StaticJsNativeFunctionImpl.create(realm, "", function* () {
+          const namespace = getModuleNamespace(module);
+          yield* X(call(promiseCapability.resolve, types.undefined, [namespace]));
+          return types.undefined;
+        });
+
+        const onRejected = StaticJsNativeFunctionImpl.create(
+          realm,
+          "",
+          function* (_thisArg, reason) {
+            yield* X(call(promiseCapability.reject, types.undefined, [reason]));
+            return types.undefined;
+          },
+        );
+
+        yield* performPromiseThen(evaluatePromise, onFulfilled, onRejected);
+      }, runTask);
+    },
+    (err) => {
+      if (Completion.Abrupt.is(err)) {
+        realm.enqueueGenericJob(function* () {
+          yield* X(call(promiseCapability.reject, types.undefined, [Completion.value(err)]));
+        }, runTask);
       }
 
-      const evaluatePromise = yield* module.evaluateEvaluator();
-
-      const onFulfilled = StaticJsNativeFunctionImpl.create(realm, "", function* () {
-        const namespace = getModuleNamespace(module);
-        yield* X(call(promiseCapability.resolve, types.undefined, [namespace]));
-        return types.undefined;
-      });
-
-      yield* performPromiseThen(evaluatePromise, onFulfilled, onRejected);
-      return types.undefined;
-    },
-    {
-      captures: [module, onRejected],
+      // FIXME: Nothing catches this!
+      // This can happen if the module resolver fn throws a non runtime error.
+      throw err;
     },
   );
-
-  yield* performPromiseThen(loadPromise, linkAndEvaluate, onRejected);
 }

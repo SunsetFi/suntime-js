@@ -1,32 +1,23 @@
-import type { EvaluationGenerator } from "#evaluator/EvaluationGenerator.js";
 import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
 import type { StaticJsGraphLoadingState } from "#modules/implementation/StaticJsGraphLoadingState.js";
 
-import { call } from "#algorithms/call.js";
+import { StaticJsRuntimeError } from "#errors/StaticJsRuntimeError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { Q } from "#evaluator/completions/Q.js";
-import { EvaluationContext } from "#evaluator/EvaluationContext.js";
 
 import { innerModuleLoading } from "./inner-module-loading.js";
 
-export function* continueModuleLoading(
+export function continueModuleLoading(
   state: StaticJsGraphLoadingState,
   moduleCompletion: StaticJsModuleImpl | Completion.Throw,
-): EvaluationGenerator<void> {
-  const realm = EvaluationContext.current.realm;
-
+): void {
   if (!state.isLoading) {
     return;
   }
 
   if (!Completion.Throw.is(moduleCompletion)) {
-    yield* innerModuleLoading(state, moduleCompletion);
+    innerModuleLoading(state, moduleCompletion);
   } else {
     state.isLoading = false;
-    yield* Q(
-      call(state.promiseCapability.reject, realm.types.undefined, [
-        Completion.value(moduleCompletion),
-      ]),
-    );
+    state.promiseCapability.reject(new StaticJsRuntimeError(Completion.value(moduleCompletion)));
   }
 }

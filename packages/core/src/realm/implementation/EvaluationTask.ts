@@ -6,17 +6,14 @@ import type { StaticJsValue } from "#types/StaticJsValue.js";
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { StaticJsSynchronousTaskIncompleteError } from "#errors/StaticJsSynchronousTaskIncompleteError.js";
 import { StaticJsUnhandledRejectionError } from "#errors/StaticJsUnhandledRejectionError.js";
-import {
-  EvaluationContext,
-  type EvaluationContextStackProvider,
-} from "#evaluator/EvaluationContext.js";
+import { EvaluationContext, type EvaluationContextProvider } from "#evaluator/EvaluationContext.js";
 import {
   type StaticJsIteratedTask,
   StaticJsTaskIteratorImpl,
 } from "#tasks/implementation/StaticJsTaskIteratorImpl.js";
 
 type EvaluationTaskStatus = "pending" | "running" | "fulfilled" | "rejected";
-export class EvaluationTask implements EvaluationContextStackProvider {
+export class EvaluationTask implements EvaluationContextProvider {
   private _status: EvaluationTaskStatus = "pending";
 
   /**
