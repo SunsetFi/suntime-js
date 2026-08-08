@@ -51,7 +51,7 @@ See array setIndexSafe
 
 ## General
 
-- [ ] Make an assert() function for all StaticJsEngineError cases.
+- [-] Make an assert() function for all StaticJsEngineError cases.
 - [ ] Clean up StaticJsMethodFunction and StaticJsClassConstructorFunction
       Currently duplicate some properties from StaticJsAstFunction.
   - [ ] Add missing properties to StaticJsFunction (constructorKind, sourceText)
@@ -66,9 +66,6 @@ See array setIndexSafe
   - [ ] Use for debugger function name
   - [ ] Re-add frame-level functionName using above.
 - [-] Rework ExternalFunction
-  - [ ] Allow enumerable own properties to be exposed non-writable and non-configurable,
-        as StaticJsExternalObject does
-    - [ ] Don't allow mutations to other properties (based on policy)
   - [ ] Update type coercion docs.
 - [ ] Object.defineProperties/y used to give more helpful errors for if object was not extensible or cannot redefine property. Re-add this.
 
@@ -126,10 +123,6 @@ See array setIndexSafe
 - [-] Fix 'all' [Test262](https://github.com/tc39/test262) tests.
   - [x] Add builtins tests
   - [ ] Enable strict/nonstrict tests (Very time consuming and not likely to break - CI only?)
-
-## Sandboxing / Security
-
-- Need a way to enforce memory limits. Infinite loops are gated, but memory-bombing can still crash the host.
 
 ## API cleanup
 
