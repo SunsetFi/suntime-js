@@ -29,6 +29,20 @@ const weightOfAstNodePerSourceText =
     ? weightOfAstNodePerSourceTextValue
     : () => weightOfAstNodePerSourceTextValue;
 
+const weightOfMapEntryOverheadValue =
+  memoryWeights_Node_24_16_0[StaticJsMemoryAllocationTag.StaticJsMapEntryOverhead];
+const weightOfMapEntryOverhead =
+  typeof weightOfMapEntryOverheadValue === "function"
+    ? weightOfMapEntryOverheadValue
+    : () => weightOfMapEntryOverheadValue;
+
+// The module manager retains every resolved module in a map keyed by specifier,
+// so any loaded module costs at least a map entry plus its specifier string.
+// See StaticJsModuleManagerImpl.allocateSelf.
+function moduleEntrySize(specifier: string): number {
+  return weightOfMapEntryOverhead() + weightOfRawString(specifier);
+}
+
 describe("E2E: Memory", () => {
   interface SharedMemorySize {
     genZero: number;
@@ -546,11 +560,15 @@ describe("E2E: Memory", () => {
             typeof script === "object"
               ? `export const value = (function() { ${script.preamble}; return ${script.expression}; })();`
               : `export const value = ${script};`;
-          const module = await realm.evaluateModule(scriptCode);
+          // Use an explicit source name so the module's minimum size is deterministic;
+          // the generated inline name embeds a timestamp.
+          const sourceName = "test-module";
+          const module = await realm.evaluateModule(scriptCode, { sourceName });
           realm.memory.sweep();
 
           const keySize = weightOfRawString("value");
-          const allocated = realm.memory.genOneSize - initialMemory - keySize;
+          const allocated =
+            realm.memory.genOneSize - initialMemory - moduleEntrySize(sourceName) - keySize;
           expect(allocated).toBe(genOneSize);
           void module;
         });
