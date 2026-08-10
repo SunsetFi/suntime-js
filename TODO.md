@@ -18,6 +18,8 @@
   - [ ] Tons of module test are timing out due to the above.
         Example: packages/core/tests/test262/tests/language/module-code/instn-named-bndng-let.test.ts
 - [ ] Ensure the module evaluation's runTask is inherited across async loads
+- [ ] Consider whether to re-hide ScriptOrModuleRecord. Only exposed because referrer of modules.
+      Could make a module load hook specific type and hide the internals that way,
 
 ## Memory tracking
 

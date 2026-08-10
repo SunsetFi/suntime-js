@@ -9,7 +9,7 @@ module.exports = {
   },
   entries: [
     {
-      filePath: path.join(coreRoot, "src/index.ts"),
+      filePath: path.join(coreRoot, "dist/index.d.ts"),
       outFile: path.resolve(__dirname, "static/suntime-core.d.ts"),
       output: {
         // Banner kept (default) so the file is clearly marked generated.

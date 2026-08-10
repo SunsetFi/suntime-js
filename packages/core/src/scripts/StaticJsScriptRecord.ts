@@ -1,10 +1,18 @@
 import type { Node } from "@babel/types";
 
-import type { StaticJsModuleLoadTarget } from "#modules/implementation/StaticJsModuleLoadTarget.js";
+import type { StaticJsModuleLoadTarget } from "#modules/StaticJsModuleLoadTarget.js";
 import type { StaticJsSourceRecord } from "#sources/StaticJsSourceRecord.js";
 
 export interface StaticJsScriptRecord extends StaticJsSourceRecord, StaticJsModuleLoadTarget {
+  /**
+   * The name of the source file given on execution, or a generated one if none was given.
+   */
   readonly sourceName: string;
+
+  /**
+   * The parsed AST of the script's source code.
+   * @internal
+   */
   readonly ecmaScriptCode: Node;
 }
 

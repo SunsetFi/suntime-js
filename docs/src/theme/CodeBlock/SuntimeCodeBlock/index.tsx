@@ -19,7 +19,7 @@ import { useHighlightLine } from "@site/src/components/CodeMirrorEditor/useHighl
 import { useTypeScriptLanguageService } from "@site/src/components/CodeMirrorEditor/useTypeScriptLanguageService";
 import { usePortals } from "@site/src/components/portals";
 import useObservation from "@site/src/hooks/use-observation";
-import { StaticJsModuleResolution } from "@suntime-js/core";
+import { StaticJsModuleRequest, StaticJsModuleResolution } from "@suntime-js/core";
 import React, { useCallback, useMemo, useRef, useState, useEffect, type ReactNode } from "react";
 import ts from "typescript";
 
@@ -43,15 +43,13 @@ export default function SuntimeCodeBlock({
 
   const runtime = useMemo(() => {
     let resolveModule: (
-      specifier: string,
+      { specifier }: StaticJsModuleRequest,
       options: CodeRuntimeSpawnOptions,
     ) => StaticJsModuleResolution | null = () => null;
     if (exposeStaticJs) {
-      resolveModule = (specifier, opts): StaticJsModuleResolution | null => {
+      resolveModule = ({ specifier }, opts): StaticJsModuleResolution | null => {
         if (specifier === "@suntime-js/core") {
-          return {
-            exports: createStaticJsRealmApi(opts),
-          };
+          return createStaticJsRealmApi(opts);
         }
 
         return null;

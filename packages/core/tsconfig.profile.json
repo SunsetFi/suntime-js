@@ -3,10 +3,5 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["memory-profile.ts"],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
-  ]
+  "include": ["memory-profile.ts", "src"]
 }

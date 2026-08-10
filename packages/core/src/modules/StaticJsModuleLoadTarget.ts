@@ -2,7 +2,6 @@ import type { StaticJsLoadedModuleRequestRecord } from "#modules/implementation/
 
 /**
  * A target for modules to load into.
- * @internal
  */
 export interface StaticJsModuleLoadTarget {
   /**

@@ -1,6 +1,7 @@
 import {
   createTimeBoundTaskRunner,
   createTimeSharingTaskRunner,
+  StaticJsModuleRequest,
   StaticJsModuleResolution,
   StaticJsObject,
   StaticJsPropertyDescriptorRecord,
@@ -37,7 +38,7 @@ export interface CodeRuntimeOptions {
   maxLogLines?: number;
   populateGlobal?(global: StaticJsObject, options: CodeRutimePopulateGlobalOptions): void;
   resolveModule?(
-    specifier: string,
+    request: StaticJsModuleRequest,
     options: CodeRuntimeSpawnOptions,
   ): StaticJsModuleResolution | null;
   runTask?: StaticJsTaskRunner;
@@ -323,9 +324,9 @@ export class CodeRuntime {
         });
         return global;
       },
-      resolveImportedModule: async (specifier) => {
+      resolveImportedModule: async (request) => {
         return (
-          this._options.resolveModule?.(specifier, {
+          this._options.resolveModule?.(request, {
             realm,
             registerSubTask: this._registerSubTask.bind(this),
             addLog: this._addLog.bind(this),

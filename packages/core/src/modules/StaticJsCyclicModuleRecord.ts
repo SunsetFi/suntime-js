@@ -1,4 +1,4 @@
-import type { StaticJsModuleLoadTarget } from "./implementation/StaticJsModuleLoadTarget.js";
+import type { StaticJsModuleLoadTarget } from "./StaticJsModuleLoadTarget.js";
 import type { StaticJsModuleRecord } from "./StaticJsModuleRecord.js";
 
 export interface StaticJsCyclicModuleRecord

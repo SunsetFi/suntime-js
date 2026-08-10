@@ -1,4 +1,5 @@
 import type { StaticJsModuleImpl } from "#modules/implementation/modules/StaticJsModuleImpl.js";
+import type { StaticJsCyclicModuleRecord } from "#modules/StaticJsCyclicModuleRecord.js";
 import type { StaticJsModuleRequest } from "#modules/StaticJsModuleRequest.js";
 import type { StaticJsScriptRecord } from "#scripts/StaticJsScriptRecord.js";
 import type { StaticJsTaskRunner } from "#tasks/StaticJsTaskRunner.js";
@@ -6,7 +7,6 @@ import type { StaticJsPromiseCapabilityRecord } from "#types/StaticJsPromise.js"
 
 import { StaticJsEngineError } from "#errors/StaticJsEngineError.js";
 import { Completion } from "#evaluator/completions/Completion.js";
-import { StaticJsCyclicModuleImpl } from "#modules/implementation/modules/StaticJsCyclicModuleImpl.js";
 import {
   isStaticJsGraphLoadingState,
   type StaticJsGraphLoadingState,
@@ -19,7 +19,7 @@ import { continueModuleLoading } from "./continue-module-loading.js";
 import { moduleRequestsEqual } from "./module-requests-equal.js";
 
 export function finishLoadingImportedModule(
-  referrer: StaticJsScriptRecord | StaticJsCyclicModuleImpl | StaticJsRealm,
+  referrer: StaticJsScriptRecord | StaticJsCyclicModuleRecord | StaticJsRealm,
   moduleRequest: StaticJsModuleRequest,
   payload: StaticJsGraphLoadingState | StaticJsPromiseCapabilityRecord,
   result: StaticJsModuleImpl | Completion.Throw,
