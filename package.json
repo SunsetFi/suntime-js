@@ -15,8 +15,8 @@
     "release:publish": "node scripts/check-version-sync.mjs && node scripts/publish-with-tags.mjs && changeset tag"
   },
   "devDependencies": {
-    "@changesets/changelog-git": "^0.2.1",
-    "@changesets/cli": "^2.31.0",
+    "@changesets/changelog-git": "^1.0.0",
+    "@changesets/cli": "^3.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.2.0",
     "oxfmt": "~0.62.0",
