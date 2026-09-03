@@ -72,7 +72,7 @@
     "@babel/traverse": "catalog:"
   },
   "devDependencies": {
-    "@babel/types": "7.29.8",
+    "@babel/types": "8.0.4",
     "@oxlint/plugins": "^1.66.0",
     "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:",
